@@ -1,7 +1,5 @@
 package de.ssherlock.global.transport;
 
-import de.ssherlock.global.authentification.SystemRole;
-
 public record User(
         String username,
         String email,
