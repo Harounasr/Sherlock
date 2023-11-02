@@ -1,6 +1,10 @@
 package de.ssherlock.persistence.repository;
 
+import java.util.logging.Logger;
+
 public class RepositoryFactory {
+
+    private Logger logger;
 
     public static CheckerRepository getCheckerRepository(RepositoryType type) {
         switch (type) {
