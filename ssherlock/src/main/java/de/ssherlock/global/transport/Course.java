@@ -1,5 +1,7 @@
 package main.java.de.ssherlock.global.transport;
 
+import main.java.de.ssherlock.global.authentification.CourseRole;
+
 import java.util.List;
 import java.util.Map;
 

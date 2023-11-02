@@ -1,4 +1,4 @@
-package main.java.de.ssherlock.business.service;
+package de.ssherlock.business.service;
 
 import main.java.de.ssherlock.global.transport.User;
 import main.java.de.ssherlock.persistence.repository.UserRepository;

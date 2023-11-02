@@ -1,4 +1,4 @@
-package main.java.de.ssherlock.global.transport;
+package de.ssherlock.global.authentification;
 
 public enum SystemRole {
 

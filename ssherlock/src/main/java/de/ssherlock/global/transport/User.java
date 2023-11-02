@@ -1,4 +1,6 @@
-package main.java.de.ssherlock.global.transport;
+package de.ssherlock.global.transport;
+
+import de.ssherlock.global.authentification.SystemRole;
 
 public record User(
         String username,

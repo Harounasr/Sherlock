@@ -1,4 +1,4 @@
-package main.java.de.ssherlock.global.transport;
+package de.ssherlock.global.transport;
 
 public record Checker(
         String input,
