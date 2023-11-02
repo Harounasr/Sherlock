@@ -4,9 +4,11 @@ import de.ssherlock.global.transport.Exercise;
 
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.logging.Logger;
 
 public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRepository {
 
+    private Logger logger;
     public ExerciseRepositoryPsql() {
         super();
     }

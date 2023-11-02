@@ -4,9 +4,11 @@ import de.ssherlock.global.transport.Checker;
 
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.logging.Logger;
 
 public class CheckerRepositoryPsql extends RepositoryPsql implements CheckerRepository {
 
+    private Logger logger;
     public CheckerRepositoryPsql() {
         super();
     }

@@ -4,9 +4,11 @@ import de.ssherlock.global.transport.Course;
 
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.logging.Logger;
 
 public class CourseRepositoryPsql extends RepositoryPsql implements CourseRepository {
 
+    private Logger logger;
     public CourseRepositoryPsql() {
         super();
     }

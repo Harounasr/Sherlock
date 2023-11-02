@@ -4,9 +4,11 @@ import de.ssherlock.global.transport.Submission;
 
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.logging.Logger;
 
 public class SubmissionRepositoryPsql extends RepositoryPsql implements SubmissionRepository {
 
+    private Logger logger;
     public SubmissionRepositoryPsql() {
         super();
     }
