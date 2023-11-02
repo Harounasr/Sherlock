@@ -1,6 +1,6 @@
-package main.java.de.ssherlock.persistence.repository;
+package de.ssherlock.persistence.repository;
 
-import main.java.de.ssherlock.global.transport.User;
+import de.ssherlock.global.transport.User;
 
 public class UserRepository {
 

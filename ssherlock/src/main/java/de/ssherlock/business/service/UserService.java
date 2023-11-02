@@ -1,7 +1,7 @@
 package de.ssherlock.business.service;
 
-import main.java.de.ssherlock.global.transport.User;
-import main.java.de.ssherlock.persistence.repository.UserRepository;
+import de.ssherlock.global.transport.User;
+import de.ssherlock.persistence.repository.UserRepository;
 
 public class UserService {
 
