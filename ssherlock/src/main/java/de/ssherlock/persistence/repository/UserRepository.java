@@ -2,26 +2,17 @@ package de.ssherlock.persistence.repository;
 
 import de.ssherlock.global.transport.User;
 
-public class UserRepository {
+import java.util.List;
+import java.util.function.Predicate;
 
-    public static User get(String username) {
-        return null;
-    }
+public interface UserRepository {
 
-    public static void add(User user) {
-
-    }
-
-    public static void update(User user) {
-
-    }
-
-    public static void remove(User user) {
-
-    }
-
-    public static boolean emailExists() {
-        return false;
-    }
+    void insertUser(User user);
+    void updateUser(User user);
+    void deleteUser(String username);
+    void fetchUser(String username);
+    List<User> fetchUsers(Predicate<User> predicate);
+    boolean emailExists(String email);
+    boolean userExists(String username);
 
 }
