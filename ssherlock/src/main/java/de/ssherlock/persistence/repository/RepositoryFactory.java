@@ -1,6 +1,10 @@
 package de.ssherlock.persistence.repository;
 
+import java.util.logging.Logger;
+
 public class RepositoryFactory {
+
+    private Logger logger;
 
     public static CheckerRepository getCheckerRepository(RepositoryType type) {
         switch (type) {
@@ -27,7 +31,8 @@ public class RepositoryFactory {
     public static EvaluationRepository getEvaluationRepository(RepositoryType type) {
         switch (type) {
             case POSTGRESQL -> {
-                return new EvaluationRepositoryPsql();
+                //return new EvaluationRepositoryPsql();
+                return null;
             }
             default -> {
                 return null;
