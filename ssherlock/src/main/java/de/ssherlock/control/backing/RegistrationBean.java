@@ -4,8 +4,6 @@ import java.util.logging.Logger;
 
 public class RegistrationBean {
 
-    public RegistrationBean() {}
-
     private String userName;
     private String surName;
     private String lastName;
@@ -13,6 +11,8 @@ public class RegistrationBean {
     private String email;
 
     private Logger logger;
+
+    public RegistrationBean() {}
 
     public String getUserName() {
         return userName;

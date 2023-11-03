@@ -8,14 +8,23 @@ import de.ssherlock.persistence.repository.RepositoryType;
 
 import java.util.List;
 
+import java.util.logging.Logger;
+
 public class UserService {
 
-    public static void main(String[] args) {
-        CourseRepository courseRepository = RepositoryFactory.getCourseRepository(RepositoryType.POSTGRESQL);
-        List<Course> courses = courseRepository.fetchCourses(c -> true);
-    }
+    public UserService() {
 
-    public static User getUser(String username) {
-        return null;
+    }
+    public void addUser() {
+
+    }
+    public void removeUser() {
+
+    }
+    public void changePassword() {
+
+    }
+    public void changeSystemRole() {
+
     }
 }
