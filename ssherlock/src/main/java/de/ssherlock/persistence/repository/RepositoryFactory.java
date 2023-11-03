@@ -31,7 +31,8 @@ public class RepositoryFactory {
     public static EvaluationRepository getEvaluationRepository(RepositoryType type) {
         switch (type) {
             case POSTGRESQL -> {
-                return new EvaluationRepositoryPsql();
+                //return new EvaluationRepositoryPsql();
+                return null;
             }
             default -> {
                 return null;
