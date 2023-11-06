@@ -6,8 +6,7 @@ public record User(
         String firstName,
         String lastName,
         SystemRole systemRole,
-        String passwordHash,
-        String passwordSalt,
+        Password password,
         String facultyName
 ) {
 }
