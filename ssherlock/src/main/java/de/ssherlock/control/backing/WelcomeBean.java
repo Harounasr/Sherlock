@@ -1,7 +1,12 @@
 package de.ssherlock.control.backing;
 
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Named;
+
 import java.util.logging.Logger;
 
+@Named
+@RequestScoped
 public class WelcomeBean {
 
     public WelcomeBean() {}
