@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<web-app version="6.0" id="JFDemo"
+<web-app version="6.0" id="SoftwareSherlock"
     xmlns="https://jakarta.ee/xml/ns/jakartaee"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
                         https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
 
-    <display-name>Jakarta Faces Demo</display-name>
+    <display-name>SoftwareSherlock</display-name>
 
     <servlet>
         <servlet-name>facesServlet</servlet-name>
@@ -15,22 +14,17 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>facesServlet</servlet-name>
-        <url-pattern>/app/*</url-pattern>
+        <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
 
-    <context-param>
-        <param-name>jakarta.faces.PROJECT_STAGE</param-name>
-        <param-value>Development</param-value>
-    </context-param>
-
     <welcome-file-list>
-        <welcome-file>app/view/newCourse.xhtml</welcome-file>
+        <welcome-file>view/test.xhtml</welcome-file>
     </welcome-file-list>
 
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>downloadProtectedArea</web-resource-name>
-            <url-pattern>/view/*</url-pattern>
+            <url-pattern>/*/</url-pattern>
         </web-resource-collection>
         <auth-constraint/>
     </security-constraint>
