@@ -2,6 +2,7 @@ package de.ssherlock.persistence.repository;
 
 import de.ssherlock.global.transport.User;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
@@ -9,8 +10,8 @@ import java.util.logging.Logger;
 public class UserRepositoryPsql extends RepositoryPsql implements UserRepository {
 
     private Logger logger;
-    public UserRepositoryPsql() {
-        super();
+    public UserRepositoryPsql(Connection connection) {
+        super(connection);
     }
 
     @Override

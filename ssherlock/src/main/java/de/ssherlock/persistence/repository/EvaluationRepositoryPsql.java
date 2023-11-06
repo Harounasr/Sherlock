@@ -2,6 +2,7 @@ package de.ssherlock.persistence.repository;
 
 import de.ssherlock.global.transport.Evaluation;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
@@ -9,8 +10,8 @@ import java.util.logging.Logger;
 public class EvaluationRepositoryPsql extends RepositoryPsql implements EvaluationRepository {
 
     private Logger logger;
-    public EvaluationRepositoryPsql() {
-        super();
+    public EvaluationRepositoryPsql(Connection connection) {
+        super(connection);
     }
 
     @Override
