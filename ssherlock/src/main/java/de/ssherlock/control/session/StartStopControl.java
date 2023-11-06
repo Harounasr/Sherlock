@@ -1,20 +1,20 @@
 package de.ssherlock.control.session;
 
-import de.ssherlock.persistence.transaction.StartStop;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
+import jakarta.servlet.annotation.WebListener;
 
-public class StartStopControl implements StartStop {
+@WebListener
+public class StartStopControl implements ServletContextListener {
 
-    public StartStopControl() {
+    @Override
+    public void contextDestroyed(ServletContextEvent sce) {
 
     }
 
     @Override
-    public void init() {
+    public void contextInitialized(ServletContextEvent sce) {
 
     }
 
-    @Override
-    public void destroy() {
-
-    }
 }
