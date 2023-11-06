@@ -1,6 +1,8 @@
 package de.ssherlock.control.backing;
 
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.inject.Default;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 import java.util.logging.Logger;
@@ -10,14 +12,28 @@ import java.util.logging.Logger;
 public class WelcomeBean {
 
     public WelcomeBean() {}
+
     private String welcomeHeading;
+
     private String welcomeText;
+
     private String email;
+
     private String password;
+
+    private String username;
     private Logger logger;
+
 
     public String getWelcomeHeading() {
         return welcomeHeading;
+    }
+    public String getUsername() {
+        return username;
+    }
+
+    public void login() {
+        //
     }
 
     public void setWelcomeHeading(String welcomeHeading) {

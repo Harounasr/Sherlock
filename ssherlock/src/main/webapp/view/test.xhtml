@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="jakarta.faces.component.html"
+      xmlns:h="jakarta.faces.html"
       xmlns:f="jakarta.faces.core">
 
 <h:head>
@@ -19,7 +19,7 @@
             <h:inputSecret id="password" value="#{welcomeBean.password}" />
         </h:panelGrid>
 
-        <h:commandButton value="Login" action="#{welcomeBean.login}" />
+        <h:commandButton value="Login" action="#{welcomeBean.login()}" />
     </h:form>
 </h:body>
 </html>
