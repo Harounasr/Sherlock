@@ -1,4 +1,4 @@
-package de.ssherlock.control.session;
+package de.ssherlock.control.util;
 
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;

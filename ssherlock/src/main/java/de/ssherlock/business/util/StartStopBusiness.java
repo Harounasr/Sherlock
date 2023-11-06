@@ -1,4 +1,4 @@
-package de.ssherlock.business.cyclic;
+package de.ssherlock.business.util;
 
 import java.util.logging.Logger;
 
