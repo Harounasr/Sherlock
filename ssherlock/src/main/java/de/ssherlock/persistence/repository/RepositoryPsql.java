@@ -2,12 +2,14 @@ package de.ssherlock.persistence.repository;
 
 import de.ssherlock.persistence.transaction.TransactionPsql;
 
+import java.sql.Connection;
+
 public class RepositoryPsql {
     
-    TransactionPsql transaction;
+    Connection connection;
 
-    public RepositoryPsql() {
-
+    public RepositoryPsql(Connection connection) {
+        this.connection = connection;
     }
 
 }

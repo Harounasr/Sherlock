@@ -20,7 +20,13 @@ public class TransactionPsql implements Transaction {
 
     }
 
+    @Override
+    public void close() throws Exception {
+
+    }
+    
     public Connection getConnection() {
         return connection;
     }
+
 }

@@ -1,6 +1,5 @@
-package de.ssherlock.persistence.transaction;
+package de.ssherlock.persistence.connection;
 
-import java.util.Objects;
 import java.util.logging.Logger;
 
 public class ConnectionPoolPsql implements ConnectionPool {
@@ -14,7 +13,7 @@ public class ConnectionPoolPsql implements ConnectionPool {
 
     @Override
     public ConnectionPool getInstance() {
-        return Objects.requireNonNullElseGet(INSTANCE, ConnectionPoolPsql::new);
+        return null;
     }
 
     @Override

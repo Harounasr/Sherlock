@@ -1,15 +1,16 @@
 package de.ssherlock.persistence.repository;
 
+import java.sql.Connection;
 import java.util.logging.Logger;
 
 public class RepositoryFactory {
 
     private Logger logger;
 
-    public static CheckerRepository getCheckerRepository(RepositoryType type) {
+    public static CheckerRepository getCheckerRepository(RepositoryType type, Connection connection) {
         switch (type) {
             case POSTGRESQL -> {
-                return new CheckerRepositoryPsql();
+                return new CheckerRepositoryPsql(connection);
             }
             default -> {
                 return null;
@@ -17,10 +18,10 @@ public class RepositoryFactory {
         }
     }
 
-    public static CourseRepository getCourseRepository(RepositoryType type) {
+    public static CourseRepository getCourseRepository(RepositoryType type, Connection connection) {
         switch (type) {
             case POSTGRESQL -> {
-                return new CourseRepositoryPsql();
+                return new CourseRepositoryPsql(connection);
             }
             default -> {
                 return null;
@@ -28,11 +29,10 @@ public class RepositoryFactory {
         }
     }
 
-    public static EvaluationRepository getEvaluationRepository(RepositoryType type) {
+    public static EvaluationRepository getEvaluationRepository(RepositoryType type, Connection connection) {
         switch (type) {
             case POSTGRESQL -> {
-                //return new EvaluationRepositoryPsql();
-                return null;
+                return new EvaluationRepositoryPsql(connection);
             }
             default -> {
                 return null;
@@ -40,10 +40,10 @@ public class RepositoryFactory {
         }
     }
 
-    public static ExerciseRepository getExerciseRepository(RepositoryType type) {
+    public static ExerciseRepository getExerciseRepository(RepositoryType type, Connection connection) {
         switch (type) {
             case POSTGRESQL -> {
-                return new ExerciseRepositoryPsql();
+                return new ExerciseRepositoryPsql(connection);
             }
             default -> {
                 return null;
@@ -51,10 +51,10 @@ public class RepositoryFactory {
         }
     }
 
-    public static SubmissionRepository getSubmissionRepository(RepositoryType type) {
+    public static SubmissionRepository getSubmissionRepository(RepositoryType type, Connection connection) {
         switch (type) {
             case POSTGRESQL -> {
-                return new SubmissionRepositoryPsql();
+                return new SubmissionRepositoryPsql(connection);
             }
             default -> {
                 return null;
@@ -62,10 +62,10 @@ public class RepositoryFactory {
         }
     }
 
-    public static SystemSettingsRepository getSystemSettingsRepository(RepositoryType type) {
+    public static SystemSettingsRepository getSystemSettingsRepository(RepositoryType type, Connection connection) {
         switch (type) {
             case POSTGRESQL -> {
-                return new SystemSettingsRepositoryPsql();
+                return new SystemSettingsRepositoryPsql(connection);
             }
             default -> {
                 return null;
@@ -73,10 +73,10 @@ public class RepositoryFactory {
         }
     }
 
-    public static UserRepository getUserRepository(RepositoryType type) {
+    public static UserRepository getUserRepository(RepositoryType type, Connection connection) {
         switch (type) {
             case POSTGRESQL -> {
-                return new UserRepositoryPsql();
+                return new UserRepositoryPsql(connection);
             }
             default -> {
                 return null;
