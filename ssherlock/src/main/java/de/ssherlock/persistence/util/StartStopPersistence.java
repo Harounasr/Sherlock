@@ -1,4 +1,4 @@
-package de.ssherlock.persistence.transaction;
+package de.ssherlock.persistence.util;
 
 public class StartStopPersistence {
 
