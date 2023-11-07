@@ -1,5 +1,8 @@
 package de.ssherlock.control.backing;
 
+import de.ssherlock.business.service.UserService;
+import de.ssherlock.global.transport.LoginInfo;
+import de.ssherlock.global.transport.Password;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.enterprise.inject.Default;
 import jakarta.inject.Inject;
@@ -33,7 +36,9 @@ public class WelcomeBean {
     }
 
     public void login() {
-        //
+        LoginInfo loginInfo = new LoginInfo(username, new Password(password, "salt"));
+        UserService userService = new UserService();
+        userService.verifyLogin(loginInfo);
     }
 
     public void setWelcomeHeading(String welcomeHeading) {

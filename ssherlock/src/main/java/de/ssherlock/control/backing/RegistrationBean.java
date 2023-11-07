@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 public class RegistrationBean {
 
     private String userName;
-    private String surName;
+    private String firstName;
     private String lastName;
     private String password;
     private String email;
@@ -23,11 +23,11 @@ public class RegistrationBean {
     }
 
     public String getSurName() {
-        return surName;
+        return firstName;
     }
 
     public void setSurName(String surName) {
-        this.surName = surName;
+        this.firstName = surName;
     }
 
     public String getLastName() {

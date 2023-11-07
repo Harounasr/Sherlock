@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Login Page</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"></link>
+    <style>
+        body {
+            background-color: #f4f4f4;
+        }
+        .login-container {
+            margin-top: 150px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-center login-container">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="text-center">Register</h3>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control" id="username" placeholder="Enter your username" value="#{registrationBean.username}"></input>
+                        </div>
+                        <div class="form-group">
+                            <label for="firstname">First Name</label>
+                            <input type="text" class="form-control" id="firstname" placeholder="Enter your First Name" value="#{registrationBean.firstName}"></input>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastname">Last Name</label>
+                            <input type="text" class="form-control" id="lastname" placeholder="Enter your last Name" value="#{registrationBean.lastName}"></input>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="text" class="form-control" id="email" placeholder="Enter your email" value="#{registrationBean.email}"></input>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" placeholder="Enter your password" value="#{registrationBean.password}"></input>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block" disabled="">Register</button>
+                        <button type="button" class="btn btn-primary btn-block" onclick="history.back()">back to Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
