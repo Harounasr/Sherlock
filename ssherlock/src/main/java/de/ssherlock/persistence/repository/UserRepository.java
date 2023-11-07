@@ -10,7 +10,7 @@ public interface UserRepository {
     void insertUser(User user);
     void updateUser(User user);
     void deleteUser(String username);
-    void fetchUser(String username);
+    User fetchUser(String username);
     List<User> fetchUsers(Predicate<User> predicate);
     boolean emailExists(String email);
     boolean userExists(String username);

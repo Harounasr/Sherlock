@@ -41,6 +41,11 @@
             <artifactId>weld-core-impl</artifactId>
             <version>5.1.2.Final</version>
         </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.6.0</version>
+        </dependency>
 
     </dependencies>
 
