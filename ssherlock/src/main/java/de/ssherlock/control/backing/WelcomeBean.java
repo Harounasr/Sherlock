@@ -14,6 +14,9 @@ import java.util.logging.Logger;
 @RequestScoped
 public class WelcomeBean {
 
+    @Inject
+    UserService userService;
+
     public WelcomeBean() {}
 
     private String welcomeHeading;
@@ -37,7 +40,6 @@ public class WelcomeBean {
 
     public void login() {
         LoginInfo loginInfo = new LoginInfo(username, new Password(password, "salt"));
-        UserService userService = new UserService();
         userService.verifyLogin(loginInfo);
     }
 

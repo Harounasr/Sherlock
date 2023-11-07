@@ -2,6 +2,8 @@ package de.ssherlock.business.util;
 
 import de.ssherlock.persistence.util.StartStopPersistence;
 
+import java.io.InputStream;
+import java.util.function.Function;
 import java.util.logging.Logger;
 
 public class StartStopBusiness {
@@ -12,11 +14,11 @@ public class StartStopBusiness {
     public StartStopBusiness() {
 
     }
-    public void init() {
+    public void init(Function<String, InputStream> resourceFetcher) {
         startStopPersistence = new StartStopPersistence();
-        startStopPersistence.init();
+        startStopPersistence.init(resourceFetcher);
     }
     public void destroy() {
-        startStopPersistence.destroy();
+
     }
 }

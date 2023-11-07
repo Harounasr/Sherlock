@@ -1,10 +1,17 @@
 package de.ssherlock.persistence.config;
 
+import de.ssherlock.global.logging.LoggerCreator;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.function.Function;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DatabaseConfiguration {
+
+    private static final Logger logger = LoggerCreator.get(DatabaseConfiguration.class);
 
     static DatabaseConfiguration INSTANCE;
     Properties connectionProperties;
@@ -15,19 +22,7 @@ public class DatabaseConfiguration {
 
 
     private DatabaseConfiguration() {
-        Properties properties;
-        try {
-            properties = readConfigFile();
-            connectionProperties.setProperty("user", properties.getProperty("user"));
-            connectionProperties.setProperty("password", properties.getProperty("password"));
-            connectionProperties.setProperty("ssl", properties.getProperty("ssl"));
-            host = properties.getProperty("host");
-            driver = properties.getProperty("driver");
-            name = properties.getProperty("dbname");
-            maxConnections = Integer.parseInt("maxConnections");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 
     public static DatabaseConfiguration getInstance() {
@@ -36,15 +31,32 @@ public class DatabaseConfiguration {
         }
         return INSTANCE;
     }
+    public void init(Function<String, InputStream> resourceFetcher) {
+        Properties properties;
+        try {
+            connectionProperties = new Properties();
+            properties = readConfigFile(resourceFetcher);
+            connectionProperties.setProperty("user", properties.getProperty("user"));
+            connectionProperties.setProperty("password", properties.getProperty("password"));
+            connectionProperties.setProperty("ssl", properties.getProperty("ssl"));
+            host = properties.getProperty("host");
+            driver = properties.getProperty("driver");
+            name = properties.getProperty("dbname");
+            maxConnections = Integer.parseInt(properties.getProperty("maxConnections"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void reset() {
 
     }
 
-    private Properties readConfigFile() throws IOException {
+
+    private Properties readConfigFile(Function<String, InputStream> resourceFetcher) throws IOException {
         Properties prop = new Properties();
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        InputStream stream = loader.getResourceAsStream("database-config.properties");
+        InputStream stream = resourceFetcher.apply("/WEB-INF/config/database-config.properties");
         prop.load(stream);
         return prop;
     }
