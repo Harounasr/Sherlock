@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 
 public class UserRepositoryPsql extends RepositoryPsql implements UserRepository {
 
-    private static final Logger logger = LoggerCreator.get(UserRepositoryPsql.class);
+    private final Logger logger = LoggerCreator.get(UserRepositoryPsql.class);
     public UserRepositoryPsql(Connection connection) {
         super(connection);
     }
@@ -39,23 +39,25 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
 
     @Override
     public User fetchUser(String username) {
-        try
-        {
-            PreparedStatement statement = connection.prepareStatement("SELECT user FROM users WHERE username = ?");
+        try {
+            logger.log(Level.INFO, "Attempting to find user with username: " + username);
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM users WHERE username = ?");
             statement.setString(1, username);
             ResultSet result = statement.executeQuery();
-            logger.log(Level.INFO, "Statement executed with result: " + result);
-            User user = new User(
-                    result.getString("username"),
-                    result.getString("username"),
-                    result.getString("firstName"),
-                    result.getString("lastName"),
-                    SystemRole.TEACHER,
-                    new Password(result.getString("passwordHash"), result.getString("passwordSalt")),
-                    result.getString("faculty")
-            );
-            return user;
 
+            if (result.next()) {
+                return new User(
+                        result.getString("username"),
+                        result.getString("username"),
+                        result.getString("firstname"),
+                        result.getString("lastname"),
+                        SystemRole.TEACHER,
+                        new Password(result.getString("passwordhash"), result.getString("passwordsalt")),
+                        result.getString("faculty")
+                );
+            } else {
+                throw new NonExistentUserException("User does not exist.", new Exception());
+            }
         } catch (SQLException e) {
             throw new NonExistentUserException("User does not exist. ", e);
         }

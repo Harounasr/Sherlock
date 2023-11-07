@@ -13,6 +13,7 @@ import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
 
 import java.sql.Connection;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,7 +21,7 @@ import java.util.logging.Logger;
 @RequestScoped
 public class UserService {
 
-    private static final Logger logger = LoggerCreator.get(UserService.class);
+    private final Logger logger = LoggerCreator.get(UserService.class);
 
     public UserService() {
 
@@ -30,7 +31,7 @@ public class UserService {
         Connection connection = ConnectionPoolPsql.getInstance().getConnection();
         UserRepository userRepository = RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
         User user = userRepository.fetchUser(loginInfo.username());
-        if (loginInfo.password().hash() == user.password().hash()) {
+        if (Objects.equals(loginInfo.password().hash(), user.password().hash())) {
             logger.log(Level.INFO, "login successful!");
             return user;
         } else {

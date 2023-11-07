@@ -9,9 +9,11 @@ import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static java.util.logging.Level.INFO;
+
 public class DatabaseConfiguration {
 
-    private static final Logger logger = LoggerCreator.get(DatabaseConfiguration.class);
+    private final Logger logger = LoggerCreator.get(DatabaseConfiguration.class);
 
     static DatabaseConfiguration INSTANCE;
     Properties connectionProperties;
@@ -42,7 +44,7 @@ public class DatabaseConfiguration {
             host = properties.getProperty("host");
             driver = properties.getProperty("driver");
             name = properties.getProperty("dbname");
-            maxConnections = Integer.parseInt(properties.getProperty("maxConnections"));
+            maxConnections = Integer.valueOf(properties.getProperty("maxConnections"));
         } catch (IOException e) {
             e.printStackTrace();
         }

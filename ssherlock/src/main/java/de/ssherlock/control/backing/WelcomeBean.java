@@ -38,9 +38,13 @@ public class WelcomeBean {
         return username;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public void login() {
         LoginInfo loginInfo = new LoginInfo(username, new Password(password, "salt"));
-        userService.verifyLogin(loginInfo);
+        userService.login(loginInfo);
     }
 
     public void setWelcomeHeading(String welcomeHeading) {
