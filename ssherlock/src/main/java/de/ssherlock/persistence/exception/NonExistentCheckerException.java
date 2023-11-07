@@ -1,7 +1,20 @@
 package de.ssherlock.persistence.exception;
 
-public class NonExistentCheckerException extends NonExistentException {
-    public NonExistentCheckerException(String message, Throwable err) {
-        super(message, err);
+import java.io.Serial;
+import java.io.Serializable;
+
+public class NonExistentCheckerException extends Exception implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+    public NonExistentCheckerException() {
+        super();
+    }
+
+    public NonExistentCheckerException(String msg) {
+        super(msg);
+    }
+
+    public NonExistentCheckerException(String msg, Throwable err) {
+        super(msg, err);
     }
 }

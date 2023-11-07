@@ -1,7 +1,19 @@
 package de.ssherlock.persistence.exception;
 
-public class NonExistentExerciseException extends NonExistentException {
-    public NonExistentExerciseException(String message, Throwable err) {
-        super(message, err);
+import java.io.Serializable;
+
+public class NonExistentExerciseException extends Exception implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    public NonExistentExerciseException() {
+        super();
+    }
+
+    public NonExistentExerciseException(String msg) {
+        super(msg);
+    }
+
+    public NonExistentExerciseException(String msg, Throwable err) {
+        super(msg, err);
     }
 }

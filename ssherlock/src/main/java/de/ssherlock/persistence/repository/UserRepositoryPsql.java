@@ -38,7 +38,7 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
     }
 
     @Override
-    public User fetchUser(String username) {
+    public User fetchUser(String username) throws NonExistentUserException {
         try {
             logger.log(Level.INFO, "Attempting to find user with username: " + username);
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM users WHERE username = ?");
@@ -56,10 +56,10 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
                         result.getString("faculty")
                 );
             } else {
-                throw new NonExistentUserException("User does not exist.", new Exception());
+                throw new NonExistentUserException("The user with the username " + username + " could not be found in the database.");
             }
         } catch (SQLException e) {
-            throw new NonExistentUserException("User does not exist. ", e);
+            throw new NonExistentUserException("The user with the username " + username + " could not be found in the database.", e);
         }
     }
 

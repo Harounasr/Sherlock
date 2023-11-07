@@ -1,5 +1,6 @@
 package de.ssherlock.business.service;
 
+import de.ssherlock.business.exception.LoginFailedException;
 import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.LoginInfo;
@@ -27,16 +28,20 @@ public class UserService {
 
     }
 
-    public User login(LoginInfo loginInfo) {
+    public User login(LoginInfo loginInfo) throws LoginFailedException {
         Connection connection = ConnectionPoolPsql.getInstance().getConnection();
         UserRepository userRepository = RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
-        User user = userRepository.fetchUser(loginInfo.username());
+        User user;
+        try {
+            user = userRepository.fetchUser(loginInfo.username());
+        } catch (NonExistentUserException e) {
+            throw new LoginFailedException("The user " + loginInfo.username() + " is not registered in the system");
+        }
         if (Objects.equals(loginInfo.password().hash(), user.password().hash())) {
-            logger.log(Level.INFO, "login successful!");
+            logger.log(Level.INFO, "LOGIN for user " + loginInfo.username() + " was successful.");
             return user;
         } else {
-            logger.log(Level.WARNING, "login failed!");
-            return null;
+            throw new LoginFailedException("The entered password was incorrect");
         }
     }
 

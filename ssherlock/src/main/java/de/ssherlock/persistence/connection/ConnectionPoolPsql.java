@@ -97,7 +97,6 @@ public class ConnectionPoolPsql {
                     "jdbc:postgresql://" + configuration.getHost() + "/vollmanv", configuration.getConnectionProperties());
             logger.log(Level.INFO, "created connection");
         } catch (SQLException e) {
-            logger.log(Level.INFO, "Could not create a new connection.", e);
             throw new RuntimeException(e);
         }
         return conn;
