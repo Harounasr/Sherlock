@@ -1,6 +1,7 @@
 package de.ssherlock.business.service;
 
 import de.ssherlock.global.transport.Course;
+import de.ssherlock.global.transport.LoginInfo;
 import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.repository.CourseRepository;
 import de.ssherlock.persistence.repository.RepositoryFactory;
@@ -25,6 +26,9 @@ public class UserService {
 
     }
     public void changeSystemRole() {
+
+    }
+    public void verifyLogin(LoginInfo loginInfo) {
 
     }
 }
