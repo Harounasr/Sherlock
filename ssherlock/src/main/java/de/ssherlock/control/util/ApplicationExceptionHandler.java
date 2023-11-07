@@ -26,7 +26,6 @@ public class ApplicationExceptionHandler extends ExceptionHandlerWrapper {
         Throwable unhandledException = exceptionQueuedEventIterator.next().getContext().getException();
 
         // deal with exceptions
-
     }
 
     public static class Factory extends ExceptionHandlerFactory {
