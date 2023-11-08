@@ -30,9 +30,11 @@
                         <div class="form-group">
                             <label for="password">Password</label>
                             <h:inputSecret id="password" value="#{welcomeBean.password}" styleClass="form-control" placeholder="Enter your password"/>
+                            <h:message for="password" id="loginError"/>
                         </div>
-                        <h:commandButton id="login" value="Login" styleClass="btn btn-primary btn-block" action="#{welcomeBean.login()}"/>
+                        <h:commandButton id="login" value="Login" styleClass="btn btn-primary btn-block" action="#{welcomeBean.login}"/>
                         <p>Not registered? <a href="view/registration.xhtml">Register now!</a></p>
+
                     </div>
                 </div>
             </div>

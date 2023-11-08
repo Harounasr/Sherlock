@@ -1,5 +1,6 @@
 package de.ssherlock.business.service;
 
+import de.ssherlock.business.exception.LoginFailedException;
 import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.LoginInfo;
@@ -13,6 +14,7 @@ import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
 
 import java.sql.Connection;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,22 +22,26 @@ import java.util.logging.Logger;
 @RequestScoped
 public class UserService {
 
-    private static final Logger logger = LoggerCreator.get(UserService.class);
+    private final Logger logger = LoggerCreator.get(UserService.class);
 
     public UserService() {
 
     }
 
-    public User login(LoginInfo loginInfo) {
+    public User login(LoginInfo loginInfo) throws LoginFailedException {
         Connection connection = ConnectionPoolPsql.getInstance().getConnection();
         UserRepository userRepository = RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
-        User user = userRepository.fetchUser(loginInfo.username());
-        if (loginInfo.password().hash() == user.password().hash()) {
-            logger.log(Level.INFO, "login successful!");
+        User user;
+        try {
+            user = userRepository.fetchUser(loginInfo.username());
+        } catch (NonExistentUserException e) {
+            throw new LoginFailedException("The user " + loginInfo.username() + " is not registered in the system");
+        }
+        if (Objects.equals(loginInfo.password().hash(), user.password().hash())) {
+            logger.log(Level.INFO, "LOGIN for user " + loginInfo.username() + " was successful.");
             return user;
         } else {
-            logger.log(Level.WARNING, "login failed!");
-            return null;
+            throw new LoginFailedException("The entered password was incorrect");
         }
     }
 

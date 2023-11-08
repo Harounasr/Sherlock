@@ -1,5 +1,6 @@
 package de.ssherlock.persistence.connection;
 
+import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.persistence.config.DatabaseConfiguration;
 
 import java.sql.Connection;
@@ -15,34 +16,63 @@ public class ConnectionPoolPsql {
 
     private static ConnectionPoolPsql INSTANCE;
     private DatabaseConfiguration configuration;
-    private Logger logger;
+    private final Logger logger = LoggerCreator.get(ConnectionPoolPsql.class);
     private final Queue<Connection> connections = new LinkedList<>();
     private final List<Connection> borrowedConnections = new LinkedList<>();
 
     private ConnectionPoolPsql() {
-
+        logger.log(Level.INFO, "New ConnectionPool created");
     }
 
-    public static ConnectionPoolPsql getInstance() {
+    public static synchronized ConnectionPoolPsql getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new ConnectionPoolPsql();
         }
         return INSTANCE;
     }
 
-    public void init() {
+    public synchronized void init() {
         configuration = DatabaseConfiguration.getInstance();
         loadDriver();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < configuration.getMaxConnections(); i++) {
+            logger.log(Level.INFO, "creating connection");
             connections.offer(createConnection());
         }
+        logger.log(Level.INFO, String.valueOf(configuration.getMaxConnections()));
+        logger.log(Level.INFO, String.valueOf(connections.size()));
     }
 
-    public void destroy() {
-
+    public synchronized void destroy() {
+        for (Connection conn : connections) {
+            logger.log(Level.FINEST, "Try to close connection.");
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    logger.log(Level.WARNING, "Failed to close Connection.", e);
+                }
+                logger.log(Level.FINEST, "Closed connection successfully.");
+            }
+        }
+        for (Connection conn : borrowedConnections) {
+            if (conn != null) {
+                try {
+                    conn.rollback();
+                } catch (SQLException e) {
+                    logger.log(Level.WARNING, "Borrowed Connection from Connection Pool could not be rollback successfully.", e);
+                }
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    logger.log(Level.WARNING, "Borrowed Connection from Connection Pool could not be closed.", e);
+                }
+            }
+        }
+        connections.clear();
+        borrowedConnections.clear();
     }
 
-    public Connection getConnection() {
+    public synchronized Connection getConnection() {
         while (connections.isEmpty()) {
             try {
                 wait(System.currentTimeMillis() + 2000);
@@ -60,15 +90,13 @@ public class ConnectionPoolPsql {
         connections.offer(connection);
     }
 
-    private Connection createConnection() {
+    private synchronized Connection createConnection() {
         Connection conn;
         try {
             conn = DriverManager.getConnection(
-                    "jdbc:postgresql://" + configuration.getHost() + "/" + configuration.getName(), configuration.getConnectionProperties());
-            conn.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
-            conn.setAutoCommit(false);
+                    "jdbc:postgresql://" + configuration.getHost() + "/vollmanv", configuration.getConnectionProperties());
+            logger.log(Level.INFO, "created connection");
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Could not create a new connection.", e);
             throw new RuntimeException(e);
         }
         return conn;
@@ -76,9 +104,10 @@ public class ConnectionPoolPsql {
 
     private void loadDriver() {
         try {
-            Class.forName(configuration.getDriver());
+            Class.forName("org.postgresql.Driver");
+            logger.log(Level.INFO, "driver loaded");
         } catch (ClassNotFoundException e) {
-            logger.log(Level.SEVERE, "DB Driver not found.");
+            logger.log(Level.INFO, "DB Driver not found.");
             throw new Error("DB Driver not found.", e);
         }
     }

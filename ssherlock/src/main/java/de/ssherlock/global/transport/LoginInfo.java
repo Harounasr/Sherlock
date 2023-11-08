@@ -21,9 +21,9 @@ public record LoginInfo(
             return this;
         }
 
-        public Builder copyFrom(User user) {
-            this.username = user.username();
-            this.password = user.password();
+        public Builder copyFrom(LoginInfo loginInfo) {
+            this.username = loginInfo.username();
+            this.password = loginInfo.password();
             return this;
         }
 

@@ -16,12 +16,8 @@ public class CheckDatabaseConnectionEvent implements CyclicEvent {
     }
 
     @Override
-    public void shutdown() {
-
-    }
+    public void shutdown() { }
 
     @Override
-    public void run() {
-
-    }
+    public void run() { }
 }

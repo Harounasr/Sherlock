@@ -8,4 +8,10 @@
 
     </application>
 
+    <factory>
+        <exception-handler-factory>
+            de.ssherlock.control.util.ApplicationExceptionHandler$Factory
+        </exception-handler-factory>
+    </factory>
+
 </faces-config>
