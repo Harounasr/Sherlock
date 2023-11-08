@@ -1,7 +1,7 @@
 package de.ssherlock.persistence.connection;
 
 import de.ssherlock.global.logging.LoggerCreator;
-import de.ssherlock.persistence.config.DatabaseConfiguration;
+import de.ssherlock.persistence.config.Configuration;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 public class ConnectionPoolPsql {
 
     private static ConnectionPoolPsql INSTANCE;
-    private DatabaseConfiguration configuration;
+    private Configuration configuration;
     private final Logger logger = LoggerCreator.get(ConnectionPoolPsql.class);
     private final Queue<Connection> connections = new LinkedList<>();
     private final List<Connection> borrowedConnections = new LinkedList<>();
@@ -32,7 +32,7 @@ public class ConnectionPoolPsql {
     }
 
     public synchronized void init() {
-        configuration = DatabaseConfiguration.getInstance();
+        configuration = Configuration.getInstance();
         loadDriver();
         for (int i = 0; i < configuration.getMaxConnections(); i++) {
             logger.log(Level.INFO, "creating connection");
@@ -94,7 +94,7 @@ public class ConnectionPoolPsql {
         Connection conn;
         try {
             conn = DriverManager.getConnection(
-                    "jdbc:postgresql://" + configuration.getHost() + "/vollmanv", configuration.getConnectionProperties());
+                    "jdbc:postgresql://" + configuration.getHost() + "/"+ configuration.getName(), configuration.getConnectionProperties());
             logger.log(Level.INFO, "created connection");
         } catch (SQLException e) {
             throw new RuntimeException(e);

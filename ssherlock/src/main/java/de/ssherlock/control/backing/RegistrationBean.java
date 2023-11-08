@@ -1,6 +1,9 @@
 package de.ssherlock.control.backing;
 
+import de.ssherlock.business.service.MailService;
+import de.ssherlock.global.transport.Mail;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
@@ -12,10 +15,12 @@ public class RegistrationBean {
     private String userName;
     private String firstName;
     private String lastName;
-    private String password;
+    private String passWord;
     private String email;
     @Inject
     private Logger logger;
+    @Inject
+    private MailService mailService;
 
     public RegistrationBean() {}
 
@@ -27,12 +32,12 @@ public class RegistrationBean {
         this.userName = userName;
     }
 
-    public String getSurName() {
+    public String getFirstName() {
         return firstName;
     }
 
-    public void setSurName(String surName) {
-        this.firstName = surName;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getLastName() {
@@ -43,12 +48,12 @@ public class RegistrationBean {
         this.lastName = lastName;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPassWord() {
+        return passWord;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPassWord(String passWord) {
+        this.passWord = passWord;
     }
 
     public String getEmail() {
@@ -57,5 +62,10 @@ public class RegistrationBean {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void sendMail() {
+        Mail mail = new Mail(email, userName);
+        mailService.sendMail(mail);
     }
 }
