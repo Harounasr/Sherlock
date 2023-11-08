@@ -4,7 +4,6 @@ import de.ssherlock.business.exception.LoginFailedException;
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.notification.Notification;
 import de.ssherlock.control.notification.NotificationType;
-import de.ssherlock.control.session.Session;
 import de.ssherlock.global.transport.LoginInfo;
 import de.ssherlock.global.transport.Password;
 import de.ssherlock.global.transport.User;
@@ -13,6 +12,7 @@ import jakarta.enterprise.inject.Default;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Named
@@ -21,11 +21,8 @@ public class WelcomeBean {
 
     @Inject
     UserService userService;
-
-    //@Inject
-    //Session session;
-
-    public WelcomeBean() {}
+    @Inject
+    private Logger logger;
 
     private String welcomeHeading;
 
@@ -36,8 +33,8 @@ public class WelcomeBean {
     private String password;
 
     private String username;
-    private Logger logger;
 
+    public WelcomeBean() {}
 
     public String getWelcomeHeading() {
         return welcomeHeading;
@@ -54,6 +51,7 @@ public class WelcomeBean {
         LoginInfo loginInfo = new LoginInfo(username, new Password(password, "salt"));
         try {
             User user = userService.login(loginInfo);
+            logger.log(Level.INFO, "logged in");
             //session.setUser(user);
         } catch (LoginFailedException e) {
             Notification notification = new Notification();

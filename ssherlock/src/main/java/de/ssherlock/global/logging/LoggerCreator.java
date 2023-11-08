@@ -1,5 +1,9 @@
 package de.ssherlock.global.logging;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Produces;
+import jakarta.enterprise.inject.spi.InjectionPoint;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
+@ApplicationScoped
 public class LoggerCreator {
 
     private static final Logger logger = get(LoggerCreator.class);
@@ -28,5 +33,10 @@ public class LoggerCreator {
             } catch (IOException e) {
                 logger.log(Level.WARNING, "Log Config not loaded");
             }
+    }
+
+    @Produces
+    public Logger produce(InjectionPoint injectionPoint) {
+        return get(injectionPoint.getMember().getDeclaringClass());
     }
 }
