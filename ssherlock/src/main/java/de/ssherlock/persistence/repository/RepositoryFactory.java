@@ -3,7 +3,7 @@ package de.ssherlock.persistence.repository;
 import java.sql.Connection;
 import java.util.logging.Logger;
 
-public class getRepositoryFactory {
+public class RepositoryFactory {
 
     private Logger logger;
 
