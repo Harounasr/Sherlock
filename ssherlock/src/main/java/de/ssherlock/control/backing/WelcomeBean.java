@@ -8,7 +8,6 @@ import de.ssherlock.global.transport.LoginInfo;
 import de.ssherlock.global.transport.Password;
 import de.ssherlock.global.transport.User;
 import jakarta.enterprise.context.RequestScoped;
-import jakarta.enterprise.inject.Default;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
@@ -36,16 +35,6 @@ public class WelcomeBean {
 
     public WelcomeBean() {}
 
-    public String getWelcomeHeading() {
-        return welcomeHeading;
-    }
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public void login() {
         LoginInfo loginInfo = new LoginInfo(username, new Password(password, "salt"));
@@ -54,16 +43,26 @@ public class WelcomeBean {
             logger.log(Level.INFO, "logged in");
             //session.setUser(user);
         } catch (LoginFailedException e) {
-            Notification notification = new Notification();
-            notification.setText("Login Failed, Username and password do not match.");
-            notification.setType(NotificationType.ERROR);
-            notification.generateUIMessage("password");
+            Notification notification = new Notification(Notification.WRONG_PASSWORD_MSG, NotificationType.ERROR);
+            notification.generateUIMessage();
         }
+    }
+    public String getWelcomeHeading() {
+        return welcomeHeading;
     }
 
     public void setWelcomeHeading(String welcomeHeading) {
         this.welcomeHeading = welcomeHeading;
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
 
     public String getWelcomeText() {
         return welcomeText;
