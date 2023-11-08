@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="jakarta.faces.html">
+      xmlns:h="jakarta.faces.html"
+      xmlns:c="jakarta.faces.core" >
 <head>
     <title>Login Page</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
@@ -30,11 +31,11 @@
                         <div class="form-group">
                             <label for="password">Password</label>
                             <h:inputSecret id="password" value="#{welcomeBean.password}" styleClass="form-control" placeholder="Enter your password"/>
-                            <h:message for="password" id="loginError"/>
+                            <h:message for="password" id="loginError" errorStyle="text-"/>
                         </div>
                         <h:commandButton id="login" value="Login" styleClass="btn btn-primary btn-block" action="#{welcomeBean.login}"/>
                         <p>Not registered? <a href="view/registration.xhtml">Register now!</a></p>
-
+                        <h:messages />
                     </div>
                 </div>
             </div>

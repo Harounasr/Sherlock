@@ -9,17 +9,16 @@ import jdk.jfr.Name;
 
 import java.util.logging.Logger;
 
-@Named
-@Dependent
 public class Notification {
 
-
+    public static final String WRONG_PASSWORD_MSG = "Login Failed, Username and password do not match.";
 
     private String text;
     private NotificationType type;
 
-    public Notification() {
-
+    public Notification(String text, NotificationType type) {
+        this.text = text;
+        this.type = type;
     }
 
     public String getText() {
@@ -38,9 +37,9 @@ public class Notification {
         this.type = type;
     }
 
-    public void generateUIMessage(String tag) {
+    public void generateUIMessage() {
         FacesMessage.Severity severity = type == NotificationType.SUCCESS ? FacesMessage.SEVERITY_INFO : FacesMessage.SEVERITY_ERROR;
-        FacesContext.getCurrentInstance().addMessage(tag, new FacesMessage(severity, text, null));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, text, null));
     }
 
 
