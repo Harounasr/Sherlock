@@ -8,23 +8,14 @@ import jakarta.inject.Named;
 import java.util.logging.Logger;
 @Named
 @RequestScoped
-public class VerificationBean {
+public class ProfilBean {
 
-    private String successText;
     @Inject
     private Logger logger;
     private User user;
 
-    public VerificationBean() {
+    public ProfilBean() {
 
-    }
-
-    public String getSuccessText() {
-        return successText;
-    }
-
-    public void setSuccessText(String successText) {
-        this.successText = successText;
     }
 
     public User getUser() {

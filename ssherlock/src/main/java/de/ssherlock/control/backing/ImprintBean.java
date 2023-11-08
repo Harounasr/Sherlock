@@ -1,14 +1,22 @@
 package de.ssherlock.control.backing;
 
-import java.util.logging.Logger;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
+import java.util.logging.Logger;
+@Named
+@RequestScoped
 public class ImprintBean {
 
+    @Inject
+    private Logger logger;
     private String imprintHeading;
     private String imprintText;
-    private Logger logger;
 
-    public ImprintBean() {}
+    public ImprintBean() {
+
+    }
 
     public String getImprintHeading() {
         return imprintHeading;

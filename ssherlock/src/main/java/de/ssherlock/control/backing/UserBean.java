@@ -1,18 +1,22 @@
 package de.ssherlock.control.backing;
 
 import de.ssherlock.global.transport.SystemRole;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 import java.util.logging.Logger;
-
+@Named
+@RequestScoped
 public class UserBean {
-
+    @Inject
     private Logger logger;
     private String userName;
     private String firstName;
     private String lastName;
     private String email;
     private String facultyName;
-    private SystemRole courseRole;
+    private SystemRole systemRole;
 
     public UserBean() {
 
@@ -59,10 +63,10 @@ public class UserBean {
     }
 
     public SystemRole getCourseRole() {
-        return courseRole;
+        return systemRole;
     }
 
     public void setCourseRole(SystemRole courseRole) {
-        this.courseRole = courseRole;
+        this.systemRole = courseRole;
     }
 }

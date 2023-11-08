@@ -1,7 +1,12 @@
 package de.ssherlock.control.backing;
 
-import java.util.logging.Logger;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
+import java.util.logging.Logger;
+@Named
+@RequestScoped
 public class RegistrationBean {
 
     private String userName;
@@ -9,7 +14,7 @@ public class RegistrationBean {
     private String lastName;
     private String password;
     private String email;
-
+    @Inject
     private Logger logger;
 
     public RegistrationBean() {}

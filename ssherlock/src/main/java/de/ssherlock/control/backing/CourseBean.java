@@ -1,13 +1,17 @@
 package de.ssherlock.control.backing;
 
 import de.ssherlock.global.transport.CourseRole;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
-
+@Named
+@RequestScoped
 public class CourseBean {
-
+    @Inject
     private Logger logger;
     private String name;
     private Map<String, CourseRole> users;
