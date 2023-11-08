@@ -13,6 +13,4 @@ public class AllUsersBean {
     @Inject
     private Logger logger;
 
-
-
 }
