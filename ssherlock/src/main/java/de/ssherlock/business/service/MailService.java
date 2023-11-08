@@ -28,50 +28,34 @@ public class MailService {
     public void sendMail(Mail mail) {
         Configuration configuration = Configuration.getInstance();
         Session session = getSession(configuration);
-        checkSMTPConfiguration();
         logger.log(Level.INFO, "Mail config loaded.");
         try {
-            logger.log(Level.INFO, "Sending message to " + mail.email());
+            logger.log(Level.INFO, "Trying to send Mail to " + mail.email());
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(configuration.getFrom()));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mail.email()));
-            message.setText("Juuuuuunge Krank!");
+            //TODO
+            message.setText("InsertTextHere");
             Transport.send(message);
-            logger.log(Level.INFO, "Mail sent to " + mail.username());
+            logger.log(Level.INFO, "Mail successfully sent to " + mail.email());
         } catch (MessagingException e) {
-            logger.log(Level.INFO, e.getMessage());
-            logger.log(Level.INFO, Arrays.toString(e.getStackTrace()));
+            logger.log(Level.INFO, "There was a problem with sending the Mail.");
         }
     }
 
     private Session getSession(Configuration config) {
-        //configure SMTP server details
         Properties properties = new Properties();
-        properties.put("mail.smtp.auth", config.getAuth());
-        properties.put("mail.smtp.starttls.enable", config.getTls());
         properties.put("mail.smtp.host", config.getMailhost());
         properties.put("mail.smtp.port", config.getPort());
-
-        return Session.getInstance(properties,
-                new jakarta.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(config.getFrom(), config.getMailpassword());
-                    }
-                });
+        properties.put("mail.smtp.auth", config.getAuth());
+        properties.put("mail.smtp.starttls.enable", config.getTls());
+        return Session.getInstance(properties, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(config.getFrom(), config.getMailpassword());
+            }
+        });
     }
-
-    public void checkSMTPConfiguration() {
-        logger.log(Level.INFO, "Checking the connection to the smtp-server");
-        try {
-            Transport transport = getSession(Configuration.getInstance()).getTransport("smtp");
-            transport.connect();
-            transport.close();
-            logger.info("Connection was successfully established.");
-        } catch (MessagingException e) {
-            logger.log(Level.INFO, "Error while trying to connect with the smtp-server");
-        }
-    }
-
 
 
 }
