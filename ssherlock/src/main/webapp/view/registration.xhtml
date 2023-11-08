@@ -1,8 +1,9 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html">
 <head>
     <title>Login Page</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"></link>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
     <style>
         body {
             background-color: #f4f4f4;
@@ -13,44 +14,45 @@
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="row justify-content-center login-container">
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="text-center">Register</h3>
-                </div>
-                <div class="card-body">
-                    <form>
+<h:form>
+    <div class="container">
+        <div class="row justify-content-center login-container">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-center">Registration</h3>
+                    </div>
+                    <div class="card-body">
                         <div class="form-group">
-                            <label for="username">Username</label>
-                            <input type="text" class="form-control" id="username" placeholder="Enter your username" value="#{registrationBean.username}"></input>
+                            <label for="userName">Username</label>
+                            <h:inputText id="userName" value="#{registrationBean.userName}" styleClass="form-control" placeholder="Enter your username"/>
                         </div>
                         <div class="form-group">
-                            <label for="firstname">First Name</label>
-                            <input type="text" class="form-control" id="firstname" placeholder="Enter your First Name" value="#{registrationBean.firstName}"></input>
+                            <label for="firstName">First Name</label>
+                            <h:inputText id="firstName" value="#{registrationBean.firstName}" styleClass="form-control" placeholder="Enter your first name"/>
                         </div>
                         <div class="form-group">
-                            <label for="lastname">Last Name</label>
-                            <input type="text" class="form-control" id="lastname" placeholder="Enter your last Name" value="#{registrationBean.lastName}"></input>
+                            <label for="lastName">Last Name</label>
+                            <h:inputText id="username" value="#{registrationBean.lastName}" styleClass="form-control" placeholder="Enter your last name"/>
                         </div>
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="text" class="form-control" id="email" placeholder="Enter your email" value="#{registrationBean.email}"></input>
+                            <h:inputText id="email" value="#{registrationBean.email}" styleClass="form-control" placeholder="Enter your email"/>
                         </div>
                         <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password" class="form-control" id="password" placeholder="Enter your password" value="#{registrationBean.password}"></input>
+                            <label for="passWord">Password</label>
+                            <h:inputSecret id="passWord" value="#{registrationBean.passWord}" styleClass="form-control" placeholder="Enter your password"/>
+                            <h:message for="passWord" id="loginError"/>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block" disabled="">Register</button>
-                        <button type="button" class="btn btn-primary btn-block" onclick="history.back()">back to Login</button>
-                    </form>
+                        <h:commandButton id="register" value="Register" styleClass="btn btn-primary btn-block" action="#{registrationBean.sendMail}"/>
+                        <p>Back to <a href="">Login</a></p>
+
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
+</h:form>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

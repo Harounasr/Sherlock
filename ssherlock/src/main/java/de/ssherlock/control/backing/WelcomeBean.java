@@ -8,7 +8,7 @@ import de.ssherlock.global.transport.LoginInfo;
 import de.ssherlock.global.transport.Password;
 import de.ssherlock.global.transport.User;
 import jakarta.enterprise.context.RequestScoped;
-import jakarta.enterprise.inject.Default;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 

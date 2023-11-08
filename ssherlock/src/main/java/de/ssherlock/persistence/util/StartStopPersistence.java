@@ -1,7 +1,7 @@
 package de.ssherlock.persistence.util;
 
 import de.ssherlock.global.logging.LoggerCreator;
-import de.ssherlock.persistence.config.DatabaseConfiguration;
+import de.ssherlock.persistence.config.Configuration;
 import de.ssherlock.persistence.connection.ConnectionPoolPsql;
 
 import java.io.InputStream;
@@ -17,7 +17,7 @@ public class StartStopPersistence {
     }
 
     public void init(Function<String, InputStream> resourceFetcher) {
-        DatabaseConfiguration.getInstance().init(resourceFetcher);
+        Configuration.getInstance().init(resourceFetcher);
         ConnectionPoolPsql.getInstance().init();
         logger.log(Level.INFO, "Persistence Layer initialized");
     }
