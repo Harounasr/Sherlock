@@ -1,12 +1,9 @@
-package de.ssherlock.control.util;
+package de.ssherlock.control.exception;
 
 import jakarta.faces.context.ExceptionHandler;
 import jakarta.faces.context.ExceptionHandlerFactory;
 import jakarta.faces.context.ExceptionHandlerWrapper;
 import jakarta.faces.context.FacesContext;
-import jakarta.faces.event.ExceptionQueuedEvent;
-
-import java.util.Iterator;
 
 public class ApplicationExceptionHandler extends ExceptionHandlerWrapper {
 
@@ -35,7 +32,7 @@ public class ApplicationExceptionHandler extends ExceptionHandlerWrapper {
         }
 
         @Override
-        public ExceptionHandler getExceptionHandler() {
+        public ApplicationExceptionHandler getExceptionHandler() {
             return new ApplicationExceptionHandler(getWrapped().getExceptionHandler());
         }
     }
