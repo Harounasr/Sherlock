@@ -6,30 +6,35 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 import java.util.function.Function;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static java.util.logging.Level.INFO;
+public class Configuration {
 
-public class DatabaseConfiguration {
+    private final Logger logger = LoggerCreator.get(Configuration.class);
 
-    private final Logger logger = LoggerCreator.get(DatabaseConfiguration.class);
-
-    static DatabaseConfiguration INSTANCE;
+    static Configuration INSTANCE;
     Properties connectionProperties;
     String host;
     String driver;
     String name;
     int maxConnections;
 
+    //MAIL
+    String from;
+    boolean auth;
+    boolean tls;
+    String mailhost;
+    String port;
+    String mailpassword;
 
-    private DatabaseConfiguration() {
+
+    private Configuration() {
 
     }
 
-    public static DatabaseConfiguration getInstance() {
+    public static Configuration getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new DatabaseConfiguration();
+            INSTANCE = new Configuration();
         }
         return INSTANCE;
     }
@@ -44,6 +49,12 @@ public class DatabaseConfiguration {
             host = properties.getProperty("host");
             driver = properties.getProperty("driver");
             name = properties.getProperty("dbname");
+            from = properties.getProperty("from");
+            auth = Boolean.parseBoolean(properties.getProperty("auth"));
+            tls = Boolean.parseBoolean(properties.getProperty("tls"));
+            mailhost = properties.getProperty("mailhost");
+            port = properties.getProperty("port");
+            mailpassword = properties.getProperty("mailpassword");
             maxConnections = Integer.valueOf(properties.getProperty("maxConnections"));
         } catch (IOException e) {
             e.printStackTrace();
@@ -58,7 +69,7 @@ public class DatabaseConfiguration {
     private Properties readConfigFile(Function<String, InputStream> resourceFetcher) throws IOException {
         Properties prop = new Properties();
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        InputStream stream = resourceFetcher.apply("/WEB-INF/config/database-config.properties");
+        InputStream stream = resourceFetcher.apply("/WEB-INF/config/config.properties");
         prop.load(stream);
         return prop;
     }
@@ -82,4 +93,16 @@ public class DatabaseConfiguration {
     public int getMaxConnections() {
         return maxConnections;
     }
+
+    public String getFrom() { return from; }
+
+    public boolean getAuth() {return auth;}
+
+    public boolean getTls() {return tls;}
+
+    public String getMailhost() {return mailhost;}
+
+    public String getPort() {return port;}
+
+    public String getMailpassword() {return mailpassword;}
 }
