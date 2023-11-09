@@ -3,18 +3,16 @@ package de.ssherlock.persistence.exception;
 import java.io.Serial;
 import java.io.Serializable;
 
-public class NonExistentCheckerException extends Exception{
+public class DBUnavailableException extends RuntimeException{
     @Serial
     private static final long serialVersionUID = 1L;
-    public NonExistentCheckerException() {
+    public DBUnavailableException() {
         super();
     }
-
-    public NonExistentCheckerException(String msg) {
+    public DBUnavailableException(String msg) {
         super(msg);
     }
-
-    public NonExistentCheckerException(String msg, Throwable err) {
+    public DBUnavailableException(String msg, Throwable err) {
         super(msg, err);
     }
 }

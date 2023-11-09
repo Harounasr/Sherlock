@@ -2,7 +2,6 @@ package de.ssherlock.business.service;
 
 import de.ssherlock.business.exception.LoginFailedException;
 import de.ssherlock.global.logging.LoggerCreator;
-import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.LoginInfo;
 import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.connection.ConnectionPoolPsql;

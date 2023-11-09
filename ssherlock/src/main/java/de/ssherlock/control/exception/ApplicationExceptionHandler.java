@@ -17,7 +17,7 @@ public class ApplicationExceptionHandler extends ExceptionHandlerWrapper {
         getWrapped().handle();
     }
 
-    public void doHandle(FacesContext context) {
+    protected void doHandle(FacesContext context) {
         //Iterator<ExceptionQueuedEvent> exceptionQueuedEventIterator = getHandledExceptionQueuedEvents().iterator();
 
         //Throwable unhandledException = exceptionQueuedEventIterator.next().getContext().getException();

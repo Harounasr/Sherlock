@@ -1,7 +1,5 @@
 package de.ssherlock.persistence.exception;
 
-import de.ssherlock.global.transport.User;
-
 import java.io.Serial;
 
 public class UsernameAlreadyExistsException extends Exception {

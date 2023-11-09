@@ -3,7 +3,7 @@ package de.ssherlock.persistence.exception;
 import java.io.Serial;
 import java.io.Serializable;
 
-public class ConfigNotReadableException extends Exception {
+public class ConfigNotReadableException extends RuntimeException {
 
     @Serial
     private static final long serialVersionUID = 1L;

@@ -2,20 +2,20 @@ package de.ssherlock.persistence.exception;
 
 import java.io.Serial;
 
-public class LOBFetchException extends Exception{
+public class P_LOBFetchException extends Exception{
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public LOBFetchException() {
+    public P_LOBFetchException() {
         super();
     }
 
-    public LOBFetchException(String message) {
+    public P_LOBFetchException(String message) {
         super(message);
     }
 
-    public LOBFetchException(String message, Throwable err) {
+    public P_LOBFetchException(String message, Throwable err) {
         super(message, err);
     }
 }
