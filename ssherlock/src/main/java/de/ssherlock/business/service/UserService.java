@@ -12,6 +12,7 @@ import de.ssherlock.persistence.repository.RepositoryFactory;
 import de.ssherlock.persistence.repository.RepositoryType;
 import de.ssherlock.persistence.repository.UserRepository;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 import java.sql.Connection;
@@ -23,7 +24,8 @@ import java.util.logging.Logger;
 @RequestScoped
 public class UserService {
 
-    private final Logger logger = LoggerCreator.get(UserService.class);
+    @Inject
+    private Logger logger;
 
     public UserService() {
 
