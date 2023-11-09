@@ -5,7 +5,7 @@ import java.util.Map;
 
 public record Course(
         String name,
-        Map<String, CourseRole> users,
+        Map<User, CourseRole> users,
         List<String> exercises
 ) {
 }

@@ -3,9 +3,7 @@ package de.ssherlock.control.backing;
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.business.service.MailService;
-import de.ssherlock.global.transport.Mail;
 import jakarta.enterprise.context.RequestScoped;
-import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
@@ -23,6 +21,8 @@ public class RegistrationBean {
 
     @Inject
     private UserService userService;
+    @Inject
+    private MailService mailService;
 
     private String userName;
     private String firstName;
@@ -30,10 +30,6 @@ public class RegistrationBean {
     private String passWord;
     private String email;
 
-    @Inject
-    private Logger logger;
-    @Inject
-    private MailService mailService;
 
     private String faculty;
 
@@ -93,10 +89,9 @@ public class RegistrationBean {
 
     public void setFaculty(String faculty) {
         this.faculty = faculty;
+    }
 
     public void sendMail() {
-        Mail mail = new Mail(email, userName);
-        mailService.sendMail(mail);
 
     }
 }

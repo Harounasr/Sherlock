@@ -77,4 +77,8 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
     public boolean userExists(String username) {
         return false;
     }
+
+    private String buildStatementFromPredicate(Predicate<User> predicate) {
+        return "";
+    }
 }

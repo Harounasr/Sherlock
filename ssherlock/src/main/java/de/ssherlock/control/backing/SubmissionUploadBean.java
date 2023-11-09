@@ -34,8 +34,6 @@ public class SubmissionUploadBean {
     @Inject
     private UserService userService;
 
-    //TODO CheckerResultDTO
-
     private Map<User, CourseRole> userRoles;
 
     private List<Checker> checkers;

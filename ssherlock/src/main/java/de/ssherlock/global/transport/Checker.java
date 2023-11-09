@@ -1,9 +1,10 @@
 package de.ssherlock.global.transport;
 
 public record Checker(
-        String input,
-        String expectedOutput,
-        boolean visibility,
-        boolean obligatory
+        String name,
+        String parameterOne,
+        String parameterTwo,
+        boolean mandatory,
+        boolean visible
 ) {
 }

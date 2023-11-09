@@ -1,12 +1,10 @@
 package de.ssherlock.business.service;
 
-import de.ssherlock.global.transport.Mail;
-
-import java.util.Arrays;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.config.Configuration;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -25,19 +23,19 @@ public class MailService {
 
     }
 
-    public void sendMail(Mail mail) {
+    public void sendMail(User user) {
         Configuration configuration = Configuration.getInstance();
         Session session = getSession(configuration);
         logger.log(Level.INFO, "Mail config loaded.");
         try {
-            logger.log(Level.INFO, "Trying to send Mail to " + mail.email());
+            logger.log(Level.INFO, "Trying to send Mail to " + user.email());
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(configuration.getFrom()));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mail.email()));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(user.email()));
             //TODO
             message.setText("InsertTextHere");
             Transport.send(message);
-            logger.log(Level.INFO, "Mail successfully sent to " + mail.email());
+            logger.log(Level.INFO, "Mail successfully sent to " + user.email());
         } catch (MessagingException e) {
             logger.log(Level.INFO, "There was a problem with sending the Mail.");
         }

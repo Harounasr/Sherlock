@@ -1,5 +1,6 @@
 package de.ssherlock.control.backing;
 
+import de.ssherlock.business.service.ExerciseService;
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.control.util.BackingBeanInitializationUtils;
@@ -22,6 +23,8 @@ public class ExerciseDescriptionBean {
     private AppSession appSession;
 
     @Inject
+    private ExerciseService exerciseService;
+    @Inject
     private UserService userService;
 
     private Map<User, CourseRole> userRoles;
@@ -30,8 +33,6 @@ public class ExerciseDescriptionBean {
     private Date reccomendedDate;
     private Date mandatoryDate;
     private Date publishDate;
-
-    // TODO DTO for ExerciseDescriptionImage
 
     public ExerciseDescriptionBean() {
 

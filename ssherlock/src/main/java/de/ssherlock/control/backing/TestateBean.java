@@ -24,7 +24,6 @@ import java.util.logging.Logger;
 @RequestScoped
 public class TestateBean {
 
-    //TODO DTO für Kommentare
     @Inject
     private Logger logger;
 
