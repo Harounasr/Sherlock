@@ -48,19 +48,14 @@ public class UserService {
         }
     }
 
-    public void addUser() {
+    public void registerUser(User user) {
 
     }
-    public void removeUser() {
+    public void deleteUser(User user) {
 
     }
-    public void changePassword() {
+    public void updateUser(User user) {
 
     }
-    public void changeSystemRole() {
 
-    }
-    public void verifyLogin(LoginInfo loginInfo) {
-
-    }
 }

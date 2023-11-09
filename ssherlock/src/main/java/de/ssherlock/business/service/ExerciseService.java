@@ -1,45 +1,41 @@
 package de.ssherlock.business.service;
 
+import de.ssherlock.global.transport.Course;
+import de.ssherlock.global.transport.Exercise;
+import de.ssherlock.global.transport.ExerciseDescriptionImage;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
-
-import java.awt.*;
+import java.util.List;
+import java.util.logging.Logger;
 
 @Named
 @RequestScoped
 public class ExerciseService {
+    @Inject
+    private Logger logger;
     
     public ExerciseService() {
         
     }   
     
-    public List getExercises() {
-        
+    public List<Exercise> getExercises(Course course) {
         return null;
     }
-    public void changeDescription() {
+    public void updateExercise(Exercise exercise) {
 
     }
-    public void changePublishDate() {
+    public void addExercise(Exercise exercise) {
 
     }
-    public void changeRecommendedDeadline() {
+    public void removeExercise(Exercise exercise) {
 
     }
-    public void changeObligatoryDeadline() {
-
+    public Exercise getExercise(long id) {
+        return null;
     }
-    public void addChecker() {
-
-    }
-    public void removeChecker() {
-
-    }
-    public void addExercise() {
-
-    }
-    public void removeExercise() {
-
+    public String addExerciseDescriptionImage(ExerciseDescriptionImage exerciseDescriptionImage) {
+        return null;
     }
 
 }

@@ -2,25 +2,32 @@ package de.ssherlock.business.service;
 
 
 import de.ssherlock.global.transport.Course;
+import de.ssherlock.global.transport.CourseRole;
+import de.ssherlock.global.transport.User;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import jdk.jfr.Name;
 
 import java.awt.*;
+import java.util.List;
+import java.util.logging.Logger;
 
 @Named
 @RequestScoped
 public class CourseService {
+    @Inject
+    Logger logger;
 
     public CourseService() {
 
     }
-    public List getCourses() {
-
+    public List<Course> getCourses() {
         return null;
     }
-    public Course getCourse() {
-
+    public List<Course> getCourses(User user) {
+        return null;
+    }
+    public Course getCourse(String courseName) {
         return null;
     }
     public void addCourse() {
@@ -29,12 +36,7 @@ public class CourseService {
     public void removeCourse() {
 
     }
-    public void addUser() {
+    public void updateCourseRole(User user, CourseRole courseRole) {
 
     }
-    public void removeUser() {
-
-    }
-
-
 }
