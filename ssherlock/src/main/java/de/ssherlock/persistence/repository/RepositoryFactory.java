@@ -29,10 +29,10 @@ public class RepositoryFactory {
         }
     }
 
-    public static EvaluationRepository getEvaluationRepository(RepositoryType type, Connection connection) {
+    public static TestateRepository getEvaluationRepository(RepositoryType type, Connection connection) {
         switch (type) {
             case POSTGRESQL -> {
-                return new EvaluationRepositoryPsql(connection);
+                return new TestateRepositoryPsql(connection);
             }
             default -> {
                 return null;

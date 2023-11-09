@@ -5,8 +5,15 @@ import jakarta.inject.Named;
 
 @Named
 @RequestScoped
-public class SystemService {
-    public SystemService() {
+public class TestateService {
+
+    public TestateService() {
+
+    }
+    public void addEvaluation() {
+
+    }
+    public void removeEvaluation() {
 
     }
 }

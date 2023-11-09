@@ -16,8 +16,6 @@
         </plugins>
     </build>
 
-
-
     <packaging>war</packaging>
 
     <properties>

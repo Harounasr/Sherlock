@@ -7,15 +7,16 @@ import jakarta.inject.Named;
 import java.io.Serial;
 import java.io.Serializable;
 
-
-public class Session implements Serializable {
+@Named
+@SessionScoped
+public class AppSession implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     private User user;
 
-    public Session() {
+    public AppSession() {
 
     }
 

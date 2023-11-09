@@ -4,6 +4,7 @@ import de.ssherlock.business.exception.LoginFailedException;
 import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.LoginInfo;
+import de.ssherlock.global.transport.Password;
 import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.connection.ConnectionPoolPsql;
 import de.ssherlock.persistence.exception.NonExistentUserException;
@@ -38,7 +39,7 @@ public class UserService {
             throw new LoginFailedException("The user " + loginInfo.username() + " is not registered in the system");
         }
         if (Objects.equals(loginInfo.password().hash(), user.password().hash())) {
-            logger.log(Level.INFO, "LOGIN for user " + loginInfo.username() + " was successful.");
+            logger.log(Level.INFO, "Login for user " + loginInfo.username() + " was successful.");
             return user;
         } else {
             throw new LoginFailedException("The entered password was incorrect");

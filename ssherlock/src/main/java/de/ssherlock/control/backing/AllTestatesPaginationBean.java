@@ -1,52 +1,58 @@
 package de.ssherlock.control.backing;
 
-import de.ssherlock.business.service.CourseService;
-import de.ssherlock.business.service.ExerciseService;
+import de.ssherlock.business.service.SubmissionService;
+import de.ssherlock.business.service.TestateService;
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.control.util.BackingBeanInitializationUtils;
 import de.ssherlock.global.transport.CourseRole;
-import de.ssherlock.global.transport.Exercise;
+import de.ssherlock.global.transport.Submission;
+import de.ssherlock.global.transport.Testate;
 import de.ssherlock.global.transport.User;
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.event.ActionEvent;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
 
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
-@Named
-@RequestScoped
-public class CourseBean {
+
+public class AllTestatesPaginationBean {
     @Inject
     private Logger logger;
     @Inject
     private AppSession appSession;
     @Inject
-    private CourseService courseService;
-    @Inject
-    private ExerciseService exerciseService;
-    @Inject
     private UserService userService;
+    @Inject
+    private TestateService testateService;
 
     private Map<User, CourseRole> userRoles;
 
-    public CourseBean() {
+    private List<Testate> testates;
+
+    public AllTestatesPaginationBean() {
 
     }
 
+    /**
+     * Sets up the bean.
+     */
     @PostConstruct
     public void initialize() {
         userRoles = BackingBeanInitializationUtils.loadCourseRoles(null, userService);
+        testates = BackingBeanInitializationUtils.loadTestates(null, testateService);
+        toggleVisibility();
     }
 
-    public Map<User, CourseRole> getUserRoles() {
-        return userRoles;
+    /**
+     * Redirects user to the selected testate.
+     */
+    public void selectTestate(ActionEvent e) {
+
     }
 
-    public void setUsers(Map<User, CourseRole> users) {
-        this.userRoles = users;
-    }
+    private void toggleVisibility() {
 
+    }
 }
