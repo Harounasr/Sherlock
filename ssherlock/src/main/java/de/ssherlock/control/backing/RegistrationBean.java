@@ -3,6 +3,9 @@ package de.ssherlock.control.backing;
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.business.service.MailService;
+import de.ssherlock.global.transport.Password;
+import de.ssherlock.global.transport.SystemRole;
+import de.ssherlock.global.transport.User;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -30,13 +33,12 @@ public class RegistrationBean {
     private String passWord;
     private String email;
 
-
     private String faculty;
 
     public RegistrationBean() {}
 
     public void register() {
-
+        userService.registerUser(new User(userName, email, firstName, lastName, SystemRole.ANONYMOUS, new Password("", ""), faculty));
     }
 
     public String navigateToLogin() {
