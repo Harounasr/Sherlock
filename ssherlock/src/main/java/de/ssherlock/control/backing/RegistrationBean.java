@@ -90,8 +90,4 @@ public class RegistrationBean {
     public void setFaculty(String faculty) {
         this.faculty = faculty;
     }
-
-    public void sendMail() {
-
-    }
 }

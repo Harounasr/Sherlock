@@ -23,7 +23,7 @@ public class MailService {
 
     }
 
-    public void sendMail(User user) {
+    public void sendMail(User user, String content) {
         Configuration configuration = Configuration.getInstance();
         Session session = getSession(configuration);
         logger.log(Level.INFO, "Mail config loaded.");
@@ -32,8 +32,7 @@ public class MailService {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(configuration.getFrom()));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(user.email()));
-            //TODO
-            message.setText("InsertTextHere");
+            message.setText(content);
             Transport.send(message);
             logger.log(Level.INFO, "Mail successfully sent to " + user.email());
         } catch (MessagingException e) {

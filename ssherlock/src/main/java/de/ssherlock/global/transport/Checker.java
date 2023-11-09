@@ -5,6 +5,7 @@ public record Checker(
         String parameterOne,
         String parameterTwo,
         boolean mandatory,
-        boolean visible
+        boolean visible,
+        long id
 ) {
 }
