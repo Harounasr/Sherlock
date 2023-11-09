@@ -2,19 +2,19 @@ package de.ssherlock.persistence.exception;
 
 import java.io.Serial;
 
-public class CourseNameAlreadyExists extends Exception{
+public class P_DBAccessException extends Exception {
 
     @Serial
     private static final long serialVersionUID = 1L;
-    public CourseNameAlreadyExists() {
+    public P_DBAccessException() {
         super();
     }
 
-    public CourseNameAlreadyExists(String message) {
+    public P_DBAccessException(String message) {
         super(message);
     }
 
-    public CourseNameAlreadyExists(String message, Throwable err) {
+    public P_DBAccessException(String message, Throwable err) {
         super(message, err);
     }
 }

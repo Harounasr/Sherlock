@@ -1,8 +1,10 @@
-package de.ssherlock.business.cyclic;
+package de.ssherlock.business.maintenance;
 
 import java.util.logging.Logger;
 
-public class SendEmailNotificationEvent implements CyclicEvent {
+final class SendEmailNotificationEvent {
+
+    public static final int EXECUTION_RATE = 60 * 60 * 3;
 
     private Logger logger;
 
@@ -10,18 +12,15 @@ public class SendEmailNotificationEvent implements CyclicEvent {
 
     }
 
-    @Override
     public boolean isRunning() {
         return false;
     }
 
-    @Override
     public void shutdown() {
 
     }
 
-    @Override
-    public void run() {
+    public void sendEmailNotifications() {
 
     }
 }

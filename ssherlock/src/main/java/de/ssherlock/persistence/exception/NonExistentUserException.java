@@ -1,9 +1,8 @@
 package de.ssherlock.persistence.exception;
 
 import java.io.Serial;
-import java.io.Serializable;
 
-public class NonExistentUserException extends Exception implements Serializable {
+public class NonExistentUserException extends Exception{
     @Serial
     private static final long serialVersionUID = 1L;
     public NonExistentUserException() {
