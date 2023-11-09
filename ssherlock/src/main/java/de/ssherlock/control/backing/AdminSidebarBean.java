@@ -1,33 +1,31 @@
 package de.ssherlock.control.backing;
 
 import de.ssherlock.control.session.AppSession;
-import de.ssherlock.global.transport.User;
-import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 import java.util.logging.Logger;
+
 @Named
 @RequestScoped
-public class VerificationBean {
+public class AdminSidebarBean {
 
     @Inject
     private Logger logger;
-
     @Inject
-    private AppSession session;
+    private AppSession appSession;
 
-    public VerificationBean() {
-
-    }
-    @PostConstruct
-    public void handleVerifiedRegistration() {
+    public AdminSidebarBean() {
 
     }
 
-    public String navigateToLogin() {
-        return "";
+    public void loadAdminSettings() {
+
+    }
+
+    public void loadUserPagination() {
+
     }
 
 }

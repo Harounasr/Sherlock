@@ -4,6 +4,7 @@ import de.ssherlock.business.exception.LoginFailedException;
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.notification.Notification;
 import de.ssherlock.control.notification.NotificationType;
+import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.transport.LoginInfo;
 import de.ssherlock.global.transport.Password;
 import de.ssherlock.global.transport.User;
@@ -16,10 +17,12 @@ import java.util.logging.Logger;
 
 @Named
 @RequestScoped
-public class WelcomeBean {
+public class LoginBean {
 
     @Inject
-    UserService userService;
+    private UserService userService;
+    @Inject
+    private AppSession appSession;
     @Inject
     private Logger logger;
 
@@ -27,14 +30,13 @@ public class WelcomeBean {
 
     private String welcomeText;
 
-    private String email;
 
     private String password;
 
     private String username;
 
-    public WelcomeBean() {}
-
+    public LoginBean() {
+    }
 
     public void login() {
         LoginInfo loginInfo = new LoginInfo(username, new Password(password, "salt"));
@@ -70,14 +72,6 @@ public class WelcomeBean {
 
     public void setWelcomeText(String welcomeText) {
         this.welcomeText = welcomeText;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getPassword() {

@@ -1,28 +1,23 @@
 package de.ssherlock.control.backing;
 
-import de.ssherlock.global.transport.User;
+import de.ssherlock.control.session.AppSession;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 import java.util.logging.Logger;
+
 @Named
 @RequestScoped
-public class ProfilBean {
+public class ErrorBean {
 
     @Inject
     private Logger logger;
-    private User user;
+    @Inject
+    private AppSession appSession;
 
-    public ProfilBean() {
+    public ErrorBean() {
 
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 }

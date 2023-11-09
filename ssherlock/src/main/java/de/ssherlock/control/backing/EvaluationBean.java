@@ -1,6 +1,9 @@
 package de.ssherlock.control.backing;
 
-import de.ssherlock.global.transport.Evaluation;
+import de.ssherlock.business.service.TestateService;
+import de.ssherlock.control.session.AppSession;
+import de.ssherlock.global.transport.Testate;
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -13,17 +16,31 @@ public class EvaluationBean {
 
     @Inject
     private Logger logger;
-    private Evaluation evaluation;
+    @Inject
+    private AppSession appSession;
+    @Inject
+    private TestateService testateService;
+
+    private Testate testate;
 
     public EvaluationBean() {
 
     }
 
-    public Evaluation getEvaluation() {
-        return evaluation;
+    @PostConstruct
+    public void initialize() {
+        loadEvaluation();
     }
 
-    public void setEvaluation(Evaluation evaluation) {
-        this.evaluation = evaluation;
+    private void loadEvaluation() {
+
+    }
+
+    public Testate getEvaluation() {
+        return testate;
+    }
+
+    public void setEvaluation(Testate testate) {
+        this.testate = testate;
     }
 }
