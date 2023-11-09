@@ -11,4 +11,6 @@ public interface SubmissionRepository {
     void deleteSubmission(long id);
     Submission fetchSubmission(long id);
     List<Submission> fetchSubmissions(Predicate<Submission> predicate);
+
+    long getMaxId();
 }

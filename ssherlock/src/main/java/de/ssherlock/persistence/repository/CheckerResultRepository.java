@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public interface CheckerResultRepository {
-    void insertCheckerResult(CheckerResult checkerResult);
+    void insertCheckerResult(long submissionId, CheckerResult checkerResult);
     void updateCheckerResult(CheckerResult checkerResult);
     void deleteCheckerResult(long id);
     CheckerResult fetchCheckerResult(long id);

@@ -15,6 +15,7 @@ import jakarta.faces.event.ActionEvent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -97,5 +98,9 @@ public class SubmissionUploadBean {
 
     public void setCurrentSubmission(Submission currentSubmission) {
         this.currentSubmission = currentSubmission;
+    }
+
+    private List<File> unZip() {
+        return null;
     }
 }

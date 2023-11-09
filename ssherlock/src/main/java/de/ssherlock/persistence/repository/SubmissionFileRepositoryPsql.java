@@ -13,7 +13,7 @@ public class SubmissionFileRepositoryPsql implements SubmissionFileRepository {
     private final Logger logger = LoggerCreator.get(SubmissionFileRepositoryPsql.class);
 
     @Override
-    public void insertSubmissionFile(File file) {
+    public void insertSubmissionFile(long submissionId, File file) {
 
     }
 

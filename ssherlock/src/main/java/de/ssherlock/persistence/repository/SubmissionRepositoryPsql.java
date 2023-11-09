@@ -38,4 +38,9 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
     public List<Submission> fetchSubmissions(Predicate<Submission> predicate) {
         return null;
     }
+
+    @Override
+    public long getMaxId() {
+        return 0;
+    }
 }

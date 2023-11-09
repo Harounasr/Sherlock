@@ -18,7 +18,7 @@ public class SubmissionService {
     public SubmissionService() {
 
     }
-    public void addSubmission() {
+    public void addSubmission(Submission submission) {
 
     }
     public void removeSubmission() {
