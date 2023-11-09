@@ -13,5 +13,7 @@
             de.ssherlock.control.exception.ApplicationExceptionHandler$Factory
         </exception-handler-factory>
     </factory>
-
+    <lifecycle>
+        <phase-listener>de.ssherlock.control.util.TrespassListener</phase-listener>
+    </lifecycle>
 </faces-config>
