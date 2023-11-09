@@ -9,7 +9,7 @@ import java.util.function.Predicate;
 
 public interface SubmissionFileRepository {
 
-    void insertSubmissionFile(File file);
+    void insertSubmissionFile(long submissionId, File file);
     void updateSubmissionFile(long id, File file);
     void deleteSubmissionFile(long id);
     File fetchSubmissionFile(long id);

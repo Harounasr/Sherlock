@@ -12,7 +12,7 @@ public class CheckerResultRepositoryPsql implements CheckerResultRepository{
     private final Logger logger = LoggerCreator.get(CheckerResultRepositoryPsql.class);
 
     @Override
-    public void insertCheckerResult(CheckerResult checkerResult) {
+    public void insertCheckerResult(long submissionId, CheckerResult checkerResult) {
 
     }
 
