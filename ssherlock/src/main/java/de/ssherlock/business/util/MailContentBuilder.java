@@ -5,7 +5,7 @@ import de.ssherlock.global.transport.User;
 
 public class MailContentBuilder {
     public static String buildVerificationMail(User user) {
-        return null;
+        return "Please verify!";
     }
     public static String buildPasswordResetMail(User user) {
         return null;

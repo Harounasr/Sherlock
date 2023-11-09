@@ -1,6 +1,7 @@
 package de.ssherlock.business.service;
 
 import de.ssherlock.business.exception.LoginFailedException;
+import de.ssherlock.business.util.MailContentBuilder;
 import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.LoginInfo;
@@ -26,6 +27,8 @@ public class UserService {
 
     @Inject
     private Logger logger;
+    @Inject
+    private  MailService mailService;
 
     public UserService() {
 
@@ -49,7 +52,7 @@ public class UserService {
     }
 
     public void registerUser(User user) {
-
+        mailService.sendMail(user, MailContentBuilder.buildVerificationMail(user));
     }
     public void deleteUser(User user) {
 
