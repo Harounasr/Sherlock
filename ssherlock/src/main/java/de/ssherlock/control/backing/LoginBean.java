@@ -49,6 +49,13 @@ public class LoginBean {
             notification.generateUIMessage();
         }
     }
+
+    public String registerClicked() {
+        return "/view/registration.xhtml";
+    }
+    public String imageUploadClicked() {
+        return "/view/imageUploadPrototype.xhtml";
+    }
     public String getWelcomeHeading() {
         return welcomeHeading;
     }

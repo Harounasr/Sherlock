@@ -34,7 +34,8 @@
                             <h:message for="password" id="loginError" errorStyle="text-"/>
                         </div>
                         <h:commandButton id="login" value="Login" styleClass="btn btn-primary btn-block" action="#{loginBean.login}"/>
-                        <p>Not registered? <a href="view/registration.xhtml">Register now!</a></p>
+                        <h:commandButton id="register" value="Register" styleClass="btn btn-primary btn-block" action="#{loginBean.registerClicked}" outcome="success"/>
+                        <h:commandButton id="imageUpload" value="Image Upload Test" styleClass="btn btn-primary btn-block" action="#{loginBean.imageUploadClicked}" outcome="success"/>
                         <h:messages />
                     </div>
                 </div>
@@ -42,6 +43,6 @@
         </div>
     </div>
 </h:form>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" ></script>
 </body>
 </html>

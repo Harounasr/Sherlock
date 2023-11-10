@@ -16,4 +16,16 @@
     <lifecycle>
         <phase-listener>de.ssherlock.control.util.TrespassListener</phase-listener>
     </lifecycle>
+    <navigation-rule>
+        <from-view-id>/view/login.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/view/registration.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/view/imageUploadPrototype.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
 </faces-config>

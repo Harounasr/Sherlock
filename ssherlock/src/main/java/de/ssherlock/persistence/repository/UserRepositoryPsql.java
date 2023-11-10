@@ -48,12 +48,12 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
             if (result.next()) {
                 return new User(
                         result.getString("username"),
-                        result.getString("username"),
+                        result.getString("email"),
                         result.getString("firstname"),
                         result.getString("lastname"),
                         SystemRole.TEACHER,
                         new Password(result.getString("passwordhash"), result.getString("passwordsalt")),
-                        result.getString("faculty")
+                        result.getString("facultyname")
                 );
             } else {
                 throw new NonExistentUserException("The user with the username " + username + " could not be found in the database.");

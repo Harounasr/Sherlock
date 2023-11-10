@@ -1,9 +1,7 @@
 package de.ssherlock.persistence.repository;
 
 import de.ssherlock.global.logging.LoggerCreator;
-import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.TestateComment;
-import jdk.incubator.vector.VectorOperators;
 
 import java.sql.Connection;
 import java.util.List;
