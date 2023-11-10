@@ -1,0 +1,4 @@
+Unser bisheriger Prototyp stellt folgende Funktionen bereit:
+Einloggen - Bei Eingabe des Nutzernamens und des richtigen Passwortes wird ein Datenbankabgleich durchgeführt und dessen Ergebnis widergegeben. Bei falscher Eingabe wird ebenfalls eine Fehlermeldung angezeigt.
+Registrierung - hierbei wird lediglich auf der Registrationsseite (bei klicken auf register) an die angegebene Email eine Nachricht gesendet.
+File Upload - Hier können PNGs hochgeladen werden
