@@ -5,10 +5,7 @@ import de.ssherlock.business.service.SubmissionService;
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.control.util.BackingBeanInitializationUtils;
-import de.ssherlock.global.transport.Checker;
-import de.ssherlock.global.transport.CourseRole;
-import de.ssherlock.global.transport.Submission;
-import de.ssherlock.global.transport.User;
+import de.ssherlock.global.transport.*;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.event.ActionEvent;
@@ -19,6 +16,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 @Named
@@ -56,13 +54,6 @@ public class SubmissionUploadBean {
     }
 
     /**
-     * Runs all checkers on the current submission.
-     */
-    public void runCheckers() {
-
-    }
-
-    /**
      * Expands the Checker to show the entire result.
      */
     public void expandCheckerResult(ActionEvent e) {
@@ -74,6 +65,14 @@ public class SubmissionUploadBean {
      */
     public void submitUpload() {
 
+    }
+
+    private List<ZipEntry> unzip(ZipFile zipFile) {
+        return null;
+    }
+
+    private List<CheckerResult> runCheckers() {
+        return null;
     }
 
     public ZipFile getZipFile() {

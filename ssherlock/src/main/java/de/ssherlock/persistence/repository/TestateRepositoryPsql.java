@@ -1,5 +1,6 @@
 package de.ssherlock.persistence.repository;
 
+import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.transport.Testate;
 
 import java.sql.Connection;
@@ -9,7 +10,7 @@ import java.util.logging.Logger;
 
 public class TestateRepositoryPsql extends RepositoryPsql implements TestateRepository {
 
-    private Logger logger;
+    private final Logger logger = LoggerCreator.get(TestateRepositoryPsql.class);
     public TestateRepositoryPsql(Connection connection) {
         super(connection);
     }

@@ -1,4 +1,7 @@
 package de.ssherlock.global.transport;
 
-public record SubmissionFile(String name, byte[] byteArray) {
+public record SubmissionFile(
+        String name,
+        byte[] bytes
+) {
 }

@@ -4,6 +4,7 @@ import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.transport.Checker;
 import de.ssherlock.global.transport.ExerciseDescriptionImage;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
@@ -11,6 +12,10 @@ import java.util.logging.Logger;
 public class ExerciseDescriptionImageRepositoryPsql implements ExerciseDescriptionImageRepository{
 
     private final Logger logger = LoggerCreator.get(ExerciseDescriptionImageRepositoryPsql.class);
+
+    public ExerciseDescriptionImageRepositoryPsql(Connection connection) {
+    }
+
     @Override
     public void insertExerciseDescriptionImage(ExerciseDescriptionImage exerciseDescriptionImage) {
 

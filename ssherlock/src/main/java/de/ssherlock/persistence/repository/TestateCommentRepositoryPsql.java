@@ -5,6 +5,7 @@ import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.TestateComment;
 import jdk.incubator.vector.VectorOperators;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
@@ -12,6 +13,10 @@ import java.util.logging.Logger;
 public class TestateCommentRepositoryPsql implements TestateCommentRepository {
 
     private final Logger logger = LoggerCreator.get(TestateCommentRepositoryPsql.class);
+
+    public TestateCommentRepositoryPsql(Connection connection) {
+
+    }
 
     @Override
     public void insertTestateComment(TestateComment testateComment) {

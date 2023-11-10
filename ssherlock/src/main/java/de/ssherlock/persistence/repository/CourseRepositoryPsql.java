@@ -1,5 +1,6 @@
 package de.ssherlock.persistence.repository;
 
+import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.transport.Course;
 
 import java.sql.Connection;
@@ -9,7 +10,8 @@ import java.util.logging.Logger;
 
 public class CourseRepositoryPsql extends RepositoryPsql implements CourseRepository {
 
-    private Logger logger;
+    private final Logger logger = LoggerCreator.get(CourseRepositoryPsql.class);
+    private Connection connection;
     public CourseRepositoryPsql(Connection connection) {
         super(connection);
     }

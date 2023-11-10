@@ -5,12 +5,14 @@ import de.ssherlock.business.service.SubmissionService;
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.control.util.BackingBeanInitializationUtils;
+import de.ssherlock.global.transport.CheckerResult;
 import de.ssherlock.global.transport.CourseRole;
 import de.ssherlock.global.transport.User;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.event.ActionEvent;
 import jakarta.inject.Inject;
 
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -30,7 +32,7 @@ public class CheckerResultsBean {
     @Inject
     private CheckerService checkerService;
 
-    //private List<CheckerResults> checkerResults
+    private List<CheckerResult> checkerResults;
     private Map<User, CourseRole> userRoles;
 
     public CheckerResultsBean() {
@@ -45,5 +47,7 @@ public class CheckerResultsBean {
     public void expandChecker(ActionEvent e) {
 
     }
+
+
 
 }

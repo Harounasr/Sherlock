@@ -1,5 +1,6 @@
 package de.ssherlock.persistence.repository;
 
+import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.transport.Exercise;
 
 import java.sql.Connection;
@@ -9,7 +10,7 @@ import java.util.logging.Logger;
 
 public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRepository {
 
-    private Logger logger;
+    private final Logger logger = LoggerCreator.get(CheckerResultRepositoryPsql.class);
     public ExerciseRepositoryPsql(Connection connection) {
         super(connection);
     }

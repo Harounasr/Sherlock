@@ -3,6 +3,7 @@ package de.ssherlock.persistence.repository;
 import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.transport.CheckerResult;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
@@ -10,6 +11,10 @@ import java.util.logging.Logger;
 public class CheckerResultRepositoryPsql implements CheckerResultRepository{
 
     private final Logger logger = LoggerCreator.get(CheckerResultRepositoryPsql.class);
+
+    public CheckerResultRepositoryPsql(Connection connection) {
+
+    }
 
     @Override
     public void insertCheckerResult(long submissionId, CheckerResult checkerResult) {

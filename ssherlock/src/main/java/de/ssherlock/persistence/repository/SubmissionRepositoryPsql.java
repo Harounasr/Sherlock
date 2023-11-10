@@ -1,7 +1,9 @@
 package de.ssherlock.persistence.repository;
 
+import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.transport.Submission;
 
+import java.io.File;
 import java.sql.Connection;
 import java.util.List;
 import java.util.function.Predicate;
@@ -9,7 +11,7 @@ import java.util.logging.Logger;
 
 public class SubmissionRepositoryPsql extends RepositoryPsql implements SubmissionRepository {
 
-    private Logger logger;
+    private final Logger logger = LoggerCreator.get(SubmissionRepositoryPsql.class);
     public SubmissionRepositoryPsql(Connection connection) {
         super(connection);
     }

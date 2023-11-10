@@ -2,8 +2,10 @@ package de.ssherlock.persistence.repository;
 
 import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.transport.Course;
+import de.ssherlock.global.transport.SubmissionFile;
 
 import java.io.File;
+import java.sql.Connection;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
@@ -12,13 +14,17 @@ public class SubmissionFileRepositoryPsql implements SubmissionFileRepository {
 
     private final Logger logger = LoggerCreator.get(SubmissionFileRepositoryPsql.class);
 
-    @Override
-    public void insertSubmissionFile(long submissionId, File file) {
+    public SubmissionFileRepositoryPsql(Connection connection) {
 
     }
 
     @Override
-    public void updateSubmissionFile(long id, File file) {
+    public void insertSubmissionFile(long submissionId, SubmissionFile file) {
+
+    }
+
+    @Override
+    public void updateSubmissionFile(long id, SubmissionFile file) {
 
     }
 
@@ -28,12 +34,12 @@ public class SubmissionFileRepositoryPsql implements SubmissionFileRepository {
     }
 
     @Override
-    public File fetchSubmissionFile(long id) {
+    public SubmissionFile fetchSubmissionFile(long id) {
         return null;
     }
 
     @Override
-    public List<File> fetchTestateComments(Predicate<File> predicate) {
+    public List<SubmissionFile> fetchTestateComments(Predicate<SubmissionFile> predicate) {
         return null;
     }
 }
