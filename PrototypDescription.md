@@ -1,4 +1,4 @@
-Unser bisheriger Prototyp stellt folgende Funktionen bereit:
+Unser bisheriger Prototyp stellt folgende Funktionen bereit:\\
 **Einloggen** - Bei Eingabe des Nutzernamens und des richtigen Passwortes wird ein Datenbankabgleich durchgeführt und dessen Ergebnis widergegeben. Bei falscher Eingabe wird ebenfalls eine Fehlermeldung angezeigt. Bei richtiger Eingabe wird eine Successnachricht angezeigt.\\
 
 **Registrierung** - hierbei wird lediglich auf der Registrationsseite (bei klicken auf register) an die angegebene Email eine Nachricht gesendet.\\
