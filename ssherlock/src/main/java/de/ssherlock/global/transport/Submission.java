@@ -9,7 +9,7 @@ public record Submission(
         long exerciseId,
         String user,
         List<CheckerResult> checkerResults,
-        List<File> submissionFiles,
+        List<SubmissionFile> submissionFiles,
         Timestamp timestamp
 ) {
 }
