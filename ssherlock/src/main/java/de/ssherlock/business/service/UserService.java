@@ -27,6 +27,8 @@ public class UserService {
     @Inject
     private Logger logger;
     @Inject
+    private ConnectionPoolPsql connectionPoolPsql;
+    @Inject
     private  MailService mailService;
 
     public UserService() {
@@ -34,7 +36,7 @@ public class UserService {
     }
 
     public User login(LoginInfo loginInfo) throws LoginFailedException {
-        Connection connection = ConnectionPoolPsql.getInstance().getConnection();
+        Connection connection = connectionPoolPsql.getConnection();
         UserRepository userRepository = RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
         User user;
         try {

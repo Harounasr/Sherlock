@@ -18,13 +18,14 @@ import jakarta.mail.internet.MimeMessage;
 public class MailService {
     @Inject
     private Logger logger;
+    @Inject
+    Configuration configuration;
 
     public MailService() {
 
     }
 
     public void sendMail(User user, String content) {
-        Configuration configuration = Configuration.getInstance();
         Session session = getSession(configuration);
         logger.log(Level.INFO, "Mail config loaded.");
         try {

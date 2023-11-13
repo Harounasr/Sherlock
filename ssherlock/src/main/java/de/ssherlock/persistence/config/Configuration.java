@@ -1,6 +1,8 @@
 package de.ssherlock.persistence.config;
 
 import de.ssherlock.global.logging.LoggerCreator;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,11 +10,11 @@ import java.util.Properties;
 import java.util.function.Function;
 import java.util.logging.Logger;
 
+@ApplicationScoped
 public class Configuration {
 
     private final Logger logger = LoggerCreator.get(Configuration.class);
 
-    static Configuration INSTANCE;
     Properties connectionProperties;
     String host;
     String driver;
@@ -32,11 +34,9 @@ public class Configuration {
 
     }
 
-    public static Configuration getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new Configuration();
-        }
-        return INSTANCE;
+    @PostConstruct
+    public void afterCreate() {
+
     }
     public void init(Function<String, InputStream> resourceFetcher) {
         Properties properties;
