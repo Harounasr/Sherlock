@@ -4,6 +4,7 @@ package de.ssherlock.business.service;
 import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.CourseRole;
 import de.ssherlock.global.transport.User;
+import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @Named
-@RequestScoped
+@Dependent
 public class CourseService {
     @Inject
     Logger logger;

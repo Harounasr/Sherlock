@@ -1,5 +1,4 @@
-package de.ssherlock.business.service;
-
+package de.ssherlock.persistence.util;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,22 +14,23 @@ import jakarta.mail.internet.MimeMessage;
 
 @Named
 @RequestScoped
-public class MailService {
+public class Mail {
     @Inject
     private Logger logger;
+    @Inject
+    Configuration config;
 
-    public MailService() {
+    public Mail() {
 
     }
 
     public void sendMail(User user, String content) {
-        Configuration configuration = Configuration.getInstance();
-        Session session = getSession(configuration);
+        Session session = getSession();
         logger.log(Level.INFO, "Mail config loaded.");
         try {
             logger.log(Level.INFO, "Trying to send Mail to " + user.email());
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(configuration.getFrom()));
+            message.setFrom(new InternetAddress(config.getFrom()));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(user.email()));
             message.setText(content);
             Transport.send(message);
@@ -40,7 +40,7 @@ public class MailService {
         }
     }
 
-    private Session getSession(Configuration config) {
+    private Session getSession() {
         Properties properties = new Properties();
         properties.put("mail.smtp.host", config.getMailhost());
         properties.put("mail.smtp.port", config.getPort());

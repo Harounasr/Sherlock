@@ -1,16 +1,16 @@
 package de.ssherlock.business.service;
 
 import de.ssherlock.business.exception.LoginFailedException;
-import de.ssherlock.business.util.MailContentBuilder;
-import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.transport.LoginInfo;
-import de.ssherlock.global.transport.Password;
 import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.connection.ConnectionPoolPsql;
 import de.ssherlock.persistence.exception.NonExistentUserException;
 import de.ssherlock.persistence.repository.RepositoryFactory;
 import de.ssherlock.persistence.repository.RepositoryType;
 import de.ssherlock.persistence.repository.UserRepository;
+import de.ssherlock.persistence.util.Mail;
+import de.ssherlock.persistence.util.MailContentBuilder;
+import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -21,20 +21,22 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Named
-@RequestScoped
+@Dependent
 public class UserService {
 
     @Inject
     private Logger logger;
     @Inject
-    private  MailService mailService;
+    private ConnectionPoolPsql connectionPoolPsql;
+    @Inject
+    private Mail mail;
 
     public UserService() {
 
     }
 
     public User login(LoginInfo loginInfo) throws LoginFailedException {
-        Connection connection = ConnectionPoolPsql.getInstance().getConnection();
+        Connection connection = connectionPoolPsql.getConnection();
         UserRepository userRepository = RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
         User user;
         try {
@@ -51,7 +53,7 @@ public class UserService {
     }
 
     public void registerUser(User user) {
-        mailService.sendMail(user, MailContentBuilder.buildVerificationMail(user));
+        mail.sendMail(user, MailContentBuilder.buildVerificationMail(user));
     }
     public void deleteUser(User user) {
 

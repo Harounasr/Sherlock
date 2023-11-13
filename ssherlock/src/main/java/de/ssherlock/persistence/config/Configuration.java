@@ -1,18 +1,26 @@
 package de.ssherlock.persistence.config;
 
 import de.ssherlock.global.logging.LoggerCreator;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.faces.context.FacesContext;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.servlet.ServletContext;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 import java.util.function.Function;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@Named
+@ApplicationScoped
 public class Configuration {
 
     private final Logger logger = LoggerCreator.get(Configuration.class);
 
-    static Configuration INSTANCE;
     Properties connectionProperties;
     String host;
     String driver;
@@ -27,22 +35,11 @@ public class Configuration {
     String port;
     String mailpassword;
 
-
-    private Configuration() {
-
-    }
-
-    public static Configuration getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new Configuration();
-        }
-        return INSTANCE;
-    }
-    public void init(Function<String, InputStream> resourceFetcher) {
+    public Configuration() {
         Properties properties;
         try {
             connectionProperties = new Properties();
-            properties = readConfigFile(resourceFetcher);
+            properties = readConfigFile();
             connectionProperties.setProperty("user", properties.getProperty("user"));
             connectionProperties.setProperty("password", properties.getProperty("password"));
             connectionProperties.setProperty("ssl", properties.getProperty("ssl"));
@@ -60,16 +57,13 @@ public class Configuration {
             e.printStackTrace();
         }
     }
-
     public static void reset() {
 
     }
 
-
-    private Properties readConfigFile(Function<String, InputStream> resourceFetcher) throws IOException {
+    private Properties readConfigFile() throws IOException {
         Properties prop = new Properties();
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        InputStream stream = resourceFetcher.apply("/WEB-INF/config/config.properties");
+        InputStream stream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/WEB-INF/config/config.properties");
         prop.load(stream);
         return prop;
     }
