@@ -2,6 +2,7 @@ package de.ssherlock.global.transport;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Objects;
 
 public record Submission(
         long exerciseId,
@@ -10,6 +11,20 @@ public record Submission(
         List<SubmissionFile> submissionFiles,
         Timestamp timestamp
 ) {
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Submission that = (Submission) o;
+        return exerciseId == that.exerciseId && Objects.equals(user, that.user) && Objects.equals(checkerResults, that.checkerResults) && Objects.equals(submissionFiles, that.submissionFiles) && Objects.equals(timestamp, that.timestamp);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(exerciseId, user, checkerResults, submissionFiles, timestamp);
+    }
+
     public static class Builder {
         private long exerciseId;
         private String user;

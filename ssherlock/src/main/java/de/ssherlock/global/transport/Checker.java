@@ -8,7 +8,18 @@ public record Checker(
         boolean visible,
         long id
 ) {
-    public class Builder {
+
+    @Override
+    public boolean equals(Object obj) {
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
+    }
+
+    public static class Builder {
         private String name;
         private String parameterOne;
         private String parameterTwo;

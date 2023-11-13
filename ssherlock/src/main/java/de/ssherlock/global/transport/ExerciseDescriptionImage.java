@@ -1,12 +1,30 @@
 package de.ssherlock.global.transport;
 
 import java.awt.*;
+import java.util.Arrays;
+import java.util.Objects;
 
 public record ExerciseDescriptionImage(
         long id,
         long exerciseId,
         byte[] image
 ) {
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ExerciseDescriptionImage that = (ExerciseDescriptionImage) o;
+        return id == that.id && exerciseId == that.exerciseId && Arrays.equals(image, that.image);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(id, exerciseId);
+        result = 31 * result + Arrays.hashCode(image);
+        return result;
+    }
+
     public static class Builder {
         private long id;
         private long exerciseId;

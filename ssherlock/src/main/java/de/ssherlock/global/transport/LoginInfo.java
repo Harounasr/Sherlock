@@ -1,5 +1,7 @@
 package de.ssherlock.global.transport;
 
+import java.util.Objects;
+
 public record LoginInfo(
         String username,
         Password password
@@ -7,6 +9,19 @@ public record LoginInfo(
     public static class Builder {
         private String username;
         private Password password;
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Builder builder = (Builder) o;
+            return Objects.equals(username, builder.username) && Objects.equals(password, builder.password);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(username, password);
+        }
 
         public Builder() {
         }

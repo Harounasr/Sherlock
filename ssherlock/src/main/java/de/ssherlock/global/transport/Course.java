@@ -2,12 +2,27 @@ package de.ssherlock.global.transport;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public record Course(
         String name,
         Map<User, CourseRole> users,
         List<Exercise> exercises
 ) {
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Course course = (Course) o;
+        return Objects.equals(name, course.name) && Objects.equals(users, course.users) && Objects.equals(exercises, course.exercises);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, users, exercises);
+    }
+
     public static class Builder {
         private String name;
         private Map<User, CourseRole> users;

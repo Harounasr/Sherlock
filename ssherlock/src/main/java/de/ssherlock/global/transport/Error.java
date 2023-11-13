@@ -1,42 +1,58 @@
 package de.ssherlock.global.transport;
 
-import java.io.Serial;
-import java.io.Serializable;
+import java.util.Objects;
 
-public class Error implements Serializable {
+public record Error(
+        Exception exception,
+        String message,
+        String stacktrace
+) {
 
-    @Serial
-    private static final long serialVersionUID = 1L;
-    private Exception exception;
-
-    private String message;
-
-    private String stacktrace;
-
-    public Error() {
-
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Error error = (Error) o;
+        return Objects.equals(exception, error.exception) && Objects.equals(message, error.message) && Objects.equals(stacktrace, error.stacktrace);
     }
 
-    public String getMessage() {
-        return message;
+    @Override
+    public int hashCode() {
+        return Objects.hash(exception, message, stacktrace);
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public static class Builder {
+        private Exception exception;
+        private String message;
+        private String stacktrace;
+
+        public Builder() {
+        }
+
+        public Builder copyFrom(Error error) {
+            this.exception = error.exception();
+            this.message = error.message();
+            this.stacktrace = error.stacktrace();
+            return this;
+        }
+
+        public Builder exception(Exception exception) {
+            this.exception = exception;
+            return this;
+        }
+
+        public Builder message(String message) {
+            this.message = message;
+            return this;
+        }
+
+        public Builder stacktrace(String stacktrace) {
+            this.stacktrace = stacktrace;
+            return this;
+        }
+
+        public Error build() {
+            return new Error(exception, message, stacktrace);
+        }
     }
-
-
-    public Exception getException() {
-        return exception;
-    }
-
-    public void setException(Exception exception) {
-        this.exception = exception;
-    }
-
-    public String getStacktrace() {
-        return stacktrace;
-    }
-
-
 }

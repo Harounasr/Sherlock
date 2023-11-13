@@ -1,6 +1,8 @@
 package de.ssherlock.global.transport;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public record SystemSettings(
         String emailRegex,
@@ -10,6 +12,22 @@ public record SystemSettings(
         byte[] logo,
         List<String> faculties
 ) {
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SystemSettings that = (SystemSettings) o;
+        return Objects.equals(emailRegex, that.emailRegex) && Objects.equals(primaryColorHex, that.primaryColorHex) && Objects.equals(secondaryColorHex, that.secondaryColorHex) && Objects.equals(systemName, that.systemName) && Arrays.equals(logo, that.logo) && Objects.equals(faculties, that.faculties);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(emailRegex, primaryColorHex, secondaryColorHex, systemName, faculties);
+        result = 31 * result + Arrays.hashCode(logo);
+        return result;
+    }
+
     public static class Builder {
         private String emailRegex;
         private String primaryColorHex;
