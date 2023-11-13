@@ -3,11 +3,15 @@ package de.ssherlock.persistence.config;
 import de.ssherlock.global.logging.LoggerCreator;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.faces.context.FacesContext;
+import jakarta.inject.Inject;
+import jakarta.servlet.ServletContext;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 import java.util.function.Function;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @ApplicationScoped
@@ -30,19 +34,13 @@ public class Configuration {
     String mailpassword;
 
 
-    private Configuration() {
-
-    }
-
     @PostConstruct
-    public void afterCreate() {
+    public void init() {
 
-    }
-    public void init(Function<String, InputStream> resourceFetcher) {
         Properties properties;
         try {
             connectionProperties = new Properties();
-            properties = readConfigFile(resourceFetcher);
+            properties = readConfigFile();
             connectionProperties.setProperty("user", properties.getProperty("user"));
             connectionProperties.setProperty("password", properties.getProperty("password"));
             connectionProperties.setProperty("ssl", properties.getProperty("ssl"));
@@ -66,10 +64,9 @@ public class Configuration {
     }
 
 
-    private Properties readConfigFile(Function<String, InputStream> resourceFetcher) throws IOException {
+    private Properties readConfigFile() throws IOException {
         Properties prop = new Properties();
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        InputStream stream = resourceFetcher.apply("/WEB-INF/config/config.properties");
+        InputStream stream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/config/config.properties");
         prop.load(stream);
         return prop;
     }

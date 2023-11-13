@@ -3,6 +3,8 @@ package de.ssherlock.persistence.util;
 import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.persistence.config.Configuration;
 import de.ssherlock.persistence.connection.ConnectionPoolPsql;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 import java.io.InputStream;
@@ -15,14 +17,11 @@ public class StartStopPersistence {
     private final Logger logger = LoggerCreator.get(StartStopPersistence.class);
     @Inject
     private ConnectionPoolPsql connectionPoolPsql;
-    @Inject
-    Configuration configuration;
 
     public StartStopPersistence() {
     }
 
     public void init(Function<String, InputStream> resourceFetcher) {
-        configuration.init(resourceFetcher);
         logger.log(Level.INFO, "Persistence Layer initialized");
     }
 
