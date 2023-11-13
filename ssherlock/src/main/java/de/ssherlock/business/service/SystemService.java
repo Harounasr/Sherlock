@@ -20,16 +20,18 @@ import java.util.logging.Logger;
 public class SystemService {
     @Inject
     private Logger logger;
+    @Inject
+    private ConnectionPoolPsql connectionPoolPsql;
     public SystemService() {
 
     }
     public SystemSettings getSystemSettings() {
-        Connection connection = ConnectionPoolPsql.getInstance().getConnection();
+        Connection connection = connectionPoolPsql.getConnection();
         SystemSettingsRepository repository = RepositoryFactory.getSystemSettingsRepository(RepositoryType.POSTGRESQL, connection);
         return repository.fetchSystemSettings();
     }
     public void updateSystemSettings(SystemSettings systemSettings) {
-        Connection connection = ConnectionPoolPsql.getInstance().getConnection();
+        Connection connection = connectionPoolPsql.getConnection();
         SystemSettingsRepository repository = RepositoryFactory.getSystemSettingsRepository(RepositoryType.POSTGRESQL, connection);
         repository.updateSystemSettings(systemSettings);
     }

@@ -2,6 +2,9 @@ package de.ssherlock.persistence.connection;
 
 import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.persistence.config.Configuration;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,27 +15,18 @@ import java.util.Queue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@ApplicationScoped
 public class ConnectionPoolPsql {
 
-    private static ConnectionPoolPsql INSTANCE;
+    @Inject
     private Configuration configuration;
     private final Logger logger = LoggerCreator.get(ConnectionPoolPsql.class);
     private final Queue<Connection> connections = new LinkedList<>();
     private final List<Connection> borrowedConnections = new LinkedList<>();
 
-    private ConnectionPoolPsql() {
+    @PostConstruct
+    public void afterCreate() {
         logger.log(Level.INFO, "New ConnectionPool created");
-    }
-
-    public static synchronized ConnectionPoolPsql getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new ConnectionPoolPsql();
-        }
-        return INSTANCE;
-    }
-
-    public synchronized void init() {
-        configuration = Configuration.getInstance();
         loadDriver();
         for (int i = 0; i < configuration.getMaxConnections(); i++) {
             logger.log(Level.INFO, "creating connection");
@@ -42,7 +36,7 @@ public class ConnectionPoolPsql {
         logger.log(Level.INFO, String.valueOf(connections.size()));
     }
 
-    public synchronized void destroy() {
+    public void destroy() {
         for (Connection conn : connections) {
             logger.log(Level.FINEST, "Try to close connection.");
             if (conn != null) {
@@ -72,7 +66,7 @@ public class ConnectionPoolPsql {
         borrowedConnections.clear();
     }
 
-    public synchronized Connection getConnection() {
+    public Connection getConnection() {
         while (connections.isEmpty()) {
             try {
                 wait(System.currentTimeMillis() + 2000);
@@ -90,7 +84,7 @@ public class ConnectionPoolPsql {
         connections.offer(connection);
     }
 
-    private synchronized Connection createConnection() {
+    private Connection createConnection() {
         Connection conn;
         try {
             conn = DriverManager.getConnection(
