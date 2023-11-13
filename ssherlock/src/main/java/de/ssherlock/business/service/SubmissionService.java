@@ -3,6 +3,7 @@ package de.ssherlock.business.service;
 import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.Submission;
 import de.ssherlock.global.transport.User;
+import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @Named
-@RequestScoped
+@Dependent
 public class SubmissionService {
     @Inject
     private Logger logger;

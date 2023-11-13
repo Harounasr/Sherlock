@@ -10,6 +10,7 @@ import de.ssherlock.persistence.repository.RepositoryType;
 import de.ssherlock.persistence.repository.UserRepository;
 import de.ssherlock.persistence.util.Mail;
 import de.ssherlock.persistence.util.MailContentBuilder;
+import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -20,7 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Named
-@RequestScoped
+@Dependent
 public class UserService {
 
     @Inject

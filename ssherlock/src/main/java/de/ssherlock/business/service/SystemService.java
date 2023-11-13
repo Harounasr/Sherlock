@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.util.logging.Logger;
-
+@Named
 @Dependent
 public class SystemService {
     @Inject
