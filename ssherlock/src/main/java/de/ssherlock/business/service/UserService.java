@@ -1,16 +1,15 @@
 package de.ssherlock.business.service;
 
 import de.ssherlock.business.exception.LoginFailedException;
-import de.ssherlock.business.util.MailContentBuilder;
-import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.transport.LoginInfo;
-import de.ssherlock.global.transport.Password;
 import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.connection.ConnectionPoolPsql;
 import de.ssherlock.persistence.exception.NonExistentUserException;
 import de.ssherlock.persistence.repository.RepositoryFactory;
 import de.ssherlock.persistence.repository.RepositoryType;
 import de.ssherlock.persistence.repository.UserRepository;
+import de.ssherlock.persistence.util.Mail;
+import de.ssherlock.persistence.util.MailContentBuilder;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -29,7 +28,7 @@ public class UserService {
     @Inject
     private ConnectionPoolPsql connectionPoolPsql;
     @Inject
-    private  MailService mailService;
+    private Mail mail;
 
     public UserService() {
 
@@ -53,7 +52,7 @@ public class UserService {
     }
 
     public void registerUser(User user) {
-        mailService.sendMail(user, MailContentBuilder.buildVerificationMail(user));
+        mail.sendMail(user, MailContentBuilder.buildVerificationMail(user));
     }
     public void deleteUser(User user) {
 

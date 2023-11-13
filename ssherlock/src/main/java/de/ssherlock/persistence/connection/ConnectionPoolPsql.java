@@ -5,6 +5,7 @@ import de.ssherlock.persistence.config.Configuration;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -15,6 +16,7 @@ import java.util.Queue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@Named
 @ApplicationScoped
 public class ConnectionPoolPsql {
 

@@ -5,6 +5,7 @@ import de.ssherlock.persistence.connection.ConnectionPoolPsql;
 import de.ssherlock.persistence.repository.RepositoryFactory;
 import de.ssherlock.persistence.repository.RepositoryType;
 import de.ssherlock.persistence.repository.SystemSettingsRepository;
+import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -15,8 +16,7 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.util.logging.Logger;
 
-@Named
-@RequestScoped
+@Dependent
 public class SystemService {
     @Inject
     private Logger logger;

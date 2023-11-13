@@ -16,12 +16,15 @@ public class StartStopPersistence {
 
     private final Logger logger = LoggerCreator.get(StartStopPersistence.class);
     @Inject
+    private Configuration configuration;
+    @Inject
     private ConnectionPoolPsql connectionPoolPsql;
 
     public StartStopPersistence() {
     }
 
     public void init(Function<String, InputStream> resourceFetcher) {
+        //configuration.init();
         logger.log(Level.INFO, "Persistence Layer initialized");
     }
 

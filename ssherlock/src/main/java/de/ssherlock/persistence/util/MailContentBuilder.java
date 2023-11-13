@@ -1,5 +1,4 @@
-package de.ssherlock.business.util;
-
+package de.ssherlock.persistence.util;
 import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.User;
 

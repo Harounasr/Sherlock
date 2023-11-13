@@ -5,6 +5,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import jakarta.servlet.ServletContext;
 
 import java.io.IOException;
@@ -14,6 +15,7 @@ import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@Named
 @ApplicationScoped
 public class Configuration {
 
@@ -33,10 +35,7 @@ public class Configuration {
     String port;
     String mailpassword;
 
-
-    @PostConstruct
-    public void init() {
-
+    public Configuration() {
         Properties properties;
         try {
             connectionProperties = new Properties();
@@ -58,15 +57,13 @@ public class Configuration {
             e.printStackTrace();
         }
     }
-
     public static void reset() {
 
     }
 
-
     private Properties readConfigFile() throws IOException {
         Properties prop = new Properties();
-        InputStream stream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/config/config.properties");
+        InputStream stream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/WEB-INF/config/config.properties");
         prop.load(stream);
         return prop;
     }
