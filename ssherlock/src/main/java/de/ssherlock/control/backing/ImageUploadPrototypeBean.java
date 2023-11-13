@@ -47,28 +47,17 @@ public class ImageUploadPrototypeBean {
     @PostConstruct
     public void initialize() {
         systemSettings = systemService.getSystemSettings();
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-        try {
-            ImageIO.write((BufferedImage) systemSettings.logo(), "png", os);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        logoImage = Base64.getEncoder().encodeToString(os.toByteArray());
+        logoImage = Base64.getEncoder().encodeToString(systemSettings.logo());
     }
 
     public void handleUpload() {
         if (uploadedFile != null) {
             try {
                 InputStream inputStream = uploadedFile.getInputStream();
-                Image image = ImageIO.read(inputStream);
-                SystemSettings newSettings = new SystemSettings(
-                     systemSettings.emailRegex(),
-                        systemSettings.primaryColorHex(),
-                        systemSettings.secondaryColorHex(),
-                        systemSettings.systemName(),
-                        image,
-                        null
-                );
+                SystemSettings newSettings = new SystemSettings.Builder()
+                        .copyFrom(systemSettings)
+                        .logo(inputStream.readAllBytes())
+                        .build();
                 systemService.updateSystemSettings(newSettings);
                 initialize();
             } catch (IOException e) {

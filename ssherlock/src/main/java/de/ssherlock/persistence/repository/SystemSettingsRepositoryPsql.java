@@ -3,13 +3,8 @@ package de.ssherlock.persistence.repository;
 import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.transport.SystemSettings;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,19 +24,16 @@ public class SystemSettingsRepositoryPsql extends RepositoryPsql implements Syst
         String query = "UPDATE SystemSettings SET emailRegex=?, primaryColorHex=?, " +
                 "secondaryColor=?, systemName=?, logo=? WHERE id=?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            ByteArrayOutputStream os = new ByteArrayOutputStream();
-            // TODO Figure out how to store different formats
-            ImageIO.write((BufferedImage) systemSettings.logo(), "png", os);
             preparedStatement.setString(1, systemSettings.emailRegex());
             preparedStatement.setString(2, systemSettings.primaryColorHex());
             preparedStatement.setString(3, systemSettings.secondaryColorHex());
             preparedStatement.setString(4, systemSettings.systemName());
-            preparedStatement.setBytes(5, os.toByteArray());
+            preparedStatement.setBytes(5, systemSettings.logo());
             preparedStatement.setInt(6, 1);
 
             preparedStatement.executeUpdate();
             logger.log(Level.INFO, "Successfully updated System Settings");
-        } catch (SQLException | IOException e) {
+        } catch (SQLException e) {
             logger.log(Level.INFO, "Did not update System Settings");
         }
     }
@@ -58,15 +50,13 @@ public class SystemSettingsRepositoryPsql extends RepositoryPsql implements Syst
                         resultSet.getString("primaryColorHex"),
                         resultSet.getString("secondaryColor"),
                         resultSet.getString("systemName"),
-                        ImageIO.read(new ByteArrayInputStream(resultSet.getBytes("logo"))),
+                        resultSet.getBytes("logo"),
                         null
                 );
                 return systemSettings;
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
