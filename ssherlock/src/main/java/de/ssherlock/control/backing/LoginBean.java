@@ -85,5 +85,8 @@ public class LoginBean {
     public void setPassword(String password) {
         this.password = password;
     }
+    public String fileUploadClicked() {
+        return "/view/FileUpload.xhtml";
+    }
 
 }
