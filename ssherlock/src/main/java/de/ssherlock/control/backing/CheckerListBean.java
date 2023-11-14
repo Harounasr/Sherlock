@@ -17,21 +17,19 @@ import java.util.logging.Logger;
 @RequestScoped
 public class CheckerListBean {
 
-    @Inject
-    private Logger logger;
-
-    @Inject
-    private CheckerService checkerService;
-
-    @Inject
-    private AppSession appSession;
+    private final Logger logger;
+    private final CheckerService checkerService;
+    private final AppSession appSession;
 
     private List<Checker> checkers;
     private String newCheckerInput;
     private String newCheckerExpectedOutput;
 
-    public CheckerListBean() {
-
+    @Inject
+    public CheckerListBean(Logger logger, CheckerService checkerService, AppSession appSession) {
+        this.logger = logger;
+        this.checkerService = checkerService;
+        this.appSession = appSession;
     }
 
     @PostConstruct

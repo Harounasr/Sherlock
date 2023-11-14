@@ -16,17 +16,17 @@ import java.util.logging.Logger;
 @RequestScoped
 public class AdminUserPaginationBean {
 
-    @Inject
     private Logger logger;
-    @Inject
     private AppSession appSession;
-    @Inject
     UserService userService;
 
     private List<User> users;
 
-    public AdminUserPaginationBean() {
-
+    @Inject
+    public AdminUserPaginationBean(Logger logger, AppSession appSession, UserService userService) {
+        this.logger = logger;
+        this.appSession = appSession;
+        this.userService = userService;
     }
 
     /**

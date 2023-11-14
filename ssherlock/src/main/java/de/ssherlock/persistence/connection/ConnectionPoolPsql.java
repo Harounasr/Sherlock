@@ -20,11 +20,15 @@ import java.util.logging.Logger;
 @ApplicationScoped
 public class ConnectionPoolPsql {
 
-    @Inject
-    private Configuration configuration;
+    private final Configuration configuration;
     private final Logger logger = LoggerCreator.get(ConnectionPoolPsql.class);
     private final Queue<Connection> connections = new LinkedList<>();
     private final List<Connection> borrowedConnections = new LinkedList<>();
+
+    @Inject
+    public ConnectionPoolPsql(Configuration configuration) {
+        this.configuration = configuration;
+    }
 
     @PostConstruct
     public void afterCreate() {

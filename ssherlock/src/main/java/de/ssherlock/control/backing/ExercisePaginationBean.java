@@ -15,17 +15,18 @@ import java.util.logging.Logger;
 @Named
 @RequestScoped
 public class ExercisePaginationBean {
-    @Inject
-    private Logger logger;
-    @Inject
-    private AppSession appSession;
-    @Inject
-    private ExerciseService exerciseService;
+
+    private final Logger logger;
+    private final AppSession appSession;
+    private final ExerciseService exerciseService;
 
     private List<Exercise> exercises;
 
-    public ExercisePaginationBean() {
-
+    @Inject
+    public ExercisePaginationBean(Logger logger, AppSession appSession, ExerciseService exerciseService) {
+        this.logger = logger;
+        this.appSession = appSession;
+        this.exerciseService = exerciseService;
     }
 
     @PostConstruct

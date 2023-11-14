@@ -11,6 +11,7 @@ import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.event.ActionEvent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.servlet.http.Part;
 
 import java.io.File;
 import java.util.List;
@@ -22,25 +23,25 @@ import java.util.zip.ZipFile;
 @Named
 @RequestScoped
 public class SubmissionUploadBean {
-    @Inject
-    private Logger logger;
-    @Inject
-    private AppSession appSession;
-    @Inject
-    private SubmissionService submissionService;
-    @Inject
-    private CheckerService checkerService;
-    @Inject
-    private UserService userService;
+
+    private final Logger logger;
+    private final AppSession appSession;
+    private final SubmissionService submissionService;
+    private final CheckerService checkerService;
+    private final UserService userService;
 
     private Map<User, CourseRole> userRoles;
-
     private List<Checker> checkers;
     private Submission currentSubmission;
-    private ZipFile zipFile;
+    private Part archiveFile;
 
-    public SubmissionUploadBean() {
-
+    @Inject
+    public SubmissionUploadBean(Logger logger, AppSession appSession, SubmissionService submissionService, CheckerService checkerService, UserService userService) {
+        this.logger = logger;
+        this.appSession = appSession;
+        this.submissionService = submissionService;
+        this.checkerService = checkerService;
+        this.userService = userService;
     }
 
     @PostConstruct
@@ -75,12 +76,12 @@ public class SubmissionUploadBean {
         return null;
     }
 
-    public ZipFile getZipFile() {
-        return zipFile;
+    public Part getArchiveFile() {
+        return archiveFile;
     }
 
-    public void setZipFile(ZipFile zipFile) {
-        this.zipFile = zipFile;
+    public void setZipFile(Part archiveFile) {
+        this.archiveFile = archiveFile;
     }
 
     public List<Checker> getCheckers() {

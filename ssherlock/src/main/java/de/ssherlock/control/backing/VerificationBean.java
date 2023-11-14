@@ -12,15 +12,15 @@ import java.util.logging.Logger;
 @RequestScoped
 public class VerificationBean {
 
-    @Inject
-    private Logger logger;
+    private final Logger logger;
+    private final AppSession session;
 
     @Inject
-    private AppSession session;
-
-    public VerificationBean() {
-
+    public VerificationBean(Logger logger, AppSession session) {
+        this.logger = logger;
+        this.session = session;
     }
+
     @PostConstruct
     public void handleVerifiedRegistration() {
 

@@ -12,14 +12,15 @@ import java.util.logging.Logger;
 @RequestScoped
 public class NavbarBean {
 
-    @Inject
-    private Logger logger;
+    private final Logger logger;
+    private final AppSession appSession;
+
+    private String logoByteString;
 
     @Inject
-    private AppSession appSession;
-
-    public NavbarBean() {
-
+    public NavbarBean(Logger logger, AppSession appSession) {
+        this.logger = logger;
+        this.appSession = appSession;
     }
 
     @PostConstruct
@@ -27,6 +28,13 @@ public class NavbarBean {
         toggleElementVisibility();
     }
 
+    public void logout() {
+
+    }
+
+    private void toggleElementVisibility() {
+
+    }
     public String navigateToAllCourses() {
         return "";
     }
@@ -47,12 +55,11 @@ public class NavbarBean {
         return "";
     }
 
-    public void logout() {
-
+    public String getLogoByteString() {
+        return logoByteString;
     }
 
-    private void toggleElementVisibility() {
-
+    public void setLogoByteString(String logoByteString) {
+        this.logoByteString = logoByteString;
     }
-
 }

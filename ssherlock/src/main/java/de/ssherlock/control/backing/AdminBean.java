@@ -10,12 +10,12 @@ import java.util.logging.Logger;
 @Named
 @RequestScoped
 public class AdminBean {
-    @Inject
     private Logger logger;
-    @Inject
     private AppSession appSession;
 
-    public AdminBean() {
-
+    @Inject
+    public AdminBean(Logger logger, AppSession appSession) {
+        this.logger = logger;
+        this.appSession = appSession;
     }
 }

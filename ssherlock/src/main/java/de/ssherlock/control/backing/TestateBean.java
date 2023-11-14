@@ -6,9 +6,7 @@ import de.ssherlock.business.service.TestateService;
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.control.util.BackingBeanInitializationUtils;
-import de.ssherlock.global.transport.CourseRole;
-import de.ssherlock.global.transport.Submission;
-import de.ssherlock.global.transport.User;
+import de.ssherlock.global.transport.*;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.event.ActionEvent;
@@ -24,35 +22,29 @@ import java.util.logging.Logger;
 @RequestScoped
 public class TestateBean {
 
-    @Inject
-    private Logger logger;
-
-    @Inject
-    private AppSession appSession;
-
-    @Inject
-    private UserService userService;
-
-    @Inject
-    private SubmissionService submissionService;
-
-    @Inject
-    private CheckerService checkerService;
-
-    @Inject
-    private TestateService testateService;
+    private final Logger logger;
+    private final AppSession appSession;
+    private final UserService userService;
+    private final SubmissionService submissionService;
+    private final CheckerService checkerService;
+    private final TestateService testateService;
 
     private int gradeStructure;
     private int gradeLayout;
     private int gradeReadability;
-
     private Map<User, CourseRole> userRoles;
     private Submission submission;
-    //private List<CheckerResult> checkerResults;
-    //private List<TestateComment> testateComments;
+    private List<CheckerResult> checkerResults;
+    private List<TestateComment> testateComments;
 
-    public TestateBean() {
-
+    @Inject
+    public TestateBean(Logger logger, AppSession appSession, UserService userService, SubmissionService submissionService, CheckerService checkerService, TestateService testateService) {
+        this.logger = logger;
+        this.appSession = appSession;
+        this.userService = userService;
+        this.submissionService = submissionService;
+        this.checkerService = checkerService;
+        this.testateService = testateService;
     }
 
     @PostConstruct
@@ -119,5 +111,21 @@ public class TestateBean {
 
     public void setGradeReadability(int gradeReadability) {
         this.gradeReadability = gradeReadability;
+    }
+
+    public List<CheckerResult> getCheckerResults() {
+        return checkerResults;
+    }
+
+    public void setCheckerResults(List<CheckerResult> checkerResults) {
+        this.checkerResults = checkerResults;
+    }
+
+    public List<TestateComment> getTestateComments() {
+        return testateComments;
+    }
+
+    public void setTestateComments(List<TestateComment> testateComments) {
+        this.testateComments = testateComments;
     }
 }

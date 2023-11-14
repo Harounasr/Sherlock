@@ -15,23 +15,23 @@ import java.util.logging.Logger;
 @RequestScoped
 public class RegistrationBean {
 
-    @Inject
-    private Logger logger;
+    private final Logger logger;
+    private final AppSession appSession;
+    private final UserService userService;
 
-    @Inject
-    private AppSession appSession;
-
-    @Inject
-    private UserService userService;
     private String userName;
     private String firstName;
     private String lastName;
     private String passWord;
     private String email;
-
     private String faculty;
 
-    public RegistrationBean() {}
+    @Inject
+    public RegistrationBean(Logger logger, AppSession appSession, UserService userService) {
+        this.logger = logger;
+        this.appSession = appSession;
+        this.userService = userService;
+    }
 
     public void register() {
         userService.registerUser(new User(userName, email, firstName, lastName, SystemRole.ANONYMOUS, new Password("", ""), faculty));

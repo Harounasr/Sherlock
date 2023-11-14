@@ -55,6 +55,10 @@ public class UserService {
     public void registerUser(User user) {
         mail.sendMail(user, MailContentBuilder.buildVerificationMail(user));
     }
+
+    public void sendPasswordForgottenEmail(User user) {
+        mail.sendMail(user, MailContentBuilder.buildPasswordResetMail(user));
+    }
     public void deleteUser(User user) {
 
     }

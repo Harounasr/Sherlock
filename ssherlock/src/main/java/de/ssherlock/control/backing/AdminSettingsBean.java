@@ -18,13 +18,10 @@ import java.util.logging.Logger;
 @Named
 @RequestScoped
 public class AdminSettingsBean {
-    @Inject
-    private Logger logger;
-    @Inject
-    private AppSession appSession;
-    @Inject
-    private SystemService systemService;
 
+    private final Logger logger;
+    private final AppSession appSession;
+    private final SystemService systemService;
     private SystemSettings systemSettings;
 
     private Image logo;
@@ -34,8 +31,11 @@ public class AdminSettingsBean {
     private String systemName;
     private List<String> faculties;
 
-    public AdminSettingsBean() {
-
+    @Inject
+    public AdminSettingsBean(Logger logger, AppSession appSession, SystemService systemService) {
+        this.logger = logger;
+        this.appSession = appSession;
+        this.systemService = systemService;
     }
 
     /**

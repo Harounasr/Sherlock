@@ -15,17 +15,18 @@ import java.util.logging.Logger;
 @Named
 @RequestScoped
 public class ExerciseBean {
-    @Inject
-    private Logger logger;
-    @Inject
-    private ExerciseService exerciseService;
-    @Inject
-    private UserService userService;
+
+    private final Logger logger;
+    private final ExerciseService exerciseService;
+    private final UserService userService;
 
     private Map<User, CourseRole> userRoles;
 
-    public ExerciseBean() {
-
+    @Inject
+    public ExerciseBean(Logger logger, ExerciseService exerciseService, UserService userService) {
+        this.logger = logger;
+        this.exerciseService = exerciseService;
+        this.userService = userService;
     }
 
     @PostConstruct

@@ -11,13 +11,13 @@ import java.util.logging.Logger;
 @RequestScoped
 public class AdminSidebarBean {
 
-    @Inject
-    private Logger logger;
-    @Inject
-    private AppSession appSession;
+    private final Logger logger;
+    private final AppSession appSession;
 
-    public AdminSidebarBean() {
-
+    @Inject
+    public AdminSidebarBean(Logger logger, AppSession appSession) {
+        this.logger = logger;
+        this.appSession = appSession;
     }
 
     public void loadAdminSettings() {

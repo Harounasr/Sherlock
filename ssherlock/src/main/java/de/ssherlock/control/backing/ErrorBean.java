@@ -11,16 +11,17 @@ import java.util.logging.Logger;
 @RequestScoped
 public class ErrorBean {
 
+    private final Logger logger;
+    private final AppSession appSession;
+
     private Error error;
 
     @Inject
-    private Logger logger;
-
-    @Inject
-    private AppSession appSession;
-
-    public ErrorBean() {
+    public ErrorBean(Logger logger, AppSession appSession) {
+        this.logger = logger;
+        this.appSession = appSession;
     }
+
     public void setError(Error error) {
         this.error = error;
     }

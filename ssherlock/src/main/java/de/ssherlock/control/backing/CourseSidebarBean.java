@@ -16,17 +16,18 @@ import java.util.logging.Logger;
 @Named
 @RequestScoped
 public class CourseSidebarBean {
-    @Inject
-    private Logger logger;
-    @Inject
-    private AppSession appSession;
-    @Inject
-    private UserService userService;
+
+    private final Logger logger;
+    private final AppSession appSession;
+    private final UserService userService;
 
     private Map<User, CourseRole> userRoles;
 
-    public CourseSidebarBean() {
-
+    @Inject
+    public CourseSidebarBean(Logger logger, AppSession appSession, UserService userService) {
+        this.logger = logger;
+        this.appSession = appSession;
+        this.userService = userService;
     }
 
     @PostConstruct

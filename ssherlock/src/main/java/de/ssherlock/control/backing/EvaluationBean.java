@@ -2,6 +2,7 @@ package de.ssherlock.control.backing;
 
 import de.ssherlock.business.service.TestateService;
 import de.ssherlock.control.session.AppSession;
+import de.ssherlock.global.transport.SystemRole;
 import de.ssherlock.global.transport.Testate;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
@@ -14,17 +15,17 @@ import java.util.logging.Logger;
 @RequestScoped
 public class EvaluationBean {
 
-    @Inject
-    private Logger logger;
-    @Inject
-    private AppSession appSession;
-    @Inject
-    private TestateService testateService;
+    private final Logger logger;
+    private final AppSession appSession;
+    private final TestateService testateService;
 
     private Testate testate;
 
-    public EvaluationBean() {
-
+    @Inject
+    public EvaluationBean(Logger logger, AppSession appSession, TestateService testateService) {
+        this.logger = logger;
+        this.appSession = appSession;
+        this.testateService = testateService;
     }
 
     @PostConstruct

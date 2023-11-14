@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 @ApplicationScoped
 public class Configuration {
 
-    private final Logger logger = LoggerCreator.get(Configuration.class);
+    private final Logger logger;
 
     private Properties connectionProperties;
     private String dbHost;
@@ -38,7 +38,9 @@ public class Configuration {
     private String mailHost;
     private String mailPort;
 
-    public Configuration() {
+    @Inject
+    public Configuration(Logger logger) {
+        this.logger = logger;
         Properties properties;
         properties = readConfigFile();
 
