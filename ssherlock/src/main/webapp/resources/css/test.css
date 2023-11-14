@@ -1,25 +1,8 @@
 body {
-    background-color: #f4f4f4;
+    background-color: red;
     padding-bottom: 60px; /* Change this value to adjust the footer height */
     margin: 0;
-}
-
-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: rgb(128, 128, 100);
-    color: floralwhite;
-    padding: 20px;
-}
-li {
-    margin: 10px 0;
-}
-
-#profile-button {
-    color: black;
-    border-color: black;
+    height: 100vh;
 }
 
 .list-group-item {
@@ -27,19 +10,7 @@ li {
     justify-content: space-between;
     align-items: center;
 }
-nav {
-    background: rgb(128, 128, 100);
-}
-nav ul {
-    list-style-type: none;
-    padding: 0;
-}
-#nav1 {
-    float: left;
-    width: 10%;
-    height: 900px;
-    padding: 20px;
-}
+
 #upload-archive {
     margin-top: 30px;
     text-align: center;
@@ -53,9 +24,6 @@ a {
 }
 #selected {
     color: black;
-}
-.navbar {
-    background: rgb(128, 128, 100);
 }
 #main {
     font-size: 16px;
@@ -83,4 +51,22 @@ input[type="file"] {
     border: 1px solid #ced4da;
     border-radius: .25rem;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+section {
+    display: flex;
+    height: 100%;
+}
+
+#nav1 {
+    flex: 0 0 10%; /* Set the width of nav1 */
+    padding: 20px;
+    background: rgb(128, 128, 100);
+    height: 100%;
+}
+
+#content {
+    flex: 1; /* Let content take the remaining space */
+    /*padding: 20px;*/
+    background-color: white; /* Set the background color of content */
+    height: 100%;
 }

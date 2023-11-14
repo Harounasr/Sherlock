@@ -84,5 +84,4 @@ public class ImageUploadPrototypeBean {
     public void setLogoImage(String logoImage) {
         this.logoImage = logoImage;
     }
-    public String checkers() {return "/view/Checkers.xhtml";}
 }

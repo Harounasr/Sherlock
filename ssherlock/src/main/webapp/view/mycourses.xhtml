@@ -1,0 +1,15 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="templates/template.xhtml">
+
+    <ui:define name="content">
+        <section>
+            <div class="container">
+                <ul class="list-group">
+                    <li class="list-group-item">Software Testing<h:commandButton id="course" value="Join Course" styleClass="btn btn-primary btn-block" action="#{coursesBean.select}" outcome="success"/></li>
+                </ul>
+            </div>
+        </section>
+    </ui:define>
+</ui:composition>
