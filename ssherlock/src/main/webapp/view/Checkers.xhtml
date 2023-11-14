@@ -11,41 +11,68 @@
     <style type="text/css">
         body {
             background-color: #f4f4f4;
+            padding-bottom: 60px; /* Change this value to adjust the footer height */
+            margin: 0;
         }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgb(128, 128, 100);
+            color: floralwhite;
+            padding: 20px;
+        }
+
         li {
             margin: 10px 0;
         }
+
+        #profile-button {
+            color: black;
+            border-color: black;
+        }
+
 
         .list-group-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
+
         nav {
             background: rgb(128, 128, 100);
         }
+
         nav ul {
             list-style-type: none;
             padding: 0;
         }
+
         #nav1 {
             float: left;
             width: 10%;
             height: 900px;
             padding: 20px;
         }
+
         a {
             color: floralwhite;
         }
+
         #selected {
             color: black;
         }
+
         #navbarSupportedContent {
             background: rgb(128, 128, 100);
         }
+
         .navbar {
             background: rgb(128, 128, 100);
         }
+
         #id {
             font-size: 16px;
         }
@@ -55,6 +82,8 @@
 
 <h:body>
     <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="#"><img src="../resources/images/Logo.jpeg" alt="Logo"
+                                              height="40"/></a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
@@ -64,8 +93,10 @@
                     <a class="nav-link" href="#">All Courses</a>
                 </li>
             </ul>
+            <a class="navbar-brand" href="#"><img src="../resources/images/round-help-button-svgrepo-com.svg" alt="help"
+                                                  height="40"/></a>
             <form class="form-inline my-2 my-lg-0">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Profile</button>
+                <button id="profile-button" class="btn btn-outline-success my-2 my-sm-0" type="submit">Profile</button>
             </form>
         </div>
     </nav>
@@ -87,37 +118,52 @@
             <ul class="list-group">
                 <li class="list-group-item">Checker 1
                     <span class="badge badge-primary badge-success spacer">Passed</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-plus" viewBox="0 0 16 16">
                         <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
                     </svg>
                 </li>
                 <li class="list-group-item">Checker 2
                     <span class="badge badge-primary badge-success spacer">Passed</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-plus" viewBox="0 0 16 16">
                         <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
                     </svg>
                 </li>
                 <li class="list-group-item">Checker 3
                     <span class="badge badge-primary badge-success">Passed</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-plus" viewBox="0 0 16 16">
                         <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
                     </svg>
                 </li>
                 <li class="list-group-item">Checker 4
                     <span class="badge badge-primary badge-danger">Failed</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-plus" viewBox="0 0 16 16">
                         <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
                     </svg>
                 </li>
                 <li class="list-group-item">Checker 5
                     <span class="badge badge-primary badge-danger">Failed</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-plus" viewBox="0 0 16 16">
                         <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
                     </svg>
                 </li>
             </ul>
-            <h:commandButton value="Submit Solution" disabled="true" action="#{imageUploadPrototypeBean.handleUpload}" class="btn btn-primary" />
+            <h:commandButton value="Submit Solution" disabled="true" action="#{imageUploadPrototypeBean.handleUpload}"
+                             class="btn btn-primary"/>
         </div>
     </section>
+    <footer style="background: rgb(128, 128, 100); padding: 20px; color: floralwhite;">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    SoftwareSherlock, Maximilianstraße 1, 80539 München
+                </div>
+            </div>
+        </div>
+    </footer>
 </h:body>
 </html>
