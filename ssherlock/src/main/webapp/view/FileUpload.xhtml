@@ -11,9 +11,26 @@
     <style type="text/css">
         body {
             background-color: #f4f4f4;
+            padding-bottom: 60px; /* Change this value to adjust the footer height */
+            margin: 0;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgb(128, 128, 100);
+            color: floralwhite;
+            padding: 20px;
         }
         li {
             margin: 10px 0;
+        }
+
+        #profile-button {
+            color: black;
+            border-color: black;
         }
 
         .list-group-item {
@@ -34,6 +51,14 @@
             height: 900px;
             padding: 20px;
         }
+        #upload-archive {
+            margin-top: 30px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.5em;
+            color: black; /* Adjust the color specifically for the upload section */
+        }
+
         a {
             color: floralwhite;
         }
@@ -49,12 +74,39 @@
         #main {
             font-size: 16px;
         }
+        .upload-label {
+            font-weight: bold;
+            color: black; /* Adjust the color for the label */
+        }
+        #upload-button {
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: .25rem;
+            color: black; /* Adjust the color for the button text */
+        }
+        input[type="file"] {
+            display: block;
+            width: 100%;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: black; /* Adjust the color for the file input text */
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            border-radius: .25rem;
+            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }
+
     </style>
 
 </h:head>
 
 <h:body>
     <nav id="navbar" class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="#"><img src="../resources/images/Logo.jpeg" alt="Logo"
+                                              height="40"/></a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
@@ -64,8 +116,10 @@
                     <a class="nav-link" href="#">All Courses</a>
                 </li>
             </ul>
+            <a class="navbar-brand" href="#"><img src="../resources/images/round-help-button-svgrepo-com.svg" alt="help"
+                                                  height="40"/></a>
             <form class="form-inline my-2 my-lg-0">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Profile</button>
+                <button id="profile-button" class="btn btn-outline-success my-2 my-sm-0" type="submit">Profile</button>
             </form>
         </div>
     </nav>
@@ -84,7 +138,7 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-6">
-                    <div class="card-header">
+                    <div id="upload-archive" class="card-header">
                         Upload Archive
                     </div>
                     <div class="card-body">
@@ -96,12 +150,21 @@
                                 <label for="file">Choose Folder: </label>
                                 <h:inputFile id="file" value="example" />
                             </div>
-                            <h:commandButton value="Upload" action="#{imageUploadPrototypeBean.checkers}" class="btn btn-primary" />
+                            <h:commandButton id="upload-button" value="Upload" action="#{imageUploadPrototypeBean.checkers}" class="btn btn-primary" />
                         </h:form>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+    <footer style="background: rgb(128, 128, 100); padding: 20px; color: floralwhite;">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    SoftwareSherlock, Maximilianstraße 1, 80539 München
+                </div>
+            </div>
+        </div>
+    </footer>
 </h:body>
 </html>
