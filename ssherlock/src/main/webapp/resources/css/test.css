@@ -1,0 +1,86 @@
+body {
+    background-color: #f4f4f4;
+    padding-bottom: 60px; /* Change this value to adjust the footer height */
+    margin: 0;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgb(128, 128, 100);
+    color: floralwhite;
+    padding: 20px;
+}
+li {
+    margin: 10px 0;
+}
+
+#profile-button {
+    color: black;
+    border-color: black;
+}
+
+.list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+nav {
+    background: rgb(128, 128, 100);
+}
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+#nav1 {
+    float: left;
+    width: 10%;
+    height: 900px;
+    padding: 20px;
+}
+#upload-archive {
+    margin-top: 30px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.5em;
+    color: black; /* Adjust the color specifically for the upload section */
+}
+
+a {
+    color: floralwhite;
+}
+#selected {
+    color: black;
+}
+.navbar {
+    background: rgb(128, 128, 100);
+}
+#main {
+    font-size: 16px;
+}
+.upload-label {
+    font-weight: bold;
+    color: black; /* Adjust the color for the label */
+}
+#upload-button {
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    color: black; /* Adjust the color for the button text */
+}
+input[type="file"] {
+    display: block;
+    width: 100%;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: black; /* Adjust the color for the file input text */
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
