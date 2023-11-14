@@ -1,6 +1,7 @@
 package de.ssherlock.global.transport;
 
 import java.util.List;
+import java.util.Objects;
 
 public record Testate(
         String evaluator,
@@ -12,6 +13,20 @@ public record Testate(
         String comment,
         Submission submission
 ) {
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Testate testate = (Testate) o;
+        return functionalityGrade == testate.functionalityGrade && readabilityGrade == testate.readabilityGrade && finished == testate.finished && Objects.equals(evaluator, testate.evaluator) && Objects.equals(student, testate.student) && Objects.equals(comments, testate.comments) && Objects.equals(comment, testate.comment) && Objects.equals(submission, testate.submission);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(evaluator, student, functionalityGrade, readabilityGrade, finished, comments, comment, submission);
+    }
+
     public static class Builder {
         private String evaluator;
         private String student;

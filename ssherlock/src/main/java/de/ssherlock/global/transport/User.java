@@ -1,5 +1,7 @@
 package de.ssherlock.global.transport;
 
+import java.util.Objects;
+
 public record User(
         String username,
         String email,
@@ -9,6 +11,20 @@ public record User(
         Password password,
         String facultyName
 ) {
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(username, user.username) && Objects.equals(email, user.email) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && systemRole == user.systemRole && Objects.equals(password, user.password) && Objects.equals(facultyName, user.facultyName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username, email, firstName, lastName, systemRole, password, facultyName);
+    }
+
     public static class Builder {
         private String username;
         private String email;

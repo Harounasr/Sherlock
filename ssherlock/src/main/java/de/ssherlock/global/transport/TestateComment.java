@@ -1,10 +1,26 @@
 package de.ssherlock.global.transport;
 
+import java.util.Objects;
+
 public record TestateComment(
         long fileId,
         int lineNumber,
         String comment
 ) {
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TestateComment that = (TestateComment) o;
+        return fileId == that.fileId && lineNumber == that.lineNumber && Objects.equals(comment, that.comment);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(fileId, lineNumber, comment);
+    }
+
     public static class Builder {
         private long fileId;
         private int lineNumber;

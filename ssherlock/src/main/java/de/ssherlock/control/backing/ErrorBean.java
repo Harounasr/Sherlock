@@ -20,7 +20,6 @@ public class ErrorBean {
     private AppSession appSession;
 
     public ErrorBean() {
-
     }
     public void setError(Error error) {
         this.error = error;
