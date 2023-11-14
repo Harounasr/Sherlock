@@ -10,15 +10,15 @@ import java.util.logging.Logger;
 @RequestScoped
 public class ImprintBean {
 
-    @Inject
-    private Logger logger;
-    @Inject
-    private AppSession appSession;
+    private final Logger logger;
+    private final AppSession appSession;
     private String imprintHeading;
     private String imprintText;
 
-    public ImprintBean() {
-
+    @Inject
+    public ImprintBean(Logger logger, AppSession appSession) {
+        this.logger = logger;
+        this.appSession = appSession;
     }
 
     public String getImprintHeading() {

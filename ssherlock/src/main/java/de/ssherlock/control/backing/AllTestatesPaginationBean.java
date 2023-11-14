@@ -10,29 +10,34 @@ import de.ssherlock.global.transport.Submission;
 import de.ssherlock.global.transport.Testate;
 import de.ssherlock.global.transport.User;
 import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.event.ActionEvent;
 import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+@Named
+@RequestScoped
 public class AllTestatesPaginationBean {
-    @Inject
-    private Logger logger;
-    @Inject
-    private AppSession appSession;
-    @Inject
-    private UserService userService;
-    @Inject
-    private TestateService testateService;
+
+    private final Logger logger;
+    private final AppSession appSession;
+    private final UserService userService;
+    private final TestateService testateService;
 
     private Map<User, CourseRole> userRoles;
 
     private List<Testate> testates;
 
-    public AllTestatesPaginationBean() {
-
+    @Inject
+    public AllTestatesPaginationBean(Logger logger, AppSession appSession, UserService userService, TestateService testateService) {
+        this.logger = logger;
+        this.appSession = appSession;
+        this.userService = userService;
+        this.testateService = testateService;
     }
 
     /**

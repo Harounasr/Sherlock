@@ -19,23 +19,20 @@ import java.util.logging.Logger;
 @RequestScoped
 public class LoginBean {
 
-    @Inject
-    private UserService userService;
-    @Inject
-    private AppSession appSession;
-    @Inject
-    private Logger logger;
+    private final UserService userService;
+    private final AppSession appSession;
+    private final Logger logger;
 
     private String welcomeHeading;
-
     private String welcomeText;
-
-
     private String password;
-
     private String username;
 
-    public LoginBean() {
+    @Inject
+    public LoginBean(UserService userService, AppSession appSession, Logger logger) {
+        this.userService = userService;
+        this.appSession = appSession;
+        this.logger = logger;
     }
 
     public void login() {

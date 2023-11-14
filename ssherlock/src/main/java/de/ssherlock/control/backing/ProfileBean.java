@@ -13,20 +13,20 @@ import java.util.logging.Logger;
 @RequestScoped
 public class ProfileBean {
 
-    @Inject
-    private Logger logger;
-    @Inject
-    private AppSession appSession;
-    @Inject
-    private UserService userService;
+    private final Logger logger;
+    private final AppSession appSession;
+    private final UserService userService;
 
     private String newPasswordOne;
     private String newPasswordTwo;
     private String faculty;
     private SystemRole systemRole;
 
-    public ProfileBean() {
-
+    @Inject
+    public ProfileBean(Logger logger, AppSession appSession, UserService userService) {
+        this.logger = logger;
+        this.appSession = appSession;
+        this.userService = userService;
     }
 
     @PostConstruct

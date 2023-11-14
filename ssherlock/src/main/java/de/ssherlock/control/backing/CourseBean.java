@@ -19,21 +19,22 @@ import java.util.logging.Logger;
 @Named
 @RequestScoped
 public class CourseBean {
-    @Inject
+
     private Logger logger;
-    @Inject
     private AppSession appSession;
-    @Inject
     private CourseService courseService;
-    @Inject
     private ExerciseService exerciseService;
-    @Inject
     private UserService userService;
 
     private Map<User, CourseRole> userRoles;
 
-    public CourseBean() {
-
+    @Inject
+    public CourseBean(Logger logger, AppSession appSession, CourseService courseService, ExerciseService exerciseService, UserService userService) {
+        this.logger = logger;
+        this.appSession = appSession;
+        this.courseService = courseService;
+        this.exerciseService = exerciseService;
+        this.userService = userService;
     }
 
     @PostConstruct

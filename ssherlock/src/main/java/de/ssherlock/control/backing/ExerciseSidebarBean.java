@@ -13,13 +13,13 @@ import java.util.logging.Logger;
 @RequestScoped
 public class ExerciseSidebarBean {
 
-    @Inject
-    private Logger logger;
-    @Inject
-    private AppSession appSession;
+    private final Logger logger;
+    private final AppSession appSession;
 
-    public ExerciseSidebarBean() {
-
+    @Inject
+    public ExerciseSidebarBean(Logger logger, AppSession appSession) {
+        this.logger = logger;
+        this.appSession = appSession;
     }
 
     public void loadDescription() {

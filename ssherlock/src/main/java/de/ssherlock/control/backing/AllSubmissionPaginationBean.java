@@ -21,21 +21,21 @@ import java.util.logging.Logger;
 @RequestScoped
 public class AllSubmissionPaginationBean {
 
-    @Inject
-    private Logger logger;
-    @Inject
-    private AppSession appSession;
-    @Inject
-    private SubmissionService submissionService;
-    @Inject
-    private UserService userService;
+    private final Logger logger;
+    private final AppSession appSession;
+    private final SubmissionService submissionService;
+    private final UserService userService;
 
     private Map<User, CourseRole> userRoles;
 
     private List<Submission> submissions;
 
-    public AllSubmissionPaginationBean() {
-
+    @Inject
+    public AllSubmissionPaginationBean(Logger logger, AppSession appSession, SubmissionService submissionService, UserService userService) {
+        this.logger = logger;
+        this.appSession = appSession;
+        this.submissionService = submissionService;
+        this.userService = userService;
     }
 
     /**

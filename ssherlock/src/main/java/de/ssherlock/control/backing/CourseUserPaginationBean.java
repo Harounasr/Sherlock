@@ -17,16 +17,16 @@ import java.util.logging.Logger;
 @RequestScoped
 public class CourseUserPaginationBean {
 
-    @Inject
-    private Logger logger;
-    @Inject
-    private UserService userService;
+    private final Logger logger;
+    private final UserService userService;
 
     private Map<User, CourseRole> userRoles;
     private String searchString;
 
-    public CourseUserPaginationBean() {
-
+    @Inject
+    public CourseUserPaginationBean(Logger logger, UserService userService) {
+        this.logger = logger;
+        this.userService = userService;
     }
 
     /**

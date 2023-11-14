@@ -8,24 +8,22 @@ import de.ssherlock.global.transport.CourseRole;
 import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.User;
 import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 import java.sql.Date;
 import java.util.Map;
 import java.util.logging.Logger;
 
+@Named
+@RequestScoped
 public class ExerciseDescriptionBean {
 
-    @Inject
-    private Logger logger;
-
-    @Inject
-    private AppSession appSession;
-
-    @Inject
-    private ExerciseService exerciseService;
-    @Inject
-    private UserService userService;
+    private final Logger logger;
+    private final AppSession appSession;
+    private final ExerciseService exerciseService;
+    private final UserService userService;
 
     private Map<User, CourseRole> userRoles;
     private Exercise exercise;
@@ -34,8 +32,12 @@ public class ExerciseDescriptionBean {
     private Date mandatoryDate;
     private Date publishDate;
 
-    public ExerciseDescriptionBean() {
-
+    @Inject
+    public ExerciseDescriptionBean(Logger logger, AppSession appSession, ExerciseService exerciseService, UserService userService) {
+        this.logger = logger;
+        this.appSession = appSession;
+        this.exerciseService = exerciseService;
+        this.userService = userService;
     }
 
     @PostConstruct

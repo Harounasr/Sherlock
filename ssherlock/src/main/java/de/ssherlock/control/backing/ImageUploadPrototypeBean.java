@@ -30,12 +30,10 @@ import java.util.logging.Logger;
 @Named
 @RequestScoped
 public class ImageUploadPrototypeBean {
-    @Inject
-    private SystemService systemService;
-    @Inject
-    private AppSession appSession;
-    @Inject
-    private Logger logger;
+
+    private final SystemService systemService;
+    private final AppSession appSession;
+    private final Logger logger;
 
     private Part uploadedFile;
 
@@ -43,6 +41,12 @@ public class ImageUploadPrototypeBean {
 
     private String logoImage;
 
+    @Inject
+    public ImageUploadPrototypeBean(SystemService systemService, AppSession appSession, Logger logger) {
+        this.systemService = systemService;
+        this.appSession = appSession;
+        this.logger = logger;
+    }
 
     @PostConstruct
     public void initialize() {

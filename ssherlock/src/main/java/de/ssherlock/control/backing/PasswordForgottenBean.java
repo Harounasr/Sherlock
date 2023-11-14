@@ -1,6 +1,8 @@
 package de.ssherlock.control.backing;
 
+import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.session.AppSession;
+import de.ssherlock.global.transport.User;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -11,32 +13,33 @@ import java.util.logging.Logger;
 @RequestScoped
 public class PasswordForgottenBean {
 
+    private final Logger logger;
+    private final AppSession appSession;
+    private final UserService userService;
+
+    private String emailAdress;
+
     @Inject
-    private Logger logger;
-    @Inject
-    private AppSession appSession;
-    //@Inject
-    //private MailService mailService;
-
-    private String email;
-
-    public PasswordForgottenBean() {
-
+    public PasswordForgottenBean(Logger logger, AppSession appSession, UserService userService) {
+        this.logger = logger;
+        this.appSession = appSession;
+        this.userService = userService;
     }
 
     public void requestPasswordReset() {
-
+        User user = new User(null, emailAdress, null, null, null, null, null);
+        userService.sendPasswordForgottenEmail(user);
     }
 
     public String navigateToLogin() {
         return "";
     }
 
-    public String getEmail() {
-        return email;
+    public String getEmaiLAdress() {
+        return emailAdress;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setEmailAdress(String emaiLAdress) {
+        this.emailAdress = emaiLAdress;
     }
 }
