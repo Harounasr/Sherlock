@@ -1,5 +1,5 @@
 body {
-    background-color: #f4f4f4;
+    background-color: red;
     padding-bottom: 60px; /* Change this value to adjust the footer height */
     margin: 0;
 }
@@ -21,13 +21,10 @@ li {
     border-color: black;
 }
 
-nav {
+.navbar {
     background: rgb(128, 128, 100);
 }
 nav ul {
     list-style-type: none;
     padding: 0;
-}
-.navbar {
-    background: rgb(128, 128, 100);
 }

@@ -5,11 +5,16 @@ import jakarta.faces.event.ActionEvent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 @Named
 @RequestScoped
 public class CoursesBean {
 
     private String newCourseName;
+    @Inject
+    Logger logger;
 
     public CoursesBean() {
 
@@ -25,5 +30,9 @@ public class CoursesBean {
 
     public void setNewCourseName(String newCourseName) {
         this.newCourseName = newCourseName;
+    }
+    private String select() {
+        logger.log(Level.INFO, "Clicked!");
+        return "view/exercise.xhtml";
     }
 }
