@@ -30,11 +30,11 @@ public class ConnectionPoolPsql {
     public void afterCreate() {
         logger.log(Level.INFO, "New ConnectionPool created");
         loadDriver();
-        for (int i = 0; i < configuration.getMaxConnections(); i++) {
+        for (int i = 0; i < configuration.getDbNumConnections(); i++) {
             logger.log(Level.INFO, "creating connection");
             connections.offer(createConnection());
         }
-        logger.log(Level.INFO, String.valueOf(configuration.getMaxConnections()));
+        logger.log(Level.INFO, String.valueOf(configuration.getDbNumConnections()));
         logger.log(Level.INFO, String.valueOf(connections.size()));
     }
 
@@ -90,7 +90,7 @@ public class ConnectionPoolPsql {
         Connection conn;
         try {
             conn = DriverManager.getConnection(
-                    "jdbc:postgresql://" + configuration.getHost() + "/"+ configuration.getName(), configuration.getConnectionProperties());
+                    "jdbc:postgresql://" + configuration.getDbHost() + "/"+ configuration.getDbName(), configuration.getConnectionProperties());
             logger.log(Level.INFO, "created connection");
         } catch (SQLException e) {
             throw new RuntimeException(e);

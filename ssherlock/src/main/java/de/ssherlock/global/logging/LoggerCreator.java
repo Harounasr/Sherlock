@@ -24,7 +24,7 @@ public class LoggerCreator {
 
     public static void readConfig(Function<String, InputStream> resourceFetcher) {
             try {
-                InputStream input = resourceFetcher.apply("/WEB-INF/config/logger-config.properties");
+                InputStream input = resourceFetcher.apply("/WEB-INF/config/config.properties");
                 if (input == null) {
                     throw new FileNotFoundException("log config not found");
                 }

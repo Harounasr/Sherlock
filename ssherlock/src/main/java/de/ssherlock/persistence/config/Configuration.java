@@ -1,6 +1,7 @@
 package de.ssherlock.persistence.config;
 
 import de.ssherlock.global.logging.LoggerCreator;
+import de.ssherlock.persistence.exception.ConfigNotReadableException;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.faces.context.FacesContext;
@@ -10,6 +11,7 @@ import jakarta.servlet.ServletContext;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.function.Function;
 import java.util.logging.Level;
@@ -21,82 +23,103 @@ public class Configuration {
 
     private final Logger logger = LoggerCreator.get(Configuration.class);
 
-    Properties connectionProperties;
-    String host;
-    String driver;
-    String name;
-    int maxConnections;
+    private Properties connectionProperties;
+    private String dbHost;
+    private String dbDriver;
+    private String dbName;
+    private int dbNumConnections;
+    private long dbTimeoutMillis;
+    private boolean sslEnabled;
 
-    //MAIL
-    String from;
-    boolean auth;
-    boolean tls;
-    String mailhost;
-    String port;
-    String mailpassword;
+    private String mailFrom;
+    private String mailPassword;
+    private boolean mailAuthentication;
+    private boolean tlsEnabled;
+    private String mailHost;
+    private String mailPort;
 
     public Configuration() {
         Properties properties;
-        try {
-            connectionProperties = new Properties();
-            properties = readConfigFile();
-            connectionProperties.setProperty("user", properties.getProperty("user"));
-            connectionProperties.setProperty("password", properties.getProperty("password"));
-            connectionProperties.setProperty("ssl", properties.getProperty("ssl"));
-            host = properties.getProperty("host");
-            driver = properties.getProperty("driver");
-            name = properties.getProperty("dbname");
-            from = properties.getProperty("from");
-            auth = Boolean.parseBoolean(properties.getProperty("auth"));
-            tls = Boolean.parseBoolean(properties.getProperty("tls"));
-            mailhost = properties.getProperty("mailhost");
-            port = properties.getProperty("port");
-            mailpassword = properties.getProperty("mailpassword");
-            maxConnections = Integer.valueOf(properties.getProperty("maxConnections"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    public static void reset() {
+        properties = readConfigFile();
 
+        connectionProperties = new Properties();
+        connectionProperties.setProperty("user", properties.getProperty("DB_AUTH_USERNAME"));
+        connectionProperties.setProperty("password", properties.getProperty("DB_AUTH_PASSWORD"));
+        connectionProperties.setProperty("ssl", properties.getProperty("SSL_ENABLED"));
+        dbHost = properties.getProperty("DB_HOST");
+        dbDriver = properties.getProperty("DB_DRIVER");
+        dbName = properties.getProperty("DB_NAME");
+        dbNumConnections = Integer.valueOf(properties.getProperty("DB_CONNECTIONS"));
+        dbTimeoutMillis = Long.valueOf(properties.getProperty("DB_TIMEOUT_MILLIS"));
+
+        mailAuthentication = Boolean.parseBoolean(properties.getProperty("MAIL_AUTHENTICATION"));
+        mailFrom = properties.getProperty("MAIL_FROM");
+        mailPassword = properties.getProperty("MAIL_PASSWORD");
+        tlsEnabled = Boolean.parseBoolean(properties.getProperty("TLS_ENABLED"));
+        mailHost = properties.getProperty("MAIL_HOST");
+        mailPort = properties.getProperty("MAIL_PORT");
     }
 
-    private Properties readConfigFile() throws IOException {
+    private Properties readConfigFile() {
         Properties prop = new Properties();
         InputStream stream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/WEB-INF/config/config.properties");
-        prop.load(stream);
+        try {
+            prop.load(stream);
+        } catch (IOException e) {
+            throw new ConfigNotReadableException("The configuration file is not readable", e);
+        }
         return prop;
-    }
-
-    public String getHost() {
-        return host;
-    }
-
-    public String getDriver() {
-        return driver;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public Properties getConnectionProperties() {
         return connectionProperties;
     }
 
-    public int getMaxConnections() {
-        return maxConnections;
+    public String getDbHost() {
+        return dbHost;
     }
 
-    public String getFrom() { return from; }
+    public String getDbDriver() {
+        return dbDriver;
+    }
 
-    public boolean getAuth() {return auth;}
+    public String getDbName() {
+        return dbName;
+    }
 
-    public boolean getTls() {return tls;}
+    public int getDbNumConnections() {
+        return dbNumConnections;
+    }
 
-    public String getMailhost() {return mailhost;}
+    public long getDbTimeoutMillis() {
+        return dbTimeoutMillis;
+    }
 
-    public String getPort() {return port;}
+    public boolean isSslEnabled() {
+        return sslEnabled;
+    }
 
-    public String getMailpassword() {return mailpassword;}
+    public String getMailFrom() {
+        return mailFrom;
+    }
+
+    public String getMailPassword() {
+        return mailPassword;
+    }
+
+    public boolean isMailAuthentication() {
+        return mailAuthentication;
+    }
+
+    public boolean isTlsEnabled() {
+        return tlsEnabled;
+    }
+
+    public String getMailHost() {
+        return mailHost;
+    }
+
+    public String getMailPort() {
+        return mailPort;
+    }
 }
