@@ -30,7 +30,7 @@ public class Mail {
         try {
             logger.log(Level.INFO, "Trying to send Mail to " + user.email());
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(config.getFrom()));
+            message.setFrom(new InternetAddress(config.getMailFrom()));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(user.email()));
             message.setText(content);
             Transport.send(message);
@@ -42,14 +42,14 @@ public class Mail {
 
     private Session getSession() {
         Properties properties = new Properties();
-        properties.put("mail.smtp.host", config.getMailhost());
-        properties.put("mail.smtp.port", config.getPort());
-        properties.put("mail.smtp.auth", config.getAuth());
-        properties.put("mail.smtp.starttls.enable", config.getTls());
+        properties.put("mail.smtp.host", config.getMailHost());
+        properties.put("mail.smtp.port", config.getMailPort());
+        properties.put("mail.smtp.auth", config.isMailAuthentication());
+        properties.put("mail.smtp.starttls.enable", config.isTlsEnabled());
         return Session.getInstance(properties, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(config.getFrom(), config.getMailpassword());
+                return new PasswordAuthentication(config.getMailFrom(), config.getMailPassword());
             }
         });
     }
