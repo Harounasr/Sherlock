@@ -1,0 +1,23 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="templates/template.xhtml">
+
+    <ui:define name="title">My Courses</ui:define>
+
+    <ui:define name="content">
+        <section>
+            <div class="container">
+                <a>#{coursesBean.newCourseName}</a>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <h:form>
+                            <a>Software Testing</a>
+                            <h:commandButton id="course" value="Join Course" styleClass="btn btn-primary btn-block" action="#{coursesBean.select()}"/>
+                        </h:form>
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </ui:define>
+</ui:composition>

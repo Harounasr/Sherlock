@@ -35,12 +35,15 @@ public class LoginBean {
         this.logger = logger;
     }
 
-    public void login() {
+    public String login() {
         LoginInfo loginInfo = new LoginInfo(username, new Password(password, "salt"));
         try {
             User user = userService.login(loginInfo);
+            logger.log(Level.INFO, "logged in");
+            appSession.setUser(user);
             Notification notification = new Notification("You have been logged in.", NotificationType.SUCCESS);
             notification.generateUIMessage();
+            return "view/mycourses.xhtml";
         } catch (LoginFailedException e) {
             Notification notification = new Notification(Notification.WRONG_PASSWORD_MSG, NotificationType.ERROR);
             notification.generateUIMessage();
@@ -84,6 +87,9 @@ public class LoginBean {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    public String fileUploadClicked() {
+        return "/view/FileUpload.xhtml";
     }
 
 }

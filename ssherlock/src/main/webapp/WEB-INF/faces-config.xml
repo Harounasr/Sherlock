@@ -4,9 +4,6 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
                         https://jakarta.ee/xml/ns/jakartaee/web-facesconfig_4_0.xsd">
-    <application>
-
-    </application>
 
     <factory>
         <exception-handler-factory>
@@ -16,16 +13,5 @@
     <lifecycle>
         <phase-listener>de.ssherlock.control.util.TrespassListener</phase-listener>
     </lifecycle>
-    <navigation-rule>
-        <from-view-id>/view/login.xhtml</from-view-id>
-        <navigation-case>
-            <from-outcome>success</from-outcome>
-            <to-view-id>/view/registration.xhtml</to-view-id>
-        </navigation-case>
-        <navigation-case>
-            <from-outcome>success</from-outcome>
-            <to-view-id>/view/imageUploadPrototype.xhtml</to-view-id>
-        </navigation-case>
-    </navigation-rule>
 
 </faces-config>

@@ -6,6 +6,7 @@ import jakarta.faces.event.ActionEvent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Named
@@ -33,5 +34,8 @@ public class CoursesBean {
 
     public void setNewCourseName(String newCourseName) {
         this.newCourseName = newCourseName;
+    }
+    public String select() {
+        return "/view/exercise.xhtml";
     }
 }

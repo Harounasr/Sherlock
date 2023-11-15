@@ -1,0 +1,72 @@
+body {
+    background-color: red;
+    padding-bottom: 60px; /* Change this value to adjust the footer height */
+    margin: 0;
+    height: 100vh;
+}
+
+.list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#upload-archive {
+    margin-top: 30px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.5em;
+    color: black; /* Adjust the color specifically for the upload section */
+}
+
+a {
+    color: floralwhite;
+}
+#selected {
+    color: black;
+}
+#main {
+    font-size: 16px;
+}
+.upload-label {
+    font-weight: bold;
+    color: black; /* Adjust the color for the label */
+}
+#upload-button {
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    color: black; /* Adjust the color for the button text */
+}
+input[type="file"] {
+    display: block;
+    width: 100%;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: black; /* Adjust the color for the file input text */
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+section {
+    display: flex;
+    height: 100%;
+}
+
+#nav1 {
+    flex: 0 0 10%; /* Set the width of nav1 */
+    padding: 20px;
+    background: rgb(128, 128, 100);
+    height: 100%;
+}
+
+#content {
+    flex: 1; /* Let content take the remaining space */
+    /*padding: 20px;*/
+    background-color: white; /* Set the background color of content */
+    height: 100%;
+}
