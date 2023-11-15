@@ -35,8 +35,7 @@ public class CoursesBean {
     public void setNewCourseName(String newCourseName) {
         this.newCourseName = newCourseName;
     }
-    private String select() {
-        logger.log(Level.INFO, "Clicked!");
-        return "view/exercise.xhtml";
+    public String select() {
+        return "/view/exercise.xhtml";
     }
 }

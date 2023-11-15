@@ -35,7 +35,7 @@ public class LoginBean {
         this.logger = logger;
     }
 
-    public void login() {
+    public String login() {
         LoginInfo loginInfo = new LoginInfo(username, new Password(password, "salt"));
         try {
             User user = userService.login(loginInfo);

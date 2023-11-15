@@ -1,7 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="jakarta.faces.html"
-      xmlns:c="jakarta.faces.core" >
+      xmlns:h="jakarta.faces.html">
 <head>
     <title>Login Page</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
@@ -33,7 +32,7 @@
                             <h:inputSecret id="password" value="#{loginBean.password}" styleClass="form-control" placeholder="Enter your password"/>
                             <h:message for="password" id="loginError" errorStyle="text-"/>
                         </div>
-                        <h:commandButton id="login" value="Login" styleClass="btn btn-primary btn-block" action="#{loginBean.login}"/>
+                        <h:commandButton id="login" value="Login" styleClass="btn btn-primary btn-block" action="#{loginBean.login}" oucome="success"/>
                         <h:commandButton id="register" value="Register" styleClass="btn btn-primary btn-block" action="#{loginBean.registerClicked}" outcome="success"/>
                         <h:commandButton id="imageUpload" value="Image Upload Test" styleClass="btn btn-primary btn-block" action="#{loginBean.imageUploadClicked}" outcome="success"/>
                         <h:commandButton id="fileUpload" value="File Upload" styleClass="btn btn-primary btn-block" action="#{loginBean.fileUploadClicked}" outcome="success"/>
