@@ -41,12 +41,13 @@ public class LoginBean {
             User user = userService.login(loginInfo);
             logger.log(Level.INFO, "logged in");
             appSession.setUser(user);
-            Notification notification = new Notification("You have been logged in.", NotificationType.SUCCESS);
-            notification.generateUIMessage();
-            return "view/mycourses.xhtml";
+            //Notification notification = new Notification("You have been logged in.", NotificationType.SUCCESS);
+            //notification.generateUIMessage();
+            return "/view/courses.xhtml";
         } catch (LoginFailedException e) {
             Notification notification = new Notification(Notification.WRONG_PASSWORD_MSG, NotificationType.ERROR);
             notification.generateUIMessage();
+            return "";
         }
     }
 

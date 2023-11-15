@@ -2,7 +2,6 @@ package de.ssherlock.control.backing;
 
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.session.AppSession;
-import de.ssherlock.business.service.MailService;
 import de.ssherlock.global.transport.Password;
 import de.ssherlock.global.transport.SystemRole;
 import de.ssherlock.global.transport.User;
