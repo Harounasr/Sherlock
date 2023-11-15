@@ -1,9 +1,13 @@
 package de.ssherlock.persistence.transaction;
 
+import de.ssherlock.persistence.exception.DBUnavailableException;
+
+import java.sql.SQLException;
+
 public interface Transaction extends AutoCloseable {
 
-    void commit();
+    void commit() throws SQLException;
 
-    void abort();
+    void abort() throws SQLException;
 
 }

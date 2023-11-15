@@ -27,7 +27,7 @@ public class PasswordForgottenBean {
     }
 
     public void requestPasswordReset() {
-        User user = new User(null, emailAdress, null, null, null, null, null);
+        User user = new User(null, emailAdress, null, null, null, null, null, null);
         userService.sendPasswordForgottenEmail(user);
     }
 

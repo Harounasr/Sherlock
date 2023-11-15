@@ -34,7 +34,7 @@ public class RegistrationBean {
     }
 
     public void register() {
-        userService.registerUser(new User(userName, email, firstName, lastName, SystemRole.ANONYMOUS, new Password("", ""), faculty));
+        userService.registerUser(new User(userName, email, firstName, lastName, SystemRole.ANONYMOUS, new Password("", ""), faculty, null));
     }
 
     public String navigateToLogin() {

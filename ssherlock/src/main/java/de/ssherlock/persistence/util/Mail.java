@@ -16,13 +16,13 @@ import jakarta.mail.internet.MimeMessage;
 @RequestScoped
 public class Mail {
 
-    private final Logger logger;
-    private final Configuration config;
-
     @Inject
-    public Mail(Logger logger, Configuration config) {
-        this.logger = logger;
-        this.config = config;
+    private  Logger logger;
+    @Inject
+    private  Configuration config;
+
+    public Mail() {
+
     }
 
     public void sendMail(User user, String content) {

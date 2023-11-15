@@ -1,5 +1,6 @@
 package de.ssherlock.global.transport;
 
+import java.util.Map;
 import java.util.Objects;
 
 public record User(
@@ -9,7 +10,8 @@ public record User(
         String lastName,
         SystemRole systemRole,
         Password password,
-        String facultyName
+        String facultyName,
+        Map<String, CourseRole> courseRoles
 ) {
 
     @Override
@@ -33,6 +35,7 @@ public record User(
         private SystemRole systemRole;
         private Password password;
         private String facultyName;
+        private Map<String, CourseRole> courseRoles;
 
         public Builder() {
         }
@@ -45,6 +48,7 @@ public record User(
             this.systemRole = user.systemRole();
             this.password = user.password();
             this.facultyName = user.facultyName();
+            this.courseRoles = user.courseRoles();
             return this;
         }
 
@@ -83,8 +87,13 @@ public record User(
             return this;
         }
 
+        public Builder courseRoles(Map<String, CourseRole> courseRoles) {
+            this.courseRoles = courseRoles;
+            return this;
+        }
+
         public User build() {
-            return new User(username, email, firstName, lastName, systemRole, password, facultyName);
+            return new User(username, email, firstName, lastName, systemRole, password, facultyName, courseRoles);
         }
     }
 }
