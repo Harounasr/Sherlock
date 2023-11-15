@@ -10,6 +10,7 @@ import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Named
@@ -18,10 +19,8 @@ public class RegistrationBean {
 
     @Inject
     private Logger logger;
-
     @Inject
     private AppSession appSession;
-
     @Inject
     private UserService userService;
     @Inject
@@ -35,7 +34,9 @@ public class RegistrationBean {
 
     private String faculty;
 
-    public RegistrationBean() {}
+    public RegistrationBean() {
+        logger.log(Level.INFO, "Reg Bean created");
+    }
 
     public void register() {
         userService.registerUser(new User(userName, email, firstName, lastName, SystemRole.ANONYMOUS, new Password("", ""), faculty));
