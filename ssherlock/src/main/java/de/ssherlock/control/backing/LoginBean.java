@@ -44,7 +44,7 @@ public class LoginBean {
             User user = userService.login(loginInfo);
             logger.log(Level.INFO, "logged in");
             //session.setUser(user);
-            return "/view/mycourses.xhtml";
+            return "/view/courses.xhtml";
         } catch (LoginFailedException e) {
             Notification notification = new Notification(Notification.WRONG_PASSWORD_MSG, NotificationType.ERROR);
             notification.generateUIMessage();
