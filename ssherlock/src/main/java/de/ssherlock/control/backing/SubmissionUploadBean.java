@@ -4,7 +4,6 @@ import de.ssherlock.business.service.CheckerService;
 import de.ssherlock.business.service.SubmissionService;
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.session.AppSession;
-import de.ssherlock.control.util.BackingBeanInitializationUtils;
 import de.ssherlock.global.transport.*;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
@@ -20,87 +19,114 @@ import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+/**
+ * Backing bean for the submissionUpload.xhtml facelet.
+ */
 @Named
 @RequestScoped
 public class SubmissionUploadBean {
 
+    /**
+     * Logger for this class.
+     */
     private final Logger logger;
-    private final AppSession appSession;
-    private final SubmissionService submissionService;
-    private final CheckerService checkerService;
-    private final UserService userService;
 
-    private Map<User, CourseRole> userRoles;
+    /**
+     * The active session.
+     */
+    private final AppSession appSession;
+
+    /**
+     * The service handling submission-related operations.
+     */
+    private final SubmissionService submissionService;
+
+    /**
+     * The service handling checker-related operations.
+     */
+    private final CheckerService checkerService;
+
+    /**
+     * List of checkers for this exercise.
+     */
     private List<Checker> checkers;
+
+    /**
+     * The current submission being processed.
+     */
     private Submission currentSubmission;
+
+    /**
+     * The archive file (Part) for submitting.
+     */
     private Part archiveFile;
 
+    /**
+     * Constructor for SubmissionUploadBean.
+     *
+     * @param logger            The logger for this class (Injected).
+     * @param appSession        The active session (Injected).
+     * @param submissionService The service handling submission-related operations (Injected).
+     * @param checkerService    The service handling checker-related operations (Injected).
+     */
     @Inject
-    public SubmissionUploadBean(Logger logger, AppSession appSession, SubmissionService submissionService, CheckerService checkerService, UserService userService) {
+    public SubmissionUploadBean(Logger logger, AppSession appSession, SubmissionService submissionService, CheckerService checkerService) {
         this.logger = logger;
         this.appSession = appSession;
         this.submissionService = submissionService;
         this.checkerService = checkerService;
-        this.userService = userService;
     }
 
+    /**
+     * Initializes the bean after construction.
+     */
     @PostConstruct
     public void initialize() {
-        userRoles = BackingBeanInitializationUtils.loadCourseRoles(null, userService);
-        checkers = BackingBeanInitializationUtils.loadCheckers(null, checkerService);
-    }
-
-    public void afterUpload() {
-
+        // (method body remains empty)
     }
 
     /**
      * Expands the Checker to show the entire result.
+     *
+     * @param e The action event triggering the expansion.
      */
     public void expandCheckerResult(ActionEvent e) {
 
     }
 
     /**
-     * Tries to submit the current submission.
+     * Upload the file.
      */
     public void submitUpload() {
 
     }
 
-    private List<ZipEntry> unzip(ZipFile zipFile) {
+    /**
+     * Unzips the provided zip file.
+     *
+     * @param zipFile The file to be unzipped.
+     * @return A list of ZipEntries after unzipping.
+     */
+    private List<ZipEntry> unzip(Part zipFile) {
         return null;
     }
 
+    /**
+     * Runs the defined checkers on the submission.
+     *
+     * @return A list of CheckerResults after running checkers.
+     */
     private List<CheckerResult> runCheckers() {
         return null;
     }
 
-    public Part getArchiveFile() {
-        return archiveFile;
-    }
-
+    /**
+     * Sets the archive file for processing.
+     *
+     * @param archiveFile The archive file to be set.
+     */
     public void setZipFile(Part archiveFile) {
         this.archiveFile = archiveFile;
     }
 
-    public List<Checker> getCheckers() {
-        return checkers;
-    }
-
-    public void setCheckers(List<Checker> checkers) {
-        this.checkers = checkers;
-    }
-
-    public Submission getCurrentSubmission() {
-        return currentSubmission;
-    }
-
-    public void setCurrentSubmission(Submission currentSubmission) {
-        this.currentSubmission = currentSubmission;
-    }
-
-    private List<File> unZip() {
-        return null;
-    }
 }

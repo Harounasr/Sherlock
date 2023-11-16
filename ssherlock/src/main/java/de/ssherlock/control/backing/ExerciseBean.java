@@ -1,49 +1,83 @@
 package de.ssherlock.control.backing;
 
 import de.ssherlock.business.service.ExerciseService;
-import de.ssherlock.business.service.UserService;
-import de.ssherlock.control.util.BackingBeanInitializationUtils;
-import de.ssherlock.global.transport.CourseRole;
-import de.ssherlock.global.transport.User;
+import de.ssherlock.control.session.AppSession;
+import de.ssherlock.global.transport.Exercise;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.annotation.View;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
-import java.util.Map;
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.logging.Logger;
+
+/**
+ * Backing bean for the exercise.xhtml facelet.
+ */
 @Named
-@RequestScoped
-public class ExerciseBean {
+@ViewScoped
+public class ExerciseBean implements Serializable {
 
+    /**
+     * Serial Version UID
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+
+    /**
+     * Logger for logging within this class.
+     */
     private final Logger logger;
+
+    /**
+     * The active session.
+     */
+    private final AppSession appSession;
+
+    /**
+     * Service for handling Exercise-related actions.
+     */
     private final ExerciseService exerciseService;
-    private final UserService userService;
 
-    private Map<User, CourseRole> userRoles;
+    /**
+     * The current Exercise being managed.
+     */
+    private Exercise exercise;
 
+    /**
+     * Constructs an ExerciseBean.
+     *
+     * @param logger          The logger used for logging within this class (Injected).
+     * @param appSession      The active session (Injected).
+     * @param exerciseService The ExerciseService (Injected).
+     */
     @Inject
-    public ExerciseBean(Logger logger, ExerciseService exerciseService, UserService userService) {
+    public ExerciseBean(Logger logger, AppSession appSession, ExerciseService exerciseService) {
         this.logger = logger;
+        this.appSession = appSession;
         this.exerciseService = exerciseService;
-        this.userService = userService;
     }
 
+    /**
+     * Initializes the ExerciseBean after construction.
+     * Performs any necessary setup.
+     */
     @PostConstruct
     public void initialize() {
-        userRoles = BackingBeanInitializationUtils.loadCourseRoles(null, userService);
-        toggleVisibility();
-    }
-
-    private void toggleVisibility() {
 
     }
 
-    public Map<User, CourseRole> getUserRoles() {
-        return userRoles;
+    /**
+     * Gets the exercise.
+     *
+     * @return The exercise.
+     */
+    public Exercise getExercise() {
+        return exercise;
     }
 
-    public void setUserRoles(Map<User, CourseRole> userRoles) {
-        this.userRoles = userRoles;
-    }
 }

@@ -6,27 +6,76 @@ import de.ssherlock.global.transport.Password;
 import de.ssherlock.global.transport.SystemRole;
 import de.ssherlock.global.transport.User;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.logging.Logger;
 
 @Named
-@RequestScoped
-public class RegistrationBean {
+@ViewScoped
+public class RegistrationBean implements Serializable {
 
+    /**
+     * Serial Version UID
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * The logger for this class.
+     */
     private final Logger logger;
+
+    /**
+     * The active session.
+     */
     private final AppSession appSession;
+
+    /**
+     * The service handling user-related operations.
+     */
     private final UserService userService;
 
+    /**
+     * The user's chosen username.
+     */
     private String userName;
+
+    /**
+     * The user's first name.
+     */
     private String firstName;
+
+    /**
+     * The user's last name.
+     */
     private String lastName;
+
+    /**
+     * The user's chosen password.
+     */
     private String passWord;
+
+    /**
+     * The user's email address.
+     */
     private String email;
 
+    /**
+     * The user's chosen faculty.
+     */
     private String faculty;
 
+    /**
+     * Constructs a new Registration bean.
+     *
+     * @param logger The logger for this class (Injected).
+     * @param appSession The active session (Injected).
+     * @param userService The service for user-based operations (Injected).
+     */
     @Inject
     public RegistrationBean(Logger logger, AppSession appSession, UserService userService) {
         this.logger = logger;
@@ -34,58 +83,72 @@ public class RegistrationBean {
         this.userService = userService;
     }
 
+    /**
+     * Tries to register a new user using the provided information.
+     */
     public void register() {
         userService.registerUser(new User(userName, email, firstName, lastName, SystemRole.ANONYMOUS, new Password("", ""), faculty, null));
     }
 
+    /**
+     * Navigates to the login page.
+     *
+     * @return String representing the navigation outcome.
+     */
     public String navigateToLogin() {
         return "";
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
+    /**
+     * Sets the user's chosen username.
+     *
+     * @param userName The chosen username.
+     */
     public void setUserName(String userName) {
         this.userName = userName;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
+    /**
+     * Sets the user's first name.
+     *
+     * @param firstName The user's first name.
+     */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
-
+    /**
+     * Sets the user's last name.
+     *
+     * @param lastName The user's last name.
+     */
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    public String getPassWord() {
-        return passWord;
-    }
-
+    /**
+     * Sets the user's chosen password.
+     *
+     * @param passWord The chosen password.
+     */
     public void setPassWord(String passWord) {
         this.passWord = passWord;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
+    /**
+     * Sets the user's email address.
+     *
+     * @param email The user's email address.
+     */
     public void setEmail(String email) {
         this.email = email;
     }
 
-    public String getFaculty() {
-        return faculty;
-    }
-
+    /**
+     * Sets the user's chosen faculty.
+     *
+     * @param faculty The chosen faculty.
+     */
     public void setFaculty(String faculty) {
         this.faculty = faculty;
     }

@@ -13,16 +13,40 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Backing bean for the courses.xhtml facelet.
+ */
 @Named
 @RequestScoped
 public class CoursesBean {
 
+    /**
+     * Logger for logging within this class.
+     */
     private final Logger logger;
+
+    /**
+     * The active session.
+     */
     private final AppSession appSession;
+
+    /**
+     * Service to handle Course-related actions.
+     */
     private final CourseService courseService;
 
+    /**
+     * The name of the new course.
+     */
     private String newCourseName;
 
+    /**
+     * Constructs a CoursesBean.
+     *
+     * @param logger        The logger used for logging within this class (Injected).
+     * @param appSession    The active session (Injected).
+     * @param courseService The CourseService (Injected).
+     */
     @Inject
     public CoursesBean(Logger logger, AppSession appSession, CourseService courseService) {
         this.logger = logger;
@@ -30,23 +54,40 @@ public class CoursesBean {
         this.courseService = courseService;
     }
 
+    /**
+     * Initializes the CoursesBean after construction.
+     * Loads courses.
+     */
     @PostConstruct
     public void init() {
         List<Course> courses = courseService.getCourses();
         courses.forEach(course -> logger.log(Level.INFO, "loaded course " + course.name() + " with exercises " + course.exercises()));
     }
 
+    /**
+     * Action for adding a new course.
+     *
+     * @param e The fired ActionEvent.
+     * @return A navigation outcome string to the created course.
+     */
     public String addCourse(ActionEvent e) {
         return "";
     }
 
-    public String getNewCourseName() {
-        return newCourseName;
-    }
-
+    /**
+     * Setter for the new course name.
+     *
+     * @param newCourseName The new course name to be set.
+     */
     public void setNewCourseName(String newCourseName) {
         this.newCourseName = newCourseName;
     }
+
+    /**
+     * Action to select a course.
+     *
+     * @return A navigation outcome string to the exercise view.
+     */
     public String select() {
         return "/view/exercise.xhtml";
     }

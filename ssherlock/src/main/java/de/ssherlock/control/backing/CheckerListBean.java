@@ -2,7 +2,6 @@ package de.ssherlock.control.backing;
 
 import de.ssherlock.business.service.CheckerService;
 import de.ssherlock.control.session.AppSession;
-import de.ssherlock.control.util.BackingBeanInitializationUtils;
 import de.ssherlock.global.transport.Checker;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
@@ -13,101 +12,111 @@ import jakarta.inject.Named;
 import java.util.List;
 import java.util.logging.Logger;
 
+/**
+ * Backing bean for the checkerList.xhtml facelet.
+ */
 @Named
 @RequestScoped
 public class CheckerListBean {
 
+    /**
+     * Logger for logging within this class.
+     */
     private final Logger logger;
-    private final CheckerService checkerService;
+
+    /**
+     * Active session.
+     */
     private final AppSession appSession;
 
+    /**
+     * Service that provides checker-based actions.
+     */
+    private final CheckerService checkerService;
+
+    /**
+     * List of all checkers retrieved for the exercise.
+     */
     private List<Checker> checkers;
+
+    /**
+     * Entered name of the new Checker.
+     */
+    private String newCheckerName;
+
+    /**
+     * Entered input for the new Checker.
+     */
     private String newCheckerInput;
+
+    /**
+     * Entered output for the new Checker.
+     */
     private String newCheckerExpectedOutput;
 
+    /**
+     * Constructs a CheckerListBean.
+     *
+     * @param logger          The logger used for logging within this class (Injected).
+     * @param appSession      The active session (Injected).
+     * @param checkerService  The CheckerService used for managing checkers (Injected).
+     */
     @Inject
-    public CheckerListBean(Logger logger, CheckerService checkerService, AppSession appSession) {
+    public CheckerListBean(Logger logger, AppSession appSession, CheckerService checkerService) {
         this.logger = logger;
         this.checkerService = checkerService;
         this.appSession = appSession;
     }
 
+    /**
+     * Initializes the CheckerListBean after construction.
+     * Retrieves checkers for the current exercise upon creation.
+     */
     @PostConstruct
     public void initialize() {
-        checkers = BackingBeanInitializationUtils.loadCheckers(null, checkerService);
+        checkers = checkerService.getCheckersForExercise(null); // You might want to specify exercise ID or parameters here
     }
 
     /**
-     * Changes the parameter for the selected Checker.
+     * Action to change the parameter for the selected Checker.
      *
-     * @param e the Action Event
+     * @param e The Action Event
      */
     public void changeParameter(ActionEvent e) {
-
     }
 
     /**
-     * Changes the visibility for the selected Checker.
+     * Action to change the visibility for the selected Checker.
      *
-     * @param e the ActionEvent
+     * @param e The ActionEvent
      */
     public void changeVisibility(ActionEvent e) {
-
     }
 
     /**
-     * Changes the obligation status for the selected Checker.
+     * Setter for the entered name for the new Checker.
      *
-     * @param e the ActionEvent
+     * @param newCheckerName The entered name.
      */
-    public void changeObligation(ActionEvent e) {
-
+    public void setNewCheckerName(String newCheckerName) {
+        this.newCheckerName = newCheckerName;
     }
 
     /**
-     * Toggles on off for the selected non-userdefined checker.
+     * Setter for the entered input for the new Checker.
      *
-     * @param e the ActionEvent
+     * @param newCheckerInput The entered input.
      */
-    public void toggleOnOff(ActionEvent e) {
-
-    }
-
-    /**
-     * Adds a new User Defined Checker to the current exercise.
-     */
-    public void addUserDefinedChecker() {
-
-    }
-
-    /**
-     * Removes a User Defined Checker from the current exercise.
-     */
-    public void removeUserDefinedChecker() {
-
-    }
-
-    public String getNewCheckerInput() {
-        return newCheckerInput;
-    }
-
     public void setNewCheckerInput(String newCheckerInput) {
         this.newCheckerInput = newCheckerInput;
     }
 
-    public String getNewCheckerExpectedOutput() {
-        return newCheckerExpectedOutput;
-    }
-
+    /**
+     * Setter for the entered output for the new Checker.
+     *
+     * @param newCheckerExpectedOutput The entered output.
+     */
     public void setNewCheckerExpectedOutput(String newCheckerExpectedOutput) {
         this.newCheckerExpectedOutput = newCheckerExpectedOutput;
-    }
-
-    public List<Checker> getCheckers() {
-        return checkers;
-    }
-
-    public void setCheckers(List<Checker> checkers) {
-        this.checkers = checkers;
     }
 }
