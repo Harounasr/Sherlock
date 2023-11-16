@@ -1,17 +1,35 @@
 package de.ssherlock.business.exception;
 
-public class LoginFailedException extends Exception {
+import java.io.Serial;
 
+/**
+ * Is thrown when the login did not work.
+ */
+public class LoginFailedException extends Exception {
+    @Serial
+    private static final long serialVersionUID = 1L;
+    /**
+     * Constructs a new LoginFailedException and sets the message.
+     */
     public LoginFailedException() {
         super();
     }
-
-    public LoginFailedException(String msg) {
-        super(msg);
+    /**
+     * Constructs a new LoginFailedException and sets the message.
+     *
+     * @param message stores the message.
+     */
+    public LoginFailedException(String message) {
+        super(message);
     }
-
-    public LoginFailedException(String msg, Throwable err) {
-        super(msg, err);
+    /**
+     * Constructs a new LoginFailedException and sets the message.
+     *
+     * @param message stores the message.
+     * @param err the exception which is going to be wrapped.
+     */
+    public LoginFailedException(String message, Throwable err) {
+        super(message, err);
     }
 
 }
