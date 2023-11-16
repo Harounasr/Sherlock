@@ -11,10 +11,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+/**
+ * Implementation of SystemSettingsRepository for PostgreSQL database.
+ */
 public class SystemSettingsRepositoryPsql extends RepositoryPsql implements SystemSettingsRepository {
-
+    /**
+     * Logger instance for logging messages related to SystemSettingsRepositoryPsql.
+     */
     private final Logger logger = LoggerCreator.get(SystemSettingsRepositoryPsql.class);
+    /**
+     * Constructor to initialize the repository with a database connection.
+     *
+     * @param connection The database connection.
+     */
     public SystemSettingsRepositoryPsql(Connection connection) {
         super(connection);
     }

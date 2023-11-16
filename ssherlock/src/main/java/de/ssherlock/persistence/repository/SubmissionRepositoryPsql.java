@@ -8,10 +8,19 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
-
+/**
+ * Implementation of SubmissionRepository for PostgreSQL database.
+ */
 public class SubmissionRepositoryPsql extends RepositoryPsql implements SubmissionRepository {
-
+    /**
+     * Logger instance for logging messages related to SubmissionRepositoryPsql.
+     */
     private final Logger logger = LoggerCreator.get(SubmissionRepositoryPsql.class);
+    /**
+     * Constructor to initialize the repository with a database connection.
+     *
+     * @param connection The database connection.
+     */
     public SubmissionRepositoryPsql(Connection connection) {
         super(connection);
     }

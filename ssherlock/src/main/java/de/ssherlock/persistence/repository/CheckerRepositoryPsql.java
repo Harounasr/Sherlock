@@ -8,9 +8,20 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
+/**
+ * Implementation of CheckerRepository for PostgreSQL database.
+ */
 public class CheckerRepositoryPsql extends RepositoryPsql implements CheckerRepository {
-
+    /**
+     * Logger instance for logging messages related to CheckerRepositoryPsql.
+     */
     private final Logger logger = LoggerCreator.get(CheckerRepositoryPsql.class);
+
+    /**
+     * Constructor to initialize the repository with a database connection.
+     *
+     * @param connection The database connection.
+     */
     public CheckerRepositoryPsql(Connection connection) {
         super(connection);
     }

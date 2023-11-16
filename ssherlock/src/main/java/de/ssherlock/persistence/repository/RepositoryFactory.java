@@ -84,48 +84,4 @@ public class RepositoryFactory {
         }
     }
 
-    public static CheckerResultRepository getCheckerResultRepository(RepositoryType type, Connection connection) {
-        switch (type) {
-            case POSTGRESQL -> {
-                return new CheckerResultRepositoryPsql(connection);
-            }
-            default -> {
-                return null;
-            }
-        }
-    }
-
-    public static ExerciseDescriptionImageRepository getExerciseDescriptionImageRepository(RepositoryType type, Connection connection) {
-        switch (type) {
-            case POSTGRESQL -> {
-                return new ExerciseDescriptionImageRepositoryPsql(connection);
-            }
-            default -> {
-                return null;
-            }
-        }
-    }
-
-    public static SubmissionFileRepository getSubmissionFileRepository(RepositoryType type, Connection connection) {
-        switch (type) {
-            case POSTGRESQL -> {
-                return new SubmissionFileRepositoryPsql(connection);
-            }
-            default -> {
-                return null;
-            }
-        }
-    }
-
-    public static TestateCommentRepository getTestateCommentRepository(RepositoryType type, Connection connection) {
-        switch (type) {
-            case POSTGRESQL -> {
-                return new TestateCommentRepositoryPsql(connection);
-            }
-            default -> {
-                return null;
-            }
-        }
-    }
-
 }
