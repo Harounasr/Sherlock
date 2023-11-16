@@ -64,9 +64,9 @@ public class CourseSidebarBean {
     }
 
     /**
-     * Action to load tutorSelection.xhtml into the content.
+     * Action to load userSelection.xhtml into the content.
      */
-    public void loadTutorSelection() {
+    public void loadUserSelection() {
 
     }
 }
