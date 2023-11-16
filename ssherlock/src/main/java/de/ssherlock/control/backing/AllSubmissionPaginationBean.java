@@ -3,10 +3,7 @@ package de.ssherlock.control.backing;
 import de.ssherlock.business.service.SubmissionService;
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.session.AppSession;
-import de.ssherlock.control.util.BackingBeanInitializationUtils;
-import de.ssherlock.global.transport.CourseRole;
 import de.ssherlock.global.transport.Submission;
-import de.ssherlock.global.transport.User;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.event.ActionEvent;
@@ -14,22 +11,48 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
+/**
+ * Backing bean for the allSubmissionPaginationBean.xhtml facelet.
+ */
 @Named
 @RequestScoped
 public class AllSubmissionPaginationBean {
 
+    /**
+     * Logger for logging within this class.
+     */
     private final Logger logger;
+
+    /**
+     * Active session.
+     */
     private final AppSession appSession;
+
+    /**
+     * Service that provides submission-based actions.
+     */
     private final SubmissionService submissionService;
+
+    /**
+     * Service that provides user-based actions.
+     */
     private final UserService userService;
 
-    private Map<User, CourseRole> userRoles;
-
+    /**
+     * List of all submissions.
+     */
     private List<Submission> submissions;
 
+    /**
+     * Constructs an AllSubmissionPaginationBean.
+     *
+     * @param logger            The logger used for logging within this class (Injected).
+     * @param appSession        The active session (Injected).
+     * @param submissionService The SubmissionService used for submission-related actions (Injected).
+     * @param userService       The UserService used for user-related actions (Injected).
+     */
     @Inject
     public AllSubmissionPaginationBean(Logger logger, AppSession appSession, SubmissionService submissionService, UserService userService) {
         this.logger = logger;
@@ -39,35 +62,19 @@ public class AllSubmissionPaginationBean {
     }
 
     /**
-     * Sets up the bean.
+     * Initializes the AllSubmissionPaginationBean after construction.
+     * Retrieves all submissions upon creation.
      */
     @PostConstruct
     public void initialize() {
-        userRoles = BackingBeanInitializationUtils.loadCourseRoles(null, userService);
-        submissions = BackingBeanInitializationUtils.loadSubmissions(null, submissionService);
-        toggleVisibility();
+        submissions = submissionService.getSubmissions(null); // You might want to specify parameters here
     }
 
     /**
-     * Redirects user to the selected submission.
+     * Action to redirect the user to the selected submission.
+     *
+     * @param e The ActionEvent
      */
     public void selectSubmission(ActionEvent e) {
-
-    }
-
-    private void toggleVisibility() {
-
-    }
-
-    public List<Submission> getSubmissions() {
-        return submissions;
-    }
-
-    public void setSubmissions(List<Submission> submissions) {
-        this.submissions = submissions;
     }
 }
-
-
-
-

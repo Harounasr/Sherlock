@@ -2,7 +2,6 @@ package de.ssherlock.control.backing;
 
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.session.AppSession;
-import de.ssherlock.control.util.BackingBeanInitializationUtils;
 import de.ssherlock.global.transport.CourseRole;
 import de.ssherlock.global.transport.User;
 import jakarta.annotation.PostConstruct;
@@ -13,16 +12,35 @@ import jakarta.inject.Named;
 import java.util.Map;
 import java.util.logging.Logger;
 
+/**
+ * Backing bean for the courseSidebar.xhtml facelet.
+ */
 @Named
 @RequestScoped
 public class CourseSidebarBean {
 
+    /**
+     * Logger for logging within this class.
+     */
     private final Logger logger;
+
+    /**
+     * The active session.
+     */
     private final AppSession appSession;
+
+    /**
+     * Service to handle User-related actions.
+     */
     private final UserService userService;
 
-    private Map<User, CourseRole> userRoles;
-
+    /**
+     * Constructs a CourseSidebarBean.
+     *
+     * @param logger     The logger used for logging within this class (Injected).
+     * @param appSession The active session (Injected).
+     * @param userService The UserService (Injected).
+     */
     @Inject
     public CourseSidebarBean(Logger logger, AppSession appSession, UserService userService) {
         this.logger = logger;
@@ -30,22 +48,25 @@ public class CourseSidebarBean {
         this.userService = userService;
     }
 
+    /**
+     * Initializes the CourseSidebarBean after construction.
+     */
     @PostConstruct
     public void initialize() {
-        userRoles = BackingBeanInitializationUtils.loadCourseRoles(null, userService);
-        toggleVisibility();
+
     }
 
+    /**
+     * Action to load exercises.xhtml into the content.
+     */
     public void loadExercises() {
 
     }
 
+    /**
+     * Action to load tutorSelection.xhtml into the content.
+     */
     public void loadTutorSelection() {
 
     }
-
-    private void toggleVisibility() {
-
-    }
-
 }

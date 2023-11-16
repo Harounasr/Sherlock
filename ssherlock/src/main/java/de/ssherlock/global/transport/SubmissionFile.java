@@ -3,6 +3,12 @@ package de.ssherlock.global.transport;
 import java.util.Arrays;
 import java.util.Objects;
 
+/**
+ * Represents a SubmissionFile DTO.
+ *
+ * @param name The filename.
+ * @param bytes The file as a byte array.
+ */
 public record SubmissionFile(
         String name,
         byte[] bytes
@@ -23,29 +29,59 @@ public record SubmissionFile(
         return result;
     }
 
+    /**
+     * Builder class for constructing SubmissionFile instances.
+     */
     public static class Builder {
         private String name;
         private byte[] bytes;
 
+        /**
+         * Default constructor for the Builder.
+         */
         public Builder() {
+
         }
 
+        /**
+         * Copies attributes from an existing SubmissionFile instance.
+         *
+         * @param submissionFile The SubmissionFile instance to copy from.
+         * @return The Builder instance.
+         */
         public Builder copyFrom(SubmissionFile submissionFile) {
             this.name = submissionFile.name();
             this.bytes = submissionFile.bytes();
             return this;
         }
 
+        /**
+         * Sets the name for the SubmissionFile.
+         *
+         * @param name The name to set.
+         * @return The Builder instance.
+         */
         public Builder name(String name) {
             this.name = name;
             return this;
         }
 
+        /**
+         * Sets the bytes for the SubmissionFile.
+         *
+         * @param bytes The bytes to set.
+         * @return The Builder instance.
+         */
         public Builder bytes(byte[] bytes) {
             this.bytes = bytes;
             return this;
         }
 
+        /**
+         * Builds a SubmissionFile instance using the provided attributes.
+         *
+         * @return The constructed SubmissionFile instance.
+         */
         public SubmissionFile build() {
             return new SubmissionFile(name, bytes);
         }
