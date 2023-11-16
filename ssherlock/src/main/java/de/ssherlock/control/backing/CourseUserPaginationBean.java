@@ -64,7 +64,7 @@ public class CourseUserPaginationBean {
      */
     @PostConstruct
     public void initialize() {
-        // Method body intentionally left empty
+
     }
 
     /**
