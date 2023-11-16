@@ -26,26 +26,41 @@ public class CheckerRepositoryPsql extends RepositoryPsql implements CheckerRepo
         super(connection);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void insertChecker(Checker checker) {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void updateChecker(Checker checker) {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void deleteChecker(long id) {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Checker fetchChecker(long id) {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Checker> fetchCheckers(Predicate<Checker> predicate) {
         return null;
