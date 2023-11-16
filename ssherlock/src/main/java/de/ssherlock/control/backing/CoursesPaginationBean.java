@@ -10,6 +10,7 @@ import jakarta.inject.Named;
 
 import java.awt.event.ActionEvent;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -38,6 +39,9 @@ public class CoursesPaginationBean {
      * List of courses to be displayed.
      */
     private List<Course> courses;
+
+    private int currentPage = 1;
+    private int pageSize = 10;
 
     /**
      * Constructs a CoursesPaginationBean.
@@ -81,4 +85,55 @@ public class CoursesPaginationBean {
         return courses;
     }
 
+    public void firstPage() {
+        currentPage = 0;
+        loadData();
+    }
+
+    public void previousPage() {
+        if (currentPage > 0) {
+            currentPage--;
+            loadData();
+        }
+    }
+
+    public void nextPage() {
+        int lastIndex = courses.size() - 1;
+        if (currentPage < lastIndex) {
+            currentPage++;
+            loadData();
+        }
+    }
+
+    public void lastPage() {
+        int lastIndex = courses.size() - 1;
+        currentPage = lastIndex;
+        loadData();
+    }
+    public void loadData() {
+        courses = courseService.getCourses();
+    }
+
+    public int getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+    public void selectCourse(String name) {
+        logger.log(Level.INFO, "Selected " + name);
+    }
 }

@@ -3,12 +3,16 @@ package de.ssherlock.control.backing;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import jakarta.annotation.PostConstruct;
+import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
+import jakarta.faces.view.facelets.FaceletContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -33,6 +37,10 @@ public class VerificationBean implements Serializable {
      * The active session.
      */
     private final AppSession session;
+    /**
+     * The text which is displayed on the verification page.
+     */
+    private String text = "Thank you for registration.";
 
     /**
      * Constructor for VerificationBean.
@@ -51,7 +59,8 @@ public class VerificationBean implements Serializable {
      */
     @PostConstruct
     public void handleVerifiedRegistration() {
-
+        Map<String, String> parameter = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        logger.log(Level.INFO, "parameter = " + parameter.get("id"));
     }
 
     /**
@@ -61,5 +70,23 @@ public class VerificationBean implements Serializable {
      */
     public String navigateToLogin() {
         return "";
+    }
+
+    /**
+     * Sets the text of the verification page.
+     *
+     * @param text The text to set.
+     */
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    /**
+     * Return the text of the verification page.
+     *
+     * @return The text of the verification page.
+     */
+    public String getText() {
+        return text;
     }
 }
