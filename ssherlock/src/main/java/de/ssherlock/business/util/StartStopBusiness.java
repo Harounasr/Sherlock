@@ -12,7 +12,6 @@ public class StartStopBusiness {
 
     private final Logger logger = LoggerCreator.get(StartStopBusiness.class);
     StartStopPersistence startStopPersistence;
-
     public StartStopBusiness() {
 
     }

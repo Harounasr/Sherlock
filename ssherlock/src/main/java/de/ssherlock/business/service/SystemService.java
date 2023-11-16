@@ -15,27 +15,64 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.util.logging.Logger;
+/**
+ * The SystemService class provides functionality for system-related operations.
+ */
 @Named
 @Dependent
 public class SystemService {
-    @Inject
-    private Logger logger;
-    @Inject
-    private ConnectionPoolPsql connectionPoolPsql;
-    public SystemService() {
 
+    /**
+     * Logger instance for logging messages related to SystemService.
+     */
+    private final Logger logger;
+
+    /**
+     * Connection pool for managing database connections.
+     */
+    private final ConnectionPoolPsql connectionPoolPsql;
+
+    /**
+     * Constructs a SystemService with the specified logger.
+     *
+     * @param logger The logger to be used for logging messages related to SystemService.
+     * @param connectionPoolPsql The connectionPoolPsql to be used for managing database connections.
+     */
+    @Inject
+    public SystemService(Logger logger, ConnectionPoolPsql connectionPoolPsql) {
+        this.logger = logger;
+        this.connectionPoolPsql = connectionPoolPsql;
     }
+
+    /**
+     * Retrieves the system settings.
+     *
+     * @return The system settings.
+     */
     public SystemSettings getSystemSettings() {
         Connection connection = connectionPoolPsql.getConnection();
         SystemSettingsRepository repository = RepositoryFactory.getSystemSettingsRepository(RepositoryType.POSTGRESQL, connection);
         return repository.fetchSystemSettings();
     }
+
+    /**
+     * Updates the system settings.
+     *
+     * @param systemSettings The updated system settings.
+     */
     public void updateSystemSettings(SystemSettings systemSettings) {
         Connection connection = connectionPoolPsql.getConnection();
         SystemSettingsRepository repository = RepositoryFactory.getSystemSettingsRepository(RepositoryType.POSTGRESQL, connection);
         repository.updateSystemSettings(systemSettings);
     }
 
+    /**
+     * Converts a file (Part) to a byte array.
+     *
+     * @param filePart The Part representing the file to be converted.
+     * @return The byte array representation of the file.
+     * @throws IOException If an I/O error occurs during file conversion.
+     */
     private byte[] convertFileToByteArray(Part filePart) throws IOException {
         try (InputStream inputStream = filePart.getInputStream()) {
             int fileSize = (int) filePart.getSize();
@@ -52,3 +89,4 @@ public class SystemService {
         }
     }
 }
+
