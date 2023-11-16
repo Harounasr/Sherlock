@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /**
  * Implementation of SystemSettingsRepository for PostgreSQL database.
  */
@@ -19,6 +20,7 @@ public class SystemSettingsRepositoryPsql extends RepositoryPsql implements Syst
      * Logger instance for logging messages related to SystemSettingsRepositoryPsql.
      */
     private final Logger logger = LoggerCreator.get(SystemSettingsRepositoryPsql.class);
+
     /**
      * Constructor to initialize the repository with a database connection.
      *
@@ -28,6 +30,9 @@ public class SystemSettingsRepositoryPsql extends RepositoryPsql implements Syst
         super(connection);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void updateSystemSettings(SystemSettings systemSettings) {
         String query = "UPDATE SystemSettings SET emailRegex=?, primaryColorHex=?, " +
@@ -47,6 +52,9 @@ public class SystemSettingsRepositoryPsql extends RepositoryPsql implements Syst
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SystemSettings fetchSystemSettings() {
         String query = "SELECT * FROM SystemSettings ORDER BY id DESC LIMIT 1";

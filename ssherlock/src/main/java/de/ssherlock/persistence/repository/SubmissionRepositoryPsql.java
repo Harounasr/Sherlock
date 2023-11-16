@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
+
 /**
  * Implementation of SubmissionRepository for PostgreSQL database.
  */
@@ -16,6 +17,7 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
      * Logger instance for logging messages related to SubmissionRepositoryPsql.
      */
     private final Logger logger = LoggerCreator.get(SubmissionRepositoryPsql.class);
+
     /**
      * Constructor to initialize the repository with a database connection.
      *
@@ -25,31 +27,49 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
         super(connection);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void insertSubmission(Submission submission) {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void updateSubmission(Submission submission) {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void deleteSubmission(long id) {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Submission fetchSubmission(long id) {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Submission> fetchSubmissions(Predicate<Submission> predicate) {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public long getMaxId() {
         return 0;

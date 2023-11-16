@@ -5,8 +5,8 @@ import java.util.Objects;
 /**
  * Represents a CheckerResult DTO.
  *
- * @param checker The checker associated with the result.
- * @param passed Whether the checker was passed.
+ * @param checker    The checker associated with the result.
+ * @param passed     Whether the checker was passed.
  * @param stackTrace The stacktrace of the result.
  */
 public record CheckerResult(
@@ -14,7 +14,9 @@ public record CheckerResult(
         boolean passed,
         String stackTrace
 ) {
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -23,6 +25,9 @@ public record CheckerResult(
         return passed == that.passed && Objects.equals(checker, that.checker) && Objects.equals(stackTrace, that.stackTrace);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         return Objects.hash(checker, passed, stackTrace);

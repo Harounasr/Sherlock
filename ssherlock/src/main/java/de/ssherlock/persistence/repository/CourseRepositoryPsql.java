@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
+
 /**
  * Implementation of CourseRepository for PostgreSQL database.
  */
@@ -21,6 +22,7 @@ public class CourseRepositoryPsql extends RepositoryPsql implements CourseReposi
      * Logger instance for logging messages related to CourseRepositoryPsql.
      */
     private final Logger logger = LoggerCreator.get(CourseRepositoryPsql.class);
+
     /**
      * Constructor to initialize the repository with a database connection.
      *
@@ -30,34 +32,49 @@ public class CourseRepositoryPsql extends RepositoryPsql implements CourseReposi
         super(connection);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void insertCourse(Course course) {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void updateCourse(Course course) {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void deleteCourse(String courseName) {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Course fetchCourse(String courseName) {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Course> fetchCourses(Predicate<Course> predicate) {
         String sqlQuery =
                 """
-                SELECT * FROM courses c LEFT JOIN exercises e ON c.name = e.coursename;
-                """;
-        List<Course>  allCourses = new ArrayList<>();
-        try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+                        SELECT * FROM courses c LEFT JOIN exercises e ON c.name = e.coursename;
+                        """;
+        List<Course> allCourses = new ArrayList<>();
+        try (PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
             ResultSet result = statement.executeQuery();
             while (result.next()) {
                 String courseName = result.getString("name");

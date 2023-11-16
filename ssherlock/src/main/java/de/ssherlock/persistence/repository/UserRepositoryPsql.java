@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /**
  * Implementation of UserRepository for PostgreSQL database.
  */
@@ -25,6 +26,7 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
      * Logger instance for logging messages related to UserRepositoryPsql.
      */
     private final Logger logger = LoggerCreator.get(UserRepositoryPsql.class);
+
     /**
      * Constructor to initialize the repository with a database connection.
      *
@@ -34,34 +36,46 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
         super(connection);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void insertUser(User user) {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void updateUser(User user) {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void deleteUser(String username) {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public User fetchUser(String username) throws NonExistentUserException {
         try {
             String sqlQuery =
-                """
-                SELECT 
-                    u.username, u.email, u.firstname, u.lastname, u.systemrole, u.passwordhash,
-                    u.passwordsalt, u.facultyname, r.course_name, r.course_role
-                FROM 
-                    users u LEFT JOIN participates r ON u.username = r.username
-                WHERE 
-                    u.username = ?;
-                """;
+                    """
+                            SELECT 
+                                u.username, u.email, u.firstname, u.lastname, u.systemrole, u.passwordhash,
+                                u.passwordsalt, u.facultyname, r.course_name, r.course_role
+                            FROM 
+                                users u LEFT JOIN participates r ON u.username = r.username
+                            WHERE 
+                                u.username = ?;
+                            """;
 
             PreparedStatement statement = connection.prepareStatement(sqlQuery);
             statement.setString(1, username);
@@ -102,6 +116,9 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<User> fetchUsers(Predicate<User> predicate) {
         return null;

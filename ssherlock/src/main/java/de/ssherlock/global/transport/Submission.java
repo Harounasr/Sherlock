@@ -7,11 +7,11 @@ import java.util.Objects;
 /**
  * Represents a Submission DTO.
  *
- * @param exerciseId The ID of the exercise associated with this submission.
- * @param user The user who created the submission.
- * @param checkerResults The CheckerResults of the submission.
+ * @param exerciseId      The ID of the exercise associated with this submission.
+ * @param user            The user who created the submission.
+ * @param checkerResults  The CheckerResults of the submission.
  * @param submissionFiles The files of the submission.
- * @param timestamp The time of submission.
+ * @param timestamp       The time of submission.
  */
 public record Submission(
         long exerciseId,
@@ -20,7 +20,9 @@ public record Submission(
         List<SubmissionFile> submissionFiles,
         Timestamp timestamp
 ) {
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -29,6 +31,9 @@ public record Submission(
         return exerciseId == that.exerciseId && Objects.equals(user, that.user) && Objects.equals(checkerResults, that.checkerResults) && Objects.equals(submissionFiles, that.submissionFiles) && Objects.equals(timestamp, that.timestamp);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         return Objects.hash(exerciseId, user, checkerResults, submissionFiles, timestamp);

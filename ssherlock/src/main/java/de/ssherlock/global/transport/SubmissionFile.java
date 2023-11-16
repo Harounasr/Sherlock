@@ -6,14 +6,16 @@ import java.util.Objects;
 /**
  * Represents a SubmissionFile DTO.
  *
- * @param name The filename.
+ * @param name  The filename.
  * @param bytes The file as a byte array.
  */
 public record SubmissionFile(
         String name,
         byte[] bytes
 ) {
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -22,6 +24,9 @@ public record SubmissionFile(
         return Objects.equals(name, that.name) && Arrays.equals(bytes, that.bytes);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         int result = Objects.hash(name);

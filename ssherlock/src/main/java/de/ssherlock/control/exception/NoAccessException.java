@@ -3,7 +3,7 @@ package de.ssherlock.control.exception;
 import java.io.Serial;
 
 /**
- * Exception thrown to indicate that an operation is not permitted due to a lack of access or permissions.
+ * Exception thrown to indicate that a user doesn't have permission for the page.
  * This is a runtime exception, allowing it to be unchecked.
  */
 public class NoAccessException extends RuntimeException {
