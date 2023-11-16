@@ -16,20 +16,40 @@ import java.util.Queue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Application-scoped connection pool class for managing PostgreSQL database connections.
+ * This class provides methods to create, borrow, and release database connections.
+ */
 @Named
 @ApplicationScoped
 public class ConnectionPoolPsql {
-
+    /**
+     * Configuration instance for obtaining database connection settings.
+     */
     @Inject
     private Configuration configuration;
+    /**
+     * Logger instance for logging messages related to the ConnectionPoolPsql class.
+     */
     private final Logger logger = LoggerCreator.get(ConnectionPoolPsql.class);
+    /**
+     * Queue of available database connections.
+     */
     private final Queue<Connection> connections = new LinkedList<>();
+    /**
+     * List of borrowed database connections.
+     */
     private final List<Connection> borrowedConnections = new LinkedList<>();
-
+    /**
+     * Default constructor for creating a ConnectionPoolPsql instance.
+     */
     public ConnectionPoolPsql() {
 
     }
-
+    /**
+     * Initializes the connection pool after creation.
+     * Loads the database driver and creates the initial pool of database connections.
+     */
     @PostConstruct
     public void afterCreate() {
         logger.log(Level.INFO, "New ConnectionPool created");
@@ -41,7 +61,10 @@ public class ConnectionPoolPsql {
         logger.log(Level.INFO, String.valueOf(configuration.getDbNumConnections()));
         logger.log(Level.INFO, String.valueOf(connections.size()));
     }
-
+    /**
+     * Destroys the connection pool.
+     * Closes all available and borrowed connections and clears the connection queues.
+     */
     public void destroy() {
         for (Connection conn : connections) {
             logger.log(Level.FINEST, "Try to close connection.");
@@ -71,7 +94,12 @@ public class ConnectionPoolPsql {
         connections.clear();
         borrowedConnections.clear();
     }
-
+    /**
+     * Retrieves a database connection from the connection pool.
+     * If the pool is empty, the method waits until a connection becomes available.
+     *
+     * @return A database connection.
+     */
     public Connection getConnection() {
         while (connections.isEmpty()) {
             try {
@@ -84,12 +112,20 @@ public class ConnectionPoolPsql {
         borrowedConnections.add(conn);
         return conn;
     }
-
+    /**
+     * Releases a borrowed database connection back to the connection pool.
+     *
+     * @param connection The database connection to be released.
+     */
     public void releaseConnection(Connection connection) {
         borrowedConnections.remove(connection);
         connections.offer(connection);
     }
-
+    /**
+     * Creates a new database connection.
+     *
+     * @return A newly created database connection.
+     */
     private Connection createConnection() {
         Connection conn;
         try {
@@ -101,7 +137,10 @@ public class ConnectionPoolPsql {
         }
         return conn;
     }
-
+    /**
+     * Loads the PostgreSQL database driver.
+     * Throws an error if the driver is not found.
+     */
     private void loadDriver() {
         try {
             Class.forName("org.postgresql.Driver");

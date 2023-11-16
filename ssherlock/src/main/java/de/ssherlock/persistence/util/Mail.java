@@ -12,19 +12,36 @@ import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 
+/**
+ * Request-scoped class for sending emails using JavaMail API.
+ * This class is responsible for configuring and sending emails to specified recipients.
+ */
 @Named
 @RequestScoped
 public class Mail {
-
+    /**
+     * Logger instance for logging messages related to the Mail class.
+     */
     @Inject
-    private  Logger logger;
-    @Inject
-    private  Configuration config;
+    private Logger logger;
 
+    /**
+     * Configuration instance for obtaining email and mail server settings.
+     */
+    @Inject
+    private Configuration config;
+    /**
+     * Default constructor for creating a Mail instance.
+     */
     public Mail() {
 
     }
-
+    /**
+     * Sends an email to the specified user with the given content.
+     *
+     * @param user    The user to whom the email will be sent.
+     * @param content The content of the email.
+     */
     public void sendMail(User user, String content) {
         Session session = getSession();
         logger.log(Level.INFO, "Mail config loaded.");
@@ -40,7 +57,11 @@ public class Mail {
             logger.log(Level.INFO, "There was a problem with sending the Mail.");
         }
     }
-
+    /**
+     * Retrieves a configured JavaMail session based on the application's email settings.
+     *
+     * @return A configured JavaMail session.
+     */
     private Session getSession() {
         Properties properties = new Properties();
         properties.put("mail.smtp.host", config.getMailHost());

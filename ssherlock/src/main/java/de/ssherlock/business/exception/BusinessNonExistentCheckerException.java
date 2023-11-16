@@ -2,20 +2,34 @@ package de.ssherlock.business.exception;
 
 import java.io.Serial;
 
+/**
+ * Is thrown when a checker is not in the database.
+ */
 public class BusinessNonExistentCheckerException extends Exception {
 
     @Serial
     private static final long serialVersionUID = 1L;
-
+    /**
+     * Constructs a new BusinessNonExistentCheckerException and sets the message.
+     */
     public BusinessNonExistentCheckerException() {
         super();
     }
-
-    public BusinessNonExistentCheckerException(String msg) {
-        super(msg);
+    /**
+     * Constructs a new BusinessNonExistentCheckerException and sets the message.
+     *
+     * @param message stores the message.
+     */
+    public BusinessNonExistentCheckerException(String message) {
+        super(message);
     }
-
-    public BusinessNonExistentCheckerException(String msg, Throwable err) {
-        super(msg, err);
+    /**
+     * Constructs a new BusinessNonExistentCheckerException and sets the message.
+     *
+     * @param message stores the message.
+     * @param err the exception which is going to be wrapped.
+     */
+    public BusinessNonExistentCheckerException(String message, Throwable err) {
+        super(message, err);
     }
 }

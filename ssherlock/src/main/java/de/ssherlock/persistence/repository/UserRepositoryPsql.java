@@ -17,10 +17,19 @@ import java.util.Map;
 import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+/**
+ * Implementation of UserRepository for PostgreSQL database.
+ */
 public class UserRepositoryPsql extends RepositoryPsql implements UserRepository {
-
+    /**
+     * Logger instance for logging messages related to UserRepositoryPsql.
+     */
     private final Logger logger = LoggerCreator.get(UserRepositoryPsql.class);
+    /**
+     * Constructor to initialize the repository with a database connection.
+     *
+     * @param connection The database connection.
+     */
     public UserRepositoryPsql(Connection connection) {
         super(connection);
     }
@@ -96,16 +105,6 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
     @Override
     public List<User> fetchUsers(Predicate<User> predicate) {
         return null;
-    }
-
-    @Override
-    public boolean emailExists(String email) {
-        return false;
-    }
-
-    @Override
-    public boolean userExists(String username) {
-        return false;
     }
 
     private String buildStatementFromPredicate(Predicate<User> predicate) {

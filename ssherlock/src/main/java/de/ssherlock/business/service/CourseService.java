@@ -20,18 +20,33 @@ import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * The CourseService class provides functionality for managing courses and related operations.
+ */
 @Named
 @Dependent
 public class CourseService {
 
+    /**
+     * Logger instance for logging messages related to CourseService.
+     */
     private final Logger logger;
-    private final ConnectionPoolPsql connectionPoolPsql;
 
+    /**
+     * Constructs a CourseService with the specified logger.
+     *
+     * @param logger The logger to be used for logging messages related to CourseService.
+     */
     @Inject
-    public CourseService(Logger logger, ConnectionPoolPsql connectionPoolPsql) {
+    public CourseService(Logger logger) {
         this.logger = logger;
-        this.connectionPoolPsql = connectionPoolPsql;
     }
+
+    /**
+     * Retrieves a list of all courses.
+     *
+     * @return A list of all courses.
+     */
     public List<Course> getCourses() {
         Connection connection = connectionPoolPsql.getConnection();
         CourseRepository courseRepository = RepositoryFactory.getCourseRepository(RepositoryType.POSTGRESQL, connection);
@@ -39,18 +54,51 @@ public class CourseService {
         connectionPoolPsql.releaseConnection(connection);
         return courses;
     }
+
+    /**
+     * Retrieves a list of courses associated with the specified user.
+     *
+     * @param user The user for whom to retrieve courses.
+     * @return A list of courses associated with the user.
+     */
     public List<Course> getCourses(User user) {
         return null;
     }
+
+    /**
+     * Retrieves a course with the specified course name.
+     *
+     * @param courseName The name of the course to retrieve.
+     * @return The course with the specified name.
+     */
     public Course getCourse(String courseName) {
         return null;
     }
-    public void addCourse() {
+
+    /**
+     * Adds a new course.
+     *
+     * @param course The course to add.
+     */
+    public void addCourse(Course course) {
 
     }
-    public void removeCourse() {
+
+    /**
+     * Removes an existing course.
+     *
+     * @param course The course to remove.
+     */
+    public void removeCourse(Course course) {
 
     }
+
+    /**
+     * Updates the role of a user in a specific course.
+     *
+     * @param user       The user for whom to update the role.
+     * @param courseRole The new role for the user in the course.
+     */
     public void updateCourseRole(User user, CourseRole courseRole) {
 
     }
