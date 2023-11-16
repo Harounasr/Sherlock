@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title><ui:insert name="title"/></title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
+</h:head>
+
+<h:body>
+
+    <h:dataTable value="#{coursesPaginationBean.courses}" var="item" first="#{coursesPaginationBean.currentPage}" rows="#{coursesPaginationBean.pageSize}">
+        <h:column>
+            <f:facet name="name">Name</f:facet>
+            #{item.name()}
+        </h:column>
+
+        <h:column>
+            <f:facet name="id">id</f:facet>
+            <h:form>
+                <h:commandButton value="Join" action="#{coursesPaginationBean.selectCourse(item.name())}" />
+            </h:form>
+        </h:column>
+    </h:dataTable>
+    <h:form>
+        <h:commandButton value="First" action="#{coursesPaginationBean.firstPage}" />
+        <h:commandButton value="Previous" action="#{coursesPaginationBean.previousPage}" />
+        <h:commandButton value="Next" action="#{coursesPaginationBean.nextPage}" />
+        <h:commandButton value="Last" action="#{coursesPaginationBean.lastPage}" />
+    </h:form>
+</h:body>
+
+
+
+
+</html>
