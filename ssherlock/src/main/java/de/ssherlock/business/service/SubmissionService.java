@@ -1,5 +1,6 @@
 package de.ssherlock.business.service;
 
+import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.Submission;
 import de.ssherlock.global.transport.User;
@@ -8,6 +9,8 @@ import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -16,12 +19,18 @@ import java.util.logging.Logger;
  */
 @Named
 @Dependent
-public class SubmissionService {
+public class SubmissionService implements Serializable {
+
+    /**
+     * Serial Version UID
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     /**
      * Logger instance for logging messages related to SubmissionService.
      */
-    private final Logger logger;
+    private final SerializableLogger logger;
 
     /**
      * Constructs a SubmissionService with the specified logger.
@@ -29,7 +38,7 @@ public class SubmissionService {
      * @param logger The logger to be used for logging messages related to SubmissionService.
      */
     @Inject
-    public SubmissionService(Logger logger) {
+    public SubmissionService(SerializableLogger logger) {
         this.logger = logger;
     }
 

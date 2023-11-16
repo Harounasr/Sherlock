@@ -1,6 +1,7 @@
 package de.ssherlock.control.backing;
 
 import de.ssherlock.control.session.AppSession;
+import de.ssherlock.global.logging.SerializableLogger;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -25,7 +26,7 @@ public class AdminBean implements Serializable {
     /**
      * Logger for logging within this class.
      */
-    private final Logger logger;
+    private final SerializableLogger logger;
 
     /**
      * The active Session.
@@ -39,7 +40,7 @@ public class AdminBean implements Serializable {
      * @param appSession The active session (Injected).
      */
     @Inject
-    public AdminBean(Logger logger, AppSession appSession) {
+    public AdminBean(SerializableLogger logger, AppSession appSession) {
         this.logger = logger;
         this.appSession = appSession;
     }

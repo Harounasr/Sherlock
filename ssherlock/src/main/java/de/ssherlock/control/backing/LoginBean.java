@@ -5,6 +5,7 @@ import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.notification.Notification;
 import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.control.session.AppSession;
+import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.LoginInfo;
 import de.ssherlock.global.transport.Password;
 import de.ssherlock.global.transport.User;
@@ -34,7 +35,7 @@ public class LoginBean implements Serializable {
     /**
      * The logger for this class.
      */
-    private final Logger logger;
+    private final SerializableLogger logger;
 
     /**
      * The active session.
@@ -64,7 +65,7 @@ public class LoginBean implements Serializable {
      * @param logger      The logger for this class (Injected).
      */
     @Inject
-    public LoginBean(UserService userService, AppSession appSession, Logger logger) {
+    public LoginBean(UserService userService, AppSession appSession, SerializableLogger logger) {
         this.userService = userService;
         this.appSession = appSession;
         this.logger = logger;

@@ -1,11 +1,14 @@
 package de.ssherlock.business.service;
 
+import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Checker;
 import de.ssherlock.global.transport.Exercise;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -14,12 +17,18 @@ import java.util.logging.Logger;
  */
 @Named
 @Dependent
-public class CheckerService {
+public class CheckerService implements Serializable {
+
+    /**
+     * Serial Version UID
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     /**
      * Logger instance for logging messages related to CheckerService.
      */
-    private final Logger logger;
+    private final SerializableLogger logger;
 
     /**
      * Constructs a CheckerService with the specified logger.
@@ -27,7 +36,7 @@ public class CheckerService {
      * @param logger The logger to be used for logging messages related to CheckerService.
      */
     @Inject
-    public CheckerService(Logger logger) {
+    public CheckerService(SerializableLogger logger) {
         this.logger = logger;
     }
 

@@ -2,6 +2,7 @@ package de.ssherlock.control.backing;
 
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.session.AppSession;
+import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.SystemRole;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
@@ -29,7 +30,7 @@ public class ProfileBean implements Serializable {
     /**
      * The logger for logging events.
      */
-    private final Logger logger;
+    private final SerializableLogger logger;
 
     /**
      * The active session of the user.
@@ -69,7 +70,7 @@ public class ProfileBean implements Serializable {
      * @param userService The service for user-related operations.
      */
     @Inject
-    public ProfileBean(Logger logger, AppSession appSession, UserService userService) {
+    public ProfileBean(SerializableLogger logger, AppSession appSession, UserService userService) {
         this.logger = logger;
         this.appSession = appSession;
         this.userService = userService;

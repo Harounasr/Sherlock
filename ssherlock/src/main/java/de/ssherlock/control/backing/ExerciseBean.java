@@ -2,6 +2,7 @@ package de.ssherlock.control.backing;
 
 import de.ssherlock.business.service.ExerciseService;
 import de.ssherlock.control.session.AppSession;
+import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Exercise;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
@@ -31,7 +32,7 @@ public class ExerciseBean implements Serializable {
     /**
      * Logger for logging within this class.
      */
-    private final Logger logger;
+    private final SerializableLogger logger;
 
     /**
      * The active session.
@@ -56,7 +57,7 @@ public class ExerciseBean implements Serializable {
      * @param exerciseService The ExerciseService (Injected).
      */
     @Inject
-    public ExerciseBean(Logger logger, AppSession appSession, ExerciseService exerciseService) {
+    public ExerciseBean(SerializableLogger logger, AppSession appSession, ExerciseService exerciseService) {
         this.logger = logger;
         this.appSession = appSession;
         this.exerciseService = exerciseService;

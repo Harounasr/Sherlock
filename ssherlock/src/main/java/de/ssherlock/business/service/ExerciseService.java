@@ -1,5 +1,6 @@
 package de.ssherlock.business.service;
 
+import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.ExerciseDescriptionImage;
@@ -7,6 +8,9 @@ import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -15,12 +19,18 @@ import java.util.logging.Logger;
  */
 @Named
 @Dependent
-public class ExerciseService {
+public class ExerciseService implements Serializable {
+
+    /**
+     * Serial Version UID
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     /**
      * Logger instance for logging messages related to ExerciseService.
      */
-    private final Logger logger;
+    private final SerializableLogger logger;
 
     /**
      * Constructs an ExerciseService with the specified logger.
@@ -28,7 +38,7 @@ public class ExerciseService {
      * @param logger The logger to be used for logging messages related to ExerciseService.
      */
     @Inject
-    public ExerciseService(Logger logger) {
+    public ExerciseService(SerializableLogger logger) {
         this.logger = logger;
     }
 

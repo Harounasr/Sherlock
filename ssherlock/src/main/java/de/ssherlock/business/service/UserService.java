@@ -2,6 +2,7 @@ package de.ssherlock.business.service;
 
 import de.ssherlock.business.exception.LoginFailedException;
 import de.ssherlock.control.session.AppSession;
+import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.CourseRole;
 import de.ssherlock.global.transport.LoginInfo;
 import de.ssherlock.global.transport.User;
@@ -18,6 +19,8 @@ import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
@@ -31,12 +34,18 @@ import java.util.logging.Logger;
  */
 @Named
 @Dependent
-public class UserService {
+public class UserService implements Serializable {
+
+    /**
+     * Serial Version UID
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     /**
      * Logger instance for logging messages related to UserService.
      */
-    private final Logger logger;
+    private final SerializableLogger logger;
 
     /**
      * AppSession instance for managing user sessions.
@@ -62,7 +71,7 @@ public class UserService {
      * @param mail               The Mail instance for sending emails.
      */
     @Inject
-    public UserService(Logger logger, AppSession appSession, ConnectionPoolPsql connectionPoolPsql, Mail mail) {
+    public UserService(SerializableLogger logger, AppSession appSession, ConnectionPoolPsql connectionPoolPsql, Mail mail) {
         this.logger = logger;
         this.appSession = appSession;
         this.connectionPoolPsql = connectionPoolPsql;

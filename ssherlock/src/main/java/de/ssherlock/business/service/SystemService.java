@@ -1,5 +1,6 @@
 package de.ssherlock.business.service;
 
+import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.SystemSettings;
 import de.ssherlock.persistence.connection.ConnectionPoolPsql;
 import de.ssherlock.persistence.repository.RepositoryFactory;
@@ -13,6 +14,8 @@ import jakarta.servlet.http.Part;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serial;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.util.logging.Logger;
 /**
@@ -20,12 +23,18 @@ import java.util.logging.Logger;
  */
 @Named
 @Dependent
-public class SystemService {
+public class SystemService implements Serializable {
+
+    /**
+     * Serial Version UID
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     /**
      * Logger instance for logging messages related to SystemService.
      */
-    private final Logger logger;
+    private final SerializableLogger logger;
 
     /**
      * Connection pool for managing database connections.
@@ -39,7 +48,7 @@ public class SystemService {
      * @param connectionPoolPsql The connectionPoolPsql to be used for managing database connections.
      */
     @Inject
-    public SystemService(Logger logger, ConnectionPoolPsql connectionPoolPsql) {
+    public SystemService(SerializableLogger logger, ConnectionPoolPsql connectionPoolPsql) {
         this.logger = logger;
         this.connectionPoolPsql = connectionPoolPsql;
     }

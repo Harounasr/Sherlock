@@ -4,6 +4,7 @@ import de.ssherlock.business.service.CourseService;
 import de.ssherlock.business.service.ExerciseService;
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.session.AppSession;
+import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.CourseRole;
 import de.ssherlock.global.transport.User;
 import jakarta.annotation.PostConstruct;
@@ -34,7 +35,7 @@ public class CourseBean implements Serializable {
     /**
      * Logger for logging within this class.
      */
-    private final Logger logger;
+    private final SerializableLogger logger;
 
     /**
      * Active session.
@@ -66,7 +67,7 @@ public class CourseBean implements Serializable {
      * @param userService     The service responsible for managing users (Injected).
      */
     @Inject
-    public CourseBean(Logger logger, AppSession appSession, CourseService courseService,
+    public CourseBean(SerializableLogger logger, AppSession appSession, CourseService courseService,
                       ExerciseService exerciseService, UserService userService) {
         this.logger = logger;
         this.appSession = appSession;

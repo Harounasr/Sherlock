@@ -2,6 +2,7 @@ package de.ssherlock.control.backing;
 
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.session.AppSession;
+import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Password;
 import de.ssherlock.global.transport.SystemRole;
 import de.ssherlock.global.transport.User;
@@ -27,7 +28,7 @@ public class RegistrationBean implements Serializable {
     /**
      * The logger for this class.
      */
-    private final Logger logger;
+    private final SerializableLogger logger;
 
     /**
      * The active session.
@@ -77,7 +78,7 @@ public class RegistrationBean implements Serializable {
      * @param userService The service for user-based operations (Injected).
      */
     @Inject
-    public RegistrationBean(Logger logger, AppSession appSession, UserService userService) {
+    public RegistrationBean(SerializableLogger logger, AppSession appSession, UserService userService) {
         this.logger = logger;
         this.appSession = appSession;
         this.userService = userService;
@@ -87,7 +88,7 @@ public class RegistrationBean implements Serializable {
      * Tries to register a new user using the provided information.
      */
     public void register() {
-        userService.registerUser(new User(userName, email, firstName, lastName, SystemRole.ANONYMOUS, new Password("", ""), faculty, null));
+        userService.registerUser(new User(userName, email, firstName, lastName, SystemRole.REGISTERED, new Password("", ""), faculty, null));
     }
 
     /**

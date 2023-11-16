@@ -1,6 +1,7 @@
 package de.ssherlock.control.backing;
 
 import de.ssherlock.control.session.AppSession;
+import de.ssherlock.global.logging.SerializableLogger;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
@@ -26,7 +27,7 @@ public class VerificationBean implements Serializable {
     /**
      * Logger for this class.
      */
-    private final Logger logger;
+    private final SerializableLogger logger;
 
     /**
      * The active session.
@@ -40,7 +41,7 @@ public class VerificationBean implements Serializable {
      * @param session The active session.
      */
     @Inject
-    public VerificationBean(Logger logger, AppSession session) {
+    public VerificationBean(SerializableLogger logger, AppSession session) {
         this.logger = logger;
         this.session = session;
     }

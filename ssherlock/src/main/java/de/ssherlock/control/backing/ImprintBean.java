@@ -1,6 +1,7 @@
 package de.ssherlock.control.backing;
 
 import de.ssherlock.control.session.AppSession;
+import de.ssherlock.global.logging.SerializableLogger;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.annotation.View;
 import jakarta.faces.view.ViewScoped;
@@ -27,7 +28,7 @@ public class ImprintBean implements Serializable {
     /**
      * The logger for this class.
      */
-    private final Logger logger;
+    private final SerializableLogger logger;
 
     /**
      * The active session.
@@ -46,7 +47,7 @@ public class ImprintBean implements Serializable {
      * @param appSession   The active session (Injected).
      */
     @Inject
-    public ImprintBean(Logger logger, AppSession appSession) {
+    public ImprintBean(SerializableLogger logger, AppSession appSession) {
         this.logger = logger;
         this.appSession = appSession;
     }

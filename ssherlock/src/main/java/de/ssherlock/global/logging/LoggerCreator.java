@@ -4,9 +4,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Produces;
 import jakarta.enterprise.inject.spi.InjectionPoint;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -18,7 +16,13 @@ import java.util.logging.Logger;
  * for injection using CDI.
  */
 @ApplicationScoped
-public class LoggerCreator {
+public class LoggerCreator implements Serializable {
+
+    /**
+     * Serial Version UID
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     /**
      * Default logger instance used for internal logging within the LoggerCreator class.
@@ -64,5 +68,11 @@ public class LoggerCreator {
     @Produces
     public Logger produce(InjectionPoint injectionPoint) {
         return get(injectionPoint.getMember().getDeclaringClass());
+    }
+
+    @Produces
+    public SerializableLogger produceSerial(InjectionPoint injectionPoint) {
+        Logger logger = get(injectionPoint.getMember().getDeclaringClass());
+        return new SerializableLogger(logger);
     }
 }

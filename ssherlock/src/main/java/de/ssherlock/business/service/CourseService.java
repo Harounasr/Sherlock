@@ -1,6 +1,7 @@
 package de.ssherlock.business.service;
 
 
+import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.CourseRole;
 import de.ssherlock.global.transport.User;
@@ -14,6 +15,8 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 import java.awt.*;
+import java.io.Serial;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.util.List;
 import java.util.function.Supplier;
@@ -25,12 +28,18 @@ import java.util.logging.Logger;
  */
 @Named
 @Dependent
-public class CourseService {
+public class CourseService implements Serializable {
+
+    /**
+     * Serial Version UID
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     /**
      * Logger instance for logging messages related to CourseService.
      */
-    private final Logger logger;
+    private final SerializableLogger logger;
     /**
      * ConnectionPoolPsql instance for getting a database connection.
      */
@@ -41,7 +50,7 @@ public class CourseService {
      * @param logger The logger to be used for logging messages related to CourseService.
      */
     @Inject
-    public CourseService(Logger logger, ConnectionPoolPsql connectionPoolPsql) {
+    public CourseService(SerializableLogger logger, ConnectionPoolPsql connectionPoolPsql) {
         this.logger = logger;
         this.connectionPoolPsql = connectionPoolPsql;
     }
