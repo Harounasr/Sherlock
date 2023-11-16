@@ -31,15 +31,19 @@ public class CourseService {
      * Logger instance for logging messages related to CourseService.
      */
     private final Logger logger;
-
+    /**
+     * ConnectionPoolPsql instance for getting a database connection.
+     */
+    private final ConnectionPoolPsql connectionPoolPsql;
     /**
      * Constructs a CourseService with the specified logger.
      *
      * @param logger The logger to be used for logging messages related to CourseService.
      */
     @Inject
-    public CourseService(Logger logger) {
+    public CourseService(Logger logger, ConnectionPoolPsql connectionPoolPsql) {
         this.logger = logger;
+        this.connectionPoolPsql = connectionPoolPsql;
     }
 
     /**
