@@ -6,16 +6,18 @@ import java.util.Objects;
 /**
  * Represents an ExerciseDescriptionImage DTO
  *
- * @param id The id of the image.
+ * @param id         The id of the image.
  * @param exerciseId The id of the associated exercise.
- * @param image The image as a byte array.
+ * @param image      The image as a byte array.
  */
 public record ExerciseDescriptionImage(
         long id,
         long exerciseId,
         byte[] image
 ) {
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -24,6 +26,9 @@ public record ExerciseDescriptionImage(
         return id == that.id && exerciseId == that.exerciseId && Arrays.equals(image, that.image);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         int result = Objects.hash(id, exerciseId);

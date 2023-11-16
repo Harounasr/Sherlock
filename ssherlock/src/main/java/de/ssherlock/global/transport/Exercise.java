@@ -7,12 +7,12 @@ import java.util.Objects;
 /**
  * Represents an Exercise DTO
  *
- * @param id the id of the exercise.
- * @param name The exercise name.
- * @param publishDate The publishing date of the exercise.
+ * @param id                  the id of the exercise.
+ * @param name                The exercise name.
+ * @param publishDate         The publishing date of the exercise.
  * @param recommendedDeadline The recommended deadline for submissions.
- * @param obligatoryDeadline The obligatory deadline for submissions.
- * @param checkerIds The ids of all checkers associated with the exercise.
+ * @param obligatoryDeadline  The obligatory deadline for submissions.
+ * @param checkerIds          The ids of all checkers associated with the exercise.
  */
 public record Exercise(
         long id,
@@ -22,7 +22,9 @@ public record Exercise(
         Date obligatoryDeadline,
         List<Long> checkerIds
 ) {
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -36,6 +38,9 @@ public record Exercise(
                 Objects.equals(checkerIds, exercise.checkerIds);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         return Objects.hash(id, name, publishDate, recommendedDeadline, obligatoryDeadline, checkerIds);

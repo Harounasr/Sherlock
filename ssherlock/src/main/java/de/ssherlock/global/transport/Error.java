@@ -5,8 +5,8 @@ import java.util.Objects;
 /**
  * Represents an Error DTO
  *
- * @param exception The exception that was thrown.
- * @param message The message to display.
+ * @param exception  The exception that was thrown.
+ * @param message    The message to display.
  * @param stacktrace The stacktrace of the error.
  */
 public record Error(
@@ -14,7 +14,9 @@ public record Error(
         String message,
         String stacktrace
 ) {
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -23,6 +25,9 @@ public record Error(
         return Objects.equals(exception, error.exception) && Objects.equals(message, error.message) && Objects.equals(stacktrace, error.stacktrace);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         return Objects.hash(exception, message, stacktrace);

@@ -12,7 +12,9 @@ public record LoginInfo(
         String username,
         Password password
 ) {
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -21,6 +23,9 @@ public record LoginInfo(
         return Objects.equals(username, loginInfo.username) && Objects.equals(password, loginInfo.password);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         return Objects.hash(username, password);

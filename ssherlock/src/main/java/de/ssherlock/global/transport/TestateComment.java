@@ -5,16 +5,18 @@ import java.util.Objects;
 /**
  * Represents a TestateComment DTO.
  *
- * @param fileId The id of the file associated with this comment.
+ * @param fileId     The id of the file associated with this comment.
  * @param lineNumber The line number of the comment.
- * @param comment The comment content.
+ * @param comment    The comment content.
  */
 public record TestateComment(
         long fileId,
         int lineNumber,
         String comment
 ) {
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -23,6 +25,9 @@ public record TestateComment(
         return fileId == that.fileId && lineNumber == that.lineNumber && Objects.equals(comment, that.comment);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         return Objects.hash(fileId, lineNumber, comment);

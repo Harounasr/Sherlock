@@ -6,13 +6,13 @@ import java.util.Objects;
 /**
  * Represents a Testate DTO.
  *
- * @param evaluator The username of the evaluator.
- * @param student The username of the student.
+ * @param evaluator          The username of the evaluator.
+ * @param student            The username of the student.
  * @param functionalityGrade The funcionality grade.
- * @param readabilityGrade The readability grade.
- * @param comments List of testate comments.
- * @param comment Comment on the testate.
- * @param submission The submission associated with the testate.
+ * @param readabilityGrade   The readability grade.
+ * @param comments           List of testate comments.
+ * @param comment            Comment on the testate.
+ * @param submission         The submission associated with the testate.
  */
 public record Testate(
         String evaluator,
@@ -23,15 +23,20 @@ public record Testate(
         String comment,
         Submission submission
 ) {
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Testate testate = (Testate) o;
-        return functionalityGrade == testate.functionalityGrade && readabilityGrade == testate.readabilityGrade  && Objects.equals(evaluator, testate.evaluator) && Objects.equals(student, testate.student) && Objects.equals(comments, testate.comments) && Objects.equals(comment, testate.comment) && Objects.equals(submission, testate.submission);
+        return functionalityGrade == testate.functionalityGrade && readabilityGrade == testate.readabilityGrade && Objects.equals(evaluator, testate.evaluator) && Objects.equals(student, testate.student) && Objects.equals(comments, testate.comments) && Objects.equals(comment, testate.comment) && Objects.equals(submission, testate.submission);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         return Objects.hash(evaluator, student, functionalityGrade, readabilityGrade, comments, comment, submission);

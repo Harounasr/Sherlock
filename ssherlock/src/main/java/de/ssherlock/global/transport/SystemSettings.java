@@ -7,12 +7,12 @@ import java.util.Objects;
 /**
  * Represents a SystemSettings DTO.
  *
- * @param emailRegex The regular expression for email validation.
- * @param primaryColorHex The systems primary color.
+ * @param emailRegex        The regular expression for email validation.
+ * @param primaryColorHex   The systems primary color.
  * @param secondaryColorHex The systems secondary color.
- * @param systemName The name of the system.
- * @param logo The system logo.
- * @param faculties A list of faculties on the system.
+ * @param systemName        The name of the system.
+ * @param logo              The system logo.
+ * @param faculties         A list of faculties on the system.
  */
 public record SystemSettings(
         String emailRegex,
@@ -22,7 +22,9 @@ public record SystemSettings(
         byte[] logo,
         List<String> faculties
 ) {
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -31,6 +33,9 @@ public record SystemSettings(
         return Objects.equals(emailRegex, that.emailRegex) && Objects.equals(primaryColorHex, that.primaryColorHex) && Objects.equals(secondaryColorHex, that.secondaryColorHex) && Objects.equals(systemName, that.systemName) && Arrays.equals(logo, that.logo) && Objects.equals(faculties, that.faculties);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         int result = Objects.hash(emailRegex, primaryColorHex, secondaryColorHex, systemName, faculties);

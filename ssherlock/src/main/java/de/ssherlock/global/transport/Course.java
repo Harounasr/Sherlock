@@ -7,8 +7,8 @@ import java.util.Objects;
 /**
  * Represents a Course DTO.
  *
- * @param name The name of the course.
- * @param users Map of users and their role in the course.
+ * @param name      The name of the course.
+ * @param users     Map of users and their role in the course.
  * @param exercises List of all exercises.
  */
 public record Course(
@@ -16,7 +16,9 @@ public record Course(
         Map<User, CourseRole> users,
         List<Exercise> exercises
 ) {
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -25,6 +27,9 @@ public record Course(
         return Objects.equals(name, course.name) && Objects.equals(users, course.users) && Objects.equals(exercises, course.exercises);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         return Objects.hash(name, users, exercises);

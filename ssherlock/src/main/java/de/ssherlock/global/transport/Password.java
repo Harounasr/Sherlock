@@ -12,7 +12,9 @@ public record Password(
         String hash,
         String salt
 ) {
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -21,6 +23,9 @@ public record Password(
         return Objects.equals(hash, password.hash) && Objects.equals(salt, password.salt);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         return Objects.hash(hash, salt);

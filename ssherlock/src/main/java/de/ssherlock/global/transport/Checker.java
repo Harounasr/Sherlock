@@ -5,15 +5,15 @@ import java.util.Objects;
 /**
  * Represents a Checker DTO.
  *
- * @param name The name of the checker.
+ * @param name         The name of the checker.
  * @param parameterOne for Compilation and Identity Checker null,
  *                     for Spacing Checker the maximum line width,
  *                     for User Defined Checkers the input.
  * @param parameterTwo for Compilation, Identity and Spacing Checker null,
  *                     for User Defined Checkers the expected output.
- * @param mandatory Whether Checker is mandatory to pass.
- * @param visible Whether Checker is visible.
- * @param id ID of the checker.
+ * @param mandatory    Whether Checker is mandatory to pass.
+ * @param visible      Whether Checker is visible.
+ * @param id           ID of the checker.
  */
 public record Checker(
         String name,
@@ -23,7 +23,9 @@ public record Checker(
         boolean visible,
         long id
 ) {
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -32,6 +34,9 @@ public record Checker(
         return mandatory == checker.mandatory && visible == checker.visible && id == checker.id && Objects.equals(name, checker.name) && Objects.equals(parameterOne, checker.parameterOne) && Objects.equals(parameterTwo, checker.parameterTwo);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         return Objects.hash(name, parameterOne, parameterTwo, mandatory, visible, id);

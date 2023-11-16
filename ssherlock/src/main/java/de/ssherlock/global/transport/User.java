@@ -6,12 +6,12 @@ import java.util.Objects;
 /**
  * Represents a User DTO
  *
- * @param username The username of the user.
- * @param email The email-address of the user.
- * @param firstName The first name of the user.
- * @param lastName The last name of the user.
- * @param systemRole The SystemRole of the user.
- * @param password The password of the user.
+ * @param username    The username of the user.
+ * @param email       The email-address of the user.
+ * @param firstName   The first name of the user.
+ * @param lastName    The last name of the user.
+ * @param systemRole  The SystemRole of the user.
+ * @param password    The password of the user.
  * @param facultyName The name of the faculty of the user.
  * @param courseRoles The roles the user has in all courses he/she is in.
  */
@@ -25,7 +25,9 @@ public record User(
         String facultyName,
         Map<String, CourseRole> courseRoles
 ) {
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -34,6 +36,9 @@ public record User(
         return Objects.equals(username, user.username) && Objects.equals(email, user.email) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && systemRole == user.systemRole && Objects.equals(password, user.password) && Objects.equals(facultyName, user.facultyName);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         return Objects.hash(username, email, firstName, lastName, systemRole, password, facultyName);
