@@ -127,12 +127,30 @@ public class LoginBean implements Serializable {
     }
 
     /**
+     * Gets the username entered by the user.
+     *
+     * @return The username.
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
      * Sets the password entered by the user.
      *
      * @param password The password to set.
      */
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    /**
+     * Gets the password entered by the user.
+     *
+     * @return The password
+     */
+    public String getPassword() {
+        return password;
     }
 
 }

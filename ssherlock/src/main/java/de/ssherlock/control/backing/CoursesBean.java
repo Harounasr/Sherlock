@@ -75,20 +75,29 @@ public class CoursesBean {
     }
 
     /**
-     * Setter for the new course name.
-     *
-     * @param newCourseName The new course name to be set.
-     */
-    public void setNewCourseName(String newCourseName) {
-        this.newCourseName = newCourseName;
-    }
-
-    /**
      * Action to select a course.
      *
      * @return A navigation outcome string to the exercise view.
      */
     public String select() {
         return "/view/exercise.xhtml";
+    }
+
+    /**
+     * Gets the new course name.
+     *
+     * @return The new course name.
+     */
+    public String getNewCourseName() {
+        return newCourseName;
+    }
+
+    /**
+     * Setter for the new course name.
+     *
+     * @param newCourseName The new course name to be set.
+     */
+    public void setNewCourseName(String newCourseName) {
+        this.newCourseName = newCourseName;
     }
 }
