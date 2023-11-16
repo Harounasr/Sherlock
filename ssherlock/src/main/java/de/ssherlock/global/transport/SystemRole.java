@@ -1,7 +1,24 @@
 package de.ssherlock.global.transport;
 
+/**
+ * Describes the possible roles a user can
+ * have in the context of the system.
+ */
 public enum SystemRole {
 
-    ANONYMOUS, REGISTERED, TEACHER, ADMINISTRATOR
+    /**
+     * A user that is registered on the platform.
+     */
+    REGISTERED,
+
+    /**
+     * A teacher on the platform.
+     */
+    TEACHER,
+
+    /**
+     * An administrator on the platform.
+     */
+    ADMINISTRATOR
 
 }
