@@ -15,6 +15,9 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.logging.Logger;
 
+/**
+ * Backing bean for the reistration.xhtml facelet.
+ */
 @Named
 @ViewScoped
 public class RegistrationBean implements Serializable {
