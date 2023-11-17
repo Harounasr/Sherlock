@@ -6,10 +6,17 @@
     <ui:define name="title">My Profile</ui:define>
 
     <ui:define name="content">
-        <section>
-            <div>
-                <p>#{profileBean.username}'s Profile</p>
+        <div id="profileContent">
+            <h2>#{profileBean.username}`s Profile</h2>
+            <h5>Change password</h5>
+            <div class="form-group">
+                <label for="username">New Password</label>
+                <h:inputText value="" styleClass="form-control" placeholder="Enter your new password"/>
             </div>
-        </section>
+            <div class="form-group">
+                <label for="password">Repeat password</label>
+                <h:inputSecret value="" styleClass="form-control" placeholder="Repeat your new password"/>
+            </div>
+        </div>
     </ui:define>
 </ui:composition>
