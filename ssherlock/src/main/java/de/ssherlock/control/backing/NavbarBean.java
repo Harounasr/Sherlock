@@ -3,19 +3,21 @@ package de.ssherlock.control.backing;
 import de.ssherlock.control.session.AppSession;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * Backing bean for the navbar.xhtml facelet.
  */
 @Named
-@ViewScoped
+@SessionScoped
 public class NavbarBean implements Serializable {
 
     /**
@@ -71,7 +73,7 @@ public class NavbarBean implements Serializable {
      * @return The destination view for all courses.
      */
     public String navigateToAllCourses() {
-        return "";
+        return "/view/courses.xhtml";
     }
 
     /**
@@ -80,7 +82,7 @@ public class NavbarBean implements Serializable {
      * @return The destination view for user's courses.
      */
     public String navigateToMYCourses() {
-        return "";
+        return "/view/courses.xhtml";
     }
 
     /**
@@ -89,7 +91,8 @@ public class NavbarBean implements Serializable {
      * @return The destination view for user's profile.
      */
     public String navigateToProfile() {
-        return "";
+        logger.log(Level.INFO,"Inside navbarbean");
+        return "/view/profile.xhtml";
     }
 
     /**

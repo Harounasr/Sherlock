@@ -28,3 +28,22 @@ nav ul {
     list-style-type: none;
     padding: 0;
 }
+
+/* styles.css */
+.commandButton {
+    background-color: rgb(128, 128, 100);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+/* Add a hover effect */
+.commandButton:hover {
+    color: black;
+}
