@@ -5,6 +5,8 @@ import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.transport.Course;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.application.NavigationHandler;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
@@ -133,7 +135,13 @@ public class CoursesPaginationBean {
     public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
     }
-    public void selectCourse(String name) {
+    public String select(String name) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        NavigationHandler nh = facesContext.getApplication().getNavigationHandler();
+
+        nh.handleNavigation(facesContext, null, "/view/exercise.xhtml?faces-redirect=true&includeViewParams=true");
         logger.log(Level.INFO, "Selected " + name);
+        return null; // or return a different outcome if needed
     }
+
 }
