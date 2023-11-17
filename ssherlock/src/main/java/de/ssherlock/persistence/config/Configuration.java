@@ -1,21 +1,20 @@
 package de.ssherlock.persistence.config;
 
-import de.ssherlock.global.logging.LoggerCreator;
+import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.persistence.exception.ConfigNotReadableException;
-import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletContextEvent;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Objects;
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Properties;
-import java.util.function.Function;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Application-scoped configuration class for managing application settings.
@@ -24,12 +23,19 @@ import java.util.logging.Logger;
  */
 @Named
 @ApplicationScoped
-public class Configuration {
+public class Configuration implements Serializable {
+
+    /**
+     * Serial Version UID
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     /**
      * Logger instance for logging messages related to the Configuration class.
      */
-    private final Logger logger = LoggerCreator.get(Configuration.class);
+    @Inject
+    private SerializableLogger logger;
 
     /**
      * Properties object containing database connection properties.
@@ -100,7 +106,11 @@ public class Configuration {
      * Initializes the Configuration instance by reading configuration properties from a file.
      */
     public Configuration() {
-        Properties properties = readConfigFile();
+
+    }
+
+    public void init(ServletContextEvent sce) {
+        Properties properties = readConfigFile(sce);
 
         connectionProperties = new Properties();
         connectionProperties.setProperty("user", properties.getProperty("DB_AUTH_USERNAME"));
@@ -118,6 +128,8 @@ public class Configuration {
         tlsEnabled = Boolean.parseBoolean(properties.getProperty("TLS_ENABLED"));
         mailHost = properties.getProperty("MAIL_HOST");
         mailPort = properties.getProperty("MAIL_PORT");
+
+        logger.log(Level.INFO, "Configuration initialized.");
     }
 
     /**
@@ -126,9 +138,9 @@ public class Configuration {
      * @return The Properties object containing configuration properties.
      * @throws ConfigNotReadableException If the configuration file is not readable.
      */
-    private Properties readConfigFile() {
+    private Properties readConfigFile(ServletContextEvent sce) {
         Properties prop = new Properties();
-        InputStream stream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/WEB-INF/config/config.properties");
+        InputStream stream = sce.getServletContext().getResourceAsStream("/WEB-INF/config/config.properties");
         try {
             if (stream != null) {
                 prop.load(stream);
