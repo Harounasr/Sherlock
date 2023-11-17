@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title><ui:insert name="title"/></title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
+</h:head>
+
+<h:body>
+    <div id="con" class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div id="upload-archive" class="card-header">
+                    Upload Archive
+                </div>
+                <div class="card-body">
+                    <h:panelGroup rendered="#{not empty imageUploadPrototypeBean.logoImage}">
+                        <h:graphicImage value="" alt="" width="75%" height="auto"/>
+                    </h:panelGroup>
+                    <h:form enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="file">Choose Folder: </label>
+                            <h:inputFile id="file" value="example" />
+                        </div>
+                        <h:commandButton id="upload-button" value="Upload" action="exerciseBean.upload" class="btn btn-primary" />
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </div>
+</h:body>
+</html>

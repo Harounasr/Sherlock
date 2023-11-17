@@ -7,12 +7,14 @@ import de.ssherlock.global.transport.Exercise;
 import jakarta.annotation.ManagedBean;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.annotation.ManagedProperty;
+import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Map;
 import java.util.logging.Level;
 
 /**
@@ -20,7 +22,6 @@ import java.util.logging.Level;
  */
 @Named
 @ViewScoped
-@ManagedBean
 public class ExerciseBean implements Serializable {
 
     /**
@@ -50,8 +51,9 @@ public class ExerciseBean implements Serializable {
      */
     private Exercise exercise;
 
-    @ManagedProperty(value="#{param.yourParamName}")
-    private String yourParam;
+    private String exerciseId;
+    private String courseName;
+    private String targetPage;
 
     /**
      * Constructs an ExerciseBean.
@@ -73,7 +75,11 @@ public class ExerciseBean implements Serializable {
      */
     @PostConstruct
     public void initialize() {
-        logger.log(Level.INFO, "Param: " + yourParam);
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        Map<String, String> requestParams = facesContext.getExternalContext().getRequestParameterMap();
+        courseName = (String) facesContext.getExternalContext().getFlash().get("courseName");
+        exerciseId = requestParams.get("Id");
+        logger.log(Level.INFO, "Param: " + getexerciseId());
     }
 
     /**
@@ -85,11 +91,31 @@ public class ExerciseBean implements Serializable {
         return exercise;
     }
 
-    public String getYourParam() {
-        return yourParam;
+    public String getexerciseId() {
+        return exerciseId;
     }
 
-    public void setYourParam(String yourParam) {
-        this.yourParam = yourParam;
+    public void setexerciseId(String exerciseId) {
+        this.exerciseId = exerciseId;
+    }
+    public void upload() {
+
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
+
+    public String getTargetPage() {
+        return targetPage;
+    }
+
+    public void setTargetPage(String targetPage) {
+        logger.log(Level.INFO, "Set page: " + targetPage);
+        this.targetPage = targetPage;
     }
 }

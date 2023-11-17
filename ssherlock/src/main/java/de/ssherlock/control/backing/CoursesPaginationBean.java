@@ -14,6 +14,9 @@ import java.awt.event.ActionEvent;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Backing bean for the coursesPagination.xhtml facelet.
@@ -44,6 +47,8 @@ public class CoursesPaginationBean {
 
     private int currentPage = 1;
     private int pageSize = 10;
+
+    private long ExerciseId = 3;
 
     /**
      * Constructs a CoursesPaginationBean.
@@ -135,13 +140,37 @@ public class CoursesPaginationBean {
     public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
     }
-    public String select(String name) {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        NavigationHandler nh = facesContext.getApplication().getNavigationHandler();
-
-        nh.handleNavigation(facesContext, null, "/view/exercise.xhtml?faces-redirect=true&includeViewParams=true");
-        logger.log(Level.INFO, "Selected " + name);
-        return null; // or return a different outcome if needed
+    public String select(Course course) {
+        setExerciseId(stringToNumber(course.name()));
+        FacesContext.getCurrentInstance().getExternalContext().getFlash().put("courseName", course.name());
+        logger.log(Level.INFO, "Selected Course: " + course.name());
+        return "/view/exercise.xhtml?faces-redirect=true&Id=" + getExerciseId();
     }
 
+    public long getExerciseId() {
+        return ExerciseId;
+    }
+
+    public void setExerciseId(long exerciseId) {
+        ExerciseId = exerciseId;
+    }
+    private static long stringToNumber(String input) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hashBytes = digest.digest(input.getBytes(StandardCharsets.UTF_8));
+
+            // Convert the hash bytes to a long value
+            long result = 0;
+            for (int i = 0; i < Math.min(hashBytes.length, 8); i++) {
+                result <<= 8;
+                result |= (hashBytes[i] & 0xFF);
+            }
+
+            return result;
+        } catch (NoSuchAlgorithmException e) {
+            // Handle the case where the algorithm is not available
+            e.printStackTrace();
+            return 0L; // or throw an exception, return a default value, etc.
+        }
+    }
 }
