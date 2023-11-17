@@ -22,12 +22,12 @@
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
                         <h:form>
-                            <h:commandButton class="commandButton" value="My Courses" action="navbarBean.navigateToMYCourses" />
+                            <h:commandButton class="commandButton" value="My Courses" action="#{navbarBean.navigateToMYCourses}" />
                         </h:form>
                     </li>
                     <li class="nav-item">
                         <h:form>
-                            <h:commandButton class="commandButton" value="All Courses" action="navbarBean.navigateToAllCourses" />
+                            <h:commandButton class="commandButton" value="All Courses" action="#{navbarBean.navigateToAllCourses}" />
                         </h:form>
                     </li>
                 </ul>
@@ -35,7 +35,7 @@
                     <img src="#{request.contextPath}/resources/images/round-help-button-svgrepo-com.svg" alt="help" height="40"/>
                 </a>
                 <h:form>
-                    <h:commandButton class="commandButton" value="Profile" action="navbarBean.navigateToProfile" />
+                    <h:commandButton class="commandButton" value="Profile" action="#{navbarBean.navigateToProfile}" />
                 </h:form>
             </div>
         </nav>

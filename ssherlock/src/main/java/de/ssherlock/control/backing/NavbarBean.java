@@ -1,6 +1,7 @@
 package de.ssherlock.control.backing;
 
 import de.ssherlock.control.session.AppSession;
+import de.ssherlock.global.logging.SerializableLogger;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.enterprise.context.SessionScoped;
@@ -29,7 +30,7 @@ public class NavbarBean implements Serializable {
     /**
      * The logger for this class.
      */
-    private final Logger logger;
+    private final SerializableLogger logger;
 
     /**
      * The active session.
@@ -48,7 +49,7 @@ public class NavbarBean implements Serializable {
      * @param appSession The active session (Injected).
      */
     @Inject
-    public NavbarBean(Logger logger, AppSession appSession) {
+    public NavbarBean(SerializableLogger logger, AppSession appSession) {
         this.logger = logger;
         this.appSession = appSession;
     }
