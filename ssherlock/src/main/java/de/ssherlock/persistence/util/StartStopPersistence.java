@@ -1,54 +1,72 @@
 package de.ssherlock.persistence.util;
 
-import de.ssherlock.global.logging.LoggerCreator;
+import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.persistence.config.Configuration;
 import de.ssherlock.persistence.connection.ConnectionPoolPsql;
-import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletContextEvent;
 
-import java.io.InputStream;
-import java.util.function.Function;
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+
 /**
  * Class for managing initialization and destruction of the persistence layer during application startup and shutdown.
  */
-public class StartStopPersistence {
-    /**
-     * Logger instance for logging messages related to the StartStopPersistence class.
-     */
-    private final Logger logger = LoggerCreator.get(StartStopPersistence.class);
+@ApplicationScoped
+public class StartStopPersistence implements Serializable {
 
     /**
-     * Configuration instance for obtaining persistence layer settings.
+     * Serial Version UID
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * Configuration instance.
      */
     @Inject
     private Configuration configuration;
 
     /**
-     * Connection pool for managing database connections.
+     * Connection pool instance
      */
     @Inject
     private ConnectionPoolPsql connectionPoolPsql;
+
     /**
-     * Default constructor for creating a StartStopPersistence instance.
+     * Logger instance for logging messages related to the StartStopPersistence class.
+     */
+    @Inject
+    private SerializableLogger logger;
+
+    /**
+     * Default constructor.
      */
     public StartStopPersistence() {
+
     }
+
     /**
      * Initializes the persistence layer during application startup.
      *
-     * @param resourceFetcher Function for fetching resources during initialization.
+     * @param sce   The Servlet Context Event.
      */
-    public void init(Function<String, InputStream> resourceFetcher) {
-        //configuration.init();
-        logger.log(Level.INFO, "Persistence Layer initialized");
+    public void init(ServletContextEvent sce) {
+        logger.log(Level.INFO, "Persistence Layer initialized.");
+        configuration.init(sce);
+        connectionPoolPsql.init();
     }
     /**
      * Destroys the persistence layer during application shutdown.
+     *
+     * @param sce   The Servlet Context Event.
      */
-    public void destroy() {
+    public void destroy(ServletContextEvent sce) {
+        logger.log(Level.INFO, "Persistence Layer destroyed");
         connectionPoolPsql.destroy();
     }
+
 }

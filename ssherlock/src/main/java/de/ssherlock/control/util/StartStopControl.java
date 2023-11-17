@@ -2,11 +2,16 @@ package de.ssherlock.control.util;
 
 import de.ssherlock.business.util.StartStopBusiness;
 import de.ssherlock.global.logging.LoggerCreator;
+import de.ssherlock.global.logging.SerializableLogger;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,17 +20,23 @@ import java.util.logging.Logger;
  * Servlet context listener for initializing and destroying resources during application startup and shutdown.
  */
 @WebListener
-public class StartStopControl implements ServletContextListener {
+@ApplicationScoped
+public class StartStopControl implements ServletContextListener, Serializable {
+
+    /**
+     * Serial Version UID
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     /**
      * Logger instance for logging messages related to StartStopControl.
      */
-    private final Logger logger = LoggerCreator.get(StartStopControl.class);
+    @Inject
+    private SerializableLogger logger;
 
-    /**
-     * Business logic handler for startup and shutdown operations.
-     */
-    StartStopBusiness startStopBusiness;
+    @Inject
+    private StartStopBusiness startStopBusiness;
 
     /**
      * Performs cleanup operations when the servlet context is destroyed.
@@ -34,7 +45,8 @@ public class StartStopControl implements ServletContextListener {
      */
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        startStopBusiness.destroy();
+        logger.log(Level.INFO, "Control layer destroyed.");
+        startStopBusiness.destroy(sce);
     }
 
     /**
@@ -44,10 +56,7 @@ public class StartStopControl implements ServletContextListener {
      */
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        startStopBusiness = new StartStopBusiness();
-        ServletContext servletContext = sce.getServletContext();
-        LoggerCreator.readConfig(servletContext::getResourceAsStream);
-        startStopBusiness.init(servletContext::getResourceAsStream);
-        logger.log(Level.INFO, "Control Layer initialized");
+        logger.log(Level.INFO, "Control Layer initialized.");
+        startStopBusiness.init(sce);
     }
 }

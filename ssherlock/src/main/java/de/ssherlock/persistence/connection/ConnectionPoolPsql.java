@@ -1,12 +1,15 @@
 package de.ssherlock.persistence.connection;
 
 import de.ssherlock.global.logging.LoggerCreator;
+import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.persistence.config.Configuration;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -22,16 +25,25 @@ import java.util.logging.Logger;
  */
 @Named
 @ApplicationScoped
-public class ConnectionPoolPsql {
+public class ConnectionPoolPsql implements Serializable {
+
+    /**
+     * Serial Version UID
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     /**
      * Configuration instance for obtaining database connection settings.
      */
     @Inject
     private Configuration configuration;
+
     /**
      * Logger instance for logging messages related to the ConnectionPoolPsql class.
      */
-    private final Logger logger = LoggerCreator.get(ConnectionPoolPsql.class);
+    @Inject
+    private SerializableLogger logger;
     /**
      * Queue of available database connections.
      */
@@ -50,29 +62,26 @@ public class ConnectionPoolPsql {
      * Initializes the connection pool after creation.
      * Loads the database driver and creates the initial pool of database connections.
      */
-    @PostConstruct
-    public void afterCreate() {
-        logger.log(Level.INFO, "New ConnectionPool created");
+    public synchronized void init() {
+        logger.log(Level.INFO, "New ConnectionPool created.");
         loadDriver();
         for (int i = 0; i < configuration.getDbNumConnections(); i++) {
-            logger.log(Level.INFO, "creating connection");
             connections.offer(createConnection());
         }
-        logger.log(Level.INFO, String.valueOf(configuration.getDbNumConnections()));
-        logger.log(Level.INFO, String.valueOf(connections.size()));
+        logger.log(Level.INFO, "Created " + connections.size() + " connection to database: " + configuration.getDbName());
     }
     /**
      * Destroys the connection pool.
      * Closes all available and borrowed connections and clears the connection queues.
      */
-    public void destroy() {
+    public synchronized void destroy() {
         for (Connection conn : connections) {
             logger.log(Level.FINEST, "Try to close connection.");
             if (conn != null) {
                 try {
                     conn.close();
                 } catch (SQLException e) {
-                    logger.log(Level.WARNING, "Failed to close Connection.", e);
+                    logger.log(Level.WARNING, "Failed to close Connection.");
                 }
                 logger.log(Level.FINEST, "Closed connection successfully.");
             }
@@ -82,12 +91,12 @@ public class ConnectionPoolPsql {
                 try {
                     conn.rollback();
                 } catch (SQLException e) {
-                    logger.log(Level.WARNING, "Borrowed Connection from Connection Pool could not be rollback successfully.", e);
+                    logger.log(Level.WARNING, "Borrowed Connection from Connection Pool could not be rollback successfully.");
                 }
                 try {
                     conn.close();
                 } catch (SQLException e) {
-                    logger.log(Level.WARNING, "Borrowed Connection from Connection Pool could not be closed.", e);
+                    logger.log(Level.WARNING, "Borrowed Connection from Connection Pool could not be closed.");
                 }
             }
         }
@@ -100,7 +109,7 @@ public class ConnectionPoolPsql {
      *
      * @return A database connection.
      */
-    public Connection getConnection() {
+    public synchronized Connection getConnection() {
         while (connections.isEmpty()) {
             try {
                 wait(System.currentTimeMillis() + 2000);
@@ -117,7 +126,7 @@ public class ConnectionPoolPsql {
      *
      * @param connection The database connection to be released.
      */
-    public void releaseConnection(Connection connection) {
+    public synchronized void releaseConnection(Connection connection) {
         borrowedConnections.remove(connection);
         connections.offer(connection);
     }
@@ -126,12 +135,11 @@ public class ConnectionPoolPsql {
      *
      * @return A newly created database connection.
      */
-    private Connection createConnection() {
+    private synchronized Connection createConnection() {
         Connection conn;
         try {
             conn = DriverManager.getConnection(
                     "jdbc:postgresql://" + configuration.getDbHost() + "/"+ configuration.getDbName(), configuration.getConnectionProperties());
-            logger.log(Level.INFO, "created connection");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -141,10 +149,10 @@ public class ConnectionPoolPsql {
      * Loads the PostgreSQL database driver.
      * Throws an error if the driver is not found.
      */
-    private void loadDriver() {
+    private synchronized void loadDriver() {
         try {
             Class.forName("org.postgresql.Driver");
-            logger.log(Level.INFO, "driver loaded");
+            logger.log(Level.INFO, "Database Driver loaded.");
         } catch (ClassNotFoundException e) {
             logger.log(Level.INFO, "DB Driver not found.");
             throw new Error("DB Driver not found.", e);
