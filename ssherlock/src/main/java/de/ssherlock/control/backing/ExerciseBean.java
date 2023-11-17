@@ -20,7 +20,7 @@ import java.util.logging.Level;
  */
 @Named
 @ViewScoped
-//@ManagedBean
+@ManagedBean
 public class ExerciseBean implements Serializable {
 
     /**
@@ -50,8 +50,8 @@ public class ExerciseBean implements Serializable {
      */
     private Exercise exercise;
 
-    //@ManagedProperty(value="#{param.yourParamName}")
-    //private String yourParam;
+    @ManagedProperty(value="#{param.yourParamName}")
+    private String yourParam;
 
     /**
      * Constructs an ExerciseBean.
@@ -73,7 +73,7 @@ public class ExerciseBean implements Serializable {
      */
     @PostConstruct
     public void initialize() {
-        //logger.log(Level.INFO, "Param: " + yourParam);
+        logger.log(Level.INFO, "Param: " + yourParam);
     }
 
     /**
@@ -85,11 +85,11 @@ public class ExerciseBean implements Serializable {
         return exercise;
     }
 
-    //public String getYourParam() {
-    //    return yourParam;
-    //}
+    public String getYourParam() {
+        return yourParam;
+    }
 
-   // public void setYourParam(String yourParam) {
-   //     this.yourParam = yourParam;
-    //}
+    public void setYourParam(String yourParam) {
+        this.yourParam = yourParam;
+    }
 }
