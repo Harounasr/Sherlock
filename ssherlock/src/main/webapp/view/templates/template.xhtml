@@ -21,18 +21,22 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">My Courses <span class="sr-only">(current)</span></a>
+                        <h:form>
+                            <h:commandButton class="commandButton" value="My Courses" action="#{navbarBean.navigateToMYCourses}" />
+                        </h:form>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">All Courses</a>
+                        <h:form>
+                            <h:commandButton class="commandButton" value="All Courses" action="#{navbarBean.navigateToAllCourses}" />
+                        </h:form>
                     </li>
                 </ul>
                 <a class="navbar-brand" href="#">
                     <img src="#{request.contextPath}/resources/images/round-help-button-svgrepo-com.svg" alt="help" height="40"/>
                 </a>
-                <form class="form-inline my-2 my-lg-0">
-                    <button id="profile-button" class="btn btn-outline-success my-2 my-sm-0" type="submit">Profile</button>
-                </form>
+                <h:form>
+                    <h:commandButton class="commandButton" value="Profile" action="#{navbarBean.navigateToProfile}" />
+                </h:form>
             </div>
         </nav>
     </div>

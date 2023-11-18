@@ -1,21 +1,24 @@
 package de.ssherlock.control.backing;
 
 import de.ssherlock.control.session.AppSession;
+import de.ssherlock.global.logging.SerializableLogger;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * Backing bean for the navbar.xhtml facelet.
  */
 @Named
-@ViewScoped
+@SessionScoped
 public class NavbarBean implements Serializable {
 
     /**
@@ -27,7 +30,7 @@ public class NavbarBean implements Serializable {
     /**
      * The logger for this class.
      */
-    private final Logger logger;
+    private final SerializableLogger logger;
 
     /**
      * The active session.
@@ -46,7 +49,7 @@ public class NavbarBean implements Serializable {
      * @param appSession The active session (Injected).
      */
     @Inject
-    public NavbarBean(Logger logger, AppSession appSession) {
+    public NavbarBean(SerializableLogger logger, AppSession appSession) {
         this.logger = logger;
         this.appSession = appSession;
     }
@@ -71,7 +74,7 @@ public class NavbarBean implements Serializable {
      * @return The destination view for all courses.
      */
     public String navigateToAllCourses() {
-        return "";
+        return "/view/courses.xhtml";
     }
 
     /**
@@ -80,7 +83,7 @@ public class NavbarBean implements Serializable {
      * @return The destination view for user's courses.
      */
     public String navigateToMYCourses() {
-        return "";
+        return "/view/courses.xhtml";
     }
 
     /**
@@ -89,7 +92,8 @@ public class NavbarBean implements Serializable {
      * @return The destination view for user's profile.
      */
     public String navigateToProfile() {
-        return "";
+        logger.log(Level.INFO,"Inside navbarbean");
+        return "/view/profile.xhtml";
     }
 
     /**

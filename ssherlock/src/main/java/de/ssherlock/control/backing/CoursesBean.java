@@ -5,6 +5,8 @@ import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.transport.Course;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.application.NavigationHandler;
+import jakarta.faces.context.FacesContext;
 import jakarta.faces.event.ActionEvent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -72,15 +74,6 @@ public class CoursesBean {
      */
     public String addCourse(ActionEvent e) {
         return "";
-    }
-
-    /**
-     * Action to select a course.
-     *
-     * @return A navigation outcome string to the exercise view.
-     */
-    public String select() {
-        return "/view/exercise.xhtml";
     }
 
     /**
