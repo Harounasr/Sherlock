@@ -1,19 +1,101 @@
 package de.ssherlock.global.transport;
 
+import jakarta.enterprise.context.Dependent;
+import jakarta.inject.Named;
+
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * Represents an Error DTO
- *
- * @param exception  The exception that was thrown.
- * @param message    The message to display.
- * @param stacktrace The stacktrace of the error.
+ * Represents an Error DTO.
  */
-public record Error(
-        Exception exception,
-        String message,
-        String stacktrace
-) {
+@Named
+@Dependent
+public class Error implements Serializable {
+
+    /**
+     * Serial Version UID
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * The message to display.
+     */
+    private String message;
+
+    /**
+     * The stacktrace of the error.
+     */
+    private String stacktrace;
+
+    /**
+     * The exception that was thrown
+     */
+    private Exception exception;
+
+    /**
+     * Instantiates a new Error.
+     */
+    public Error() {
+
+    }
+
+    /**
+     * Gets message.
+     *
+     * @return the message
+     */
+    public String getMessage() {
+        return message;
+    }
+
+    /**
+     * Sets message.
+     *
+     * @param message the message
+     */
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    /**
+     * Gets stacktrace.
+     *
+     * @return the stacktrace
+     */
+    public String getStacktrace() {
+        return stacktrace;
+    }
+
+    /**
+     * Sets stacktrace.
+     *
+     * @param stacktrace the stacktrace
+     */
+    public void setStacktrace(String stacktrace) {
+        this.stacktrace = stacktrace;
+    }
+
+    /**
+     * Gets exception.
+     *
+     * @return the exception
+     */
+    public Exception getException() {
+        return exception;
+    }
+
+    /**
+     * Sets exception.
+     *
+     * @param exception the exception
+     */
+    public void setException(Exception exception) {
+        this.exception = exception;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -31,76 +113,5 @@ public record Error(
     @Override
     public int hashCode() {
         return Objects.hash(exception, message, stacktrace);
-    }
-
-    /**
-     * Builder class for constructing Error instances.
-     */
-    public static class Builder {
-        private Exception exception;
-        private String message;
-        private String stacktrace;
-
-        /**
-         * Default constructor for the Builder.
-         */
-        public Builder() {
-            // Method body intentionally left empty
-        }
-
-        /**
-         * Copies attributes from an existing Error instance.
-         *
-         * @param error The Error instance to copy from.
-         * @return The Builder instance.
-         */
-        public Builder copyFrom(Error error) {
-            this.exception = error.exception();
-            this.message = error.message();
-            this.stacktrace = error.stacktrace();
-            return this;
-        }
-
-        /**
-         * Sets the exception for the Error.
-         *
-         * @param exception The exception to set.
-         * @return The Builder instance.
-         */
-        public Builder exception(Exception exception) {
-            this.exception = exception;
-            return this;
-        }
-
-        /**
-         * Sets the message for the Error.
-         *
-         * @param message The message to set.
-         * @return The Builder instance.
-         */
-        public Builder message(String message) {
-            this.message = message;
-            return this;
-        }
-
-        /**
-         * Sets the stack trace for the Error.
-         *
-         * @param stacktrace The stack trace to set.
-         * @return The Builder instance.
-         */
-        public Builder stacktrace(String stacktrace) {
-            this.stacktrace = stacktrace;
-            return this;
-        }
-
-        /**
-         * Builds an Error instance using the provided attributes.
-         *
-         * @return The constructed Error instance.
-         */
-        public Error build() {
-            return new Error(exception, message, stacktrace);
-        }
     }
 }

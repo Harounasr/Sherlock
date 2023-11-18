@@ -1,20 +1,102 @@
 package de.ssherlock.global.transport;
 
+import jakarta.enterprise.context.Dependent;
+import jakarta.inject.Named;
+
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 
 /**
- * Represents an ExerciseDescriptionImage DTO
- *
- * @param id         The id of the image.
- * @param exerciseId The id of the associated exercise.
- * @param image      The image as a byte array.
+ * Represents an ExerciseDescriptionImage DTO.
  */
-public record ExerciseDescriptionImage(
-        long id,
-        long exerciseId,
-        byte[] image
-) {
+@Named
+@Dependent
+public class ExerciseDescriptionImage implements Serializable {
+
+    /**
+     * Serial Version UID
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * The id of the image.
+     */
+    private long id;
+
+    /**
+     * The id of the associated exercise.
+     */
+    private long exerciseId;
+
+    /**
+     * The image as a byte array.
+     */
+    private byte[] image;
+
+    /**
+     * Instantiates a new Exercise description image.
+     */
+    public ExerciseDescriptionImage() {
+
+    }
+
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
+    public long getId() {
+        return id;
+    }
+
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    /**
+     * Gets exercise id.
+     *
+     * @return the exercise id
+     */
+    public long getExerciseId() {
+        return exerciseId;
+    }
+
+    /**
+     * Sets exercise id.
+     *
+     * @param exerciseId the exercise id
+     */
+    public void setExerciseId(long exerciseId) {
+        this.exerciseId = exerciseId;
+    }
+
+    /**
+     * Get image byte [ ].
+     *
+     * @return the byte [ ]
+     */
+    public byte[] getImage() {
+        return image;
+    }
+
+    /**
+     * Sets image.
+     *
+     * @param image the image
+     */
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -34,76 +116,5 @@ public record ExerciseDescriptionImage(
         int result = Objects.hash(id, exerciseId);
         result = 31 * result + Arrays.hashCode(image);
         return result;
-    }
-
-    /**
-     * Builder class for constructing ExerciseDescriptionImage instances.
-     */
-    public static class Builder {
-        private long id;
-        private long exerciseId;
-        private byte[] image;
-
-        /**
-         * Default constructor for the Builder.
-         */
-        public Builder() {
-            // Initialize default values if needed
-        }
-
-        /**
-         * Copies attributes from an existing ExerciseDescriptionImage instance.
-         *
-         * @param image The ExerciseDescriptionImage instance to copy from.
-         * @return The Builder instance.
-         */
-        public Builder copyFrom(ExerciseDescriptionImage image) {
-            this.id = image.id();
-            this.exerciseId = image.exerciseId();
-            this.image = image.image();
-            return this;
-        }
-
-        /**
-         * Sets the ID for the ExerciseDescriptionImage.
-         *
-         * @param id The ID to set.
-         * @return The Builder instance.
-         */
-        public Builder id(long id) {
-            this.id = id;
-            return this;
-        }
-
-        /**
-         * Sets the exercise ID for the ExerciseDescriptionImage.
-         *
-         * @param exerciseId The exercise ID to set.
-         * @return The Builder instance.
-         */
-        public Builder exerciseId(long exerciseId) {
-            this.exerciseId = exerciseId;
-            return this;
-        }
-
-        /**
-         * Sets the image data for the ExerciseDescriptionImage.
-         *
-         * @param image The image data to set.
-         * @return The Builder instance.
-         */
-        public Builder image(byte[] image) {
-            this.image = image;
-            return this;
-        }
-
-        /**
-         * Builds an ExerciseDescriptionImage instance using the provided attributes.
-         *
-         * @return The constructed ExerciseDescriptionImage instance.
-         */
-        public ExerciseDescriptionImage build() {
-            return new ExerciseDescriptionImage(id, exerciseId, image);
-        }
     }
 }

@@ -1,27 +1,172 @@
 package de.ssherlock.global.transport;
 
+import jakarta.enterprise.context.Dependent;
+import jakarta.inject.Named;
+
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 /**
- * Represents an Exercise DTO
- *
- * @param id                  the id of the exercise.
- * @param name                The exercise name.
- * @param publishDate         The publishing date of the exercise.
- * @param recommendedDeadline The recommended deadline for submissions.
- * @param obligatoryDeadline  The obligatory deadline for submissions.
- * @param checkerIds          The ids of all checkers associated with the exercise.
+ * Represents an Exercise DTO.
  */
-public record Exercise(
-        long id,
-        String name,
-        Date publishDate,
-        Date recommendedDeadline,
-        Date obligatoryDeadline,
-        List<Long> checkerIds
-) {
+@Named
+@Dependent
+public class Exercise implements Serializable {
+
+    /**
+     * Serial Version UID
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * The id of the exercise
+     */
+    private long id;
+
+    /**
+     * The exercise name.
+     */
+    private String name;
+
+    /**
+     * The publishing date of the exercise.
+     */
+    private Date publishDate;
+
+    /**
+     * The recommended deadline for submissions.
+     */
+    private Date recommendedDeadline;
+
+    /**
+     * The obligatory deadline for submissions.
+     */
+    private Date obligatoryDeadline;
+
+    /**
+     * The ids of all checkers associated with the exercise.
+     */
+    private List<Long> checkerIds;
+
+    /**
+     * Instantiates a new Exercise.
+     */
+    public Exercise() {
+
+    }
+
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
+    public long getId() {
+        return id;
+    }
+
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    /**
+     * Gets name.
+     *
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Sets name.
+     *
+     * @param name the name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Gets publish date.
+     *
+     * @return the publishing date
+     */
+    public Date getPublishDate() {
+        return publishDate;
+    }
+
+    /**
+     * Sets publish date.
+     *
+     * @param publishDate the publishing date
+     */
+    public void setPublishDate(Date publishDate) {
+        this.publishDate = publishDate;
+    }
+
+    /**
+     * Gets recommended deadline.
+     *
+     * @return the recommended deadline
+     */
+    public Date getRecommendedDeadline() {
+        return recommendedDeadline;
+    }
+
+    /**
+     * Sets recommended deadline.
+     *
+     * @param recommendedDeadline the recommended deadline
+     */
+    public void setRecommendedDeadline(Date recommendedDeadline) {
+        this.recommendedDeadline = recommendedDeadline;
+    }
+
+    /**
+     * Gets obligatory deadline.
+     *
+     * @return the obligatory deadline
+     */
+    public Date getObligatoryDeadline() {
+        return obligatoryDeadline;
+    }
+
+    /**
+     * Sets obligatory deadline.
+     *
+     * @param obligatoryDeadline the obligatory deadline
+     */
+    public void setObligatoryDeadline(Date obligatoryDeadline) {
+        this.obligatoryDeadline = obligatoryDeadline;
+    }
+
+    /**
+     * Gets checker ids.
+     *
+     * @return the checker ids
+     */
+    public List<Long> getCheckerIds() {
+        return checkerIds;
+    }
+
+    /**
+     * Sets checker ids.
+     *
+     * @param checkerIds the checker ids
+     */
+    public void setCheckerIds(List<Long> checkerIds) {
+        this.checkerIds = checkerIds;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -44,115 +189,5 @@ public record Exercise(
     @Override
     public int hashCode() {
         return Objects.hash(id, name, publishDate, recommendedDeadline, obligatoryDeadline, checkerIds);
-    }
-
-    /**
-     * Builder class for constructing Exercise instances.
-     */
-    public static class Builder {
-        private long id;
-        private String name;
-        private Date publishDate;
-        private Date recommendedDeadline;
-        private Date obligatoryDeadline;
-        private List<Long> checkerIds;
-
-        /**
-         * Default constructor for the Builder.
-         */
-        public Builder() {
-            // Method body intentionally left empty
-        }
-
-        /**
-         * Copies attributes from an existing Exercise instance.
-         *
-         * @param exercise The Exercise instance to copy from.
-         * @return The Builder instance.
-         */
-        public Builder copyFrom(Exercise exercise) {
-            this.id = exercise.id();
-            this.name = exercise.name();
-            this.publishDate = exercise.publishDate();
-            this.recommendedDeadline = exercise.recommendedDeadline();
-            this.obligatoryDeadline = exercise.obligatoryDeadline();
-            this.checkerIds = exercise.checkerIds();
-            return this;
-        }
-
-        /**
-         * Sets the ID for the Exercise.
-         *
-         * @param id The ID to set.
-         * @return The Builder instance.
-         */
-        public Builder id(long id) {
-            this.id = id;
-            return this;
-        }
-
-        /**
-         * Sets the name for the Exercise.
-         *
-         * @param name The name to set.
-         * @return The Builder instance.
-         */
-        public Builder name(String name) {
-            this.name = name;
-            return this;
-        }
-
-        /**
-         * Sets the publish date for the Exercise.
-         *
-         * @param publishDate The publish date to set.
-         * @return The Builder instance.
-         */
-        public Builder publishDate(Date publishDate) {
-            this.publishDate = publishDate;
-            return this;
-        }
-
-        /**
-         * Sets the recommended deadline for the Exercise.
-         *
-         * @param recommendedDeadline The recommended deadline to set.
-         * @return The Builder instance.
-         */
-        public Builder recommendedDeadline(Date recommendedDeadline) {
-            this.recommendedDeadline = recommendedDeadline;
-            return this;
-        }
-
-        /**
-         * Sets the obligatory deadline for the Exercise.
-         *
-         * @param obligatoryDeadline The obligatory deadline to set.
-         * @return The Builder instance.
-         */
-        public Builder obligatoryDeadline(Date obligatoryDeadline) {
-            this.obligatoryDeadline = obligatoryDeadline;
-            return this;
-        }
-
-        /**
-         * Sets the list of checker IDs for the Exercise.
-         *
-         * @param checkerIds The list of checker IDs to set.
-         * @return The Builder instance.
-         */
-        public Builder checkerIds(List<Long> checkerIds) {
-            this.checkerIds = checkerIds;
-            return this;
-        }
-
-        /**
-         * Builds an Exercise instance using the provided attributes.
-         *
-         * @return The constructed Exercise instance.
-         */
-        public Exercise build() {
-            return new Exercise(id, name, publishDate, recommendedDeadline, obligatoryDeadline, checkerIds);
-        }
     }
 }
