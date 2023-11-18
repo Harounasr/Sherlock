@@ -51,18 +51,15 @@ public class ImageUploadPrototypeBean {
     @PostConstruct
     public void initialize() {
         systemSettings = systemService.getSystemSettings();
-        logoImage = Base64.getEncoder().encodeToString(systemSettings.logo());
+        logoImage = Base64.getEncoder().encodeToString(systemSettings.getLogo());
     }
 
     public void handleUpload() {
         if (uploadedFile != null) {
             try {
                 InputStream inputStream = uploadedFile.getInputStream();
-                SystemSettings newSettings = new SystemSettings.Builder()
-                        .copyFrom(systemSettings)
-                        .logo(inputStream.readAllBytes())
-                        .build();
-                systemService.updateSystemSettings(newSettings);
+                systemSettings.setLogo(inputStream.readAllBytes());
+                systemService.updateSystemSettings(systemSettings);
                 initialize();
             } catch (IOException e) {
             }

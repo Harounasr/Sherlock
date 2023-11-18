@@ -141,9 +141,9 @@ public class CoursesPaginationBean {
         this.pageSize = pageSize;
     }
     public String select(Course course) {
-        setExerciseId(stringToNumber(course.name()));
-        FacesContext.getCurrentInstance().getExternalContext().getFlash().put("courseName", course.name());
-        logger.log(Level.INFO, "Selected Course: " + course.name());
+        setExerciseId(stringToNumber(course.getName()));
+        FacesContext.getCurrentInstance().getExternalContext().getFlash().put("courseName", course.getName());
+        logger.log(Level.INFO, "Selected Course: " + course.getName());
         return "/view/exercise.xhtml?faces-redirect=true&Id=" + getExerciseId();
     }
 

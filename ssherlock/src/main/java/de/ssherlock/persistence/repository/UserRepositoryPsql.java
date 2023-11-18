@@ -22,6 +22,7 @@ import java.util.logging.Logger;
  * Implementation of UserRepository for PostgreSQL database.
  */
 public class UserRepositoryPsql extends RepositoryPsql implements UserRepository {
+
     /**
      * Logger instance for logging messages related to UserRepositoryPsql.
      */
@@ -81,14 +82,17 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
             statement.setString(1, username);
             ResultSet result = statement.executeQuery();
             if (result.next()) {
-                String firstname = result.getString("firstname");
-                String lastname = result.getString("lastname");
-                String email = result.getString("email");
-                String systemRole = result.getString("systemrole");
-                String passwordHash = result.getString("passwordhash");
-                String passwordSalt = result.getString("passwordsalt");
-                String facultyName = result.getString("facultyname");
-
+                User user = new User();
+                Password password = new Password();
+                password.setHash(result.getString("passwordhash"));
+                password.setSalt(result.getString("passwordsalt"));
+                user.setUsername(username);
+                user.setFirstName(result.getString("firstname"));
+                user.setLastName(result.getString("lastname"));
+                user.setEmail(result.getString("email"));
+                user.setSystemRole(SystemRole.valueOf(result.getString("systemrole")));
+                user.setFacultyName(result.getString("facultyname"));
+                user.setPassword(password);
                 Map<String, CourseRole> courseRoles = new HashMap<>();
                 do {
                     String courseName = result.getString("course_name");
@@ -97,16 +101,8 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
                         courseRoles.put(courseName, CourseRole.valueOf(courseRole));
                     }
                 } while (result.next());
-                return new User(
-                        username,
-                        email,
-                        firstname,
-                        lastname,
-                        SystemRole.valueOf(systemRole),
-                        new Password(passwordHash, passwordSalt),
-                        facultyName,
-                        courseRoles
-                );
+                user.setCourseRoles(courseRoles);
+                return user;
             } else {
                 throw new NonExistentUserException("The user with the username " + username + " could not be found in the database.");
             }

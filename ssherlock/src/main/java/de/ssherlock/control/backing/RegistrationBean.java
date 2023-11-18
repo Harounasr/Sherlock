@@ -2,6 +2,7 @@ package de.ssherlock.control.backing;
 
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.session.AppSession;
+import de.ssherlock.control.util.PasswordHashing;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Password;
 import de.ssherlock.global.transport.SystemRole;
@@ -44,54 +45,37 @@ public class RegistrationBean implements Serializable {
     private final UserService userService;
 
     /**
-     * The user's chosen username.
+     * The user that is to be registered.
      */
-    private String userName;
+    private User user;
 
     /**
-     * The user's first name.
+     * The unhashed password entered by the user.
      */
-    private String firstName;
-
-    /**
-     * The user's last name.
-     */
-    private String lastName;
-
-    /**
-     * The user's chosen password.
-     */
-    private String passWord;
-
-    /**
-     * The user's email address.
-     */
-    private String email;
-
-    /**
-     * The user's chosen faculty.
-     */
-    private String faculty;
+    private String unhashedPassword;
 
     /**
      * Constructs a new Registration bean.
      *
-     * @param logger The logger for this class (Injected).
-     * @param appSession The active session (Injected).
+     * @param logger      The logger for this class (Injected).
+     * @param appSession  The active session (Injected).
      * @param userService The service for user-based operations (Injected).
+     * @param user        The user that is to be registered (Injected empty).
      */
     @Inject
-    public RegistrationBean(SerializableLogger logger, AppSession appSession, UserService userService) {
+    public RegistrationBean(SerializableLogger logger, AppSession appSession, UserService userService, User user) {
         this.logger = logger;
         this.appSession = appSession;
         this.userService = userService;
+        this.user = user;
     }
 
     /**
      * Tries to register a new user using the provided information.
      */
     public void register() {
-        userService.registerUser(new User(userName, email, firstName, lastName, SystemRole.REGISTERED, new Password("", ""), faculty, null));
+        Password password = PasswordHashing.getHashedPassword(unhashedPassword);
+        userService.registerUser(user);
     }
 
     /**
@@ -104,56 +88,38 @@ public class RegistrationBean implements Serializable {
     }
 
     /**
-     * Sets the user's chosen username.
+     * Gets user.
      *
-     * @param userName The chosen username.
+     * @return the user
      */
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public User getUser() {
+        return user;
     }
 
     /**
-     * Sets the user's first name.
+     * Sets user.
      *
-     * @param firstName The user's first name.
+     * @param user the user
      */
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     /**
-     * Sets the user's last name.
+     * Gets unhashed password.
      *
-     * @param lastName The user's last name.
+     * @return the unhashed password
      */
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public String getUnhashedPassword() {
+        return unhashedPassword;
     }
 
     /**
-     * Sets the user's chosen password.
+     * Sets unhashed password.
      *
-     * @param passWord The chosen password.
+     * @param unhashedPassword the unhashed password
      */
-    public void setPassWord(String passWord) {
-        this.passWord = passWord;
-    }
-
-    /**
-     * Sets the user's email address.
-     *
-     * @param email The user's email address.
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    /**
-     * Sets the user's chosen faculty.
-     *
-     * @param faculty The chosen faculty.
-     */
-    public void setFaculty(String faculty) {
-        this.faculty = faculty;
+    public void setUnhashedPassword(String unhashedPassword) {
+        this.unhashedPassword = unhashedPassword;
     }
 }

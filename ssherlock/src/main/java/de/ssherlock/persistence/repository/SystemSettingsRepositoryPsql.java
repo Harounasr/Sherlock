@@ -38,11 +38,11 @@ public class SystemSettingsRepositoryPsql extends RepositoryPsql implements Syst
         String query = "UPDATE SystemSettings SET emailRegex=?, primaryColorHex=?, " +
                 "secondaryColor=?, systemName=?, logo=? WHERE id=?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, systemSettings.emailRegex());
-            preparedStatement.setString(2, systemSettings.primaryColorHex());
-            preparedStatement.setString(3, systemSettings.secondaryColorHex());
-            preparedStatement.setString(4, systemSettings.systemName());
-            preparedStatement.setBytes(5, systemSettings.logo());
+            preparedStatement.setString(1, systemSettings.getEmailRegex());
+            preparedStatement.setString(2, systemSettings.getPrimaryColorHex());
+            preparedStatement.setString(3, systemSettings.getSecondaryColorHex());
+            preparedStatement.setString(4, systemSettings.getSystemName());
+            preparedStatement.setBytes(5, systemSettings.getLogo());
             preparedStatement.setInt(6, 1);
 
             preparedStatement.executeUpdate();
@@ -60,23 +60,18 @@ public class SystemSettingsRepositoryPsql extends RepositoryPsql implements Syst
         String query = "SELECT * FROM SystemSettings ORDER BY id DESC LIMIT 1";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query);
              ResultSet resultSet = preparedStatement.executeQuery()) {
-
             if (resultSet.next()) {
-                SystemSettings systemSettings = new SystemSettings(
-                        resultSet.getString("emailRegex"),
-                        resultSet.getString("primaryColorHex"),
-                        resultSet.getString("secondaryColor"),
-                        resultSet.getString("systemName"),
-                        resultSet.getBytes("logo"),
-                        null
-                );
+                SystemSettings systemSettings = new SystemSettings();
+                systemSettings.setEmailRegex(resultSet.getString("emailRegex"));
+                systemSettings.setPrimaryColorHex(resultSet.getString("primaryColorHex"));
+                systemSettings.setSecondaryColorHex(resultSet.getString("secondaryColor"));
+                systemSettings.setSystemName(resultSet.getString("systemName"));
+                systemSettings.setLogo(resultSet.getBytes("logo"));
                 return systemSettings;
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
         return null;
     }
 

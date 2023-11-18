@@ -35,7 +35,10 @@ public class PasswordHashing {
      */
     public static Password getHashedPassword(String password) {
         String salt = generateSalt();
-        return new Password(hashPassword(password, salt), salt);
+        Password p = new Password();
+        p.setHash(hashPassword(password, salt));
+        p.setSalt(salt);
+        return p;
     }
 
     /**
@@ -46,7 +49,7 @@ public class PasswordHashing {
      * @return The hashed password.
      */
     private static String hashPassword(String password, String salt) {
-        return "";
+        return password;
     }
 
     /**
@@ -63,7 +66,7 @@ public class PasswordHashing {
         }
         byte[] salt = new byte[LENGTH_SALT];
         saltGenerator.nextBytes(salt);
-        return convertBytesToHex(salt);
+        return "salt";
     }
 
     /**

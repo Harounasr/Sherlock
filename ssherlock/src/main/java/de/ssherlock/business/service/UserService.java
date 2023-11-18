@@ -21,6 +21,7 @@ import jakarta.inject.Named;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
@@ -90,19 +91,19 @@ public class UserService implements Serializable {
         UserRepository userRepository = RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
         User user;
         try {
-            user = userRepository.fetchUser(loginInfo.username());
+            user = userRepository.fetchUser(loginInfo.getUsername());
         } catch (NonExistentUserException e) {
             connectionPoolPsql.releaseConnection(connection);
-            logger.log(Level.INFO, "Could not find user " + loginInfo.username() + ".");
-            throw new LoginFailedException("The user " + loginInfo.username() + " is not registered in the system");
+            logger.log(Level.INFO, "Could not find user " + loginInfo.getUsername() + ".");
+            throw new LoginFailedException("The user " + loginInfo.getUsername() + " is not registered in the system");
         }
         connectionPoolPsql.releaseConnection(connection);
-        if (Objects.equals(loginInfo.password().hash(), user.password().hash())) {
-            logger.log(Level.INFO, "Login for user " + loginInfo.username() + " was successful.");
+        if (Objects.equals(loginInfo.getPassword().getHash(), user.getPassword().getHash())) {
+            logger.log(Level.INFO, "Login for user " + loginInfo.getUsername() + " was successful.");
             appSession.setUser(user);
             return user;
         } else {
-            logger.log(Level.INFO, "Incorrect password for user " + loginInfo.username() + " .");
+            logger.log(Level.INFO, "Incorrect password for user " + loginInfo.getUsername() + " .");
             throw new LoginFailedException("The entered password was incorrect");
         }
     }
@@ -119,9 +120,17 @@ public class UserService implements Serializable {
     /**
      * Sends a password reset email to the user.
      *
-     * @param user The user for whom to send the password reset email.
+     * @param username The username for whom to send the password reset email.
      */
-    public void sendPasswordForgottenEmail(User user) {
+    public void sendPasswordForgottenEmail(String username) {
+        Connection connection = connectionPoolPsql.getConnection();
+        UserRepository userRepository = RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
+        User user;
+        try {
+            user = userRepository.fetchUser(username);
+        } catch (NonExistentUserException e) {
+            throw new RuntimeException(e);
+        }
         mail.sendMail(user, MailContentBuilder.buildPasswordResetMail(user));
     }
 

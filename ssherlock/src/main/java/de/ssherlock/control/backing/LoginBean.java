@@ -5,6 +5,7 @@ import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.notification.Notification;
 import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.control.session.AppSession;
+import de.ssherlock.control.util.PasswordHashing;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.LoginInfo;
 import de.ssherlock.global.transport.Password;
@@ -48,14 +49,14 @@ public class LoginBean implements Serializable {
     private final UserService userService;
 
     /**
-     * The password entered by the user.
+     * The loginInfo entered by the user.
      */
-    private String password;
+    private LoginInfo loginInfo;
 
     /**
-     * The username entered by the user.
+     * The unhashed password entered by the user.
      */
-    private String username;
+    private String unhasheddPassword;
 
     /**
      * Constructor for LoginBean.
@@ -63,12 +64,14 @@ public class LoginBean implements Serializable {
      * @param userService The UserService for user-related operations (Injected).
      * @param appSession  The active session (Injected).
      * @param logger      The logger for this class (Injected).
+     * @param loginInfo   The login information entered by the user (Injected empty).
      */
     @Inject
-    public LoginBean(UserService userService, AppSession appSession, SerializableLogger logger) {
+    public LoginBean(UserService userService, AppSession appSession, SerializableLogger logger, LoginInfo loginInfo) {
         this.userService = userService;
         this.appSession = appSession;
         this.logger = logger;
+        this.loginInfo = loginInfo;
     }
 
     /**
@@ -77,8 +80,8 @@ public class LoginBean implements Serializable {
      * @return The destination view after successful login.
      */
     public String login() {
-        LoginInfo loginInfo = new LoginInfo(username, new Password(password, "salt"));
         try {
+            loginInfo.setPassword(PasswordHashing.getHashedPassword(unhasheddPassword));
             User user = userService.login(loginInfo);
             logger.log(Level.INFO, "logged in");
             appSession.setUser(user);
@@ -118,39 +121,38 @@ public class LoginBean implements Serializable {
     }
 
     /**
-     * Sets the username entered by the user.
+     * Gets login info.
      *
-     * @param username The username to set.
+     * @return the login info
      */
-    public void setUsername(String username) {
-        this.username = username;
+    public LoginInfo getLoginInfo() {
+        return loginInfo;
     }
 
     /**
-     * Gets the username entered by the user.
+     * Sets login info.
      *
-     * @return The username.
+     * @param loginInfo the login info
      */
-    public String getUsername() {
-        return username;
+    public void setLoginInfo(LoginInfo loginInfo) {
+        this.loginInfo = loginInfo;
     }
 
     /**
-     * Sets the password entered by the user.
+     * Gets unhashedd password.
      *
-     * @param password The password to set.
+     * @return the unhashedd password
      */
-    public void setPassword(String password) {
-        this.password = password;
+    public String getUnhasheddPassword() {
+        return unhasheddPassword;
     }
 
     /**
-     * Gets the password entered by the user.
+     * Sets unhashedd password.
      *
-     * @return The password
+     * @param unhasheddPassword the unhashedd password
      */
-    public String getPassword() {
-        return password;
+    public void setUnhasheddPassword(String unhasheddPassword) {
+        this.unhasheddPassword = unhasheddPassword;
     }
-
 }

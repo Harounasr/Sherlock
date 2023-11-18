@@ -4,7 +4,7 @@
 <head>
     <title>Login Page</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
-    <style>
+    <style type="text/css">
         body {
             background-color: #f4f4f4;
         }
@@ -25,23 +25,23 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="userName">Username</label>
-                            <h:inputText id="userName" value="#{registrationBean.userName}" styleClass="form-control" placeholder="Enter your username"/>
+                            <h:inputText id="userName" value="#{registrationBean.user.username}" styleClass="form-control" placeholder="Enter your username"/>
                         </div>
                         <div class="form-group">
                             <label for="firstName">First Name</label>
-                            <h:inputText id="firstName" value="#{registrationBean.firstName}" styleClass="form-control" placeholder="Enter your first name"/>
+                            <h:inputText id="firstName" value="#{registrationBean.user.firstName}" styleClass="form-control" placeholder="Enter your first name"/>
                         </div>
                         <div class="form-group">
                             <label for="lastName">Last Name</label>
-                            <h:inputText id="username" value="#{registrationBean.lastName}" styleClass="form-control" placeholder="Enter your last name"/>
+                            <h:inputText id="lastName" value="#{registrationBean.user.lastName}" styleClass="form-control" placeholder="Enter your last name"/>
                         </div>
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <h:inputText id="email" value="#{registrationBean.email}" styleClass="form-control" placeholder="Enter your email"/>
+                            <h:inputText id="email" value="#{registrationBean.user.email}" styleClass="form-control" placeholder="Enter your email"/>
                         </div>
                         <div class="form-group">
                             <label for="passWord">Password</label>
-                            <h:inputSecret id="passWord" value="#{registrationBean.passWord}" styleClass="form-control" placeholder="Enter your password"/>
+                            <h:inputSecret id="passWord" value="#{registrationBean.unhashedPassword}" styleClass="form-control" placeholder="Enter your password"/>
                             <h:message for="passWord" id="loginError"/>
                         </div>
                         <h:commandButton id="register" value="Register" styleClass="btn btn-primary btn-block" action="#{registrationBean.register}"/>
@@ -53,6 +53,6 @@
         </div>
     </div>
 </h:form>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script type="application/json" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

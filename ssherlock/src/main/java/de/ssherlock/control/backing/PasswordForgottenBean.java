@@ -3,15 +3,12 @@ package de.ssherlock.control.backing;
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
-import de.ssherlock.global.transport.User;
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.logging.Logger;
 
 /**
  * Backing bean for the passwordForgotten.xhtml facelet.
@@ -44,7 +41,7 @@ public class PasswordForgottenBean implements Serializable {
     /**
      * The email address for password reset.
      */
-    private String emailAddress;
+    private String username;
 
     /**
      * Constructor for PasswordForgottenBean.
@@ -64,8 +61,7 @@ public class PasswordForgottenBean implements Serializable {
      * Requests a password reset for the provided email address.
      */
     public void requestPasswordReset() {
-        User user = new User(null, emailAddress, null, null, null, null, null, null);
-        userService.sendPasswordForgottenEmail(user);
+        userService.sendPasswordForgottenEmail(username);
     }
 
     /**
@@ -78,12 +74,21 @@ public class PasswordForgottenBean implements Serializable {
     }
 
     /**
+     * Gets email address.
+     *
+     * @return the email address
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
      * Sets the email address for password reset.
      *
-     * @param emailAddress The email address for password reset.
+     * @param username The email address for password reset.
      */
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
 }

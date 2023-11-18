@@ -36,6 +36,7 @@ public class Mail {
     public Mail() {
 
     }
+
     /**
      * Sends an email to the specified user with the given content.
      *
@@ -46,13 +47,13 @@ public class Mail {
         Session session = getSession();
         logger.log(Level.INFO, "Mail config loaded.");
         try {
-            logger.log(Level.INFO, "Trying to send Mail to " + user.email());
+            logger.log(Level.INFO, "Trying to send Mail to " + user.getEmail());
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(config.getMailFrom()));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(user.email()));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(user.getEmail()));
             message.setText(content);
             Transport.send(message);
-            logger.log(Level.INFO, "Mail successfully sent to " + user.email());
+            logger.log(Level.INFO, "Mail successfully sent to " + user.getEmail());
         } catch (MessagingException e) {
             logger.log(Level.INFO, "There was a problem with sending the Mail.");
         }
