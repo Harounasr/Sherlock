@@ -1,5 +1,4 @@
 body {
-    background-color: red;
     padding-bottom: 60px; /* Change this value to adjust the footer height */
     margin: 0;
 }
@@ -29,7 +28,6 @@ nav ul {
     padding: 0;
 }
 
-/* styles.css */
 .commandButton {
     background-color: rgb(128, 128, 100);
     color: white;
@@ -42,8 +40,6 @@ nav ul {
     margin: 4px 2px;
     cursor: pointer;
 }
-
-/* Add a hover effect */
 .commandButton:hover {
     color: black;
 }

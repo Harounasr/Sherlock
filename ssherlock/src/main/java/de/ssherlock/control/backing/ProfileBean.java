@@ -64,6 +64,8 @@ public class ProfileBean implements Serializable {
     private SystemRole systemRole;
 
     private String username;
+    private String firstName;
+    private String lastName;
 
     /**
      * Constructor for ProfileBean.
@@ -158,5 +160,33 @@ public class ProfileBean implements Serializable {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getFaculty() {
+        return faculty;
+    }
+
+    public String getNewPasswordOne() {
+        return newPasswordOne;
+    }
+
+    public String getNewPasswordTwo() {
+        return newPasswordTwo;
     }
 }

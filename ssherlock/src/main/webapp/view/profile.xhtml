@@ -6,16 +6,47 @@
     <ui:define name="title">My Profile</ui:define>
 
     <ui:define name="content">
-        <div id="profileContent">
-            <h2>#{profileBean.username}`s Profile</h2>
-            <h5>Change password</h5>
-            <div class="form-group">
-                <label for="username">New Password</label>
-                <h:inputText value="" styleClass="form-control" placeholder="Enter your new password"/>
-            </div>
-            <div class="form-group">
-                <label for="password">Repeat password</label>
-                <h:inputSecret value="" styleClass="form-control" placeholder="Repeat your new password"/>
+        <h:outputStylesheet library="css" name="profile.css" />
+        <div id="profilebody">
+            <div class="profilecontainer">
+                <div id="profileContent">
+                    <h2>Welcome, #{profileBean.username}!</h2>
+
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <h:outputLabel class="profileoutput" type="text" value="#{profileBean.username}"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="firstName">First Name:</label>
+                        <h:outputLabel class="profileoutput" type="text" value="#{profileBean.firstName}" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastName">Last Name:</label>
+                        <h:outputLabel class="profileoutput" type="text" value="#{profileBean.lastName}" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="faculty">Faculty:</label>
+                        <h:outputLabel class="profileoutput" type="text" value="#{profileBean.faculty}" />
+                    </div>
+
+                    <h5>Change Password</h5>
+                    <div class="form-group">
+                        <label for="newPassword">New Password</label>
+                        <h:inputSecret class="profileinput" value="#{profileBean.newPasswordOne}" styleClass="form-control" placeholder="Enter your new password"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="repeatPassword">Repeat Password</label>
+                        <h:inputSecret class="profileinput" value="#{profileBean.newPasswordTwo}" styleClass="form-control" placeholder="Repeat your new password"/>
+                    </div>
+                    <h:form>
+                        <h:commandButton class="commandButton" value="Change Password" action="#{profileBean.submitPasswordChange}" />
+                        <h:commandButton class="commandButton" value="Delete Account" action="#{profileBean.deleteAccount}" />
+                    </h:form>
+                </div>
             </div>
         </div>
     </ui:define>
