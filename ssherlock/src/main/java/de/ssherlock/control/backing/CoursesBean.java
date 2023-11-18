@@ -63,7 +63,7 @@ public class CoursesBean {
     @PostConstruct
     public void init() {
         List<Course> courses = courseService.getCourses();
-        courses.forEach(course -> logger.log(Level.INFO, "loaded course " + course.name() + " with exercises " + course.exercises()));
+        courses.forEach(course -> logger.log(Level.INFO, "loaded course " + course.getName() + " with exercises " + course.getExercises()));
     }
 
     /**
@@ -92,5 +92,14 @@ public class CoursesBean {
      */
     public void setNewCourseName(String newCourseName) {
         this.newCourseName = newCourseName;
+    }
+
+    /**
+     * Gets app session.
+     *
+     * @return the app session
+     */
+    public AppSession getAppSession() {
+        return appSession;
     }
 }

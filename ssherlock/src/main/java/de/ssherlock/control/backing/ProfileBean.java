@@ -54,20 +54,6 @@ public class ProfileBean implements Serializable {
     private String newPasswordTwo;
 
     /**
-     * The faculty information.
-     */
-    private String faculty;
-
-    /**
-     * The system role for the user.
-     */
-    private SystemRole systemRole;
-
-    private String username;
-    private String firstName;
-    private String lastName;
-
-    /**
      * Constructor for ProfileBean.
      *
      * @param logger      The logger for logging events.
@@ -79,7 +65,6 @@ public class ProfileBean implements Serializable {
         this.logger = logger;
         this.appSession = appSession;
         this.userService = userService;
-        this.username = appSession.getUser().username();
     }
 
     /**
@@ -136,57 +121,20 @@ public class ProfileBean implements Serializable {
         this.newPasswordTwo = newPasswordTwo;
     }
 
-    /**
-     * Sets the faculty.
-     *
-     * @param faculty The faculty.
-     */
-    public void setFaculty(String faculty) {
-        this.faculty = faculty;
-    }
-
-    /**
-     * Sets the system role for the user.
-     *
-     * @param systemRole The system role for the user.
-     */
-    public void setSystemRole(SystemRole systemRole) {
-        this.systemRole = systemRole;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getFaculty() {
-        return faculty;
-    }
-
     public String getNewPasswordOne() {
         return newPasswordOne;
     }
 
     public String getNewPasswordTwo() {
         return newPasswordTwo;
+    }
+
+    /**
+     * Gets app session.
+     *
+     * @return the app session
+     */
+    public AppSession getAppSession() {
+        return appSession;
     }
 }

@@ -18,6 +18,7 @@ import java.util.logging.Logger;
  * Implementation of CourseRepository for PostgreSQL database.
  */
 public class CourseRepositoryPsql extends RepositoryPsql implements CourseRepository {
+
     /**
      * Logger instance for logging messages related to CourseRepositoryPsql.
      */
@@ -69,25 +70,25 @@ public class CourseRepositoryPsql extends RepositoryPsql implements CourseReposi
      */
     @Override
     public List<Course> fetchCourses(Predicate<Course> predicate) {
-        String sqlQuery =
-                """
-                        SELECT * FROM courses c LEFT JOIN exercises e ON c.name = e.coursename;
-                        """;
+        String sqlQuery = "SELECT * FROM courses c LEFT JOIN exercises e ON c.name = e.coursename;";
         List<Course> allCourses = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
             ResultSet result = statement.executeQuery();
             while (result.next()) {
-                String courseName = result.getString("name");
+                Course course = new Course();
+                course.setName(result.getString("name"));
                 List<Exercise> exercises = new ArrayList<>();
                 do {
-                    long exerciseIde = result.getLong("id");
-                    String exerciseName = result.getString("name");
-                    Date exercisePublishDate = result.getDate("publish_date");
-                    Date exerciseRecommendedDeadline = result.getDate("recommended_deadline");
-                    Date exerciseObligatoryDeadline = result.getDate("obligatory_deadline");
-                    exercises.add(new Exercise(exerciseIde, exerciseName, exercisePublishDate, exerciseRecommendedDeadline, exerciseObligatoryDeadline, null));
-                } while (Objects.equals(result.getString("name"), courseName) && result.next());
-                allCourses.add(new Course(courseName, null, exercises));
+                    Exercise exercise = new Exercise();
+                    exercise.setId(result.getLong("id"));
+                    exercise.setName(result.getString("name"));
+                    exercise.setPublishDate(result.getDate("publish_date"));
+                    exercise.setRecommendedDeadline(result.getDate("recommended_deadline"));
+                    exercise.setObligatoryDeadline(result.getDate("obligatory_deadline"));
+                    exercises.add(exercise);
+                } while (Objects.equals(result.getString("name"), course.getName()) && result.next());
+                course.setExercises(exercises);
+                allCourses.add(course);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

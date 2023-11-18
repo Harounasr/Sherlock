@@ -10,37 +10,37 @@
         <div id="profilebody">
             <div class="profilecontainer">
                 <div id="profileContent">
-                    <h2>Welcome, #{profileBean.username}!</h2>
+                    <h2>Welcome, #{profileBean.appSession.user.username}!</h2>
 
                     <div class="form-group">
                         <label for="username">Username:</label>
-                        <h:outputLabel class="profileoutput" type="text" value="#{profileBean.username}"/>
+                        <h:outputLabel id="username" class="profileoutput" type="text" value="#{profileBean.appSession.user.username}"/>
                     </div>
 
                     <div class="form-group">
                         <label for="firstName">First Name:</label>
-                        <h:outputLabel class="profileoutput" type="text" value="#{profileBean.firstName}" />
+                        <h:outputLabel class="profileoutput" id="firstName" type="text" value="#{profileBean.appSession.user.firstName}" />
                     </div>
 
                     <div class="form-group">
                         <label for="lastName">Last Name:</label>
-                        <h:outputLabel class="profileoutput" type="text" value="#{profileBean.lastName}" />
+                        <h:outputLabel class="profileoutput" id="lastName" type="text" value="#{profileBean.appSession.user.lastName}" />
                     </div>
 
                     <div class="form-group">
                         <label for="faculty">Faculty:</label>
-                        <h:outputLabel class="profileoutput" type="text" value="#{profileBean.faculty}" />
+                        <h:outputLabel class="profileoutput" id="faculty" type="text" value="#{profileBean.appSession.user.facultyName}" />
                     </div>
 
                     <h5>Change Password</h5>
                     <div class="form-group">
                         <label for="newPassword">New Password</label>
-                        <h:inputSecret class="profileinput" value="#{profileBean.newPasswordOne}" styleClass="form-control" placeholder="Enter your new password"/>
+                        <h:inputSecret class="profileinput" id="newPassword" value="#{profileBean.newPasswordOne}" styleClass="form-control" placeholder="Enter your new password"/>
                     </div>
 
                     <div class="form-group">
                         <label for="repeatPassword">Repeat Password</label>
-                        <h:inputSecret class="profileinput" value="#{profileBean.newPasswordTwo}" styleClass="form-control" placeholder="Repeat your new password"/>
+                        <h:inputSecret class="profileinput" id="repeatPassword" value="#{profileBean.newPasswordTwo}" styleClass="form-control" placeholder="Repeat your new password"/>
                     </div>
                     <h:form>
                         <h:commandButton class="commandButton" value="Change Password" action="#{profileBean.submitPasswordChange}" />

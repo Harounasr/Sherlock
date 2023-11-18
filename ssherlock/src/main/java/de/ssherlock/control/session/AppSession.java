@@ -56,7 +56,7 @@ public class AppSession implements Serializable {
      */
     public void setUser(User user) {
         this.user = user;
-        logger.log(Level.INFO, "User " + user.username() + " is now set. Course Roles: " + user.courseRoles());
+        logger.log(Level.INFO, "User " + user.getUsername() + " is now set. Course Roles: " + user.getCourseRoles());
     }
 
     /**

@@ -1,30 +1,217 @@
 package de.ssherlock.global.transport;
 
+import jakarta.enterprise.context.Dependent;
+import jakarta.inject.Named;
+
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Map;
 import java.util.Objects;
 
 /**
- * Represents a User DTO
- *
- * @param username    The username of the user.
- * @param email       The email-address of the user.
- * @param firstName   The first name of the user.
- * @param lastName    The last name of the user.
- * @param systemRole  The SystemRole of the user.
- * @param password    The password of the user.
- * @param facultyName The name of the faculty of the user.
- * @param courseRoles The roles the user has in all courses he/she is in.
+ * Represents a User DTO.
  */
-public record User(
-        String username,
-        String email,
-        String firstName,
-        String lastName,
-        SystemRole systemRole,
-        Password password,
-        String facultyName,
-        Map<String, CourseRole> courseRoles
-) {
+@Named
+@Dependent
+public class User implements Serializable {
+
+    /**
+     * Serial Version UID
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * The username of the user.
+     */
+    private String username;
+
+    /**
+     * The email-address of the user.
+     */
+    private String email;
+
+    /**
+     * The first name of the user.
+     */
+    private String firstName;
+
+    /**
+     * The last name of the user.
+     */
+    private String lastName;
+
+    /**
+     * The SystemRole of the user.
+     */
+    private SystemRole systemRole;
+
+    /**
+     * The password of the user.
+     */
+    private Password password;
+
+    /**
+     * The name of the faculty of the user.
+     */
+    private String facultyName;
+
+    /**
+     * The roles the user has in all courses he/she is in.
+     */
+    private Map<String, CourseRole> courseRoles;
+
+    /**
+     * Instantiates a new User.
+     */
+    public User() {
+
+    }
+
+    /**
+     * Gets username.
+     *
+     * @return the username
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * Sets username.
+     *
+     * @param username the username
+     */
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    /**
+     * Gets email.
+     *
+     * @return the email
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * Sets email.
+     *
+     * @param email the email
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    /**
+     * Gets first name.
+     *
+     * @return the first name
+     */
+    public String getFirstName() {
+        return firstName;
+    }
+
+    /**
+     * Sets first name.
+     *
+     * @param firstName the first name
+     */
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    /**
+     * Gets last name.
+     *
+     * @return the last name
+     */
+    public String getLastName() {
+        return lastName;
+    }
+
+    /**
+     * Sets last name.
+     *
+     * @param lastName the last name
+     */
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    /**
+     * Gets system role.
+     *
+     * @return the system role
+     */
+    public SystemRole getSystemRole() {
+        return systemRole;
+    }
+
+    /**
+     * Sets system role.
+     *
+     * @param systemRole the system role
+     */
+    public void setSystemRole(SystemRole systemRole) {
+        this.systemRole = systemRole;
+    }
+
+    /**
+     * Gets password.
+     *
+     * @return the password
+     */
+    public Password getPassword() {
+        return password;
+    }
+
+    /**
+     * Sets password.
+     *
+     * @param password the password
+     */
+    public void setPassword(Password password) {
+        this.password = password;
+    }
+
+    /**
+     * Gets faculty name.
+     *
+     * @return the faculty name
+     */
+    public String getFacultyName() {
+        return facultyName;
+    }
+
+    /**
+     * Sets faculty name.
+     *
+     * @param facultyName the faculty name
+     */
+    public void setFacultyName(String facultyName) {
+        this.facultyName = facultyName;
+    }
+
+    /**
+     * Gets course roles.
+     *
+     * @return the course roles
+     */
+    public Map<String, CourseRole> getCourseRoles() {
+        return courseRoles;
+    }
+
+    /**
+     * Sets course roles.
+     *
+     * @param courseRoles the course roles
+     */
+    public void setCourseRoles(Map<String, CourseRole> courseRoles) {
+        this.courseRoles = courseRoles;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -42,140 +229,5 @@ public record User(
     @Override
     public int hashCode() {
         return Objects.hash(username, email, firstName, lastName, systemRole, password, facultyName);
-    }
-
-    /**
-     * Builder class for constructing User instances.
-     */
-    public static class Builder {
-        private String username;
-        private String email;
-        private String firstName;
-        private String lastName;
-        private SystemRole systemRole;
-        private Password password;
-        private String facultyName;
-        private Map<String, CourseRole> courseRoles;
-
-        /**
-         * Initializes the builder.
-         */
-        public Builder() {
-        }
-
-        /**
-         * Copies attributes from an existing User instance.
-         *
-         * @param user The User instance to copy attributes from.
-         * @return This builder with updated attributes.
-         */
-        public Builder copyFrom(User user) {
-            this.username = user.username();
-            this.email = user.email();
-            this.firstName = user.firstName();
-            this.lastName = user.lastName();
-            this.systemRole = user.systemRole();
-            this.password = user.password();
-            this.facultyName = user.facultyName();
-            this.courseRoles = user.courseRoles();
-            return this;
-        }
-
-        /**
-         * Sets the username.
-         *
-         * @param username The username of the user.
-         * @return This builder with the updated username.
-         */
-        public Builder username(String username) {
-            this.username = username;
-            return this;
-        }
-
-        /**
-         * Sets the email.
-         *
-         * @param email The email address of the user.
-         * @return This builder with the updated email.
-         */
-        public Builder email(String email) {
-            this.email = email;
-            return this;
-        }
-
-        /**
-         * Sets the first name.
-         *
-         * @param firstName The first name of the user.
-         * @return This builder with the updated first name.
-         */
-        public Builder firstName(String firstName) {
-            this.firstName = firstName;
-            return this;
-        }
-
-        /**
-         * Sets the last name.
-         *
-         * @param lastName The last name of the user.
-         * @return This builder with the updated last name.
-         */
-        public Builder lastName(String lastName) {
-            this.lastName = lastName;
-            return this;
-        }
-
-        /**
-         * Sets the system role.
-         *
-         * @param systemRole The SystemRole of the user.
-         * @return This builder with the updated system role.
-         */
-        public Builder systemRole(SystemRole systemRole) {
-            this.systemRole = systemRole;
-            return this;
-        }
-
-        /**
-         * Sets the password.
-         *
-         * @param password The password of the user.
-         * @return This builder with the updated password.
-         */
-        public Builder password(Password password) {
-            this.password = password;
-            return this;
-        }
-
-        /**
-         * Sets the faculty name.
-         *
-         * @param facultyName The name of the faculty of the user.
-         * @return This builder with the updated faculty name.
-         */
-        public Builder facultyName(String facultyName) {
-            this.facultyName = facultyName;
-            return this;
-        }
-
-        /**
-         * Sets the course roles.
-         *
-         * @param courseRoles The roles the user has in all courses he/she is in.
-         * @return This builder with the updated course roles.
-         */
-        public Builder courseRoles(Map<String, CourseRole> courseRoles) {
-            this.courseRoles = courseRoles;
-            return this;
-        }
-
-        /**
-         * Builds a new User instance with the provided attributes.
-         *
-         * @return A new User instance.
-         */
-        public User build() {
-            return new User(username, email, firstName, lastName, systemRole, password, facultyName, courseRoles);
-        }
     }
 }

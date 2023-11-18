@@ -1,17 +1,78 @@
 package de.ssherlock.global.transport;
 
+import jakarta.enterprise.context.Dependent;
+import jakarta.inject.Named;
+
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * Represents a Password DTO.
- *
- * @param hash The hashed password.
- * @param salt The salt that was used.
  */
-public record Password(
-        String hash,
-        String salt
-) {
+@Named
+@Dependent
+public class Password implements Serializable {
+
+    /**
+     * Serial Version UID
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * The hased password.
+     */
+    private String hash;
+
+    /**
+     * The salt that was used.
+     */
+    private String salt;
+
+    /**
+     * Instantiates a new Password.
+     */
+    public Password() {
+
+    }
+
+    /**
+     * Gets hash.
+     *
+     * @return the hash
+     */
+    public String getHash() {
+        return hash;
+    }
+
+    /**
+     * Sets hash.
+     *
+     * @param hash the hash
+     */
+    public void setHash(String hash) {
+        this.hash = hash;
+    }
+
+    /**
+     * Gets salt.
+     *
+     * @return the salt
+     */
+    public String getSalt() {
+        return salt;
+    }
+
+    /**
+     * Sets salt.
+     *
+     * @param salt the salt
+     */
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -29,63 +90,5 @@ public record Password(
     @Override
     public int hashCode() {
         return Objects.hash(hash, salt);
-    }
-
-    /**
-     * Builder class for constructing Password instances.
-     */
-    public static class Builder {
-        private String hash;
-        private String salt;
-
-        /**
-         * Default constructor for the Builder.
-         */
-        public Builder() {
-
-        }
-
-        /**
-         * Copies attributes from an existing Password instance.
-         *
-         * @param password The Password instance to copy from.
-         * @return The Builder instance.
-         */
-        public Builder copyFrom(Password password) {
-            this.hash = password.hash();
-            this.salt = password.salt();
-            return this;
-        }
-
-        /**
-         * Sets the hash for the Password.
-         *
-         * @param hash The hash to set.
-         * @return The Builder instance.
-         */
-        public Builder hash(String hash) {
-            this.hash = hash;
-            return this;
-        }
-
-        /**
-         * Sets the salt for the Password.
-         *
-         * @param salt The salt to set.
-         * @return The Builder instance.
-         */
-        public Builder salt(String salt) {
-            this.salt = salt;
-            return this;
-        }
-
-        /**
-         * Builds a Password instance using the provided attributes.
-         *
-         * @return The constructed Password instance.
-         */
-        public Password build() {
-            return new Password(hash, salt);
-        }
     }
 }

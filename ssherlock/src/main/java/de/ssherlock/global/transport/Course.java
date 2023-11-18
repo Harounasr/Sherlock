@@ -1,21 +1,75 @@
 package de.ssherlock.global.transport;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 /**
  * Represents a Course DTO.
- *
- * @param name      The name of the course.
- * @param users     Map of users and their role in the course.
- * @param exercises List of all exercises.
  */
-public record Course(
-        String name,
-        Map<User, CourseRole> users,
-        List<Exercise> exercises
-) {
+public class Course implements Serializable {
+
+    /**
+     * Serial Version UID
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * The name of the course.
+     */
+    private String name;
+
+    /**
+     * List of all exercises.
+     */
+    private List<Exercise> exercises;
+
+    /**
+     * Instantiates a new Course.
+     */
+    public Course() {
+
+    }
+
+    /**
+     * Gets name.
+     *
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Sets name.
+     *
+     * @param name the name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Gets exercises.
+     *
+     * @return the exercises
+     */
+    public List<Exercise> getExercises() {
+        return exercises;
+    }
+
+    /**
+     * Sets exercises.
+     *
+     * @param exercises the exercises
+     */
+    public void setExercises(List<Exercise> exercises) {
+        this.exercises = exercises;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -24,7 +78,7 @@ public record Course(
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Course course = (Course) o;
-        return Objects.equals(name, course.name) && Objects.equals(users, course.users) && Objects.equals(exercises, course.exercises);
+        return Objects.equals(name, course.name) && Objects.equals(exercises, course.exercises);
     }
 
     /**
@@ -32,77 +86,7 @@ public record Course(
      */
     @Override
     public int hashCode() {
-        return Objects.hash(name, users, exercises);
+        return Objects.hash(name, exercises);
     }
 
-    /**
-     * Builder class for constructing Course instances.
-     */
-    public static class Builder {
-        private String name;
-        private Map<User, CourseRole> users;
-        private List<Exercise> exercises;
-
-        /**
-         * Default constructor for the Builder.
-         */
-        public Builder() {
-            // Method body intentionally left empty
-        }
-
-        /**
-         * Copies attributes from an existing Course instance.
-         *
-         * @param course The Course instance to copy from.
-         * @return The Builder instance.
-         */
-        public Builder copyFrom(Course course) {
-            this.name = course.name();
-            this.users = course.users();
-            this.exercises = course.exercises();
-            return this;
-        }
-
-        /**
-         * Sets the name for the Course.
-         *
-         * @param name The name to set.
-         * @return The Builder instance.
-         */
-        public Builder name(String name) {
-            this.name = name;
-            return this;
-        }
-
-        /**
-         * Sets the users for the Course.
-         *
-         * @param users The users to set.
-         * @return The Builder instance.
-         */
-        public Builder users(Map<User, CourseRole> users) {
-            this.users = users;
-            return this;
-        }
-
-        /**
-         * Sets the exercises for the Course.
-         *
-         * @param exercises The exercises to set.
-         * @return The Builder instance.
-         */
-        public Builder exercises(List<Exercise> exercises) {
-            this.exercises = exercises;
-            return this;
-        }
-
-        /**
-         * Builds a Course instance using the provided attributes.
-         *
-         * @return The constructed Course instance.
-         */
-        public Course build() {
-            return new Course(name, users, exercises);
-        }
-    }
 }

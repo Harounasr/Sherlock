@@ -1,28 +1,173 @@
 package de.ssherlock.global.transport;
 
+import jakarta.enterprise.context.Dependent;
+import jakarta.inject.Named;
+
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * Represents a Checker DTO.
- *
- * @param name         The name of the checker.
- * @param parameterOne for Compilation and Identity Checker null,
- *                     for Spacing Checker the maximum line width,
- *                     for User Defined Checkers the input.
- * @param parameterTwo for Compilation, Identity and Spacing Checker null,
- *                     for User Defined Checkers the expected output.
- * @param mandatory    Whether Checker is mandatory to pass.
- * @param visible      Whether Checker is visible.
- * @param id           ID of the checker.
  */
-public record Checker(
-        String name,
-        String parameterOne,
-        String parameterTwo,
-        boolean mandatory,
-        boolean visible,
-        long id
-) {
+@Named
+@Dependent
+public class Checker implements Serializable {
+
+    /**
+     * Serial Version UID
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * ID of the Checker
+     */
+    private long id;
+
+    /**
+     * Name of the Checker
+     */
+    private String name;
+
+    /**
+     * for Compilation and Identity Checker null,
+     * for Spacing Checker the maximum line width,
+     * for User Defined Checkers the input.
+     */
+    private String parameterOne;
+
+    /**
+     * for Compilation, Identity and Spacing Checker null,
+     * for User Defined Checkers the expected output.
+     */
+    private String parameterTwo;
+
+    /**
+     * Whether the Checker is mandatory for a submission.
+     */
+    private boolean mandatory;
+
+    /**
+     * Whether the Checker is visible.
+     */
+    private boolean visible;
+
+    /**
+     * Default constructor.
+     */
+    public Checker() {
+
+    }
+
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
+    public long getId() {
+        return id;
+    }
+
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    /**
+     * Gets name.
+     *
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Sets name.
+     *
+     * @param name the name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Gets parameter one.
+     *
+     * @return the parameter one
+     */
+    public String getParameterOne() {
+        return parameterOne;
+    }
+
+    /**
+     * Sets parameter one.
+     *
+     * @param parameterOne the parameter one
+     */
+    public void setParameterOne(String parameterOne) {
+        this.parameterOne = parameterOne;
+    }
+
+    /**
+     * Gets parameter two.
+     *
+     * @return the parameter two
+     */
+    public String getParameterTwo() {
+        return parameterTwo;
+    }
+
+    /**
+     * Sets parameter two.
+     *
+     * @param parameterTwo the parameter two
+     */
+    public void setParameterTwo(String parameterTwo) {
+        this.parameterTwo = parameterTwo;
+    }
+
+    /**
+     * Gets mandatory.
+     *
+     * @return the boolean
+     */
+    public boolean isMandatory() {
+        return mandatory;
+    }
+
+    /**
+     * Sets mandatory.
+     *
+     * @param mandatory the mandatory
+     */
+    public void setMandatory(boolean mandatory) {
+        this.mandatory = mandatory;
+    }
+
+    /**
+     * Gets visible.
+     *
+     * @return the boolean
+     */
+    public boolean isVisible() {
+        return visible;
+    }
+
+    /**
+     * Sets visible.
+     *
+     * @param visible the visible
+     */
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -42,113 +187,4 @@ public record Checker(
         return Objects.hash(name, parameterOne, parameterTwo, mandatory, visible, id);
     }
 
-    /**
-     * Builder class for constructing Checker instances.
-     */
-    public static class Builder {
-        private String name;
-        private String parameterOne;
-        private String parameterTwo;
-        private boolean mandatory;
-        private boolean visible;
-        private long id;
-
-        /**
-         * Default constructor for the Builder.
-         */
-        public Builder() {
-            // Method body intentionally left empty
-        }
-
-        /**
-         * Copies attributes from an existing Checker instance.
-         *
-         * @param checker The Checker instance to copy from.
-         * @return The Builder instance.
-         */
-        public Builder copyFrom(Checker checker) {
-            this.name = checker.name();
-            this.parameterOne = checker.parameterOne();
-            this.parameterTwo = checker.parameterTwo();
-            this.mandatory = checker.mandatory();
-            this.visible = checker.visible();
-            this.id = checker.id();
-            return this;
-        }
-
-        /**
-         * Sets the name for the Checker.
-         *
-         * @param name The name to set.
-         * @return The Builder instance.
-         */
-        public Builder name(String name) {
-            this.name = name;
-            return this;
-        }
-
-        /**
-         * Sets parameterOne for the Checker.
-         *
-         * @param parameterOne The parameterOne to set.
-         * @return The Builder instance.
-         */
-        public Builder parameterOne(String parameterOne) {
-            this.parameterOne = parameterOne;
-            return this;
-        }
-
-        /**
-         * Sets parameterTwo for the Checker.
-         *
-         * @param parameterTwo The parameterTwo to set.
-         * @return The Builder instance.
-         */
-        public Builder parameterTwo(String parameterTwo) {
-            this.parameterTwo = parameterTwo;
-            return this;
-        }
-
-        /**
-         * Sets the mandatory status for the Checker.
-         *
-         * @param mandatory The mandatory status to set.
-         * @return The Builder instance.
-         */
-        public Builder mandatory(boolean mandatory) {
-            this.mandatory = mandatory;
-            return this;
-        }
-
-        /**
-         * Sets the visibility status for the Checker.
-         *
-         * @param visible The visibility status to set.
-         * @return The Builder instance.
-         */
-        public Builder visible(boolean visible) {
-            this.visible = visible;
-            return this;
-        }
-
-        /**
-         * Sets the ID for the Checker.
-         *
-         * @param id The ID to set.
-         * @return The Builder instance.
-         */
-        public Builder id(long id) {
-            this.id = id;
-            return this;
-        }
-
-        /**
-         * Builds a Checker instance using the provided attributes.
-         *
-         * @return The constructed Checker instance.
-         */
-        public Checker build() {
-            return new Checker(name, parameterOne, parameterTwo, mandatory, visible, id);
-        }
-    }
 }
