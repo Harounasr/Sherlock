@@ -10,13 +10,13 @@ import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.LoginInfo;
 import de.ssherlock.global.transport.Password;
 import de.ssherlock.global.transport.User;
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -56,7 +56,7 @@ public class LoginBean implements Serializable {
     /**
      * The unhashed password entered by the user.
      */
-    private String unhasheddPassword;
+    private String unhashedPassword;
 
     /**
      * Constructor for LoginBean.
@@ -79,14 +79,15 @@ public class LoginBean implements Serializable {
      *
      * @return The destination view after successful login.
      */
-    public String login() {
-        try {
-            loginInfo.setPassword(PasswordHashing.getHashedPassword(unhasheddPassword));
-            User user = userService.login(loginInfo);
-            logger.log(Level.INFO, "logged in");
+    public String login() throws LoginFailedException {
+        User user = userService.login(loginInfo);
+        if (Objects.equals(user.getPassword().getHash(), PasswordHashing.getHashedPassword(unhashedPassword, user.getPassword().getSalt()))) {
+            logger.log(Level.INFO, "Login for user " + loginInfo.getUsername() + " was successful.");
             appSession.setUser(user);
+            logger.log(Level.INFO, "logged in");
             return "/view/courses.xhtml";
-        } catch (LoginFailedException e) {
+        } else {
+            logger.log(Level.INFO, "Incorrect password for user " + loginInfo.getUsername() + " .");
             Notification notification = new Notification(Notification.WRONG_PASSWORD_MSG, NotificationType.ERROR);
             notification.generateUIMessage();
             return "";
@@ -139,20 +140,20 @@ public class LoginBean implements Serializable {
     }
 
     /**
-     * Gets unhashedd password.
+     * Gets unhashed password.
      *
-     * @return the unhashedd password
+     * @return the unhashed password
      */
-    public String getUnhasheddPassword() {
-        return unhasheddPassword;
+    public String getUnhashedPassword() {
+        return unhashedPassword;
     }
 
     /**
-     * Sets unhashedd password.
+     * Sets unhashed password.
      *
-     * @param unhasheddPassword the unhashedd password
+     * @param unhashedPassword the unhashedd password
      */
-    public void setUnhasheddPassword(String unhasheddPassword) {
-        this.unhasheddPassword = unhasheddPassword;
+    public void setUnhashedPassword(String unhashedPassword) {
+        this.unhashedPassword = unhashedPassword;
     }
 }

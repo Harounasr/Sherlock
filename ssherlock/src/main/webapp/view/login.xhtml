@@ -29,7 +29,7 @@
                         </div>
                         <div class="form-group">
                             <label for="password">Password</label>
-                            <h:inputSecret id="password" value="#{loginBean.unhasheddPassword}" styleClass="form-control" placeholder="Enter your password"/>
+                            <h:inputSecret id="password" value="#{loginBean.unhashedPassword}" styleClass="form-control" placeholder="Enter your password"/>
                             <h:message for="password" id="loginError" errorStyle="text-emphasis-color: darkred"/>
                         </div>
                         <h:commandButton id="login" value="Login" styleClass="btn btn-primary btn-block" action="#{loginBean.login}" oucome="success"/>
