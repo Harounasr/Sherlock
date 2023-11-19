@@ -98,14 +98,7 @@ public class UserService implements Serializable {
             throw new LoginFailedException("The user " + loginInfo.getUsername() + " is not registered in the system");
         }
         connectionPoolPsql.releaseConnection(connection);
-        if (Objects.equals(loginInfo.getPassword().getHash(), user.getPassword().getHash())) {
-            logger.log(Level.INFO, "Login for user " + loginInfo.getUsername() + " was successful.");
-            appSession.setUser(user);
-            return user;
-        } else {
-            logger.log(Level.INFO, "Incorrect password for user " + loginInfo.getUsername() + " .");
-            throw new LoginFailedException("The entered password was incorrect");
-        }
+        return user;
     }
 
     /**
