@@ -17,15 +17,17 @@
                     Upload Archive
                 </div>
                 <div class="card-body">
-                    <h:panelGroup rendered="#{not empty imageUploadPrototypeBean.logoImage}">
-                        <h:graphicImage value="" alt="" width="75%" height="auto"/>
-                    </h:panelGroup>
-                    <h:form enctype="multipart/form-data">
+                    <h:form enctype="multipart/form-data" rendered="#{submissionUploadBean.submissionFiles == null}">
                         <div class="form-group">
                             <label for="file">Choose Folder: </label>
-                            <h:inputFile id="file" value="example" />
+                            <h:inputFile id="file" accept="zip" required="true" value="#{submissionUploadBean.archiveFile}" />
+                            <h:commandButton id="upload-button" value="Upload" action="#{submissionUploadBean.submitUpload()}" class="btn btn-primary" />
                         </div>
-                        <h:commandButton id="upload-button" value="Upload" action="exerciseBean.upload" class="btn btn-primary" />
+                    </h:form>
+                    <h:form rendered="#{submissionUploadBean.submissionFiles != null}">
+                        <div class="form-group">
+                            <h1>Upload was successful. Here are the Checker Results:</h1>
+                        </div>
                     </h:form>
                 </div>
             </div>

@@ -2,9 +2,11 @@ package de.ssherlock.control.backing;
 
 import de.ssherlock.business.service.CheckerService;
 import de.ssherlock.business.service.SubmissionService;
-import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.session.AppSession;
-import de.ssherlock.global.transport.*;
+import de.ssherlock.global.transport.Checker;
+import de.ssherlock.global.transport.CheckerResult;
+import de.ssherlock.global.transport.Submission;
+import de.ssherlock.global.transport.SubmissionFile;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.event.ActionEvent;
@@ -12,10 +14,14 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.Part;
 
-import java.io.File;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.List;
-import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -62,6 +68,11 @@ public class SubmissionUploadBean {
     private Part archiveFile;
 
     /**
+     * List of submitted files.
+     */
+    private List<SubmissionFile> submissionFiles;
+
+    /**
      * Constructor for SubmissionUploadBean.
      *
      * @param logger            The logger for this class (Injected).
@@ -98,17 +109,55 @@ public class SubmissionUploadBean {
      * Upload the file.
      */
     public void submitUpload() {
-
+        submissionFiles = unzip(archiveFile);
+        logger.log(Level.INFO, "unzipped files");
+        for (SubmissionFile file : submissionFiles) {
+            logger.log(Level.INFO, file.getName());
+        }
     }
 
     /**
      * Unzips the provided zip file.
      *
      * @param zipFile The file to be unzipped.
-     * @return A list of ZipEntries after unzipping.
+     * @return A list of byte arrays representing the contents of each ZipEntry after unzipping.
      */
-    private List<ZipEntry> unzip(Part zipFile) {
-        return null;
+    private static List<SubmissionFile> unzip(Part zipFile) {
+        File tempFile;
+        ZipFile actualZipFile;
+        List<SubmissionFile> results = new ArrayList<>();
+        try {
+            InputStream inputStream = zipFile.getInputStream();
+            tempFile = File.createTempFile("temp", ".zip");
+            try (FileOutputStream outputStream = new FileOutputStream(tempFile)) {
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+            }
+            actualZipFile = new ZipFile(tempFile);
+            Enumeration<? extends ZipEntry> entries = actualZipFile.entries();
+            while (entries.hasMoreElements()) {
+                ZipEntry entry = entries.nextElement();
+                InputStream entryStream = actualZipFile.getInputStream(entry);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+                while ((bytesRead = entryStream.read(buffer)) != -1) {
+                    baos.write(buffer, 0, bytesRead);
+                }
+                SubmissionFile submissionFile = new SubmissionFile();
+                submissionFile.setBytes(baos.toByteArray());
+                submissionFile.setName(entry.getName());
+                results.add(submissionFile);
+            }
+            actualZipFile.close();
+            tempFile.delete();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return results;
     }
 
     /**
@@ -125,8 +174,34 @@ public class SubmissionUploadBean {
      *
      * @param archiveFile The archive file to be set.
      */
-    public void setZipFile(Part archiveFile) {
+    public void setArchiveFile(Part archiveFile) {
         this.archiveFile = archiveFile;
     }
 
+    /**
+     * Gets archive file.
+     *
+     * @return the archive file
+     */
+    public Part getArchiveFile() {
+        return archiveFile;
+    }
+
+    /**
+     * Gets submission files.
+     *
+     * @return the submission files
+     */
+    public List<SubmissionFile> getSubmissionFiles() {
+        return submissionFiles;
+    }
+
+    /**
+     * Sets submission files.
+     *
+     * @param submissionFiles the submission files
+     */
+    public void setSubmissionFiles(List<SubmissionFile> submissionFiles) {
+        this.submissionFiles = submissionFiles;
+    }
 }
