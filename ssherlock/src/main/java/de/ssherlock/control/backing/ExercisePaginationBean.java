@@ -1,15 +1,20 @@
 package de.ssherlock.control.backing;
 
+import de.ssherlock.business.service.CourseService;
 import de.ssherlock.business.service.ExerciseService;
 import de.ssherlock.control.session.AppSession;
+import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.Exercise;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.context.FacesContext;
 import jakarta.faces.event.ActionEvent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -32,25 +37,30 @@ public class ExercisePaginationBean {
     /**
      * Service for handling Exercise-related actions.
      */
-    private final ExerciseService exerciseService;
+    private final CourseService courseService;
 
     /**
      * List of exercises to display in pagination.
      */
     private List<Exercise> exercises;
 
+    private int currentPage = 1;
+    private int pageSize = 10;
+
+    private String exerciseId;
+
     /**
      * Constructs an ExercisePaginationBean.
      *
      * @param logger          The logger used for logging within this class (Injected).
      * @param appSession      The active session (Injected).
-     * @param exerciseService The ExerciseService (Injected).
+     * @param courseService The ExerciseService (Injected).
      */
     @Inject
-    public ExercisePaginationBean(Logger logger, AppSession appSession, ExerciseService exerciseService) {
+    public ExercisePaginationBean(Logger logger, AppSession appSession, CourseService courseService) {
         this.logger = logger;
         this.appSession = appSession;
-        this.exerciseService = exerciseService;
+        this.courseService = courseService;
     }
 
     /**
@@ -59,7 +69,10 @@ public class ExercisePaginationBean {
      */
     @PostConstruct
     public void initialize() {
-        exercises = exerciseService.getExercises(null);
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        Map<String, String> requestParams = facesContext.getExternalContext().getRequestParameterMap();
+        requestParams.get("Id");
+        exercises = courseService.getCourse(requestParams.get("Id")).getExercises();
     }
 
     /**
@@ -81,4 +94,18 @@ public class ExercisePaginationBean {
         return exercises;
     }
 
+    public String select(Exercise exercise) {
+        setExerciseId(exercise.getName());
+        FacesContext.getCurrentInstance().getExternalContext().getFlash().put("exerciseName", exercise.getName());
+        logger.log(Level.INFO, "Selected Course: " + exercise.getName());
+        return "/view/exercise.xhtml?faces-redirect=true&Id=" + getExerciseId();
+    }
+
+    public String getExerciseId() {
+        return exerciseId;
+    }
+
+    public void setExerciseId(String exerciseId) {
+        this.exerciseId = exerciseId;
+    }
 }
