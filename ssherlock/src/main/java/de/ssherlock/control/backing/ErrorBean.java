@@ -34,11 +34,13 @@ public class ErrorBean {
      *
      * @param logger     The logger used for logging within this class (Injected).
      * @param appSession The active session (Injected).
+     * @param error      The error (Injected).
      */
     @Inject
-    public ErrorBean(Logger logger, AppSession appSession) {
+    public ErrorBean(Logger logger, AppSession appSession, Error error) {
         this.logger = logger;
         this.appSession = appSession;
+        this.error = error;
     }
 
     /**

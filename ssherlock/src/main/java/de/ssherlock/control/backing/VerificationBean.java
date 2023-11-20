@@ -37,6 +37,7 @@ public class VerificationBean implements Serializable {
      * The active session.
      */
     private final AppSession session;
+
     /**
      * The text which is displayed on the verification page.
      */
