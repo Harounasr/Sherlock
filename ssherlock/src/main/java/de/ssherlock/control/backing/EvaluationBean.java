@@ -70,4 +70,12 @@ public class EvaluationBean {
         return testate;
     }
 
+    /**
+     * Sets testate.
+     *
+     * @param testate the testate
+     */
+    public void setTestate(Testate testate) {
+        this.testate = testate;
+    }
 }

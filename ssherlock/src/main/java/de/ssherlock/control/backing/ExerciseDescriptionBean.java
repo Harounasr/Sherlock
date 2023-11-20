@@ -39,21 +39,6 @@ public class ExerciseDescriptionBean {
     private Exercise exercise;
 
     /**
-     * The recommended deadline for the exercise.
-     */
-    private Date recommendedDate;
-
-    /**
-     * The mandatory deadline for the exercise.
-     */
-    private Date mandatoryDate;
-
-    /**
-     * The publishing date for the exercise.
-     */
-    private Date publishDate;
-
-    /**
      * Constructs an ExerciseDescriptionBean.
      *
      * @param logger          The logger used for logging within this class (Injected).
@@ -98,56 +83,20 @@ public class ExerciseDescriptionBean {
     }
 
     /**
-     * Gets the recommended date for the exercise.
+     * Gets exercise.
      *
-     * @return The recommended date for the exercise.
+     * @return the exercise
      */
-    public Date getRecommendedDate() {
-        return recommendedDate;
+    public Exercise getExercise() {
+        return exercise;
     }
 
     /**
-     * Sets the recommended date for the exercise.
+     * Sets exercise.
      *
-     * @param recommendedDate The recommended date for the exercise.
+     * @param exercise the exercise
      */
-    public void setRecommendedDate(Date recommendedDate) {
-        this.recommendedDate = recommendedDate;
-    }
-
-    /**
-     * Gets the mandatory date for the exercise.
-     *
-     * @return The mandatory date for the exercise.
-     */
-    public Date getMandatoryDate() {
-        return mandatoryDate;
-    }
-
-    /**
-     * Sets the mandatory date for the exercise.
-     *
-     * @param mandatoryDate The mandatory date for the exercise.
-     */
-    public void setMandatoryDate(Date mandatoryDate) {
-        this.mandatoryDate = mandatoryDate;
-    }
-
-    /**
-     * Gets the publishing date for the exercise.
-     *
-     * @return The publishing date for the exercise.
-     */
-    public Date getPublishDate() {
-        return publishDate;
-    }
-
-    /**
-     * Sets the publishing date for the exercise.
-     *
-     * @param publishDate The publishing date for the exercise.
-     */
-    public void setPublishDate(Date publishDate) {
-        this.publishDate = publishDate;
+    public void setExercise(Exercise exercise) {
+        this.exercise = exercise;
     }
 }

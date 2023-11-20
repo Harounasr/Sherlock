@@ -38,9 +38,9 @@ public class CoursesBean {
     private final CourseService courseService;
 
     /**
-     * The name of the new course.
+     * The new course the user creates.
      */
-    private String newCourseName;
+    private Course newCourse;
 
     /**
      * Constructs a CoursesBean.
@@ -48,12 +48,14 @@ public class CoursesBean {
      * @param logger        The logger used for logging within this class (Injected).
      * @param appSession    The active session (Injected).
      * @param courseService The CourseService (Injected).
+     * @param newCourse     The new course the user creates (Injected empty).
      */
     @Inject
-    public CoursesBean(Logger logger, AppSession appSession, CourseService courseService) {
+    public CoursesBean(Logger logger, AppSession appSession, CourseService courseService, Course newCourse) {
         this.logger = logger;
         this.appSession = appSession;
         this.courseService = courseService;
+        this.newCourse = newCourse;
     }
 
     /**
@@ -76,23 +78,7 @@ public class CoursesBean {
         return "";
     }
 
-    /**
-     * Gets the new course name.
-     *
-     * @return The new course name.
-     */
-    public String getNewCourseName() {
-        return newCourseName;
-    }
 
-    /**
-     * Setter for the new course name.
-     *
-     * @param newCourseName The new course name to be set.
-     */
-    public void setNewCourseName(String newCourseName) {
-        this.newCourseName = newCourseName;
-    }
 
     /**
      * Gets app session.

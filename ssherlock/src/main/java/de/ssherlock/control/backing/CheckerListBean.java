@@ -35,24 +35,14 @@ public class CheckerListBean {
     private final CheckerService checkerService;
 
     /**
+     * New Checker that can be added to the exercise.
+     */
+    private Checker checker;
+
+    /**
      * List of all checkers retrieved for the exercise.
      */
     private List<Checker> checkers;
-
-    /**
-     * Entered name of the new Checker.
-     */
-    private String newCheckerName;
-
-    /**
-     * Entered input for the new Checker.
-     */
-    private String newCheckerInput;
-
-    /**
-     * Entered output for the new Checker.
-     */
-    private String newCheckerExpectedOutput;
 
     /**
      * Constructs a CheckerListBean.
@@ -60,12 +50,14 @@ public class CheckerListBean {
      * @param logger          The logger used for logging within this class (Injected).
      * @param appSession      The active session (Injected).
      * @param checkerService  The CheckerService used for managing checkers (Injected).
+     * @param checker         The Checker that will be filled by the user (Injected empty).
      */
     @Inject
-    public CheckerListBean(Logger logger, AppSession appSession, CheckerService checkerService) {
+    public CheckerListBean(Logger logger, AppSession appSession, CheckerService checkerService, Checker checker) {
         this.logger = logger;
         this.checkerService = checkerService;
         this.appSession = appSession;
+        this.checker = checker;
     }
 
     /**
@@ -78,45 +70,20 @@ public class CheckerListBean {
     }
 
     /**
-     * Action to change the parameter for the selected Checker.
+     * Gets checker.
      *
-     * @param e The Action Event
+     * @return the checker
      */
-    public void changeParameter(ActionEvent e) {
+    public Checker getChecker() {
+        return checker;
     }
 
     /**
-     * Action to change the visibility for the selected Checker.
+     * Sets checker.
      *
-     * @param e The ActionEvent
+     * @param checker the checker
      */
-    public void changeVisibility(ActionEvent e) {
-    }
-
-    /**
-     * Setter for the entered name for the new Checker.
-     *
-     * @param newCheckerName The entered name.
-     */
-    public void setNewCheckerName(String newCheckerName) {
-        this.newCheckerName = newCheckerName;
-    }
-
-    /**
-     * Setter for the entered input for the new Checker.
-     *
-     * @param newCheckerInput The entered input.
-     */
-    public void setNewCheckerInput(String newCheckerInput) {
-        this.newCheckerInput = newCheckerInput;
-    }
-
-    /**
-     * Setter for the entered output for the new Checker.
-     *
-     * @param newCheckerExpectedOutput The entered output.
-     */
-    public void setNewCheckerExpectedOutput(String newCheckerExpectedOutput) {
-        this.newCheckerExpectedOutput = newCheckerExpectedOutput;
+    public void setChecker(Checker checker) {
+        this.checker = checker;
     }
 }

@@ -10,10 +10,6 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.Part;
 
-import java.awt.*;
-import java.io.Serial;
-import java.io.Serializable;
-import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -46,32 +42,7 @@ public class AdminSettingsBean {
     /**
      * The uploaded logo.
      */
-    private Part logo;
-
-    /**
-     * The selected primary color.
-     */
-    private Color primaryColor;
-
-    /**
-     * The selected secondary color.
-     */
-    private Color secondaryColor;
-
-    /**
-     * The entered email regex.
-     */
-    private String emailRegex;
-
-    /**
-     * The entered system name.
-     */
-    private String systemName;
-
-    /**
-     * The entered list of faculty options.
-     */
-    private List<String> faculties;
+    private Part uploadedLogo;
 
     /**
      * Constructs an AdminSettingsBean.
@@ -121,47 +92,38 @@ public class AdminSettingsBean {
     }
 
     /**
+     * Gets uploaded logo.
+     *
+     * @return the uploaded logo
+     */
+    public Part getUploadedLogo() {
+        return uploadedLogo;
+    }
+
+    /**
      * Setter for the uploaded logo.
      *
-     * @param logo The uploaded logo.
+     * @param uploadedLogo The uploaded logo.
      */
-    public void setLogo(Part logo) {
-        this.logo = logo;
+    public void setUploadedLogo(Part uploadedLogo) {
+        this.uploadedLogo = uploadedLogo;
     }
 
     /**
-     * Setter for the entered email regex.
+     * Gets system settings.
      *
-     * @param emailRegex The entered email regex.
+     * @return the system settings
      */
-    public void setEmailRegex(String emailRegex) {
-        this.emailRegex = emailRegex;
+    public SystemSettings getSystemSettings() {
+        return systemSettings;
     }
 
     /**
-     * Setter for the selected primary color.
+     * Sets system settings.
      *
-     * @param primaryColor The selected primary color.
+     * @param systemSettings the system settings
      */
-    public void setPrimaryColor(Color primaryColor) {
-        this.primaryColor = primaryColor;
-    }
-
-    /**
-     * Setter for the selected secondary color.
-     *
-     * @param secondaryColor The selected secondary color.
-     */
-    public void setSecondaryColor(Color secondaryColor) {
-        this.secondaryColor = secondaryColor;
-    }
-
-    /**
-     * Setter for the entered system name.
-     *
-     * @param systemName The entered system name.
-     */
-    public void setSystemName(String systemName) {
-        this.systemName = systemName;
+    public void setSystemSettings(SystemSettings systemSettings) {
+        this.systemSettings = systemSettings;
     }
 }
