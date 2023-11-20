@@ -1,15 +1,14 @@
 package de.ssherlock.business.service;
 
+import de.ssherlock.business.exception.BusinessNonExistentUserException;
 import de.ssherlock.business.exception.LoginFailedException;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
-import de.ssherlock.global.transport.CourseRole;
 import de.ssherlock.global.transport.LoginInfo;
 import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.connection.ConnectionPoolPsql;
-import de.ssherlock.persistence.exception.NonExistentUserException;
+import de.ssherlock.persistence.exception.PersistenceNonExistentUserException;
 
-import de.ssherlock.persistence.repository.CourseRepository;
 import de.ssherlock.persistence.repository.RepositoryFactory;
 import de.ssherlock.persistence.repository.RepositoryType;
 import de.ssherlock.persistence.repository.UserRepository;
@@ -21,13 +20,9 @@ import jakarta.inject.Named;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.sql.Connection;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * The UserService class provides functionality for managing users and related operations, such as
@@ -92,7 +87,7 @@ public class UserService implements Serializable {
         User user;
         try {
             user = userRepository.fetchUser(loginInfo.getUsername());
-        } catch (NonExistentUserException e) {
+        } catch (PersistenceNonExistentUserException e) {
             connectionPoolPsql.releaseConnection(connection);
             logger.log(Level.INFO, "Could not find user " + loginInfo.getUsername() + ".");
             throw new LoginFailedException("The user " + loginInfo.getUsername() + " is not registered in the system");
@@ -121,7 +116,7 @@ public class UserService implements Serializable {
         User user;
         try {
             user = userRepository.fetchUser(username);
-        } catch (NonExistentUserException e) {
+        } catch (PersistenceNonExistentUserException e) {
             throw new RuntimeException(e);
         }
         mail.sendMail(user, MailContentBuilder.buildPasswordResetMail(user));
@@ -150,6 +145,16 @@ public class UserService implements Serializable {
      */
     public List<User> getUsers() {
         return null;
+    }
+
+    public User fetchUserByUsername(String username) throws BusinessNonExistentUserException {
+        Connection connection = connectionPoolPsql.getConnection();
+        UserRepository userRepository = RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
+        try {
+            return userRepository.fetchUser(username);
+        } catch (PersistenceNonExistentUserException e) {
+            throw new BusinessNonExistentUserException();
+        }
     }
 }
 

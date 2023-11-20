@@ -19,6 +19,11 @@ public enum SystemRole {
     /**
      * An administrator on the platform.
      */
-    ADMINISTRATOR
+    ADMINISTRATOR,
+
+    /**
+     * Role of a not registered user.
+     */
+    ANONYMOUS
 
 }
