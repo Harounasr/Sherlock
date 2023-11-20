@@ -3,6 +3,7 @@ package de.ssherlock.control.backing;
 import de.ssherlock.business.service.CheckerService;
 import de.ssherlock.business.service.SubmissionService;
 import de.ssherlock.control.session.AppSession;
+import de.ssherlock.control.util.CheckerUtils;
 import de.ssherlock.global.transport.Checker;
 import de.ssherlock.global.transport.CheckerResult;
 import de.ssherlock.global.transport.Submission;
@@ -16,12 +17,10 @@ import jakarta.servlet.http.Part;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -73,6 +72,11 @@ public class SubmissionUploadBean {
     private List<SubmissionFile> submissionFiles;
 
     /**
+     * List of Checker Results.
+     */
+    private List<CheckerResult> checkerResults;
+
+    /**
      * Constructor for SubmissionUploadBean.
      *
      * @param logger            The logger for this class (Injected).
@@ -114,6 +118,7 @@ public class SubmissionUploadBean {
         for (SubmissionFile file : submissionFiles) {
             logger.log(Level.INFO, file.getName());
         }
+        checkerResults = CheckerUtils.runCheckers(checkers, submissionFiles);
     }
 
     /**
@@ -158,15 +163,6 @@ public class SubmissionUploadBean {
             throw new RuntimeException(e);
         }
         return results;
-    }
-
-    /**
-     * Runs the defined checkers on the submission.
-     *
-     * @return A list of CheckerResults after running checkers.
-     */
-    private List<CheckerResult> runCheckers() {
-        return null;
     }
 
     /**

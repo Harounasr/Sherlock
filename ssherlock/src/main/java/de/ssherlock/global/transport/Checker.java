@@ -54,6 +54,11 @@ public class Checker implements Serializable {
     private boolean visible;
 
     /**
+     * The type of checker.
+     */
+    private CheckerType checkerType;
+
+    /**
      * Default constructor.
      */
     public Checker() {
@@ -166,6 +171,24 @@ public class Checker implements Serializable {
      */
     public void setVisible(boolean visible) {
         this.visible = visible;
+    }
+
+    /**
+     * Gets checker type.
+     *
+     * @return the checker type
+     */
+    public CheckerType getCheckerType() {
+        return checkerType;
+    }
+
+    /**
+     * Sets checker type.
+     *
+     * @param checkerType the checker type
+     */
+    public void setCheckerType(CheckerType checkerType) {
+        this.checkerType = checkerType;
     }
 
     /**
