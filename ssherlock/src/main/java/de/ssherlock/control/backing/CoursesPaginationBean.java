@@ -48,7 +48,7 @@ public class CoursesPaginationBean {
     private int currentPage = 1;
     private int pageSize = 10;
 
-    private long ExerciseId = 3;
+    private String courseId = "";
 
     /**
      * Constructs a CoursesPaginationBean.
@@ -141,19 +141,20 @@ public class CoursesPaginationBean {
         this.pageSize = pageSize;
     }
     public String select(Course course) {
-        setExerciseId(stringToNumber(course.getName()));
+        setCourseId(course.getName());
         FacesContext.getCurrentInstance().getExternalContext().getFlash().put("courseName", course.getName());
         logger.log(Level.INFO, "Selected Course: " + course.getName());
-        return "/view/exercise.xhtml?faces-redirect=true&Id=" + getExerciseId();
+        return "/view/course.xhtml?faces-redirect=true&Id=" + getCourseId();
     }
 
-    public long getExerciseId() {
-        return ExerciseId;
+    public String getCourseId() {
+        return courseId;
     }
 
-    public void setExerciseId(long exerciseId) {
-        ExerciseId = exerciseId;
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
     }
+    /*
     private static long stringToNumber(String input) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -173,4 +174,5 @@ public class CoursesPaginationBean {
             return 0L; // or throw an exception, return a default value, etc.
         }
     }
+     */
 }
