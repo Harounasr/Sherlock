@@ -5,7 +5,7 @@ import de.ssherlock.global.transport.CourseRole;
 import de.ssherlock.global.transport.Password;
 import de.ssherlock.global.transport.SystemRole;
 import de.ssherlock.global.transport.User;
-import de.ssherlock.persistence.exception.NonExistentUserException;
+import de.ssherlock.persistence.exception.PersistenceNonExistentUserException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -65,7 +64,7 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
      * {@inheritDoc}
      */
     @Override
-    public User fetchUser(String username) throws NonExistentUserException {
+    public User fetchUser(String username) throws PersistenceNonExistentUserException {
         try {
             String sqlQuery =
                     """
@@ -104,10 +103,10 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
                 user.setCourseRoles(courseRoles);
                 return user;
             } else {
-                throw new NonExistentUserException("The user with the username " + username + " could not be found in the database.");
+                throw new PersistenceNonExistentUserException("The user with the username " + username + " could not be found in the database.");
             }
         } catch (SQLException e) {
-            throw new NonExistentUserException("The user with the username " + username + " could not be found in the database.", e);
+            throw new PersistenceNonExistentUserException("The user with the username " + username + " could not be found in the database.", e);
 
         }
     }

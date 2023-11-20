@@ -5,34 +5,34 @@ import java.io.Serial;
 /**
  * Exception indicating that a user does not exist in the database.
  */
-public class NonExistentUserException extends Exception {
+public class PersistenceNonExistentUserException extends Exception {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     /**
-     * Constructs a new NonExistentUserException.
+     * Constructs a new PersistenceNonExistentUserException.
      */
-    public NonExistentUserException() {
+    public PersistenceNonExistentUserException() {
         super();
     }
 
     /**
-     * Constructs a new NonExistentUserException with the specified detail message.
+     * Constructs a new PersistenceNonExistentUserException with the specified detail message.
      *
      * @param message The detail message.
      */
-    public NonExistentUserException(String message) {
+    public PersistenceNonExistentUserException(String message) {
         super(message);
     }
 
     /**
-     * Constructs a new NonExistentUserException with the specified detail message and cause.
+     * Constructs a new PersistenceNonExistentUserException with the specified detail message and cause.
      *
      * @param message The detail message.
      * @param cause   The cause (which is saved for later retrieval by the {@link #getCause()} method).
      */
-    public NonExistentUserException(String message, Throwable cause) {
+    public PersistenceNonExistentUserException(String message, Throwable cause) {
         super(message, cause);
     }
 }

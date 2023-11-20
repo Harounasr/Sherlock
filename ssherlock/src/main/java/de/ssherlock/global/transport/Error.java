@@ -10,8 +10,7 @@ import java.util.Objects;
 /**
  * Represents an Error DTO.
  */
-@Named
-@Dependent
+
 public class Error implements Serializable {
 
     /**
