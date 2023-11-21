@@ -3,12 +3,12 @@ package de.ssherlock.control.backing;
 import de.ssherlock.business.service.ExerciseService;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
-import de.ssherlock.global.transport.Exercise;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Map;
@@ -27,7 +27,6 @@ public class ExerciseBean implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-
     /**
      * Logger for logging within this class.
      */
@@ -43,12 +42,7 @@ public class ExerciseBean implements Serializable {
      */
     private final ExerciseService exerciseService;
 
-    /**
-     * The current Exercise being managed.
-     */
-    private Exercise exercise;
-
-    private String exerciseId;
+    private long exerciseId;
     private String courseName;
     private String targetPage;
 
@@ -74,29 +68,17 @@ public class ExerciseBean implements Serializable {
     public void initialize() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         Map<String, String> requestParams = facesContext.getExternalContext().getRequestParameterMap();
-        courseName = (String) facesContext.getExternalContext().getFlash().get("courseName");
-        exerciseId = requestParams.get("Id");
-        logger.log(Level.INFO, "Param: " + getexerciseId());
+        exerciseId = Long.parseLong(requestParams.get("Id"));
+        logger.log(Level.INFO, "Param: " + exerciseId);
+        this.setTargetPage("exerciseDescription.xhtml");
     }
 
-    /**
-     * Gets the exercise.
-     *
-     * @return The exercise.
-     */
-    public Exercise getExercise() {
-        return exercise;
-    }
-
-    public String getexerciseId() {
+    public long getExerciseId() {
         return exerciseId;
     }
 
-    public void setexerciseId(String exerciseId) {
+    public void setExerciseId(long exerciseId) {
         this.exerciseId = exerciseId;
-    }
-    public void upload() {
-
     }
 
     public String getCourseName() {
@@ -112,7 +94,7 @@ public class ExerciseBean implements Serializable {
     }
 
     public void setTargetPage(String targetPage) {
-        logger.log(Level.INFO, "Set page: " + targetPage);
+        FacesContext.getCurrentInstance().getExternalContext().getFlash().put("courseId", exerciseId);
         this.targetPage = targetPage;
     }
 }

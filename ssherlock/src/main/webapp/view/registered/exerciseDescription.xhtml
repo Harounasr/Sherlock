@@ -5,21 +5,28 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <h:head>
-    <title><ui:insert name="title"/></title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
-    <style>
-        * {
-            background-color: black;
-        }
-    </style>
 </h:head>
 
 <h:body>
+    <h:form enctype="multipart/form-data">
+        <h:panelGroup rendered="#{!exerciseDescriptionBean.editMode}">
+            <h:commandButton value="Edit" action="#{exerciseDescriptionBean.startEditMode}" />
+            <br />
+            <iframe srcdoc="#{exerciseDescriptionBean.exercise.description}" style="height: 700px; width: 1200px;"></iframe>
+        </h:panelGroup>
 
-    <div>
-        Hello my friend!
-    </div>
-
+        <h:panelGroup rendered="#{exerciseDescriptionBean.editMode}">
+            <h:commandButton value="Save" action="#{exerciseDescriptionBean.saveAndDisableEditMode}" />
+            <br />
+            <h:inputTextarea value="#{exerciseDescriptionBean.exercise.description}" rows="20" cols="180" wrap="off" style="resize: none; width: 100%; white-space: nowrap; overflow: scroll; text-overflow: fade;"/>
+                <div class="form-group">
+                    <label for="file">Choose an image:</label>
+                    <h:inputFile id="file" value="#{exerciseDescriptionBean.uploadedImage}" />
+                    <h:commandButton value="Convert to &lt;img&gt; Component" action="#{exerciseDescriptionBean.uploadImage()}" class="btn btn-primary" />
+                    <h:outputText value="Component: #{exerciseDescriptionBean.imgComponent}" style="resize: none; width: 100%; white-space: nowrap; overflow: scroll; text-overflow: fade;"/>
+                </div>
+        </h:panelGroup>
+    </h:form>
 </h:body>
 
 
