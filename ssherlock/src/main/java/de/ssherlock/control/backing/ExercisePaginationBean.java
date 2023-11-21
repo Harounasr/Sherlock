@@ -1,21 +1,21 @@
 package de.ssherlock.control.backing;
 
+import de.ssherlock.business.exception.BusinessNonExistentCourseException;
 import de.ssherlock.business.service.CourseService;
-import de.ssherlock.business.service.ExerciseService;
 import de.ssherlock.control.session.AppSession;
+import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.Exercise;
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.context.FacesContext;
-import jakarta.faces.event.ActionEvent;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
-import java.util.List;
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Map;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Backing bean for the exercisePagination.xhtml facelet.
@@ -82,15 +82,6 @@ public class ExercisePaginationBean implements Serializable {
         } catch (BusinessNonExistentCourseException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    /**
-     * Retrieves the list of exercises.
-     *
-     * @return The list of exercises.
-     */
-    public List<Exercise> getExercises() {
-        return exercises;
     }
 
     public String select(Exercise exercise) {
