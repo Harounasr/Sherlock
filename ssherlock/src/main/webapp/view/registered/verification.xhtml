@@ -4,7 +4,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <h:head>
-    <title><ui:insert name="title">Verification</ui:insert></title>
+    <title><ui:insert name="title"/></title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
 </h:head>
 
@@ -14,7 +14,7 @@
        Thank you for registration.
     </h2>
     <h:form>
-        <h:commandButton styleClass="btn btn-primary btn-block" value="Back to Login" action="#{verificationBean.navigateToLogin}"/>
+        <h5>Click <h:link value="here" action="#{verificationBean.navigateToLogin}" /> to get to login.</h5>
     </h:form>
 </h:body>
 

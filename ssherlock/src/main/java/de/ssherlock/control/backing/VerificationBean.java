@@ -37,6 +37,10 @@ public class VerificationBean implements Serializable {
      * The active session.
      */
     private final AppSession session;
+    /**
+     * The text which is displayed on the verification page.
+     */
+    private String text = "Thank you for registration.";
 
     /**
      * Constructor for VerificationBean.
@@ -56,7 +60,7 @@ public class VerificationBean implements Serializable {
     @PostConstruct
     public void handleVerifiedRegistration() {
         Map<String, String> parameter = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        logger.log(Level.INFO, "parameter = " + parameter.get("token"));
+        logger.log(Level.INFO, "parameter = " + parameter.get("id"));
     }
 
     /**
