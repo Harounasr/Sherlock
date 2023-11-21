@@ -32,10 +32,8 @@
                             <h:inputSecret id="password" value="#{loginBean.unhashedPassword}" styleClass="form-control" placeholder="Enter your password"/>
                             <h:message for="password" id="loginError" errorStyle="text-emphasis-color: darkred"/>
                         </div>
-                        <h:commandButton id="login" value="Login" styleClass="btn btn-primary btn-block" action="#{loginBean.login}" oucome="success"/>
-                        <h:commandButton id="register" value="Register" styleClass="btn btn-primary btn-block" action="#{loginBean.registerClicked}" outcome="success"/>
-                        <h:commandButton id="imageUpload" value="Image Upload Test" styleClass="btn btn-primary btn-block" action="#{loginBean.imageUploadClicked}" outcome="success"/>
-                        <h:commandButton id="fileUpload" value="File Upload" styleClass="btn btn-primary btn-block" action="#{loginBean.fileUploadClicked}" outcome="success"/>
+                        <h:commandButton id="login" value="Login" styleClass="btn btn-primary btn-block" action="#{loginBean.login}"/>
+                        <h:commandButton id="register" value="Register" styleClass="btn btn-primary btn-block" action="#{loginBean.registerClicked}"/>
                         <h:messages />
                     </div>
                 </div>

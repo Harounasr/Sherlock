@@ -14,10 +14,11 @@ import jakarta.inject.Named;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Backing bean for the reistration.xhtml facelet.
+ * Backing bean for the registration.xhtml facelet.
  */
 @Named
 @ViewScoped
@@ -75,6 +76,7 @@ public class RegistrationBean implements Serializable {
      */
     public void register() {
         Password password = PasswordHashing.getHashedPassword(unhashedPassword);
+        user.setPassword(password);
         userService.registerUser(user);
     }
 
@@ -84,7 +86,8 @@ public class RegistrationBean implements Serializable {
      * @return String representing the navigation outcome.
      */
     public String navigateToLogin() {
-        return "";
+        logger.log(Level.INFO, "Login");
+        return "/view/login.xhtml";
     }
 
     /**

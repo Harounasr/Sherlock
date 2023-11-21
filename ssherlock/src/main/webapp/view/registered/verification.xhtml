@@ -4,21 +4,18 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <h:head>
-    <title><ui:insert name="title"/></title>
+    <title><ui:insert name="title">Verification</ui:insert></title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
-    <style>
-        div {
-            align-self: center;
-        }
-    </style>
 </h:head>
 
 
 <h:body>
-    <o:viewParam name="foo" value="#{verificationBean.foo}" />
-    <div id="content">
-        <h:outputText value="#{verificationBean.text}" />
-    </div>
+    <h2>
+       Thank you for registration.
+    </h2>
+    <h:form>
+        <h:commandButton styleClass="btn btn-primary btn-block" value="Back to Login" action="#{verificationBean.navigateToLogin}"/>
+    </h:form>
 </h:body>
 
 </html>
