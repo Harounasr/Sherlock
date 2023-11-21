@@ -14,6 +14,7 @@ import jakarta.inject.Named;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -85,7 +86,8 @@ public class RegistrationBean implements Serializable {
      * @return String representing the navigation outcome.
      */
     public String navigateToLogin() {
-        return "";
+        logger.log(Level.INFO, "Login");
+        return "/view/login.xhtml";
     }
 
     /**

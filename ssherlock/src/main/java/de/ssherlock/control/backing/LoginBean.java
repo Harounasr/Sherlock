@@ -104,24 +104,6 @@ public class LoginBean implements Serializable {
     }
 
     /**
-     * Redirects to the image upload prototype page.
-     *
-     * @return The destination view for image upload.
-     */
-    public String imageUploadClicked() {
-        return "/view/imageUploadPrototype.xhtml";
-    }
-
-    /**
-     * Redirects to the file upload page.
-     *
-     * @return The destination view for file upload.
-     */
-    public String fileUploadClicked() {
-        return "/view/FileUpload.xhtml";
-    }
-
-    /**
      * Gets login info.
      *
      * @return the login info
