@@ -1,17 +1,22 @@
 package de.ssherlock.control.backing;
 
+import de.ssherlock.business.exception.BusinessNonExistentCourseException;
 import de.ssherlock.business.service.CourseService;
 import de.ssherlock.business.service.ExerciseService;
 import de.ssherlock.control.session.AppSession;
+import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.Exercise;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.event.ActionEvent;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -21,13 +26,19 @@ import java.util.logging.Logger;
  * Backing bean for the exercisePagination.xhtml facelet.
  */
 @Named
-@RequestScoped
-public class ExercisePaginationBean {
+@ViewScoped
+public class ExercisePaginationBean implements Serializable {
+
+    /**
+     * Serial Version UID
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     /**
      * Logger for logging within this class.
      */
-    private final Logger logger;
+    private final SerializableLogger logger;
 
     /**
      * The active session.
@@ -42,7 +53,7 @@ public class ExercisePaginationBean {
     /**
      * List of exercises to display in pagination.
      */
-    private List<Exercise> exercises;
+    private Course course;
 
     private int currentPage = 1;
     private int pageSize = 10;
@@ -57,7 +68,7 @@ public class ExercisePaginationBean {
      * @param courseService The ExerciseService (Injected).
      */
     @Inject
-    public ExercisePaginationBean(Logger logger, AppSession appSession, CourseService courseService) {
+    public ExercisePaginationBean(SerializableLogger logger, AppSession appSession, CourseService courseService) {
         this.logger = logger;
         this.appSession = appSession;
         this.courseService = courseService;
@@ -71,34 +82,34 @@ public class ExercisePaginationBean {
     public void initialize() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         Map<String, String> requestParams = facesContext.getExternalContext().getRequestParameterMap();
-        requestParams.get("Id");
-        exercises = courseService.getCourse(requestParams.get("Id")).getExercises();
-    }
-
-    /**
-     * Navigates to a selected exercise.
-     *
-     * @param e The action event.
-     * @return Navigation outcome string to the exercise.
-     */
-    public String navigateToExercise(ActionEvent e) {
-        return "";
-    }
-
-    /**
-     * Retrieves the list of exercises.
-     *
-     * @return The list of exercises.
-     */
-    public List<Exercise> getExercises() {
-        return exercises;
+        try {
+            course = courseService.getCourse(requestParams.get("Id"));
+        } catch (BusinessNonExistentCourseException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public String select(Exercise exercise) {
-        setExerciseId(exercise.getName());
-        FacesContext.getCurrentInstance().getExternalContext().getFlash().put("exerciseName", exercise.getName());
-        logger.log(Level.INFO, "Selected Course: " + exercise.getName());
-        return "/view/exercise.xhtml?faces-redirect=true&Id=" + getExerciseId();
+        FacesContext.getCurrentInstance().getExternalContext().getFlash().put("exerciseId", exercise.getId());
+        logger.log(Level.INFO, "Selected Exercise: " + exercise.getName());
+        return "/view/exercise.xhtml?faces-redirect=true&Id=" + exercise.getId();
+    }
+
+    public void firstPage() {
+        currentPage = 0;
+    }
+
+    public void previousPage() {
+        if (currentPage > 0) {
+            currentPage--;
+        }
+    }
+
+    public void nextPage() {
+        int lastIndex = course.getExercises().size() - 1;
+        if (currentPage < lastIndex) {
+            currentPage++;
+        }
     }
 
     public String getExerciseId() {
@@ -107,5 +118,29 @@ public class ExercisePaginationBean {
 
     public void setExerciseId(String exerciseId) {
         this.exerciseId = exerciseId;
+    }
+
+    public int getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
 }

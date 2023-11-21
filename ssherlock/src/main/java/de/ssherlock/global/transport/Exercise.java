@@ -5,7 +5,7 @@ import jakarta.inject.Named;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -51,6 +51,10 @@ public class Exercise implements Serializable {
      * The ids of all checkers associated with the exercise.
      */
     private List<Long> checkerIds;
+
+    private String description;
+
+    private String courseName;
 
     /**
      * Instantiates a new Exercise.
@@ -100,7 +104,7 @@ public class Exercise implements Serializable {
      *
      * @return the publishing date
      */
-    public Date getPublishDate() {
+    public java.sql.Date getPublishDate() {
         return publishDate;
     }
 
@@ -165,6 +169,22 @@ public class Exercise implements Serializable {
      */
     public void setCheckerIds(List<Long> checkerIds) {
         this.checkerIds = checkerIds;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 
     /**
