@@ -84,4 +84,15 @@ public class RepositoryFactory {
         }
     }
 
+    public static ExerciseDescriptionImageRepository getExerciseDescriptionImageRepository(RepositoryType type, Connection connection) {
+        switch (type) {
+            case POSTGRESQL -> {
+                return new ExerciseDescriptionImageRepositoryPsql(connection);
+            }
+            default -> {
+                return null;
+            }
+        }
+    }
+
 }

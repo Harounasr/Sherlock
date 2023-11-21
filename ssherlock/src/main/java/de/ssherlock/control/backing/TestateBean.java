@@ -10,8 +10,20 @@ import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.event.ActionEvent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.servlet.http.Part;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -46,6 +58,11 @@ public class TestateBean {
      */
     private final TestateService testateService;
 
+    private Part uploadedFile;
+    private String fileContent;
+    private List<Object[]> fileContentLines;
+
+
     /**
      * The testate the user creates.
      */
@@ -76,8 +93,8 @@ public class TestateBean {
      */
     @PostConstruct
     public void initialize() {
-        // Method body intentionally left empty
     }
+
 
     /**
      * Inserts a comment in the code.
@@ -146,4 +163,51 @@ public class TestateBean {
     public void setTestate(Testate testate) {
         this.testate = testate;
     }
+
+    public String getFileContent() {
+        return fileContent;
+    }
+
+    public void setFileContent(String fileContent) {
+        this.fileContent = fileContent;
+    }
+
+    public Part getUploadedFile() {
+        return uploadedFile;
+    }
+
+    public void setUploadedFile(Part uploadedFile) {
+        this.uploadedFile = uploadedFile;
+    }
+
+    public void upload() {
+        fileContentLines = new ArrayList<>();
+        try {
+            if (uploadedFile != null) {
+                try (InputStream input = uploadedFile.getInputStream();
+                     BufferedReader reader = new BufferedReader(new InputStreamReader(input))) {
+
+                    StringBuilder content = new StringBuilder();
+
+                    String line;
+                    int counter = 0;
+                    while ((line = reader.readLine()) != null) {
+                        counter++;
+                        content.append(line).append("\n");
+                        fileContentLines.add(new Object[] {counter, line}); // Add this line
+                    }
+
+                    fileContent = content.toString();
+                }
+            }
+        } catch (Exception e) {
+            logger.log(Level.INFO, "Inside upload method");
+            e.printStackTrace();
+        }
+    }
+
+    public List<Object[]> getFileContentLines() {
+        return fileContentLines;
+    }
+
 }

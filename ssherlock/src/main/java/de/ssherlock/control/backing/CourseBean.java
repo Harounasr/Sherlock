@@ -1,24 +1,21 @@
 package de.ssherlock.control.backing;
 
+import de.ssherlock.business.exception.BusinessNonExistentCourseException;
 import de.ssherlock.business.service.CourseService;
 import de.ssherlock.business.service.ExerciseService;
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
-import de.ssherlock.global.transport.CourseRole;
-import de.ssherlock.global.transport.User;
+import de.ssherlock.global.transport.Course;
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.faces.annotation.View;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Backing bean for course.xhtml facelet.
@@ -32,7 +29,6 @@ public class CourseBean implements Serializable {
      */
     @Serial
     private static final long serialVersionUID = 1L;
-
 
     /**
      * Logger for logging within this class.
@@ -58,8 +54,8 @@ public class CourseBean implements Serializable {
      * Service responsible for managing users.
      */
     private final UserService userService;
-    private String courseName;
-    private String courseId;
+
+    private Course course;
 
     /**
      * Constructs a CourseBean.
@@ -88,24 +84,19 @@ public class CourseBean implements Serializable {
     public void initialize() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         Map<String, String> requestParams = facesContext.getExternalContext().getRequestParameterMap();
-        courseName = (String) facesContext.getExternalContext().getFlash().get("courseName");
-        courseId = requestParams.get("Id");
-        logger.log(Level.INFO, "Param: " + getCourseId());
+        String courseId = requestParams.get("Id");
+        try {
+            course = courseService.getCourse(courseId);
+        } catch (BusinessNonExistentCourseException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public String getCourseName() {
-        return courseName;
+    public Course getCourse() {
+        return course;
     }
 
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
-    }
-
-    public String getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(String courseId) {
-        this.courseId = courseId;
+    public void setCourse(Course course) {
+        this.course = course;
     }
 }
