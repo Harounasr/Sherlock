@@ -17,7 +17,7 @@ import java.io.Serializable;
 import java.util.logging.Logger;
 
 /**
- * Backing bean for the reistration.xhtml facelet.
+ * Backing bean for the registration.xhtml facelet.
  */
 @Named
 @ViewScoped
@@ -75,6 +75,7 @@ public class RegistrationBean implements Serializable {
      */
     public void register() {
         Password password = PasswordHashing.getHashedPassword(unhashedPassword);
+        user.setPassword(password);
         userService.registerUser(user);
     }
 
