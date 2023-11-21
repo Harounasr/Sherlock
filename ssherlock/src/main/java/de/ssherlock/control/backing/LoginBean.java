@@ -85,7 +85,7 @@ public class LoginBean implements Serializable {
             logger.log(Level.INFO, "Login for user " + loginInfo.getUsername() + " was successful.");
             appSession.setUser(user);
             logger.log(Level.INFO, "logged in");
-            return "/view/courses.xhtml";
+            return "/view/registered/courses.xhtml";
         } else {
             logger.log(Level.INFO, "Incorrect password for user " + loginInfo.getUsername() + " .");
             Notification notification = new Notification(Notification.WRONG_PASSWORD_MSG, NotificationType.ERROR);
@@ -100,7 +100,7 @@ public class LoginBean implements Serializable {
      * @return The destination view for registration.
      */
     public String registerClicked() {
-        return "/view/registration.xhtml";
+        return "/view/public/registration.xhtml";
     }
 
     /**

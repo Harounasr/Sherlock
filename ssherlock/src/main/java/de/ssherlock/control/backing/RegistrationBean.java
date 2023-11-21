@@ -87,7 +87,7 @@ public class RegistrationBean implements Serializable {
      */
     public String navigateToLogin() {
         logger.log(Level.INFO, "Login");
-        return "/view/login.xhtml";
+        return "/view/public/login.xhtml";
     }
 
     /**
