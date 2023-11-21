@@ -6,19 +6,16 @@
 <h:head>
     <title><ui:insert name="title"/></title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
-    <style>
-        div {
-            align-self: center;
-        }
-    </style>
 </h:head>
 
 
 <h:body>
-    <o:viewParam name="foo" value="#{verificationBean.foo}" />
-    <div id="content">
-        <h:outputText value="#{verificationBean.text}" />
-    </div>
+    <h2>
+       Thank you for registration.
+    </h2>
+    <h:form>
+        <h5>Click <h:link value="here" action="#{verificationBean.navigateToLogin}" /> to get to login.</h5>
+    </h:form>
 </h:body>
 
 </html>
