@@ -3,12 +3,12 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="templates/template.xhtml">
 
-    <ui:define name="title">#{courseBean.courseName}</ui:define>
+    <ui:define name="title">#{courseBean.course.name}</ui:define>
 
     <ui:define name="content">
         <section>
             <div class="container">
-                <ui:include src="exercisesPagination.xhtml" />
+                <ui:include src="exercisePagination.xhtml" />
             </div>
         </section>
     </ui:define>

@@ -24,17 +24,18 @@ public class ExerciseDescriptionImage implements Serializable {
     /**
      * The id of the image.
      */
-    private long id;
-
-    /**
-     * The id of the associated exercise.
-     */
-    private long exerciseId;
+    private String uuid;
 
     /**
      * The image as a byte array.
      */
     private byte[] image;
+
+    /**
+     *
+     */
+    private long exerciseId;
+
 
     /**
      * Instantiates a new Exercise description image.
@@ -44,39 +45,21 @@ public class ExerciseDescriptionImage implements Serializable {
     }
 
     /**
-     * Gets id.
+     * Gets UUID.
      *
-     * @return the id
+     * @return the UUID
      */
-    public long getId() {
-        return id;
+    public String getUUID() {
+        return uuid;
     }
 
     /**
-     * Sets id.
+     * Sets UUID.
      *
-     * @param id the id
+     * @param uuid the UUID
      */
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    /**
-     * Gets exercise id.
-     *
-     * @return the exercise id
-     */
-    public long getExerciseId() {
-        return exerciseId;
-    }
-
-    /**
-     * Sets exercise id.
-     *
-     * @param exerciseId the exercise id
-     */
-    public void setExerciseId(long exerciseId) {
-        this.exerciseId = exerciseId;
+    public void setUUID(String uuid) {
+        this.uuid = uuid;
     }
 
     /**
@@ -105,7 +88,7 @@ public class ExerciseDescriptionImage implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ExerciseDescriptionImage that = (ExerciseDescriptionImage) o;
-        return id == that.id && exerciseId == that.exerciseId && Arrays.equals(image, that.image);
+        return uuid == that.uuid && Arrays.equals(image, that.image);
     }
 
     /**
@@ -113,7 +96,7 @@ public class ExerciseDescriptionImage implements Serializable {
      */
     @Override
     public int hashCode() {
-        int result = Objects.hash(id, exerciseId);
+        int result = Objects.hash(uuid);
         result = 31 * result + Arrays.hashCode(image);
         return result;
     }

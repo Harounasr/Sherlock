@@ -1,6 +1,7 @@
 package de.ssherlock.persistence.repository;
 
 import de.ssherlock.global.transport.Exercise;
+import de.ssherlock.persistence.exception.PersistenceNonExistentExerciseException;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -27,17 +28,17 @@ public interface ExerciseRepository {
     /**
      * Deletes an Exercise entity from the database based on its name.
      *
-     * @param exerciseName The name of the Exercise entity to be deleted.
+     * @param exerciseId The name of the Exercise entity to be deleted.
      */
-    void deleteExercise(String exerciseName);
+    void deleteExercise(long exerciseId);
 
     /**
      * Fetches an Exercise entity from the database based on its name.
      *
-     * @param exerciseName The name of the Exercise entity to be fetched.
+     * @param exerciseId The name of the Exercise entity to be fetched.
      * @return The fetched Exercise entity, or null if not found.
      */
-    Exercise fetchExercise(String exerciseName);
+    Exercise fetchExercise(long exerciseId) throws PersistenceNonExistentExerciseException;
 
     /**
      * Fetches a list of Exercise entities from the database based on a given predicate.

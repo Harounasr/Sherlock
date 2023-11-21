@@ -1,27 +1,24 @@
 package de.ssherlock.business.service;
 
 
+import de.ssherlock.business.exception.BusinessNonExistentCourseException;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.CourseRole;
 import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.connection.ConnectionPoolPsql;
+import de.ssherlock.persistence.exception.PersistenceNonExistentCourseException;
 import de.ssherlock.persistence.repository.CourseRepository;
 import de.ssherlock.persistence.repository.RepositoryFactory;
 import de.ssherlock.persistence.repository.RepositoryType;
 import jakarta.enterprise.context.Dependent;
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
-import java.awt.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.util.List;
-import java.util.function.Supplier;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * The CourseService class provides functionality for managing courses and related operations.
@@ -84,8 +81,17 @@ public class CourseService implements Serializable {
      * @param courseName The name of the course to retrieve.
      * @return The course with the specified name.
      */
-    public Course getCourse(String courseName) {
-        return null;
+    public Course getCourse(String courseName) throws BusinessNonExistentCourseException {
+        Connection connection = connectionPoolPsql.getConnection();
+        CourseRepository courseRepository = RepositoryFactory.getCourseRepository(RepositoryType.POSTGRESQL, connection);
+        Course course;
+        try {
+            course = courseRepository.fetchCourse(courseName);
+        } catch (PersistenceNonExistentCourseException e) {
+            throw new BusinessNonExistentCourseException(e.getMessage(), e);
+        }
+        connectionPoolPsql.releaseConnection(connection);
+        return course;
     }
 
     /**

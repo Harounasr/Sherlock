@@ -1,6 +1,7 @@
 package de.ssherlock.persistence.repository;
 
 import de.ssherlock.global.transport.Course;
+import de.ssherlock.persistence.exception.PersistenceNonExistentCourseException;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -37,7 +38,7 @@ public interface CourseRepository {
      * @param courseName The name of the Course entity to be fetched.
      * @return The fetched Course entity, or null if not found.
      */
-    Course fetchCourse(String courseName);
+    Course fetchCourse(String courseName) throws PersistenceNonExistentCourseException;
 
     /**
      * Fetches a list of Course entities from the database based on a given predicate.
