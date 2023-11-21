@@ -94,6 +94,15 @@ public class ExercisePaginationBean {
         return exercises;
     }
 
+    /**
+     * Retrieves the list of exercises.
+     *
+     * @return The list of exercises.
+     */
+    public List<Exercise> getExercises() {
+        return exercises;
+    }
+
     public String select(Exercise exercise) {
         setExerciseId(exercise.getName());
         FacesContext.getCurrentInstance().getExternalContext().getFlash().put("exerciseName", exercise.getName());
