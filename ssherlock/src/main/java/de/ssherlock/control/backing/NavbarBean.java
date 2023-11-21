@@ -74,7 +74,7 @@ public class NavbarBean implements Serializable {
      * @return The destination view for all courses.
      */
     public String navigateToAllCourses() {
-        return "/view/courses.xhtml";
+        return "/view/registered/courses.xhtml";
     }
 
     /**
@@ -83,7 +83,7 @@ public class NavbarBean implements Serializable {
      * @return The destination view for user's courses.
      */
     public String navigateToMYCourses() {
-        return "/view/courses.xhtml";
+        return "/view/registered/courses.xhtml";
     }
 
     /**
@@ -93,7 +93,7 @@ public class NavbarBean implements Serializable {
      */
     public String navigateToProfile() {
         logger.log(Level.INFO,"Inside navbarbean");
-        return "/view/profile.xhtml";
+        return "/view/registered/profile.xhtml";
     }
 
     /**

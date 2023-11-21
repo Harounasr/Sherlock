@@ -144,7 +144,7 @@ public class CoursesPaginationBean {
         setCourseId(course.getName());
         FacesContext.getCurrentInstance().getExternalContext().getFlash().put("courseName", course.getName());
         logger.log(Level.INFO, "Selected Course: " + course.getName());
-        return "/view/course.xhtml?faces-redirect=true&Id=" + getCourseId();
+        return "/view/registered/course.xhtml?faces-redirect=true&Id=" + getCourseId();
     }
 
     public String getCourseId() {

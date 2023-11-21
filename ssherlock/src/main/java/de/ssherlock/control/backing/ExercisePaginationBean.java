@@ -98,7 +98,7 @@ public class ExercisePaginationBean {
         setExerciseId(exercise.getName());
         FacesContext.getCurrentInstance().getExternalContext().getFlash().put("exerciseName", exercise.getName());
         logger.log(Level.INFO, "Selected Course: " + exercise.getName());
-        return "/view/exercise.xhtml?faces-redirect=true&Id=" + getExerciseId();
+        return "/view/registered/exercise.xhtml?faces-redirect=true&Id=" + getExerciseId();
     }
 
     public String getExerciseId() {

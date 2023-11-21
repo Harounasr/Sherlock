@@ -66,6 +66,6 @@ public class VerificationBean implements Serializable {
      */
     public String navigateToLogin() {
         logger.log(Level.INFO, "Back to login");
-        return "/view/login.xhtml?faces-redirect=true";
+        return "/view/public/login.xhtml?faces-redirect=true";
     }
 }
