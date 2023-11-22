@@ -7,6 +7,11 @@ package de.ssherlock.global.transport;
 public enum SystemRole {
 
     /**
+     * A user that is registered, but not verified.
+     */
+    NOT_VERIFIED,
+
+    /**
      * A user that is registered on the platform.
      */
     REGISTERED,

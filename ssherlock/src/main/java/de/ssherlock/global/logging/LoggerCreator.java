@@ -41,6 +41,12 @@ public class LoggerCreator implements Serializable {
         return logger;
     }
 
+    public static SerializableLogger getSerial(Class<?> target) {
+        Logger logger = Logger.getLogger(target.getName());
+        logger.setLevel(Level.FINEST);
+        return new SerializableLogger(logger);
+    }
+
     /**
      * Reads logging configurations from the specified resource using the provided resourceFetcher function.
      *
