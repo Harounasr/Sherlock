@@ -269,4 +269,5 @@ public class Configuration implements Serializable {
     public String getMailPort() {
         return mailPort;
     }
+
 }

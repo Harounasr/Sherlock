@@ -1,7 +1,9 @@
 package de.ssherlock.persistence.repository;
 
 import de.ssherlock.global.logging.LoggerCreator;
+import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Checker;
+import de.ssherlock.persistence.exception.PersistenceNonExistentCheckerException;
 
 import java.sql.Connection;
 import java.util.List;
@@ -12,10 +14,11 @@ import java.util.logging.Logger;
  * Implementation of CheckerRepository for PostgreSQL database.
  */
 public class CheckerRepositoryPsql extends RepositoryPsql implements CheckerRepository {
+
     /**
      * Logger instance for logging messages related to CheckerRepositoryPsql.
      */
-    private final Logger logger = LoggerCreator.get(CheckerRepositoryPsql.class);
+    private final SerializableLogger logger = LoggerCreator.get(CheckerRepositoryPsql.class);
 
     /**
      * Constructor to initialize the repository with a database connection.
@@ -38,7 +41,7 @@ public class CheckerRepositoryPsql extends RepositoryPsql implements CheckerRepo
      * {@inheritDoc}
      */
     @Override
-    public void updateChecker(Checker checker) {
+    public void updateChecker(Checker checker) throws PersistenceNonExistentCheckerException {
 
     }
 
@@ -46,7 +49,7 @@ public class CheckerRepositoryPsql extends RepositoryPsql implements CheckerRepo
      * {@inheritDoc}
      */
     @Override
-    public void deleteChecker(long id) {
+    public void deleteChecker(long id) throws PersistenceNonExistentCheckerException {
 
     }
 
@@ -54,7 +57,7 @@ public class CheckerRepositoryPsql extends RepositoryPsql implements CheckerRepo
      * {@inheritDoc}
      */
     @Override
-    public Checker fetchChecker(long id) {
+    public Checker getChecker(long id) throws PersistenceNonExistentCheckerException {
         return null;
     }
 
@@ -62,7 +65,7 @@ public class CheckerRepositoryPsql extends RepositoryPsql implements CheckerRepo
      * {@inheritDoc}
      */
     @Override
-    public List<Checker> fetchCheckers(Predicate<Checker> predicate) {
+    public List<Checker> getCheckers() {
         return null;
     }
 }

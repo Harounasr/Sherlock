@@ -22,29 +22,34 @@ public interface ExerciseRepository {
      * Updates an Exercise entity in the database.
      *
      * @param exercise The Exercise entity to be updated.
+     *
+     * @throws PersistenceNonExistentExerciseException when the exercise does not exist in the database.
      */
-    void updateExercise(Exercise exercise);
+    void updateExercise(Exercise exercise) throws PersistenceNonExistentExerciseException;
 
     /**
      * Deletes an Exercise entity from the database based on its name.
      *
      * @param exerciseId The name of the Exercise entity to be deleted.
+     *
+     * @throws PersistenceNonExistentExerciseException when the exercise does not exist in the database.
      */
-    void deleteExercise(long exerciseId);
+    void deleteExercise(long exerciseId) throws PersistenceNonExistentExerciseException;
 
     /**
      * Fetches an Exercise entity from the database based on its name.
      *
      * @param exerciseId The name of the Exercise entity to be fetched.
      * @return The fetched Exercise entity, or null if not found.
+     *
+     * @throws PersistenceNonExistentExerciseException when the exercise does not exist in the database.
      */
-    Exercise fetchExercise(long exerciseId) throws PersistenceNonExistentExerciseException;
+    Exercise getExercise(long exerciseId) throws PersistenceNonExistentExerciseException;
 
     /**
      * Fetches a list of Exercise entities from the database based on a given predicate.
      *
-     * @param predicate The predicate used to filter Exercise entities.
      * @return The list of Exercise entities that satisfy the predicate.
      */
-    List<Exercise> fetchExercises(Predicate<Exercise> predicate);
+    List<Exercise> getExercises(String courseName);
 }

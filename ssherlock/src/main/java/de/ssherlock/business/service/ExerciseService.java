@@ -5,7 +5,6 @@ import de.ssherlock.business.exception.BusinessNonExistentExerciseException;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.Exercise;
-import de.ssherlock.global.transport.ExerciseDescriptionImage;
 import de.ssherlock.persistence.connection.ConnectionPoolPsql;
 import de.ssherlock.persistence.exception.PersistenceNonExistentCourseException;
 import de.ssherlock.persistence.exception.PersistenceNonExistentExerciseException;
@@ -14,7 +13,6 @@ import de.ssherlock.persistence.repository.ExerciseRepository;
 import de.ssherlock.persistence.repository.RepositoryFactory;
 import de.ssherlock.persistence.repository.RepositoryType;
 import jakarta.enterprise.context.Dependent;
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
@@ -22,7 +20,6 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * The ExerciseService class provides functionality for managing exercises and related operations.
@@ -66,7 +63,11 @@ public class ExerciseService implements Serializable {
      * @return A list of exercises associated with the course.
      */
     public List<Exercise> getExercises(String courseName) {
-        return null;
+        Connection connection = connectionPoolPsql.getConnection();
+        ExerciseRepository exerciseRepository = RepositoryFactory.getExerciseRepository(RepositoryType.POSTGRESQL, connection);
+        List<Exercise> exercises = exerciseRepository.getExercises(courseName);
+        connectionPoolPsql.releaseConnection(connection);
+        return exercises;
     }
 
     /**
@@ -79,7 +80,11 @@ public class ExerciseService implements Serializable {
     public void updateExercise(Exercise exercise) throws BusinessNonExistentExerciseException {
         Connection connection = connectionPoolPsql.getConnection();
         ExerciseRepository exerciseRepository = RepositoryFactory.getExerciseRepository(RepositoryType.POSTGRESQL, connection);
-        exerciseRepository.updateExercise(exercise);
+        try {
+            exerciseRepository.updateExercise(exercise);
+        } catch (PersistenceNonExistentExerciseException e) {
+            throw new BusinessNonExistentExerciseException("", e);
+        }
     }
 
     /**
@@ -115,7 +120,7 @@ public class ExerciseService implements Serializable {
         ExerciseRepository exerciseRepository = RepositoryFactory.getExerciseRepository(RepositoryType.POSTGRESQL, connection);
         Exercise exercise;
         try {
-            exercise = exerciseRepository.fetchExercise(id);
+            exercise = exerciseRepository.getExercise(id);
         } catch (PersistenceNonExistentExerciseException e) {
             throw new BusinessNonExistentExerciseException(e.getMessage(), e);
         }

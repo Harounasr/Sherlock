@@ -1,10 +1,14 @@
 package de.ssherlock.persistence.util;
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.config.Configuration;
+import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -17,24 +21,32 @@ import jakarta.mail.internet.MimeMessage;
  * This class is responsible for configuring and sending emails to specified recipients.
  */
 @Named
-@RequestScoped
-public class Mail {
+@Dependent
+public class Mail implements Serializable {
+
+    /**
+     * Serial Version UID
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     /**
      * Logger instance for logging messages related to the Mail class.
      */
-    @Inject
-    private Logger logger;
+    private final SerializableLogger logger;
 
     /**
      * Configuration instance for obtaining email and mail server settings.
      */
-    @Inject
-    private Configuration config;
+    private final Configuration config;
+
     /**
      * Default constructor for creating a Mail instance.
      */
-    public Mail() {
-
+    @Inject
+    public Mail(SerializableLogger logger, Configuration config) {
+        this.logger = logger;
+        this.config = config;
     }
 
     /**
@@ -58,6 +70,7 @@ public class Mail {
             logger.log(Level.INFO, "There was a problem with sending the Mail.");
         }
     }
+
     /**
      * Retrieves a configured JavaMail session based on the application's email settings.
      *

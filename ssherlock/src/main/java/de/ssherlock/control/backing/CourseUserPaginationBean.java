@@ -2,6 +2,7 @@ package de.ssherlock.control.backing;
 
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.session.AppSession;
+import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.CourseRole;
 import de.ssherlock.global.transport.User;
 import jakarta.annotation.PostConstruct;
@@ -32,7 +33,7 @@ public class CourseUserPaginationBean extends AbstractPaginationBean implements 
     /**
      * Logger for this class.
      */
-    private final Logger logger;
+    private final SerializableLogger logger;
 
     /**
      * The active session.
@@ -62,7 +63,7 @@ public class CourseUserPaginationBean extends AbstractPaginationBean implements 
      * @param userService The service handling user-related operations (Injected).
      */
     @Inject
-    public CourseUserPaginationBean(Logger logger, AppSession appSession, UserService userService) {
+    public CourseUserPaginationBean(SerializableLogger logger, AppSession appSession, UserService userService) {
         this.logger = logger;
         this.appSession = appSession;
         this.userService = userService;

@@ -1,6 +1,7 @@
 package de.ssherlock.persistence.repository;
 
 import de.ssherlock.global.logging.LoggerCreator;
+import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Submission;
 
 import java.io.File;
@@ -16,7 +17,7 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
     /**
      * Logger instance for logging messages related to SubmissionRepositoryPsql.
      */
-    private final Logger logger = LoggerCreator.get(SubmissionRepositoryPsql.class);
+    private final SerializableLogger logger = LoggerCreator.get(SubmissionRepositoryPsql.class);
 
     /**
      * Constructor to initialize the repository with a database connection.
@@ -39,23 +40,7 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
      * {@inheritDoc}
      */
     @Override
-    public void updateSubmission(Submission submission) {
-
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void deleteSubmission(long id) {
-
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Submission fetchSubmission(long id) {
+    public Submission getSubmission(long id) {
         return null;
     }
 
@@ -63,15 +48,8 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
      * {@inheritDoc}
      */
     @Override
-    public List<Submission> fetchSubmissions(Predicate<Submission> predicate) {
+    public List<Submission> getSubmissions(long exerciseId) {
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public long getMaxId() {
-        return 0;
-    }
 }

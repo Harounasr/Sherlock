@@ -4,6 +4,7 @@ import de.ssherlock.business.exception.BusinessNonExistentImageException;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.ExerciseDescriptionImage;
 import de.ssherlock.persistence.connection.ConnectionPoolPsql;
+import de.ssherlock.persistence.exception.PersistenceNonExistentImageException;
 import de.ssherlock.persistence.repository.ExerciseDescriptionImageRepository;
 import de.ssherlock.persistence.repository.RepositoryFactory;
 import de.ssherlock.persistence.repository.RepositoryType;
@@ -14,6 +15,7 @@ import jakarta.inject.Named;
 import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Connection;
+import java.util.UUID;
 
 /**
  * The ExerciseDescriptionImageService class provides functionality
@@ -59,7 +61,8 @@ public class ExerciseDescriptionImageService implements Serializable {
     public void insertImage(ExerciseDescriptionImage image) {
         Connection connection = connectionPoolPsql.getConnection();
         ExerciseDescriptionImageRepository imageRepository = RepositoryFactory.getExerciseDescriptionImageRepository(RepositoryType.POSTGRESQL, connection);
-        String uuid = imageRepository.insertExerciseDescriptionImage(image);
+        image.setUUID(UUID.randomUUID().toString());
+        imageRepository.insertExerciseDescriptionImage(image);
         connectionPoolPsql.releaseConnection(connection);
     }
 
@@ -75,7 +78,11 @@ public class ExerciseDescriptionImageService implements Serializable {
         Connection connection = connectionPoolPsql.getConnection();
         ExerciseDescriptionImageRepository imageRepository = RepositoryFactory.getExerciseDescriptionImageRepository(RepositoryType.POSTGRESQL, connection);
         ExerciseDescriptionImage image;
-        image = imageRepository.getExerciseDescriptionImage(uuid);
+        try {
+            image = imageRepository.getExerciseDescriptionImage(uuid);
+        } catch (PersistenceNonExistentImageException e) {
+            throw new BusinessNonExistentImageException("", e);
+        }
         connectionPoolPsql.releaseConnection(connection);
         return image;
     }

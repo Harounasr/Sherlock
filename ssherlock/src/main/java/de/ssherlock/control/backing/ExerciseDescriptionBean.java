@@ -1,6 +1,5 @@
 package de.ssherlock.control.backing;
 
-import de.ssherlock.business.exception.BusinessNonExistentCourseException;
 import de.ssherlock.business.exception.BusinessNonExistentExerciseException;
 import de.ssherlock.business.service.ExerciseDescriptionImageService;
 import de.ssherlock.business.service.ExerciseService;

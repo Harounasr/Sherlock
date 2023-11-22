@@ -22,7 +22,7 @@ public class ExerciseDescriptionImage implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The id of the image.
+     * The UUID of the image in String format.
      */
     private String uuid;
 
@@ -32,7 +32,7 @@ public class ExerciseDescriptionImage implements Serializable {
     private byte[] image;
 
     /**
-     *
+     * The id of the exercise associated with this image.
      */
     private long exerciseId;
 
@@ -78,6 +78,42 @@ public class ExerciseDescriptionImage implements Serializable {
      */
     public void setImage(byte[] image) {
         this.image = image;
+    }
+
+    /**
+     * Gets uuid.
+     *
+     * @return the uuid
+     */
+    public String getUuid() {
+        return uuid;
+    }
+
+    /**
+     * Sets uuid.
+     *
+     * @param uuid the uuid
+     */
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
+    /**
+     * Gets exercise id.
+     *
+     * @return the exercise id
+     */
+    public long getExerciseId() {
+        return exerciseId;
+    }
+
+    /**
+     * Sets exercise id.
+     *
+     * @param exerciseId the exercise id
+     */
+    public void setExerciseId(long exerciseId) {
+        this.exerciseId = exerciseId;
     }
 
     /**

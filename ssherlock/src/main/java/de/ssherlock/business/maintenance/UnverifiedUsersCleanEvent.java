@@ -13,7 +13,7 @@ public class UnverifiedUsersCleanEvent {
     /**
      * Logger instance for logging messages related to CourseService.
      */
-    private static final SerializableLogger logger = LoggerCreator.getSerial(UnverifiedUsersCleanEvent.class);
+    private static final SerializableLogger logger = LoggerCreator.get(UnverifiedUsersCleanEvent.class);
 
     /**
      * Defines the rate in which this Event should be executed.

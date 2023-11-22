@@ -1,7 +1,9 @@
 package de.ssherlock.persistence.repository;
 
 import de.ssherlock.global.logging.LoggerCreator;
+import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Testate;
+import de.ssherlock.persistence.exception.PersistenceNonExistentTestateException;
 
 import java.sql.Connection;
 import java.util.List;
@@ -12,10 +14,11 @@ import java.util.logging.Logger;
  * Implementation of TestateRepository for PostgreSQL database.
  */
 public class TestateRepositoryPsql extends RepositoryPsql implements TestateRepository {
+
     /**
      * Logger instance for logging messages related to TestateRepositoryPsql.
      */
-    private final Logger logger = LoggerCreator.get(TestateRepositoryPsql.class);
+    private final SerializableLogger logger = LoggerCreator.get(TestateRepositoryPsql.class);
 
     /**
      * Constructor to initialize the repository with a database connection.
@@ -30,7 +33,7 @@ public class TestateRepositoryPsql extends RepositoryPsql implements TestateRepo
      * {@inheritDoc}
      */
     @Override
-    public void insertEvaluation(Testate testate) {
+    public void insertTestate(Testate testate) {
 
     }
 
@@ -38,23 +41,7 @@ public class TestateRepositoryPsql extends RepositoryPsql implements TestateRepo
      * {@inheritDoc}
      */
     @Override
-    public void updateEvaluation(Testate testate) {
-
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void deleteEvaluation(long id) {
-
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Testate fetchEvaluation(long id) {
+    public Testate getTestate(long exerciseId, String studentUsername) throws PersistenceNonExistentTestateException {
         return null;
     }
 
@@ -62,7 +49,15 @@ public class TestateRepositoryPsql extends RepositoryPsql implements TestateRepo
      * {@inheritDoc}
      */
     @Override
-    public List<Testate> fetchEvaluations(Predicate<Testate> predicate) {
+    public List<Testate> getTestates(long exerciseId) {
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Testate> getTestates(long exerciseId, String tutorUsername) {
         return null;
     }
 }

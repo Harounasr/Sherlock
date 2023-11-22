@@ -2,11 +2,8 @@ package de.ssherlock.business.service;
 
 
 import de.ssherlock.business.exception.BusinessNonExistentCourseException;
-import de.ssherlock.business.exception.BusinessNonExistentUserException;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Course;
-import de.ssherlock.global.transport.CourseRole;
-import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.connection.ConnectionPoolPsql;
 import de.ssherlock.persistence.exception.PersistenceNonExistentCourseException;
 import de.ssherlock.persistence.repository.CourseRepository;
@@ -63,7 +60,7 @@ public class CourseService implements Serializable {
     public List<Course> getCourses() {
         Connection connection = connectionPoolPsql.getConnection();
         CourseRepository courseRepository = RepositoryFactory.getCourseRepository(RepositoryType.POSTGRESQL, connection);
-        List<Course> courses = courseRepository.fetchCourses((course -> true));
+        List<Course> courses = courseRepository.getCourses();
         connectionPoolPsql.releaseConnection(connection);
         return courses;
     }
@@ -79,33 +76,22 @@ public class CourseService implements Serializable {
     }
 
     /**
-     * Retrieves a course with the specified course name.
-     *
-     * @param courseName The name of the course to retrieve.
-     * @return The course with the specified name.
-     *
-     * @throws BusinessNonExistentCourseException when course does not exist in the database.
-     */
-    public Course getCourse(String courseName) throws BusinessNonExistentCourseException {
-        Connection connection = connectionPoolPsql.getConnection();
-        CourseRepository courseRepository = RepositoryFactory.getCourseRepository(RepositoryType.POSTGRESQL, connection);
-        Course course;
-        try {
-            course = courseRepository.fetchCourse(courseName);
-        } catch (PersistenceNonExistentCourseException e) {
-            throw new BusinessNonExistentCourseException(e.getMessage(), e);
-        }
-        connectionPoolPsql.releaseConnection(connection);
-        return course;
-    }
-
-    /**
      * Adds a new course.
      *
      * @param course The course to add.
      */
     public void addCourse(Course course) {
 
+    }
+
+    /**
+     * Checks whether a course already exists in the database.
+     *
+     * @param courseName The course name.
+     * @return true if the course exists.
+     */
+    public boolean courseExists(String courseName) {
+        return false;
     }
 
     /**

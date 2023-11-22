@@ -43,11 +43,6 @@ public class LoginBean {
     private LoginInfo loginInfo;
 
     /**
-     * The unhashed password entered by the user.
-     */
-    private String unhashedPassword;
-
-    /**
      * Constructor for LoginBean.
      *
      * @param userService The UserService for user-related operations (Injected).
@@ -115,21 +110,4 @@ public class LoginBean {
         this.loginInfo = loginInfo;
     }
 
-    /**
-     * Gets unhashed password.
-     *
-     * @return the unhashed password
-     */
-    public String getUnhashedPassword() {
-        return unhashedPassword;
-    }
-
-    /**
-     * Sets unhashed password.
-     *
-     * @param unhashedPassword the unhashed password
-     */
-    public void setUnhashedPassword(String unhashedPassword) {
-        this.unhashedPassword = unhashedPassword;
-    }
 }

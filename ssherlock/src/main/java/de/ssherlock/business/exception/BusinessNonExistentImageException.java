@@ -2,6 +2,9 @@ package de.ssherlock.business.exception;
 
 import java.io.Serial;
 
+/**
+ * Is thrown when image does not exist in the database.
+ */
 public class BusinessNonExistentImageException extends Exception {
 
     /**

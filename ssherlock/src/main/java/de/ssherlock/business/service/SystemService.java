@@ -7,17 +7,13 @@ import de.ssherlock.persistence.repository.RepositoryFactory;
 import de.ssherlock.persistence.repository.RepositoryType;
 import de.ssherlock.persistence.repository.SystemSettingsRepository;
 import jakarta.enterprise.context.Dependent;
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import jakarta.servlet.http.Part;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Connection;
-import java.util.logging.Logger;
+
 /**
  * The SystemService class provides functionality for system-related operations.
  */
@@ -61,7 +57,7 @@ public class SystemService implements Serializable {
     public SystemSettings getSystemSettings() {
         Connection connection = connectionPoolPsql.getConnection();
         SystemSettingsRepository repository = RepositoryFactory.getSystemSettingsRepository(RepositoryType.POSTGRESQL, connection);
-        return repository.fetchSystemSettings();
+        return repository.getSystemSettings();
     }
 
     /**
