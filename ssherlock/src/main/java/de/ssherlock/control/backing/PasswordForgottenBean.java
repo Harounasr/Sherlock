@@ -1,6 +1,9 @@
 package de.ssherlock.control.backing;
 
+import de.ssherlock.business.exception.BusinessNonExistentUserException;
 import de.ssherlock.business.service.UserService;
+import de.ssherlock.control.notification.Notification;
+import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import jakarta.faces.view.ViewScoped;
@@ -61,7 +64,12 @@ public class PasswordForgottenBean implements Serializable {
      * Requests a password reset for the provided email address.
      */
     public void requestPasswordReset() {
-        userService.sendPasswordForgottenEmail(username);
+        try {
+            userService.sendPasswordForgottenEmail(username);
+        } catch (BusinessNonExistentUserException e) {
+            Notification notification = new Notification("The current User doesnt exist", NotificationType.ERROR);
+            notification.generateUIMessage();
+        }
     }
 
     /**
