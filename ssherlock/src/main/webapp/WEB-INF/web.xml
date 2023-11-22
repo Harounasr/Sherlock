@@ -31,8 +31,11 @@
             <web-resource-name>downloadProtectedArea</web-resource-name>
             <url-pattern>/*/</url-pattern>
         </web-resource-collection>
-        <auth-constraint/>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
+
 
     <resource-env-ref>
         <description>Object factory for the CDI Bean Manager.</description>
