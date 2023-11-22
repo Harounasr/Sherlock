@@ -22,6 +22,8 @@ import jakarta.inject.Named;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.sql.Connection;
 import java.util.List;
 import java.util.Objects;
@@ -91,7 +93,7 @@ public class UserService implements Serializable {
         UserRepository userRepository = RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
         User user;
         try {
-            user = userRepository.fetchUser(loginInfo.getUsername());
+            user = userRepository.getUser(loginInfo.getUsername());
         } catch (PersistenceNonExistentUserException e) {
             connectionPoolPsql.releaseConnection(connection);
             logger.log(Level.INFO, "Could not find user " + loginInfo.getUsername() + ".");
@@ -111,7 +113,7 @@ public class UserService implements Serializable {
      * @param user The user to be registered.
      */
     public void registerUser(User user) {
-        mail.sendMail(user, MailContentBuilder.buildVerificationMail(user));
+        mail.sendMail(user, MailContentBuilder.buildVerificationMail(user, generateEmailVerificationToken()));
     }
 
     /**
@@ -126,7 +128,7 @@ public class UserService implements Serializable {
         UserRepository userRepository = RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
         User user;
         try {
-            user = userRepository.fetchUser(username);
+            user = userRepository.getUser(username);
         } catch (PersistenceNonExistentUserException e) {
             throw new BusinessNonExistentUserException();
         }
@@ -174,7 +176,7 @@ public class UserService implements Serializable {
         Connection connection = connectionPoolPsql.getConnection();
         UserRepository userRepository = RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
         try {
-            return userRepository.fetchUser(username);
+            return userRepository.getUser(username);
         } catch (PersistenceNonExistentUserException e) {
             throw new BusinessNonExistentUserException();
         }
@@ -191,5 +193,28 @@ public class UserService implements Serializable {
     public void updateCourseRole(String username, CourseRole courseRole) throws BusinessNonExistentUserException {
 
     }
+
+    /**
+     * Generates a user verification token.
+     *
+     * @return The verification token.
+     */
+    private static String generateEmailVerificationToken() {
+        SecureRandom secureRandom = new SecureRandom();
+        byte[] tokenBytes = new byte[32];
+        secureRandom.nextBytes(tokenBytes);
+
+        // Convert the random bytes to a hexadecimal string
+        BigInteger tokenNumber = new BigInteger(1, tokenBytes);
+        String token = tokenNumber.toString(16);
+
+        // Ensure that the token has the desired length
+        while (token.length() < 32) {
+            token = "0" + token;
+        }
+
+        return token;
+    }
+
 }
 

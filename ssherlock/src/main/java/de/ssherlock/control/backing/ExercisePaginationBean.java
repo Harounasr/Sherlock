@@ -2,6 +2,7 @@ package de.ssherlock.control.backing;
 
 import de.ssherlock.business.exception.BusinessNonExistentCourseException;
 import de.ssherlock.business.service.CourseService;
+import de.ssherlock.business.service.ExerciseService;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Course;
@@ -14,6 +15,7 @@ import jakarta.inject.Named;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -48,25 +50,25 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
     /**
      * Service for handling Exercise-related actions.
      */
-    private final CourseService courseService;
+    private final ExerciseService exerciseService;
 
     /**
      * The current course.
      */
-    private Course course;
+    private List<Exercise> exercises;
 
     /**
      * Constructs an ExercisePaginationBean.
      *
      * @param logger          The logger used for logging within this class (Injected).
      * @param appSession      The active session (Injected).
-     * @param courseService The ExerciseService (Injected).
+     * @param exerciseService The ExerciseService (Injected).
      */
     @Inject
-    public ExercisePaginationBean(SerializableLogger logger, AppSession appSession, CourseService courseService) {
+    public ExercisePaginationBean(SerializableLogger logger, AppSession appSession, ExerciseService exerciseService) {
         this.logger = logger;
         this.appSession = appSession;
-        this.courseService = courseService;
+        this.exerciseService = exerciseService;
     }
 
     /**
@@ -77,11 +79,7 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
     public void initialize() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         Map<String, String> requestParams = facesContext.getExternalContext().getRequestParameterMap();
-        try {
-            course = courseService.getCourse(requestParams.get("Id"));
-        } catch (BusinessNonExistentCourseException e) {
-            throw new RuntimeException(e);
-        }
+        exercises = exerciseService.getExercises(requestParams.get("Id"));
     }
 
     /**
@@ -97,21 +95,21 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
     }
 
     /**
-     * Gets course.
+     * Gets exercises.
      *
-     * @return the course
+     * @return the exercises
      */
-    public Course getCourse() {
-        return course;
+    public List<Exercise> getExercises() {
+        return exercises;
     }
 
     /**
-     * Sets course.
+     * Sets exercises.
      *
-     * @param course the course
+     * @param exercises the exercises
      */
-    public void setCourse(Course course) {
-        this.course = course;
+    public void setExercises(List<Exercise> exercises) {
+        this.exercises = exercises;
     }
 
     /**

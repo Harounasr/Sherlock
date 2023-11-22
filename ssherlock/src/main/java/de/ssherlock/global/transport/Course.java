@@ -23,11 +23,6 @@ public class Course implements Serializable {
     private String name;
 
     /**
-     * List of all exercises.
-     */
-    private List<Exercise> exercises;
-
-    /**
      * Instantiates a new Course.
      */
     public Course() {
@@ -53,24 +48,6 @@ public class Course implements Serializable {
     }
 
     /**
-     * Gets exercises.
-     *
-     * @return the exercises
-     */
-    public List<Exercise> getExercises() {
-        return exercises;
-    }
-
-    /**
-     * Sets exercises.
-     *
-     * @param exercises the exercises
-     */
-    public void setExercises(List<Exercise> exercises) {
-        this.exercises = exercises;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -78,7 +55,7 @@ public class Course implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Course course = (Course) o;
-        return Objects.equals(name, course.name) && Objects.equals(exercises, course.exercises);
+        return Objects.equals(name, course.name);
     }
 
     /**
@@ -86,7 +63,7 @@ public class Course implements Serializable {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(name, exercises);
+        return Objects.hash(name);
     }
 
 }

@@ -1,8 +1,10 @@
 package de.ssherlock.persistence.repository;
 
 import de.ssherlock.global.logging.LoggerCreator;
+import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.Exercise;
+import de.ssherlock.persistence.exception.PersistenceNonExistentCourseException;
 import de.ssherlock.persistence.exception.PersistenceNonExistentExerciseException;
 
 import java.sql.Connection;
@@ -21,7 +23,7 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
     /**
      * Logger instance for logging messages related to ExerciseRepositoryPsql.
      */
-    private final Logger logger = LoggerCreator.get(ExerciseRepositoryPsql.class);
+    private final SerializableLogger logger = LoggerCreator.get(ExerciseRepositoryPsql.class);
 
     /**
      * Constructor to initialize the repository with a database connection.
@@ -44,7 +46,7 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
      * {@inheritDoc}
      */
     @Override
-    public void updateExercise(Exercise exercise) {
+    public void updateExercise(Exercise exercise) throws PersistenceNonExistentExerciseException {
         String sqlQuery = """
             UPDATE exercises
             SET name = ?, 
@@ -74,7 +76,7 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
      * {@inheritDoc}
      */
     @Override
-    public void deleteExercise(long exerciseId) {
+    public void deleteExercise(long exerciseId) throws PersistenceNonExistentExerciseException {
 
     }
 
@@ -82,7 +84,7 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
      * {@inheritDoc}
      */
     @Override
-    public Exercise fetchExercise(long exerciseId) throws PersistenceNonExistentExerciseException {
+    public Exercise getExercise(long exerciseId) throws PersistenceNonExistentExerciseException {
         String sqlQuery = "SELECT * FROM exercises WHERE id = ?;";
         Exercise exercise = new Exercise();
         try (PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
@@ -109,7 +111,26 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
      * {@inheritDoc}
      */
     @Override
-    public List<Exercise> fetchExercises(Predicate<Exercise> predicate) {
-        return null;
+    public List<Exercise> getExercises(String courseName) {
+        String sqlQuery = "SELECT * FROM courses c LEFT JOIN exercises e ON c.name = e.coursename WHERE c.name = ?;";
+        List<Exercise> exercises = new ArrayList<>();
+        try (PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+            statement.setString(1, courseName);
+            ResultSet result = statement.executeQuery();
+            if (result.next()) {
+                do {
+                    Exercise exercise = new Exercise();
+                    exercise.setId(result.getLong("id"));
+                    exercise.setName(result.getString("name"));
+                    exercise.setPublishDate(result.getDate("publish_date"));
+                    exercise.setRecommendedDeadline(result.getDate("recommended_deadline"));
+                    exercise.setObligatoryDeadline(result.getDate("obligatory_deadline"));
+                    exercise.setCourseName(result.getString("coursename"));
+                    exercises.add(exercise);
+                } while (result.next());
+            }
+        } catch (SQLException e) {
+        }
+        return exercises;
     }
 }

@@ -63,6 +63,16 @@ public class TestateService implements Serializable {
     }
 
     /**
+     * Retrieves a list of all testates associated with the specified exercise.
+     *
+     * @param exerciseId The exercise for which to retrieve the testates.
+     * @return A list of assigned testates associated with the exercise and user.
+     */
+    public List<Testate> getAllTestates(long exerciseId) {
+        return null;
+    }
+
+    /**
      * Retrieves a testate associated with the specified exercise and user.
      *
      * @param exerciseId The exercise for which to retrieve the testate.

@@ -53,7 +53,7 @@ public class  SystemSettings implements Serializable {
     private List<String> faculties;
 
     /**
-     * Instantiates a new System settings.
+     * Instantiates new System settings.
      */
     public SystemSettings() {
 

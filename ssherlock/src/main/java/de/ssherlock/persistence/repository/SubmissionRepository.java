@@ -1,6 +1,7 @@
 package de.ssherlock.persistence.repository;
 
 import de.ssherlock.global.transport.Submission;
+import de.ssherlock.persistence.exception.PersistenceNonExistentSubmissionException;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -18,39 +19,21 @@ public interface SubmissionRepository {
     void insertSubmission(Submission submission);
 
     /**
-     * Updates a Submission entity in the database.
-     *
-     * @param submission The Submission entity to be updated.
-     */
-    void updateSubmission(Submission submission);
-
-    /**
-     * Deletes a Submission entity from the database based on its ID.
-     *
-     * @param id The ID of the Submission entity to be deleted.
-     */
-    void deleteSubmission(long id);
-
-    /**
      * Fetches a Submission entity from the database based on its ID.
      *
      * @param id The ID of the Submission entity to be fetched.
      * @return The fetched Submission entity, or null if not found.
+     *
+     * @throws PersistenceNonExistentSubmissionException when the submission does not exist in the database.
      */
-    Submission fetchSubmission(long id);
+    Submission getSubmission(long id) throws PersistenceNonExistentSubmissionException;
 
     /**
-     * Fetches a list of Submission entities from the database based on a given predicate.
+     * Fetches a list of Submission entities for a specific exercise from the database.
      *
-     * @param predicate The predicate used to filter Submission entities.
-     * @return The list of Submission entities that satisfy the predicate.
+     * @param exerciseId The exercise id.
+     * @return The list of Submission entities of the exercise.
      */
-    List<Submission> fetchSubmissions(Predicate<Submission> predicate);
+    List<Submission> getSubmissions(long exerciseId);
 
-    /**
-     * Retrieves the maximum ID from the Submission entities in the database.
-     *
-     * @return The maximum ID of Submission entities, or -1 if there are no submissions.
-     */
-    long getMaxId();
 }

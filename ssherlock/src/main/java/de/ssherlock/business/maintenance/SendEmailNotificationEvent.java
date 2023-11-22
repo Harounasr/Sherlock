@@ -13,7 +13,7 @@ final class SendEmailNotificationEvent {
     /**
      * Logger instance for logging messages related to CourseService.
      */
-    private static final SerializableLogger logger = LoggerCreator.getSerial(SendEmailNotificationEvent.class);
+    private static final SerializableLogger logger = LoggerCreator.get(SendEmailNotificationEvent.class);
 
     /**
      * Defines the rate in which this Event should be executed.

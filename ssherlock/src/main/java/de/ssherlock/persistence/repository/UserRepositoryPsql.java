@@ -1,6 +1,7 @@
 package de.ssherlock.persistence.repository;
 
 import de.ssherlock.global.logging.LoggerCreator;
+import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.CourseRole;
 import de.ssherlock.global.transport.Password;
 import de.ssherlock.global.transport.SystemRole;
@@ -25,7 +26,7 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
     /**
      * Logger instance for logging messages related to UserRepositoryPsql.
      */
-    private final Logger logger = LoggerCreator.get(UserRepositoryPsql.class);
+    private final SerializableLogger logger = LoggerCreator.get(UserRepositoryPsql.class);
 
     /**
      * Constructor to initialize the repository with a database connection.
@@ -48,7 +49,7 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
      * {@inheritDoc}
      */
     @Override
-    public void updateUser(User user) {
+    public void updateUser(User user) throws PersistenceNonExistentUserException  {
 
     }
 
@@ -56,7 +57,7 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
      * {@inheritDoc}
      */
     @Override
-    public void deleteUser(String username) {
+    public void deleteUser(String username) throws PersistenceNonExistentUserException {
 
     }
 
@@ -64,7 +65,7 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
      * {@inheritDoc}
      */
     @Override
-    public User fetchUser(String username) throws PersistenceNonExistentUserException {
+    public User getUser(String username) throws PersistenceNonExistentUserException {
         try {
             String sqlQuery =
                     """
@@ -115,13 +116,8 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
      * {@inheritDoc}
      */
     @Override
-    public List<User> fetchUsers(Predicate<User> predicate) {
+    public List<User> getUsers() {
         return null;
     }
-
-    private String buildStatementFromPredicate(Predicate<User> predicate) {
-        return "";
-    }
-
 
 }

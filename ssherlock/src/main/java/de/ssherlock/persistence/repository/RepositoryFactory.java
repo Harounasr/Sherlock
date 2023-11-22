@@ -4,12 +4,24 @@ import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
 
 import java.sql.Connection;
-import java.util.logging.Logger;
 
+/**
+ * Factory class to create various repositories based on the provided RepositoryType.
+ */
 public class RepositoryFactory {
 
-    private static final SerializableLogger logger = LoggerCreator.getSerial(RepositoryFactory.class);
+    /**
+     * Logger instance for this class.
+     */
+    private static final SerializableLogger logger = LoggerCreator.get(RepositoryFactory.class);
 
+    /**
+     * Returns a CheckerRepository based on the RepositoryType and connection.
+     *
+     * @param type       The RepositoryType to determine the repository type.
+     * @param connection The database connection.
+     * @return A CheckerRepository based on the RepositoryType.
+     */
     public static CheckerRepository getCheckerRepository(RepositoryType type, Connection connection) {
         switch (type) {
             case POSTGRESQL -> {
@@ -21,6 +33,13 @@ public class RepositoryFactory {
         }
     }
 
+    /**
+     * Returns a CourseRepository based on the RepositoryType and connection.
+     *
+     * @param type       The RepositoryType to determine the repository type.
+     * @param connection The database connection.
+     * @return A CourseRepository based on the RepositoryType.
+     */
     public static CourseRepository getCourseRepository(RepositoryType type, Connection connection) {
         switch (type) {
             case POSTGRESQL -> {
@@ -32,6 +51,13 @@ public class RepositoryFactory {
         }
     }
 
+    /**
+     * Returns a TestateRepository based on the RepositoryType and connection.
+     *
+     * @param type       The RepositoryType to determine the repository type.
+     * @param connection The database connection.
+     * @return A TestateRepository based on the RepositoryType.
+     */
     public static TestateRepository getEvaluationRepository(RepositoryType type, Connection connection) {
         switch (type) {
             case POSTGRESQL -> {
@@ -43,6 +69,13 @@ public class RepositoryFactory {
         }
     }
 
+    /**
+     * Returns a ExerciseRepository based on the RepositoryType and connection.
+     *
+     * @param type       The RepositoryType to determine the repository type.
+     * @param connection The database connection.
+     * @return A ExerciseRepository based on the RepositoryType.
+     */
     public static ExerciseRepository getExerciseRepository(RepositoryType type, Connection connection) {
         switch (type) {
             case POSTGRESQL -> {
@@ -54,6 +87,13 @@ public class RepositoryFactory {
         }
     }
 
+    /**
+     * Returns a SubmissionRepository based on the RepositoryType and connection.
+     *
+     * @param type       The RepositoryType to determine the repository type.
+     * @param connection The database connection.
+     * @return A SubmissionRepository based on the RepositoryType.
+     */
     public static SubmissionRepository getSubmissionRepository(RepositoryType type, Connection connection) {
         switch (type) {
             case POSTGRESQL -> {
@@ -65,6 +105,13 @@ public class RepositoryFactory {
         }
     }
 
+    /**
+     * Returns a SystemSettingsRepository based on the RepositoryType and connection.
+     *
+     * @param type       The RepositoryType to determine the repository type.
+     * @param connection The database connection.
+     * @return A SystemSettingsRepository based on the RepositoryType.
+     */
     public static SystemSettingsRepository getSystemSettingsRepository(RepositoryType type, Connection connection) {
         switch (type) {
             case POSTGRESQL -> {
@@ -76,6 +123,13 @@ public class RepositoryFactory {
         }
     }
 
+    /**
+     * Returns a UserRepository based on the RepositoryType and connection.
+     *
+     * @param type       The RepositoryType to determine the repository type.
+     * @param connection The database connection.
+     * @return A UserRepository based on the RepositoryType.
+     */
     public static UserRepository getUserRepository(RepositoryType type, Connection connection) {
         switch (type) {
             case POSTGRESQL -> {
@@ -87,6 +141,13 @@ public class RepositoryFactory {
         }
     }
 
+    /**
+     * Returns a ExerciseDescriptionImageRepository based on the RepositoryType and connection.
+     *
+     * @param type       The RepositoryType to determine the repository type.
+     * @param connection The database connection.
+     * @return A ExerciseDescriptionImageRepository based on the RepositoryType.
+     */
     public static ExerciseDescriptionImageRepository getExerciseDescriptionImageRepository(RepositoryType type, Connection connection) {
         switch (type) {
             case POSTGRESQL -> {
@@ -98,6 +159,13 @@ public class RepositoryFactory {
         }
     }
 
+    /**
+     * Returns a NotVerifiedUserRepository based on the RepositoryType and connection.
+     *
+     * @param type       The RepositoryType to determine the repository type.
+     * @param connection The database connection.
+     * @return A NotVerifiedUserRepository based on the RepositoryType.
+     */
     public static NotVerifiedUserRepository getNotVerifiedUserRepository(RepositoryType type, Connection connection) {
         switch (type) {
             case POSTGRESQL -> {

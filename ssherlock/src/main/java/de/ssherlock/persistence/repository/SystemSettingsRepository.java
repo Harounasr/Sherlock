@@ -19,6 +19,6 @@ public interface SystemSettingsRepository {
      *
      * @return The fetched SystemSettings entity, or null if not found.
      */
-    SystemSettings fetchSystemSettings();
+    SystemSettings getSystemSettings();
 }
 

@@ -1,8 +1,7 @@
 package de.ssherlock.persistence.repository;
 
-import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.ExerciseDescriptionImage;
-import de.ssherlock.persistence.exception.PersistenceNonExistentExerciseException;
+import de.ssherlock.persistence.exception.PersistenceNonExistentImageException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,17 +9,25 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
+/**
+ * Implementation of the {@link ExerciseDescriptionImageRepository} interface for POSTGRESQL.
+ */
 public class ExerciseDescriptionImageRepositoryPsql extends RepositoryPsql implements ExerciseDescriptionImageRepository{
 
     /**
-     * {@inheritDoc}
+     * Constructor to initialize the repository with a database connection.
+     *
+     * @param connection The database connection.
      */
     public ExerciseDescriptionImageRepositoryPsql(Connection connection) {
         super(connection);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public String insertExerciseDescriptionImage(ExerciseDescriptionImage image) {
+    public void insertExerciseDescriptionImage(ExerciseDescriptionImage image) {
         String sqlQuery = """
             INSERT INTO exercise_description_image(uuid, image) 
             VALUES ( ?, ? );                        
@@ -33,21 +40,13 @@ public class ExerciseDescriptionImageRepositoryPsql extends RepositoryPsql imple
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return uuid.toString();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void updateExerciseDescriptionImage(ExerciseDescriptionImage image) {
-
-    }
-
-    @Override
-    public void deleteExerciseDescriptionImage(String uuid) {
-
-    }
-
-    @Override
-    public ExerciseDescriptionImage getExerciseDescriptionImage(String uuid) {
+    public ExerciseDescriptionImage getExerciseDescriptionImage(String uuid) throws PersistenceNonExistentImageException {
         String sqlQuery = "SELECT * FROM exercise_description_image WHERE uuid::uuid = ?;";
         ExerciseDescriptionImage image = new ExerciseDescriptionImage();
         try (PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
@@ -57,10 +56,10 @@ public class ExerciseDescriptionImageRepositoryPsql extends RepositoryPsql imple
                 image.setUUID(uuid);
                 image.setImage(result.getBytes("image"));
             } else {
-                throw new RuntimeException();
+                throw new PersistenceNonExistentImageException();
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new PersistenceNonExistentImageException("", e);
         }
         return image;
     }

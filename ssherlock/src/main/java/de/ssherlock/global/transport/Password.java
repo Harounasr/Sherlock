@@ -21,7 +21,7 @@ public class Password implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The hased password.
+     * The hashed password.
      */
     private String hash;
 

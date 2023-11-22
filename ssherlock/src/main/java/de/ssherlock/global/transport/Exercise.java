@@ -47,8 +47,14 @@ public class Exercise implements Serializable {
      */
     private Date obligatoryDeadline;
 
+    /**
+     * The exercise description in HTML format.
+     */
     private String description;
 
+    /**
+     * The name of the course associated with this exercise.
+     */
     private String courseName;
 
     /**
@@ -148,18 +154,38 @@ public class Exercise implements Serializable {
         this.obligatoryDeadline = obligatoryDeadline;
     }
 
+    /**
+     * Gets description.
+     *
+     * @return the description
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Sets description.
+     *
+     * @param description the description
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
+    /**
+     * Gets course name.
+     *
+     * @return the course name
+     */
     public String getCourseName() {
         return courseName;
     }
 
+    /**
+     * Sets course name.
+     *
+     * @param courseName the course name
+     */
     public void setCourseName(String courseName) {
         this.courseName = courseName;
     }
