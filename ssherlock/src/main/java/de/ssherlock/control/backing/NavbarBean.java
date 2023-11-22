@@ -1,10 +1,10 @@
 package de.ssherlock.control.backing;
 
+import de.ssherlock.business.service.SystemService;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
+import de.ssherlock.global.transport.SystemSettings;
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -12,13 +12,12 @@ import jakarta.inject.Named;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Backing bean for the navbar.xhtml facelet.
  */
 @Named
-@SessionScoped
+@ViewScoped
 public class NavbarBean implements Serializable {
 
     /**
@@ -38,20 +37,27 @@ public class NavbarBean implements Serializable {
     private final AppSession appSession;
 
     /**
-     * Represents the logo as a byte string.
+     * The system service for system-related operations.
      */
-    private String logoByteString;
+    private final SystemService systemService;
+
+    /**
+     * The current system settings.
+     */
+    private SystemSettings systemSettings;
 
     /**
      * Constructor for NavbarBean.
      *
-     * @param logger     The logger for logging events (Injected).
-     * @param appSession The active session (Injected).
+     * @param logger        The logger for logging events (Injected).
+     * @param appSession    The active session (Injected).
+     * @param systemService The system service for system-related operations.
      */
     @Inject
-    public NavbarBean(SerializableLogger logger, AppSession appSession) {
+    public NavbarBean(SerializableLogger logger, AppSession appSession, SystemService systemService) {
         this.logger = logger;
         this.appSession = appSession;
+        this.systemService = systemService;
     }
 
     /**
@@ -59,7 +65,8 @@ public class NavbarBean implements Serializable {
      */
     @PostConstruct
     public void initialize() {
-   }
+
+    }
 
     /**
      * Logs out the current user.
@@ -74,7 +81,7 @@ public class NavbarBean implements Serializable {
      * @return The destination view for all courses.
      */
     public String navigateToAllCourses() {
-        return "/view/registered/courses.xhtml";
+        return "/view/registered/coursePagination.xhtml";
     }
 
     /**
@@ -82,8 +89,8 @@ public class NavbarBean implements Serializable {
      *
      * @return The destination view for user's courses.
      */
-    public String navigateToMYCourses() {
-        return "/view/registered/courses.xhtml";
+    public String navigateToMyCourses() {
+        return "/view/registered/coursePagination.xhtml";
     }
 
     /**
@@ -115,11 +122,20 @@ public class NavbarBean implements Serializable {
     }
 
     /**
-     * Retrieves the logo as a byte string.
+     * Gets system settings.
      *
-     * @return The logo as a byte string.
+     * @return the system settings
      */
-    public String getLogoByteString() {
-        return logoByteString;
+    public SystemSettings getSystemSettings() {
+        return systemSettings;
+    }
+
+    /**
+     * Sets system settings.
+     *
+     * @param systemSettings the system settings
+     */
+    public void setSystemSettings(SystemSettings systemSettings) {
+        this.systemSettings = systemSettings;
     }
 }

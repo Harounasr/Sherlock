@@ -4,39 +4,37 @@ import de.ssherlock.business.service.CheckerService;
 import de.ssherlock.business.service.SubmissionService;
 import de.ssherlock.business.service.TestateService;
 import de.ssherlock.control.session.AppSession;
+import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.*;
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.faces.event.ActionEvent;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.Part;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+
+import java.io.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Backing bean for testate.xhtml facelet.
  */
 @Named
-@RequestScoped
-public class TestateBean {
+@ViewScoped
+public class TestateBean implements Serializable {
+
+    /**
+     * Serial Version UID
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     /**
      * Logger for this class.
      */
-    private final Logger logger;
+    private final SerializableLogger logger;
 
     /**
      * The active session.
@@ -58,15 +56,10 @@ public class TestateBean {
      */
     private final TestateService testateService;
 
-    private Part uploadedFile;
-    private String fileContent;
-    private List<Object[]> fileContentLines;
-
-
     /**
      * The testate the user creates.
      */
-    private Testate testate;
+    private Testate newTestate;
 
     /**
      * Constructor for TestateBean.
@@ -76,16 +69,17 @@ public class TestateBean {
      * @param submissionService The service handling submission-related operations.
      * @param checkerService    The service handling checker-related operations.
      * @param testateService    The service handling testate-related operations.
-     * @param testate           The testate the user creates (Injected empty).
+     * @param newTestate           The testate the user creates (Injected empty).
      */
     @Inject
-    public TestateBean(Logger logger, AppSession appSession, SubmissionService submissionService,
-                       CheckerService checkerService, TestateService testateService, Testate testate) {
+    public TestateBean(SerializableLogger logger, AppSession appSession, SubmissionService submissionService,
+                       CheckerService checkerService, TestateService testateService, Testate newTestate) {
         this.logger = logger;
         this.appSession = appSession;
         this.submissionService = submissionService;
         this.checkerService = checkerService;
         this.testateService = testateService;
+        this.newTestate = newTestate;
     }
 
     /**
@@ -93,49 +87,15 @@ public class TestateBean {
      */
     @PostConstruct
     public void initialize() {
-    }
-
-
-    /**
-     * Inserts a comment in the code.
-     *
-     * @param e The action event.
-     */
-    public void insertCommentInCode(ActionEvent e) {
-    }
-
-    /**
-     * Inserts a comment into the testate.
-     *
-     * @param e The action event.
-     */
-    public void insertCommentIntoTestate(ActionEvent e) {
-    }
-
-    /**
-     * Grades the submission.
-     *
-     * @param e The action event.
-     */
-    public void gradeSubmission(ActionEvent e) {
 
     }
 
     /**
      * Reruns a checker for the submission.
      *
-     * @param e The action event.
+     * @param checkerResult Result of the checker to rerun.
      */
-    public void rerunChecker(ActionEvent e) {
-
-    }
-
-    /**
-     * Expands the checker to display more details.
-     *
-     * @param e The action event.
-     */
-    public void expandChecker(ActionEvent e) {
+    public void rerunChecker(CheckerResult checkerResult) {
 
     }
 
@@ -147,41 +107,11 @@ public class TestateBean {
     }
 
     /**
-     * Gets testate.
-     *
-     * @return the testate
+     * Converts the current submission files to text for the facelet.
      */
-    public Testate getTestate() {
-        return testate;
-    }
-
-    /**
-     * Sets testate.
-     *
-     * @param testate the testate
-     */
-    public void setTestate(Testate testate) {
-        this.testate = testate;
-    }
-
-    public String getFileContent() {
-        return fileContent;
-    }
-
-    public void setFileContent(String fileContent) {
-        this.fileContent = fileContent;
-    }
-
-    public Part getUploadedFile() {
-        return uploadedFile;
-    }
-
-    public void setUploadedFile(Part uploadedFile) {
-        this.uploadedFile = uploadedFile;
-    }
-
-    public void upload() {
-        fileContentLines = new ArrayList<>();
+    public List<Object[]> convertSubmissionFileToText(SubmissionFile file) {
+        /*
+        List<Object[]> fileContentLines = new ArrayList<>();
         try {
             if (uploadedFile != null) {
                 try (InputStream input = uploadedFile.getInputStream();
@@ -204,10 +134,26 @@ public class TestateBean {
             logger.log(Level.INFO, "Inside upload method");
             e.printStackTrace();
         }
+         */
+        return null;
     }
 
-    public List<Object[]> getFileContentLines() {
-        return fileContentLines;
+    /**
+     * Gets testate.
+     *
+     * @return the testate
+     */
+    public Testate getNewTestate() {
+        return newTestate;
+    }
+
+    /**
+     * Sets testate.
+     *
+     * @param newTestate the testate
+     */
+    public void setNewTestate(Testate newTestate) {
+        this.newTestate = newTestate;
     }
 
 }

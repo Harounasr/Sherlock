@@ -1,12 +1,8 @@
 package de.ssherlock.control.backing;
 
-import de.ssherlock.business.exception.BusinessNonExistentCourseException;
 import de.ssherlock.business.service.CourseService;
-import de.ssherlock.business.service.ExerciseService;
-import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
-import de.ssherlock.global.transport.Course;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
@@ -41,39 +37,32 @@ public class CourseBean implements Serializable {
     private final AppSession appSession;
 
     /**
-     * Service responsible for managing courses.
+     * The Course Service for course-related actions.
      */
     private final CourseService courseService;
 
     /**
-     * Service responsible for managing exercises.
+     * The name of the current course.
      */
-    private final ExerciseService exerciseService;
+    private String courseName;
 
     /**
-     * Service responsible for managing users.
+     * The target page of the content.
      */
-    private final UserService userService;
-
-    private Course course;
+    private String targetPage;
 
     /**
      * Constructs a CourseBean.
      *
-     * @param logger          The logger used for logging within this class (Injected).
-     * @param appSession      The active session (Injected).
-     * @param courseService   The service responsible for managing courses (Injected).
-     * @param exerciseService The service responsible for managing exercises (Injected).
-     * @param userService     The service responsible for managing users (Injected).
+     * @param logger        The logger used for logging within this class (Injected).
+     * @param appSession    The active session (Injected).
+     * @param courseService
      */
     @Inject
-    public CourseBean(SerializableLogger logger, AppSession appSession, CourseService courseService,
-                      ExerciseService exerciseService, UserService userService) {
+    public CourseBean(SerializableLogger logger, AppSession appSession, CourseService courseService) {
         this.logger = logger;
         this.appSession = appSession;
         this.courseService = courseService;
-        this.exerciseService = exerciseService;
-        this.userService = userService;
     }
 
     /**
@@ -84,19 +73,31 @@ public class CourseBean implements Serializable {
     public void initialize() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         Map<String, String> requestParams = facesContext.getExternalContext().getRequestParameterMap();
-        String courseId = requestParams.get("Id");
-        try {
-            course = courseService.getCourse(courseId);
-        } catch (BusinessNonExistentCourseException e) {
-            throw new RuntimeException(e);
-        }
+        courseName = requestParams.get("Id");
     }
 
-    public Course getCourse() {
-        return course;
+    /**
+     * Deletes the current course from the database.
+     */
+    public void deleteCourse() {
+
     }
 
-    public void setCourse(Course course) {
-        this.course = course;
+    /**
+     * Gets target page.
+     *
+     * @return the target page
+     */
+    public String getTargetPage() {
+        return targetPage;
+    }
+
+    /**
+     * Sets target page.
+     *
+     * @param targetPage the target page
+     */
+    public void setTargetPage(String targetPage) {
+        this.targetPage = targetPage;
     }
 }

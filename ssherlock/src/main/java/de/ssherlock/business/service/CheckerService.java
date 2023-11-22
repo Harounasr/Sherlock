@@ -1,8 +1,11 @@
 package de.ssherlock.business.service;
 
+import de.ssherlock.business.exception.BusinessNonExistentCheckerException;
+import de.ssherlock.business.exception.BusinessNonExistentExerciseException;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Checker;
 import de.ssherlock.global.transport.Exercise;
+import de.ssherlock.persistence.connection.ConnectionPoolPsql;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -10,7 +13,6 @@ import jakarta.inject.Named;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * The CheckerService class provides functionality for managing checkers and related operations.
@@ -31,13 +33,20 @@ public class CheckerService implements Serializable {
     private final SerializableLogger logger;
 
     /**
+     * Instance of the connection pool.
+     */
+    private final ConnectionPoolPsql connectionPoolPsql;
+
+    /**
      * Constructs a CheckerService with the specified logger.
      *
-     * @param logger The logger to be used for logging messages related to CheckerService.
+     * @param logger             The logger to be used for logging messages related to CheckerService.
+     * @param connectionPoolPsql The connection pool.
      */
     @Inject
-    public CheckerService(SerializableLogger logger) {
+    public CheckerService(SerializableLogger logger, ConnectionPoolPsql connectionPoolPsql) {
         this.logger = logger;
+        this.connectionPoolPsql = connectionPoolPsql;
     }
 
     /**
@@ -59,6 +68,17 @@ public class CheckerService implements Serializable {
     }
 
     /**
+     * Updates the information of an existing checker.
+     *
+     * @param checker The checker to be updated.
+     *
+     * @throws BusinessNonExistentCheckerException when checker does not exist in the database.
+     */
+    public void updateChecker(Checker checker) throws BusinessNonExistentCheckerException {
+
+    }
+
+    /**
      * Retrieves a list of checkers associated with the specified exercise.
      *
      * @param exercise The exercise for which to retrieve checkers.
@@ -68,24 +88,7 @@ public class CheckerService implements Serializable {
         return null;
     }
 
-    /**
-     * Updates the information of an existing checker.
-     *
-     * @param checker The checker to be updated.
-     */
-    public void updateChecker(Checker checker) {
 
-    }
-
-    /**
-     * Retrieves a checker based on its unique identifier.
-     *
-     * @param id The unique identifier of the checker.
-     * @return The checker with the specified identifier.
-     */
-    public Checker getCheckerByID(long id) {
-        return null;
-    }
 }
 
 

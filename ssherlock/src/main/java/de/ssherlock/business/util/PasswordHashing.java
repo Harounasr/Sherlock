@@ -1,6 +1,7 @@
 package de.ssherlock.business.util;
 
 import de.ssherlock.global.transport.Password;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.nio.charset.StandardCharsets;
@@ -12,6 +13,12 @@ import java.util.Optional;
  * Utility class for password hashing using a secure hash algorithm and salt.
  */
 public class PasswordHashing {
+
+    /**
+     * The algorithm to use for hashing.
+     */
+    private static final String ALGORITHM = "SHA-512";
+
     /**
      * Generates a hashed password with a random salt.
      *
@@ -21,11 +28,12 @@ public class PasswordHashing {
     public static Password getHashedPassword(String password) {
         return hashPassword(password, Optional.empty());
     }
+
     /**
      * Generates a hashed password with a given salt.
      *
      * @param password The password to be hashed.
-     * @param salt The salt to hash with.
+     * @param salt     The salt to hash with.
      * @return A String object containing the hashed password.
      */
     public static String getHashedPassword(String password, String salt) {
@@ -35,9 +43,9 @@ public class PasswordHashing {
     /**
      * Hashes the provided password using the specified salt.
      *
-     * @param password The password to be hashed.
+     * @param password     The password to be hashed.
      * @param passwordSalt Optional salt value. If provided, the password will be hashed with this salt;
-     *  *                  otherwise, a random salt will be generated.
+     *                     *                  otherwise, a random salt will be generated.
      * @return The hashed password.
      */
     private static Password hashPassword(String password, Optional<String> passwordSalt) {
@@ -53,7 +61,7 @@ public class PasswordHashing {
             byte[] saltedPassword = combinePasswordAndSalt(password.getBytes(StandardCharsets.UTF_8), salt);
 
             // Create a MessageDigest object for SHA-512
-            MessageDigest md = MessageDigest.getInstance("SHA-512");
+            MessageDigest md = MessageDigest.getInstance(ALGORITHM);
 
             // Update the digest with the salted password
             md.update(saltedPassword);

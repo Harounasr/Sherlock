@@ -7,9 +7,12 @@ import de.ssherlock.global.transport.User;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.event.ActionEvent;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -17,8 +20,14 @@ import java.util.logging.Logger;
  * Backing bean for courseUserPagination.xhtml facelet
  */
 @Named
-@RequestScoped
-public class CourseUserPaginationBean {
+@ViewScoped
+public class CourseUserPaginationBean extends AbstractPaginationBean implements Serializable {
+
+    /**
+     * Serial Version UID
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     /**
      * Logger for this class.
@@ -91,4 +100,18 @@ public class CourseUserPaginationBean {
     public void setSearchString(String searchString) {
         this.searchString = searchString;
     }
+
+    @Override
+    public void loadData() {
+
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void filterBy() {
+
+    }
+
 }

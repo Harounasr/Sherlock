@@ -75,27 +75,5 @@ public class SystemService implements Serializable {
         repository.updateSystemSettings(systemSettings);
     }
 
-    /**
-     * Converts a file (Part) to a byte array.
-     *
-     * @param filePart The Part representing the file to be converted.
-     * @return The byte array representation of the file.
-     * @throws IOException If an I/O error occurs during file conversion.
-     */
-    private byte[] convertFileToByteArray(Part filePart) throws IOException {
-        try (InputStream inputStream = filePart.getInputStream()) {
-            int fileSize = (int) filePart.getSize();
-            byte[] buffer = new byte[fileSize];
-            int bytesRead;
-
-            bytesRead = inputStream.read(buffer, 0, fileSize);
-
-            if (bytesRead >= 0) {
-                return buffer;
-            } else {
-                return null; // Handle the case where no bytes were read
-            }
-        }
-    }
 }
 

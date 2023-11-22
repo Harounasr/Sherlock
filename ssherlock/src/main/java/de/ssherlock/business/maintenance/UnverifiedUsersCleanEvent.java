@@ -1,5 +1,8 @@
 package de.ssherlock.business.maintenance;
 
+import de.ssherlock.global.logging.LoggerCreator;
+import de.ssherlock.global.logging.SerializableLogger;
+
 import java.util.logging.Logger;
 
 /**
@@ -8,20 +11,22 @@ import java.util.logging.Logger;
 public class UnverifiedUsersCleanEvent {
 
     /**
+     * Logger instance for logging messages related to CourseService.
+     */
+    private static final SerializableLogger logger = LoggerCreator.getSerial(UnverifiedUsersCleanEvent.class);
+
+    /**
      * Defines the rate in which this Event should be executed.
      */
     public static final int EXECUTION_RATE = 60 * 60 * 2;
 
-    /**
-     * Logger instance for logging messages related to CourseService.
-     */
-    private Logger logger;
     /**
      * Constructs a new UnverifiedUsersCleanEvent.
      */
     public UnverifiedUsersCleanEvent() {
 
     }
+
     /**
      * Deletes unverified users.
      */

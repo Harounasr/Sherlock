@@ -1,16 +1,13 @@
 package de.ssherlock.persistence.repository;
 
-import de.ssherlock.control.backing.CoursesBean;
 import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.transport.Course;
-import de.ssherlock.global.transport.CourseRole;
 import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.persistence.exception.PersistenceNonExistentCourseException;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.logging.Logger;

@@ -1,5 +1,6 @@
 package de.ssherlock.control.util;
 
+import de.ssherlock.business.exception.BusinessNonExistentImageException;
 import de.ssherlock.business.service.ExerciseDescriptionImageService;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.ExerciseDescriptionImage;
@@ -30,7 +31,12 @@ public class ExerciseDescriptionImageServlet extends HttpServlet {
         String imageId = request.getParameter("id");
         if (imageId != null) {
             logger.log(Level.INFO, "Client request for image with id " + imageId + ".");
-            ExerciseDescriptionImage image = exerciseDescriptionImageService.getImage(imageId);
+            ExerciseDescriptionImage image = null;
+            try {
+                image = exerciseDescriptionImageService.getImage(imageId);
+            } catch (BusinessNonExistentImageException e) {
+                throw new RuntimeException(e);
+            }
 
             response.setContentType("image/png");
 

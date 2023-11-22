@@ -44,6 +44,11 @@ public class ProfileBean implements Serializable {
     private final UserService userService;
 
     /**
+     * The user of the profile.
+     */
+    private User user;
+
+    /**
      * The first new password for change.
      */
     private String newPasswordOne;
@@ -104,12 +109,48 @@ public class ProfileBean implements Serializable {
     }
 
     /**
+     * Gets user.
+     *
+     * @return the user
+     */
+    public User getUser() {
+        return user;
+    }
+
+    /**
+     * Sets user.
+     *
+     * @param user the user
+     */
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    /**
+     * Gets new password one.
+     *
+     * @return the new password one
+     */
+    public String getNewPasswordOne() {
+        return newPasswordOne;
+    }
+
+    /**
      * Sets the first new password for change.
      *
      * @param newPasswordOne The first new password for change.
      */
     public void setNewPasswordOne(String newPasswordOne) {
         this.newPasswordOne = newPasswordOne;
+    }
+
+    /**
+     * Gets new password two.
+     *
+     * @return the new password two
+     */
+    public String getNewPasswordTwo() {
+        return newPasswordTwo;
     }
 
     /**
@@ -121,20 +162,4 @@ public class ProfileBean implements Serializable {
         this.newPasswordTwo = newPasswordTwo;
     }
 
-    public String getNewPasswordOne() {
-        return newPasswordOne;
-    }
-
-    public String getNewPasswordTwo() {
-        return newPasswordTwo;
-    }
-
-    /**
-     * Gets app session.
-     *
-     * @return the app session
-     */
-    public AppSession getAppSession() {
-        return appSession;
-    }
 }

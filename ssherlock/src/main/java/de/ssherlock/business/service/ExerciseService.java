@@ -1,6 +1,7 @@
 package de.ssherlock.business.service;
 
 import de.ssherlock.business.exception.BusinessNonExistentCourseException;
+import de.ssherlock.business.exception.BusinessNonExistentExerciseException;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.Exercise;
@@ -41,6 +42,9 @@ public class ExerciseService implements Serializable {
      */
     private final SerializableLogger logger;
 
+    /**
+     * The connection pool instance.
+     */
     private final ConnectionPoolPsql connectionPoolPsql;
 
     /**
@@ -58,10 +62,10 @@ public class ExerciseService implements Serializable {
     /**
      * Retrieves a list of exercises associated with the specified course.
      *
-     * @param course The course for which to retrieve exercises.
+     * @param courseName The course for which to retrieve exercises.
      * @return A list of exercises associated with the course.
      */
-    public List<Exercise> getExercises(Course course) {
+    public List<Exercise> getExercises(String courseName) {
         return null;
     }
 
@@ -69,8 +73,10 @@ public class ExerciseService implements Serializable {
      * Updates the information of an existing exercise.
      *
      * @param exercise The exercise to be updated.
+     *
+     * @throws BusinessNonExistentExerciseException when the exercise does not exist in the database.
      */
-    public void updateExercise(Exercise exercise) {
+    public void updateExercise(Exercise exercise) throws BusinessNonExistentExerciseException {
         Connection connection = connectionPoolPsql.getConnection();
         ExerciseRepository exerciseRepository = RepositoryFactory.getExerciseRepository(RepositoryType.POSTGRESQL, connection);
         exerciseRepository.updateExercise(exercise);
@@ -88,9 +94,11 @@ public class ExerciseService implements Serializable {
     /**
      * Removes an existing exercise.
      *
-     * @param exercise The exercise to be removed.
+     * @param exerciseId The exercise to be removed.
+     *
+     * @throws BusinessNonExistentExerciseException when the exercise does not exist in the database.
      */
-    public void removeExercise(Exercise exercise) {
+    public void removeExercise(long exerciseId) throws BusinessNonExistentExerciseException {
 
     }
 
@@ -99,27 +107,19 @@ public class ExerciseService implements Serializable {
      *
      * @param id The unique identifier of the exercise.
      * @return The exercise with the specified identifier.
+     *
+     * @throws BusinessNonExistentExerciseException when the exercise does not exist in the database.
      */
-    public Exercise getExercise(long id) throws BusinessNonExistentCourseException {
+    public Exercise getExercise(long id) throws BusinessNonExistentExerciseException {
         Connection connection = connectionPoolPsql.getConnection();
         ExerciseRepository exerciseRepository = RepositoryFactory.getExerciseRepository(RepositoryType.POSTGRESQL, connection);
         Exercise exercise;
         try {
             exercise = exerciseRepository.fetchExercise(id);
         } catch (PersistenceNonExistentExerciseException e) {
-            throw new BusinessNonExistentCourseException(e.getMessage(), e);
+            throw new BusinessNonExistentExerciseException(e.getMessage(), e);
         }
         return exercise;
-    }
-
-    /**
-     * Adds an exercise description image.
-     *
-     * @param exerciseDescriptionImage The image to be added to the exercise description.
-     * @return A string indicating the result of the operation.
-     */
-    public String addExerciseDescriptionImage(ExerciseDescriptionImage exerciseDescriptionImage) {
-        return null;
     }
 }
 

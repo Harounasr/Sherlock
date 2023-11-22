@@ -59,6 +59,11 @@ public class Checker implements Serializable {
     private CheckerType checkerType;
 
     /**
+     * The id of the exercise associated with this checker.
+     */
+    private long exerciseId;
+
+    /**
      * Default constructor.
      */
     public Checker() {
@@ -189,6 +194,24 @@ public class Checker implements Serializable {
      */
     public void setCheckerType(CheckerType checkerType) {
         this.checkerType = checkerType;
+    }
+
+    /**
+     * Gets exercise id.
+     *
+     * @return the exercise id
+     */
+    public long getExerciseId() {
+        return exerciseId;
+    }
+
+    /**
+     * Sets exercise id.
+     *
+     * @param exerciseId the exercise id
+     */
+    public void setExerciseId(long exerciseId) {
+        this.exerciseId = exerciseId;
     }
 
     /**

@@ -3,17 +3,23 @@ package de.ssherlock.business.exception;
 import java.io.Serial;
 
 /**
- * Is thrown when .
+ * Is thrown when Large Object cannot be retrieved from the database.
  */
 public class BusinessLOBFetchException extends Exception {
+
+    /**
+     * Serial Version UID.
+     */
     @Serial
     private static final long serialVersionUID = 1L;
+
     /**
      * Constructs a new BusinessLOBFetchException and sets the message.
      */
     public BusinessLOBFetchException() {
         super();
     }
+
     /**
      * Constructs a new BusinessLOBFetchException and sets the message.
      *
@@ -22,6 +28,7 @@ public class BusinessLOBFetchException extends Exception {
     public BusinessLOBFetchException(String message) {
         super(message);
     }
+
     /**
      * Constructs a new BusinessLOBFetchException and sets the message.
      *
