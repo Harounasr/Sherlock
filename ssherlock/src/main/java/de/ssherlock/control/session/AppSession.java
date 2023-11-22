@@ -113,6 +113,6 @@ public class AppSession implements Serializable {
      */
     public String logout() {
         username = null;
-        return "/view/login?faces-redirect=true";
+        return "/view/public/login?faces-redirect=true";
     }
 }

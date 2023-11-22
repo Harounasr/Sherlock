@@ -116,14 +116,14 @@ public class UserService implements Serializable {
      *
      * @param username The username for whom to send the password reset email.
      */
-    public void sendPasswordForgottenEmail(String username) {
+    public void sendPasswordForgottenEmail(String username) throws BusinessNonExistentUserException {
         Connection connection = connectionPoolPsql.getConnection();
         UserRepository userRepository = RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
         User user;
         try {
             user = userRepository.fetchUser(username);
         } catch (PersistenceNonExistentUserException e) {
-            throw new RuntimeException(e);
+            throw new BusinessNonExistentUserException();
         }
         mail.sendMail(user, MailContentBuilder.buildPasswordResetMail(user));
     }
