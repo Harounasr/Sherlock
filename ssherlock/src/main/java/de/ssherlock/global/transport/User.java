@@ -62,6 +62,16 @@ public class User implements Serializable {
     private Map<String, CourseRole> courseRoles;
 
     /**
+     * The token to verify the user's registration.
+     */
+    private String verificationToken;
+
+    /**
+     * The number of failed login attempts between the last two full hours.
+     */
+    private int failedLoginAttempts;
+
+    /**
      * Instantiates a new User.
      */
     public User() {
@@ -210,6 +220,42 @@ public class User implements Serializable {
      */
     public void setCourseRoles(Map<String, CourseRole> courseRoles) {
         this.courseRoles = courseRoles;
+    }
+
+    /**
+     * Gets verification token.
+     *
+     * @return the verification token
+     */
+    public String getVerificationToken() {
+        return verificationToken;
+    }
+
+    /**
+     * Sets verification token.
+     *
+     * @param verificationToken the verification token
+     */
+    public void setVerificationToken(String verificationToken) {
+        this.verificationToken = verificationToken;
+    }
+
+    /**
+     * Gets failed login attempts.
+     *
+     * @return the failed login attempts
+     */
+    public int getFailedLoginAttempts() {
+        return failedLoginAttempts;
+    }
+
+    /**
+     * Sets failed login attempts.
+     *
+     * @param failedLoginAttempts the failed login attempts
+     */
+    public void setFailedLoginAttempts(int failedLoginAttempts) {
+        this.failedLoginAttempts = failedLoginAttempts;
     }
 
     /**

@@ -16,6 +16,7 @@ CREATE TABLE user
     password_hash VARCHAR(75)             NOT NULL,
     password_salt VARCHAR(50)             NOT NULL,
     user_role     system_role             NOT NULL,
+    failed_login_attempts INTEGER         DEFAULT 0
 
     FOREIGN KEY (faculty) REFERENCES faculty (name) ON DELETE SET DEFAULT
 );
@@ -24,10 +25,11 @@ CREATE TABLE not_verified_user
 (
     username  VARCHAR(50) PRIMARY KEY NOT NULL,
     email     VARCHAR(50) UNIQUE      NOT NULL,
-    token     VARCHAR,
+    token     VARCHAR(75)             NOT NULL,
     firstname VARCHAR(50)             NOT NULL,
     lastname  VARCHAR(50)             NOT NULL,
-    faculty   VARCHAR(50)             DEFAULT 'NONE'
+    faculty   VARCHAR(50)             DEFAULT 'NONE',
+    expiry_date TIMESTAMP             NOT NULL
 
     FOREIGN KEY (faculty) REFERENCES faculty (name) ON DELETE SET DEFAULT
 );

@@ -1,11 +1,14 @@
 package de.ssherlock.persistence.repository;
 
+import de.ssherlock.global.logging.LoggerCreator;
+import de.ssherlock.global.logging.SerializableLogger;
+
 import java.sql.Connection;
 import java.util.logging.Logger;
 
 public class RepositoryFactory {
 
-    private Logger logger;
+    private static final SerializableLogger logger = LoggerCreator.getSerial(RepositoryFactory.class);
 
     public static CheckerRepository getCheckerRepository(RepositoryType type, Connection connection) {
         switch (type) {
@@ -88,6 +91,17 @@ public class RepositoryFactory {
         switch (type) {
             case POSTGRESQL -> {
                 return new ExerciseDescriptionImageRepositoryPsql(connection);
+            }
+            default -> {
+                return null;
+            }
+        }
+    }
+
+    public static NotVerifiedUserRepository getNotVerifiedUserRepository(RepositoryType type, Connection connection) {
+        switch (type) {
+            case POSTGRESQL -> {
+                return new NotVerifiedUserRepositoryPsql(connection);
             }
             default -> {
                 return null;
