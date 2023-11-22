@@ -32,9 +32,15 @@ public class StartStopBusiness implements Serializable {
     @Inject
     private SerializableLogger logger;
 
+    /**
+     * The StartStop instance of the persistence layer.
+     */
     @Inject
     private StartStopPersistence startStopPersistence;
 
+    /**
+     * Default constructor.
+     */
     public StartStopBusiness() {
 
     }

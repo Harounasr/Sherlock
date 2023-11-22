@@ -1,0 +1,32 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="jakarta.faces.core"
+                template="../../resources/templates/template.xhtml">
+
+    <ui:define name="title">My Courses</ui:define>
+    <ui:define name="content">
+        <h:dataTable value="#{coursePaginationBean.courses}" var="item" first="#{coursePaginationBean.currentIndex}" rows="#{coursePaginationBean.pageSize}">
+            <h:column>
+                <f:facet name="name">Name</f:facet>
+                #{item.getName()}
+            </h:column>
+
+            <h:column>
+                <f:facet name="id">id</f:facet>
+                <h:form>
+                    <h:commandButton value="Join" action="#{coursePaginationBean.select(item)}">
+                        <f:param name="exerciseId" value="#{coursePaginationBean.courseId}"/>
+                    </h:commandButton>
+                </h:form>
+            </h:column>
+        </h:dataTable>
+        <h:form>
+            <h:commandButton value="First" action="#{coursePaginationBean.firstPage}" />
+            <h:commandButton value="Previous" action="#{coursePaginationBean.previousPage}" />
+            <h:commandButton value="Next" action="#{coursePaginationBean.nextPage}" />
+            <h:commandButton value="Last" action="#{coursePaginationBean.lastPage}" />
+        </h:form>
+    </ui:define>
+
+</ui:composition>

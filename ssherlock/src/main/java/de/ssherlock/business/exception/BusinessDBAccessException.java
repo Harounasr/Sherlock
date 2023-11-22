@@ -6,14 +6,20 @@ import java.io.Serial;
  * Is thrown when the Database access is not working.
  */
 public class BusinessDBAccessException extends Exception {
+
+    /**
+     * Serial Version UID.
+     */
     @Serial
     private static final long serialVersionUID = 1L;
+
     /**
      * Constructs a new BusinessDBAccessException.
      */
     public BusinessDBAccessException() {
         super();
     }
+
     /**
      * Constructs a new BusinessDBAccessException and sets the message.
      *
@@ -22,6 +28,7 @@ public class BusinessDBAccessException extends Exception {
     public BusinessDBAccessException(String message) {
         super(message);
     }
+
     /**
      * Constructs a new BusinessDBAccessException and sets the message.
      *

@@ -23,6 +23,11 @@ public class Submission implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * The id of the submission;
+     */
+    private long id;
+
+    /**
      * The id of the exercise associated with this submission.
      */
     private long exerciseId;
@@ -52,6 +57,24 @@ public class Submission implements Serializable {
      */
     public Submission() {
 
+    }
+
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
+    public long getId() {
+        return id;
+    }
+
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
+    public void setId(long id) {
+        this.id = id;
     }
 
     /**

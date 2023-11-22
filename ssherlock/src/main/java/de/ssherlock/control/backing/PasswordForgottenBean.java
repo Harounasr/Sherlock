@@ -6,6 +6,7 @@ import de.ssherlock.control.notification.Notification;
 import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -17,24 +18,13 @@ import java.io.Serializable;
  * Backing bean for the passwordForgotten.xhtml facelet.
  */
 @Named
-@ViewScoped
-public class PasswordForgottenBean implements Serializable {
-
-    /**
-     * Serial Version UID
-     */
-    @Serial
-    private static final long serialVersionUID = 1L;
+@RequestScoped
+public class PasswordForgottenBean {
 
     /**
      * The logger for logging events.
      */
     private final SerializableLogger logger;
-
-    /**
-     * The active session.
-     */
-    private final AppSession appSession;
 
     /**
      * The service for user-related operations.
@@ -50,13 +40,11 @@ public class PasswordForgottenBean implements Serializable {
      * Constructor for PasswordForgottenBean.
      *
      * @param logger      The logger for logging events (Injected).
-     * @param appSession  The active session (Injected).
      * @param userService The service for user-related operations (Injected).
      */
     @Inject
-    public PasswordForgottenBean(SerializableLogger logger, AppSession appSession, UserService userService) {
+    public PasswordForgottenBean(SerializableLogger logger, UserService userService) {
         this.logger = logger;
-        this.appSession = appSession;
         this.userService = userService;
     }
 

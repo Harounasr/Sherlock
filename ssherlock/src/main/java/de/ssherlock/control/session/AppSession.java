@@ -84,7 +84,7 @@ public class AppSession implements Serializable {
     public synchronized User getUser() {
         if (username != null) {
             try {
-                return userService.fetchUserByUsername(username);
+                return userService.getUser(username);
             } catch (BusinessNonExistentUserException e) {
                 username = null;
                 throw new NoAccessException("User was deleted");

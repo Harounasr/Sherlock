@@ -22,13 +22,18 @@ import java.util.logging.Level;
  */
 @Named
 @ViewScoped
-public class ExercisePaginationBean implements Serializable {
+public class ExercisePaginationBean extends AbstractPaginationBean implements Serializable {
 
     /**
      * Serial Version UID
      */
     @Serial
     private static final long serialVersionUID = 1L;
+
+    /**
+     * The page size for the pagination.
+     */
+    private static final int PAGE_SIZE = 10;
 
     /**
      * Logger for logging within this class.
@@ -46,14 +51,9 @@ public class ExercisePaginationBean implements Serializable {
     private final CourseService courseService;
 
     /**
-     * List of exercises to display in pagination.
+     * The current course.
      */
     private Course course;
-
-    private int currentPage = 1;
-    private int pageSize = 10;
-
-    private String exerciseId;
 
     /**
      * Constructs an ExercisePaginationBean.
@@ -84,58 +84,49 @@ public class ExercisePaginationBean implements Serializable {
         }
     }
 
+    /**
+     * Navigates to the selected exercise.
+     *
+     * @param exercise The selected exercise.
+     * @return The navigation outcome.
+     */
     public String select(Exercise exercise) {
         FacesContext.getCurrentInstance().getExternalContext().getFlash().put("exerciseId", exercise.getId());
         logger.log(Level.INFO, "Selected Exercise: " + exercise.getName());
         return "/view/exercise.xhtml?faces-redirect=true&Id=" + exercise.getId();
     }
 
-    public void firstPage() {
-        currentPage = 0;
-    }
-
-    public void previousPage() {
-        if (currentPage > 0) {
-            currentPage--;
-        }
-    }
-
-    public void nextPage() {
-        int lastIndex = course.getExercises().size() - 1;
-        if (currentPage < lastIndex) {
-            currentPage++;
-        }
-    }
-
-    public String getExerciseId() {
-        return exerciseId;
-    }
-
-    public void setExerciseId(String exerciseId) {
-        this.exerciseId = exerciseId;
-    }
-
-    public int getCurrentPage() {
-        return currentPage;
-    }
-
-    public void setCurrentPage(int currentPage) {
-        this.currentPage = currentPage;
-    }
-
-    public int getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
-
+    /**
+     * Gets course.
+     *
+     * @return the course
+     */
     public Course getCourse() {
         return course;
     }
 
+    /**
+     * Sets course.
+     *
+     * @param course the course
+     */
     public void setCourse(Course course) {
         this.course = course;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void loadData() {
+
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void filterBy() {
+
     }
 }

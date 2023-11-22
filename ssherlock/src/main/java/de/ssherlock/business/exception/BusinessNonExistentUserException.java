@@ -2,7 +2,14 @@ package de.ssherlock.business.exception;
 
 import java.io.Serial;
 
+/**
+ * Is thrown when a user does not exist in the database.
+ */
 public class BusinessNonExistentUserException extends Exception {
+
+    /**
+     * Serial Version UID.
+     */
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -26,9 +33,9 @@ public class BusinessNonExistentUserException extends Exception {
      * Constructs a new BusinessNonExistentUserException with the specified detail message and cause.
      *
      * @param message The detail message.
-     * @param cause   The cause (which is saved for later retrieval by the {@link #getCause()} method).
+     * @param err     the exception which is going to be wrapped.
      */
-    public BusinessNonExistentUserException(String message, Throwable cause) {
-        super(message, cause);
+    public BusinessNonExistentUserException(String message, Throwable err) {
+        super(message, err);
     }
 }

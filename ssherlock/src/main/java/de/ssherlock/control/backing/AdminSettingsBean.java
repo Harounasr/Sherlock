@@ -2,27 +2,37 @@ package de.ssherlock.control.backing;
 
 import de.ssherlock.business.service.SystemService;
 import de.ssherlock.control.session.AppSession;
+import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.SystemSettings;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.event.ActionEvent;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.Part;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.logging.Logger;
 
 /**
  * Backing Bean for the adminSettings.xhtml facelet.
  */
 @Named
-@RequestScoped
-public class AdminSettingsBean {
+@ViewScoped
+public class AdminSettingsBean implements Serializable {
+
+    /**
+     * Serial Version UID
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     /**
      * Logger for logging within this class.
      */
-    private final Logger logger;
+    private final SerializableLogger logger;
 
     /**
      * The active session.
@@ -52,7 +62,7 @@ public class AdminSettingsBean {
      * @param systemService The SystemService (Injected).
      */
     @Inject
-    public AdminSettingsBean(Logger logger, AppSession appSession, SystemService systemService) {
+    public AdminSettingsBean(SerializableLogger logger, AppSession appSession, SystemService systemService) {
         this.logger = logger;
         this.appSession = appSession;
         this.systemService = systemService;
@@ -70,25 +80,14 @@ public class AdminSettingsBean {
      * Action for submitting all current changes.
      */
     public void submitAllChanges() {
-        // Implementation for submitting changes goes here
+
     }
 
     /**
-     * Action to add a faculty to the option list.
-     *
-     * @param e The fired ActionEvent.
+     * Uploads the logo.
      */
-    public void addFaculty(ActionEvent e) {
-        // Logic for adding faculty goes here
-    }
+    public void uploadLogo() {
 
-    /**
-     * Action to remove a faculty from the option list.
-     *
-     * @param e The fired ActionEvent.
-     */
-    public void removeFaculty(ActionEvent e) {
-        // Logic for removing faculty goes here
     }
 
     /**

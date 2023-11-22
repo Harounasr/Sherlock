@@ -6,14 +6,20 @@ import java.io.Serial;
  * Is thrown when the login did not work.
  */
 public class LoginFailedException extends Exception {
+
+    /**
+     * Serial Version UID.
+     */
     @Serial
     private static final long serialVersionUID = 1L;
+
     /**
      * Constructs a new LoginFailedException and sets the message.
      */
     public LoginFailedException() {
         super();
     }
+
     /**
      * Constructs a new LoginFailedException and sets the message.
      *
@@ -22,6 +28,7 @@ public class LoginFailedException extends Exception {
     public LoginFailedException(String message) {
         super(message);
     }
+
     /**
      * Constructs a new LoginFailedException and sets the message.
      *

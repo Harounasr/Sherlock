@@ -2,32 +2,35 @@ package de.ssherlock.control.backing;
 
 import de.ssherlock.business.service.CheckerService;
 import de.ssherlock.business.service.SubmissionService;
-import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.session.AppSession;
+import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.CheckerResult;
-import de.ssherlock.global.transport.CourseRole;
-import de.ssherlock.global.transport.User;
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.faces.event.ActionEvent;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
-import java.util.logging.Logger;
 
 /**
  * Backing bean for the checkerResults.xhtml facelet.
  */
 @Named
-@RequestScoped
-public class CheckerResultsBean {
+@ViewScoped
+public class CheckerResultsBean implements Serializable {
+
+    /**
+     * Serial Version UID
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     /**
      * Logger for logging within this class.
      */
-    private final Logger logger;
+    private final SerializableLogger logger;
 
     /**
      * Active session.
@@ -37,7 +40,7 @@ public class CheckerResultsBean {
     /**
      * Service that provides checker-based actions.
      */
-    private final CheckerService checkerService;
+    private final SubmissionService submissionService;
 
     /**
      * List of all CheckerResults.
@@ -49,13 +52,13 @@ public class CheckerResultsBean {
      *
      * @param logger         The logger used for logging within this class (Injected).
      * @param appSession     The active session (Injected).
-     * @param checkerService The CheckerService used for managing checkers (Injected).
+     * @param submissionService The CheckerService used for managing checkers (Injected).
      */
     @Inject
-    public CheckerResultsBean(Logger logger, AppSession appSession, CheckerService checkerService) {
+    public CheckerResultsBean(SerializableLogger logger, AppSession appSession, SubmissionService submissionService) {
         this.logger = logger;
         this.appSession = appSession;
-        this.checkerService = checkerService;
+        this.submissionService = submissionService;
     }
 
     /**
@@ -64,15 +67,6 @@ public class CheckerResultsBean {
      */
     @PostConstruct
     public void initialize() {
-        // Implementation for initialization goes here
-    }
-
-    /**
-     * Action to expand a single CheckerResult.
-     *
-     * @param e The ActionEvent
-     */
-    public void expandChecker(ActionEvent e) {
 
     }
 

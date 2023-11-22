@@ -6,6 +6,10 @@ import java.io.Serial;
  * Is thrown when the CourseName already exists in the Database.
  */
 public class BusinessCourseNameAlreadyExistsException extends Exception {
+
+    /**
+     * Serial Version UID.
+     */
     @Serial
     private static final long serialVersionUID = 1L;
 

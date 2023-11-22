@@ -47,11 +47,6 @@ public class Exercise implements Serializable {
      */
     private Date obligatoryDeadline;
 
-    /**
-     * The ids of all checkers associated with the exercise.
-     */
-    private List<Long> checkerIds;
-
     private String description;
 
     private String courseName;
@@ -153,24 +148,6 @@ public class Exercise implements Serializable {
         this.obligatoryDeadline = obligatoryDeadline;
     }
 
-    /**
-     * Gets checker ids.
-     *
-     * @return the checker ids
-     */
-    public List<Long> getCheckerIds() {
-        return checkerIds;
-    }
-
-    /**
-     * Sets checker ids.
-     *
-     * @param checkerIds the checker ids
-     */
-    public void setCheckerIds(List<Long> checkerIds) {
-        this.checkerIds = checkerIds;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -199,8 +176,7 @@ public class Exercise implements Serializable {
                 Objects.equals(name, exercise.name) &&
                 Objects.equals(publishDate, exercise.publishDate) &&
                 Objects.equals(recommendedDeadline, exercise.recommendedDeadline) &&
-                Objects.equals(obligatoryDeadline, exercise.obligatoryDeadline) &&
-                Objects.equals(checkerIds, exercise.checkerIds);
+                Objects.equals(obligatoryDeadline, exercise.obligatoryDeadline);
     }
 
     /**
@@ -208,6 +184,6 @@ public class Exercise implements Serializable {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, publishDate, recommendedDeadline, obligatoryDeadline, checkerIds);
+        return Objects.hash(id, name, publishDate, recommendedDeadline, obligatoryDeadline);
     }
 }

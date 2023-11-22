@@ -2,6 +2,7 @@ package de.ssherlock.business.service;
 
 
 import de.ssherlock.business.exception.BusinessNonExistentCourseException;
+import de.ssherlock.business.exception.BusinessNonExistentUserException;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.CourseRole;
@@ -37,10 +38,12 @@ public class CourseService implements Serializable {
      * Logger instance for logging messages related to CourseService.
      */
     private final SerializableLogger logger;
+
     /**
      * ConnectionPoolPsql instance for getting a database connection.
      */
     private final ConnectionPoolPsql connectionPoolPsql;
+
     /**
      * Constructs a CourseService with the specified logger.
      *
@@ -68,10 +71,10 @@ public class CourseService implements Serializable {
     /**
      * Retrieves a list of courses associated with the specified user.
      *
-     * @param user The user for whom to retrieve courses.
+     * @param username The user for whom to retrieve courses.
      * @return A list of courses associated with the user.
      */
-    public List<Course> getCourses(User user) {
+    public List<Course> getCourses(String username) {
         return null;
     }
 
@@ -80,6 +83,8 @@ public class CourseService implements Serializable {
      *
      * @param courseName The name of the course to retrieve.
      * @return The course with the specified name.
+     *
+     * @throws BusinessNonExistentCourseException when course does not exist in the database.
      */
     public Course getCourse(String courseName) throws BusinessNonExistentCourseException {
         Connection connection = connectionPoolPsql.getConnection();
@@ -106,19 +111,12 @@ public class CourseService implements Serializable {
     /**
      * Removes an existing course.
      *
-     * @param course The course to remove.
-     */
-    public void removeCourse(Course course) {
-
-    }
-
-    /**
-     * Updates the role of a user in a specific course.
+     * @param courseName The course to remove.
      *
-     * @param user       The user for whom to update the role.
-     * @param courseRole The new role for the user in the course.
+     * @throws BusinessNonExistentCourseException when the course does not exist in the database.
      */
-    public void updateCourseRole(User user, CourseRole courseRole) {
+    public void removeCourse(String courseName) throws BusinessNonExistentCourseException {
 
     }
+
 }

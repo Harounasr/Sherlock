@@ -3,13 +3,17 @@ package de.ssherlock.control.backing;
 import de.ssherlock.business.service.TestateService;
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.session.AppSession;
+import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Testate;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.event.ActionEvent;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -17,23 +21,29 @@ import java.util.logging.Logger;
  * Backing Bean for the allTestatesPagination.xhtml facelet.
  */
 @Named
-@RequestScoped
-public class AllTestatesPaginationBean {
+@ViewScoped
+public class AllTestatesPaginationBean extends AbstractPaginationBean implements Serializable {
+
+    /**
+     * Serial Version UID
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * Page size for the pagination.
+     */
+    private static final int PAGE_SIZE = 10;
 
     /**
      * Logger for logging within this class.
      */
-    private final Logger logger;
+    private final SerializableLogger logger;
 
     /**
      * Active session.
      */
     private final AppSession appSession;
-
-    /**
-     * Service that provides user-based actions.
-     */
-    private final UserService userService;
 
     /**
      * Service that provides testate-based actions.
@@ -50,14 +60,12 @@ public class AllTestatesPaginationBean {
      *
      * @param logger          The logger used for logging within this class (Injected).
      * @param appSession      The active session (Injected).
-     * @param userService     The UserService used for user-related actions (Injected).
      * @param testateService  The TestateService used for testate-related actions (Injected).
      */
     @Inject
-    public AllTestatesPaginationBean(Logger logger, AppSession appSession, UserService userService, TestateService testateService) {
+    public AllTestatesPaginationBean(SerializableLogger logger, AppSession appSession, TestateService testateService) {
         this.logger = logger;
         this.appSession = appSession;
-        this.userService = userService;
         this.testateService = testateService;
     }
 
@@ -67,15 +75,51 @@ public class AllTestatesPaginationBean {
      */
     @PostConstruct
     public void initialize() {
-        testates = testateService.getTestates(null); // You might want to specify parameters here
+        loadData();
     }
 
     /**
      * Action that redirects the user to the selected testate.
      *
-     * @param e The ActionEvent
+     * @param exerciseId The exercise id.
+     * @param username The username.
+     * @return The navigation outcome.
      */
-    public void selectTestate(ActionEvent e) {
-        // Implementation to handle testate selection and navigation goes here
+    public String selectTestate(long exerciseId, String username) {
+        return "";
+    }
+
+    /**
+     * Gets testates.
+     *
+     * @return the testates
+     */
+    public List<Testate> getTestates() {
+        return testates;
+    }
+
+    /**
+     * Sets testates.
+     *
+     * @param testates the testates
+     */
+    public void setTestates(List<Testate> testates) {
+        this.testates = testates;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void loadData() {
+
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void filterBy() {
+
     }
 }
