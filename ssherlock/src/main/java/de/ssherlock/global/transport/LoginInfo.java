@@ -23,7 +23,7 @@ public class LoginInfo implements Serializable {
     /**
      * The entered password.
      */
-    private Password password;
+    private String unhashedPassword;
 
     /**
      * Instantiates a new Login info.
@@ -55,17 +55,17 @@ public class LoginInfo implements Serializable {
      *
      * @return the password
      */
-    public Password getPassword() {
-        return password;
+    public String getUnhashedPassword() {
+        return unhashedPassword;
     }
 
     /**
      * Sets password.
      *
-     * @param password the password
+     * @param unhashedPassword the password
      */
-    public void setPassword(Password password) {
-        this.password = password;
+    public void setUnhashedPassword(String unhashedPassword) {
+        this.unhashedPassword = unhashedPassword;
     }
 
     /**
@@ -76,7 +76,7 @@ public class LoginInfo implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         LoginInfo loginInfo = (LoginInfo) o;
-        return Objects.equals(username, loginInfo.username) && Objects.equals(password, loginInfo.password);
+        return Objects.equals(username, loginInfo.username) && Objects.equals(unhashedPassword, loginInfo.unhashedPassword);
     }
 
     /**
@@ -84,6 +84,6 @@ public class LoginInfo implements Serializable {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(username, password);
+        return Objects.hash(username, unhashedPassword);
     }
 }

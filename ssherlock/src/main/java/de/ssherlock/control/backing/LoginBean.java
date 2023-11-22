@@ -5,10 +5,9 @@ import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.notification.Notification;
 import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.control.session.AppSession;
-import de.ssherlock.control.util.PasswordHashing;
+import de.ssherlock.business.util.PasswordHashing;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.LoginInfo;
-import de.ssherlock.global.transport.Password;
 import de.ssherlock.global.transport.User;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
@@ -18,7 +17,6 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Backing bean for the login.xhtml facelet.
@@ -80,13 +78,13 @@ public class LoginBean implements Serializable {
      * @return The destination view after successful login.
      */
     public String login() throws LoginFailedException {
-        User user = userService.login(loginInfo);
-        if (Objects.equals(user.getPassword().getHash(), PasswordHashing.getHashedPassword(unhashedPassword, user.getPassword().getSalt()))) {
+        try {
+            User user = userService.login(loginInfo);
             logger.log(Level.INFO, "Login for user " + loginInfo.getUsername() + " was successful.");
             appSession.setUser(user);
             logger.log(Level.INFO, "logged in");
             return "/view/registered/courses.xhtml";
-        } else {
+        } catch (LoginFailedException e) {
             logger.log(Level.INFO, "Incorrect password for user " + loginInfo.getUsername() + " .");
             Notification notification = new Notification(Notification.WRONG_PASSWORD_MSG, NotificationType.ERROR);
             notification.generateUIMessage();

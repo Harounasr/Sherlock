@@ -2,6 +2,7 @@ package de.ssherlock.business.service;
 
 import de.ssherlock.business.exception.BusinessNonExistentUserException;
 import de.ssherlock.business.exception.LoginFailedException;
+import de.ssherlock.business.util.PasswordHashing;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.LoginInfo;
@@ -22,6 +23,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 
 /**
@@ -93,7 +95,11 @@ public class UserService implements Serializable {
             throw new LoginFailedException("The user " + loginInfo.getUsername() + " is not registered in the system");
         }
         connectionPoolPsql.releaseConnection(connection);
-        return user;
+        if (Objects.equals(user.getPassword().getHash(), PasswordHashing.getHashedPassword(loginInfo.getUnhashedPassword(), user.getPassword().getSalt()))) {
+            return user;
+        } else {
+            throw new LoginFailedException("The password for " + loginInfo.getUsername() + " was not correct");
+        }
     }
 
     /**

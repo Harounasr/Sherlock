@@ -2,12 +2,10 @@ package de.ssherlock.control.backing;
 
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.session.AppSession;
-import de.ssherlock.control.util.PasswordHashing;
+import de.ssherlock.business.util.PasswordHashing;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Password;
-import de.ssherlock.global.transport.SystemRole;
 import de.ssherlock.global.transport.User;
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -15,7 +13,6 @@ import jakarta.inject.Named;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Backing bean for the registration.xhtml facelet.

@@ -1,4 +1,4 @@
-package de.ssherlock.control.util;
+package de.ssherlock.business.util;
 
 import de.ssherlock.global.transport.Password;
 import java.security.MessageDigest;
