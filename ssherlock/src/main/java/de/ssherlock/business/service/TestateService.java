@@ -1,18 +1,20 @@
 package de.ssherlock.business.service;
 
+import de.ssherlock.business.exception.BusinessNonExistentExerciseException;
+import de.ssherlock.business.exception.BusinessNonExistentTestateException;
+import de.ssherlock.business.exception.BusinessNonExistentUserException;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.Testate;
 import de.ssherlock.global.transport.User;
+import de.ssherlock.persistence.connection.ConnectionPoolPsql;
 import jakarta.enterprise.context.Dependent;
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * The TestateService class provides functionality for managing testates and related operations.
@@ -33,44 +35,53 @@ public class TestateService implements Serializable {
     private final SerializableLogger logger;
 
     /**
-     * Constructs a TestateService with the specified logger.
-     *
-     * @param logger The logger to be used for logging messages related to TestateService.
+     * The connection pool instance.
      */
-    @Inject
-    public TestateService(SerializableLogger logger) {
-        this.logger = logger;
-    }
+    private final ConnectionPoolPsql connectionPoolPsql;
 
     /**
-     * Retrieves a list of testates associated with the specified exercise.
+     * Constructs a TestateService with the specified logger.
      *
-     * @param exercise The exercise for which to retrieve testates.
-     * @return A list of testates associated with the exercise.
+     * @param logger             The logger to be used for logging messages related to TestateService.
+     * @param connectionPoolPsql The connection pool instance.
      */
-    public List<Testate> getTestates(Exercise exercise) {
-        return null;
+    @Inject
+    public TestateService(SerializableLogger logger, ConnectionPoolPsql connectionPoolPsql) {
+        this.logger = logger;
+        this.connectionPoolPsql = connectionPoolPsql;
     }
 
     /**
      * Retrieves a list of assigned testates associated with the specified exercise and user.
      *
-     * @param exercise The exercise for which to retrieve assigned testates.
-     * @param user     The user for whom to retrieve assigned testates.
+     * @param exerciseId The exercise for which to retrieve assigned testates.
+     * @param username     The user for whom to retrieve assigned testates.
      * @return A list of assigned testates associated with the exercise and user.
      */
-    public List<Testate> getAssignedTestates(Exercise exercise, User user) {
+    public List<Testate> getAssignedTestates(long exerciseId, String username) {
+        return null;
+    }
+
+    /**
+     * Retrieves a list of all testates associated with the specified exercise.
+     *
+     * @param exerciseId The exercise for which to retrieve the testates.
+     * @return A list of assigned testates associated with the exercise and user.
+     */
+    public List<Testate> getAllTestates(long exerciseId) {
         return null;
     }
 
     /**
      * Retrieves a testate associated with the specified exercise and user.
      *
-     * @param exercise The exercise for which to retrieve the testate.
-     * @param user     The user for whom to retrieve the testate.
+     * @param exerciseId The exercise for which to retrieve the testate.
+     * @param username     The user for whom to retrieve the testate.
      * @return The testate associated with the exercise and user.
+     *
+     * @throws BusinessNonExistentTestateException when the testate does not exist in the database.
      */
-    public Testate getTestate(Exercise exercise, User user) {
+    public Testate getTestate(long exerciseId, String username) throws BusinessNonExistentTestateException {
         return null;
     }
 
@@ -79,7 +90,7 @@ public class TestateService implements Serializable {
      *
      * @param testate The testate to be updated.
      */
-    public void updateTestate(Testate testate) {
+    public void addTestate(Testate testate) {
 
     }
 }

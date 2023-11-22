@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 
 
 /**
- * Servlet context listener for initializing and destroying resources during application startup and shutdown.
+ * Handles start and stop functionalities for the control layer.
  */
 @WebListener
 @ApplicationScoped
@@ -35,11 +35,14 @@ public class StartStopControl implements ServletContextListener, Serializable {
     @Inject
     private SerializableLogger logger;
 
+    /**
+     * The StartStop instance of the business layer.
+     */
     @Inject
     private StartStopBusiness startStopBusiness;
 
     /**
-     * Performs cleanup operations when the servlet context is destroyed.
+     * Destroys the system.
      *
      * @param sce The ServletContextEvent representing the destruction of the servlet context.
      */
@@ -50,7 +53,7 @@ public class StartStopControl implements ServletContextListener, Serializable {
     }
 
     /**
-     * Initializes resources and business logic during servlet context initialization.
+     * Initializes the system.
      *
      * @param sce The ServletContextEvent representing the initialization of the servlet context.
      */

@@ -2,14 +2,18 @@ package de.ssherlock.control.backing;
 
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.session.AppSession;
+import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.CourseRole;
 import de.ssherlock.global.transport.User;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.event.ActionEvent;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -17,13 +21,19 @@ import java.util.logging.Logger;
  * Backing bean for courseUserPagination.xhtml facelet
  */
 @Named
-@RequestScoped
-public class CourseUserPaginationBean {
+@ViewScoped
+public class CourseUserPaginationBean extends AbstractPaginationBean implements Serializable {
+
+    /**
+     * Serial Version UID
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     /**
      * Logger for this class.
      */
-    private final Logger logger;
+    private final SerializableLogger logger;
 
     /**
      * The active session.
@@ -53,7 +63,7 @@ public class CourseUserPaginationBean {
      * @param userService The service handling user-related operations (Injected).
      */
     @Inject
-    public CourseUserPaginationBean(Logger logger, AppSession appSession, UserService userService) {
+    public CourseUserPaginationBean(SerializableLogger logger, AppSession appSession, UserService userService) {
         this.logger = logger;
         this.appSession = appSession;
         this.userService = userService;
@@ -91,4 +101,18 @@ public class CourseUserPaginationBean {
     public void setSearchString(String searchString) {
         this.searchString = searchString;
     }
+
+    @Override
+    public void loadData() {
+
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void filterBy() {
+
+    }
+
 }

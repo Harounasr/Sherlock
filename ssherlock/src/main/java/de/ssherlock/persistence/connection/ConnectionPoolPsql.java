@@ -44,20 +44,24 @@ public class ConnectionPoolPsql implements Serializable {
      */
     @Inject
     private SerializableLogger logger;
+
     /**
      * Queue of available database connections.
      */
     private final Queue<Connection> connections = new LinkedList<>();
+
     /**
      * List of borrowed database connections.
      */
     private final List<Connection> borrowedConnections = new LinkedList<>();
+
     /**
      * Default constructor for creating a ConnectionPoolPsql instance.
      */
     public ConnectionPoolPsql() {
 
     }
+
     /**
      * Initializes the connection pool after creation.
      * Loads the database driver and creates the initial pool of database connections.
@@ -70,6 +74,7 @@ public class ConnectionPoolPsql implements Serializable {
         }
         logger.log(Level.INFO, "Created " + connections.size() + " connection to database: " + configuration.getDbName());
     }
+
     /**
      * Destroys the connection pool.
      * Closes all available and borrowed connections and clears the connection queues.
@@ -103,6 +108,7 @@ public class ConnectionPoolPsql implements Serializable {
         connections.clear();
         borrowedConnections.clear();
     }
+
     /**
      * Retrieves a database connection from the connection pool.
      * If the pool is empty, the method waits until a connection becomes available.
@@ -121,6 +127,7 @@ public class ConnectionPoolPsql implements Serializable {
         borrowedConnections.add(conn);
         return conn;
     }
+
     /**
      * Releases a borrowed database connection back to the connection pool.
      *
@@ -130,6 +137,7 @@ public class ConnectionPoolPsql implements Serializable {
         borrowedConnections.remove(connection);
         connections.offer(connection);
     }
+
     /**
      * Creates a new database connection.
      *
@@ -145,6 +153,7 @@ public class ConnectionPoolPsql implements Serializable {
         }
         return conn;
     }
+
     /**
      * Loads the PostgreSQL database driver.
      * Throws an error if the driver is not found.

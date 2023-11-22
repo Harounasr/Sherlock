@@ -1,5 +1,6 @@
 package de.ssherlock.persistence.util;
 
+import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.persistence.config.Configuration;
 import de.ssherlock.persistence.connection.ConnectionPoolPsql;
@@ -56,6 +57,7 @@ public class StartStopPersistence implements Serializable {
      */
     public void init(ServletContextEvent sce) {
         logger.log(Level.INFO, "Persistence Layer initialized.");
+        LoggerCreator.readConfig(sce);
         configuration.init(sce);
         connectionPoolPsql.init();
     }

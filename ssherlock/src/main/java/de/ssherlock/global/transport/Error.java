@@ -1,8 +1,5 @@
 package de.ssherlock.global.transport;
 
-import jakarta.enterprise.context.Dependent;
-import jakarta.inject.Named;
-
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;

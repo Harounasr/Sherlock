@@ -42,8 +42,14 @@ public class ExerciseBean implements Serializable {
      */
     private final ExerciseService exerciseService;
 
+    /**
+     * The ID of the current exercise.
+     */
     private long exerciseId;
-    private String courseName;
+
+    /**
+     * The target page of the content.
+     */
     private String targetPage;
 
     /**
@@ -73,26 +79,27 @@ public class ExerciseBean implements Serializable {
         this.setTargetPage("exerciseDescription.xhtml");
     }
 
-    public long getExerciseId() {
-        return exerciseId;
+    /**
+     * Deletes the current exercise.
+     */
+    public void deleteExercise() {
+
     }
 
-    public void setExerciseId(long exerciseId) {
-        this.exerciseId = exerciseId;
-    }
-
-    public String getCourseName() {
-        return courseName;
-    }
-
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
-    }
-
+    /**
+     * Gets target page.
+     *
+     * @return the target page
+     */
     public String getTargetPage() {
         return targetPage;
     }
 
+    /**
+     * Sets target page.
+     *
+     * @param targetPage the target page
+     */
     public void setTargetPage(String targetPage) {
         FacesContext.getCurrentInstance().getExternalContext().getFlash().put("courseId", exerciseId);
         this.targetPage = targetPage;

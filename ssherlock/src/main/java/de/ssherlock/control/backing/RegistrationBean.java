@@ -6,6 +6,7 @@ import de.ssherlock.business.util.PasswordHashing;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Password;
 import de.ssherlock.global.transport.User;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -18,24 +19,13 @@ import java.util.logging.Level;
  * Backing bean for the registration.xhtml facelet.
  */
 @Named
-@ViewScoped
-public class RegistrationBean implements Serializable {
-
-    /**
-     * Serial Version UID
-     */
-    @Serial
-    private static final long serialVersionUID = 1L;
+@RequestScoped
+public class RegistrationBean {
 
     /**
      * The logger for this class.
      */
     private final SerializableLogger logger;
-
-    /**
-     * The active session.
-     */
-    private final AppSession appSession;
 
     /**
      * The service handling user-related operations.
@@ -56,14 +46,12 @@ public class RegistrationBean implements Serializable {
      * Constructs a new Registration bean.
      *
      * @param logger      The logger for this class (Injected).
-     * @param appSession  The active session (Injected).
      * @param userService The service for user-based operations (Injected).
      * @param user        The user that is to be registered (Injected empty).
      */
     @Inject
-    public RegistrationBean(SerializableLogger logger, AppSession appSession, UserService userService, User user) {
+    public RegistrationBean(SerializableLogger logger, UserService userService, User user) {
         this.logger = logger;
-        this.appSession = appSession;
         this.userService = userService;
         this.user = user;
     }

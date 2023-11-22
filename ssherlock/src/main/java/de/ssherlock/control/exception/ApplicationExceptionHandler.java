@@ -18,10 +18,13 @@ import java.util.logging.Logger;
 
 /**
  * Exception handler for handling exceptions.
- * Extends {@code ExceptionHandlerWrapper} to provide additional exception handling capabilities.
+ * Extends {@link ExceptionHandlerWrapper} to provide additional exception handling capabilities.
  */
 public class ApplicationExceptionHandler extends ExceptionHandlerWrapper {
 
+    /**
+     * Base path to all error pages.
+     */
     private static final String BASE_PATH = "/WEB-INF/errorpages/";
 
     /**
@@ -72,6 +75,12 @@ public class ApplicationExceptionHandler extends ExceptionHandlerWrapper {
 
     }
 
+    /**
+     * Sets the error bean.
+     *
+     * @param exception The exception.
+     * @param message The message.
+     */
     private void setErrorBean(Throwable exception, String message) {
         ErrorBean errorBean = CDI.current().select(ErrorBean.class).get();
         Error error = new Error();
@@ -80,6 +89,12 @@ public class ApplicationExceptionHandler extends ExceptionHandlerWrapper {
         errorBean.setError(error);
     }
 
+    /**
+     * Shows a certain page.
+     *
+     * @param context The current context.
+     * @param page The page to show.
+     */
     private void showPage(FacesContext context, String page) {
         context.setViewRoot(context.getApplication().getViewHandler().createView(context, BASE_PATH + page));
         context.getPartialViewContext().setRenderAll(true);
@@ -87,11 +102,24 @@ public class ApplicationExceptionHandler extends ExceptionHandlerWrapper {
         context.renderResponse();
     }
 
+    /**
+     * Shows a certain error page.
+     *
+     * @param context The current context.
+     * @param exception The exception.
+     * @param message The message.
+     */
     private void showErrorPage(FacesContext context, Throwable exception, String message) {
         setErrorBean(exception, message);
         showPage(context, "error.xhtml");
     }
 
+    /**
+     * Shows the "404 not found" error page.
+     *
+     * @param context The current context.
+     * @param exception The exception.
+     */
     private void show404Page(FacesContext context, Throwable exception) {
         setErrorBean(exception, "");
         showPage(context, "error404.xhtml");

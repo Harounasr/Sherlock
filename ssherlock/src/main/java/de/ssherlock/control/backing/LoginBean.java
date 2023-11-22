@@ -1,5 +1,6 @@
 package de.ssherlock.control.backing;
 
+import de.ssherlock.business.exception.BusinessNonExistentUserException;
 import de.ssherlock.business.exception.LoginFailedException;
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.notification.Notification;
@@ -9,6 +10,7 @@ import de.ssherlock.business.util.PasswordHashing;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.LoginInfo;
 import de.ssherlock.global.transport.User;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -22,24 +24,13 @@ import java.util.logging.Level;
  * Backing bean for the login.xhtml facelet.
  */
 @Named
-@ViewScoped
-public class LoginBean implements Serializable {
-
-    /**
-     * Serial Version UID
-     */
-    @Serial
-    private static final long serialVersionUID = 1L;
+@RequestScoped
+public class LoginBean {
 
     /**
      * The logger for this class.
      */
     private final SerializableLogger logger;
-
-    /**
-     * The active session.
-     */
-    private final AppSession appSession;
 
     /**
      * The Service for user-related operations.
@@ -52,22 +43,15 @@ public class LoginBean implements Serializable {
     private LoginInfo loginInfo;
 
     /**
-     * The unhashed password entered by the user.
-     */
-    private String unhashedPassword;
-
-    /**
      * Constructor for LoginBean.
      *
      * @param userService The UserService for user-related operations (Injected).
-     * @param appSession  The active session (Injected).
      * @param logger      The logger for this class (Injected).
      * @param loginInfo   The login information entered by the user (Injected empty).
      */
     @Inject
-    public LoginBean(UserService userService, AppSession appSession, SerializableLogger logger, LoginInfo loginInfo) {
+    public LoginBean(UserService userService, SerializableLogger logger, LoginInfo loginInfo) {
         this.userService = userService;
-        this.appSession = appSession;
         this.logger = logger;
         this.loginInfo = loginInfo;
     }
@@ -81,10 +65,8 @@ public class LoginBean implements Serializable {
         try {
             User user = userService.login(loginInfo);
             logger.log(Level.INFO, "Login for user " + loginInfo.getUsername() + " was successful.");
-            appSession.setUser(user);
-            logger.log(Level.INFO, "logged in");
-            return "/view/registered/courses.xhtml";
-        } catch (LoginFailedException e) {
+            return "/view/registered/coursePagination.xhtml";
+        } catch (LoginFailedException | BusinessNonExistentUserException e) {
             logger.log(Level.INFO, "Incorrect password for user " + loginInfo.getUsername() + " .");
             Notification notification = new Notification(Notification.WRONG_PASSWORD_MSG, NotificationType.ERROR);
             notification.generateUIMessage();
@@ -99,6 +81,15 @@ public class LoginBean implements Serializable {
      */
     public String registerClicked() {
         return "/view/public/registration.xhtml";
+    }
+
+    /**
+     * Redirects the user to the password forgotten page.
+     *
+     * @return The navigation outcome.
+     */
+    public String passwordForgottenClicked() {
+        return "/view/public/passwordForgotten.xhtml";
     }
 
     /**
@@ -119,21 +110,4 @@ public class LoginBean implements Serializable {
         this.loginInfo = loginInfo;
     }
 
-    /**
-     * Gets unhashed password.
-     *
-     * @return the unhashed password
-     */
-    public String getUnhashedPassword() {
-        return unhashedPassword;
-    }
-
-    /**
-     * Sets unhashed password.
-     *
-     * @param unhashedPassword the unhashedd password
-     */
-    public void setUnhashedPassword(String unhashedPassword) {
-        this.unhashedPassword = unhashedPassword;
-    }
 }

@@ -3,13 +3,16 @@ package de.ssherlock.control.backing;
 import de.ssherlock.business.service.SubmissionService;
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.session.AppSession;
+import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Submission;
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.event.ActionEvent;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -17,13 +20,24 @@ import java.util.logging.Logger;
  * Backing bean for the allSubmissionPaginationBean.xhtml facelet.
  */
 @Named
-@RequestScoped
-public class AllSubmissionPaginationBean {
+@ViewScoped
+public class AllSubmissionPaginationBean extends AbstractPaginationBean implements Serializable {
+
+    /**
+     * Serial Version UID
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * Page size for the pagination.
+     */
+    private static final int PAGE_SIZE = 10;
 
     /**
      * Logger for logging within this class.
      */
-    private final Logger logger;
+    private final SerializableLogger logger;
 
     /**
      * Active session.
@@ -36,11 +50,6 @@ public class AllSubmissionPaginationBean {
     private final SubmissionService submissionService;
 
     /**
-     * Service that provides user-based actions.
-     */
-    private final UserService userService;
-
-    /**
      * List of all submissions.
      */
     private List<Submission> submissions;
@@ -51,14 +60,12 @@ public class AllSubmissionPaginationBean {
      * @param logger            The logger used for logging within this class (Injected).
      * @param appSession        The active session (Injected).
      * @param submissionService The SubmissionService used for submission-related actions (Injected).
-     * @param userService       The UserService used for user-related actions (Injected).
      */
     @Inject
-    public AllSubmissionPaginationBean(Logger logger, AppSession appSession, SubmissionService submissionService, UserService userService) {
+    public AllSubmissionPaginationBean(SerializableLogger logger, AppSession appSession, SubmissionService submissionService) {
         this.logger = logger;
         this.appSession = appSession;
         this.submissionService = submissionService;
-        this.userService = userService;
     }
 
     /**
@@ -67,14 +74,51 @@ public class AllSubmissionPaginationBean {
      */
     @PostConstruct
     public void initialize() {
-        submissions = submissionService.getSubmissions(null); // You might want to specify parameters here
+        loadData();
     }
 
     /**
      * Action to redirect the user to the selected submission.
      *
-     * @param e The ActionEvent
+     * @param submissionId the id of the submission.
+     *
+     * @return The navigation outcome.
      */
-    public void selectSubmission(ActionEvent e) {
+    public String selectSubmission(long submissionId) {
+        return "";
+    }
+
+    /**
+     * Gets submissions.
+     *
+     * @return the submissions
+     */
+    public List<Submission> getSubmissions() {
+        return submissions;
+    }
+
+    /**
+     * Sets submissions.
+     *
+     * @param submissions the submissions
+     */
+    public void setSubmissions(List<Submission> submissions) {
+        this.submissions = submissions;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void loadData() {
+        submissions = submissionService.getSubmissions(0l);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void filterBy() {
+
     }
 }

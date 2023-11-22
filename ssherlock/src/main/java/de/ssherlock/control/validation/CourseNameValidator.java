@@ -1,6 +1,6 @@
 package de.ssherlock.control.validation;
 
-import de.ssherlock.business.service.SystemService;
+import de.ssherlock.business.service.CourseService;
 import de.ssherlock.global.logging.SerializableLogger;
 import jakarta.enterprise.context.Dependent;
 import jakarta.faces.component.UIComponent;
@@ -12,12 +12,12 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 /**
- * Handles validation of faculty addition.
+ * Handles validation of course names.
  */
 @Named
 @Dependent
-@FacesValidator(value = "facultyExistsValidator", managed = true)
-public class FacultyExistsValidator implements Validator<String> {
+@FacesValidator(value = "courseNameValidator", managed = true)
+public class CourseNameValidator implements Validator<String> {
 
     /**
      * The logger instance for this class.
@@ -25,32 +25,32 @@ public class FacultyExistsValidator implements Validator<String> {
     private final SerializableLogger logger;
 
     /**
-     * The system service for system-related operations.
+     * The course service for course-related operations.
      */
-    private final SystemService systemService;
+    private final CourseService courseService;
 
     /**
-     * Constructs a FacultyExistsValidator
+     * Default constructor.
      *
-     * @param logger The logger instance for this class.
-     * @param systemService The system service for system-related operations.
+     * @param logger        The logger instance.
+     * @param courseService The course service for course-related operations.
      */
     @Inject
-    public FacultyExistsValidator(SerializableLogger logger, SystemService systemService) {
+    public CourseNameValidator(SerializableLogger logger, CourseService courseService) {
         this.logger = logger;
-        this.systemService = systemService;
+        this.courseService = courseService;
     }
 
     /**
-     * Validates the existence of a faculty within the system.
+     * Validates a course name to ensure uniqueness.
      *
      * @param facesContext The FacesContext for the current request.
      * @param uiComponent  The UIComponent associated with the component being validated.
-     * @param faculty            The faculty identifier or name to be validated.
+     * @param courseName            The course name to be validated.
      * @throws ValidatorException if the validation fails.
      */
     @Override
-    public void validate(FacesContext facesContext, UIComponent uiComponent, String faculty) throws ValidatorException {
+    public void validate(FacesContext facesContext, UIComponent uiComponent, String courseName) throws ValidatorException {
 
     }
 }

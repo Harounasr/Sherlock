@@ -1,6 +1,7 @@
 package de.ssherlock.persistence.repository;
 
 import de.ssherlock.global.logging.LoggerCreator;
+import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.SystemSettings;
 
 import java.awt.*;
@@ -19,7 +20,7 @@ public class SystemSettingsRepositoryPsql extends RepositoryPsql implements Syst
     /**
      * Logger instance for logging messages related to SystemSettingsRepositoryPsql.
      */
-    private final Logger logger = LoggerCreator.get(SystemSettingsRepositoryPsql.class);
+    private final SerializableLogger logger = LoggerCreator.get(SystemSettingsRepositoryPsql.class);
 
     /**
      * Constructor to initialize the repository with a database connection.
@@ -56,7 +57,7 @@ public class SystemSettingsRepositoryPsql extends RepositoryPsql implements Syst
      * {@inheritDoc}
      */
     @Override
-    public SystemSettings fetchSystemSettings() {
+    public SystemSettings getSystemSettings() {
         String query = "SELECT * FROM SystemSettings ORDER BY id DESC LIMIT 1";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query);
              ResultSet resultSet = preparedStatement.executeQuery()) {

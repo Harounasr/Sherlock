@@ -2,6 +2,7 @@ package de.ssherlock.control.backing;
 
 import de.ssherlock.business.exception.BusinessNonExistentCourseException;
 import de.ssherlock.business.service.CourseService;
+import de.ssherlock.business.service.ExerciseService;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Course;
@@ -14,6 +15,7 @@ import jakarta.inject.Named;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -22,13 +24,18 @@ import java.util.logging.Level;
  */
 @Named
 @ViewScoped
-public class ExercisePaginationBean implements Serializable {
+public class ExercisePaginationBean extends AbstractPaginationBean implements Serializable {
 
     /**
      * Serial Version UID
      */
     @Serial
     private static final long serialVersionUID = 1L;
+
+    /**
+     * The page size for the pagination.
+     */
+    private static final int PAGE_SIZE = 10;
 
     /**
      * Logger for logging within this class.
@@ -43,30 +50,25 @@ public class ExercisePaginationBean implements Serializable {
     /**
      * Service for handling Exercise-related actions.
      */
-    private final CourseService courseService;
+    private final ExerciseService exerciseService;
 
     /**
-     * List of exercises to display in pagination.
+     * The current course.
      */
-    private Course course;
-
-    private int currentPage = 1;
-    private int pageSize = 10;
-
-    private String exerciseId;
+    private List<Exercise> exercises;
 
     /**
      * Constructs an ExercisePaginationBean.
      *
      * @param logger          The logger used for logging within this class (Injected).
      * @param appSession      The active session (Injected).
-     * @param courseService The ExerciseService (Injected).
+     * @param exerciseService The ExerciseService (Injected).
      */
     @Inject
-    public ExercisePaginationBean(SerializableLogger logger, AppSession appSession, CourseService courseService) {
+    public ExercisePaginationBean(SerializableLogger logger, AppSession appSession, ExerciseService exerciseService) {
         this.logger = logger;
         this.appSession = appSession;
-        this.courseService = courseService;
+        this.exerciseService = exerciseService;
     }
 
     /**
@@ -77,65 +79,52 @@ public class ExercisePaginationBean implements Serializable {
     public void initialize() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         Map<String, String> requestParams = facesContext.getExternalContext().getRequestParameterMap();
-        try {
-            course = courseService.getCourse(requestParams.get("Id"));
-        } catch (BusinessNonExistentCourseException e) {
-            throw new RuntimeException(e);
-        }
+        exercises = exerciseService.getExercises(requestParams.get("Id"));
     }
 
+    /**
+     * Navigates to the selected exercise.
+     *
+     * @param exercise The selected exercise.
+     * @return The navigation outcome.
+     */
     public String select(Exercise exercise) {
         FacesContext.getCurrentInstance().getExternalContext().getFlash().put("exerciseId", exercise.getId());
         logger.log(Level.INFO, "Selected Exercise: " + exercise.getName());
         return "/view/exercise.xhtml?faces-redirect=true&Id=" + exercise.getId();
     }
 
-    public void firstPage() {
-        currentPage = 0;
+    /**
+     * Gets exercises.
+     *
+     * @return the exercises
+     */
+    public List<Exercise> getExercises() {
+        return exercises;
     }
 
-    public void previousPage() {
-        if (currentPage > 0) {
-            currentPage--;
-        }
+    /**
+     * Sets exercises.
+     *
+     * @param exercises the exercises
+     */
+    public void setExercises(List<Exercise> exercises) {
+        this.exercises = exercises;
     }
 
-    public void nextPage() {
-        int lastIndex = course.getExercises().size() - 1;
-        if (currentPage < lastIndex) {
-            currentPage++;
-        }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void loadData() {
+
     }
 
-    public String getExerciseId() {
-        return exerciseId;
-    }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void filterBy() {
 
-    public void setExerciseId(String exerciseId) {
-        this.exerciseId = exerciseId;
-    }
-
-    public int getCurrentPage() {
-        return currentPage;
-    }
-
-    public void setCurrentPage(int currentPage) {
-        this.currentPage = currentPage;
-    }
-
-    public int getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
-
-    public Course getCourse() {
-        return course;
-    }
-
-    public void setCourse(Course course) {
-        this.course = course;
     }
 }

@@ -7,17 +7,13 @@ import de.ssherlock.persistence.repository.RepositoryFactory;
 import de.ssherlock.persistence.repository.RepositoryType;
 import de.ssherlock.persistence.repository.SystemSettingsRepository;
 import jakarta.enterprise.context.Dependent;
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import jakarta.servlet.http.Part;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Connection;
-import java.util.logging.Logger;
+
 /**
  * The SystemService class provides functionality for system-related operations.
  */
@@ -61,7 +57,7 @@ public class SystemService implements Serializable {
     public SystemSettings getSystemSettings() {
         Connection connection = connectionPoolPsql.getConnection();
         SystemSettingsRepository repository = RepositoryFactory.getSystemSettingsRepository(RepositoryType.POSTGRESQL, connection);
-        return repository.fetchSystemSettings();
+        return repository.getSystemSettings();
     }
 
     /**
@@ -75,27 +71,5 @@ public class SystemService implements Serializable {
         repository.updateSystemSettings(systemSettings);
     }
 
-    /**
-     * Converts a file (Part) to a byte array.
-     *
-     * @param filePart The Part representing the file to be converted.
-     * @return The byte array representation of the file.
-     * @throws IOException If an I/O error occurs during file conversion.
-     */
-    private byte[] convertFileToByteArray(Part filePart) throws IOException {
-        try (InputStream inputStream = filePart.getInputStream()) {
-            int fileSize = (int) filePart.getSize();
-            byte[] buffer = new byte[fileSize];
-            int bytesRead;
-
-            bytesRead = inputStream.read(buffer, 0, fileSize);
-
-            if (bytesRead >= 0) {
-                return buffer;
-            } else {
-                return null; // Handle the case where no bytes were read
-            }
-        }
-    }
 }
 

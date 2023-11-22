@@ -1,6 +1,7 @@
 package de.ssherlock.persistence.repository;
 
 import de.ssherlock.global.transport.Testate;
+import de.ssherlock.persistence.exception.PersistenceNonExistentTestateException;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -15,36 +16,35 @@ public interface TestateRepository {
      *
      * @param testate The Testate entity to be inserted.
      */
-    void insertEvaluation(Testate testate);
+    void insertTestate(Testate testate);
 
     /**
-     * Updates a Testate entity in the database.
+     * Gets a Testate entity from the database based on an exercise and a student's username.
      *
-     * @param testate The Testate entity to be updated.
+     * @param exerciseId The exercise ID.
+     * @param studentUsername The student's username.
+     * @return The testate.
+     *
+     * @throws PersistenceNonExistentTestateException when the testate does not exist in the database.
      */
-    void updateEvaluation(Testate testate);
+    Testate getTestate(long exerciseId, String studentUsername) throws PersistenceNonExistentTestateException;
 
     /**
-     * Deletes a Testate entity from the database based on its ID.
+     * Gets a list of Testate entities for a specific exercise from the database.
      *
-     * @param id The ID of the Testate entity to be deleted.
+     * @param exerciseId The exerciseId.
+     * @return The list of Testate entities.
      */
-    void deleteEvaluation(long id);
+    List<Testate> getTestates(long exerciseId);
 
     /**
-     * Fetches a Testate entity from the database based on its ID.
+     * Gets a list of Testate entities for a specific exercise and tutor from the database.
      *
-     * @param id The ID of the Testate entity to be fetched.
-     * @return The fetched Testate entity, or null if not found.
+     * @param exerciseId The exerciseId.
+     * @param tutorUsername The username of the tutor.
+     * @return The list of Testate entities.
      */
-    Testate fetchEvaluation(long id);
+    List<Testate> getTestates(long exerciseId, String tutorUsername);
 
-    /**
-     * Fetches a list of Testate entities from the database based on a given predicate.
-     *
-     * @param predicate The predicate used to filter Testate entities.
-     * @return The list of Testate entities that satisfy the predicate.
-     */
-    List<Testate> fetchEvaluations(Predicate<Testate> predicate);
 }
 

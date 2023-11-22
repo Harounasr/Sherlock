@@ -1,7 +1,9 @@
 package de.ssherlock.control.backing;
 
+import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Error;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 /**
@@ -12,6 +14,11 @@ import jakarta.inject.Named;
 public class ErrorBean {
 
     /**
+     * The logger instance of this class.
+     */
+    private final SerializableLogger logger;
+
+    /**
      * Error instance to be handled.
      */
     private Error error;
@@ -19,11 +26,13 @@ public class ErrorBean {
     /**
      * Constructs an ErrorBean.
      *
-     * @param appSession The active session (Injected).
+     * @param logger The logger instance.
+     * @param error The empty error.
      */
-    public ErrorBean() {
-        error = new Error();
-        error.setMessage("");
+    @Inject
+    public ErrorBean(SerializableLogger logger, Error error) {
+        this.logger = logger;
+        this.error = error;
     }
 
     /**

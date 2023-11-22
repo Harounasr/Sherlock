@@ -4,8 +4,6 @@ package de.ssherlock.business.service;
 import de.ssherlock.business.exception.BusinessNonExistentCourseException;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Course;
-import de.ssherlock.global.transport.CourseRole;
-import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.connection.ConnectionPoolPsql;
 import de.ssherlock.persistence.exception.PersistenceNonExistentCourseException;
 import de.ssherlock.persistence.repository.CourseRepository;
@@ -37,10 +35,12 @@ public class CourseService implements Serializable {
      * Logger instance for logging messages related to CourseService.
      */
     private final SerializableLogger logger;
+
     /**
      * ConnectionPoolPsql instance for getting a database connection.
      */
     private final ConnectionPoolPsql connectionPoolPsql;
+
     /**
      * Constructs a CourseService with the specified logger.
      *
@@ -60,7 +60,7 @@ public class CourseService implements Serializable {
     public List<Course> getCourses() {
         Connection connection = connectionPoolPsql.getConnection();
         CourseRepository courseRepository = RepositoryFactory.getCourseRepository(RepositoryType.POSTGRESQL, connection);
-        List<Course> courses = courseRepository.fetchCourses((course -> true));
+        List<Course> courses = courseRepository.getCourses();
         connectionPoolPsql.releaseConnection(connection);
         return courses;
     }
@@ -68,30 +68,11 @@ public class CourseService implements Serializable {
     /**
      * Retrieves a list of courses associated with the specified user.
      *
-     * @param user The user for whom to retrieve courses.
+     * @param username The user for whom to retrieve courses.
      * @return A list of courses associated with the user.
      */
-    public List<Course> getCourses(User user) {
+    public List<Course> getCourses(String username) {
         return null;
-    }
-
-    /**
-     * Retrieves a course with the specified course name.
-     *
-     * @param courseName The name of the course to retrieve.
-     * @return The course with the specified name.
-     */
-    public Course getCourse(String courseName) throws BusinessNonExistentCourseException {
-        Connection connection = connectionPoolPsql.getConnection();
-        CourseRepository courseRepository = RepositoryFactory.getCourseRepository(RepositoryType.POSTGRESQL, connection);
-        Course course;
-        try {
-            course = courseRepository.fetchCourse(courseName);
-        } catch (PersistenceNonExistentCourseException e) {
-            throw new BusinessNonExistentCourseException(e.getMessage(), e);
-        }
-        connectionPoolPsql.releaseConnection(connection);
-        return course;
     }
 
     /**
@@ -104,21 +85,24 @@ public class CourseService implements Serializable {
     }
 
     /**
-     * Removes an existing course.
+     * Checks whether a course already exists in the database.
      *
-     * @param course The course to remove.
+     * @param courseName The course name.
+     * @return true if the course exists.
      */
-    public void removeCourse(Course course) {
-
+    public boolean courseExists(String courseName) {
+        return false;
     }
 
     /**
-     * Updates the role of a user in a specific course.
+     * Removes an existing course.
      *
-     * @param user       The user for whom to update the role.
-     * @param courseRole The new role for the user in the course.
+     * @param courseName The course to remove.
+     *
+     * @throws BusinessNonExistentCourseException when the course does not exist in the database.
      */
-    public void updateCourseRole(User user, CourseRole courseRole) {
+    public void removeCourse(String courseName) throws BusinessNonExistentCourseException {
 
     }
+
 }

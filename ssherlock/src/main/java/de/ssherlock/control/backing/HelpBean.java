@@ -1,6 +1,7 @@
 package de.ssherlock.control.backing;
 
 import de.ssherlock.control.session.AppSession;
+import de.ssherlock.global.logging.SerializableLogger;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -14,18 +15,12 @@ import java.util.logging.Logger;
  */
 @Named
 @RequestScoped
-public class HelpBean implements Serializable {
-
-    /**
-     * Serial Version UID
-     */
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class HelpBean {
 
     /**
      * The logger for this class.
      */
-    private final Logger logger;
+    private final SerializableLogger logger;
 
     /**
      * The active session.
@@ -44,7 +39,7 @@ public class HelpBean implements Serializable {
      * @param appSession The active session (Injected).
      */
     @Inject
-    public HelpBean(Logger logger, AppSession appSession) {
+    public HelpBean(SerializableLogger logger, AppSession appSession) {
         this.logger = logger;
         this.appSession = appSession;
     }
@@ -56,5 +51,14 @@ public class HelpBean implements Serializable {
      */
     public String getHelpMessage() {
         return helpMessage;
+    }
+
+    /**
+     * Sets help message.
+     *
+     * @param helpMessage the help message
+     */
+    public void setHelpMessage(String helpMessage) {
+        this.helpMessage = helpMessage;
     }
 }

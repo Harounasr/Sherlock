@@ -2,26 +2,39 @@ package de.ssherlock.control.backing;
 
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.session.AppSession;
+import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.User;
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * Backing bean for the adminUserPagination.xhtml facelet.
  */
 @Named
-@RequestScoped
-public class AdminUserPaginationBean {
+@ViewScoped
+public class AdminUserPaginationBean extends AbstractPaginationBean implements Serializable {
+
+    /**
+     * Serial Version UID
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * Page size of the pagination.
+     */
+    private static final int PAGE_SIZE = 20;
 
     /**
      * Logger for logging within this class.
      */
-    private final Logger logger;
+    private final SerializableLogger logger;
 
     /**
      * Active session.
@@ -46,7 +59,7 @@ public class AdminUserPaginationBean {
      * @param userService  The UserService used for user-related actions (Injected).
      */
     @Inject
-    public AdminUserPaginationBean(Logger logger, AppSession appSession, UserService userService) {
+    public AdminUserPaginationBean(SerializableLogger logger, AppSession appSession, UserService userService) {
         this.logger = logger;
         this.appSession = appSession;
         this.userService = userService;
@@ -58,13 +71,51 @@ public class AdminUserPaginationBean {
      */
     @PostConstruct
     public void initialize() {
-        // Initialization logic goes here, e.g., loading users
+        loadData();
+        setPageSize(PAGE_SIZE);
+        setCurrentIndex(1);
+        setLastIndex(users.size() - 1);
     }
 
     /**
      * Action to redirect the admin to the selected user's profile-facelet.
      * Handles user selection navigation.
      */
-    public void selectUser() {
+    public String selectUser(String username) {
+        return "";
+    }
+
+    /**
+     * Gets users.
+     *
+     * @return the users
+     */
+    public List<User> getUsers() {
+        return users;
+    }
+
+    /**
+     * Sets users.
+     *
+     * @param users the users
+     */
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void loadData() {
+        users = userService.getUsers();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void filterBy() {
+
     }
 }

@@ -7,6 +7,9 @@ import java.io.Serial;
  */
 public class PersistenceLOBFetchException extends Exception {
 
+    /**
+     * Serial Version UID.
+     */
     @Serial
     private static final long serialVersionUID = 1L;
 

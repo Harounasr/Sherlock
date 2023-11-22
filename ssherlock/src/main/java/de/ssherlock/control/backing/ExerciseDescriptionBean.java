@@ -1,6 +1,6 @@
 package de.ssherlock.control.backing;
 
-import de.ssherlock.business.exception.BusinessNonExistentCourseException;
+import de.ssherlock.business.exception.BusinessNonExistentExerciseException;
 import de.ssherlock.business.service.ExerciseDescriptionImageService;
 import de.ssherlock.business.service.ExerciseService;
 import de.ssherlock.control.session.AppSession;
@@ -15,6 +15,7 @@ import jakarta.inject.Named;
 import jakarta.servlet.http.Part;
 
 import java.io.*;
+import java.util.UUID;
 import java.util.logging.Level;
 
 /**
@@ -96,7 +97,7 @@ public class ExerciseDescriptionBean implements Serializable {
         logger.log(Level.INFO, "Fetched id " + exerciseId + " from flash.");
         try {
             exercise = exerciseService.getExercise(exerciseId);
-        } catch (BusinessNonExistentCourseException e) {
+        } catch (BusinessNonExistentExerciseException e) {
             throw new RuntimeException(e);
         }
     }
@@ -108,9 +109,16 @@ public class ExerciseDescriptionBean implements Serializable {
         this.editMode = true;
     }
 
+    /**
+     * Saves all changes and disables edit mode.
+     */
     public void saveAndDisableEditMode() {
         this.editMode = false;
-        exerciseService.updateExercise(exercise);
+        try {
+            exerciseService.updateExercise(exercise);
+        } catch (BusinessNonExistentExerciseException e) {
+            throw new RuntimeException(e);
+        }
         logger.log(Level.INFO, "Exercise with id " + exercise.getId() + " was updated.");
     }
 
@@ -130,11 +138,12 @@ public class ExerciseDescriptionBean implements Serializable {
             }
             byte[] imageBytes = outputStream.toByteArray();
             exerciseDescriptionImage.setImage(imageBytes);
+            exerciseDescriptionImage.setUUID(UUID.randomUUID().toString());
+            exerciseDescriptionImageService.insertImage(exerciseDescriptionImage);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        String uuid = exerciseDescriptionImageService.insertImage(exerciseDescriptionImage);
-        imgComponent = "<img src='http://localhost:8080/ssherlock_war_exploded/image?id=" + uuid + "'/>";
+        imgComponent = "<img src='http://localhost:8080/ssherlock_war_exploded/image?id=" + exerciseDescriptionImage.getUUID() + "'/>";
         logger.log(Level.INFO, imgComponent);
     }
 

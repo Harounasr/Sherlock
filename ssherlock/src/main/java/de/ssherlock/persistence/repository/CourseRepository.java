@@ -1,10 +1,10 @@
 package de.ssherlock.persistence.repository;
 
 import de.ssherlock.global.transport.Course;
+import de.ssherlock.persistence.exception.PersistenceNonExistentCheckerException;
 import de.ssherlock.persistence.exception.PersistenceNonExistentCourseException;
 
 import java.util.List;
-import java.util.function.Predicate;
 
 /**
  * Interface for interacting with a repository of Course entities in the database.
@@ -19,33 +19,27 @@ public interface CourseRepository {
     void insertCourse(Course course);
 
     /**
-     * Updates a Course entity in the database.
-     *
-     * @param course The Course entity to be updated.
-     */
-    void updateCourse(Course course);
-
-    /**
      * Deletes a Course entity from the database based on its name.
      *
      * @param courseName The name of the Course entity to be deleted.
+     *
+     * @throws PersistenceNonExistentCourseException when the Course does not exist in the database.
      */
-    void deleteCourse(String courseName);
+    void deleteCourse(String courseName) throws PersistenceNonExistentCourseException;
 
     /**
-     * Fetches a Course entity from the database based on its name.
+     * Checks whether a course exists in the database.
      *
-     * @param courseName The name of the Course entity to be fetched.
-     * @return The fetched Course entity, or null if not found.
+     * @param courseName The course name.
+     * @return true if the course exists.
      */
-    Course fetchCourse(String courseName) throws PersistenceNonExistentCourseException;
+    boolean courseExists(String courseName);
 
     /**
      * Fetches a list of Course entities from the database based on a given predicate.
      *
-     * @param predicate The predicate used to filter Course entities.
      * @return The list of Course entities that satisfy the predicate.
      */
-    List<Course> fetchCourses(Predicate<Course> predicate);
+    List<Course> getCourses();
 }
 

@@ -34,6 +34,11 @@ public class AdminBean implements Serializable {
     private final AppSession appSession;
 
     /**
+     * The page to be loaded into the content section.
+     */
+    private String targetPage;
+
+    /**
      * Constructs an AdminBean.
      *
      * @param logger     The logger used for logging within this class (Injected).
@@ -43,5 +48,23 @@ public class AdminBean implements Serializable {
     public AdminBean(SerializableLogger logger, AppSession appSession) {
         this.logger = logger;
         this.appSession = appSession;
+    }
+
+    /**
+     * Gets target page.
+     *
+     * @return the target page
+     */
+    public String getTargetPage() {
+        return targetPage;
+    }
+
+    /**
+     * Sets target page.
+     *
+     * @param targetPage the target page
+     */
+    public void setTargetPage(String targetPage) {
+        this.targetPage = targetPage;
     }
 }

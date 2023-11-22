@@ -8,6 +8,9 @@ import java.io.Serial;
  */
 public class NoAccessException extends RuntimeException {
 
+    /**
+     * Serial Version UID.
+     */
     @Serial
     private static final long serialVersionUID = 1L;
 

@@ -3,49 +3,48 @@ package de.ssherlock.control.session;
 import de.ssherlock.business.exception.BusinessNonExistentUserException;
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.exception.NoAccessException;
-import de.ssherlock.global.logging.LoggerCreator;
+import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.SystemRole;
 import de.ssherlock.global.transport.User;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
-import javax.management.relation.Role;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 /**
  * Managed bean representing the user session in a Jakarta Faces (JF) application.
  * This bean is annotated with {@code @Named} and {@code @SessionScoped}.
- *
- * @author Leon Föckersperger
  */
 @Named
 @SessionScoped
 public class AppSession implements Serializable {
 
+    /**
+     * Serial Version UID.
+     */
     @Serial
     private static final long serialVersionUID = 1L;
 
     /**
      * Logger instance for logging messages related to AppSession.
      */
-    private final Logger logger = LoggerCreator.get(AppSession.class);
+    @Inject
+    private SerializableLogger logger;
 
     /**
-     * Username representing the current user in the session. Is null if not logged in.
-     */
-    private String username = null;
-
-    /**
-     * An Instance of the UserService.
+     * An Instance of the UserService for user related operations.
      */
     @Inject
     private UserService userService;
 
+    /**
+     * Username representing the current user in the session. Is null if not logged in.
+     */
+    private String username;
 
     /**
      * Default constructor of AppSession.
@@ -84,7 +83,7 @@ public class AppSession implements Serializable {
     public synchronized User getUser() {
         if (username != null) {
             try {
-                return userService.fetchUserByUsername(username);
+                return userService.getUser(username);
             } catch (BusinessNonExistentUserException e) {
                 username = null;
                 throw new NoAccessException("User was deleted");
