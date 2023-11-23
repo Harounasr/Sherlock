@@ -12,6 +12,8 @@ import java.util.logging.Logger;
 
 /**
  * Backing bean for the help.xhtml facelet.
+ *
+ * @author Victor Vollmann
  */
 @Named
 @RequestScoped

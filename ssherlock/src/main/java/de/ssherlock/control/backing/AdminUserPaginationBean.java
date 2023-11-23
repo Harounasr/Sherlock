@@ -15,6 +15,8 @@ import java.util.List;
 
 /**
  * Backing bean for the adminUserPagination.xhtml facelet.
+ *
+ * @author Victor Vollmann
  */
 @Named
 @ViewScoped

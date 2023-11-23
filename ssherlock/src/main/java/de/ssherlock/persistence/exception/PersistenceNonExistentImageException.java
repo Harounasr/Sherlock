@@ -4,6 +4,8 @@ import java.io.Serial;
 
 /**
  * Is thrown when an image does not exist in the database.
+ *
+ * @author Victor Vollmann
  */
 public class PersistenceNonExistentImageException extends Exception {
 

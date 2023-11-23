@@ -8,6 +8,8 @@ import java.util.List;
 
 /**
  * Interface for interacting with a repository of Course entities in the database.
+ *
+ * @author Victor Vollmann
  */
 public interface CourseRepository {
 

@@ -13,6 +13,8 @@ import jakarta.servlet.http.Part;
 
 /**
  * Handles validation of uploaded images.
+ *
+ * @author Victor Vollmann
  */
 @Named
 @Dependent

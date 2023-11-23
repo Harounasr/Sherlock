@@ -19,6 +19,8 @@ import java.util.logging.Logger;
 
 /**
  * Backing Bean for the allTestatesPagination.xhtml facelet.
+ *
+ * @author Victor Vollmann
  */
 @Named
 @ViewScoped

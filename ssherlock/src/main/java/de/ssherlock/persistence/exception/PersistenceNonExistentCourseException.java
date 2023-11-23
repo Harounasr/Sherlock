@@ -4,6 +4,8 @@ import java.io.Serial;
 
 /**
  * Exception indicating an attempt to interact with a non-existent course in the database.
+ *
+ * @author Victor Vollmann
  */
 public class PersistenceNonExistentCourseException extends Exception {
 

@@ -4,6 +4,8 @@ import java.io.Serial;
 
 /**
  * Exception indicating an access issue to the database.
+ *
+ * @author Victor Vollmann
  */
 public class PersistenceDBAccessException extends Exception {
 

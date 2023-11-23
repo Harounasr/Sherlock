@@ -18,6 +18,8 @@ import java.util.logging.Level;
 /**
  * Managed bean representing the user session in a Jakarta Faces (JF) application.
  * This bean is annotated with {@code @Named} and {@code @SessionScoped}.
+ *
+ * @author Victor Vollmann
  */
 @Named
 @SessionScoped

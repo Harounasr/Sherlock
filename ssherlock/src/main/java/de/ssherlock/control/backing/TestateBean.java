@@ -20,6 +20,8 @@ import java.util.logging.Level;
 
 /**
  * Backing bean for testate.xhtml facelet.
+ *
+ * @author Victor Vollmann
  */
 @Named
 @ViewScoped

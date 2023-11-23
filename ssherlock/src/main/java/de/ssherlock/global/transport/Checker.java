@@ -9,6 +9,8 @@ import java.util.Objects;
 
 /**
  * Represents a Checker DTO.
+ *
+ * @author Victor Vollmann
  */
 @Named
 @Dependent

@@ -11,6 +11,8 @@ import java.util.Objects;
 
 /**
  * Represents an Exercise DTO.
+ *
+ * @author Victor Vollmann
  */
 @Named
 @Dependent

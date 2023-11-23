@@ -3,6 +3,8 @@ package de.ssherlock.business.exception;
 import java.io.Serial;
 /**
  * Is thrown when a Submission is not in the database.
+ *
+ * @author Victor Vollmann
  */
 public class BusinessNonExistentSubmissionException extends Exception {
 

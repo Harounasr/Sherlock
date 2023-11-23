@@ -5,6 +5,8 @@ import java.io.Serializable;
 
 /**
  * Runtime exception indicating that the database is unavailable.
+ *
+ * @author Victor Vollmann
  */
 public class DBUnavailableException extends RuntimeException {
 

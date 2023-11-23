@@ -4,6 +4,8 @@ import java.io.Serial;
 
 /**
  * Exception indicating a failure during Large Object fetch in the database.
+ *
+ * @author Victor Vollmann
  */
 public class PersistenceLOBFetchException extends Exception {
 

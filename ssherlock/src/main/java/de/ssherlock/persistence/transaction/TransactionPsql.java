@@ -7,6 +7,8 @@ import java.sql.SQLException;
 
 /**
  * Implementation of the Transaction interface for managing transactions with a PostgreSQL database.
+ *
+ * @author Victor Vollmann
  */
 public class TransactionPsql implements Transaction {
 

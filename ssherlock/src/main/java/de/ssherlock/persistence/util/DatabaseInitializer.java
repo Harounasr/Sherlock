@@ -6,6 +6,8 @@ import jakarta.servlet.ServletContextEvent;
 
 /**
  * Offers database initialization functionalities.
+ *
+ * @author Victor Vollmann
  */
 public final class DatabaseInitializer {
 

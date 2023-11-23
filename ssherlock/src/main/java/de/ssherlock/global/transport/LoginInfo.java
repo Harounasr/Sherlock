@@ -6,6 +6,8 @@ import java.util.Objects;
 
 /**
  * Represents a LoginInfo DTO.
+ *
+ * @author Victor Vollmann
  */
 public class LoginInfo implements Serializable {
 

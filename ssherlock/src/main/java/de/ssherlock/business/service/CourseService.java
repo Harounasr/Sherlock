@@ -20,6 +20,8 @@ import java.util.List;
 
 /**
  * The CourseService class provides functionality for managing courses and related operations.
+ *
+ * @author Victor Vollmann
  */
 @Named
 @Dependent

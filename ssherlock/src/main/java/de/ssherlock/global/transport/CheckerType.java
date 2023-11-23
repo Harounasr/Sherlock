@@ -1,7 +1,9 @@
 package de.ssherlock.global.transport;
 
 /**
- * Describes the possible types of Checkers,
+ * Describes the possible types of Checkers.
+ *
+ * @author Victor Vollmann
  */
 public enum CheckerType {
 

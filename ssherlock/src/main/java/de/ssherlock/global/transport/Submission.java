@@ -11,6 +11,8 @@ import java.util.Objects;
 
 /**
  * Represents a Submission DTO.
+ *
+ * @author Victor Vollmann
  */
 @Named
 @Dependent

@@ -4,6 +4,8 @@ import java.io.Serial;
 
 /**
  * Is thrown when the CourseName already exists in the Database.
+ *
+ * @author Victor Vollmann
  */
 public class BusinessCourseNameAlreadyExistsException extends Exception {
 

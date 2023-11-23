@@ -3,6 +3,8 @@ package de.ssherlock.persistence.exception;
 import java.io.Serial;
 /**
  * Is thrown when the sending of a mail did not work.
+ *
+ * @author Victor Vollmann
  */
 public class MailUnavailableException extends RuntimeException {
 

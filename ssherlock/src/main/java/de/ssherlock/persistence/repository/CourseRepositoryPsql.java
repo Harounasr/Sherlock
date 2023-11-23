@@ -15,6 +15,8 @@ import java.util.logging.Logger;
 
 /**
  * Implementation of CourseRepository for PostgreSQL database.
+ *
+ * @author Victor Vollmann
  */
 public class CourseRepositoryPsql extends RepositoryPsql implements CourseRepository {
 

@@ -4,6 +4,8 @@ import java.io.Serial;
 
 /**
  * Exception indicating that an attempt to register a user with an existing username was made.
+ *
+ * @author Victor Vollmann
  */
 public class UsernameAlreadyExistsException extends Exception {
 

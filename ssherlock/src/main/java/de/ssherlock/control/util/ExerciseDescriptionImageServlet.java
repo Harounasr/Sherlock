@@ -15,6 +15,8 @@ import java.util.logging.Level;
 
 /**
  * Web Servlet to serve all exercise description images.
+ *
+ * @author Victor Vollmann
  */
 @WebServlet("/image")
 public class ExerciseDescriptionImageServlet extends HttpServlet {

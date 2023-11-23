@@ -22,6 +22,8 @@ import java.util.logging.Logger;
 /**
  * Application-scoped connection pool class for managing PostgreSQL database connections.
  * This class provides methods to create, borrow, and release database connections.
+ *
+ * @author Victor Vollmann
  */
 @Named
 @ApplicationScoped

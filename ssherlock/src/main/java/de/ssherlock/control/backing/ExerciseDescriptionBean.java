@@ -20,6 +20,8 @@ import java.util.logging.Level;
 
 /**
  * Backing bean for the exerciseDescription.xhtml.
+ *
+ * @author Victor Vollmann
  */
 @Named
 @ViewScoped

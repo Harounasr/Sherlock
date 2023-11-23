@@ -17,6 +17,8 @@ import java.util.logging.Level;
 
 /**
  * Backing bean for the registration.xhtml facelet.
+ *
+ * @author Victor Vollmann
  */
 @Named
 @RequestScoped

@@ -4,6 +4,8 @@ import java.sql.SQLException;
 
 /**
  * Interface for managing transactions, providing methods for committing and aborting transactions.
+ *
+ * @author Victor Vollmann
  */
 public interface Transaction extends AutoCloseable {
 

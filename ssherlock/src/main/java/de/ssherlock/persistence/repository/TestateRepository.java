@@ -8,6 +8,8 @@ import java.util.function.Predicate;
 
 /**
  * Interface for interacting with a repository of Testate entities in the database.
+ *
+ * @author Victor Vollmann
  */
 public interface TestateRepository {
 

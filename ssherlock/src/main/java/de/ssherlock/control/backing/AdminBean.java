@@ -12,6 +12,8 @@ import java.util.logging.Logger;
 
 /**
  * Backing Bean for the admin.xhtml facelet.
+ *
+ * @author Victor Vollmann
  */
 @Named
 @ViewScoped

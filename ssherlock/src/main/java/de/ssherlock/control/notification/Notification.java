@@ -6,6 +6,8 @@ import jakarta.inject.Inject;
 
 /**
  * A class representing a notification message, which can be used to display messages in the UI.
+ *
+ * @author Victor Vollmann
  */
 public class Notification {
 

@@ -7,6 +7,8 @@ import java.util.logging.Logger;
 
 /**
  * Checks if there are Users, which have not been verified for a certain time and deletes those.
+ *
+ * @author Victor Vollmann
  */
 public class UnverifiedUsersCleanEvent {
 

@@ -4,6 +4,8 @@ import java.io.Serial;
 
 /**
  * Is thrown when an Exercise is not in the database.
+ *
+ * @author Victor Vollmann
  */
 public class BusinessNonExistentExerciseException extends Exception {
 

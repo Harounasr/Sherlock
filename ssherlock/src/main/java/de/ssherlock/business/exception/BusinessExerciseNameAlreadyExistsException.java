@@ -4,6 +4,8 @@ import java.io.Serial;
 
 /**
  * Is thrown when the Exercise name already exists in the database.
+ *
+ * @author Victor Vollmann
  */
 public class BusinessExerciseNameAlreadyExistsException extends Exception {
 

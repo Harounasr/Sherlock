@@ -13,6 +13,8 @@ public class MaintenanceProcessExecutor extends ScheduledThreadPoolExecutor {
 
     /**
      * Logger instance for logging messages related to CourseService.
+     *
+     * @author Victor Vollmann
      */
     private static final SerializableLogger logger = LoggerCreator.get(MaintenanceProcessExecutor.class);
 

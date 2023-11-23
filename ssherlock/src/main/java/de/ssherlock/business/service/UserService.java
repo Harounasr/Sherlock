@@ -32,6 +32,8 @@ import java.util.logging.Level;
 /**
  * The UserService class provides functionality for managing users and related operations, such as
  * user authentication, registration, and user account management.
+ *
+ * @author Victor Vollmann
  */
 @Named
 @Dependent

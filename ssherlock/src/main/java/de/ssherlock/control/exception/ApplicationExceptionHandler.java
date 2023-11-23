@@ -19,6 +19,8 @@ import java.util.logging.Logger;
 /**
  * Exception handler for handling exceptions.
  * Extends {@link ExceptionHandlerWrapper} to provide additional exception handling capabilities.
+ *
+ * @author Leon Föckserperger
  */
 public class ApplicationExceptionHandler extends ExceptionHandlerWrapper {
 

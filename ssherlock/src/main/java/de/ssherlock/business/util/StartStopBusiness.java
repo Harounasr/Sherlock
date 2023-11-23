@@ -12,6 +12,8 @@ import java.util.logging.Level;
 
 /**
  * Handles start and stop functionalities for the business layer.
+ *
+ * @author Victor Vollmann
  */
 @ApplicationScoped
 public class StartStopBusiness implements Serializable {

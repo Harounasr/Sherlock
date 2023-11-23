@@ -12,6 +12,8 @@ import java.util.logging.Logger;
 
 /**
  * Implementation of TestateRepository for PostgreSQL database.
+ *
+ * @author Victor Vollmann
  */
 public class TestateRepositoryPsql extends RepositoryPsql implements TestateRepository {
 

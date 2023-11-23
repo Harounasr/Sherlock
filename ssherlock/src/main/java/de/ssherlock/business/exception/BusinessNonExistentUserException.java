@@ -4,6 +4,8 @@ import java.io.Serial;
 
 /**
  * Is thrown when a user does not exist in the database.
+ *
+ * @author Victor Vollmann
  */
 public class BusinessNonExistentUserException extends Exception {
 

@@ -3,6 +3,8 @@ package de.ssherlock.global.transport;
 /**
  * Describes the possible roles a user can
  * have in the context of a course.
+ *
+ * @author Victor Vollmann
  */
 public enum CourseRole {
 

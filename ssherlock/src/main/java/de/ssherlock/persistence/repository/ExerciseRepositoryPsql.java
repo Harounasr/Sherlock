@@ -18,6 +18,8 @@ import java.util.logging.Logger;
 
 /**
  * Implementation of ExerciseRepository for PostgreSQL database.
+ *
+ * @author Victor Vollmann
  */
 public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRepository {
     /**

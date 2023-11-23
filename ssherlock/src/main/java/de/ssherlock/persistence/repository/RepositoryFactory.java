@@ -7,6 +7,8 @@ import java.sql.Connection;
 
 /**
  * Factory class to create various repositories based on the provided RepositoryType.
+ *
+ * @author Victor Vollmann
  */
 public class RepositoryFactory {
 

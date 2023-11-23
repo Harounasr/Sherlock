@@ -4,6 +4,8 @@ import java.io.Serial;
 
 /**
  * Is thrown when a checker is not in the database.
+ *
+ * @author Victor Vollmann
  */
 public class BusinessNonExistentCheckerException extends Exception {
 

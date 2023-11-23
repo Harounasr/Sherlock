@@ -23,6 +23,8 @@ import java.util.List;
 
 /**
  * The ExerciseService class provides functionality for managing exercises and related operations.
+ *
+ * @author Victor Vollmann
  */
 @Named
 @Dependent

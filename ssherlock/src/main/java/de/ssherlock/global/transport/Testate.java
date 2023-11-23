@@ -10,6 +10,8 @@ import java.util.Objects;
 
 /**
  * Represents a Testate DTO.
+ *
+ * @author Victor Vollmann
  */
 @Named
 @Dependent

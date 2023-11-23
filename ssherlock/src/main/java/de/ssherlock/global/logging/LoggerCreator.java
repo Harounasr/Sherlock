@@ -15,6 +15,8 @@ import java.util.logging.Logger;
  * Application-scoped utility class for creating and configuring Logger instances.
  * This class provides methods to obtain a Logger instance, read logging configurations, and produce Logger instances
  * for injection using CDI.
+ *
+ * @author Victor Vollmann
  */
 @ApplicationScoped
 public class LoggerCreator implements Serializable {

@@ -12,6 +12,8 @@ import java.util.logging.Logger;
 
 /**
  * Implementation of SubmissionRepository for PostgreSQL database.
+ *
+ * @author Victor Vollmann
  */
 public class SubmissionRepositoryPsql extends RepositoryPsql implements SubmissionRepository {
     /**

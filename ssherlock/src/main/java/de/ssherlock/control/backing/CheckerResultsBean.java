@@ -16,6 +16,8 @@ import java.util.List;
 
 /**
  * Backing bean for the checkerResults.xhtml facelet.
+ *
+ * @author Victor Vollmann
  */
 @Named
 @ViewScoped

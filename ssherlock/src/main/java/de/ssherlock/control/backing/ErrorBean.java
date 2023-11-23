@@ -8,6 +8,8 @@ import jakarta.inject.Named;
 
 /**
  * Backing bean for the error.xhtml facelet.
+ *
+ * @author Victor Vollmann
  */
 @Named
 @RequestScoped

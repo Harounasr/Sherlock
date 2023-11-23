@@ -19,6 +19,8 @@ import java.util.logging.Logger;
  * Oversees user access permissions by verifying whether the role saved in the current session aligns with the required
  * role for specific actions. If there's a mismatch, the user is promptly notified of their lack of permission to
  * perform the action.
+ *
+ * @author Victor Vollmann
  */
 @FacesConfig
 public class TrespassListener implements PhaseListener {

@@ -16,6 +16,8 @@ import java.io.Serializable;
 
 /**
  * Backing bean for the passwordForgotten.xhtml facelet.
+ *
+ * @author Victor Vollmann
  */
 @Named
 @RequestScoped

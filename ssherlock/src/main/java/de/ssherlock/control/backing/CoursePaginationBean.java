@@ -18,6 +18,8 @@ import java.util.logging.Level;
 
 /**
  * Backing bean for the coursePagination.xhtml facelet.
+ *
+ * @author Victor Vollmann
  */
 @Named
 @ViewScoped
