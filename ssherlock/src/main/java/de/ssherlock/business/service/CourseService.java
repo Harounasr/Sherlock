@@ -47,6 +47,7 @@ public class CourseService implements Serializable {
      * Constructs a CourseService with the specified logger.
      *
      * @param logger The logger to be used for logging messages related to CourseService.
+     * @param connectionPoolPsql The connection pool.
      */
     @Inject
     public CourseService(SerializableLogger logger, ConnectionPoolPsql connectionPoolPsql) {

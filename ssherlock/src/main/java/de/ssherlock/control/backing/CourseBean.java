@@ -58,7 +58,7 @@ public class CourseBean implements Serializable {
      *
      * @param logger        The logger used for logging within this class (Injected).
      * @param appSession    The active session (Injected).
-     * @param courseService
+     * @param courseService The course service (Injected).
      */
     @Inject
     public CourseBean(SerializableLogger logger, AppSession appSession, CourseService courseService) {

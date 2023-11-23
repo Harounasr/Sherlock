@@ -13,6 +13,13 @@ import java.math.BigInteger;
 public class MailContentBuilder {
 
     /**
+     * Default constructor.
+     */
+    private MailContentBuilder() {
+
+    }
+
+    /**
      * Builds the content for a verification email.
      *
      * @param user The user for whom the verification email is generated.

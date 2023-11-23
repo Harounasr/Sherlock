@@ -78,15 +78,4 @@ public class SystemSettingsRepositoryPsql extends RepositoryPsql implements Syst
         return null;
     }
 
-    public static Image createDummyImage(int width, int height, Color color) {
-        BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        Graphics graphics = bufferedImage.getGraphics();
-
-        // Fill the image with the specified color
-        graphics.setColor(color);
-        graphics.fillRect(0, 0, width, height);
-
-        return bufferedImage;
-    }
-
 }

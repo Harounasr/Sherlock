@@ -68,6 +68,7 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
      * @param logger        The logger used for logging within this class (Injected).
      * @param appSession    The active session (Injected).
      * @param courseService The CourseService (Injected).
+     * @param newCourse Empty injected DTO.
      */
     @Inject
     public CoursePaginationBean(SerializableLogger logger, AppSession appSession, CourseService courseService, Course newCourse) {

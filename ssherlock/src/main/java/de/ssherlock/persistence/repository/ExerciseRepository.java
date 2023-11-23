@@ -49,9 +49,11 @@ public interface ExerciseRepository {
     Exercise getExercise(long exerciseId) throws PersistenceNonExistentExerciseException;
 
     /**
-     * Fetches a list of Exercise entities from the database based on a given predicate.
+     * Fetches a list of Exercise entities from the database for a specific course.
      *
-     * @return The list of Exercise entities that satisfy the predicate.
+     * @param courseName The course.
+     *
+     * @return The list of Exercise entities.
      */
     List<Exercise> getExercises(String courseName);
 }

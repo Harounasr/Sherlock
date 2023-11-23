@@ -44,6 +44,9 @@ public class Mail implements Serializable {
 
     /**
      * Default constructor for creating a Mail instance.
+     *
+     * @param logger The logger.
+     * @param config The config.
      */
     @Inject
     public Mail(SerializableLogger logger, Configuration config) {

@@ -18,6 +18,13 @@ import java.util.zip.ZipFile;
 public class ZipUtils {
 
     /**
+     * Default constructor
+     */
+    private ZipUtils() {
+
+    }
+
+    /**
      * Unzips the provided submission archive file.
      *
      * @param zipFile The file to be unzipped.

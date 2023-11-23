@@ -21,6 +21,13 @@ import java.util.List;
 public class CheckerUtils {
 
     /**
+     * Default constructor.
+     */
+    private CheckerUtils() {
+
+    }
+
+    /**
      * Runs all checkers depending on their CheckerType.
      *
      * @param checkers The list of checkers to run.

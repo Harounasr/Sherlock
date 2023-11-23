@@ -33,6 +33,13 @@ public class LoggerCreator implements Serializable {
     private static final SerializableLogger logger = get(LoggerCreator.class);
 
     /**
+     * Default constructor.
+     */
+    private LoggerCreator() {
+
+    }
+
+    /**
      * Obtains a SerializableLogger instance for the specified target class.
      *
      * @param target The class for which a Logger instance is requested.

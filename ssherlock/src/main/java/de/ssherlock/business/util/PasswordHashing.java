@@ -17,6 +17,13 @@ import java.util.Optional;
 public class PasswordHashing {
 
     /**
+     * Default constructor.
+     */
+    private PasswordHashing() {
+
+    }
+
+    /**
      * The algorithm to use for hashing.
      */
     private static final String ALGORITHM = "SHA-512";
@@ -87,6 +94,11 @@ public class PasswordHashing {
         }
     }
 
+    /**
+     * Generates random salt.
+     *
+     * @return the generated salt.
+     */
     private static byte[] generateSalt() {
         SecureRandom random = new SecureRandom();
         byte[] salt = new byte[16]; // 16 bytes is a common size for a salt
@@ -94,6 +106,13 @@ public class PasswordHashing {
         return salt;
     }
 
+    /**
+     * Combines password and salt.
+     *
+     * @param password The password.
+     * @param salt The salt.
+     * @return The combined password and salt.
+     */
     private static byte[] combinePasswordAndSalt(byte[] password, byte[] salt) {
         byte[] combined = new byte[password.length + salt.length];
         System.arraycopy(password, 0, combined, 0, password.length);

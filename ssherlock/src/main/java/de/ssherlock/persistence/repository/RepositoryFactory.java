@@ -13,6 +13,13 @@ import java.sql.Connection;
 public class RepositoryFactory {
 
     /**
+     * Default constructor.
+     */
+    private RepositoryFactory() {
+
+    }
+
+    /**
      * Logger instance for this class.
      */
     private static final SerializableLogger logger = LoggerCreator.get(RepositoryFactory.class);

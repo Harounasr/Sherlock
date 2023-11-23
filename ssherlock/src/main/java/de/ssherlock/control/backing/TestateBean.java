@@ -108,8 +108,13 @@ public class TestateBean implements Serializable {
 
     }
 
+
     /**
      * Converts the current submission files to text for the facelet.
+     *
+     * @param file the file.
+     *
+     * @return The Text.
      */
     public List<Object[]> convertSubmissionFileToText(SubmissionFile file) {
         /*

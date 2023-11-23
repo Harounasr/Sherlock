@@ -111,6 +111,11 @@ public class Configuration implements Serializable {
 
     }
 
+    /**
+     * Initializes the configuration and reads the config files
+     *
+     * @param sce The servlet context event.
+     */
     public void init(ServletContextEvent sce) {
         Properties properties = readConfigFile(sce);
 
@@ -136,6 +141,8 @@ public class Configuration implements Serializable {
 
     /**
      * Reads configuration properties from the specified resource file.
+     *
+     * @param sce The servlet context event.
      *
      * @return The Properties object containing configuration properties.
      * @throws ConfigNotReadableException If the configuration file is not readable.
