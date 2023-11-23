@@ -4,6 +4,8 @@ import java.io.Serial;
 
 /**
  * Exception indicating that an exercise name already exists in the database.
+ *
+ * @author Leon Höfling
  */
 public class PersistenceExerciseNameAlreadyExistsException extends Exception {
 

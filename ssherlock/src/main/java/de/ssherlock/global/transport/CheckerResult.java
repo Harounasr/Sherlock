@@ -9,6 +9,8 @@ import java.util.Objects;
 
 /**
  * Represents a CheckerResult DTO.
+ *
+ * @author Leon Höfling
  */
 @Named
 @Dependent

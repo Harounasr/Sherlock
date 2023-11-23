@@ -20,6 +20,8 @@ import java.util.logging.Level;
  * Application-scoped configuration class for managing application settings.
  * This class reads configuration properties from a file during initialization and provides access methods for
  * retrieving specific configuration parameters.
+ *
+ * @author Leon Höfling
  */
 @Named
 @ApplicationScoped

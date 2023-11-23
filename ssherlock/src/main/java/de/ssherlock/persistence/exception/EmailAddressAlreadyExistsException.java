@@ -4,6 +4,8 @@ import java.io.Serial;
 
 /**
  * Exception indicating that an email address already exists in the database.
+ *
+ * @author Leon Höfling
  */
 public class EmailAddressAlreadyExistsException extends Exception {
 

@@ -10,6 +10,8 @@ import java.util.Objects;
 
 /**
  * Represents an ExerciseDescriptionImage DTO.
+ *
+ * @author Leon Höfling
  */
 @Named
 @Dependent

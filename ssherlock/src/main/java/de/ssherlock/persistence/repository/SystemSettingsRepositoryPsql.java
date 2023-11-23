@@ -15,6 +15,8 @@ import java.util.logging.Logger;
 
 /**
  * Implementation of SystemSettingsRepository for PostgreSQL database.
+ *
+ * @author Leon Höfling
  */
 public class SystemSettingsRepositoryPsql extends RepositoryPsql implements SystemSettingsRepository {
     /**

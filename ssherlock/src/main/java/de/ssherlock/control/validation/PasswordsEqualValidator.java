@@ -12,6 +12,8 @@ import jakarta.inject.Named;
 
 /**
  * Handles the validation of two equal passwords.
+ *
+ * @author Leon Höfling
  */
 @Named
 @Dependent

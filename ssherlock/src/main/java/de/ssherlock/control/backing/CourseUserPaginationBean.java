@@ -18,7 +18,9 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 /**
- * Backing bean for courseUserPagination.xhtml facelet
+ * Backing bean for courseUserPagination.xhtml facelet.
+ *
+ * @author Leon Höfling
  */
 @Named
 @ViewScoped

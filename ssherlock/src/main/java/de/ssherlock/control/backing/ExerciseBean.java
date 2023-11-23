@@ -16,6 +16,8 @@ import java.util.logging.Level;
 
 /**
  * Backing bean for the exercise.xhtml facelet.
+ *
+ * @author Leon Höfling
  */
 @Named
 @ViewScoped

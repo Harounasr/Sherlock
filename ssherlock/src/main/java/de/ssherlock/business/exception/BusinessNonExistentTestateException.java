@@ -4,6 +4,8 @@ import java.io.Serial;
 
 /**
  * Is thrown when a testate does not exist in the database.
+ *
+ * @author Leon Höfling
  */
 public class BusinessNonExistentTestateException extends Exception {
 

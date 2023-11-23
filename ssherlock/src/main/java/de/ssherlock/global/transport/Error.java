@@ -6,6 +6,8 @@ import java.util.Objects;
 
 /**
  * Represents an Error DTO.
+ *
+ * @author Leon Höfling
  */
 
 public class Error implements Serializable {

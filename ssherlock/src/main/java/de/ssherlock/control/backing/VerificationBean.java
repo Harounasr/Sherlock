@@ -12,6 +12,8 @@ import java.util.logging.Level;
 
 /**
  * Backing bean for the verification.xhtml facelet.
+ *
+ * @author Leon Höfling
  */
 @Named
 @RequestScoped

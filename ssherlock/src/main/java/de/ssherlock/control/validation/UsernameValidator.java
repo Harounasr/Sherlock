@@ -14,6 +14,8 @@ import jakarta.inject.Named;
 
 /**
  * Handles username validation.
+ *
+ * @author Leon Höfling
  */
 @Named
 @Dependent

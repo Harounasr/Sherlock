@@ -15,6 +15,8 @@ import java.util.logging.Level;
 
 /**
  * Backing bean for the navbar.xhtml facelet.
+ *
+ * @author Leon Höfling
  */
 @Named
 @ViewScoped

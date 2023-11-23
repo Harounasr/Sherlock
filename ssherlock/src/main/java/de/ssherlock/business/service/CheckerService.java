@@ -16,6 +16,8 @@ import java.util.List;
 
 /**
  * The CheckerService class provides functionality for managing checkers and related operations.
+ *
+ * @author Leon Höfling
  */
 @Named
 @Dependent

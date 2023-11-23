@@ -15,6 +15,8 @@ import java.util.Map;
 
 /**
  * Backing bean for course.xhtml facelet.
+ *
+ * @author Leon Höfling
  */
 @Named
 @ViewScoped

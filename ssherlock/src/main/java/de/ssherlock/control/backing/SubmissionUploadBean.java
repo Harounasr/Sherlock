@@ -27,6 +27,8 @@ import java.util.zip.ZipFile;
 
 /**
  * Backing bean for the submissionUpload.xhtml facelet.
+ *
+ * @author Leon Höfling
  */
 @Named
 @ViewScoped

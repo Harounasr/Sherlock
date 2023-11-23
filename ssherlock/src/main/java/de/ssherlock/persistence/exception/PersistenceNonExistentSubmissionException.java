@@ -4,6 +4,8 @@ import java.io.Serial;
 
 /**
  * Exception indicating an attempt to interact with a non-existent submission in the database.
+ *
+ * @author Leon Höfling
  */
 public class PersistenceNonExistentSubmissionException extends Exception {
 

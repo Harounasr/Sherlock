@@ -8,6 +8,8 @@ import java.util.function.Predicate;
 
 /**
  * Interface for interacting with a repository of User entities in the database.
+ *
+ * @author Leon Höfling
  */
 public interface UserRepository {
 

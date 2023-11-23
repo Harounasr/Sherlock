@@ -18,6 +18,8 @@ import java.util.logging.Logger;
 
 /**
  * Handles start and stop functionalities for the control layer.
+ *
+ * @author Leon Höfling
  */
 @WebListener
 @ApplicationScoped

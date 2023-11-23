@@ -4,6 +4,8 @@ import java.io.Serial;
 
 /**
  * Exception indicating that a user does not exist in the database.
+ *
+ * @author Leon Höfling
  */
 public class PersistenceNonExistentUserException extends Exception {
 

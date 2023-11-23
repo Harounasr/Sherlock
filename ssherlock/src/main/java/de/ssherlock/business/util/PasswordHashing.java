@@ -11,6 +11,8 @@ import java.util.Optional;
 
 /**
  * Utility class for password hashing using a secure hash algorithm and salt.
+ *
+ * @author Leon Höfling
  */
 public class PasswordHashing {
 

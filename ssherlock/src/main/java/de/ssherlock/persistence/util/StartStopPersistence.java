@@ -15,6 +15,8 @@ import java.util.logging.Level;
 
 /**
  * Class for managing initialization and destruction of the persistence layer during application startup and shutdown.
+ *
+ * @author Leon Höfling
  */
 @ApplicationScoped
 public class StartStopPersistence implements Serializable {

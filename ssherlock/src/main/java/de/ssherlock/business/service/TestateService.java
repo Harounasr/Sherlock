@@ -18,6 +18,8 @@ import java.util.List;
 
 /**
  * The TestateService class provides functionality for managing testates and related operations.
+ *
+ * @author Leon Höfling
  */
 @Named
 @Dependent

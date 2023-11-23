@@ -4,6 +4,8 @@ import java.io.Serial;
 
 /**
  * Exception indicating an attempt to interact with a non-existent checker in the database.
+ *
+ * @author Leon Höfling
  */
 public class PersistenceNonExistentCheckerException extends Exception {
 

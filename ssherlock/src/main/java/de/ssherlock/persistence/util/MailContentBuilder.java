@@ -7,6 +7,8 @@ import java.math.BigInteger;
 
 /**
  * Utility class for building content for different types of emails.
+ *
+ * @author Leon Höfling
  */
 public class MailContentBuilder {
 

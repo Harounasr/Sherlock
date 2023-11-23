@@ -7,6 +7,8 @@ import jakarta.inject.Named;
 
 /**
  * Interface for interacting with a repository of ExerciseDescriptionImage entities in the database.
+ *
+ * @author Leon Höfling
  */
 public interface ExerciseDescriptionImageRepository {
 

@@ -5,6 +5,8 @@ import java.io.Serializable;
 
 /**
  * Runtime exception indicating that the configuration file is not readable.
+ *
+ * @author Leon Höfling
  */
 public class ConfigNotReadableException extends RuntimeException {
 

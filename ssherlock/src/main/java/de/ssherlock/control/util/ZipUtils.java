@@ -12,6 +12,8 @@ import java.util.zip.ZipFile;
 
 /**
  * Provides utility methods for unzipping files.
+ *
+ * @author Leon Höfling
  */
 public class ZipUtils {
 

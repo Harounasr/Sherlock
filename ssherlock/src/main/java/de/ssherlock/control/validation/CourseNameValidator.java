@@ -13,6 +13,8 @@ import jakarta.inject.Named;
 
 /**
  * Handles validation of course names.
+ *
+ * @author Leon Höfling
  */
 @Named
 @Dependent

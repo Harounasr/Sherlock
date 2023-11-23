@@ -13,6 +13,8 @@ import jakarta.inject.Named;
 
 /**
  * Handles validation of faculty addition.
+ *
+ * @author Leon Höfling
  */
 @Named
 @Dependent

@@ -11,6 +11,8 @@ import java.util.Objects;
 
 /**
  * Represents a SystemSettings DTO.
+ *
+ * @author Leon Höfling
  */
 @Named
 @Dependent

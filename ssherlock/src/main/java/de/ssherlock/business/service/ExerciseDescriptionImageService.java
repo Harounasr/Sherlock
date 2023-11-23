@@ -20,6 +20,8 @@ import java.util.UUID;
 /**
  * The ExerciseDescriptionImageService class provides functionality
  * for managing ExerciseDescriptionImages and related operations.
+ *
+ * @author Leon Höfling
  */
 @Named
 @Dependent

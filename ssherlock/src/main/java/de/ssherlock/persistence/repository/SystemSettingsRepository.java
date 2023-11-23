@@ -4,6 +4,8 @@ import de.ssherlock.global.transport.SystemSettings;
 
 /**
  * Interface for interacting with a repository of SystemSettings in the database.
+ *
+ * @author Leon Höfling
  */
 public interface SystemSettingsRepository {
 

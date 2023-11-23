@@ -4,6 +4,8 @@ import java.io.Serial;
 
 /**
  * Is thrown when a Course is not in the database.
+ *
+ * @author Leon Höfling
  */
 public class BusinessNonExistentCourseException extends Exception {
 

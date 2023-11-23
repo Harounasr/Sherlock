@@ -4,6 +4,8 @@ import java.io.Serial;
 
 /**
  * Is thrown when Large Object cannot be retrieved from the database.
+ *
+ * @author Leon Höfling
  */
 public class BusinessLOBFetchException extends Exception {
 

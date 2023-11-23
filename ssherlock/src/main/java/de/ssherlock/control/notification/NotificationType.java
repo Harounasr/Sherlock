@@ -2,6 +2,8 @@ package de.ssherlock.control.notification;
 
 /**
  * Enum representing different types of notifications.
+ *
+ * @author Leon Höfling
  */
 public enum NotificationType {
 

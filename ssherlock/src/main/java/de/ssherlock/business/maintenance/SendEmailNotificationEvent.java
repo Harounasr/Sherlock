@@ -7,6 +7,8 @@ import java.util.logging.Logger;
 
 /**
  * Automatically sends an E-Mail to a user.
+ *
+ * @author Leon Höfling
  */
 final class SendEmailNotificationEvent {
 

@@ -15,6 +15,8 @@ import java.util.List;
 
 /**
  * Utility class for running various checkers on a set of submission files.
+ *
+ * @author Leon Höfling
  */
 public class CheckerUtils {
 

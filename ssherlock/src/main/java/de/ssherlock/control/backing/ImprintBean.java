@@ -14,6 +14,8 @@ import java.util.logging.Logger;
 
 /**
  * Backing bean for the imprint.xhtml facelet.
+ *
+ * @author Leon Höfling
  */
 @Named
 @ViewScoped

@@ -2,6 +2,8 @@ package de.ssherlock.control.backing;
 
 /**
  * Abstract class for handling Pagination events.
+ *
+ * @author Leon Höfling
  */
 public abstract class AbstractPaginationBean {
 

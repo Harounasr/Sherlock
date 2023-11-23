@@ -10,6 +10,8 @@ import java.util.Objects;
 
 /**
  * Represents a SubmissionFile DTO.
+ *
+ * @author Leon Höfling
  */
 @Named
 @Dependent

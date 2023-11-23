@@ -4,6 +4,8 @@ import java.io.Serial;
 
 /**
  * Exception indicating that a course name already exists in the database.
+ *
+ * @author Leon Höfling
  */
 public class PersistenceCourseNameAlreadyExistsException extends Exception {
 

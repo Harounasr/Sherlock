@@ -7,6 +7,8 @@ import java.sql.Connection;
 
 /**
  * Implementation of {@link NotVerifiedUserRepository} interface for PostgreSQL database.
+ *
+ * @author Leon Höfling
  */
 public class NotVerifiedUserRepositoryPsql extends RepositoryPsql implements NotVerifiedUserRepository {
 

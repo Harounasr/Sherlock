@@ -4,6 +4,8 @@ import java.io.Serial;
 
 /**
  * Is thrown when the Database access is not working.
+ *
+ * @author Leon Höfling
  */
 public class BusinessDBAccessException extends Exception {
 

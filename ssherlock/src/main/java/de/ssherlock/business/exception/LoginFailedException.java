@@ -4,6 +4,8 @@ import java.io.Serial;
 
 /**
  * Is thrown when the login did not work.
+ *
+ * @author Leon Höfling
  */
 public class LoginFailedException extends Exception {
 

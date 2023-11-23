@@ -17,6 +17,8 @@ import java.util.logging.Logger;
 
 /**
  * Backing bean for the profile.xhtml facelet.
+ *
+ * @author Leon Höfling
  */
 @Named
 @ViewScoped

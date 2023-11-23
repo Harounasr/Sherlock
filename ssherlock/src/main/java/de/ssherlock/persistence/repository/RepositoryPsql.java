@@ -6,6 +6,8 @@ import java.sql.Connection;
 
 /**
  * Base class for PostgreSQL repositories providing a database connection.
+ *
+ * @author Leon Höfling
  */
 public class RepositoryPsql {
 

@@ -20,6 +20,8 @@ import java.util.logging.Logger;
 
 /**
  * Implementation of UserRepository for PostgreSQL database.
+ *
+ * @author Leon Höfling
  */
 public class UserRepositoryPsql extends RepositoryPsql implements UserRepository {
 

@@ -21,6 +21,8 @@ import java.util.logging.Level;
 
 /**
  * Backing bean for the exercisePagination.xhtml facelet.
+ *
+ * @author Leon Höfling
  */
 @Named
 @ViewScoped

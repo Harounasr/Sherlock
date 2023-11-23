@@ -5,6 +5,8 @@ import java.io.Serial;
 /**
  * Exception thrown to indicate that a user doesn't have permission for the page.
  * This is a runtime exception, allowing it to be unchecked.
+ *
+ * @author Leon Föckersperger
  */
 public class NoAccessException extends RuntimeException {
 

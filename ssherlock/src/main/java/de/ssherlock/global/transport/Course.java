@@ -8,6 +8,8 @@ import java.util.Objects;
 
 /**
  * Represents a Course DTO.
+ *
+ * @author Leon Höfling
  */
 public class Course implements Serializable {
 

@@ -19,6 +19,8 @@ import jakarta.mail.internet.MimeMessage;
 /**
  * Request-scoped class for sending emails using JavaMail API.
  * This class is responsible for configuring and sending emails to specified recipients.
+ *
+ * @author Leon Höfling
  */
 @Named
 @Dependent

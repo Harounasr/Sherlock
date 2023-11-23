@@ -12,6 +12,8 @@ import java.util.logging.Logger;
 
 /**
  * Implementation of CheckerRepository for PostgreSQL database.
+ *
+ * @author Leon Höfling
  */
 public class CheckerRepositoryPsql extends RepositoryPsql implements CheckerRepository {
 

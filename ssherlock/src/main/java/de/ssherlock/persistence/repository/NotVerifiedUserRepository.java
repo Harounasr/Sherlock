@@ -5,6 +5,8 @@ import de.ssherlock.persistence.exception.PersistenceNonExistentUserException;
 
 /**
  * Interface for interacting with a repository of Not Verified Users entities in the database.
+ *
+ * @author Leon Höfling
  */
 public interface NotVerifiedUserRepository {
 

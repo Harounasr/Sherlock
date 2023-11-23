@@ -11,6 +11,8 @@ import java.util.UUID;
 
 /**
  * Implementation of the {@link ExerciseDescriptionImageRepository} interface for POSTGRESQL.
+ *
+ * @author Leon Höfling
  */
 public class ExerciseDescriptionImageRepositoryPsql extends RepositoryPsql implements ExerciseDescriptionImageRepository{
 

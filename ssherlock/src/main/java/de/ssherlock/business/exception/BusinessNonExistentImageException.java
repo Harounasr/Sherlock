@@ -4,6 +4,8 @@ import java.io.Serial;
 
 /**
  * Is thrown when image does not exist in the database.
+ *
+ * @author Leon Höfling
  */
 public class BusinessNonExistentImageException extends Exception {
 

@@ -18,6 +18,8 @@ import java.util.List;
 
 /**
  * The SubmissionService class provides functionality for managing submissions and related operations.
+ *
+ * @author Leon Höfling
  */
 @Named
 @Dependent

@@ -9,6 +9,8 @@ import java.util.Objects;
 
 /**
  * Represents a Password DTO.
+ *
+ * @author Leon Höfling
  */
 @Named
 @Dependent

@@ -18,6 +18,8 @@ import java.util.logging.Logger;
 
 /**
  * Backing Bean for the adminSettings.xhtml facelet.
+ *
+ * @author Leon Höfling
  */
 @Named
 @ViewScoped
