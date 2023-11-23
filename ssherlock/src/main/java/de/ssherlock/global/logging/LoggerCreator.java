@@ -49,7 +49,7 @@ public class LoggerCreator implements Serializable {
      */
     public static void readConfig(ServletContextEvent sce) {
         try {
-            InputStream input = sce.getServletContext().getResourceAsStream("/WEB-INF/config/config.properties");
+            InputStream input = sce.getServletContext().getResourceAsStream("/WEB-INF/config/logger-database-config.properties");
             if (input == null) {
                 throw new FileNotFoundException("Log config not found");
             }

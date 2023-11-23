@@ -140,13 +140,21 @@ public class Configuration implements Serializable {
      */
     private Properties readConfigFile(ServletContextEvent sce) {
         Properties prop = new Properties();
-        InputStream stream = sce.getServletContext().getResourceAsStream("/WEB-INF/config/config.properties");
+        InputStream dbstream = sce.getServletContext().getResourceAsStream("/WEB-INF/config/database-config.properties");
+        InputStream mailstream = sce.getServletContext().getResourceAsStream("/WEB-INF/config/mail-config.properties");
         try {
-            if (stream != null) {
-                prop.load(stream);
+            if (dbstream != null) {
+                prop.load(dbstream);
             } else {
-                throw new IOException("Config file not found");
+                throw new IOException("Database file not found");
             }
+            if (mailstream != null) {
+                prop.load(mailstream);
+            } else {
+                throw new IOException("Mail Config file not found");
+            }
+            dbstream.close();
+            mailstream.close();
         } catch (IOException e) {
             throw new ConfigNotReadableException("The configuration file is not readable", e);
         }
