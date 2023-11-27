@@ -6,6 +6,7 @@ import de.ssherlock.business.util.PasswordHashing;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.CourseRole;
+import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.LoginInfo;
 import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.connection.ConnectionPoolPsql;
@@ -16,15 +17,19 @@ import de.ssherlock.persistence.repository.RepositoryType;
 import de.ssherlock.persistence.repository.UserRepository;
 import de.ssherlock.persistence.util.Mail;
 import de.ssherlock.persistence.util.MailContentBuilder;
+import de.ssherlock.persistence.util.MailType;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -115,7 +120,18 @@ public class UserService implements Serializable {
      * @param user The user to be registered.
      */
     public void registerUser(User user) {
-        mail.sendMail(user, MailContentBuilder.buildVerificationMail(user, generateEmailVerificationToken()));
+        mail.sendMail(user, MailContentBuilder.buildVerificationMail(user, generateEmailVerificationToken()), MailType.VERIFICATION);
+        /*
+        User a = new User();
+        User b = new User();
+        a.setEmail("leon@galerie-hoefling.de");
+        b.setEmail("hoefli11@ads.uni-passau.de");
+        List<User> users = new ArrayList<>();
+        users.add(a);
+        users.add(b);
+        mail.sendMail(users, MailContentBuilder.buildReminderMail(new Exercise()));
+
+         */
     }
 
     /**
@@ -134,7 +150,7 @@ public class UserService implements Serializable {
         } catch (PersistenceNonExistentUserException e) {
             throw new BusinessNonExistentUserException();
         }
-        mail.sendMail(user, MailContentBuilder.buildPasswordResetMail(user));
+        mail.sendMail(user, MailContentBuilder.buildPasswordResetMail(user), MailType.PASSWORD);
     }
 
     /**
