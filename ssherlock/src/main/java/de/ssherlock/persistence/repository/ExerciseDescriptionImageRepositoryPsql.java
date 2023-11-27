@@ -34,9 +34,8 @@ public class ExerciseDescriptionImageRepositoryPsql extends RepositoryPsql imple
             INSERT INTO exercise_description_image(uuid, image) 
             VALUES ( ?, ? );                        
         """;
-        UUID uuid = UUID.randomUUID();
         try (PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
-            statement.setObject(1, uuid);
+            statement.setObject(1, UUID.fromString(image.getUUID()));
             statement.setBytes(2, image.getImage());
             statement.executeUpdate();
         } catch (SQLException e) {

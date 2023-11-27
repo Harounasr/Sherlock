@@ -10,7 +10,7 @@
 
 <h:body>
 
-    <h:dataTable value="#{exercisePaginationBean.course.exercises}" var="item" first="#{exercisePaginationBean.currentPage}" rows="#{exercisePaginationBean.pageSize}">
+    <h:dataTable value="#{exercisePaginationBean.exercises}" var="item" first="#{exercisePaginationBean.currentIndex}" rows="#{exercisePaginationBean.pageSize}">
         <h:column>
             <f:facet name="name">Name</f:facet>
             #{item.name}
@@ -20,7 +20,6 @@
             <f:facet name="id">id</f:facet>
             <h:form>
                 <h:commandButton value="Join" action="#{exercisePaginationBean.select(item)}">
-                    <f:param name="exerciseId" value="#{exercisePaginationBean.exerciseId}"/>
                 </h:commandButton>
             </h:form>
         </h:column>

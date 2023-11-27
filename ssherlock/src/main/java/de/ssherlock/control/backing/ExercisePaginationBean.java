@@ -92,8 +92,8 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
      */
     public String select(Exercise exercise) {
         FacesContext.getCurrentInstance().getExternalContext().getFlash().put("exerciseId", exercise.getId());
-        logger.log(Level.INFO, "Selected Exercise: " + exercise.getName());
-        return "/view/exercise.xhtml?faces-redirect=true&Id=" + exercise.getId();
+        logger.log(Level.INFO, "Selected Exercise: " + exercise.getId());
+        return "/view/registered/exercise.xhtml?faces-redirect=true&Id=" + exercise.getId();
     }
 
     /**

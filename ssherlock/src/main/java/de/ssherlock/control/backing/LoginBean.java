@@ -6,18 +6,13 @@ import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.notification.Notification;
 import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.control.session.AppSession;
-import de.ssherlock.business.util.PasswordHashing;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.LoginInfo;
 import de.ssherlock.global.transport.User;
 import jakarta.enterprise.context.RequestScoped;
-import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
-import java.io.Serial;
-import java.io.Serializable;
-import java.util.Objects;
 import java.util.logging.Level;
 
 /**
@@ -35,6 +30,11 @@ public class LoginBean {
     private final SerializableLogger logger;
 
     /**
+     * The active session.
+     */
+    private final AppSession appSession;
+
+    /**
      * The Service for user-related operations.
      */
     private final UserService userService;
@@ -49,12 +49,14 @@ public class LoginBean {
      *
      * @param userService The UserService for user-related operations (Injected).
      * @param logger      The logger for this class (Injected).
+     * @param appSession  The active session.
      * @param loginInfo   The login information entered by the user (Injected empty).
      */
     @Inject
-    public LoginBean(UserService userService, SerializableLogger logger, LoginInfo loginInfo) {
+    public LoginBean(UserService userService, SerializableLogger logger, AppSession appSession, LoginInfo loginInfo) {
         this.userService = userService;
         this.logger = logger;
+        this.appSession = appSession;
         this.loginInfo = loginInfo;
     }
 
@@ -69,6 +71,7 @@ public class LoginBean {
         try {
             User user = userService.login(loginInfo);
             logger.log(Level.INFO, "Login for user " + loginInfo.getUsername() + " was successful.");
+            appSession.setUser(user);
             return "/view/registered/coursePagination.xhtml";
         } catch (LoginFailedException | BusinessNonExistentUserException e) {
             logger.log(Level.INFO, "Incorrect password for user " + loginInfo.getUsername() + " .");
