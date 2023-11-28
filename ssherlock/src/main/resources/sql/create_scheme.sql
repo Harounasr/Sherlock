@@ -16,7 +16,7 @@ CREATE TABLE user
     password_hash VARCHAR(75)             NOT NULL,
     password_salt VARCHAR(50)             NOT NULL,
     user_role     system_role             NOT NULL,
-    failed_login_attempts INTEGER         DEFAULT 0
+    failed_login_attempts INTEGER         DEFAULT 0,
 
     FOREIGN KEY (faculty) REFERENCES faculty (name) ON DELETE SET DEFAULT
 );
@@ -29,7 +29,7 @@ CREATE TABLE not_verified_user
     firstname VARCHAR(50)             NOT NULL,
     lastname  VARCHAR(50)             NOT NULL,
     faculty   VARCHAR(50)             DEFAULT 'NONE',
-    expiry_date TIMESTAMP             NOT NULL
+    expiry_date TIMESTAMP             WITH TIME ZONE NOT NULL,
 
     FOREIGN KEY (faculty) REFERENCES faculty (name) ON DELETE SET DEFAULT
 );
@@ -42,10 +42,11 @@ CREATE TABLE course
 CREATE TABLE exercise
 (
     id                   SERIAL PRIMARY KEY NOT NULL,
+    name                 VARCHAR(200 UNIQUE NOT NULL,
     course_name          VARCHAR(50)        NOT NULL,
-    publish_date         TIMESTAMP          NOT NULL,
-    recommended_deadline TIMESTAMP          NOT NULL,
-    obligatory_deadline  TIMESTAMP          NOT NULL,
+    publish_date         TIMESTAMP          WITH TIME ZONE NOT NULL,
+    recommended_deadline TIMESTAMP          WITH TIME ZONE NOT NULL,
+    obligatory_deadline  TIMESTAMP          WITH TIME ZONE NOT NULL,
     description          text,
 
     FOREIGN KEY (course_name) REFERENCES course (course_name) ON DELETE CASCADE,
@@ -78,6 +79,16 @@ CREATE TABLE checker
     FOREIGN KEY (exercise_id) REFERENCES exercise (id) ON DELETE CASCADE
 );
 
+CREATE TABLE submission
+(
+    id                   SERIAL PRIMARY KEY NOT NULL,
+    timestamp_submission WITH TIME ZONE NOT NULL,
+    student_username     VARCHAR(50)        REFERENCES user(username) ON DELETE CASCADE,
+    tutor_username       VARCHAR(50)        REFERENCES user (username) ON DELETE SET NULL,
+    exercise_id          INTEGER REFERENCES exercise (id) ON DELETE CASCADE,
+
+);
+
 CREATE TABLE checker_result
 (
     exercise_id        INTEGER NOT NULL,
@@ -89,16 +100,6 @@ CREATE TABLE checker_result
     PRIMARY key (Exercise_id, checker_id, submission_id),
     FOREIGN KEY (checker_id, Exercise_id) REFERENCES checker (id, exercise_id) ON DELETE CASCADE,
     FOREIGN KEY (submission_id) REFERENCES submission (id) ON DELETE CASCADE
-);
-
-CREATE TABLE submission
-(
-    id                   SERIAL PRIMARY KEY NOT NULL,
-    timestamp_submission TIMESTAMP,
-    student_username     VARCHAR(50)        REFERENCES user(username) ON DELETE CASCADE,
-    tutor_username       VARCHAR(50)        REFERENCES user (username) ON DELETE SET NULL,
-    exercise_id          INTEGER REFERENCES exercise (id) ON DELETE CASCADE,
-
 );
 
 CREATE TABLE submission_file
@@ -141,8 +142,8 @@ CREATE TABLE testate
 CREATE TABLE system_settings
 (
     email_regex         VARCHAR(255),
-    primary_color_hex   VARCHAR(20),
-    secondary_color_hex VARCHAR(20),
+    primary_color_hex   VARCHAR(6),
+    secondary_color_hex VARCHAR(6),
     system_name         VARCHAR(255),
     system_logo         BYTEA,
     imprint             TEXT,
