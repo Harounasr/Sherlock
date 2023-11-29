@@ -5,8 +5,6 @@ import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.SystemSettings;
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.faces.event.ActionEvent;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -14,7 +12,6 @@ import jakarta.servlet.http.Part;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.logging.Logger;
 
 /**
  * Backing Bean for the adminSettings.xhtml facelet.

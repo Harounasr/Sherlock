@@ -3,10 +3,8 @@ package de.ssherlock.persistence.config;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.persistence.exception.ConfigNotReadableException;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;
 
 import java.io.IOException;

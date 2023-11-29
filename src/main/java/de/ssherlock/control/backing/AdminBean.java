@@ -8,7 +8,6 @@ import jakarta.inject.Named;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.logging.Logger;
 
 /**
  * Backing Bean for the admin.xhtml facelet.

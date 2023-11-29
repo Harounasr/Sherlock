@@ -14,7 +14,7 @@ public final class DatabaseInitializer {
     /**
      * The logger of this class.
      */
-    private static final SerializableLogger logger = LoggerCreator.get(DatabaseInitializer.class);
+    private static final SerializableLogger LOGGER = LoggerCreator.get(DatabaseInitializer.class);
 
     /**
      * The path to the database initialization file.

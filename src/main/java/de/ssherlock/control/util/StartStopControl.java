@@ -4,7 +4,6 @@ import de.ssherlock.business.util.StartStopBusiness;
 import de.ssherlock.global.logging.SerializableLogger;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
@@ -12,7 +11,6 @@ import jakarta.servlet.annotation.WebListener;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 /**

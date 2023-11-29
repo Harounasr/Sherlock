@@ -2,8 +2,6 @@ package de.ssherlock.persistence.repository;
 
 import de.ssherlock.global.transport.ExerciseDescriptionImage;
 import de.ssherlock.persistence.exception.PersistenceNonExistentImageException;
-import jakarta.enterprise.context.Dependent;
-import jakarta.inject.Named;
 
 /**
  * Interface for interacting with a repository of ExerciseDescriptionImage entities in the database.

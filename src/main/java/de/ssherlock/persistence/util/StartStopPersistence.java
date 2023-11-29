@@ -6,7 +6,6 @@ import de.ssherlock.persistence.config.Configuration;
 import de.ssherlock.persistence.connection.ConnectionPoolPsql;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;
 
 import java.io.Serial;

@@ -7,8 +7,6 @@ import de.ssherlock.persistence.exception.PersistenceNonExistentTestateException
 
 import java.sql.Connection;
 import java.util.List;
-import java.util.function.Predicate;
-import java.util.logging.Logger;
 
 /**
  * Implementation of TestateRepository for PostgreSQL database.

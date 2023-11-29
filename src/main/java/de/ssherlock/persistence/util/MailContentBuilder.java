@@ -5,7 +5,6 @@ import de.ssherlock.global.transport.User;
 
 import java.security.SecureRandom;
 import java.math.BigInteger;
-import java.util.List;
 
 /**
  * Utility class for building content for different types of emails.
@@ -50,9 +49,8 @@ public class MailContentBuilder {
      * @param exercise The exercise for which the reminder is generated.
      * @return The content of the reminder email.
      */
-    public static String buildReminderMail(Exercise exercise) {
-
-        return "This is a test!";
+    public static String buildReminderMail(User user, Exercise exercise) {
+        return null;
     }
 
 }

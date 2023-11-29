@@ -10,13 +10,11 @@ import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import jakarta.servlet.http.Part;
 
-import java.io.*;
 
-import java.util.ArrayList;
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
-import java.util.logging.Level;
 
 /**
  * Backing bean for testate.xhtml facelet.

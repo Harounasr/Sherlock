@@ -6,12 +6,8 @@ import de.ssherlock.control.notification.Notification;
 import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.global.logging.SerializableLogger;
 import jakarta.enterprise.context.RequestScoped;
-import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-
-import java.io.Serial;
-import java.io.Serializable;
 
 /**
  * Backing bean for the passwordForgotten.xhtml facelet.

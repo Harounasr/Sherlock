@@ -4,7 +4,6 @@ import de.ssherlock.global.transport.Submission;
 import de.ssherlock.persistence.exception.PersistenceNonExistentSubmissionException;
 
 import java.util.List;
-import java.util.function.Predicate;
 
 /**
  * Interface for interacting with a repository of Submission entities in the database.
