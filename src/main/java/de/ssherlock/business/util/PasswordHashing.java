@@ -14,7 +14,13 @@ import java.util.Optional;
  *
  * @author Leon Höfling
  */
-public class PasswordHashing {
+public final class PasswordHashing {
+
+
+    /**
+     * The algorithm to use for hashing.
+     */
+    private static final String ALGORITHM = "SHA-512";
 
     /**
      * Default constructor.
@@ -23,10 +29,6 @@ public class PasswordHashing {
 
     }
 
-    /**
-     * The algorithm to use for hashing.
-     */
-    private static final String ALGORITHM = "SHA-512";
 
     /**
      * Generates a hashed password with a random salt.

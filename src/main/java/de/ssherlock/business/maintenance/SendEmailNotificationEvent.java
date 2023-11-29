@@ -3,8 +3,6 @@ package de.ssherlock.business.maintenance;
 import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
 
-import java.util.logging.Logger;
-
 /**
  * Automatically sends an E-Mail to a user.
  *
@@ -15,7 +13,7 @@ final class SendEmailNotificationEvent {
     /**
      * Logger instance for logging messages related to CourseService.
      */
-    private static final SerializableLogger logger = LoggerCreator.get(SendEmailNotificationEvent.class);
+    private static final SerializableLogger LOGGER = LoggerCreator.get(SendEmailNotificationEvent.class);
 
     /**
      * Defines the rate in which this Event should be executed.
