@@ -23,7 +23,7 @@ public interface NotVerifiedUserRepository {
      * @param token The verification token of the user.
      * @throws PersistenceNonExistentUserException when the user does not exist in the database.
      */
-    void getNotVerifiedUser(String token) throws PersistenceNonExistentUserException;
+    User getNotVerifiedUser(String token) throws PersistenceNonExistentUserException;
 
     /**
      * Deletes a not verified user from the database.

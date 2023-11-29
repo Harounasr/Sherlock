@@ -3,7 +3,11 @@ package de.ssherlock.control.util;
 import de.ssherlock.global.transport.SubmissionFile;
 import jakarta.servlet.http.Part;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -15,7 +19,7 @@ import java.util.zip.ZipFile;
  *
  * @author Leon Höfling
  */
-public class ZipUtils {
+public final class ZipUtils {
 
     /**
      * Default constructor

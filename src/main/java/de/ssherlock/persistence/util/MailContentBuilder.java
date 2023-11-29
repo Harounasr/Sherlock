@@ -11,7 +11,7 @@ import java.math.BigInteger;
  *
  * @author Leon Höfling
  */
-public class MailContentBuilder {
+public final class MailContentBuilder {
 
     /**
      * Default constructor.

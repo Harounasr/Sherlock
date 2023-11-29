@@ -33,8 +33,8 @@ public class NotVerifiedUserRepositoryPsql extends RepositoryPsql implements Not
      * {@inheritDoc}
      */
     @Override
-    public void getNotVerifiedUser(String token) throws PersistenceNonExistentUserException {
-
+    public User getNotVerifiedUser(String token) throws PersistenceNonExistentUserException {
+        return null;
     }
 
     /**
