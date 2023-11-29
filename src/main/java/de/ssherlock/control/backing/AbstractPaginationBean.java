@@ -28,6 +28,13 @@ public abstract class AbstractPaginationBean {
     private String searchString;
 
     /**
+     * Default Constructor.
+     */
+    public AbstractPaginationBean() {
+
+    }
+
+    /**
      * Loads the data for the pagination.
      */
     public abstract void loadData();

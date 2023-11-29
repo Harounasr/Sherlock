@@ -43,6 +43,13 @@ public class StartStopControl implements ServletContextListener, Serializable {
     private StartStopBusiness startStopBusiness;
 
     /**
+     * Default Constructor.
+     */
+    public StartStopControl() {
+
+    }
+
+    /**
      * Destroys the system.
      *
      * @param sce The ServletContextEvent representing the destruction of the servlet context.

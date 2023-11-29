@@ -4,7 +4,6 @@ import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
 
 import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.logging.Logger;
 
 /**
  * Class for executing Events.
@@ -16,7 +15,7 @@ public class MaintenanceProcessExecutor extends ScheduledThreadPoolExecutor {
     /**
      * Logger instance for logging messages related to CourseService.
      */
-    private static final SerializableLogger logger = LoggerCreator.get(MaintenanceProcessExecutor.class);
+    private static final SerializableLogger LOGGER = LoggerCreator.get(MaintenanceProcessExecutor.class);
 
     /**
      * Defines the number of simultaneous threads.
