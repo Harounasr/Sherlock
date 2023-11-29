@@ -3,6 +3,7 @@
 set -e
 
 echo "This file should not be executed."
+exit 
 
 DOCKER_HUB_USERNAME="leonfoeck"
 
