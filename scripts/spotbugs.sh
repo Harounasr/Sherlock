@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Author: Leon Föckersperger
+# Author: Leon Fckersperger
 
 set -e
 
