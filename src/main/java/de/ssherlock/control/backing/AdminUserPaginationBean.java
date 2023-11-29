@@ -56,9 +56,9 @@ public class AdminUserPaginationBean extends AbstractPaginationBean implements S
     /**
      * Constructs an AdminUserPaginationBean.
      *
-     * @param logger       The logger used for logging within this class (Injected).
-     * @param appSession   The active session (Injected).
-     * @param userService  The UserService used for user-related actions (Injected).
+     * @param logger      The logger used for logging within this class (Injected).
+     * @param appSession  The active session (Injected).
+     * @param userService The UserService used for user-related actions (Injected).
      */
     @Inject
     public AdminUserPaginationBean(SerializableLogger logger, AppSession appSession, UserService userService) {
@@ -84,7 +84,6 @@ public class AdminUserPaginationBean extends AbstractPaginationBean implements S
      * Handles user selection navigation.
      *
      * @param username The selected user's username.
-     *
      * @return The navigation outcome.
      */
     public String selectUser(String username) {

@@ -32,7 +32,7 @@ public class VerificationBean {
     /**
      * Constructor for VerificationBean.
      *
-     * @param logger  The logger for this class.
+     * @param logger The logger for this class.
      */
     @Inject
     public VerificationBean(SerializableLogger logger) {

@@ -265,10 +265,16 @@ public class User implements Serializable {
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         User user = (User) o;
-        return Objects.equals(username, user.username) && Objects.equals(email, user.email) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && systemRole == user.systemRole && Objects.equals(password, user.password) && Objects.equals(facultyName, user.facultyName);
+        return Objects.equals(username, user.username) && Objects.equals(email, user.email) && Objects.equals(firstName, user.firstName)
+               && Objects.equals(lastName, user.lastName) && systemRole == user.systemRole && Objects.equals(password, user.password)
+               && Objects.equals(facultyName, user.facultyName);
     }
 
     /**

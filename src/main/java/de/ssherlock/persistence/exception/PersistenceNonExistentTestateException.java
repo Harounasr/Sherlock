@@ -35,7 +35,7 @@ public class PersistenceNonExistentTestateException extends Exception {
      * Constructs a new PersistenceNonExistentTestateException and sets the message and the error.
      *
      * @param message stores the message.
-     * @param err the exception which is going to be wrapped.
+     * @param err     the exception which is going to be wrapped.
      */
     public PersistenceNonExistentTestateException(String message, Throwable err) {
         super(message, err);

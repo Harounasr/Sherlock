@@ -94,8 +94,8 @@ public class SubmissionUploadBean implements Serializable {
      * @param newSubmission     The new submission that will be created (Injected empty).
      */
     @Inject
-    public SubmissionUploadBean(SerializableLogger logger, AppSession appSession,
-                                SubmissionService submissionService, CheckerService checkerService, Submission newSubmission) {
+    public SubmissionUploadBean(SerializableLogger logger, AppSession appSession, SubmissionService submissionService, CheckerService checkerService,
+                                Submission newSubmission) {
         this.logger = logger;
         this.appSession = appSession;
         this.submissionService = submissionService;

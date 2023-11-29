@@ -39,7 +39,7 @@ public class SystemSettingsRepositoryPsql extends RepositoryPsql implements Syst
     @Override
     public void updateSystemSettings(SystemSettings systemSettings) {
         String query = "UPDATE SystemSettings SET emailRegex=?, primaryColorHex=?, " +
-                "secondaryColor=?, systemName=?, logo=? WHERE id=?";
+                       "secondaryColor=?, systemName=?, logo=? WHERE id=?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, systemSettings.getEmailRegex());
             preparedStatement.setString(2, systemSettings.getPrimaryColorHex());

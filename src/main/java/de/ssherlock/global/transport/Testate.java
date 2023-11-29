@@ -196,10 +196,17 @@ public class Testate implements Serializable {
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Testate testate = (Testate) o;
-        return functionalityGrade == testate.functionalityGrade && readabilityGrade == testate.readabilityGrade && Objects.equals(evaluator, testate.evaluator) && Objects.equals(student, testate.student) && Objects.equals(comments, testate.comments) && Objects.equals(comment, testate.comment) && Objects.equals(submission, testate.submission);
+        return functionalityGrade == testate.functionalityGrade && readabilityGrade == testate.readabilityGrade && Objects.equals(evaluator,
+                                                                                                                                  testate.evaluator)
+               && Objects.equals(student, testate.student) && Objects.equals(comments, testate.comments) && Objects.equals(comment, testate.comment)
+               && Objects.equals(submission, testate.submission);
     }
 
     /**

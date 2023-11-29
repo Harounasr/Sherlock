@@ -35,7 +35,7 @@ public class BusinessExerciseNameAlreadyExistsException extends Exception {
      * Constructs a new BusinessExerciseNameAlreadyExistsException and sets the message.
      *
      * @param message stores the message.
-     * @param err the exception which is going to be wrapped.
+     * @param err     the exception which is going to be wrapped.
      */
     public BusinessExerciseNameAlreadyExistsException(String message, Throwable err) {
         super(message, err);

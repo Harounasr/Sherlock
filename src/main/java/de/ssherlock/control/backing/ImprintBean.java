@@ -45,8 +45,8 @@ public class ImprintBean implements Serializable {
     /**
      * Constructor for ImprintBean.
      *
-     * @param logger       The logger instance (Injected).
-     * @param appSession   The active session (Injected).
+     * @param logger     The logger instance (Injected).
+     * @param appSession The active session (Injected).
      */
     @Inject
     public ImprintBean(SerializableLogger logger, AppSession appSession) {

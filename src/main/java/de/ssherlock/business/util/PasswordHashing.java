@@ -110,7 +110,7 @@ public class PasswordHashing {
      * Combines password and salt.
      *
      * @param password The password.
-     * @param salt The salt.
+     * @param salt     The salt.
      * @return The combined password and salt.
      */
     private static byte[] combinePasswordAndSalt(byte[] password, byte[] salt) {

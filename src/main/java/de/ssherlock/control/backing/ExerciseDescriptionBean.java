@@ -82,7 +82,8 @@ public class ExerciseDescriptionBean implements Serializable {
      * @param exerciseDescriptionImageService The ExerciseDescriptionImageService (Injected).
      */
     @Inject
-    public ExerciseDescriptionBean(SerializableLogger logger, AppSession appSession, ExerciseService exerciseService, ExerciseDescriptionImageService exerciseDescriptionImageService) {
+    public ExerciseDescriptionBean(SerializableLogger logger, AppSession appSession, ExerciseService exerciseService,
+                                   ExerciseDescriptionImageService exerciseDescriptionImageService) {
         this.logger = logger;
         this.appSession = appSession;
         this.exerciseService = exerciseService;

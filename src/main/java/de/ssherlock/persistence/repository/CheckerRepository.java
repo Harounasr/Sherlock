@@ -24,7 +24,6 @@ public interface CheckerRepository {
      * Updates a Checker entity in the database.
      *
      * @param checker The Checker entity to be updated.
-     *
      * @throws PersistenceNonExistentCheckerException when the Checker does not exist in the database.
      */
     void updateChecker(Checker checker) throws PersistenceNonExistentCheckerException;
@@ -33,7 +32,6 @@ public interface CheckerRepository {
      * Deletes a Checker entity from the database based on its ID.
      *
      * @param id The ID of the Checker entity to be deleted.
-     *
      * @throws PersistenceNonExistentCheckerException when the Checker does not exist in the database.
      */
     void deleteChecker(long id) throws PersistenceNonExistentCheckerException;
@@ -43,7 +41,6 @@ public interface CheckerRepository {
      *
      * @param id The ID of the Checker entity to be fetched.
      * @return The fetched Checker entity, or null if not found.
-     *
      * @throws PersistenceNonExistentCheckerException when the Checker does not exist in the database.
      */
     Checker getChecker(long id) throws PersistenceNonExistentCheckerException;

@@ -29,7 +29,7 @@ public class ErrorBean {
      * Constructs an ErrorBean.
      *
      * @param logger The logger instance.
-     * @param error The empty error.
+     * @param error  The empty error.
      */
     @Inject
     public ErrorBean(SerializableLogger logger, Error error) {

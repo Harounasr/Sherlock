@@ -8,9 +8,9 @@
 </h:head>
 <h:body>
     <h:form enctype="multipart/form-data">
-        <h:inputFile id="file" accept="java" required="true" value="#{testateBean.uploadedFile}" />
+        <h:inputFile id="file" accept="java" required="true" value="#{testateBean.uploadedFile}"/>
         <br/>
-        <h:commandButton value="Upload" action="#{testateBean.convertSubmissionFileToText}" />
+        <h:commandButton value="Upload" action="#{testateBean.convertSubmissionFileToText}"/>
         <br/>
     </h:form>
     <h:dataTable value="#{testateBean.fileContentLines}" var="item">

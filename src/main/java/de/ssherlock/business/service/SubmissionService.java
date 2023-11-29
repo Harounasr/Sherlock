@@ -71,8 +71,8 @@ public class SubmissionService implements Serializable {
     /**
      * Retrieves a list of submissions associated with the specified user and exercise.
      *
-     * @param username          The user for whom to retrieve submissions.
-     * @param exerciseId        The exercise for which to retrieve submissions.
+     * @param username   The user for whom to retrieve submissions.
+     * @param exerciseId The exercise for which to retrieve submissions.
      * @return A list of submissions associated with the user and exercise.
      */
     public List<Submission> getSubmissions(String username, long exerciseId) {
@@ -94,7 +94,6 @@ public class SubmissionService implements Serializable {
      *
      * @param submissionId The id of the submission.
      * @return The retrieved submission.
-     *
      * @throws BusinessNonExistentSubmissionException when the submission does not exist in the database.
      */
     public Submission getSubmission(long submissionId) throws BusinessNonExistentSubmissionException {

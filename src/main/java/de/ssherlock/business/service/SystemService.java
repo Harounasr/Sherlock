@@ -42,7 +42,7 @@ public class SystemService implements Serializable {
     /**
      * Constructs a SystemService with the specified logger.
      *
-     * @param logger The logger to be used for logging messages related to SystemService.
+     * @param logger             The logger to be used for logging messages related to SystemService.
      * @param connectionPoolPsql The connectionPoolPsql to be used for managing database connections.
      */
     @Inject

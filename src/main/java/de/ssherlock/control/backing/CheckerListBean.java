@@ -59,10 +59,10 @@ public class CheckerListBean implements Serializable {
     /**
      * Constructs a CheckerListBean.
      *
-     * @param logger          The logger used for logging within this class (Injected).
-     * @param appSession      The active session (Injected).
-     * @param checkerService  The CheckerService used for managing checkers (Injected).
-     * @param checker         The Checker that will be filled by the user (Injected empty).
+     * @param logger         The logger used for logging within this class (Injected).
+     * @param appSession     The active session (Injected).
+     * @param checkerService The CheckerService used for managing checkers (Injected).
+     * @param checker        The Checker that will be filled by the user (Injected empty).
      */
     @Inject
     public CheckerListBean(SerializableLogger logger, AppSession appSession, CheckerService checkerService, Checker checker) {

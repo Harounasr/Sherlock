@@ -5,7 +5,9 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <h:head>
-    <title><ui:insert name="title"/></title>
+    <title>
+        <ui:insert name="title"/>
+    </title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
 </h:head>
 
@@ -20,8 +22,9 @@
                     <h:form enctype="multipart/form-data" rendered="#{submissionUploadBean.submissionFiles == null}">
                         <div class="form-group">
                             <label for="file">Choose Folder: </label>
-                            <h:inputFile id="file" accept="zip" required="true" value="#{submissionUploadBean.archiveFile}" />
-                            <h:commandButton id="upload-button" value="Upload" action="#{submissionUploadBean.submitUpload()}" class="btn btn-primary" />
+                            <h:inputFile id="file" accept="zip" required="true" value="#{submissionUploadBean.archiveFile}"/>
+                            <h:commandButton id="upload-button" value="Upload" action="#{submissionUploadBean.submitUpload()}"
+                                             class="btn btn-primary"/>
                         </div>
                     </h:form>
                     <h:form rendered="#{submissionUploadBean.submissionFiles != null}">

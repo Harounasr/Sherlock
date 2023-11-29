@@ -1,6 +1,7 @@
 # Author: Leon Föckersperger
 
 # Use custom docker image as base image
+---
 image: leonfoeck/sep2023:def-1.0
 
 # Pipeline stages

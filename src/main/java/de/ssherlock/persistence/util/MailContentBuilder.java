@@ -1,4 +1,5 @@
 package de.ssherlock.persistence.util;
+
 import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.User;
 
@@ -23,14 +24,14 @@ public class MailContentBuilder {
     /**
      * Builds the content for a verification email.
      *
-     * @param user The user for whom the verification email is generated.
+     * @param user  The user for whom the verification email is generated.
      * @param token The verification token.
      * @return The content of the verification email.
      */
     public static String buildVerificationMail(User user, String token) {
-        return "Hi " + user.getUsername() +  ".\n Thank you for registration.\n" +
-                "Click the Link below in order to verify your account.\n" +
-                "http://localhost:8016/ssherlock_war_exploded/view/verification.xhtml?token=" + token;
+        return "Hi " + user.getUsername() + ".\n Thank you for registration.\n" +
+               "Click the Link below in order to verify your account.\n" +
+               "http://localhost:8016/ssherlock_war_exploded/view/verification.xhtml?token=" + token;
     }
 
     /**

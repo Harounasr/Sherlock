@@ -69,7 +69,6 @@ public class LoginBean {
      * Method to log in the user.
      *
      * @return The destination view after successful login.
-     *
      * @throws LoginFailedException when the login fails.
      */
     public String login() throws LoginFailedException {

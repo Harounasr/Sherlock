@@ -40,8 +40,8 @@ public class EmailValidator implements Validator<String> {
     /**
      * Constructs an EmailValidator.
      *
-     * @param logger The logger instance for this class.
-     * @param userService The user service for user-related operations.
+     * @param logger        The logger instance for this class.
+     * @param userService   The user service for user-related operations.
      * @param systemService The system service for system-related operations.
      */
     @Inject
@@ -56,7 +56,7 @@ public class EmailValidator implements Validator<String> {
      *
      * @param facesContext The FacesContext for the current request.
      * @param uiComponent  The UIComponent associated with the component being validated.
-     * @param emailAddress            The email address to be validated.
+     * @param emailAddress The email address to be validated.
      * @throws ValidatorException if the validation fails.
      */
     @Override

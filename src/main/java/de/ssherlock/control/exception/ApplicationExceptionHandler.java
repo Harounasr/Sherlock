@@ -80,7 +80,7 @@ public class ApplicationExceptionHandler extends ExceptionHandlerWrapper {
      * Sets the error bean.
      *
      * @param exception The exception.
-     * @param message The message.
+     * @param message   The message.
      */
     private void setErrorBean(Throwable exception, String message) {
         ErrorBean errorBean = CDI.current().select(ErrorBean.class).get();
@@ -94,7 +94,7 @@ public class ApplicationExceptionHandler extends ExceptionHandlerWrapper {
      * Shows a certain page.
      *
      * @param context The current context.
-     * @param page The page to show.
+     * @param page    The page to show.
      */
     private void showPage(FacesContext context, String page) {
         context.setViewRoot(context.getApplication().getViewHandler().createView(context, BASE_PATH + page));
@@ -106,9 +106,9 @@ public class ApplicationExceptionHandler extends ExceptionHandlerWrapper {
     /**
      * Shows a certain error page.
      *
-     * @param context The current context.
+     * @param context   The current context.
      * @param exception The exception.
-     * @param message The message.
+     * @param message   The message.
      */
     private void showErrorPage(FacesContext context, Throwable exception, String message) {
         setErrorBean(exception, message);
@@ -118,7 +118,7 @@ public class ApplicationExceptionHandler extends ExceptionHandlerWrapper {
     /**
      * Shows the "404 not found" error page.
      *
-     * @param context The current context.
+     * @param context   The current context.
      * @param exception The exception.
      */
     private void show404Page(FacesContext context, Throwable exception) {

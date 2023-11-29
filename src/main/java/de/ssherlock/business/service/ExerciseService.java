@@ -45,7 +45,7 @@ public class ExerciseService implements Serializable {
     /**
      * Constructs an ExerciseService with the specified logger.
      *
-     * @param logger The logger to be used for logging messages related to ExerciseService.
+     * @param logger             The logger to be used for logging messages related to ExerciseService.
      * @param connectionPoolPsql The connection pool.
      */
     @Inject
@@ -72,7 +72,6 @@ public class ExerciseService implements Serializable {
      * Updates the information of an existing exercise.
      *
      * @param exercise The exercise to be updated.
-     *
      * @throws BusinessNonExistentExerciseException when the exercise does not exist in the database.
      */
     public void updateExercise(Exercise exercise) throws BusinessNonExistentExerciseException {
@@ -98,7 +97,6 @@ public class ExerciseService implements Serializable {
      * Removes an existing exercise.
      *
      * @param exerciseId The exercise to be removed.
-     *
      * @throws BusinessNonExistentExerciseException when the exercise does not exist in the database.
      */
     public void removeExercise(long exerciseId) throws BusinessNonExistentExerciseException {
@@ -110,7 +108,6 @@ public class ExerciseService implements Serializable {
      *
      * @param id The unique identifier of the exercise.
      * @return The exercise with the specified identifier.
-     *
      * @throws BusinessNonExistentExerciseException when the exercise does not exist in the database.
      */
     public Exercise getExercise(long id) throws BusinessNonExistentExerciseException {

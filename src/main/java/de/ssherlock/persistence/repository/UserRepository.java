@@ -24,7 +24,6 @@ public interface UserRepository {
      * Updates a User entity in the database.
      *
      * @param user The User entity to be updated.
-     *
      * @throws PersistenceNonExistentUserException when the user does not exist in the database.
      */
     void updateUser(User user) throws PersistenceNonExistentUserException;
@@ -33,7 +32,6 @@ public interface UserRepository {
      * Deletes a User entity from the database based on its username.
      *
      * @param username The username of the User entity to be deleted.
-     *
      * @throws PersistenceNonExistentUserException when the user does not exist in the database.
      */
     void deleteUser(String username) throws PersistenceNonExistentUserException;

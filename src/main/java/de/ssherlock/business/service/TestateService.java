@@ -53,7 +53,7 @@ public class TestateService implements Serializable {
      * Retrieves a list of assigned testates associated with the specified exercise and user.
      *
      * @param exerciseId The exercise for which to retrieve assigned testates.
-     * @param username     The user for whom to retrieve assigned testates.
+     * @param username   The user for whom to retrieve assigned testates.
      * @return A list of assigned testates associated with the exercise and user.
      */
     public List<Testate> getAssignedTestates(long exerciseId, String username) {
@@ -74,9 +74,8 @@ public class TestateService implements Serializable {
      * Retrieves a testate associated with the specified exercise and user.
      *
      * @param exerciseId The exercise for which to retrieve the testate.
-     * @param username     The user for whom to retrieve the testate.
+     * @param username   The user for whom to retrieve the testate.
      * @return The testate associated with the exercise and user.
-     *
      * @throws BusinessNonExistentTestateException when the testate does not exist in the database.
      */
     public Testate getTestate(long exerciseId, String username) throws BusinessNonExistentTestateException {

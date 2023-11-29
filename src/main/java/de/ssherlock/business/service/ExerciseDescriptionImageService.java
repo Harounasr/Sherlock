@@ -46,7 +46,7 @@ public class ExerciseDescriptionImageService implements Serializable {
     /**
      * Constructs a ExerciseDescriptionImageService.
      *
-     * @param logger The logger instance for this class.
+     * @param logger             The logger instance for this class.
      * @param connectionPoolPsql The connection pool instance.
      */
     @Inject
@@ -62,7 +62,8 @@ public class ExerciseDescriptionImageService implements Serializable {
      */
     public void insertImage(ExerciseDescriptionImage image) {
         Connection connection = connectionPoolPsql.getConnection();
-        ExerciseDescriptionImageRepository imageRepository = RepositoryFactory.getExerciseDescriptionImageRepository(RepositoryType.POSTGRESQL, connection);
+        ExerciseDescriptionImageRepository imageRepository = RepositoryFactory.getExerciseDescriptionImageRepository(RepositoryType.POSTGRESQL,
+                                                                                                                     connection);
         image.setUUID(UUID.randomUUID().toString());
         imageRepository.insertExerciseDescriptionImage(image);
         connectionPoolPsql.releaseConnection(connection);
@@ -73,12 +74,12 @@ public class ExerciseDescriptionImageService implements Serializable {
      *
      * @param uuid The UUID of the image.
      * @return The image.
-     *
      * @throws BusinessNonExistentImageException when the image does not exist in the database.
      */
     public ExerciseDescriptionImage getImage(String uuid) throws BusinessNonExistentImageException {
         Connection connection = connectionPoolPsql.getConnection();
-        ExerciseDescriptionImageRepository imageRepository = RepositoryFactory.getExerciseDescriptionImageRepository(RepositoryType.POSTGRESQL, connection);
+        ExerciseDescriptionImageRepository imageRepository = RepositoryFactory.getExerciseDescriptionImageRepository(RepositoryType.POSTGRESQL,
+                                                                                                                     connection);
         ExerciseDescriptionImage image;
         try {
             image = imageRepository.getExerciseDescriptionImage(uuid);

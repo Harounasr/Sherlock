@@ -9,7 +9,9 @@ import java.sql.Connection;
  */
 public class RepositoryPsql {
 
-    /** The database connection. */
+    /**
+     * The database connection.
+     */
     protected Connection connection;
 
     /**

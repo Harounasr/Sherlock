@@ -34,7 +34,7 @@ public class UsernameValidator implements Validator<String> {
     /**
      * Constructs an UsernameValidator.
      *
-     * @param logger The logger instance for this class.
+     * @param logger      The logger instance for this class.
      * @param userService The user service for user-related operations.
      */
     @Inject

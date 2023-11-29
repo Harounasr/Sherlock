@@ -80,8 +80,12 @@ public class Password implements Serializable {
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Password password = (Password) o;
         return Objects.equals(hash, password.hash) && Objects.equals(salt, password.salt);
     }

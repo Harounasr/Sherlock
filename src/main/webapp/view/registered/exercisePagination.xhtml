@@ -10,7 +10,8 @@
 
 <h:body>
 
-    <h:dataTable value="#{exercisePaginationBean.exercises}" var="item" first="#{exercisePaginationBean.currentIndex}" rows="#{exercisePaginationBean.pageSize}">
+    <h:dataTable value="#{exercisePaginationBean.course.exercises}" var="item" first="#{exercisePaginationBean.currentPage}"
+                 rows="#{exercisePaginationBean.pageSize}">
         <h:column>
             <f:facet name="name">Name</f:facet>
             #{item.name}
@@ -25,10 +26,10 @@
         </h:column>
     </h:dataTable>
     <h:form>
-        <h:commandButton value="First" action="#{exercisePaginationBean.firstPage}" />
-        <h:commandButton value="Previous" action="#{exercisePaginationBean.previousPage}" />
-        <h:commandButton value="Next" action="#{exercisePaginationBean.nextPage}" />
-        <h:commandButton value="Last" action="#{exercisePaginationBean.lastPage}" />
+        <h:commandButton value="First" action="#{exercisePaginationBean.firstPage}"/>
+        <h:commandButton value="Previous" action="#{exercisePaginationBean.previousPage}"/>
+        <h:commandButton value="Next" action="#{exercisePaginationBean.nextPage}"/>
+        <h:commandButton value="Last" action="#{exercisePaginationBean.lastPage}"/>
     </h:form>
 </h:body>
 

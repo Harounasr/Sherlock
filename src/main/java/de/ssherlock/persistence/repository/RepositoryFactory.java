@@ -33,12 +33,12 @@ public class RepositoryFactory {
      */
     public static CheckerRepository getCheckerRepository(RepositoryType type, Connection connection) {
         switch (type) {
-            case POSTGRESQL -> {
-                return new CheckerRepositoryPsql(connection);
-            }
-            default -> {
-                return null;
-            }
+        case POSTGRESQL -> {
+            return new CheckerRepositoryPsql(connection);
+        }
+        default -> {
+            return null;
+        }
         }
     }
 
@@ -51,12 +51,12 @@ public class RepositoryFactory {
      */
     public static CourseRepository getCourseRepository(RepositoryType type, Connection connection) {
         switch (type) {
-            case POSTGRESQL -> {
-                return new CourseRepositoryPsql(connection);
-            }
-            default -> {
-                return null;
-            }
+        case POSTGRESQL -> {
+            return new CourseRepositoryPsql(connection);
+        }
+        default -> {
+            return null;
+        }
         }
     }
 
@@ -69,12 +69,12 @@ public class RepositoryFactory {
      */
     public static TestateRepository getEvaluationRepository(RepositoryType type, Connection connection) {
         switch (type) {
-            case POSTGRESQL -> {
-                return new TestateRepositoryPsql(connection);
-            }
-            default -> {
-                return null;
-            }
+        case POSTGRESQL -> {
+            return new TestateRepositoryPsql(connection);
+        }
+        default -> {
+            return null;
+        }
         }
     }
 
@@ -87,12 +87,12 @@ public class RepositoryFactory {
      */
     public static ExerciseRepository getExerciseRepository(RepositoryType type, Connection connection) {
         switch (type) {
-            case POSTGRESQL -> {
-                return new ExerciseRepositoryPsql(connection);
-            }
-            default -> {
-                return null;
-            }
+        case POSTGRESQL -> {
+            return new ExerciseRepositoryPsql(connection);
+        }
+        default -> {
+            return null;
+        }
         }
     }
 
@@ -105,12 +105,12 @@ public class RepositoryFactory {
      */
     public static SubmissionRepository getSubmissionRepository(RepositoryType type, Connection connection) {
         switch (type) {
-            case POSTGRESQL -> {
-                return new SubmissionRepositoryPsql(connection);
-            }
-            default -> {
-                return null;
-            }
+        case POSTGRESQL -> {
+            return new SubmissionRepositoryPsql(connection);
+        }
+        default -> {
+            return null;
+        }
         }
     }
 
@@ -123,12 +123,12 @@ public class RepositoryFactory {
      */
     public static SystemSettingsRepository getSystemSettingsRepository(RepositoryType type, Connection connection) {
         switch (type) {
-            case POSTGRESQL -> {
-                return new SystemSettingsRepositoryPsql(connection);
-            }
-            default -> {
-                return null;
-            }
+        case POSTGRESQL -> {
+            return new SystemSettingsRepositoryPsql(connection);
+        }
+        default -> {
+            return null;
+        }
         }
     }
 
@@ -141,12 +141,12 @@ public class RepositoryFactory {
      */
     public static UserRepository getUserRepository(RepositoryType type, Connection connection) {
         switch (type) {
-            case POSTGRESQL -> {
-                return new UserRepositoryPsql(connection);
-            }
-            default -> {
-                return null;
-            }
+        case POSTGRESQL -> {
+            return new UserRepositoryPsql(connection);
+        }
+        default -> {
+            return null;
+        }
         }
     }
 
@@ -159,12 +159,12 @@ public class RepositoryFactory {
      */
     public static ExerciseDescriptionImageRepository getExerciseDescriptionImageRepository(RepositoryType type, Connection connection) {
         switch (type) {
-            case POSTGRESQL -> {
-                return new ExerciseDescriptionImageRepositoryPsql(connection);
-            }
-            default -> {
-                return null;
-            }
+        case POSTGRESQL -> {
+            return new ExerciseDescriptionImageRepositoryPsql(connection);
+        }
+        default -> {
+            return null;
+        }
         }
     }
 
@@ -177,12 +177,12 @@ public class RepositoryFactory {
      */
     public static NotVerifiedUserRepository getNotVerifiedUserRepository(RepositoryType type, Connection connection) {
         switch (type) {
-            case POSTGRESQL -> {
-                return new NotVerifiedUserRepositoryPsql(connection);
-            }
-            default -> {
-                return null;
-            }
+        case POSTGRESQL -> {
+            return new NotVerifiedUserRepositoryPsql(connection);
+        }
+        default -> {
+            return null;
+        }
         }
     }
 

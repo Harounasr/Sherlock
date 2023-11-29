@@ -6,10 +6,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
-* A serializable wrapper for the Logger to enable serialization.
+ * A serializable wrapper for the Logger to enable serialization.
  *
  * @author Leon Höfling
-*/
+ */
 public class SerializableLogger implements Serializable {
 
     /**
@@ -24,10 +24,10 @@ public class SerializableLogger implements Serializable {
     private transient Logger logger;
 
     /**
-    * Constructor for SerializableLogger.
-    *
-    * @param logger The Logger instance to wrap.
-    */
+     * Constructor for SerializableLogger.
+     *
+     * @param logger The Logger instance to wrap.
+     */
     public SerializableLogger(Logger logger) {
         this.logger = logger;
     }

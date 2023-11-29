@@ -43,7 +43,7 @@ public class ExerciseDescriptionImageServlet extends HttpServlet {
     /**
      * Gets the requested image from the database and serves it through the response.
      *
-     * @param request The HTTPServletRequest.
+     * @param request  The HTTPServletRequest.
      * @param response The HTTPServletResponse.
      */
     @Override

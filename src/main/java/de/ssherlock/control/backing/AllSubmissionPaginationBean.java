@@ -82,7 +82,6 @@ public class AllSubmissionPaginationBean extends AbstractPaginationBean implemen
      * Action to redirect the user to the selected submission.
      *
      * @param submissionId the id of the submission.
-     *
      * @return The navigation outcome.
      */
     public String selectSubmission(long submissionId) {

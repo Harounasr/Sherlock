@@ -1,6 +1,7 @@
 package de.ssherlock.persistence.exception;
 
 import java.io.Serial;
+
 /**
  * Is thrown when the sending of a mail did not work.
  *
@@ -34,7 +35,7 @@ public class MailUnavailableException extends RuntimeException {
      * Constructs a new MailUnavailableException and sets the message.
      *
      * @param message stores the message.
-     * @param err the exception which is going to be wrapped.
+     * @param err     the exception which is going to be wrapped.
      */
     public MailUnavailableException(String message, Throwable err) {
         super(message, err);

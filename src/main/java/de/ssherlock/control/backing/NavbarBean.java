@@ -101,7 +101,7 @@ public class NavbarBean implements Serializable {
      * @return The destination view for user's profile.
      */
     public String navigateToProfile() {
-        logger.log(Level.INFO,"Inside navbarbean");
+        logger.log(Level.INFO, "Inside navbarbean");
         return "/view/registered/profile.xhtml";
     }
 

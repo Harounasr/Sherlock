@@ -104,8 +104,12 @@ public class CheckerResult implements Serializable {
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         CheckerResult that = (CheckerResult) o;
         return passed == that.passed && Objects.equals(checker, that.checker) && Objects.equals(stackTrace, that.stackTrace);
     }
