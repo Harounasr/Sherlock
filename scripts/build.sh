@@ -1,4 +1,4 @@
-
+#!/usr/bin/env bash
 
 # Author: Leon Föckersperger
 
