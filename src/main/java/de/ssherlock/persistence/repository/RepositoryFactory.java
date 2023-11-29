@@ -15,7 +15,7 @@ public final class RepositoryFactory {
     /**
      * Logger instance for this class.
      */
-    private static final SerializableLogger logger = LoggerCreator.get(RepositoryFactory.class);
+    private static final SerializableLogger LOGGER = LoggerCreator.get(RepositoryFactory.class);
 
     /**
      * Default constructor.

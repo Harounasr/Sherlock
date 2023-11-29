@@ -5,7 +5,10 @@ import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Course;
 import de.ssherlock.persistence.exception.PersistenceNonExistentCourseException;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 

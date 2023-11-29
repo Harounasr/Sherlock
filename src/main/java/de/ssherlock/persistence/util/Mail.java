@@ -1,19 +1,24 @@
 package de.ssherlock.persistence.util;
 
-import java.io.Serial;
-import java.io.Serializable;
-import java.util.Properties;
-import java.util.logging.Level;
-
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.config.Configuration;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import jakarta.mail.*;
+import jakarta.mail.Authenticator;
+import jakarta.mail.Message;
+import jakarta.mail.MessagingException;
+import jakarta.mail.PasswordAuthentication;
+import jakarta.mail.Session;
+import jakarta.mail.Transport;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.Properties;
+import java.util.logging.Level;
 
 /**
  * Request-scoped class for sending emails using JavaMail API.

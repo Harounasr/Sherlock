@@ -5,12 +5,13 @@ import de.ssherlock.business.service.SubmissionService;
 import de.ssherlock.business.service.TestateService;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
-import de.ssherlock.global.transport.*;
+import de.ssherlock.global.transport.CheckerResult;
+import de.ssherlock.global.transport.SubmissionFile;
+import de.ssherlock.global.transport.Testate;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-
 
 import java.io.Serial;
 import java.io.Serializable;

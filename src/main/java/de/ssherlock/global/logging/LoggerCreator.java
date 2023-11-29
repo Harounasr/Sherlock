@@ -5,7 +5,6 @@ import jakarta.enterprise.inject.Produces;
 import jakarta.enterprise.inject.spi.InjectionPoint;
 import jakarta.servlet.ServletContextEvent;
 
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
