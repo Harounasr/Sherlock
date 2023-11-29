@@ -21,6 +21,7 @@ public interface NotVerifiedUserRepository {
      * Gets a not verified user from the database.
      *
      * @param token The verification token of the user.
+     * @return the not verified User.
      * @throws PersistenceNonExistentUserException when the user does not exist in the database.
      */
     User getNotVerifiedUser(String token) throws PersistenceNonExistentUserException;
