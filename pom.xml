@@ -16,7 +16,7 @@
         <maven.compiler.target>21</maven.compiler.target>
 
         <!-- Dependency versions -->
-        <spotbugs.version>4.7.3.0</spotbugs.version>
+        <spotbugs.version>4.8.1.0</spotbugs.version>
         <spotbugs-annotations.version>4.8.2</spotbugs-annotations.version>
         <maven-javadoc-plugin.version>3.4.1</maven-javadoc-plugin.version>
     </properties>
