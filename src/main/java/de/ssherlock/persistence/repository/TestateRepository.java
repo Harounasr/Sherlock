@@ -4,7 +4,6 @@ import de.ssherlock.global.transport.Testate;
 import de.ssherlock.persistence.exception.PersistenceNonExistentTestateException;
 
 import java.util.List;
-import java.util.function.Predicate;
 
 /**
  * Interface for interacting with a repository of Testate entities in the database.

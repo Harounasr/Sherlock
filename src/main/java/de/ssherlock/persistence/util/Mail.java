@@ -4,13 +4,11 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.Properties;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.config.Configuration;
 import jakarta.enterprise.context.Dependent;
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.mail.*;

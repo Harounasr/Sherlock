@@ -8,9 +8,6 @@ import de.ssherlock.persistence.exception.PersistenceNonExistentCourseException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.function.Predicate;
-import java.util.logging.Logger;
 
 /**
  * Implementation of CourseRepository for PostgreSQL database.

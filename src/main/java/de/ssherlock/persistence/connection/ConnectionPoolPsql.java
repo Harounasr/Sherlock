@@ -2,7 +2,6 @@ package de.ssherlock.persistence.connection;
 
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.persistence.config.Configuration;
-import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -16,7 +15,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Application-scoped connection pool class for managing PostgreSQL database connections.

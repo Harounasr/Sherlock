@@ -5,8 +5,12 @@ import jakarta.enterprise.inject.Produces;
 import jakarta.enterprise.inject.spi.InjectionPoint;
 import jakarta.servlet.ServletContextEvent;
 
-import java.io.*;
-import java.util.function.Function;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
@@ -19,7 +23,7 @@ import java.util.logging.Logger;
  * @author Victor Vollmann
  */
 @ApplicationScoped
-public class LoggerCreator implements Serializable {
+public final class LoggerCreator implements Serializable {
 
     /**
      * Serial Version UID
@@ -30,7 +34,7 @@ public class LoggerCreator implements Serializable {
     /**
      * Default logger instance used for internal logging within the LoggerCreator class.
      */
-    private static final SerializableLogger logger = get(LoggerCreator.class);
+    private static final SerializableLogger LOGGER = get(LoggerCreator.class);
 
     /**
      * Default constructor.
@@ -63,9 +67,9 @@ public class LoggerCreator implements Serializable {
                 throw new FileNotFoundException("Log config not found");
             }
             LogManager.getLogManager().readConfiguration(input);
-            logger.log(Level.INFO, "Log config loaded");
+            LOGGER.log(Level.INFO, "Log config loaded");
         } catch (IOException e) {
-            logger.log(Level.WARNING, "Log Config not loaded");
+            LOGGER.log(Level.WARNING, "Log Config not loaded");
         }
     }
 

@@ -1,7 +1,6 @@
 package de.ssherlock.persistence.exception;
 
 import java.io.Serial;
-import java.io.Serializable;
 
 /**
  * Runtime exception indicating that the database is unavailable.

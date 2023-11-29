@@ -4,7 +4,6 @@ import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.exception.PersistenceNonExistentUserException;
 
 import java.util.List;
-import java.util.function.Predicate;
 
 /**
  * Interface for interacting with a repository of User entities in the database.

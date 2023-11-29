@@ -3,9 +3,6 @@ package de.ssherlock.persistence.util;
 import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.User;
 
-import java.security.SecureRandom;
-import java.math.BigInteger;
-
 /**
  * Utility class for building content for different types of emails.
  *

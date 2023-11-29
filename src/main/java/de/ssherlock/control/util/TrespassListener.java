@@ -13,7 +13,6 @@ import jakarta.faces.event.PhaseId;
 import jakarta.faces.event.PhaseListener;
 
 import java.io.Serial;
-import java.util.logging.Logger;
 
 /**
  * Oversees user access permissions by verifying whether the role saved in the current session aligns with the required

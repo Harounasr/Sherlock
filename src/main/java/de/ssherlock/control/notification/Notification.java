@@ -2,7 +2,6 @@ package de.ssherlock.control.notification;
 
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
-import jakarta.inject.Inject;
 
 /**
  * A class representing a notification message, which can be used to display messages in the UI.

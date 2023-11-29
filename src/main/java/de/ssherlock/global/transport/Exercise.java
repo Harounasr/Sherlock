@@ -6,7 +6,6 @@ import jakarta.inject.Named;
 import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -107,7 +106,7 @@ public class Exercise implements Serializable {
      *
      * @return the publishing date
      */
-    public java.sql.Date getPublishDate() {
+    public Date getPublishDate() {
         return publishDate;
     }
 

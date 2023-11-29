@@ -10,7 +10,12 @@ import java.sql.Connection;
  *
  * @author Victor Vollmann
  */
-public class RepositoryFactory {
+public final class RepositoryFactory {
+
+    /**
+     * Logger instance for this class.
+     */
+    private static final SerializableLogger logger = LoggerCreator.get(RepositoryFactory.class);
 
     /**
      * Default constructor.
@@ -18,11 +23,6 @@ public class RepositoryFactory {
     private RepositoryFactory() {
 
     }
-
-    /**
-     * Logger instance for this class.
-     */
-    private static final SerializableLogger logger = LoggerCreator.get(RepositoryFactory.class);
 
     /**
      * Returns a CheckerRepository based on the RepositoryType and connection.

@@ -4,11 +4,8 @@ import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Submission;
 
-import java.io.File;
 import java.sql.Connection;
 import java.util.List;
-import java.util.function.Predicate;
-import java.util.logging.Logger;
 
 /**
  * Implementation of SubmissionRepository for PostgreSQL database.

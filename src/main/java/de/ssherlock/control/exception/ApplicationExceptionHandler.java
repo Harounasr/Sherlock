@@ -5,7 +5,6 @@ import de.ssherlock.global.transport.Error;
 import jakarta.el.ELException;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.faces.FacesException;
-import jakarta.faces.component.UIViewRoot;
 import jakarta.faces.context.ExceptionHandler;
 import jakarta.faces.context.ExceptionHandlerFactory;
 import jakarta.faces.context.ExceptionHandlerWrapper;
@@ -13,7 +12,6 @@ import jakarta.faces.context.FacesContext;
 import jakarta.faces.event.ExceptionQueuedEvent;
 
 import java.util.Iterator;
-import java.util.logging.Logger;
 
 /**
  * Exception handler for handling exceptions.

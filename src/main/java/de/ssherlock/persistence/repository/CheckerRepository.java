@@ -4,7 +4,6 @@ import de.ssherlock.global.transport.Checker;
 import de.ssherlock.persistence.exception.PersistenceNonExistentCheckerException;
 
 import java.util.List;
-import java.util.function.Predicate;
 
 /**
  * Interface for interacting with a repository of Checker entities in the database.

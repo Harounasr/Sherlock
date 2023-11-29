@@ -4,7 +4,6 @@ import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.persistence.exception.PersistenceNonExistentExerciseException;
 
 import java.util.List;
-import java.util.function.Predicate;
 
 /**
  * Interface for interacting with a repository of Exercise entities in the database.
