@@ -60,8 +60,8 @@ public class CourseUserPaginationBean extends AbstractPaginationBean implements 
     /**
      * Constructor for CourseUserPaginationBean.
      *
-     * @param logger     The logger for logging purposes (Injected).
-     * @param appSession The active session (Injected).
+     * @param logger      The logger for logging purposes (Injected).
+     * @param appSession  The active session (Injected).
      * @param userService The service handling user-related operations (Injected).
      */
     @Inject

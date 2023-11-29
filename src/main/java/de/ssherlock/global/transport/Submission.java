@@ -174,10 +174,15 @@ public class Submission implements Serializable {
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Submission that = (Submission) o;
-        return exerciseId == that.exerciseId && Objects.equals(user, that.user) && Objects.equals(checkerResults, that.checkerResults) && Objects.equals(submissionFiles, that.submissionFiles) && Objects.equals(timestamp, that.timestamp);
+        return exerciseId == that.exerciseId && Objects.equals(user, that.user) && Objects.equals(checkerResults, that.checkerResults)
+               && Objects.equals(submissionFiles, that.submissionFiles) && Objects.equals(timestamp, that.timestamp);
     }
 
     /**

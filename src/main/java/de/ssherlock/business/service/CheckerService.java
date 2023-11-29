@@ -72,7 +72,6 @@ public class CheckerService implements Serializable {
      * Updates the information of an existing checker.
      *
      * @param checker The checker to be updated.
-     *
      * @throws BusinessNonExistentCheckerException when checker does not exist in the database.
      */
     public void updateChecker(Checker checker) throws BusinessNonExistentCheckerException {

@@ -5,9 +5,9 @@ FROM markhobson/maven-chrome:jdk-21
 USER root
 
 # Install Firefox
-RUN apt update && \
-    apt install -y firefox && \
-    apt clean
+RUN apt-get update && \
+    apt-get install -y firefox && \
+    apt-get clean
 
 # Install Microsoft Edge
 RUN apt-get update && \

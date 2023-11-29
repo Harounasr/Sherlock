@@ -51,8 +51,8 @@ public class CheckerResultsBean implements Serializable {
     /**
      * Constructs a CheckerResultsBean.
      *
-     * @param logger         The logger used for logging within this class (Injected).
-     * @param appSession     The active session (Injected).
+     * @param logger            The logger used for logging within this class (Injected).
+     * @param appSession        The active session (Injected).
      * @param submissionService The CheckerService used for managing checkers (Injected).
      */
     @Inject

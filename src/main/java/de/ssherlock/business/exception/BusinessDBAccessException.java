@@ -35,7 +35,7 @@ public class BusinessDBAccessException extends Exception {
      * Constructs a new BusinessDBAccessException and sets the message.
      *
      * @param message stores the message.
-     * @param err the exception which is going to be wrapped.
+     * @param err     the exception which is going to be wrapped.
      */
     public BusinessDBAccessException(String message, Throwable err) {
         super(message, err);

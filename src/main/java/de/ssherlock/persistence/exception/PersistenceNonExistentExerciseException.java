@@ -34,7 +34,7 @@ public class PersistenceNonExistentExerciseException extends Exception {
     /**
      * Constructs a new PersistenceNonExistentExerciseException with the specified detail message and cause.
      *
-     * @param msg  The detail message.
+     * @param msg   The detail message.
      * @param cause The cause (which is saved for later retrieval by the getCause() method).
      */
     public PersistenceNonExistentExerciseException(String msg, Throwable cause) {

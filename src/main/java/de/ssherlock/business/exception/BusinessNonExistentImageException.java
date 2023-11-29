@@ -35,7 +35,7 @@ public class BusinessNonExistentImageException extends Exception {
      * Constructs a new BusinessNonExistentImageException and sets the message and the error.
      *
      * @param message stores the message.
-     * @param err the exception which is going to be wrapped.
+     * @param err     the exception which is going to be wrapped.
      */
     public BusinessNonExistentImageException(String message, Throwable err) {
         super(message, err);

@@ -197,14 +197,18 @@ public class Exercise implements Serializable {
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Exercise exercise = (Exercise) o;
         return id == exercise.id &&
-                Objects.equals(name, exercise.name) &&
-                Objects.equals(publishDate, exercise.publishDate) &&
-                Objects.equals(recommendedDeadline, exercise.recommendedDeadline) &&
-                Objects.equals(obligatoryDeadline, exercise.obligatoryDeadline);
+               Objects.equals(name, exercise.name) &&
+               Objects.equals(publishDate, exercise.publishDate) &&
+               Objects.equals(recommendedDeadline, exercise.recommendedDeadline) &&
+               Objects.equals(obligatoryDeadline, exercise.obligatoryDeadline);
     }
 
     /**

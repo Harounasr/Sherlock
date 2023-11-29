@@ -8,6 +8,7 @@
         body {
             background-color: #f4f4f4;
         }
+
         .login-container {
             margin-top: 150px;
         }
@@ -25,22 +26,24 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="username">Username</label>
-                            <h:inputText id="username" value="#{loginBean.loginInfo.username}" styleClass="form-control" placeholder="Enter your username"/>
+                            <h:inputText id="username" value="#{loginBean.loginInfo.username}" styleClass="form-control"
+                                         placeholder="Enter your username"/>
                         </div>
                         <div class="form-group">
                             <label for="password">Password</label>
-                            <h:inputSecret id="password" value="#{loginBean.loginInfo.unhashedPassword}" styleClass="form-control" placeholder="Enter your password"/>
+                            <h:inputSecret id="password" value="#{loginBean.loginInfo.unhashedPassword}" styleClass="form-control"
+                                           placeholder="Enter your password"/>
                             <h:message for="password" id="loginError" errorStyle="text-emphasis-color: darkred"/>
                         </div>
                         <h:commandButton id="login" value="Login" styleClass="btn btn-primary btn-block" action="#{loginBean.login}"/>
                         <h:commandButton id="register" value="Register" styleClass="btn btn-primary btn-block" action="#{loginBean.registerClicked}"/>
-                        <h:messages />
+                        <h:messages/>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </h:form>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"  type="application/json"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" type="application/json"></script>
 </body>
 </html>

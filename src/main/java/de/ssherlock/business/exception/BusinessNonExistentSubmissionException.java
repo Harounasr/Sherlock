@@ -1,6 +1,7 @@
 package de.ssherlock.business.exception;
 
 import java.io.Serial;
+
 /**
  * Is thrown when a Submission is not in the database.
  *
@@ -34,7 +35,7 @@ public class BusinessNonExistentSubmissionException extends Exception {
      * Constructs a new BusinessNonExistentSubmissionException and sets the message and the error.
      *
      * @param message stores the message.
-     * @param err the exception which is going to be wrapped.
+     * @param err     the exception which is going to be wrapped.
      */
     public BusinessNonExistentSubmissionException(String message, Throwable err) {
         super(message, err);

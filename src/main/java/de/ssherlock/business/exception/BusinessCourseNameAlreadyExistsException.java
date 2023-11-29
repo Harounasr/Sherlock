@@ -21,6 +21,7 @@ public class BusinessCourseNameAlreadyExistsException extends Exception {
     public BusinessCourseNameAlreadyExistsException() {
         super();
     }
+
     /**
      * Constructs a new BusinessCourseNameAlreadyExistsException and sets the Message.
      *
@@ -29,11 +30,12 @@ public class BusinessCourseNameAlreadyExistsException extends Exception {
     public BusinessCourseNameAlreadyExistsException(String message) {
         super(message);
     }
+
     /**
      * Constructs a new BusinessCourseNameAlreadyExistsException and sets the Message.
      *
      * @param message stores the message.
-     * @param err the exception which is going to be wrapped.
+     * @param err     the exception which is going to be wrapped.
      */
     public BusinessCourseNameAlreadyExistsException(String message, Throwable err) {
         super(message, err);

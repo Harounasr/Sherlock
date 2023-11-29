@@ -221,10 +221,15 @@ public class Checker implements Serializable {
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Checker checker = (Checker) o;
-        return mandatory == checker.mandatory && visible == checker.visible && id == checker.id && Objects.equals(name, checker.name) && Objects.equals(parameterOne, checker.parameterOne) && Objects.equals(parameterTwo, checker.parameterTwo);
+        return mandatory == checker.mandatory && visible == checker.visible && id == checker.id && Objects.equals(name, checker.name)
+               && Objects.equals(parameterOne, checker.parameterOne) && Objects.equals(parameterTwo, checker.parameterTwo);
     }
 
     /**

@@ -23,10 +23,9 @@ public interface TestateRepository {
     /**
      * Gets a Testate entity from the database based on an exercise and a student's username.
      *
-     * @param exerciseId The exercise ID.
+     * @param exerciseId      The exercise ID.
      * @param studentUsername The student's username.
      * @return The testate.
-     *
      * @throws PersistenceNonExistentTestateException when the testate does not exist in the database.
      */
     Testate getTestate(long exerciseId, String studentUsername) throws PersistenceNonExistentTestateException;
@@ -42,7 +41,7 @@ public interface TestateRepository {
     /**
      * Gets a list of Testate entities for a specific exercise and tutor from the database.
      *
-     * @param exerciseId The exerciseId.
+     * @param exerciseId    The exerciseId.
      * @param tutorUsername The username of the tutor.
      * @return The list of Testate entities.
      */

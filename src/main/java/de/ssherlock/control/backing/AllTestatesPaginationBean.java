@@ -59,9 +59,9 @@ public class AllTestatesPaginationBean extends AbstractPaginationBean implements
     /**
      * Constructs an AllTestatesPaginationBean.
      *
-     * @param logger          The logger used for logging within this class (Injected).
-     * @param appSession      The active session (Injected).
-     * @param testateService  The TestateService used for testate-related actions (Injected).
+     * @param logger         The logger used for logging within this class (Injected).
+     * @param appSession     The active session (Injected).
+     * @param testateService The TestateService used for testate-related actions (Injected).
      */
     @Inject
     public AllTestatesPaginationBean(SerializableLogger logger, AppSession appSession, TestateService testateService) {
@@ -83,7 +83,7 @@ public class AllTestatesPaginationBean extends AbstractPaginationBean implements
      * Action that redirects the user to the selected testate.
      *
      * @param exerciseId The exercise id.
-     * @param username The username.
+     * @param username   The username.
      * @return The navigation outcome.
      */
     public String selectTestate(long exerciseId, String username) {

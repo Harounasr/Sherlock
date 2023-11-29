@@ -55,7 +55,7 @@ public class StartStopPersistence implements Serializable {
     /**
      * Initializes the persistence layer during application startup.
      *
-     * @param sce   The Servlet Context Event.
+     * @param sce The Servlet Context Event.
      */
     public void init(ServletContextEvent sce) {
         logger.log(Level.INFO, "Persistence Layer initialized.");
@@ -63,10 +63,11 @@ public class StartStopPersistence implements Serializable {
         configuration.init(sce);
         connectionPoolPsql.init();
     }
+
     /**
      * Destroys the persistence layer during application shutdown.
      *
-     * @param sce   The Servlet Context Event.
+     * @param sce The Servlet Context Event.
      */
     public void destroy(ServletContextEvent sce) {
         logger.log(Level.INFO, "Persistence Layer destroyed");

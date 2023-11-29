@@ -71,7 +71,7 @@ public class TestateBean implements Serializable {
      * @param submissionService The service handling submission-related operations.
      * @param checkerService    The service handling checker-related operations.
      * @param testateService    The service handling testate-related operations.
-     * @param newTestate           The testate the user creates (Injected empty).
+     * @param newTestate        The testate the user creates (Injected empty).
      */
     @Inject
     public TestateBean(SerializableLogger logger, AppSession appSession, SubmissionService submissionService,
@@ -113,7 +113,6 @@ public class TestateBean implements Serializable {
      * Converts the current submission files to text for the facelet.
      *
      * @param file the file.
-     *
      * @return The Text.
      */
     public List<Object[]> convertSubmissionFileToText(SubmissionFile file) {

@@ -45,7 +45,7 @@ public class CourseService implements Serializable {
     /**
      * Constructs a CourseService with the specified logger.
      *
-     * @param logger The logger to be used for logging messages related to CourseService.
+     * @param logger             The logger to be used for logging messages related to CourseService.
      * @param connectionPoolPsql The connection pool.
      */
     @Inject
@@ -100,7 +100,6 @@ public class CourseService implements Serializable {
      * Removes an existing course.
      *
      * @param courseName The course to remove.
-     *
      * @throws BusinessNonExistentCourseException when the course does not exist in the database.
      */
     public void removeCourse(String courseName) throws BusinessNonExistentCourseException {

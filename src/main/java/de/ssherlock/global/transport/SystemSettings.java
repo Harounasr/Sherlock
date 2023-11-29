@@ -16,7 +16,7 @@ import java.util.Objects;
  */
 @Named
 @Dependent
-public class  SystemSettings implements Serializable {
+public class SystemSettings implements Serializable {
 
     /**
      * Serial Version UID
@@ -174,10 +174,16 @@ public class  SystemSettings implements Serializable {
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         SystemSettings that = (SystemSettings) o;
-        return Objects.equals(emailRegex, that.emailRegex) && Objects.equals(primaryColorHex, that.primaryColorHex) && Objects.equals(secondaryColorHex, that.secondaryColorHex) && Objects.equals(systemName, that.systemName) && Arrays.equals(logo, that.logo) && Objects.equals(faculties, that.faculties);
+        return Objects.equals(emailRegex, that.emailRegex) && Objects.equals(primaryColorHex, that.primaryColorHex) && Objects.equals(
+                secondaryColorHex, that.secondaryColorHex) && Objects.equals(systemName, that.systemName) && Arrays.equals(logo, that.logo)
+               && Objects.equals(faculties, that.faculties);
     }
 
     /**

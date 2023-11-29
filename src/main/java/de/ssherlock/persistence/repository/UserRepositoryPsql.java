@@ -51,7 +51,7 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
      * {@inheritDoc}
      */
     @Override
-    public void updateUser(User user) throws PersistenceNonExistentUserException  {
+    public void updateUser(User user) throws PersistenceNonExistentUserException {
 
     }
 
@@ -71,14 +71,14 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
         try {
             String sqlQuery =
                     """
-                            SELECT 
-                                u.username, u.email, u.firstname, u.lastname, u.systemrole, u.passwordhash,
-                                u.passwordsalt, u.facultyname, r.course_name, r.course_role
-                            FROM 
-                                users u LEFT JOIN participates r ON u.username = r.username
-                            WHERE 
-                                u.username = ?;
-                            """;
+                    SELECT 
+                        u.username, u.email, u.firstname, u.lastname, u.systemrole, u.passwordhash,
+                        u.passwordsalt, u.facultyname, r.course_name, r.course_role
+                    FROM 
+                        users u LEFT JOIN participates r ON u.username = r.username
+                    WHERE 
+                        u.username = ?;
+                    """;
 
             PreparedStatement statement = connection.prepareStatement(sqlQuery);
             statement.setString(1, username);

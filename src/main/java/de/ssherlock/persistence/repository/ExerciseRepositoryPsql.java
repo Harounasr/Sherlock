@@ -48,15 +48,15 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
     @Override
     public void updateExercise(Exercise exercise) throws PersistenceNonExistentExerciseException {
         String sqlQuery = """
-            UPDATE exercises
-            SET name = ?, 
-                publish_date = ?, 
-                recommended_deadline = ?,
-                obligatory_deadline = ?,
-                coursename = ?,
-                description = ?
-            WHERE id = ?;                 
-        """;
+                              UPDATE exercises
+                              SET name = ?, 
+                                  publish_date = ?, 
+                                  recommended_deadline = ?,
+                                  obligatory_deadline = ?,
+                                  coursename = ?,
+                                  description = ?
+                              WHERE id = ?;                 
+                          """;
         try (PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
             statement.setString(1, exercise.getName());
             statement.setDate(2, exercise.getPublishDate());

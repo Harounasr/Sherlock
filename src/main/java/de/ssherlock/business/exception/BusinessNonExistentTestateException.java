@@ -35,7 +35,7 @@ public class BusinessNonExistentTestateException extends Exception {
      * Constructs a new BusinessNonExistentTestateException and sets the message and the error.
      *
      * @param message stores the message.
-     * @param err the exception which is going to be wrapped.
+     * @param err     the exception which is going to be wrapped.
      */
     public BusinessNonExistentTestateException(String message, Throwable err) {
         super(message, err);

@@ -86,8 +86,7 @@ public class UserService implements Serializable {
      *
      * @param loginInfo The login information containing the username and hashed password.
      * @return The authenticated user.
-     *
-     * @throws LoginFailedException If the login fails, either due to a non-existent user or incorrect password.
+     * @throws LoginFailedException             If the login fails, either due to a non-existent user or incorrect password.
      * @throws BusinessNonExistentUserException when the user is not registered in the system.
      */
     public User login(LoginInfo loginInfo) throws LoginFailedException, BusinessNonExistentUserException {
@@ -102,7 +101,8 @@ public class UserService implements Serializable {
             throw new BusinessNonExistentUserException("The user " + loginInfo.getUsername() + " is not registered in the system");
         }
         connectionPoolPsql.releaseConnection(connection);
-        if (Objects.equals(user.getPassword().getHash(), PasswordHashing.getHashedPassword(loginInfo.getUnhashedPassword(), user.getPassword().getSalt()))) {
+        if (Objects.equals(user.getPassword().getHash(),
+                           PasswordHashing.getHashedPassword(loginInfo.getUnhashedPassword(), user.getPassword().getSalt()))) {
             return user;
         } else {
             throw new LoginFailedException("The password for " + loginInfo.getUsername() + " was not correct");
@@ -122,7 +122,6 @@ public class UserService implements Serializable {
      * Sends a password reset email to the user.
      *
      * @param username The username for whom to send the password reset email.
-     *
      * @throws BusinessNonExistentUserException when the user is not registered in the system.
      */
     public void sendPasswordForgottenEmail(String username) throws BusinessNonExistentUserException {
@@ -141,7 +140,6 @@ public class UserService implements Serializable {
      * Deletes a user account.
      *
      * @param username The user to be deleted.
-     *
      * @throws BusinessNonExistentUserException when the user is not registered in the system.
      */
     public void deleteUser(String username) throws BusinessNonExistentUserException {
@@ -151,7 +149,6 @@ public class UserService implements Serializable {
      * Updates user account information.
      *
      * @param user The user with updated information.
-     *
      * @throws BusinessNonExistentUserException when the user is not registered in the system.
      */
     public void updateUser(User user) throws BusinessNonExistentUserException {
@@ -171,7 +168,6 @@ public class UserService implements Serializable {
      *
      * @param username The username of the user.
      * @return the user.
-     *
      * @throws BusinessNonExistentUserException when the user is not registered in the system.
      */
     public User getUser(String username) throws BusinessNonExistentUserException {
@@ -187,9 +183,8 @@ public class UserService implements Serializable {
     /**
      * Updates the role of a user in a specific course.
      *
-     * @param username       The user for whom to update the role.
-     * @param courseRole     The new role for the user in the course.
-     *
+     * @param username   The user for whom to update the role.
+     * @param courseRole The new role for the user in the course.
      * @throws BusinessNonExistentUserException when the user does not exist in the database.
      */
     public void updateCourseRole(String username, CourseRole courseRole) throws BusinessNonExistentUserException {

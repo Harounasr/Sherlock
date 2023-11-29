@@ -14,7 +14,7 @@ import java.util.UUID;
  *
  * @author Leon Höfling
  */
-public class ExerciseDescriptionImageRepositoryPsql extends RepositoryPsql implements ExerciseDescriptionImageRepository{
+public class ExerciseDescriptionImageRepositoryPsql extends RepositoryPsql implements ExerciseDescriptionImageRepository {
 
     /**
      * Constructor to initialize the repository with a database connection.
@@ -31,9 +31,9 @@ public class ExerciseDescriptionImageRepositoryPsql extends RepositoryPsql imple
     @Override
     public void insertExerciseDescriptionImage(ExerciseDescriptionImage image) {
         String sqlQuery = """
-            INSERT INTO exercise_description_image(uuid, image) 
-            VALUES ( ?, ? );                        
-        """;
+                              INSERT INTO exercise_description_image(uuid, image) 
+                              VALUES ( ?, ? );                        
+                          """;
         UUID uuid = UUID.randomUUID();
         try (PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
             statement.setObject(1, uuid);

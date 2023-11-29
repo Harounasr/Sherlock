@@ -35,7 +35,7 @@ public class BusinessLOBFetchException extends Exception {
      * Constructs a new BusinessLOBFetchException and sets the message.
      *
      * @param message stores the message.
-     * @param err the exception which is going to be wrapped.
+     * @param err     the exception which is going to be wrapped.
      */
     public BusinessLOBFetchException(String message, Throwable err) {
         super(message, err);

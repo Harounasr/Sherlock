@@ -148,7 +148,7 @@ public class ConnectionPoolPsql implements Serializable {
         Connection conn;
         try {
             conn = DriverManager.getConnection(
-                    "jdbc:postgresql://" + configuration.getDbHost() + "/"+ configuration.getDbName(), configuration.getConnectionProperties());
+                    "jdbc:postgresql://" + configuration.getDbHost() + "/" + configuration.getDbName(), configuration.getConnectionProperties());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

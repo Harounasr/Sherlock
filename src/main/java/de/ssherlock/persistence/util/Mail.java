@@ -1,4 +1,5 @@
 package de.ssherlock.persistence.util;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Properties;

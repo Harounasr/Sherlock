@@ -123,8 +123,12 @@ public class ExerciseDescriptionImage implements Serializable {
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         ExerciseDescriptionImage that = (ExerciseDescriptionImage) o;
         return uuid == that.uuid && Arrays.equals(image, that.image);
     }

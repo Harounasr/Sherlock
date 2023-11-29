@@ -40,7 +40,7 @@ public class PasswordValidator implements Validator<String> {
      *
      * @param facesContext The FacesContext for the current request.
      * @param uiComponent  The UIComponent associated with the component being validated.
-     * @param password            The password string to be validated.
+     * @param password     The password string to be validated.
      * @throws ValidatorException if the validation fails.
      */
     @Override

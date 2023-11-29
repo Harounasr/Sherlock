@@ -35,7 +35,7 @@ public class LoginFailedException extends Exception {
      * Constructs a new LoginFailedException and sets the message.
      *
      * @param message stores the message.
-     * @param err the exception which is going to be wrapped.
+     * @param err     the exception which is going to be wrapped.
      */
     public LoginFailedException(String message, Throwable err) {
         super(message, err);

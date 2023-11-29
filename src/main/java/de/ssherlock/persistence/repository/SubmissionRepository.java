@@ -25,7 +25,6 @@ public interface SubmissionRepository {
      *
      * @param id The ID of the Submission entity to be fetched.
      * @return The fetched Submission entity, or null if not found.
-     *
      * @throws PersistenceNonExistentSubmissionException when the submission does not exist in the database.
      */
     Submission getSubmission(long id) throws PersistenceNonExistentSubmissionException;

@@ -35,7 +35,7 @@ public class BusinessNonExistentExerciseException extends Exception {
      * Constructs a new BusinessNonExistentExerciseException and sets the message and the error.
      *
      * @param message stores the message.
-     * @param err the exception which is going to be wrapped.
+     * @param err     the exception which is going to be wrapped.
      */
     public BusinessNonExistentExerciseException(String message, Throwable err) {
         super(message, err);
