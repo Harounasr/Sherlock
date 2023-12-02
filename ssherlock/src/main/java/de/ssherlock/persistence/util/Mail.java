@@ -1,20 +1,20 @@
 package de.ssherlock.persistence.util;
-import java.io.Serial;
-import java.io.Serializable;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.config.Configuration;
 import jakarta.enterprise.context.Dependent;
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.List;
+import java.util.Properties;
+import java.util.logging.Level;
 
 /**
  * Request-scoped class for sending emails using JavaMail API.
@@ -55,22 +55,48 @@ public class Mail implements Serializable {
     }
 
     /**
-     * Sends an email to the specified user with the given content.
+     * Sends an email to the specified users with the given content.
      *
-     * @param user    The user to whom the email will be sent.
-     * @param content The content of the email.
+     * @param recipients The users to whom the email will be sent.
+     * @param content    The content of the email.
      */
-    public void sendMail(User user, String content) {
+    public void sendMail(List<User> recipients, String content) {
         Session session = getSession();
         logger.log(Level.INFO, "Mail config loaded.");
         try {
-            logger.log(Level.INFO, "Trying to send Mail to " + user.getEmail());
+            logger.log(Level.INFO, "Trying to send reminder Mails");
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(config.getMailFrom()));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(user.getEmail()));
+            for (User user : recipients) {
+                message.addRecipient(Message.RecipientType.CC, InternetAddress.parse(user.getEmail())[0]);
+            }
             message.setText(content);
+            message.setSubject("Upcoming exercise deadline reminder");
             Transport.send(message);
-            logger.log(Level.INFO, "Mail successfully sent to " + user.getEmail());
+            logger.log(Level.INFO, "Reminder mails successfully sent.");
+        } catch (MessagingException e) {
+            logger.log(Level.INFO, "There was a problem with sending the reminder Mails.");
+        }
+    }
+
+    /**
+     * Sends an email to the specified user with the given content.
+     *
+     * @param recipient  The user to whom the email will be sent.
+     * @param content    The content of the email.
+     */
+    public void sendMail(User recipient, String content, MailType subject) {
+        Session session = getSession();
+        logger.log(Level.INFO, "Mail config loaded.");
+        try {
+            logger.log(Level.INFO, "Trying to send Mail to " + recipient.getEmail());
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(config.getMailFrom()));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient.getEmail()));
+            message.setText(content);
+            message.setSubject(subject.name()); // somehow doesn't work...
+            Transport.send(message);
+            logger.log(Level.INFO, "Mail successfully sent to " + recipient.getEmail());
         } catch (MessagingException e) {
             logger.log(Level.INFO, "There was a problem with sending the Mail.");
         }
