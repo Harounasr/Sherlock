@@ -7,23 +7,15 @@ package de.ssherlock.global.transport;
  */
 public enum CheckerType {
 
-    /**
-     * Compilation checker.
-     */
-    COMPILATION,
+  /** Compilation checker. */
+  COMPILATION,
 
-    /**
-     * Identity checker.
-     */
-    IDENTITY,
+  /** Identity checker. */
+  IDENTITY,
 
-    /**
-     * Line width checker,
-     */
-    LINE_WIDTH,
+  /** Line width checker, */
+  LINE_WIDTH,
 
-    /**
-     * User defined checker.
-     */
-    USER_DEFINED
+  /** User defined checker. */
+  USER_DEFINED
 }

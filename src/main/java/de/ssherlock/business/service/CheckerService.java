@@ -8,7 +8,6 @@ import de.ssherlock.persistence.connection.ConnectionPoolPsql;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
@@ -22,74 +21,56 @@ import java.util.List;
 @Dependent
 public class CheckerService implements Serializable {
 
-    /**
-     * Serial Version UID
-     */
-    @Serial
-    private static final long serialVersionUID = 1L;
+  /** Serial Version UID */
+  @Serial private static final long serialVersionUID = 1L;
 
-    /**
-     * Logger instance for logging messages related to CheckerService.
-     */
-    private final SerializableLogger logger;
+  /** Logger instance for logging messages related to CheckerService. */
+  private final SerializableLogger logger;
 
-    /**
-     * Instance of the connection pool.
-     */
-    private final ConnectionPoolPsql connectionPoolPsql;
+  /** Instance of the connection pool. */
+  private final ConnectionPoolPsql connectionPoolPsql;
 
-    /**
-     * Constructs a CheckerService with the specified logger.
-     *
-     * @param logger             The logger to be used for logging messages related to CheckerService.
-     * @param connectionPoolPsql The connection pool.
-     */
-    @Inject
-    public CheckerService(SerializableLogger logger, ConnectionPoolPsql connectionPoolPsql) {
-        this.logger = logger;
-        this.connectionPoolPsql = connectionPoolPsql;
-    }
+  /**
+   * Constructs a CheckerService with the specified logger.
+   *
+   * @param logger The logger to be used for logging messages related to CheckerService.
+   * @param connectionPoolPsql The connection pool.
+   */
+  @Inject
+  public CheckerService(SerializableLogger logger, ConnectionPoolPsql connectionPoolPsql) {
+    this.logger = logger;
+    this.connectionPoolPsql = connectionPoolPsql;
+  }
 
-    /**
-     * Adds a new checker.
-     *
-     * @param checker The checker to be added.
-     */
-    public void addChecker(Checker checker) {
+  /**
+   * Adds a new checker.
+   *
+   * @param checker The checker to be added.
+   */
+  public void addChecker(Checker checker) {}
 
-    }
+  /**
+   * Removes an existing checker.
+   *
+   * @param checker The checker to be removed.
+   */
+  public void removeChecker(Checker checker) {}
 
-    /**
-     * Removes an existing checker.
-     *
-     * @param checker The checker to be removed.
-     */
-    public void removeChecker(Checker checker) {
+  /**
+   * Updates the information of an existing checker.
+   *
+   * @param checker The checker to be updated.
+   * @throws BusinessNonExistentCheckerException when checker does not exist in the database.
+   */
+  public void updateChecker(Checker checker) throws BusinessNonExistentCheckerException {}
 
-    }
-
-    /**
-     * Updates the information of an existing checker.
-     *
-     * @param checker The checker to be updated.
-     * @throws BusinessNonExistentCheckerException when checker does not exist in the database.
-     */
-    public void updateChecker(Checker checker) throws BusinessNonExistentCheckerException {
-
-    }
-
-    /**
-     * Retrieves a list of checkers associated with the specified exercise.
-     *
-     * @param exercise The exercise for which to retrieve checkers.
-     * @return A list of checkers associated with the exercise.
-     */
-    public List<Checker> getCheckersForExercise(Exercise exercise) {
-        return null;
-    }
-
-
+  /**
+   * Retrieves a list of checkers associated with the specified exercise.
+   *
+   * @param exercise The exercise for which to retrieve checkers.
+   * @return A list of checkers associated with the exercise.
+   */
+  public List<Checker> getCheckersForExercise(Exercise exercise) {
+    return null;
+  }
 }
-
-
-

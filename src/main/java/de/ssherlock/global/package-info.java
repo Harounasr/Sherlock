@@ -1,4 +1,2 @@
-/**
- * Classes that are used in every layer.
- */
+/** Classes that are used in every layer. */
 package de.ssherlock.global;

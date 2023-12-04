@@ -9,17 +9,15 @@ import java.sql.Connection;
  */
 public class RepositoryPsql {
 
-    /**
-     * The database connection.
-     */
-    protected Connection connection;
+  /** The database connection. */
+  protected Connection connection;
 
-    /**
-     * Constructor to initialize the repository with a database connection.
-     *
-     * @param connection The database connection.
-     */
-    public RepositoryPsql(Connection connection) {
-        this.connection = connection;
-    }
+  /**
+   * Constructor to initialize the repository with a database connection.
+   *
+   * @param connection The database connection.
+   */
+  public RepositoryPsql(Connection connection) {
+    this.connection = connection;
+  }
 }

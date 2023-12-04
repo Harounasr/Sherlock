@@ -7,8 +7,6 @@ package de.ssherlock.persistence.repository;
  */
 public enum RepositoryType {
 
-    /**
-     * A POSTGRESQL repository.
-     */
-    POSTGRESQL
+  /** A POSTGRESQL repository. */
+  POSTGRESQL
 }

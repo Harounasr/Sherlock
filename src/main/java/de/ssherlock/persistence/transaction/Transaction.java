@@ -9,17 +9,17 @@ import java.sql.SQLException;
  */
 public interface Transaction extends AutoCloseable {
 
-    /**
-     * Commits the transaction.
-     *
-     * @throws SQLException If an SQL exception occurs during the commit operation.
-     */
-    void commit() throws SQLException;
+  /**
+   * Commits the transaction.
+   *
+   * @throws SQLException If an SQL exception occurs during the commit operation.
+   */
+  void commit() throws SQLException;
 
-    /**
-     * Aborts (rolls back) the transaction.
-     *
-     * @throws SQLException If an SQL exception occurs during the abort operation.
-     */
-    void abort() throws SQLException;
+  /**
+   * Aborts (rolls back) the transaction.
+   *
+   * @throws SQLException If an SQL exception occurs during the abort operation.
+   */
+  void abort() throws SQLException;
 }

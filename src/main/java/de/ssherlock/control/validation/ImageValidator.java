@@ -21,31 +21,28 @@ import jakarta.servlet.http.Part;
 @FacesValidator(value = "imageValidator", managed = true)
 public class ImageValidator implements Validator<Part> {
 
-    /**
-     * The logger instance for this class.
-     */
-    private final SerializableLogger logger;
+  /** The logger instance for this class. */
+  private final SerializableLogger logger;
 
-    /**
-     * Constructs a new image validator.
-     *
-     * @param logger The logger instance for this class.
-     */
-    @Inject
-    public ImageValidator(SerializableLogger logger) {
-        this.logger = logger;
-    }
+  /**
+   * Constructs a new image validator.
+   *
+   * @param logger The logger instance for this class.
+   */
+  @Inject
+  public ImageValidator(SerializableLogger logger) {
+    this.logger = logger;
+  }
 
-    /**
-     * Validates the uploaded image file.
-     *
-     * @param facesContext The FacesContext for the current request.
-     * @param uiComponent  The UIComponent associated with the component being validated.
-     * @param part         The Part representing the uploaded image file to be validated.
-     * @throws ValidatorException if the validation fails.
-     */
-    @Override
-    public void validate(FacesContext facesContext, UIComponent uiComponent, Part part) throws ValidatorException {
-
-    }
+  /**
+   * Validates the uploaded image file.
+   *
+   * @param facesContext The FacesContext for the current request.
+   * @param uiComponent The UIComponent associated with the component being validated.
+   * @param part The Part representing the uploaded image file to be validated.
+   * @throws ValidatorException if the validation fails.
+   */
+  @Override
+  public void validate(FacesContext facesContext, UIComponent uiComponent, Part part)
+      throws ValidatorException {}
 }

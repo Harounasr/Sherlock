@@ -1,4 +1,2 @@
-/**
- * Handles and manages connections with the database.
- */
+/** Handles and manages connections with the database. */
 package de.ssherlock.persistence.connection;

@@ -1,4 +1,2 @@
-/**
- * Contains the configuration of the persistence layer.
- */
+/** Contains the configuration of the persistence layer. */
 package de.ssherlock.persistence.config;

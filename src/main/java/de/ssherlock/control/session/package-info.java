@@ -1,4 +1,2 @@
-/**
- * Contains session logic.
- */
+/** Contains session logic. */
 package de.ssherlock.control.session;

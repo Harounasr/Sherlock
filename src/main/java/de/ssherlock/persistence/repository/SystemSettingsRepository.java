@@ -9,18 +9,17 @@ import de.ssherlock.global.transport.SystemSettings;
  */
 public interface SystemSettingsRepository {
 
-    /**
-     * Updates the SystemSettings entity in the database.
-     *
-     * @param systemSettings The SystemSettings entity to be updated.
-     */
-    void updateSystemSettings(SystemSettings systemSettings);
+  /**
+   * Updates the SystemSettings entity in the database.
+   *
+   * @param systemSettings The SystemSettings entity to be updated.
+   */
+  void updateSystemSettings(SystemSettings systemSettings);
 
-    /**
-     * Fetches the SystemSettings entity from the database.
-     *
-     * @return The fetched SystemSettings entity, or null if not found.
-     */
-    SystemSettings getSystemSettings();
+  /**
+   * Fetches the SystemSettings entity from the database.
+   *
+   * @return The fetched SystemSettings entity, or null if not found.
+   */
+  SystemSettings getSystemSettings();
 }
-

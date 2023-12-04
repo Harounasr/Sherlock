@@ -10,20 +10,20 @@ import de.ssherlock.persistence.exception.PersistenceNonExistentImageException;
  */
 public interface ExerciseDescriptionImageRepository {
 
-    /**
-     * Inserts an ExerciseDescriptionImage into the database.
-     *
-     * @param image The image.
-     */
-    void insertExerciseDescriptionImage(ExerciseDescriptionImage image);
+  /**
+   * Inserts an ExerciseDescriptionImage into the database.
+   *
+   * @param image The image.
+   */
+  void insertExerciseDescriptionImage(ExerciseDescriptionImage image);
 
-    /**
-     * Gets an ExerciseDescriptionImage from the database by its UUID.
-     *
-     * @param uuid the UUID.
-     * @return The image.
-     * @throws PersistenceNonExistentImageException when the image does not exist in the database.
-     */
-    ExerciseDescriptionImage getExerciseDescriptionImage(String uuid) throws PersistenceNonExistentImageException;
-
+  /**
+   * Gets an ExerciseDescriptionImage from the database by its UUID.
+   *
+   * @param uuid the UUID.
+   * @return The image.
+   * @throws PersistenceNonExistentImageException when the image does not exist in the database.
+   */
+  ExerciseDescriptionImage getExerciseDescriptionImage(String uuid)
+      throws PersistenceNonExistentImageException;
 }

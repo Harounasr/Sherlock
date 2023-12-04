@@ -1,4 +1,2 @@
-/**
- * Contains classes that manage logging in the application.
- */
+/** Contains classes that manage logging in the application. */
 package de.ssherlock.global.logging;

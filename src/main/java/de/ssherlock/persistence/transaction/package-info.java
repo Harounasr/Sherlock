@@ -1,4 +1,2 @@
-/**
- * Contains all transaction logic.
- */
+/** Contains all transaction logic. */
 package de.ssherlock.persistence.transaction;

@@ -20,31 +20,28 @@ import jakarta.inject.Named;
 @FacesValidator(value = "passwordsEqualValidator", managed = true)
 public class PasswordsEqualValidator implements Validator<String> {
 
-    /**
-     * The logger instance for this class.
-     */
-    private final SerializableLogger logger;
+  /** The logger instance for this class. */
+  private final SerializableLogger logger;
 
-    /**
-     * Constructs a new PasswordValidator.
-     *
-     * @param logger The logger instance for this class.
-     */
-    @Inject
-    public PasswordsEqualValidator(SerializableLogger logger) {
-        this.logger = logger;
-    }
+  /**
+   * Constructs a new PasswordValidator.
+   *
+   * @param logger The logger instance for this class.
+   */
+  @Inject
+  public PasswordsEqualValidator(SerializableLogger logger) {
+    this.logger = logger;
+  }
 
-    /**
-     * Validates that two passwords are equal.
-     *
-     * @param facesContext The FacesContext for the current request.
-     * @param uiComponent  The UIComponent associated with the component being validated.
-     * @param password     The password string to be validated.
-     * @throws ValidatorException if the validation fails.
-     */
-    @Override
-    public void validate(FacesContext facesContext, UIComponent uiComponent, String password) throws ValidatorException {
-
-    }
+  /**
+   * Validates that two passwords are equal.
+   *
+   * @param facesContext The FacesContext for the current request.
+   * @param uiComponent The UIComponent associated with the component being validated.
+   * @param password The password string to be validated.
+   * @throws ValidatorException if the validation fails.
+   */
+  @Override
+  public void validate(FacesContext facesContext, UIComponent uiComponent, String password)
+      throws ValidatorException {}
 }

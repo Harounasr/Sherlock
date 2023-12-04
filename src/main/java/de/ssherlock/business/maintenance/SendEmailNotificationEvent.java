@@ -10,43 +10,28 @@ import de.ssherlock.global.logging.SerializableLogger;
  */
 final class SendEmailNotificationEvent {
 
-    /**
-     * Logger instance for logging messages related to CourseService.
-     */
-    private static final SerializableLogger LOGGER = LoggerCreator.get(SendEmailNotificationEvent.class);
+  /** Logger instance for logging messages related to CourseService. */
+  private static final SerializableLogger LOGGER =
+      LoggerCreator.get(SendEmailNotificationEvent.class);
 
-    /**
-     * Defines the rate in which this Event should be executed.
-     */
-    public static final int EXECUTION_RATE = 60 * 60 * 3;
+  /** Defines the rate in which this Event should be executed. */
+  public static final int EXECUTION_RATE = 60 * 60 * 3;
 
-    /**
-     * Constructs a new SendEmailNotificationEvent.
-     */
-    public SendEmailNotificationEvent() {
+  /** Constructs a new SendEmailNotificationEvent. */
+  public SendEmailNotificationEvent() {}
 
-    }
+  /**
+   * Checks if SendEmailNotificationEvent is currently running.
+   *
+   * @return true/false according to the state of SendEmailNotificationEvent.
+   */
+  public boolean isRunning() {
+    return false;
+  }
 
-    /**
-     * Checks if SendEmailNotificationEvent is currently running.
-     *
-     * @return true/false according to the state of SendEmailNotificationEvent.
-     */
-    public boolean isRunning() {
-        return false;
-    }
+  /** Shuts down the SendEmailNotificationEvent. */
+  public void shutdown() {}
 
-    /**
-     * Shuts down the SendEmailNotificationEvent.
-     */
-    public void shutdown() {
-
-    }
-
-    /**
-     * Sends email notifications.
-     */
-    public void sendEmailNotifications() {
-
-    }
+  /** Sends email notifications. */
+  public void sendEmailNotifications() {}
 }

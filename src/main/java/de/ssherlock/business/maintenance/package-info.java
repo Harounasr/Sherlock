@@ -1,4 +1,2 @@
-/**
- * Periodically occurring maintenance jobs.
- */
+/** Periodically occurring maintenance jobs. */
 package de.ssherlock.business.maintenance;

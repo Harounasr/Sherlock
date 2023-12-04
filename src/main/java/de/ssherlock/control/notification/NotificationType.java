@@ -7,13 +7,9 @@ package de.ssherlock.control.notification;
  */
 public enum NotificationType {
 
-    /**
-     * Represents an error notification.
-     */
-    ERROR,
+  /** Represents an error notification. */
+  ERROR,
 
-    /**
-     * Represents a success notification.
-     */
-    SUCCESS
+  /** Represents a success notification. */
+  SUCCESS
 }

@@ -10,43 +10,28 @@ import de.ssherlock.global.logging.SerializableLogger;
  */
 public class UnverifiedUsersCleanEvent {
 
-    /**
-     * Logger instance for logging messages related to CourseService.
-     */
-    private static final SerializableLogger LOGGER = LoggerCreator.get(UnverifiedUsersCleanEvent.class);
+  /** Logger instance for logging messages related to CourseService. */
+  private static final SerializableLogger LOGGER =
+      LoggerCreator.get(UnverifiedUsersCleanEvent.class);
 
-    /**
-     * Defines the rate in which this Event should be executed.
-     */
-    public static final int EXECUTION_RATE = 60 * 60 * 2;
+  /** Defines the rate in which this Event should be executed. */
+  public static final int EXECUTION_RATE = 60 * 60 * 2;
 
-    /**
-     * Constructs a new UnverifiedUsersCleanEvent.
-     */
-    public UnverifiedUsersCleanEvent() {
+  /** Constructs a new UnverifiedUsersCleanEvent. */
+  public UnverifiedUsersCleanEvent() {}
 
-    }
+  /** Deletes unverified users. */
+  public void cleanUnverifiedUsers() {}
 
-    /**
-     * Deletes unverified users.
-     */
-    public void cleanUnverifiedUsers() {
+  /**
+   * Checks if UnverifiedUsersCleanEvent is currently running.
+   *
+   * @return true/false according to the state of UnverifiedUsersCleanEvent.
+   */
+  public boolean isRunning() {
+    return false;
+  }
 
-    }
-
-    /**
-     * Checks if UnverifiedUsersCleanEvent is currently running.
-     *
-     * @return true/false according to the state of UnverifiedUsersCleanEvent.
-     */
-    public boolean isRunning() {
-        return false;
-    }
-
-    /**
-     * Shuts down the SendEmailNotificationEvent.
-     */
-    public void shutdown() {
-
-    }
+  /** Shuts down the SendEmailNotificationEvent. */
+  public void shutdown() {}
 }
