@@ -1,5 +1,6 @@
 package de.ssherlock.business.util;
 
+import de.ssherlock.business.maintenance.MaintenanceProcessExecutor;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.persistence.util.StartStopPersistence;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -8,7 +9,6 @@ import jakarta.servlet.ServletContextEvent;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.logging.Level;
 
 /**
  * Handles start and stop functionalities for the business layer.
@@ -36,6 +36,8 @@ public class StartStopBusiness implements Serializable {
     @Inject
     private StartStopPersistence startStopPersistence;
 
+    private MaintenanceProcessExecutor executor;
+
     /**
      * Default constructor.
      */
@@ -49,17 +51,18 @@ public class StartStopBusiness implements Serializable {
      * @param sce The Servlet Context Event.
      */
     public void init(ServletContextEvent sce) {
-        logger.log(Level.INFO, "Business Layer initialized.");
+        executor = new MaintenanceProcessExecutor();
+        executor.init();
+        logger.info("Business Layer initialized.");
         startStopPersistence.init(sce);
     }
 
     /**
      * Destroys the business layer.
-     *
-     * @param sce The Servlet Context Event.
      */
-    public void destroy(ServletContextEvent sce) {
-        logger.log(Level.INFO, "Business Layer destroyed.");
-        startStopPersistence.destroy(sce);
+    public void destroy() {
+        executor.destroy();
+        logger.info("Business Layer destroyed.");
+        startStopPersistence.destroy();
     }
 }

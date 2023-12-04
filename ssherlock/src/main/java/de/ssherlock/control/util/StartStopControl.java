@@ -1,19 +1,15 @@
 package de.ssherlock.control.util;
 
 import de.ssherlock.business.util.StartStopBusiness;
-import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 /**
@@ -50,8 +46,8 @@ public class StartStopControl implements ServletContextListener, Serializable {
      */
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        logger.log(Level.INFO, "Control layer destroyed.");
-        startStopBusiness.destroy(sce);
+        logger.info("Control layer destroyed.");
+        startStopBusiness.destroy();
     }
 
     /**
@@ -61,7 +57,7 @@ public class StartStopControl implements ServletContextListener, Serializable {
      */
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        logger.log(Level.INFO, "Control Layer initialized.");
+        logger.info("Control Layer initialized.");
         startStopBusiness.init(sce);
     }
 }

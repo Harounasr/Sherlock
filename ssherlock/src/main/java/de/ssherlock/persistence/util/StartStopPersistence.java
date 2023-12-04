@@ -6,12 +6,10 @@ import de.ssherlock.persistence.config.Configuration;
 import de.ssherlock.persistence.connection.ConnectionPoolPsql;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.logging.Level;
 
 /**
  * Class for managing initialization and destruction of the persistence layer during application startup and shutdown.
@@ -58,19 +56,17 @@ public class StartStopPersistence implements Serializable {
      * @param sce   The Servlet Context Event.
      */
     public void init(ServletContextEvent sce) {
-        logger.log(Level.INFO, "Persistence Layer initialized.");
         LoggerCreator.readConfig(sce);
         configuration.init(sce);
         connectionPoolPsql.init();
+        logger.info("Persistence Layer initialized.");
     }
     /**
      * Destroys the persistence layer during application shutdown.
-     *
-     * @param sce   The Servlet Context Event.
      */
-    public void destroy(ServletContextEvent sce) {
-        logger.log(Level.INFO, "Persistence Layer destroyed");
+    public void destroy() {
         connectionPoolPsql.destroy();
+        logger.info("Persistence Layer destroyed");
     }
 
 }
