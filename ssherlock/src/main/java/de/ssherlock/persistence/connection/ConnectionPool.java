@@ -1,9 +1,8 @@
 package de.ssherlock.persistence.connection;
 
-import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.persistence.config.Configuration;
-import jakarta.annotation.PostConstruct;
+import de.ssherlock.persistence.exception.DBUnavailableException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -17,7 +16,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Application-scoped connection pool class for managing PostgreSQL database connections.
@@ -27,13 +25,18 @@ import java.util.logging.Logger;
  */
 @Named
 @ApplicationScoped
-public class ConnectionPoolPsql implements Serializable {
+public class ConnectionPool implements Serializable {
 
     /**
      * Serial Version UID
      */
     @Serial
     private static final long serialVersionUID = 1L;
+
+    /**
+     * Connection validation timeout
+     */
+    private static final int VALIDATION_TIMEOUT = 2;
 
     /**
      * Configuration instance for obtaining database connection settings.
@@ -60,7 +63,7 @@ public class ConnectionPoolPsql implements Serializable {
     /**
      * Default constructor for creating a ConnectionPoolPsql instance.
      */
-    public ConnectionPoolPsql() {
+    public ConnectionPool() {
 
     }
 
@@ -83,14 +86,13 @@ public class ConnectionPoolPsql implements Serializable {
      */
     public synchronized void destroy() {
         for (Connection conn : connections) {
-            logger.log(Level.FINEST, "Try to close connection.");
             if (conn != null) {
                 try {
                     conn.close();
                 } catch (SQLException e) {
-                    logger.log(Level.WARNING, "Failed to close Connection.");
+                    logger.warning("Failed to close Connection.");
                 }
-                logger.log(Level.FINEST, "Closed connection successfully.");
+                logger.finest("Successfully closed connection.");
             }
         }
         for (Connection conn : borrowedConnections) {
@@ -98,12 +100,12 @@ public class ConnectionPoolPsql implements Serializable {
                 try {
                     conn.rollback();
                 } catch (SQLException e) {
-                    logger.log(Level.WARNING, "Borrowed Connection from Connection Pool could not be rollback successfully.");
+                    logger.warning("Borrowed Connection could not be rolled back.");
                 }
                 try {
                     conn.close();
                 } catch (SQLException e) {
-                    logger.log(Level.WARNING, "Borrowed Connection from Connection Pool could not be closed.");
+                    logger.warning("Borrowed Connection could not be closed.");
                 }
             }
         }
@@ -118,16 +120,22 @@ public class ConnectionPoolPsql implements Serializable {
      * @return A database connection.
      */
     public synchronized Connection getConnection() {
-        while (connections.isEmpty()) {
+        long timeout = System.currentTimeMillis() + configuration.getDbTimeoutMillis();
+        while (connections.isEmpty() && System.currentTimeMillis() < timeout) {
             try {
-                wait(System.currentTimeMillis() + 2000);
+                wait(timeout - System.currentTimeMillis());
             } catch (InterruptedException e) {
-
+                logger.severe("The thread got interrupted while waiting for an available connection.");
             }
         }
-        Connection conn = connections.poll();
-        borrowedConnections.add(conn);
-        return conn;
+        if (connections.isEmpty()) {
+            logger.severe("No database connections currently available in the pool.");
+            throw new DBUnavailableException("No database connections currently available in the pool.");
+        } else {
+            Connection conn = connections.poll();
+            borrowedConnections.add(conn);
+            return conn;
+        }
     }
 
     /**
@@ -136,8 +144,29 @@ public class ConnectionPoolPsql implements Serializable {
      * @param connection The database connection to be released.
      */
     public synchronized void releaseConnection(Connection connection) {
-        borrowedConnections.remove(connection);
-        connections.offer(connection);
+        if (borrowedConnections.remove(connection)) {
+            try {
+                if (isValidConnection(connection)) {
+                    connection.rollback();
+                    logger.finest("Connection successfully rolled back.");
+                } else {
+                    connection = createConnection();
+                    logger.finest("Connection successfully reset.");
+                }
+            } catch (SQLException e) {
+                connection = createConnection();
+            } finally {
+                logger.info("Connection was released successfully");
+                connections.offer(connection);
+            }
+        } else {
+            try {
+                connection.close();
+                logger.warning("Connection was not borrowed, so it was closed.");
+            } catch (SQLException e) {
+                logger.warning("Connection was not borrowed and could not be closed.");
+            }
+        }
     }
 
     /**
@@ -151,7 +180,7 @@ public class ConnectionPoolPsql implements Serializable {
             conn = DriverManager.getConnection(
                     "jdbc:postgresql://" + configuration.getDbHost() + "/"+ configuration.getDbName(), configuration.getConnectionProperties());
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DBUnavailableException("Connection could not be created.", e);
         }
         return conn;
     }
@@ -162,11 +191,25 @@ public class ConnectionPoolPsql implements Serializable {
      */
     private synchronized void loadDriver() {
         try {
-            Class.forName("org.postgresql.Driver");
-            logger.log(Level.INFO, "Database Driver loaded.");
+            Class.forName(configuration.getDbDriver());
+            logger.info("Database Driver loaded.");
         } catch (ClassNotFoundException e) {
-            logger.log(Level.INFO, "DB Driver not found.");
-            throw new Error("DB Driver not found.", e);
+            throw new DBUnavailableException("DB Driver could not be found.", e);
+        }
+    }
+
+    /**
+     * Validates a given connection.
+     *
+     * @param connection The connection to validate.
+     * @return Whether the connection is valid.
+     */
+    private boolean isValidConnection(Connection connection) {
+        try {
+            return connection.isValid(VALIDATION_TIMEOUT);
+        } catch (SQLException e) {
+            logger.warning("Connection could not be validated.");
+            return false;
         }
     }
 }

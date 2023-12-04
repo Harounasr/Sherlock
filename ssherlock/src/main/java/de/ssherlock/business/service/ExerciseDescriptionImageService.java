@@ -3,7 +3,7 @@ package de.ssherlock.business.service;
 import de.ssherlock.business.exception.BusinessNonExistentImageException;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.ExerciseDescriptionImage;
-import de.ssherlock.persistence.connection.ConnectionPoolPsql;
+import de.ssherlock.persistence.connection.ConnectionPool;
 import de.ssherlock.persistence.exception.PersistenceNonExistentImageException;
 import de.ssherlock.persistence.repository.ExerciseDescriptionImageRepository;
 import de.ssherlock.persistence.repository.RepositoryFactory;
@@ -41,18 +41,18 @@ public class ExerciseDescriptionImageService implements Serializable {
     /**
      * The connection pool instance.
      */
-    private final ConnectionPoolPsql connectionPoolPsql;
+    private final ConnectionPool connectionPool;
 
     /**
      * Constructs a ExerciseDescriptionImageService.
      *
      * @param logger The logger instance for this class.
-     * @param connectionPoolPsql The connection pool instance.
+     * @param connectionPool The connection pool instance.
      */
     @Inject
-    public ExerciseDescriptionImageService(SerializableLogger logger, ConnectionPoolPsql connectionPoolPsql) {
+    public ExerciseDescriptionImageService(SerializableLogger logger, ConnectionPool connectionPool) {
         this.logger = logger;
-        this.connectionPoolPsql = connectionPoolPsql;
+        this.connectionPool = connectionPool;
     }
 
     /**
@@ -61,11 +61,11 @@ public class ExerciseDescriptionImageService implements Serializable {
      * @param image The ExerciseDescriptionImage to insert.
      */
     public void insertImage(ExerciseDescriptionImage image) {
-        Connection connection = connectionPoolPsql.getConnection();
+        Connection connection = connectionPool.getConnection();
         ExerciseDescriptionImageRepository imageRepository = RepositoryFactory.getExerciseDescriptionImageRepository(RepositoryType.POSTGRESQL, connection);
         image.setUUID(UUID.randomUUID().toString());
         imageRepository.insertExerciseDescriptionImage(image);
-        connectionPoolPsql.releaseConnection(connection);
+        connectionPool.releaseConnection(connection);
     }
 
     /**
@@ -77,7 +77,7 @@ public class ExerciseDescriptionImageService implements Serializable {
      * @throws BusinessNonExistentImageException when the image does not exist in the database.
      */
     public ExerciseDescriptionImage getImage(String uuid) throws BusinessNonExistentImageException {
-        Connection connection = connectionPoolPsql.getConnection();
+        Connection connection = connectionPool.getConnection();
         ExerciseDescriptionImageRepository imageRepository = RepositoryFactory.getExerciseDescriptionImageRepository(RepositoryType.POSTGRESQL, connection);
         ExerciseDescriptionImage image;
         try {
@@ -85,7 +85,7 @@ public class ExerciseDescriptionImageService implements Serializable {
         } catch (PersistenceNonExistentImageException e) {
             throw new BusinessNonExistentImageException("", e);
         }
-        connectionPoolPsql.releaseConnection(connection);
+        connectionPool.releaseConnection(connection);
         return image;
     }
 

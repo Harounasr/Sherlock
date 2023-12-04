@@ -1,11 +1,10 @@
 package de.ssherlock.business.service;
 
 import de.ssherlock.business.exception.BusinessNonExistentCheckerException;
-import de.ssherlock.business.exception.BusinessNonExistentExerciseException;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Checker;
 import de.ssherlock.global.transport.Exercise;
-import de.ssherlock.persistence.connection.ConnectionPoolPsql;
+import de.ssherlock.persistence.connection.ConnectionPool;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -37,18 +36,18 @@ public class CheckerService implements Serializable {
     /**
      * Instance of the connection pool.
      */
-    private final ConnectionPoolPsql connectionPoolPsql;
+    private final ConnectionPool connectionPool;
 
     /**
      * Constructs a CheckerService with the specified logger.
      *
      * @param logger             The logger to be used for logging messages related to CheckerService.
-     * @param connectionPoolPsql The connection pool.
+     * @param connectionPool The connection pool.
      */
     @Inject
-    public CheckerService(SerializableLogger logger, ConnectionPoolPsql connectionPoolPsql) {
+    public CheckerService(SerializableLogger logger, ConnectionPool connectionPool) {
         this.logger = logger;
-        this.connectionPoolPsql = connectionPoolPsql;
+        this.connectionPool = connectionPool;
     }
 
     /**

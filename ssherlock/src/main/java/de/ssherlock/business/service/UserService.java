@@ -6,10 +6,9 @@ import de.ssherlock.business.util.PasswordHashing;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.CourseRole;
-import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.LoginInfo;
 import de.ssherlock.global.transport.User;
-import de.ssherlock.persistence.connection.ConnectionPoolPsql;
+import de.ssherlock.persistence.connection.ConnectionPool;
 import de.ssherlock.persistence.exception.PersistenceNonExistentUserException;
 
 import de.ssherlock.persistence.repository.RepositoryFactory;
@@ -21,15 +20,12 @@ import de.ssherlock.persistence.util.MailType;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -63,7 +59,7 @@ public class UserService implements Serializable {
     /**
      * Connection pool for managing database connections.
      */
-    private final ConnectionPoolPsql connectionPoolPsql;
+    private final ConnectionPool connectionPool;
 
     /**
      * Mail instance for sending emails related to user actions.
@@ -75,14 +71,14 @@ public class UserService implements Serializable {
      *
      * @param logger             The logger to be used for logging messages related to UserService.
      * @param appSession         The AppSession instance for managing user sessions.
-     * @param connectionPoolPsql The ConnectionPoolPsql instance for managing database connections.
+     * @param connectionPool The ConnectionPoolPsql instance for managing database connections.
      * @param mail               The Mail instance for sending emails.
      */
     @Inject
-    public UserService(SerializableLogger logger, AppSession appSession, ConnectionPoolPsql connectionPoolPsql, Mail mail) {
+    public UserService(SerializableLogger logger, AppSession appSession, ConnectionPool connectionPool, Mail mail) {
         this.logger = logger;
         this.appSession = appSession;
-        this.connectionPoolPsql = connectionPoolPsql;
+        this.connectionPool = connectionPool;
         this.mail = mail;
     }
 
@@ -96,17 +92,17 @@ public class UserService implements Serializable {
      * @throws BusinessNonExistentUserException when the user is not registered in the system.
      */
     public User login(LoginInfo loginInfo) throws LoginFailedException, BusinessNonExistentUserException {
-        Connection connection = connectionPoolPsql.getConnection();
+        Connection connection = connectionPool.getConnection();
         UserRepository userRepository = RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
         User user;
         try {
             user = userRepository.getUser(loginInfo.getUsername());
         } catch (PersistenceNonExistentUserException e) {
-            connectionPoolPsql.releaseConnection(connection);
+            connectionPool.releaseConnection(connection);
             logger.log(Level.INFO, "Could not find user " + loginInfo.getUsername() + ".");
             throw new BusinessNonExistentUserException("The user " + loginInfo.getUsername() + " is not registered in the system");
         }
-        connectionPoolPsql.releaseConnection(connection);
+        connectionPool.releaseConnection(connection);
         if (Objects.equals(user.getPassword().getHash(), PasswordHashing.getHashedPassword(loginInfo.getUnhashedPassword(), user.getPassword().getSalt()))) {
             return user;
         } else {
@@ -142,7 +138,7 @@ public class UserService implements Serializable {
      * @throws BusinessNonExistentUserException when the user is not registered in the system.
      */
     public void sendPasswordForgottenEmail(String username) throws BusinessNonExistentUserException {
-        Connection connection = connectionPoolPsql.getConnection();
+        Connection connection = connectionPool.getConnection();
         UserRepository userRepository = RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
         User user;
         try {
@@ -191,7 +187,7 @@ public class UserService implements Serializable {
      * @throws BusinessNonExistentUserException when the user is not registered in the system.
      */
     public User getUser(String username) throws BusinessNonExistentUserException {
-        Connection connection = connectionPoolPsql.getConnection();
+        Connection connection = connectionPool.getConnection();
         UserRepository userRepository = RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
         try {
             return userRepository.getUser(username);

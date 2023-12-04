@@ -1,13 +1,9 @@
 package de.ssherlock.business.service;
 
-import de.ssherlock.business.exception.BusinessNonExistentExerciseException;
 import de.ssherlock.business.exception.BusinessNonExistentTestateException;
-import de.ssherlock.business.exception.BusinessNonExistentUserException;
 import de.ssherlock.global.logging.SerializableLogger;
-import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.Testate;
-import de.ssherlock.global.transport.User;
-import de.ssherlock.persistence.connection.ConnectionPoolPsql;
+import de.ssherlock.persistence.connection.ConnectionPool;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -39,18 +35,18 @@ public class TestateService implements Serializable {
     /**
      * The connection pool instance.
      */
-    private final ConnectionPoolPsql connectionPoolPsql;
+    private final ConnectionPool connectionPool;
 
     /**
      * Constructs a TestateService with the specified logger.
      *
      * @param logger             The logger to be used for logging messages related to TestateService.
-     * @param connectionPoolPsql The connection pool instance.
+     * @param connectionPool The connection pool instance.
      */
     @Inject
-    public TestateService(SerializableLogger logger, ConnectionPoolPsql connectionPoolPsql) {
+    public TestateService(SerializableLogger logger, ConnectionPool connectionPool) {
         this.logger = logger;
-        this.connectionPoolPsql = connectionPoolPsql;
+        this.connectionPool = connectionPool;
     }
 
     /**

@@ -2,7 +2,7 @@ package de.ssherlock.business.service;
 
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.SystemSettings;
-import de.ssherlock.persistence.connection.ConnectionPoolPsql;
+import de.ssherlock.persistence.connection.ConnectionPool;
 import de.ssherlock.persistence.repository.RepositoryFactory;
 import de.ssherlock.persistence.repository.RepositoryType;
 import de.ssherlock.persistence.repository.SystemSettingsRepository;
@@ -37,18 +37,18 @@ public class SystemService implements Serializable {
     /**
      * Connection pool for managing database connections.
      */
-    private final ConnectionPoolPsql connectionPoolPsql;
+    private final ConnectionPool connectionPool;
 
     /**
      * Constructs a SystemService with the specified logger.
      *
      * @param logger The logger to be used for logging messages related to SystemService.
-     * @param connectionPoolPsql The connectionPoolPsql to be used for managing database connections.
+     * @param connectionPool The connectionPoolPsql to be used for managing database connections.
      */
     @Inject
-    public SystemService(SerializableLogger logger, ConnectionPoolPsql connectionPoolPsql) {
+    public SystemService(SerializableLogger logger, ConnectionPool connectionPool) {
         this.logger = logger;
-        this.connectionPoolPsql = connectionPoolPsql;
+        this.connectionPool = connectionPool;
     }
 
     /**
@@ -57,7 +57,7 @@ public class SystemService implements Serializable {
      * @return The system settings.
      */
     public SystemSettings getSystemSettings() {
-        Connection connection = connectionPoolPsql.getConnection();
+        Connection connection = connectionPool.getConnection();
         SystemSettingsRepository repository = RepositoryFactory.getSystemSettingsRepository(RepositoryType.POSTGRESQL, connection);
         return repository.getSystemSettings();
     }
@@ -68,7 +68,7 @@ public class SystemService implements Serializable {
      * @param systemSettings The updated system settings.
      */
     public void updateSystemSettings(SystemSettings systemSettings) {
-        Connection connection = connectionPoolPsql.getConnection();
+        Connection connection = connectionPool.getConnection();
         SystemSettingsRepository repository = RepositoryFactory.getSystemSettingsRepository(RepositoryType.POSTGRESQL, connection);
         repository.updateSystemSettings(systemSettings);
     }
