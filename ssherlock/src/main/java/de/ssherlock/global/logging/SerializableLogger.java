@@ -21,7 +21,7 @@ public class SerializableLogger implements Serializable {
     /**
      * The wrapped logger.
      */
-    private transient Logger logger;
+    private final transient Logger logger;
 
     /**
     * Constructor for SerializableLogger.
@@ -39,7 +39,7 @@ public class SerializableLogger implements Serializable {
      * @param msg   The message.
      */
     public void log(Level level, String msg) {
-        logger.log(level, msg);
+        logWithCallerInfo(level, msg);
     }
 
     /**
@@ -50,7 +50,7 @@ public class SerializableLogger implements Serializable {
      * @param throwable Throwable associated with the log message.
      */
     public void log(Level level, String msg, Throwable throwable) {
-        logger.log(level, msg, throwable);
+        logWithCallerInfo(level, msg, throwable);
     }
 
     /**
@@ -59,7 +59,7 @@ public class SerializableLogger implements Serializable {
      * @param msg The message.
      */
     public void finest(String msg) {
-        logger.finest(msg);
+        logWithCallerInfo(Level.FINEST, msg);
     }
 
     /**
@@ -68,7 +68,7 @@ public class SerializableLogger implements Serializable {
      * @param msg The message.
      */
     public void finer(String msg) {
-        logger.finer(msg);
+        logWithCallerInfo(Level.FINER, msg);
     }
 
     /**
@@ -77,7 +77,7 @@ public class SerializableLogger implements Serializable {
      * @param msg The message.
      */
     public void fine(String msg) {
-        logger.fine(msg);
+        logWithCallerInfo(Level.FINE, msg);
     }
 
     /**
@@ -86,7 +86,7 @@ public class SerializableLogger implements Serializable {
      * @param msg The message.
      */
     public void config(String msg) {
-        logger.config(msg);
+        logWithCallerInfo(Level.CONFIG, msg);
     }
 
     /**
@@ -95,7 +95,7 @@ public class SerializableLogger implements Serializable {
      * @param msg The message.
      */
     public void info(String msg) {
-        logger.info(msg);
+        logWithCallerInfo(Level.INFO, msg);
     }
 
     /**
@@ -104,7 +104,7 @@ public class SerializableLogger implements Serializable {
      * @param msg The message.
      */
     public void warning(String msg) {
-        logger.warning(msg);
+        logWithCallerInfo(Level.WARNING, msg);
     }
 
     /**
@@ -113,7 +113,33 @@ public class SerializableLogger implements Serializable {
      * @param msg The message.
      */
     public void severe(String msg) {
-        logger.severe(msg);
+        logWithCallerInfo(Level.SEVERE, msg);
     }
 
+    /**
+     * Logs a message with the appropriate caller information.
+     *
+     * @param level The level.
+     * @param msg The message.
+     */
+    private void logWithCallerInfo(Level level, String msg) {
+        StackTraceElement[] stackTrace = new Throwable().getStackTrace();
+        String className = stackTrace[2].getClassName();
+        String methodName = stackTrace[2].getMethodName();
+        logger.logp(level, className, methodName, msg);
+    }
+
+    /**
+     * Logs a message with the appropriate caller information.
+     *
+     * @param level The level.
+     * @param msg The message.
+     * @param throwable The throwable.
+     */
+    private void logWithCallerInfo(Level level, String msg, Throwable throwable) {
+        StackTraceElement[] stackTrace = new Throwable().getStackTrace();
+        String className = stackTrace[2].getClassName();
+        String methodName = stackTrace[2].getMethodName();
+        logger.logp(level, className, methodName, msg, throwable);
+    }
 }

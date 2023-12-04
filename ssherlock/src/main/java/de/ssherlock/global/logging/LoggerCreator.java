@@ -1,12 +1,15 @@
 package de.ssherlock.global.logging;
 
+import de.ssherlock.persistence.exception.ConfigNotReadableException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Produces;
 import jakarta.enterprise.inject.spi.InjectionPoint;
 import jakarta.servlet.ServletContextEvent;
 
-import java.io.*;
-import java.util.function.Function;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
@@ -58,14 +61,14 @@ public class LoggerCreator implements Serializable {
      */
     public static void readConfig(ServletContextEvent sce) {
         try {
-            InputStream input = sce.getServletContext().getResourceAsStream("/WEB-INF/config/logger-database-config.properties");
+            InputStream input = sce.getServletContext().getResourceAsStream("/WEB-INF/config/logger-config.properties");
             if (input == null) {
-                throw new FileNotFoundException("Log config not found");
+                throw new ConfigNotReadableException("Configuration for Logger was not found.");
             }
             LogManager.getLogManager().readConfiguration(input);
-            logger.log(Level.INFO, "Log config loaded");
+            logger.info("Log configuration has been loaded successfully.");
         } catch (IOException e) {
-            logger.log(Level.WARNING, "Log Config not loaded");
+            throw new ConfigNotReadableException("Configuration for Logger was not readable.");
         }
     }
 
@@ -77,6 +80,6 @@ public class LoggerCreator implements Serializable {
      */
     @Produces
     public SerializableLogger produce(InjectionPoint injectionPoint) {
-        return get(injectionPoint.getMember().getDeclaringClass());
+        return get(injectionPoint.getMember().getClass());
     }
 }
