@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns="http://www.w3.org/1999/xhtml">
+
+<h:head>
+    <title>Template 1</title>
+</h:head>
+
+<h:body>
+    <div>
+        <h1>Template 1 Header</h1>
+
+        <!-- Content from the content.xhtml goes here -->
+        <ui:insert name="content"/>
+
+        <!-- Include content from template2.xhtml -->
+        <ui:include src="/path/to/template2.xhtml"/>
+
+        <p>Template 1 Footer</p>
+    </div>
+</h:body>
+</html>

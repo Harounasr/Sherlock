@@ -1,0 +1,17 @@
+<ui:composition xmlns:h="jakarta.faces.html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/resources/templates/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml">
+    <ui:define name="title">404 not found</ui:define>
+    <ui:define name="content">
+        <h1>
+            <h:outputLabel id="errorType" value="An error has occurred."/>
+        </h1>
+        <h:outputLabel id="instructions"
+                       value="Maybe this content has been deleted or you don't have the necessary rights."/>
+        <br/>
+        <h:outputLabel id="errorMessage" value="#{errorBean.error.message}"/>
+        <br/>
+        <br/>
+    </ui:define>
+</ui:composition>

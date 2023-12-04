@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:h="jakarta.faces.html"
+      xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Register now</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
+    <style type="text/css">
+        body {
+            background-color: #f4f4f4;
+        }
+
+        .login-container {
+            margin-top: 150px;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-center login-container">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="text-center">Registration</h3>
+                </div>
+                <div class="card-body">
+                    <h:form>
+                        <div class="form-group">
+                            <label for="userName">Username</label>
+                            <h:inputText id="userName" value="#{registrationBean.user.username}" styleClass="form-control"
+                                         placeholder="Enter your username" required="true" requiredMessage="Please fill in this field"/>
+                            <h:message for="userName" styleClass="error-message"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <h:inputText id="firstName" value="#{registrationBean.user.firstName}" styleClass="form-control"
+                                         placeholder="Enter your first name" required="true" requiredMessage="Please fill in this field"/>
+                            <h:message for="firstName" styleClass="error-message"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <h:inputText id="lastName" value="#{registrationBean.user.lastName}" styleClass="form-control"
+                                         placeholder="Enter your last name" required="true" requiredMessage="Please fill in this field"/>
+                            <h:message for="lastName" styleClass="error-message"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <h:inputText id="email" value="#{registrationBean.user.email}" styleClass="form-control" placeholder="Enter your email"
+                                         required="true" requiredMessage="Please fill in this field"/>
+                            <h:message for="email" styleClass="error-message"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="faculty">Faculty</label>
+                            <h:inputText id="faculty" value="#{registrationBean.user.facultyName}" styleClass="form-control"
+                                         placeholder="Enter your faculty" required="true" requiredMessage="Please fill in this field"/>
+                            <h:message for="faculty" styleClass="error-message"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="passWord">Password</label>
+                            <h:inputSecret id="passWord" value="#{registrationBean.unhashedPassword}" styleClass="form-control"
+                                           placeholder="Enter your password" required="true" requiredMessage="Please fill in this field"/>
+                            <h:message for="passWord" styleClass="error-message"/>
+                        </div>
+                        <h:commandButton type="submit" id="register" value="Register" styleClass="btn btn-primary btn-block"
+                                         action="#{registrationBean.register}"/>
+                    </h:form>
+                    <h:form>
+                        <h:commandButton styleClass="btn btn-primary btn-block" value="Back to Login" action="#{registrationBean.navigateToLogin}"/>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

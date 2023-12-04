@@ -1,0 +1,15 @@
+<ui:composition
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns="http://www.w3.org/1999/xhtml"
+        template="../../resources/templates/template.xhtml">
+
+    <ui:define name="title">#{courseBean.course.name}</ui:define>
+
+    <ui:define name="content">
+        <section>
+            <div class="container">
+                <ui:include src="exercisePagination.xhtml"/>
+            </div>
+        </section>
+    </ui:define>
+</ui:composition>
