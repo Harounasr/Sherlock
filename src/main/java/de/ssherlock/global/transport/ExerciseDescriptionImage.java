@@ -127,7 +127,7 @@ public class ExerciseDescriptionImage implements Serializable {
             return false;
         }
         ExerciseDescriptionImage that = (ExerciseDescriptionImage) o;
-        return uuid == that.uuid && Arrays.equals(image, that.image);
+        return Objects.equals(uuid, that.uuid) && Arrays.equals(image, that.image);
     }
 
     /**
