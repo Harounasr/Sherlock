@@ -93,6 +93,7 @@ public final class PasswordHashing {
    *
    * @return the generated salt.
    */
+  @SuppressWarnings("checkstyle:MagicNumber")
   private static byte[] generateSalt() {
     SecureRandom random = new SecureRandom();
     byte[] salt = new byte[16]; // 16 bytes is a common size for a salt

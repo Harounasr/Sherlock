@@ -20,7 +20,7 @@ import java.util.logging.Level;
 @ApplicationScoped
 public class StartStopControl implements ServletContextListener, Serializable {
 
-  /** Serial Version UID */
+  /** Serial Version UID. */
   @Serial private static final long serialVersionUID = 1L;
 
   /** Logger instance for logging messages related to StartStopControl. */

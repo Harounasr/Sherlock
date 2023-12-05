@@ -28,7 +28,7 @@ public class FacultyExistsValidator implements Validator<String> {
   private final SystemService systemService;
 
   /**
-   * Constructs a FacultyExistsValidator
+   * Constructs a FacultyExistsValidator.
    *
    * @param logger The logger instance for this class.
    * @param systemService The system service for system-related operations.

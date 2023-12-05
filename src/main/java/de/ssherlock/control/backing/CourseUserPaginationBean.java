@@ -23,7 +23,7 @@ import java.util.Map;
 @ViewScoped
 public class CourseUserPaginationBean extends AbstractPaginationBean implements Serializable {
 
-  /** Serial Version UID */
+  /** Serial Version UID. */
   @Serial private static final long serialVersionUID = 1L;
 
   /** Logger for this class. */

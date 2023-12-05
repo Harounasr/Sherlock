@@ -21,7 +21,7 @@ import java.util.logging.Level;
 @ViewScoped
 public class NavbarBean implements Serializable {
 
-  /** Serial Version UID */
+  /** Serial Version UID. */
   @Serial private static final long serialVersionUID = 1L;
 
   /** The logger for this class. */

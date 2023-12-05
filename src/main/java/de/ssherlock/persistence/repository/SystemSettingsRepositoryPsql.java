@@ -29,6 +29,7 @@ public class SystemSettingsRepositoryPsql extends RepositoryPsql
   }
 
   /** {@inheritDoc} */
+  @SuppressWarnings("checkstyle:MagicNumber")
   @Override
   public void updateSystemSettings(SystemSettings systemSettings) {
     String query =

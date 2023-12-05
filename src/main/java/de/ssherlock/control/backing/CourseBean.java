@@ -21,7 +21,7 @@ import java.util.Map;
 @ViewScoped
 public class CourseBean implements Serializable {
 
-  /** Serial Version UID */
+  /** Serial Version UID. */
   @Serial private static final long serialVersionUID = 1L;
 
   /** Logger for logging within this class. */

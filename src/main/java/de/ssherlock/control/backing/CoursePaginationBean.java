@@ -23,7 +23,7 @@ import java.util.logging.Level;
 @ViewScoped
 public class CoursePaginationBean extends AbstractPaginationBean implements Serializable {
 
-  /** Serial Version UID */
+  /** Serial Version UID. */
   @Serial private static final long serialVersionUID = 1L;
 
   /** Page size for the pagination. */

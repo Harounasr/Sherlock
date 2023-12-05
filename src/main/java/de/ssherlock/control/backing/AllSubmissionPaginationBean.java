@@ -21,7 +21,7 @@ import java.util.List;
 @ViewScoped
 public class AllSubmissionPaginationBean extends AbstractPaginationBean implements Serializable {
 
-  /** Serial Version UID */
+  /** Serial Version UID. */
   @Serial private static final long serialVersionUID = 1L;
 
   /** Page size for the pagination. */
@@ -94,7 +94,7 @@ public class AllSubmissionPaginationBean extends AbstractPaginationBean implemen
   /** {@inheritDoc} */
   @Override
   public void loadData() {
-    submissions = submissionService.getSubmissions(0l);
+    submissions = submissionService.getSubmissions(0L);
   }
 
   /** {@inheritDoc} */

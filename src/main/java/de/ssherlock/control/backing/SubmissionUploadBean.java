@@ -28,7 +28,7 @@ import java.util.logging.Level;
 @ViewScoped
 public class SubmissionUploadBean implements Serializable {
 
-  /** Serial Version UID */
+  /** Serial Version UID. */
   @Serial private static final long serialVersionUID = 1L;
 
   /** Logger for this class. */

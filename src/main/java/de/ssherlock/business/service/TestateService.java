@@ -20,7 +20,7 @@ import java.util.List;
 @Dependent
 public class TestateService implements Serializable {
 
-  /** Serial Version UID */
+  /** Serial Version UID. */
   @Serial private static final long serialVersionUID = 1L;
 
   /** Logger instance for logging messages related to TestateService. */

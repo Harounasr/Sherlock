@@ -18,7 +18,7 @@ final class SendEmailNotificationEvent {
   public static final int EXECUTION_RATE = 60 * 60 * 3;
 
   /** Constructs a new SendEmailNotificationEvent. */
-  public SendEmailNotificationEvent() {}
+  SendEmailNotificationEvent() {}
 
   /**
    * Checks if SendEmailNotificationEvent is currently running.

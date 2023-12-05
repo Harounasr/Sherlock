@@ -15,7 +15,7 @@ import java.util.Objects;
 @Dependent
 public class TestateComment implements Serializable {
 
-  /** Serial Version UID */
+  /** Serial Version UID. */
   @Serial private static final long serialVersionUID = 1L;
 
   /** The ID of the file associated with this comment. */

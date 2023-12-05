@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 @ApplicationScoped
 public final class LoggerCreator implements Serializable {
 
-  /** Serial Version UID */
+  /** Serial Version UID. */
   @Serial private static final long serialVersionUID = 1L;
 
   /** Default logger instance used for internal logging within the LoggerCreator class. */

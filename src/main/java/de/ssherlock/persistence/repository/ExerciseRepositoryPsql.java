@@ -34,6 +34,7 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
   public void insertExercise(Exercise exercise) {}
 
   /** {@inheritDoc} */
+  @SuppressWarnings("checkstyle:MagicNumber")
   @Override
   public void updateExercise(Exercise exercise) throws PersistenceNonExistentExerciseException {
     String sqlQuery =

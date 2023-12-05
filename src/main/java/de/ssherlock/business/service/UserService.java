@@ -38,7 +38,7 @@ import java.util.logging.Level;
 @Dependent
 public class UserService implements Serializable {
 
-  /** Serial Version UID */
+  /** Serial Version UID. */
   @Serial private static final long serialVersionUID = 1L;
 
   /** Logger instance for logging messages related to UserService. */
@@ -208,6 +208,7 @@ public class UserService implements Serializable {
    *
    * @return The verification token.
    */
+  @SuppressWarnings("checkstyle:MagicNumber")
   private static String generateEmailVerificationToken() {
     SecureRandom secureRandom = new SecureRandom();
     byte[] tokenBytes = new byte[32];
