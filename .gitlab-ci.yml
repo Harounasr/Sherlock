@@ -17,7 +17,7 @@ default:
     cache:
         paths:
             - /home/test/.m2/repository
-            -
+
 # Set Maven's local dependency repository
 variables:
     MAVEN_OPTS: "-Dmaven.repo.local=/home/test/.m2/repository"
