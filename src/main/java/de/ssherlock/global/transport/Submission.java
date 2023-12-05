@@ -17,10 +17,10 @@ import java.util.Objects;
 @Dependent
 public class Submission implements Serializable {
 
-  /** Serial Version UID */
+  /** Serial Version UID. */
   @Serial private static final long serialVersionUID = 1L;
 
-  /** The id of the submission; */
+  /** The id of the submission. */
   private long id;
 
   /** The id of the exercise associated with this submission. */

@@ -22,7 +22,7 @@ import java.sql.Connection;
 @Dependent
 public class SystemService implements Serializable {
 
-  /** Serial Version UID */
+  /** Serial Version UID. */
   @Serial private static final long serialVersionUID = 1L;
 
   /** Logger instance for logging messages related to SystemService. */

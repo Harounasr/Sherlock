@@ -11,7 +11,7 @@ import java.util.Objects;
  */
 public class Error implements Serializable {
 
-  /** Serial Version UID */
+  /** Serial Version UID. */
   @Serial private static final long serialVersionUID = 1L;
 
   /** The message to display. */
@@ -20,7 +20,7 @@ public class Error implements Serializable {
   /** The stacktrace of the error. */
   private String stacktrace;
 
-  /** The exception that was thrown */
+  /** The exception that was thrown. */
   private Exception exception;
 
   /** Instantiates a new Error. */

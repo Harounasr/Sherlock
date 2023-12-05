@@ -13,7 +13,7 @@ public enum CheckerType {
   /** Identity checker. */
   IDENTITY,
 
-  /** Line width checker, */
+  /** Line width checker. */
   LINE_WIDTH,
 
   /** User defined checker. */

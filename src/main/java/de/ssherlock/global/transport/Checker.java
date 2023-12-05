@@ -15,13 +15,13 @@ import java.util.Objects;
 @Dependent
 public class Checker implements Serializable {
 
-  /** Serial Version UID */
+  /** Serial Version UID. */
   @Serial private static final long serialVersionUID = 1L;
 
-  /** ID of the Checker */
+  /** ID of the Checker. */
   private long id;
 
-  /** Name of the Checker */
+  /** Name of the Checker. */
   private String name;
 
   /**

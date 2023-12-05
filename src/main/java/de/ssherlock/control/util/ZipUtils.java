@@ -20,7 +20,7 @@ import java.util.zip.ZipFile;
  */
 public final class ZipUtils {
 
-  /** Default constructor */
+  /** Default constructor. */
   private ZipUtils() {}
 
   /**
@@ -29,6 +29,7 @@ public final class ZipUtils {
    * @param zipFile The file to be unzipped.
    * @return A list of submission files representing the contents of each ZipEntry after unzipping.
    */
+  @SuppressWarnings("checkstyle:MagicNumber")
   public static List<SubmissionFile> unzipSubmissionArchive(Part zipFile) {
     File tempFile;
     ZipFile actualZipFile;

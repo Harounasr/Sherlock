@@ -20,13 +20,13 @@ import java.util.logging.Level;
 @ApplicationScoped
 public class StartStopPersistence implements Serializable {
 
-  /** Serial Version UID */
+  /** Serial Version UID. */
   @Serial private static final long serialVersionUID = 1L;
 
   /** Configuration instance. */
   @Inject private Configuration configuration;
 
-  /** Connection pool instance */
+  /** Connection pool instance. */
   @Inject private ConnectionPoolPsql connectionPoolPsql;
 
   /** Logger instance for logging messages related to the StartStopPersistence class. */

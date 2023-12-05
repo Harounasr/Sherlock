@@ -97,7 +97,7 @@ public class AppSession implements Serializable {
    *
    * @return Navigation target.
    */
-  public String logout() {
+  public synchronized String logout() {
     username = null;
     return "/view/public/login?faces-redirect=true";
   }

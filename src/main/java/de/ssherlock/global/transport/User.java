@@ -16,7 +16,7 @@ import java.util.Objects;
 @Dependent
 public class User implements Serializable {
 
-  /** Serial Version UID */
+  /** Serial Version UID. */
   @Serial private static final long serialVersionUID = 1L;
 
   /** The username of the user. */

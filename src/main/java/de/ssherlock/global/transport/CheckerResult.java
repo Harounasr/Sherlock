@@ -15,7 +15,7 @@ import java.util.Objects;
 @Dependent
 public class CheckerResult implements Serializable {
 
-  /** Serial Version UID */
+  /** Serial Version UID. */
   @Serial private static final long serialVersionUID = 1L;
 
   /** The Checker associated with the result. */
@@ -24,7 +24,7 @@ public class CheckerResult implements Serializable {
   /** Whether the checker was passed. */
   private boolean passed;
 
-  /** The stacktrace of the result */
+  /** The stacktrace of the result. */
   private String stackTrace;
 
   /** Instantiates a new Checker result. */

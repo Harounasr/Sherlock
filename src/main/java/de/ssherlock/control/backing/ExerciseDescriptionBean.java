@@ -30,7 +30,7 @@ import java.util.logging.Level;
 @ViewScoped
 public class ExerciseDescriptionBean implements Serializable {
 
-  /** Serial Version UID */
+  /** Serial Version UID. */
   @Serial private static final long serialVersionUID = 1L;
 
   /** Logger for logging within this class. */
@@ -107,6 +107,7 @@ public class ExerciseDescriptionBean implements Serializable {
   }
 
   /** Uploads an image related to the exercise. */
+  @SuppressWarnings("checkstyle:MagicNumber")
   public void uploadImage() {
     InputStream inputStream;
     ExerciseDescriptionImage exerciseDescriptionImage = new ExerciseDescriptionImage();

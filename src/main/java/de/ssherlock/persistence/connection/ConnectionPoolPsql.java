@@ -25,7 +25,7 @@ import java.util.logging.Level;
 @ApplicationScoped
 public class ConnectionPoolPsql implements Serializable {
 
-  /** Serial Version UID */
+  /** Serial Version UID. */
   @Serial private static final long serialVersionUID = 1L;
 
   /** Configuration instance for obtaining database connection settings. */
@@ -101,6 +101,7 @@ public class ConnectionPoolPsql implements Serializable {
    *
    * @return A database connection.
    */
+  @SuppressWarnings("checkstyle:MagicNumber")
   public synchronized Connection getConnection() {
     while (connections.isEmpty()) {
       try {

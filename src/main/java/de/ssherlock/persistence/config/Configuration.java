@@ -24,7 +24,7 @@ import java.util.logging.Level;
 @ApplicationScoped
 public class Configuration implements Serializable {
 
-  /** Serial Version UID */
+  /** Serial Version UID. */
   @Serial private static final long serialVersionUID = 1L;
 
   /** Logger instance for logging messages related to the Configuration class. */
@@ -73,7 +73,7 @@ public class Configuration implements Serializable {
   public Configuration() {}
 
   /**
-   * Initializes the configuration and reads the config files
+   * Initializes the configuration and reads the config files.
    *
    * @param sce The servlet context event.
    */

@@ -11,7 +11,7 @@ import de.ssherlock.persistence.exception.PersistenceNonExistentUserException;
 public interface NotVerifiedUserRepository {
 
   /**
-   * Inserts a not verified user into the database
+   * Inserts a not verified user into the database.
    *
    * @param user The user to insert.
    */
