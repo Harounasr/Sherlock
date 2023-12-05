@@ -15,9 +15,12 @@ stages:
 # Cache the Maven dependency repository to speed up builds
 default:
     cache:
-        key: "$CI_COMMIT_REF_SLUG"
         paths:
-            - .m2/repository/
+            - /home/test/.m2/repository
+            -
+# Set Maven's local dependency repository
+variables:
+    MAVEN_OPTS: "-maven.repo.local=/home/test/.m2/repository"
 
 # A build target for compilation
 build:
@@ -27,8 +30,8 @@ build:
         - scripts/build.sh
     artifacts:
         paths:
-            - target/
-            - .m2/repository/
+            - .m2/
+            - target
         expire_in: 3 hrs
 
 # A target for mega-linter
