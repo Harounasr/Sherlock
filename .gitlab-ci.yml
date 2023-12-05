@@ -149,7 +149,3 @@ javadoc:
         paths:
             - target/site/apidocs/
         expire_in: 1 week
-
-disable_pipeline:
-    except:
-        - triggers
