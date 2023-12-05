@@ -19,7 +19,7 @@ public class Exercise implements Serializable {
   /** Serial Version UID. */
   @Serial private static final long serialVersionUID = 1L;
 
-  /** The id of the exercise */
+  /** The id of the exercise. */
   private long id;
 
   /** The exercise name. */

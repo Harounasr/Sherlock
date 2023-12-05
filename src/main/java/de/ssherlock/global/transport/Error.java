@@ -20,7 +20,7 @@ public class Error implements Serializable {
   /** The stacktrace of the error. */
   private String stacktrace;
 
-  /** The exception that was thrown */
+  /** The exception that was thrown. */
   private Exception exception;
 
   /** Instantiates a new Error. */

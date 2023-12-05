@@ -20,7 +20,7 @@ import java.util.zip.ZipFile;
  */
 public final class ZipUtils {
 
-  /** Default constructor */
+  /** Default constructor. */
   private ZipUtils() {}
 
   /**

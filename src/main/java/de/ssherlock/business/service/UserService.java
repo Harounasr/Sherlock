@@ -176,7 +176,7 @@ public class UserService implements Serializable {
   }
 
   /**
-   * Gets a user by its username
+   * Gets a user by its username.
    *
    * @param username The username of the user.
    * @return the user.
