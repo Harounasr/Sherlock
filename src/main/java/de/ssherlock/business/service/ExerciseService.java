@@ -3,7 +3,7 @@ package de.ssherlock.business.service;
 import de.ssherlock.business.exception.BusinessNonExistentExerciseException;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Exercise;
-import de.ssherlock.persistence.connection.ConnectionPoolPsql;
+import de.ssherlock.persistence.connection.ConnectionPool;
 import de.ssherlock.persistence.exception.PersistenceNonExistentExerciseException;
 import de.ssherlock.persistence.repository.ExerciseRepository;
 import de.ssherlock.persistence.repository.RepositoryFactory;
@@ -32,18 +32,18 @@ public class ExerciseService implements Serializable {
   private final SerializableLogger logger;
 
   /** The connection pool instance. */
-  private final ConnectionPoolPsql connectionPoolPsql;
+  private final ConnectionPool connectionPool;
 
   /**
    * Constructs an ExerciseService with the specified logger.
    *
    * @param logger The logger to be used for logging messages related to ExerciseService.
-   * @param connectionPoolPsql The connection pool.
+   * @param connectionPool The connection pool.
    */
   @Inject
-  public ExerciseService(SerializableLogger logger, ConnectionPoolPsql connectionPoolPsql) {
+  public ExerciseService(SerializableLogger logger, ConnectionPool connectionPool) {
     this.logger = logger;
-    this.connectionPoolPsql = connectionPoolPsql;
+    this.connectionPool = connectionPool;
   }
 
   /**
@@ -53,11 +53,11 @@ public class ExerciseService implements Serializable {
    * @return A list of exercises associated with the course.
    */
   public List<Exercise> getExercises(String courseName) {
-    Connection connection = connectionPoolPsql.getConnection();
+    Connection connection = connectionPool.getConnection();
     ExerciseRepository exerciseRepository =
         RepositoryFactory.getExerciseRepository(RepositoryType.POSTGRESQL, connection);
     List<Exercise> exercises = exerciseRepository.getExercises(courseName);
-    connectionPoolPsql.releaseConnection(connection);
+    connectionPool.releaseConnection(connection);
     return exercises;
   }
 
@@ -68,7 +68,7 @@ public class ExerciseService implements Serializable {
    * @throws BusinessNonExistentExerciseException when the exercise does not exist in the database.
    */
   public void updateExercise(Exercise exercise) throws BusinessNonExistentExerciseException {
-    Connection connection = connectionPoolPsql.getConnection();
+    Connection connection = connectionPool.getConnection();
     ExerciseRepository exerciseRepository =
         RepositoryFactory.getExerciseRepository(RepositoryType.POSTGRESQL, connection);
     try {
@@ -101,7 +101,7 @@ public class ExerciseService implements Serializable {
    * @throws BusinessNonExistentExerciseException when the exercise does not exist in the database.
    */
   public Exercise getExercise(long id) throws BusinessNonExistentExerciseException {
-    Connection connection = connectionPoolPsql.getConnection();
+    Connection connection = connectionPool.getConnection();
     ExerciseRepository exerciseRepository =
         RepositoryFactory.getExerciseRepository(RepositoryType.POSTGRESQL, connection);
     Exercise exercise;

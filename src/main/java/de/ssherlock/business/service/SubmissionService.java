@@ -3,7 +3,7 @@ package de.ssherlock.business.service;
 import de.ssherlock.business.exception.BusinessNonExistentSubmissionException;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Submission;
-import de.ssherlock.persistence.connection.ConnectionPoolPsql;
+import de.ssherlock.persistence.connection.ConnectionPool;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -28,18 +28,18 @@ public class SubmissionService implements Serializable {
   private final SerializableLogger logger;
 
   /** The connection pool instance. */
-  private final ConnectionPoolPsql connectionPoolPsql;
+  private final ConnectionPool connectionPool;
 
   /**
    * Constructs a SubmissionService with the specified logger.
    *
    * @param logger The logger to be used for logging messages related to SubmissionService.
-   * @param connectionPoolPsql The connection pool instance.
+   * @param connectionPool The connection pool instance.
    */
   @Inject
-  public SubmissionService(SerializableLogger logger, ConnectionPoolPsql connectionPoolPsql) {
+  public SubmissionService(SerializableLogger logger, ConnectionPool connectionPool) {
     this.logger = logger;
-    this.connectionPoolPsql = connectionPoolPsql;
+    this.connectionPool = connectionPool;
   }
 
   /**

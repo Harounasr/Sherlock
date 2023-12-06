@@ -3,7 +3,7 @@ package de.ssherlock.persistence.util;
 import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.persistence.config.Configuration;
-import de.ssherlock.persistence.connection.ConnectionPoolPsql;
+import de.ssherlock.persistence.connection.ConnectionPool;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletContextEvent;
@@ -27,7 +27,7 @@ public class StartStopPersistence implements Serializable {
   @Inject private Configuration configuration;
 
   /** Connection pool instance. */
-  @Inject private ConnectionPoolPsql connectionPoolPsql;
+  @Inject private ConnectionPool connectionPool;
 
   /** Logger instance for logging messages related to the StartStopPersistence class. */
   @Inject private SerializableLogger logger;
@@ -44,7 +44,7 @@ public class StartStopPersistence implements Serializable {
     logger.log(Level.INFO, "Persistence Layer initialized.");
     LoggerCreator.readConfig(sce);
     configuration.init(sce);
-    connectionPoolPsql.init();
+    connectionPool.init();
   }
 
   /**
@@ -54,6 +54,6 @@ public class StartStopPersistence implements Serializable {
    */
   public void destroy(ServletContextEvent sce) {
     logger.log(Level.INFO, "Persistence Layer destroyed");
-    connectionPoolPsql.destroy();
+    connectionPool.destroy();
   }
 }
