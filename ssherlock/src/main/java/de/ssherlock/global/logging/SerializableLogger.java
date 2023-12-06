@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 /**
 * A serializable wrapper for the Logger to enable serialization.
  *
- * @author Leon Höfling
+ * @author Victor Vollmann
 */
 public class SerializableLogger implements Serializable {
 
