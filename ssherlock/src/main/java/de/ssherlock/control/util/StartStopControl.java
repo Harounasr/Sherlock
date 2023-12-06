@@ -15,7 +15,7 @@ import java.io.Serializable;
 /**
  * Handles start and stop functionalities for the control layer.
  *
- * @author Victor Vollmann
+ * @author Leon Höfling
  */
 @WebListener
 @ApplicationScoped
@@ -30,12 +30,14 @@ public class StartStopControl implements ServletContextListener, Serializable {
     /**
      * Logger instance for logging messages related to StartStopControl.
      */
-    @Inject private SerializableLogger logger;
+    @Inject
+    private SerializableLogger logger;
 
     /**
      * The StartStop instance of the business layer.
      */
-    @Inject private StartStopBusiness startStopBusiness;
+    @Inject
+    private StartStopBusiness startStopBusiness;
 
     /**
      * Destroys the system.
