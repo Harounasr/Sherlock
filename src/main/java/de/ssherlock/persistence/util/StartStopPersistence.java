@@ -12,10 +12,8 @@ import java.io.Serializable;
 import java.util.logging.Level;
 
 /**
- * Class for managing initialization and destruction of the persistence layer during application
- * startup and shutdown.
- *
- * @author Leon Höfling
+ * Handles start and stop functionalities for the persistence layer.
+ * @author Victor Vollmann
  */
 @ApplicationScoped
 public class StartStopPersistence implements Serializable {
@@ -35,25 +33,29 @@ public class StartStopPersistence implements Serializable {
   /** Default constructor. */
   public StartStopPersistence() {}
 
-  /**
-   * Initializes the persistence layer during application startup.
-   *
-   * @param sce The Servlet Context Event.
-   */
-  public void init(ServletContextEvent sce) {
-    logger.log(Level.INFO, "Persistence Layer initialized.");
-    LoggerCreator.readConfig(sce);
-    configuration.init(sce);
-    connectionPool.init();
-  }
+    /**
+     * Initializes the persistence layer during application startup.
+     *
+     * @param sce   The Servlet Context Event.
+     */
+    public void init(ServletContextEvent sce) {
+        LoggerCreator.readConfig(sce);
+        configuration.init(sce);
+        connectionPool.init();
+        // TODO remove comment when Database Scheme is ready
+        /*
+        Connection connection = connectionPoolPsql.getConnection();
+        DatabaseInitializer.initialize(sce, connection);
+        connectionPool.releaseConnection(connection);
+         */
+        logger.info("Persistence Layer initialized.");
+    }
+    /**
+     * Destroys the persistence layer during application shutdown.
+     */
+    public void destroy() {
+        connectionPool.destroy();
+        logger.info("Persistence Layer destroyed");
+    }
 
-  /**
-   * Destroys the persistence layer during application shutdown.
-   *
-   * @param sce The Servlet Context Event.
-   */
-  public void destroy(ServletContextEvent sce) {
-    logger.log(Level.INFO, "Persistence Layer destroyed");
-    connectionPool.destroy();
-  }
 }
