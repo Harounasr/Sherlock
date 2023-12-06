@@ -3,7 +3,7 @@ package de.ssherlock.business.service;
 import de.ssherlock.business.exception.BusinessNonExistentCourseException;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Course;
-import de.ssherlock.persistence.connection.ConnectionPoolPsql;
+import de.ssherlock.persistence.connection.ConnectionPool;
 import de.ssherlock.persistence.repository.CourseRepository;
 import de.ssherlock.persistence.repository.RepositoryFactory;
 import de.ssherlock.persistence.repository.RepositoryType;
@@ -31,18 +31,18 @@ public class CourseService implements Serializable {
   private final SerializableLogger logger;
 
   /** ConnectionPoolPsql instance for getting a database connection. */
-  private final ConnectionPoolPsql connectionPoolPsql;
+  private final ConnectionPool connectionPool;
 
   /**
    * Constructs a CourseService with the specified logger.
    *
    * @param logger The logger to be used for logging messages related to CourseService.
-   * @param connectionPoolPsql The connection pool.
+   * @param connectionPool The connection pool.
    */
   @Inject
-  public CourseService(SerializableLogger logger, ConnectionPoolPsql connectionPoolPsql) {
+  public CourseService(SerializableLogger logger, ConnectionPool connectionPool) {
     this.logger = logger;
-    this.connectionPoolPsql = connectionPoolPsql;
+    this.connectionPool = connectionPool;
   }
 
   /**
@@ -51,11 +51,11 @@ public class CourseService implements Serializable {
    * @return A list of all courses.
    */
   public List<Course> getCourses() {
-    Connection connection = connectionPoolPsql.getConnection();
+    Connection connection = connectionPool.getConnection();
     CourseRepository courseRepository =
         RepositoryFactory.getCourseRepository(RepositoryType.POSTGRESQL, connection);
     List<Course> courses = courseRepository.getCourses();
-    connectionPoolPsql.releaseConnection(connection);
+    connectionPool.releaseConnection(connection);
     return courses;
   }
 
