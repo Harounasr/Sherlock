@@ -7,8 +7,13 @@ import de.ssherlock.global.transport.CheckerResult;
 import de.ssherlock.global.transport.CheckerType;
 import de.ssherlock.global.transport.SubmissionFile;
 import de.ssherlock.global.transport.User;
-import jakarta.enterprise.inject.Default;
 
+import javax.tools.Diagnostic;
+import javax.tools.DiagnosticCollector;
+import javax.tools.JavaCompiler;
+import javax.tools.JavaFileObject;
+import javax.tools.StandardJavaFileManager;
+import javax.tools.ToolProvider;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -20,12 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.tools.Diagnostic;
-import javax.tools.DiagnosticCollector;
-import javax.tools.JavaCompiler;
-import javax.tools.JavaFileObject;
-import javax.tools.StandardJavaFileManager;
-import javax.tools.ToolProvider;
 
 /**
  * Utility class for running various checkers on a set of submission files.
