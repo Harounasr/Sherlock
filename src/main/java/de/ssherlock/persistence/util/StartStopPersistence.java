@@ -9,7 +9,6 @@ import jakarta.inject.Inject;
 import jakarta.servlet.ServletContextEvent;
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.logging.Level;
 
 /**
  * Handles start and stop functionalities for the persistence layer.
