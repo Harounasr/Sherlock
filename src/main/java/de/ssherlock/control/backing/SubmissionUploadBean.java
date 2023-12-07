@@ -125,7 +125,7 @@ public class SubmissionUploadBean implements Serializable {
                 logger.log(Level.INFO, file.getName());
             }
 
-            newSubmission.setCheckerResults(CheckerUtils.runCheckers(checkers, submissionFiles));
+            newSubmission.setCheckerResults(CheckerUtils.runCheckers(checkers, submissionFiles, appSession.getUser()));
         } catch (ZIPNotReadableException e) {
             logger.log(Level.SEVERE, "Error while unzipping file: " + e.getMessage());
         }
