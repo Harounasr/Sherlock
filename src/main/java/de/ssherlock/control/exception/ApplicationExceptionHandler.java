@@ -2,6 +2,8 @@ package de.ssherlock.control.exception;
 
 import de.ssherlock.control.backing.ErrorBean;
 import de.ssherlock.global.transport.Error;
+import de.ssherlock.persistence.exception.ConfigNotReadableException;
+import de.ssherlock.persistence.exception.DBUnavailableException;
 import jakarta.el.ELException;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.faces.FacesException;
@@ -62,11 +64,14 @@ public class ApplicationExceptionHandler extends ExceptionHandlerWrapper {
                && (exception instanceof FacesException || exception instanceof ELException)) {
             exception = exception.getCause();
         }
-        if (exception instanceof NoAccessException) {
-            String message = "You don't have permission to see this site.";
-            show404Page(context, exception);
-        } else {
+        switch (exception) {
+        case NoAccessException noAccessException -> show404Page(context, exception);
+        case DBUnavailableException dbUnavailableException -> showErrorPage(context, exception, "Database unavailable.");
+        case ConfigNotReadableException configNotReadableException -> showErrorPage(context, exception, "Configuration file not readable.");
+        case RuntimeException runtimeException -> showErrorPage(context, exception, "An unexpected error occurred.");
+        default -> {
             return;
+        }
         }
         unhandledExceptions.remove();
         while (unhandledExceptions.hasNext()) {
