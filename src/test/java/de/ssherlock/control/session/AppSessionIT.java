@@ -24,6 +24,8 @@ import static org.mockito.Mockito.when;
 
 /**
  * Test class for the AppSession class.
+ *
+ * @author Leon Föckersperger
  */
 @ExtendWith(MockitoExtension.class)
 class AppSessionIT {
@@ -49,6 +51,10 @@ class AppSessionIT {
      */
     private AppSession appSession;
 
+    /**
+     * Sets up the test environment.
+     */
+
     @BeforeEach
     void setUp() {
         appSession = new AppSession(logger, userService);
@@ -57,7 +63,6 @@ class AppSessionIT {
     /**
      * Tests if the user is anonymous.
      */
-
     @Test
     void testIsAnonymous() {
         assertTrue(appSession.isAnonymous());
@@ -72,7 +77,6 @@ class AppSessionIT {
      *
      * @throws BusinessNonExistentUserException if the user does not exist
      */
-
     @Test
     void testIsAdmin() throws BusinessNonExistentUserException {
         assertFalse(appSession.isAdmin());
@@ -89,7 +93,6 @@ class AppSessionIT {
      *
      * @throws BusinessNonExistentUserException if the user does not exist
      */
-
     @Test
     void testGetUser() throws BusinessNonExistentUserException {
         User user = new User();
@@ -102,7 +105,6 @@ class AppSessionIT {
     /**
      * Tests the setter for the user.
      */
-
     @Test
     void testSetUser() {
         User user = new User();
@@ -114,7 +116,6 @@ class AppSessionIT {
     /**
      * Tests the logout method.
      */
-
     @Test
     void testLogout() {
         User user = new User();
