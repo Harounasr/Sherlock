@@ -89,7 +89,6 @@ public class Configuration implements Serializable {
     dbName = properties.getProperty("DB_NAME");
     dbNumConnections = Integer.parseInt(properties.getProperty("DB_CONNECTIONS"));
     dbTimeoutMillis = Long.parseLong(properties.getProperty("DB_TIMEOUT_MILLIS"));
-
     mailAuthentication = Boolean.parseBoolean(properties.getProperty("MAIL_AUTHENTICATION"));
     mailFrom = properties.getProperty("MAIL_FROM");
     mailPassword = properties.getProperty("MAIL_PASSWORD");
