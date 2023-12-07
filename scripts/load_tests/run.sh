@@ -1,5 +1,3 @@
-# shellcheck disable=SC2016
-'
 #!/usr/bin/env bash
 
 # Author: Leon Föckersperger
@@ -100,4 +98,4 @@ ssh "$server_ssh_target" -t "$(cat "scripts/load_tests/server_stop.sh")"
 # Stop mail server
 echo "Stopping mail server"
 kill $mail_server_pid
-'
+

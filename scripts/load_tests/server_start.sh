@@ -1,5 +1,3 @@
-# shellcheck disable=SC2016
-'
 #!/usr/bin/env bash
 
 # Author: Leon Föckersperger
@@ -22,4 +20,4 @@ mvn --no-transfer-progress -DBUILD_DIRECTORY="$target_dir" \
 cp ${target_dir}/*-load_test.war "${tomcatDir}/webapps/schwarzes_brett.war"
 
 "${tomcatDir}/bin/catalina.sh" run
-'
+
