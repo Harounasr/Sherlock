@@ -1,5 +1,6 @@
 package de.ssherlock.control.util;
 
+import de.ssherlock.control.exception.CheckerExecutionException;
 import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Checker;
@@ -33,6 +34,9 @@ import javax.tools.ToolProvider;
  */
 public final class CheckerUtils {
 
+    /**
+     * The Logger instance of this class.
+     */
     private static final SerializableLogger LOGGER = LoggerCreator.get(CheckerUtils.class);
 
     /**
@@ -49,7 +53,8 @@ public final class CheckerUtils {
      * @return The results of the checkers.
      */
     public static List<CheckerResult> runCheckers(
-            List<Checker> checkers, List<SubmissionFile> submissionFiles, User user) {
+            List<Checker> checkers, List<SubmissionFile> submissionFiles, User user) throws CheckerExecutionException {
+        LOGGER.finer("Start running checkers.");
         List<CheckerResult> results = new ArrayList<>();
         for (Checker checker : checkers) {
             switch (checker.getCheckerType()) {
@@ -73,7 +78,8 @@ public final class CheckerUtils {
      * @return The result of the compilation checker.
      */
     private static CheckerResult runCompilationChecker(
-            Checker checker, List<SubmissionFile> submissionFiles) {
+            Checker checker, List<SubmissionFile> submissionFiles) throws CheckerExecutionException {
+        LOGGER.finer("Start running compilation checker " + checker.getName() + ".");
         CheckerResult checkerResult = new CheckerResult();
         checkerResult.setChecker(checker);
         List<String> filePaths = saveJavaClasses(checker, submissionFiles);
@@ -82,6 +88,7 @@ public final class CheckerUtils {
         if (compileClasses(filePaths, diagnostics)) {
             checkerResult.setPassed(true);
             checkerResult.setStackTrace("All files compiled successfully.");
+            LOGGER.finer("Compilation checker " + checker.getName() + " ran successfully.");
         } else {
             StringBuilder sb = new StringBuilder();
             for (Diagnostic<? extends JavaFileObject> diagnostic : diagnostics.getDiagnostics()) {
@@ -93,8 +100,8 @@ public final class CheckerUtils {
             }
             checkerResult.setPassed(false);
             checkerResult.setStackTrace(sb.toString());
+            LOGGER.finer("Compilation checker " + checker.getName() + " failed.");
         }
-
         return checkerResult;
     }
 
@@ -108,6 +115,7 @@ public final class CheckerUtils {
      */
     private static CheckerResult runIdentityChecker(
             Checker checker, List<SubmissionFile> submissionFiles, User user) {
+        LOGGER.finer("Start running identity checker " + checker.getName() + ".");
         CheckerResult result = new CheckerResult();
         result.setChecker(checker);
         StringBuilder sb = new StringBuilder();
@@ -137,8 +145,11 @@ public final class CheckerUtils {
         if (sb.isEmpty()) {
             sb.append("No identity content found in files.\nThe checker ran successfully.\n");
             result.setPassed(true);
+            LOGGER.finer("Identity checker " + checker.getName() + " ran successfully.");
         } else {
             result.setPassed(false);
+            LOGGER.finer("Identity checker " + checker.getName() + " failed.");
+
         }
         result.setStackTrace(sb.toString());
         return result;
@@ -153,6 +164,7 @@ public final class CheckerUtils {
      */
     private static CheckerResult runLineWidthChecker(
             Checker checker, List<SubmissionFile> submissionFiles) {
+        LOGGER.finer("Start line-width checker " + checker.getName() + ".");
         CheckerResult result = new CheckerResult();
         result.setChecker(checker);
         StringBuilder sb = new StringBuilder();
@@ -174,7 +186,6 @@ public final class CheckerUtils {
                 }
             }
         }
-
         if (sb.isEmpty()) {
             sb.append("All lines adhere to the maximum line width of ")
               .append(maxLineWidth)
@@ -182,8 +193,10 @@ public final class CheckerUtils {
               .append(checker.getName())
               .append(" ran successfully.\n");
             result.setPassed(true);
+            LOGGER.finer("Line Width checker " + checker.getName() + " ran successfully.");
         } else {
             result.setPassed(false);
+            LOGGER.finer("Line Width checker " + checker.getName() + " failed.");
         }
         result.setStackTrace(sb.toString());
         return result;
@@ -197,7 +210,8 @@ public final class CheckerUtils {
      * @return The result of the user-defined checker.
      */
     private static CheckerResult runUserDefinedChecker(
-            Checker checker, List<SubmissionFile> submissionFiles) {
+            Checker checker, List<SubmissionFile> submissionFiles) throws CheckerExecutionException {
+        LOGGER.finer("Start user-defined checker " + checker.getName() + ".");
         CheckerResult result = new CheckerResult();
         result.setChecker(checker);
         StringBuilder sb = new StringBuilder();
@@ -220,6 +234,7 @@ public final class CheckerUtils {
         if (expectedOutput.equals(actualOutput)) {
             result.setPassed(true);
             sb.append("Checker ").append(checker.getName()).append(" ran successfully.");
+            LOGGER.finer("User defined checker " + checker.getName() + " ran successfully.");
         } else {
             result.setPassed(false);
             sb.append("Checker ")
@@ -228,6 +243,7 @@ public final class CheckerUtils {
               .append(expectedOutput)
               .append("\nActual:\n")
               .append(actualOutput);
+            LOGGER.finer("User defined checker " + checker.getName() + " failed.");
         }
 
         result.setChecker(checker);
@@ -251,7 +267,7 @@ public final class CheckerUtils {
         if (firstDotIndex >= 0) {
             return fileName.substring(lastSlashIndex + 1, firstDotIndex);
         } else {
-            LOGGER.info(fileName);
+            LOGGER.finer("File " + fileName + " could not be saved.");
             throw new IllegalArgumentException("Invalid file path format");
         }
     }
@@ -263,7 +279,8 @@ public final class CheckerUtils {
      * @param files   The files to save.
      * @return A list of paths to the saved classes.
      */
-    private static List<String> saveJavaClasses(Checker checker, List<SubmissionFile> files) {
+    private static List<String> saveJavaClasses(Checker checker, List<SubmissionFile> files) throws CheckerExecutionException {
+        LOGGER.finest("Saving files " + files + " for checker " + checker.getName());
         List<String> filePaths = new ArrayList<>();
         for (SubmissionFile file : files) {
             try {
@@ -280,7 +297,7 @@ public final class CheckerUtils {
                 Files.write(tempFile.toPath(), file.getBytes());
                 filePaths.add(tempFile.getPath());
             } catch (IOException e) {
-                throw new RuntimeException("The uploaded files could not be saved.", e);
+                throw new CheckerExecutionException("The uploaded files could not be saved.", e);
             }
         }
         return filePaths;
@@ -308,7 +325,8 @@ public final class CheckerUtils {
      * @return Whether the files compiled successfully.
      */
     private static boolean compileClasses(
-            List<String> filePaths, DiagnosticCollector<JavaFileObject> diagnostics) {
+            List<String> filePaths, DiagnosticCollector<JavaFileObject> diagnostics) throws CheckerExecutionException {
+        LOGGER.finest("Start compiling classes " + filePaths + ".");
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         try (StandardJavaFileManager fileManager =
                      compiler.getStandardFileManager(diagnostics, null, null)) {
@@ -321,10 +339,12 @@ public final class CheckerUtils {
                             null,
                             fileManager.getJavaFileObjectsFromStrings(filePaths));
             if (task.call()) {
+                LOGGER.finest("Compiling classes was successful.");
                 return true;
             }
         } catch (IOException e) {
-            return false;
+            LOGGER.finest("Compiling classes was failed.\n" + e.getMessage());
+            throw new CheckerExecutionException("Encountered an exception during compilation", e);
         }
         return false;
     }
@@ -337,7 +357,8 @@ public final class CheckerUtils {
      * @param checker   The associated checker.
      * @return The execution output.
      */
-    private static String runWithInput(List<String> filePaths, String input, Checker checker) {
+    private static String runWithInput(List<String> filePaths, String input, Checker checker) throws CheckerExecutionException {
+        LOGGER.finest("Start running files " + filePaths + " for checker " + checker.getName());
         try {
             String[] commandParts = input.split("\\s+");
             for (String filePath : filePaths) {
@@ -371,10 +392,11 @@ public final class CheckerUtils {
             if (exitCode != 0) {
                 return output.append(errorOutput).toString();
             }
-
+            LOGGER.finest("Running classes for checker " + checker.getName() + " was successful.");
             return output.toString();
         } catch (IOException | InterruptedException e) {
-            return null;
+            LOGGER.finest("Running classes for checker " + checker.getName() + " failed.\n" + e.getMessage());
+            throw new CheckerExecutionException("Running classes encountered an exception.", e);
         }
     }
 }

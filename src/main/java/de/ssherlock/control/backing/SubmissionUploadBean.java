@@ -2,6 +2,7 @@ package de.ssherlock.control.backing;
 
 import de.ssherlock.business.service.CheckerService;
 import de.ssherlock.business.service.SubmissionService;
+import de.ssherlock.control.exception.CheckerExecutionException;
 import de.ssherlock.control.exception.ZIPNotReadableException;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.control.util.CheckerUtils;
@@ -128,6 +129,8 @@ public class SubmissionUploadBean implements Serializable {
             newSubmission.setCheckerResults(CheckerUtils.runCheckers(checkers, submissionFiles, appSession.getUser()));
         } catch (ZIPNotReadableException e) {
             logger.log(Level.SEVERE, "Error while unzipping file: " + e.getMessage());
+        } catch (CheckerExecutionException e) {
+            logger.log(Level.SEVERE, "Error while executing checkers.\n" + e.getMessage());
         }
     }
 
