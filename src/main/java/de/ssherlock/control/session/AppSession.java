@@ -23,6 +23,7 @@ import java.util.logging.Level;
 @Named
 @SessionScoped
 public class AppSession implements Serializable {
+
     /**
      * The serial version UID.
      */
@@ -60,7 +61,6 @@ public class AppSession implements Serializable {
      *
      * @return {@code true} if the user is anonymous, {@code false} otherwise.
      */
-
     public boolean isAnonymous() {
         return username == null;
     }
@@ -70,7 +70,6 @@ public class AppSession implements Serializable {
      *
      * @return {@code true} if the user is an administrator, {@code false} otherwise.
      */
-
     public synchronized boolean isAdmin() {
         if (username == null) {
             return false;
@@ -86,7 +85,6 @@ public class AppSession implements Serializable {
      * @return The User object of the currently logged-in user.
      * @throws NoAccessException If the user was deleted.
      */
-
     public User getUser() throws NoAccessException {
         if (username != null) {
             try {
@@ -105,7 +103,6 @@ public class AppSession implements Serializable {
      *
      * @param user The user to set.
      */
-
     public void setUser(User user) {
         if (user == null) {
             throw new IllegalArgumentException("User cannot be null");
@@ -127,9 +124,9 @@ public class AppSession implements Serializable {
 
     /**
      * Creates an anonymous user.
+     *
      * @return The anonymous user.
      */
-
     private User createAnonymousUser() {
         User anonymousUser = new User();
         anonymousUser.setSystemRole(SystemRole.ANONYMOUS);
