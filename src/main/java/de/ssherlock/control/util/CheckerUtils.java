@@ -343,7 +343,7 @@ public final class CheckerUtils {
                 return true;
             }
         } catch (IOException e) {
-            LOGGER.finest("Compiling classes was failed.\n" + e.getMessage());
+            LOGGER.finest("Compiling classes has failed.\n" + e.getMessage());
             throw new CheckerExecutionException("Encountered an exception during compilation", e);
         }
         return false;
