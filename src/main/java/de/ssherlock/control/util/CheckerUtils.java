@@ -4,32 +4,32 @@ import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Checker;
 import de.ssherlock.global.transport.CheckerResult;
-import de.ssherlock.global.transport.CheckerType;
 import de.ssherlock.global.transport.SubmissionFile;
 import de.ssherlock.global.transport.User;
 
-import javax.tools.Diagnostic;
-import javax.tools.DiagnosticCollector;
-import javax.tools.JavaCompiler;
-import javax.tools.JavaFileObject;
-import javax.tools.StandardJavaFileManager;
-import javax.tools.ToolProvider;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.tools.Diagnostic;
+import javax.tools.DiagnosticCollector;
+import javax.tools.JavaCompiler;
+import javax.tools.JavaFileObject;
+import javax.tools.StandardJavaFileManager;
+import javax.tools.ToolProvider;
 
 /**
  * Utility class for running various checkers on a set of submission files.
  *
- * @author Leon Höfling
+ * @author Victor Vollmann
  */
 public final class CheckerUtils {
 
@@ -55,7 +55,7 @@ public final class CheckerUtils {
             switch (checker.getCheckerType()) {
             case COMPILATION -> results.add(runCompilationChecker(checker, submissionFiles));
             case IDENTITY -> results.add(runIdentityChecker(checker, submissionFiles, user));
-            case LINE_WIDTH -> results.add(runSpacingChecker(checker, submissionFiles));
+            case LINE_WIDTH -> results.add(runLineWidthChecker(checker, submissionFiles));
             case USER_DEFINED -> results.add(runUserDefinedChecker(checker, submissionFiles));
             default -> {
                 return null;
@@ -74,41 +74,27 @@ public final class CheckerUtils {
      */
     private static CheckerResult runCompilationChecker(
             Checker checker, List<SubmissionFile> submissionFiles) {
-        if (checker.getCheckerType() != CheckerType.COMPILATION) {
-            throw new IllegalArgumentException();
-        }
         CheckerResult checkerResult = new CheckerResult();
         checkerResult.setChecker(checker);
         List<String> filePaths = saveJavaClasses(checker, submissionFiles);
-        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
 
-        try (StandardJavaFileManager fileManager =
-                     compiler.getStandardFileManager(diagnostics, null, null)) {
-            JavaCompiler.CompilationTask task =
-                    compiler.getTask(
-                            null,
-                            fileManager,
-                            diagnostics,
-                            null,
-                            null,
-                            fileManager.getJavaFileObjectsFromStrings(filePaths));
-            if (task.call()) {
-                checkerResult.setPassed(true);
-                checkerResult.setStackTrace("All files compiled successfully.");
-            } else {
-                StringBuilder sb = new StringBuilder();
-                for (Diagnostic<? extends JavaFileObject> diagnostic : diagnostics.getDiagnostics()) {
-                    sb.append(diagnostic.getSource().toString()).append(": ");
-                    // TODO
-                    sb.append(diagnostic.getMessage(null)).append("\n");
+        if (compileClasses(filePaths, diagnostics)) {
+            checkerResult.setPassed(true);
+            checkerResult.setStackTrace("All files compiled successfully.");
+        } else {
+            StringBuilder sb = new StringBuilder();
+            for (Diagnostic<? extends JavaFileObject> diagnostic : diagnostics.getDiagnostics()) {
+                if (diagnostic.getSource() == null || diagnostic.getKind() != Diagnostic.Kind.ERROR) {
+                    continue;
                 }
-                checkerResult.setPassed(false);
-                checkerResult.setStackTrace(sb.toString());
+                sb.append(extractClassName(diagnostic.getSource().toString())).append(": ");
+                sb.append(diagnostic.getMessage(null)).append("\n");
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            checkerResult.setPassed(false);
+            checkerResult.setStackTrace(sb.toString());
         }
+
         return checkerResult;
     }
 
@@ -149,7 +135,7 @@ public final class CheckerUtils {
             }
         }
         if (sb.isEmpty()) {
-            sb.append("No identity content found in files.\nThe checker ran successfully");
+            sb.append("No identity content found in files.\nThe checker ran successfully.\n");
             result.setPassed(true);
         } else {
             result.setPassed(false);
@@ -165,7 +151,7 @@ public final class CheckerUtils {
      * @param submissionFiles The list of submission files to be checked.
      * @return The result of the spacing checker.
      */
-    private static CheckerResult runSpacingChecker(
+    private static CheckerResult runLineWidthChecker(
             Checker checker, List<SubmissionFile> submissionFiles) {
         CheckerResult result = new CheckerResult();
         result.setChecker(checker);
@@ -192,9 +178,9 @@ public final class CheckerUtils {
         if (sb.isEmpty()) {
             sb.append("All lines adhere to the maximum line width of ")
               .append(maxLineWidth)
-              .append(" characters.\nThe Checker: ")
+              .append(" characters.\nThe Checker ")
               .append(checker.getName())
-              .append(" ran successfully.");
+              .append(" ran successfully.\n");
             result.setPassed(true);
         } else {
             result.setPassed(false);
@@ -221,7 +207,9 @@ public final class CheckerUtils {
         List<String> filePaths = saveJavaClasses(checker, submissionFiles);
 
         if (!compileClasses(filePaths, null)) {
-            sb.append("The Checker: ").append(checker.getName()).append(" was not executed due to a compilation error.");
+            sb.append("The Checker: ")
+              .append(checker.getName())
+              .append(" was not executed due to a compilation error.");
             result.setPassed(false);
             result.setStackTrace(sb.toString());
             return result;
@@ -236,9 +224,9 @@ public final class CheckerUtils {
             result.setPassed(false);
             sb.append("Checker ")
               .append(checker.getName())
-              .append(" did not run successfully.\nExpected: \n")
+              .append(" did not run successfully.\nExpected:\n")
               .append(expectedOutput)
-              .append("\nActual: \n")
+              .append("\nActual:\n")
               .append(actualOutput);
         }
 
@@ -255,9 +243,12 @@ public final class CheckerUtils {
      */
     private static String extractClassName(String fileName) {
         int lastSlashIndex = fileName.lastIndexOf('/');
+        int lastBackslashIndex = fileName.lastIndexOf('\\');
         int firstDotIndex = fileName.indexOf('.', lastSlashIndex);
-
-        if (lastSlashIndex >= 0 && firstDotIndex >= 0) {
+        if (lastBackslashIndex > lastSlashIndex && firstDotIndex >= 0) {
+            return fileName.substring(lastBackslashIndex + 1, firstDotIndex);
+        }
+        if (firstDotIndex >= 0) {
             return fileName.substring(lastSlashIndex + 1, firstDotIndex);
         } else {
             LOGGER.info(fileName);
@@ -265,13 +256,21 @@ public final class CheckerUtils {
         }
     }
 
+    /**
+     * Saves the given classes to an appropriate temp directory.
+     *
+     * @param checker The associated checker.
+     * @param files   The files to save.
+     * @return A list of paths to the saved classes.
+     */
     private static List<String> saveJavaClasses(Checker checker, List<SubmissionFile> files) {
         List<String> filePaths = new ArrayList<>();
         for (SubmissionFile file : files) {
             try {
                 String className = extractClassName(file.getName());
-
-                String tempDirectory = getTempDirectory(checker) + Paths.get(file.getName()).getParent();
+                Path parentPath = Paths.get(file.getName()).getParent();
+                String suffix = parentPath != null ? String.valueOf(parentPath) : "";
+                String tempDirectory = getTempDirectory(checker) + suffix;
 
                 File tempDir = new File(tempDirectory);
                 if (!tempDir.exists()) {
@@ -287,6 +286,12 @@ public final class CheckerUtils {
         return filePaths;
     }
 
+    /**
+     * Gets the correct temp directory for a given checker.
+     *
+     * @param checker The associated checker.
+     * @return The path to the temp directory.
+     */
     private static String getTempDirectory(Checker checker) {
         return System.getProperty("java.io.tmpdir")
                + File.separator
@@ -295,7 +300,15 @@ public final class CheckerUtils {
                + checker.hashCode();
     }
 
-    private static boolean compileClasses(List<String> filePaths, DiagnosticCollector<JavaFileObject> diagnostics) {
+    /**
+     * Compiles a list of given classes and sets the diagnostics.
+     *
+     * @param filePaths   The classes to compile.
+     * @param diagnostics The diagnostics collector.
+     * @return Whether the files compiled successfully.
+     */
+    private static boolean compileClasses(
+            List<String> filePaths, DiagnosticCollector<JavaFileObject> diagnostics) {
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         try (StandardJavaFileManager fileManager =
                      compiler.getStandardFileManager(diagnostics, null, null)) {
@@ -316,6 +329,14 @@ public final class CheckerUtils {
         return false;
     }
 
+    /**
+     * Runs a java program using the given files and the input command.
+     *
+     * @param filePaths The files to execute.
+     * @param input     The input command.
+     * @param checker   The associated checker.
+     * @return The execution output.
+     */
     private static String runWithInput(List<String> filePaths, String input, Checker checker) {
         try {
             String[] commandParts = input.split("\\s+");
@@ -328,17 +349,31 @@ public final class CheckerUtils {
             ProcessBuilder processBuilder = new ProcessBuilder(commandParts);
             processBuilder.directory(new File(getTempDirectory(checker)));
             Process process = processBuilder.start();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+            BufferedReader outputReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+
+            StringBuilder output = new StringBuilder();
+            StringBuilder errorOutput = new StringBuilder();
 
             String line;
-            StringBuilder output = new StringBuilder();
-            while ((line = reader.readLine()) != null) {
+            while ((line = outputReader.readLine()) != null) {
                 output.append(line).append("\n");
             }
-            reader.close();
+            while ((line = errorReader.readLine()) != null) {
+                errorOutput.append(line).append("\n");
+            }
+
+            outputReader.close();
+            errorReader.close();
+
+            int exitCode = process.waitFor();
+            if (exitCode != 0) {
+                return output.append(errorOutput).toString();
+            }
 
             return output.toString();
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             return null;
         }
     }
