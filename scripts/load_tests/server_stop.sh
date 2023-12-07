@@ -1,5 +1,4 @@
-# shellcheck disable=SC2016
-'#!/usr/bin/env bash
+#!/usr/bin/env bash
 
 # Author: Leon Föckersperger
 
@@ -11,4 +10,4 @@ tomcatDir="tomcat/apache-tomcat"
 "${tomcatDir}/bin/shutdown.sh"
 
 git checkout -
-'
+

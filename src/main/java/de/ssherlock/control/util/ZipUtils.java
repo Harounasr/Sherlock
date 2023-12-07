@@ -1,70 +1,64 @@
 package de.ssherlock.control.util;
 
+import de.ssherlock.control.exception.ZIPNotReadableException;
 import de.ssherlock.global.transport.SubmissionFile;
 import jakarta.servlet.http.Part;
+
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
 
 /**
  * Provides utility methods for unzipping files.
  *
- * @author Leon Höfling
+ * @author Leon Föckersperger
  */
 public final class ZipUtils {
 
-  /** Default constructor. */
-  private ZipUtils() {}
+    /**
+     * The buffer size for reading the ZIP file.
+     */
+    private static final int BUFFER_SIZE = 1024;
 
-  /**
-   * Unzips the provided submission archive file.
-   *
-   * @param zipFile The file to be unzipped.
-   * @return A list of submission files representing the contents of each ZipEntry after unzipping.
-   */
-  @SuppressWarnings("checkstyle:MagicNumber")
-  public static List<SubmissionFile> unzipSubmissionArchive(Part zipFile) {
-    File tempFile;
-    ZipFile actualZipFile;
-    List<SubmissionFile> results = new ArrayList<>();
-    try {
-      InputStream inputStream = zipFile.getInputStream();
-      tempFile = File.createTempFile("temp", ".zip");
-      try (FileOutputStream outputStream = new FileOutputStream(tempFile)) {
-        byte[] buffer = new byte[1024];
-        int bytesRead;
-        while ((bytesRead = inputStream.read(buffer)) != -1) {
-          outputStream.write(buffer, 0, bytesRead);
-        }
-      }
-      actualZipFile = new ZipFile(tempFile);
-      Enumeration<? extends ZipEntry> entries = actualZipFile.entries();
-      while (entries.hasMoreElements()) {
-        ZipEntry entry = entries.nextElement();
-        InputStream entryStream = actualZipFile.getInputStream(entry);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
-        int bytesRead;
-        while ((bytesRead = entryStream.read(buffer)) != -1) {
-          baos.write(buffer, 0, bytesRead);
-        }
-        SubmissionFile submissionFile = new SubmissionFile();
-        submissionFile.setBytes(baos.toByteArray());
-        submissionFile.setName(entry.getName());
-        results.add(submissionFile);
-      }
-      actualZipFile.close();
-      tempFile.delete();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
+    /**
+     * Private constructor to prevent instantiation.
+     */
+    private ZipUtils() {
     }
-    return results;
-  }
+
+    /**
+     * Unzips the provided submission archive file.
+     *
+     * @param zipFile The file to be unzipped.
+     * @return A list of submission files representing the contents of each ZipEntry after unzipping.
+     * @throws ZIPNotReadableException If the ZIP file could not be read.
+     */
+    public static List<SubmissionFile> unzipSubmissionArchive(Part zipFile) throws ZIPNotReadableException {
+        List<SubmissionFile> results = new ArrayList<>();
+        try (InputStream inputStream = zipFile.getInputStream(); ZipInputStream zipInputStream = new ZipInputStream(inputStream)) {
+            ZipEntry entry;
+            while ((entry = zipInputStream.getNextEntry()) != null) {
+                if (!entry.isDirectory()) {
+                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    byte[] buffer = new byte[BUFFER_SIZE];
+                    int bytesRead;
+                    while ((bytesRead = zipInputStream.read(buffer)) != -1) {
+                        byteArrayOutputStream.write(buffer, 0, bytesRead);
+                    }
+                    SubmissionFile submissionFile = new SubmissionFile();
+                    submissionFile.setBytes(byteArrayOutputStream.toByteArray());
+                    submissionFile.setName(entry.getName());
+                    results.add(submissionFile);
+                }
+                zipInputStream.closeEntry();
+            }
+        } catch (IOException e) {
+            throw new ZIPNotReadableException("ZIP file could not be read. Cause IOException: " + e.getMessage(), e);
+        }
+        return results;
+    }
 }

@@ -1,5 +1,4 @@
-# shellcheck disable=SC2016
-'#!/usr/bin/env bash
+#!/usr/bin/env bash
 
 # Author: Leon Föckersperger
 
@@ -33,4 +32,4 @@ set -e
 if [[ $test_exit_value -ne 0 ]]; then
     sleep 1d
 fi
-'
+
