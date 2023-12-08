@@ -200,7 +200,7 @@ public class CheckerUtilsIT {
                 The Checker LINE_WIDTH ran successfully.
                 """;
         Checker checker = getCheckerMock(CheckerType.LINE_WIDTH);
-        Mockito.when(checker.getParameterOne()).thenReturn("90");
+        Mockito.lenient().when(checker.getParameterOne()).thenReturn("90");
         checkersToRun.add(checker);
         filesToCheck = getSubmissionFilesForTest(VALID_SUBMISSION_TEST_DATA);
         List<CheckerResult> results = CheckerUtils.runCheckers(checkersToRun, filesToCheck, user);
@@ -224,7 +224,7 @@ public class CheckerUtilsIT {
                 Line 5 in file Main.java exceeds the maximum line width (90 characters).
                 """;
         Checker checker = getCheckerMock(CheckerType.LINE_WIDTH);
-        Mockito.when(checker.getParameterOne()).thenReturn("90");
+        Mockito.lenient().when(checker.getParameterOne()).thenReturn("90");
         checkersToRun.add(checker);
         filesToCheck = getSubmissionFilesForTest(LINE_WIDTH_ERRORS_TEST_DATA);
         List<CheckerResult> results = CheckerUtils.runCheckers(checkersToRun, filesToCheck, user);
@@ -249,8 +249,8 @@ public class CheckerUtilsIT {
                                 hello
                                 """;
         Checker checker = getCheckerMock(CheckerType.USER_DEFINED);
-        checker.setParameterOne(input);
-        checker.setParameterTwo(expectedOutput);
+        Mockito.lenient().when(checker.getParameterOne()).thenReturn(input);
+        Mockito.lenient().when(checker.getParameterTwo()).thenReturn(expectedOutput);
         checkersToRun.add(checker);
         filesToCheck = getSubmissionFilesForTest(USER_DEFINED_TEST_DATA);
         List<CheckerResult> results = CheckerUtils.runCheckers(checkersToRun, filesToCheck, user);
@@ -277,8 +277,8 @@ public class CheckerUtilsIT {
                                 	at Main.main(Main.java:7)
                                 """;
         Checker checker = getCheckerMock(CheckerType.USER_DEFINED);
-        checker.setParameterOne(input);
-        checker.setParameterTwo(expectedOutput);
+        Mockito.lenient().when(checker.getParameterOne()).thenReturn(input);
+        Mockito.lenient().when(checker.getParameterTwo()).thenReturn(expectedOutput);
         checkersToRun.add(checker);
         filesToCheck = getSubmissionFilesForTest(USER_DEFINED_TEST_DATA);
         List<CheckerResult> results = CheckerUtils.runCheckers(checkersToRun, filesToCheck, user);
@@ -308,8 +308,8 @@ public class CheckerUtilsIT {
         String input = "java Main.java hello none";
         String expectedOutput = "this will not be the output";
         Checker checker = getCheckerMock(CheckerType.USER_DEFINED);
-        checker.setParameterOne(input);
-        checker.setParameterTwo(expectedOutput);
+        Mockito.lenient().when(checker.getParameterOne()).thenReturn(input);
+        Mockito.lenient().when(checker.getParameterOne()).thenReturn(expectedOutput);
         checkersToRun.add(checker);
         filesToCheck = getSubmissionFilesForTest(USER_DEFINED_TEST_DATA);
         List<CheckerResult> results = CheckerUtils.runCheckers(checkersToRun, filesToCheck, user);
@@ -331,8 +331,8 @@ public class CheckerUtilsIT {
         String input = "java Main.java hello none";
         String expectedOutput = "this will not be the output";
         Checker checker = getCheckerMock(CheckerType.USER_DEFINED);
-        checker.setParameterOne(input);
-        checker.setParameterTwo(expectedOutput);
+        Mockito.when(checker.getParameterOne()).thenReturn(input);
+        Mockito.when(checker.getParameterTwo()).thenReturn(expectedOutput);
         checkersToRun.add(checker);
         filesToCheck = getSubmissionFilesForTest(COMPILATION_ERRORS_TEST_DATA);
         List<CheckerResult> results = CheckerUtils.runCheckers(checkersToRun, filesToCheck, user);
