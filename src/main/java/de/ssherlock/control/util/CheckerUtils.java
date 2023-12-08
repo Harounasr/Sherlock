@@ -52,6 +52,8 @@ public final class CheckerUtils {
      * @param submissionFiles The list of files to run the checkers on.
      * @param user            The user for whom the checkers are run.
      * @return The results of the checkers.
+     *
+     * @throws CheckerExecutionException When there is an error during execution.
      */
     public static List<CheckerResult> runCheckers(
             List<Checker> checkers, List<SubmissionFile> submissionFiles, User user) throws CheckerExecutionException {
@@ -210,6 +212,8 @@ public final class CheckerUtils {
      * @param checker         The checker to be used.
      * @param submissionFiles The list of submission files to be checked.
      * @return The result of the user-defined checker.
+     *
+     * @throws CheckerExecutionException When there is an error during execution.
      */
     private static CheckerResult runUserDefinedChecker(
             Checker checker, List<SubmissionFile> submissionFiles) throws CheckerExecutionException {
@@ -258,8 +262,10 @@ public final class CheckerUtils {
      *
      * @param fileName The name of the file.
      * @return The class name.
+     *
+     * @throws CheckerExecutionException When there is an error during execution.
      */
-    private static String extractClassName(String fileName) {
+    private static String extractClassName(String fileName) throws CheckerExecutionException {
         int lastSlashIndex = fileName.lastIndexOf('/');
         int lastBackslashIndex = fileName.lastIndexOf('\\');
         int firstDotIndex = fileName.indexOf('.', lastSlashIndex);
@@ -270,7 +276,7 @@ public final class CheckerUtils {
             return fileName.substring(lastSlashIndex + 1, firstDotIndex);
         } else {
             LOGGER.finer("File " + fileName + " could not be saved.");
-            throw new IllegalArgumentException("Invalid file path format");
+            throw new CheckerExecutionException("Invalid file path format.");
         }
     }
 
@@ -280,6 +286,8 @@ public final class CheckerUtils {
      * @param checker The associated checker.
      * @param files   The files to save.
      * @return A list of paths to the saved classes.
+     *
+     * @throws CheckerExecutionException When there is an error during execution.
      */
     private static List<String> saveJavaClasses(Checker checker, List<SubmissionFile> files) throws CheckerExecutionException {
         LOGGER.finest("Saving files " + files + " for checker " + checker.getName());
@@ -325,6 +333,8 @@ public final class CheckerUtils {
      * @param filePaths   The classes to compile.
      * @param diagnostics The diagnostics collector.
      * @return Whether the files compiled successfully.
+     *
+     * @throws CheckerExecutionException When there is an error during execution.
      */
     private static boolean compileClasses(
             List<String> filePaths, DiagnosticCollector<JavaFileObject> diagnostics) throws CheckerExecutionException {
@@ -358,6 +368,8 @@ public final class CheckerUtils {
      * @param input     The input command.
      * @param checker   The associated checker.
      * @return The execution output.
+     *
+     * @throws CheckerExecutionException When there is an error during execution.
      */
     private static String runWithInput(List<String> filePaths, String input, Checker checker) throws CheckerExecutionException {
         LOGGER.finest("Start running files " + filePaths + " for checker " + checker.getName());

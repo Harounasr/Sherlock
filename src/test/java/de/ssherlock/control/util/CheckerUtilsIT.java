@@ -249,8 +249,8 @@ public class CheckerUtilsIT {
                                 hello
                                 """;
         Checker checker = getCheckerMock(CheckerType.USER_DEFINED);
-        Mockito.when(checker.getParameterOne()).thenReturn(input);
-        Mockito.when(checker.getParameterTwo()).thenReturn(expectedOutput);
+        checker.setParameterOne(input);
+        checker.setParameterTwo(expectedOutput);
         checkersToRun.add(checker);
         filesToCheck = getSubmissionFilesForTest(USER_DEFINED_TEST_DATA);
         List<CheckerResult> results = CheckerUtils.runCheckers(checkersToRun, filesToCheck, user);
@@ -277,8 +277,8 @@ public class CheckerUtilsIT {
                                 	at Main.main(Main.java:7)
                                 """;
         Checker checker = getCheckerMock(CheckerType.USER_DEFINED);
-        Mockito.when(checker.getParameterOne()).thenReturn(input);
-        Mockito.when(checker.getParameterTwo()).thenReturn(expectedOutput);
+        checker.setParameterOne(input);
+        checker.setParameterTwo(expectedOutput);
         checkersToRun.add(checker);
         filesToCheck = getSubmissionFilesForTest(USER_DEFINED_TEST_DATA);
         List<CheckerResult> results = CheckerUtils.runCheckers(checkersToRun, filesToCheck, user);
@@ -308,8 +308,8 @@ public class CheckerUtilsIT {
         String input = "java Main.java hello none";
         String expectedOutput = "this will not be the output";
         Checker checker = getCheckerMock(CheckerType.USER_DEFINED);
-        Mockito.when(checker.getParameterOne()).thenReturn(input);
-        Mockito.when(checker.getParameterTwo()).thenReturn(expectedOutput);
+        checker.setParameterOne(input);
+        checker.setParameterTwo(expectedOutput);
         checkersToRun.add(checker);
         filesToCheck = getSubmissionFilesForTest(USER_DEFINED_TEST_DATA);
         List<CheckerResult> results = CheckerUtils.runCheckers(checkersToRun, filesToCheck, user);
@@ -331,8 +331,8 @@ public class CheckerUtilsIT {
         String input = "java Main.java hello none";
         String expectedOutput = "this will not be the output";
         Checker checker = getCheckerMock(CheckerType.USER_DEFINED);
-        Mockito.when(checker.getParameterOne()).thenReturn(input);
-        Mockito.when(checker.getParameterTwo()).thenReturn(expectedOutput);
+        checker.setParameterOne(input);
+        checker.setParameterTwo(expectedOutput);
         checkersToRun.add(checker);
         filesToCheck = getSubmissionFilesForTest(COMPILATION_ERRORS_TEST_DATA);
         List<CheckerResult> results = CheckerUtils.runCheckers(checkersToRun, filesToCheck, user);
