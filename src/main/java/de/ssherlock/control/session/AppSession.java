@@ -48,7 +48,7 @@ public class AppSession implements Serializable {
   }
 
     /**
-     * Empty no-args constructor for CDI
+     * Empty no-args constructor for CDI.
      */
     protected AppSession() {
         this(null, null);
