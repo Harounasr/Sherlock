@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -88,7 +89,11 @@ public class ZipUtilsIT {
      */
     private List<SubmissionFile> loadFilesFromDirectory() throws URISyntaxException {
         List<SubmissionFile> fileList = new ArrayList<>();
-        Path path = Paths.get(Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource(UNPACKED_ZIP_TESTDATA)).toURI());
+        URL resourceUrl = Thread.currentThread().getContextClassLoader().getResource(UNPACKED_ZIP_TESTDATA);
+        if (resourceUrl == null) {
+            fail("Test directory resource not found");
+        }
+        Path path = Paths.get(resourceUrl.toURI());
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
             for (Path file : stream) {
                 if (Files.isRegularFile(file)) {

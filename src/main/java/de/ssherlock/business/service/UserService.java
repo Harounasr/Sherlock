@@ -222,14 +222,13 @@ public class UserService implements Serializable {
      */
     @SuppressWarnings("checkstyle:MagicNumber")
     private static String generateEmailVerificationToken() {
+        SecureRandom secureRandom = new SecureRandom();
         byte[] tokenBytes = new byte[32];
-        new SecureRandom().nextBytes(tokenBytes);
+        secureRandom.nextBytes(tokenBytes);
 
-        // Convert the random bytes to a hexadecimal string
         BigInteger tokenNumber = new BigInteger(1, tokenBytes);
         String token = tokenNumber.toString(16);
 
-        // Ensure that the token has the desired length
         while (token.length() < 32) {
             token = "0" + token;
         }

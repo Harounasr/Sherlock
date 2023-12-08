@@ -51,12 +51,12 @@ public class ConnectionPool implements Serializable {
     /**
      * Queue of available database connections.
      */
-    private final Queue<Connection> connections = new LinkedList<>();
+    private final transient Queue<Connection> connections = new LinkedList<>();
 
     /**
      * List of borrowed database connections.
      */
-    private final List<Connection> borrowedConnections = new LinkedList<>();
+    private final transient List<Connection> borrowedConnections = new LinkedList<>();
 
     /**
      * Default constructor for creating a ConnectionPoolPsql instance.

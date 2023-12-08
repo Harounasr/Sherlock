@@ -9,6 +9,7 @@ import de.ssherlock.control.util.CheckerUtils;
 import de.ssherlock.control.util.ZipUtils;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Checker;
+import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.Submission;
 import de.ssherlock.global.transport.SubmissionFile;
 import jakarta.annotation.PostConstruct;
@@ -71,7 +72,7 @@ public class SubmissionUploadBean implements Serializable {
     /**
      * The archive file (Part) for submitting.
      */
-    private Part archiveFile;
+    private transient Part archiveFile;
 
     /**
      * List of submitted files.
@@ -111,6 +112,8 @@ public class SubmissionUploadBean implements Serializable {
      */
     @PostConstruct
     public void initialize() {
+        Exercise exerciseTest = new Exercise();
+        checkers = checkerService.getCheckersForExercise(exerciseTest);
         canSubmit = false;
     }
 

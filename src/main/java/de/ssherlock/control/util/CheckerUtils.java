@@ -301,7 +301,10 @@ public final class CheckerUtils {
 
                 File tempDir = new File(tempDirectory);
                 if (!tempDir.exists()) {
-                    tempDir.mkdirs();
+                    boolean dirsCreated = tempDir.mkdirs();
+                    if (!dirsCreated) {
+                        throw new CheckerExecutionException("Failed to create directories for temporary files.");
+                    }
                 }
                 File tempFile = new File(tempDirectory, className + ".java");
                 Files.write(tempFile.toPath(), file.getBytes());
@@ -385,8 +388,8 @@ public final class CheckerUtils {
             processBuilder.directory(new File(getTempDirectory(checker)));
             Process process = processBuilder.start();
 
-            BufferedReader outputReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+            BufferedReader outputReader = new BufferedReader(new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8));
+            BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream(), StandardCharsets.UTF_8));
 
             StringBuilder output = new StringBuilder();
             StringBuilder errorOutput = new StringBuilder();

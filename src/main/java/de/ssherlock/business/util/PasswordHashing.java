@@ -93,8 +93,9 @@ public final class PasswordHashing {
    * @return the generated salt.
    */
   private static byte[] generateSalt() {
+      SecureRandom secureRandom = new SecureRandom();
     byte[] salt = new byte[SALT_SIZE];
-    new SecureRandom().nextBytes(salt);
+    secureRandom.nextBytes(salt);
     return salt;
   }
 
