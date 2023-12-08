@@ -25,6 +25,7 @@ import java.util.logging.Level;
  */
 @Named
 @ApplicationScoped
+@SuppressWarnings("spotbugs:SE_TRANSIENT_FIELD_NOT_RESTORED")
 public class ConnectionPool implements Serializable {
 
     /**

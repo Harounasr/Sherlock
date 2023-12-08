@@ -22,7 +22,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -92,21 +91,22 @@ public class ZipUtilsIT {
         URL resourceUrl = Thread.currentThread().getContextClassLoader().getResource(UNPACKED_ZIP_TESTDATA);
         if (resourceUrl == null) {
             fail("Test directory resource not found");
-        }
-        Path path = Paths.get(resourceUrl.toURI());
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
-            for (Path file : stream) {
-                if (Files.isRegularFile(file)) {
-                    SubmissionFile subFile = new SubmissionFile();
-                    subFile.setName(file.getFileName().toString());
-                    subFile.setBytes(Files.readAllBytes(file));
-                    fileList.add(subFile);
+        } else {
+            Path path = Paths.get(resourceUrl.toURI());
+            try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
+                for (Path file : stream) {
+                    if (Files.isRegularFile(file)) {
+                        SubmissionFile subFile = new SubmissionFile();
+                        subFile.setName(file.getFileName().toString());
+                        subFile.setBytes(Files.readAllBytes(file));
+                        fileList.add(subFile);
+                    }
                 }
+            } catch (IOException e) {
+                fail("Unable to load test files");
             }
-        } catch (IOException e) {
-            fail("Unable to load test files");
+            fileList.sort(Comparator.comparing(SubmissionFile::getName));
         }
-        fileList.sort(Comparator.comparing(SubmissionFile::getName));
         return fileList;
     }
 }
