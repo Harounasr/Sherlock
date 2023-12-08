@@ -294,7 +294,6 @@ public final class CheckerUtils {
         List<String> filePaths = new ArrayList<>();
         for (SubmissionFile file : files) {
             try {
-                String className = extractClassName(file.getName());
                 Path parentPath = Paths.get(file.getName()).getParent();
                 String suffix = parentPath != null ? String.valueOf(parentPath) : "";
                 String tempDirectory = getTempDirectory(checker) + suffix;
@@ -306,6 +305,7 @@ public final class CheckerUtils {
                         throw new CheckerExecutionException("Failed to create directories for temporary files.");
                     }
                 }
+                String className = extractClassName(file.getName());
                 File tempFile = new File(tempDirectory, className + ".java");
                 Files.write(tempFile.toPath(), file.getBytes());
                 filePaths.add(tempFile.getPath());

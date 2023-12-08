@@ -2,6 +2,7 @@ package de.ssherlock.control.util;
 
 import de.ssherlock.control.exception.ZIPNotReadableException;
 import de.ssherlock.global.transport.SubmissionFile;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jakarta.enterprise.inject.Default;
 import jakarta.enterprise.inject.Produces;
 import jakarta.servlet.http.Part;
@@ -29,8 +30,12 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Test class for {@link ZipUtils}.
+ *
+ * @author Leon Föckersperger
  */
 @ExtendWith(MockitoExtension.class)
+@SuppressFBWarnings(value = {"NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE"},
+        justification = "Null value is handled")
 public class ZipUtilsIT {
 
     /**

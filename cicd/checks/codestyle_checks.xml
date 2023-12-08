@@ -46,7 +46,7 @@
     <!-- Excludes all 'module-info.java' files              -->
     <!-- See https://checkstyle.org/config_filefilters.html -->
     <module name="BeforeExecutionExclusionFileFilter">
-        <property name="fileNamePattern" value=".*[\\\\/]Car\.java$|.*[\\\\/]Main\.java$|.*[\\\\/]Person\.java$"/>
+        <property name="fileNamePattern" value=".*/(Car|Main|Person)\.java"/>
     </module>
 
 
