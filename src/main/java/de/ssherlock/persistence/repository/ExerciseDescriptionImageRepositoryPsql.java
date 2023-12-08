@@ -34,7 +34,7 @@ public class ExerciseDescriptionImageRepositoryPsql extends RepositoryPsql
                               VALUES ( ?, ? );
                           """;
     UUID uuid = UUID.randomUUID();
-    try (PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+    try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
       statement.setObject(1, uuid);
       statement.setBytes(2, image.getImage());
       statement.executeUpdate();
@@ -49,7 +49,7 @@ public class ExerciseDescriptionImageRepositoryPsql extends RepositoryPsql
       throws PersistenceNonExistentImageException {
     String sqlQuery = "SELECT * FROM exercise_description_image WHERE uuid::uuid = ?;";
     ExerciseDescriptionImage image = new ExerciseDescriptionImage();
-    try (PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+    try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
       statement.setObject(1, UUID.fromString(uuid));
       ResultSet result = statement.executeQuery();
       if (result.next()) {

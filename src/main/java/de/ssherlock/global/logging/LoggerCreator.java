@@ -25,7 +25,7 @@ import java.util.logging.Logger;
 public final class LoggerCreator implements Serializable {
 
     /**
-     * Serial Version UID
+     * Serial Version UID.
      */
     @Serial
     private static final long serialVersionUID = 1L;

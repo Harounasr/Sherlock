@@ -31,13 +31,13 @@ import java.util.logging.Level;
 public class ConnectionPool implements Serializable {
 
     /**
-     * Serial Version UID
+     * Serial Version UID.
      */
     @Serial
     private static final long serialVersionUID = 1L;
 
     /**
-     * Connection validation timeout
+     * Connection validation timeout.
      */
     private static final int VALIDATION_TIMEOUT = 2;
 
@@ -179,7 +179,7 @@ public class ConnectionPool implements Serializable {
         Connection conn;
         try {
             conn = DriverManager.getConnection(
-                    "jdbc:postgresql://" + configuration.getDbHost() + "/"+ configuration.getDbName(), configuration.getConnectionProperties());
+                    "jdbc:postgresql://" + configuration.getDbHost() + "/" + configuration.getDbName(), configuration.getConnectionProperties());
         } catch (SQLException e) {
             throw new DBUnavailableException("Connection could not be created.", e);
         }

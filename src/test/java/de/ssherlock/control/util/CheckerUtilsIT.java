@@ -374,7 +374,7 @@ public class CheckerUtilsIT {
      *
      * @param location The location with the test data.
      * @return The list of submission files.
-     * @throws IOException When there is a problem loading the test data.
+     * @throws IOException        When there is a problem loading the test data.
      * @throws URISyntaxException When the path is invalid.
      */
     private static List<SubmissionFile> getSubmissionFilesForTest(String location) throws IOException, URISyntaxException {
@@ -392,7 +392,8 @@ public class CheckerUtilsIT {
                     submissionFile.setBytes(fileBytes);
                     submissionFile.setName(fileName);
                     result.add(submissionFile);
-                } catch (IOException ignored) { }
+                } catch (IOException ignored) {
+                }
             });
         }
         return result;

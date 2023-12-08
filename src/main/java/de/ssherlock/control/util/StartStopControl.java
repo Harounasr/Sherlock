@@ -22,7 +22,7 @@ import java.io.Serializable;
 public class StartStopControl implements ServletContextListener, Serializable {
 
     /**
-     * Serial Version UID
+     * Serial Version UID.
      */
     @Serial
     private static final long serialVersionUID = 1L;

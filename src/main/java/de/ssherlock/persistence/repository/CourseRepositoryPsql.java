@@ -49,7 +49,7 @@ public class CourseRepositoryPsql extends RepositoryPsql implements CourseReposi
   public List<Course> getCourses() {
     String sqlQuery = "SELECT * FROM courses;";
     List<Course> allCourses = new ArrayList<>();
-    try (PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+    try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
       ResultSet result = statement.executeQuery();
       while (result.next()) {
         Course course = new Course();

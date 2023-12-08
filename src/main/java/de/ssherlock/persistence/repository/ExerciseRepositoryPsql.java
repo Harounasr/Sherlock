@@ -53,7 +53,7 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
       statement.setDate(2, exercise.getPublishDate());
       statement.setDate(3, exercise.getRecommendedDeadline());
       statement.setDate(4, exercise.getObligatoryDeadline());
-      // TODO: update once test data is inserted in the database
+      // update once test data is inserted in the database
       statement.setString(5, exercise.getCourseName());
       statement.setString(6, exercise.getDescription());
       statement.setLong(7, exercise.getId());
