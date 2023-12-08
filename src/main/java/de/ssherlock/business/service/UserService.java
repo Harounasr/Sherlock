@@ -46,6 +46,11 @@ public class UserService implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * For random byte generation.
+     */
+    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
+
+    /**
      * Logger instance for logging messages related to UserService.
      */
     private final SerializableLogger logger;
@@ -222,9 +227,8 @@ public class UserService implements Serializable {
      */
     @SuppressWarnings("checkstyle:MagicNumber")
     private static String generateEmailVerificationToken() {
-        SecureRandom secureRandom = new SecureRandom();
         byte[] tokenBytes = new byte[32];
-        secureRandom.nextBytes(tokenBytes);
+        SECURE_RANDOM.nextBytes(tokenBytes);
 
         BigInteger tokenNumber = new BigInteger(1, tokenBytes);
         String token = tokenNumber.toString(16);

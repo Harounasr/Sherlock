@@ -309,7 +309,7 @@ public class CheckerUtilsIT {
         String expectedOutput = "this will not be the output";
         Checker checker = getCheckerMock(CheckerType.USER_DEFINED);
         Mockito.lenient().when(checker.getParameterOne()).thenReturn(input);
-        Mockito.lenient().when(checker.getParameterOne()).thenReturn(expectedOutput);
+        Mockito.lenient().when(checker.getParameterTwo()).thenReturn(expectedOutput);
         checkersToRun.add(checker);
         filesToCheck = getSubmissionFilesForTest(USER_DEFINED_TEST_DATA);
         List<CheckerResult> results = CheckerUtils.runCheckers(checkersToRun, filesToCheck, user);
@@ -331,8 +331,8 @@ public class CheckerUtilsIT {
         String input = "java Main.java hello none";
         String expectedOutput = "this will not be the output";
         Checker checker = getCheckerMock(CheckerType.USER_DEFINED);
-        Mockito.when(checker.getParameterOne()).thenReturn(input);
-        Mockito.when(checker.getParameterTwo()).thenReturn(expectedOutput);
+        Mockito.lenient().when(checker.getParameterOne()).thenReturn(input);
+        Mockito.lenient().when(checker.getParameterTwo()).thenReturn(expectedOutput);
         checkersToRun.add(checker);
         filesToCheck = getSubmissionFilesForTest(COMPILATION_ERRORS_TEST_DATA);
         List<CheckerResult> results = CheckerUtils.runCheckers(checkersToRun, filesToCheck, user);

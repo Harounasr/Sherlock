@@ -19,6 +19,12 @@ public final class PasswordHashing {
   private static final String ALGORITHM = "SHA-512";
   /** The size of the salt. */
   private static final int SALT_SIZE = 16;
+
+    /**
+     * For random byte generation.
+     */
+    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
+
   /** Default constructor. */
   private PasswordHashing() {}
 
@@ -93,9 +99,8 @@ public final class PasswordHashing {
    * @return the generated salt.
    */
   private static byte[] generateSalt() {
-      SecureRandom secureRandom = new SecureRandom();
     byte[] salt = new byte[SALT_SIZE];
-    secureRandom.nextBytes(salt);
+    SECURE_RANDOM.nextBytes(salt);
     return salt;
   }
 
