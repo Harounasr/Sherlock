@@ -217,8 +217,6 @@ public final class CheckerUtils {
         CheckerResult result = new CheckerResult();
         result.setChecker(checker);
 
-        String input = checker.getParameterOne();
-        String expectedOutput = checker.getParameterTwo();
         List<String> filePaths = saveJavaClasses(checker, submissionFiles);
 
         StringBuilder sb = new StringBuilder();
@@ -231,8 +229,10 @@ public final class CheckerUtils {
             return result;
         }
 
+        String input = checker.getParameterOne();
         String actualOutput = runWithInput(filePaths, input, checker);
 
+        String expectedOutput = checker.getParameterTwo();
         if (expectedOutput.equals(actualOutput)) {
             result.setPassed(true);
             sb.append("Checker ").append(checker.getName()).append(" ran successfully.");
