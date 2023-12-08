@@ -2,7 +2,6 @@ package de.ssherlock.persistence.util;
 
 import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
-import jakarta.inject.Inject;
 import jakarta.servlet.ServletContextEvent;
 
 import java.io.FileNotFoundException;

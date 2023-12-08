@@ -216,12 +216,12 @@ public final class CheckerUtils {
         LOGGER.finer("Start user-defined checker " + checker.getName() + ".");
         CheckerResult result = new CheckerResult();
         result.setChecker(checker);
-        StringBuilder sb = new StringBuilder();
 
         String input = checker.getParameterOne();
         String expectedOutput = checker.getParameterTwo();
         List<String> filePaths = saveJavaClasses(checker, submissionFiles);
 
+        StringBuilder sb = new StringBuilder();
         if (!compileClasses(filePaths, null)) {
             sb.append("The Checker: ")
               .append(checker.getName())

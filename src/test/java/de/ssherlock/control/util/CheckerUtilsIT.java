@@ -12,6 +12,7 @@ import de.ssherlock.global.transport.User;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -373,14 +374,15 @@ public class CheckerUtilsIT {
      *
      * @param location The location with the test data.
      * @return The list of submission files.
-     * @throws Exception When there is a problem loading the test data.
+     * @throws IOException When there is a problem loading the test data.
+     * @throws URISyntaxException When the path is invalid.
      */
-    private static List<SubmissionFile> getSubmissionFilesForTest(String location) throws Exception {
-        List<SubmissionFile> result = new ArrayList<>();
+    private static List<SubmissionFile> getSubmissionFilesForTest(String location) throws IOException, URISyntaxException {
         URL resourceURL = Thread.currentThread().getContextClassLoader().getResource(location);
         if (resourceURL == null) {
             throw new FileNotFoundException("Resource not found: " + location);
         }
+        List<SubmissionFile> result = new ArrayList<>();
         try (Stream<Path> paths = Files.walk(Paths.get(resourceURL.toURI()))) {
             paths.filter(Files::isRegularFile).forEach(filePath -> {
                 try {
