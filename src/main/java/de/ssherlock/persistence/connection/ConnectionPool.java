@@ -3,6 +3,7 @@ package de.ssherlock.persistence.connection;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.persistence.config.Configuration;
 import de.ssherlock.persistence.exception.DBUnavailableException;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -25,7 +26,8 @@ import java.util.logging.Level;
  */
 @Named
 @ApplicationScoped
-@SuppressWarnings("spotbugs:SE_TRANSIENT_FIELD_NOT_RESTORED")
+@SuppressFBWarnings(value = {"SE_TRANSIENT_FIELD_NOT_RESTORED"},
+        justification = "Suppress warnings about transient fields not being restored")
 public class ConnectionPool implements Serializable {
 
     /**

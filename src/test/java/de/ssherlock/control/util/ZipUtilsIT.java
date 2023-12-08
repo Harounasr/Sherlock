@@ -90,7 +90,7 @@ public class ZipUtilsIT {
         List<SubmissionFile> fileList = new ArrayList<>();
         URL resourceUrl = Thread.currentThread().getContextClassLoader().getResource(UNPACKED_ZIP_TESTDATA);
         if (resourceUrl == null) {
-            fail("Test directory resource not found");
+            throw new RuntimeException("Test directory resource not found.");
         } else {
             Path path = Paths.get(resourceUrl.toURI());
             try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
@@ -103,7 +103,7 @@ public class ZipUtilsIT {
                     }
                 }
             } catch (IOException e) {
-                fail("Unable to load test files");
+                throw new RuntimeException("Unable to load test files.");
             }
             fileList.sort(Comparator.comparing(SubmissionFile::getName));
         }
