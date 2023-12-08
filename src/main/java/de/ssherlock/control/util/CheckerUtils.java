@@ -8,6 +8,12 @@ import de.ssherlock.global.transport.CheckerResult;
 import de.ssherlock.global.transport.SubmissionFile;
 import de.ssherlock.global.transport.User;
 
+import javax.tools.Diagnostic;
+import javax.tools.DiagnosticCollector;
+import javax.tools.JavaCompiler;
+import javax.tools.JavaFileObject;
+import javax.tools.StandardJavaFileManager;
+import javax.tools.ToolProvider;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -17,15 +23,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.tools.Diagnostic;
-import javax.tools.DiagnosticCollector;
-import javax.tools.JavaCompiler;
-import javax.tools.JavaFileObject;
-import javax.tools.StandardJavaFileManager;
-import javax.tools.ToolProvider;
 
 /**
  * Utility class for running various checkers on a set of submission files.
@@ -55,6 +56,7 @@ public final class CheckerUtils {
     public static List<CheckerResult> runCheckers(
             List<Checker> checkers, List<SubmissionFile> submissionFiles, User user) throws CheckerExecutionException {
         LOGGER.finer("Start running checkers.");
+        submissionFiles.sort(Comparator.comparing(SubmissionFile::getName));
         List<CheckerResult> results = new ArrayList<>();
         for (Checker checker : checkers) {
             switch (checker.getCheckerType()) {
