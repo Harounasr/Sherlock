@@ -80,9 +80,13 @@ public class CourseUserPaginationBean extends AbstractPaginationBean implements 
   }
 
   @Override
-  public void loadData() {}
+  public String loadData() {
+      return "";
+  }
 
   /** {@inheritDoc} */
   @Override
-  public void filterBy() {}
+  public String filterBy() {
+      return "";
+  }
 }
