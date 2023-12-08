@@ -170,7 +170,6 @@ public class SerializableLoggerIT {
     /**
      * Custom {@link Handler} to get the last {@link LogRecord}.
      */
-    @SuppressWarnings("AvoidUncheckedExceptionsInSignatures")
     private static class CustomLogHandler extends Handler {
 
         /**
@@ -197,7 +196,7 @@ public class SerializableLoggerIT {
          * {@inheritDoc}
          */
         @Override
-        public void close() throws SecurityException {}
+        public void close() {}
 
         /**
          * Gets the last log record.
