@@ -196,7 +196,9 @@ public class SerializableLoggerIT {
          * {@inheritDoc}
          */
         @Override
-        public void close() throws SecurityException {}
+        public void close() throws SecurityException {
+            throw new SecurityException();
+        }
 
         /**
          * Gets the last log record.

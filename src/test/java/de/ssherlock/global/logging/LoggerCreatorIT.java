@@ -50,7 +50,7 @@ public class LoggerCreatorIT {
     private ServletContext servletContext;
 
     /**
-     * Mock broken input stream
+     * Mock broken input stream.
      */
     @Produces
     @Default
