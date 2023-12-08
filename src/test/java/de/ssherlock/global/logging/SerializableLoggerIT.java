@@ -170,7 +170,7 @@ public class SerializableLoggerIT {
     /**
      * Custom {@link Handler} to get the last {@link LogRecord}.
      */
-    @SuppressWarnings("AvoidUnceckedExceptionsInSignatures")
+    @SuppressWarnings("AvoidUncheckedExceptionsInSignatures")
     private static class CustomLogHandler extends Handler {
 
         /**
