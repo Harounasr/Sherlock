@@ -22,10 +22,10 @@ import java.util.logging.Logger;
  * @author Victor Vollmann
  */
 @ApplicationScoped
-public class LoggerCreator implements Serializable {
+public final class LoggerCreator implements Serializable {
 
     /**
-     * Serial Version UID
+     * Serial Version UID.
      */
     @Serial
     private static final long serialVersionUID = 1L;
@@ -33,7 +33,7 @@ public class LoggerCreator implements Serializable {
     /**
      * Default logger instance used for internal logging within the LoggerCreator class.
      */
-    private static final SerializableLogger logger = get(LoggerCreator.class);
+    private static final SerializableLogger LOGGER = get(LoggerCreator.class);
 
     /**
      * Default constructor.
@@ -66,7 +66,7 @@ public class LoggerCreator implements Serializable {
                 throw new ConfigNotReadableException("Configuration for Logger was not found.");
             }
             LogManager.getLogManager().readConfiguration(input);
-            logger.info("Log configuration has been loaded successfully.");
+            LOGGER.info("Log configuration has been loaded successfully.");
         } catch (IOException e) {
             throw new ConfigNotReadableException("Configuration for Logger was not readable.");
         }

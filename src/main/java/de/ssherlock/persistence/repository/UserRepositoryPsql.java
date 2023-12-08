@@ -71,7 +71,7 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
                     u.username = ?;
                 """;
 
-        try (PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+        try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
             statement.setString(1, username);
             try (ResultSet result = statement.executeQuery()) {
                 if (result.next()) {

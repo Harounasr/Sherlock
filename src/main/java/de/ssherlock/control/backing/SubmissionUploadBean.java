@@ -2,12 +2,14 @@ package de.ssherlock.control.backing;
 
 import de.ssherlock.business.service.CheckerService;
 import de.ssherlock.business.service.SubmissionService;
+import de.ssherlock.control.exception.CheckerExecutionException;
 import de.ssherlock.control.exception.ZIPNotReadableException;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.control.util.CheckerUtils;
 import de.ssherlock.control.util.ZipUtils;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Checker;
+import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.Submission;
 import de.ssherlock.global.transport.SubmissionFile;
 import jakarta.annotation.PostConstruct;
@@ -70,7 +72,7 @@ public class SubmissionUploadBean implements Serializable {
     /**
      * The archive file (Part) for submitting.
      */
-    private Part archiveFile;
+    private transient Part archiveFile;
 
     /**
      * List of submitted files.
@@ -110,6 +112,8 @@ public class SubmissionUploadBean implements Serializable {
      */
     @PostConstruct
     public void initialize() {
+        Exercise exerciseTest = new Exercise();
+        checkers = checkerService.getCheckersForExercise(exerciseTest);
         canSubmit = false;
     }
 
@@ -125,9 +129,11 @@ public class SubmissionUploadBean implements Serializable {
                 logger.log(Level.INFO, file.getName());
             }
 
-            newSubmission.setCheckerResults(CheckerUtils.runCheckers(checkers, submissionFiles));
+            newSubmission.setCheckerResults(CheckerUtils.runCheckers(checkers, submissionFiles, appSession.getUser()));
         } catch (ZIPNotReadableException e) {
             logger.log(Level.SEVERE, "Error while unzipping file: " + e.getMessage());
+        } catch (CheckerExecutionException e) {
+            logger.log(Level.SEVERE, "Error while executing checkers.\n" + e.getMessage());
         }
     }
 

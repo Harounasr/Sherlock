@@ -10,7 +10,7 @@ import java.sql.Connection;
 public class RepositoryPsql {
 
   /** The database connection. */
-  protected Connection connection;
+  private Connection connection;
 
   /**
    * Constructor to initialize the repository with a database connection.
@@ -20,4 +20,22 @@ public class RepositoryPsql {
   public RepositoryPsql(Connection connection) {
     this.connection = connection;
   }
+
+    /**
+     * Gets connection.
+     *
+     * @return the connection
+     */
+    public Connection getConnection() {
+        return connection;
+    }
+
+    /**
+     * Sets connection.
+     *
+     * @param connection the connection
+     */
+    public void setConnection(Connection connection) {
+        this.connection = connection;
+    }
 }

@@ -22,14 +22,7 @@ import java.io.Serializable;
 public class StartStopControl implements ServletContextListener, Serializable {
 
     /**
-     * Default constructor.
-     */
-    public StartStopControl() {
-
-    }
-
-    /**
-     * Serial Version UID
+     * Serial Version UID.
      */
     @Serial
     private static final long serialVersionUID = 1L;
@@ -45,6 +38,13 @@ public class StartStopControl implements ServletContextListener, Serializable {
      */
     @Inject
     private StartStopBusiness startStopBusiness;
+
+    /**
+     * Default constructor.
+     */
+    public StartStopControl() {
+
+    }
 
     /**
      * Destroys the system.

@@ -40,7 +40,7 @@ public class StartStopBusiness implements Serializable {
     /**
      * The MaintenanceProcessExecutor instance.
      */
-    private MaintenanceProcessExecutor executor;
+    private transient MaintenanceProcessExecutor executor;
 
     /**
      * Default constructor.

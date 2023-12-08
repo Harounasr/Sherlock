@@ -52,7 +52,7 @@ public class ExerciseDescriptionBean implements Serializable {
   private boolean editMode;
 
   /** The uploaded image. */
-  private Part uploadedImage;
+  private transient Part uploadedImage;
 
   /** The img component that is generated. */
   private String imgComponent;
