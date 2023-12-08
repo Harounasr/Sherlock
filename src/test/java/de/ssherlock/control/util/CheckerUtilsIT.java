@@ -34,6 +34,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
  * @author Victor Vollmann
  */
 @ExtendWith(MockitoExtension.class)
+@SuppressWarnings("checkstyle:FileTabCharacter")
 public class CheckerUtilsIT {
 
     /**
@@ -274,7 +275,7 @@ public class CheckerUtilsIT {
                                 12
                                 hello
                                 Exception in thread "main" java.lang.IllegalArgumentException: The argument was illegal.
-                                	at Main.main(Main.java:7)
+                                    at Main.main(Main.java:7)
                                 """;
         Checker checker = getCheckerMock(CheckerType.USER_DEFINED);
         Mockito.lenient().when(checker.getParameterOne()).thenReturn(input);

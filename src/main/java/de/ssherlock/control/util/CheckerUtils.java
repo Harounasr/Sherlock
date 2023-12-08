@@ -399,7 +399,7 @@ public final class CheckerUtils {
                 output.append(line).append("\n");
             }
             while ((line = errorReader.readLine()) != null) {
-                errorOutput.append(line).append("\n");
+                errorOutput.append(line.replace("\t", "    ")).append("\n");
             }
 
             outputReader.close();
