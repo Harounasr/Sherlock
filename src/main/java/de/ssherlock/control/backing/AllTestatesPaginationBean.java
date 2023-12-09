@@ -109,6 +109,7 @@ public class AllTestatesPaginationBean extends AbstractPaginationBean implements
      */
     @Override
     public String loadData() {
+        List<Testate> testateList = testateService.getAllTestates(1L);
         return "";
     }
 

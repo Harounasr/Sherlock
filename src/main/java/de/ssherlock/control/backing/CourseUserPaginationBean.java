@@ -12,6 +12,7 @@ import jakarta.inject.Named;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -85,6 +86,7 @@ public class CourseUserPaginationBean extends AbstractPaginationBean implements 
 
     @Override
     public String loadData() {
+        List<User> userList = userService.getUsers();
         return "";
     }
 
