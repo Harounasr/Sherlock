@@ -1,4 +1,4 @@
 /**
- * Test classes for the control.session package.
+ * This package contains the tests for the exception classes.
  */
 package de.ssherlock.control.session;
