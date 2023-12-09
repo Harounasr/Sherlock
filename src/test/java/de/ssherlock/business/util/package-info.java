@@ -1,2 +1,2 @@
-/**Package to test business.util classes*/
+/**Package to test business.util classes.*/
 package de.ssherlock.business.util;
