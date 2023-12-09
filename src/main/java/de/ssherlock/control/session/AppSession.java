@@ -7,6 +7,7 @@ import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.SystemRole;
 import de.ssherlock.global.transport.User;
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import java.io.Serial;
@@ -47,12 +48,10 @@ public class AppSession implements Serializable {
     this.userService = userService;
   }
 
-    /**
-     * Empty no-args constructor for CDI.
-     */
-    protected AppSession() {
-        this(null, null);
-    }
+  /** Empty no-args constructor for CDI. */
+  protected AppSession() {
+    this(null, null);
+  }
 
   /**
    * Checks whether the user is anonymous.
@@ -116,6 +115,7 @@ public class AppSession implements Serializable {
    */
   public String logout() {
     username = null;
+    FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
     return "/view/public/login?faces-redirect=true";
   }
 

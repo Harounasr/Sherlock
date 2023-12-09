@@ -1,0 +1,67 @@
+
+<!--
+  Created by IntelliJ IDEA.
+  User: Lenny
+  Date: 04.12.2023
+  Time: 12:08
+-->
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+<head>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="#{request.contextPath}/resources/css/navbar.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"/>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"/>
+</head>
+<body>
+<div id="navbar">
+    <nav class="navbar navbar-expand-lg sideways-navbar">
+        <a class="navbar-brand" href="../images/logo.jpeg">
+            <img src="#{request.contextPath}/resources/images/logo.jpeg" alt="Logo" height="40" class="d-inline-block align-top">
+                Software Sherlock
+            </img>
+        </a>
+        <ul class="navbar-nav mr-auto">
+            <li>
+                <h:form styleClass="nav-item">
+                    <h:commandButton value="My Courses"/>
+                </h:form>
+            </li>
+            <li>
+                <h:form styleClass="nav-item">
+                    <h:commandButton value="All Courses"/>
+                </h:form>
+            </li>
+            <li>
+                <h:form styleClass="nav-item" rendered="#{
+                navbarBean.getAppSession().user.systemRole == 'ADMINISTRATOR' }">
+                    <h:commandButton value="Admin"
+                    />
+                </h:form>
+            </li>
+            <li>
+                <h:form>
+                    <h:commandButton styleClass="nav-item" value="Profile"/>
+                </h:form>
+            </li>
+            <li>
+                <h:form styleClass="nav-item">
+                    <h:commandButton value="Logout" action="#{navbarBean.logout()}"/>
+                </h:form>
+            </li>
+            <li>
+                <h:form styleClass="nav-item">
+                    <h:commandButton  value="Help" action="#{navbarBean.navigateToHelp()}"/>
+                </h:form>
+            </li>
+
+        </ul>
+    </nav>
+</div>
+</body>
+</html>
