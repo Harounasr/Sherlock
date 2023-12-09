@@ -68,6 +68,7 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
   public void deleteUser(String username) throws PersistenceNonExistentUserException {}
 
   /** {@inheritDoc} */
+  @SuppressWarnings("Checkstyle:LocalVariableNamingConventions")
   @Override
   public User getUser(String username) throws PersistenceNonExistentUserException {
     String sqlQuery =
