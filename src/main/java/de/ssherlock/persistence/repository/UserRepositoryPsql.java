@@ -68,14 +68,13 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
   public void deleteUser(String username) throws PersistenceNonExistentUserException {}
 
   /** {@inheritDoc} */
-  @SuppressWarnings({"checkstyle:LocalVariableName", "pmd:LocalVariableNamingConventions"})
   @Override
   public User getUser(String username) throws PersistenceNonExistentUserException {
     String sqlQuery =
         """
                 SELECT
                     u.id, u.username, u.email, u.firstname, u.lastname, u.user_role, u.password_hash,
-                    u.password_salt, u.faculty, u.failed_login_attempts, p.course_id, p.user_role AS course_role
+                    u.password_salt, u.faculty, u.failed_login_attempts, p.course_id, p.user_role AS courserole
                 FROM
                     "user" u LEFT JOIN participates p ON u.id = p.user_id
                 WHERE
@@ -101,7 +100,7 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
 
           do {
             int course_id = result.getInt("course_id");
-            String courseRole = result.getString("course_role");
+            String courseRole = result.getString("courserole");
             if (course_id != 0 && courseRole != null) {
               courseRoles.put(course_id, CourseRole.valueOf(courseRole));
             }
