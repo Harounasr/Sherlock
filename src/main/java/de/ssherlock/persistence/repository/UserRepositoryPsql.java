@@ -74,7 +74,7 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
         """
                 SELECT
                     u.id, u.username, u.email, u.firstname, u.lastname, u.user_role, u.password_hash,
-                    u.password_salt, u.faculty, u.failed_login_attempts p.course_id, p.user_role
+                    u.password_salt, u.faculty, u.failed_login_attempts, p.course_id, p.user_role AS course_role
                 FROM
                     "user" u LEFT JOIN participates p ON u.id = p.user_id
                 WHERE
