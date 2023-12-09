@@ -1,4 +1,2 @@
-/**
- * Base package to test the application.
- */
+/** Base package to test the application. */
 package de.ssherlock;
