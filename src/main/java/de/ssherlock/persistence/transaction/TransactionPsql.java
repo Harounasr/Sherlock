@@ -4,6 +4,7 @@ import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.persistence.connection.ConnectionPool;
 import de.ssherlock.persistence.exception.PersistenceDBAccessException;
 import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Inject;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -39,7 +40,9 @@ public class TransactionPsql implements Transaction {
     /**
      * Default constructor.
      */
-    public TransactionPsql() {
+    @Inject
+    public TransactionPsql(SerializableLogger logger) {
+        this.logger = logger;
         isInitiated = false;
         isTerminated = false;
     }
@@ -98,6 +101,7 @@ public class TransactionPsql implements Transaction {
      * Retrieves the database connection associated with the transaction.
      *
      * @return The database connection.
+     * @throws PersistenceDBAccessException if the connection could not be retrieved
      */
     public Connection getConnection() throws PersistenceDBAccessException {
         if (connection == null) {
