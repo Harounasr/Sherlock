@@ -1,20 +1,24 @@
 
-#body {
+body {
   display: flex;
   flex-direction: column;
   min-height: 100vh; /* Ensure the body takes at least the full height of the viewport */
   margin: 0;
-  bottom: 0;
 }
 
 #content {
 flex: 1;
+  display:flex;
+  flex-direction: column;
 }
 
 #footer {
-  height: 100px; /* fixed height of the footer */
+  height: 80px; /* fixed height of the footer */
   background-color: rgb(0,128,100);
   color: #fff;
   text-align: center;
   padding: 0; /* bottom padding*/
+  margin-top: auto;
 }
+
+#footer.col-

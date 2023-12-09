@@ -12,7 +12,7 @@ import java.util.logging.Level;
 /**
  * Implementation of SystemSettingsRepository for PostgreSQL database.
  *
- * @author Leon Höfling
+ * @author Lennart Hohls
  */
 public class SystemSettingsRepositoryPsql extends RepositoryPsql
     implements SystemSettingsRepository {
@@ -53,7 +53,7 @@ public class SystemSettingsRepositoryPsql extends RepositoryPsql
   /** {@inheritDoc} */
   @Override
   public SystemSettings getSystemSettings() {
-    String query = "SELECT * FROM SystemSettings ORDER BY id DESC LIMIT 1";
+    String query = "SELECT * FROM system_settings";
     try (PreparedStatement preparedStatement = getConnection().prepareStatement(query);
         ResultSet resultSet = preparedStatement.executeQuery()) {
       if (resultSet.next()) {

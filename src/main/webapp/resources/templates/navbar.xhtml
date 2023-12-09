@@ -39,7 +39,7 @@
             </li>
             <li>
                 <h:form styleClass="nav-item" rendered="#{
-                navbarBean.getAppSession().user.systemRole == 'ADMINISTRATOR' }">
+                navbarBean.getAppSession().user.systemRole == 'ADMINISTRATOR'}">
                     <h:commandButton value="Admin"
                     />
                 </h:form>
@@ -51,12 +51,12 @@
             </li>
             <li>
                 <h:form styleClass="nav-item">
-                    <h:commandButton value="Logout" action="#{navbarBean.logout()}"/>
+                    <h:commandButton value="Logout" action="#{navbarBean.logout}"/>
                 </h:form>
             </li>
             <li>
                 <h:form styleClass="nav-item">
-                    <h:commandButton  value="Help" action="#{navbarBean.navigateToHelp()}"/>
+                    <h:commandButton  value="Help" action="#{navbarBean.navigateToHelp}"/>
                 </h:form>
             </li>
 

@@ -16,7 +16,7 @@ import java.sql.Connection;
 /**
  * The SystemService class provides functionality for system-related operations.
  *
- * @author Victor Vollmann
+ * @author Lennart Hohls
  */
 @Named
 @Dependent
