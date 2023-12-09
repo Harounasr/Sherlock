@@ -25,7 +25,7 @@ public class TransactionPsql implements Transaction {
     /**
      * Logger instance for logging messages related to the TransactionPsql class.
      */
-    private SerializableLogger logger;
+    private final SerializableLogger logger;
 
     /**
      * Indicates whether the transaction was already terminated.
@@ -39,6 +39,8 @@ public class TransactionPsql implements Transaction {
 
     /**
      * Default constructor.
+     *
+     * @param logger The logger instance.
      */
     @Inject
     public TransactionPsql(SerializableLogger logger) {
