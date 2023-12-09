@@ -44,12 +44,12 @@ public class ConnectionPool implements Serializable {
     /**
      * Configuration instance for obtaining database connection settings.
      */
-    @Inject private Configuration configuration;
+    private final Configuration configuration;
 
     /**
      * Logger instance for logging messages related to the ConnectionPoolPsql class.
      */
-    @Inject private SerializableLogger logger;
+    private final SerializableLogger logger;
 
     /**
      * Queue of available database connections.
@@ -64,8 +64,17 @@ public class ConnectionPool implements Serializable {
     /**
      * Default constructor for creating a ConnectionPoolPsql instance.
      */
-    public ConnectionPool() {
+    @Inject
+    public ConnectionPool(Configuration configuration, SerializableLogger logger) {
+        this.configuration = configuration;
+        this.logger = logger;
+    }
 
+    /**
+     * Protected constructor without arguments for CDI.
+     */
+    protected ConnectionPool() {
+        this(null, null);
     }
 
     /**
@@ -78,7 +87,7 @@ public class ConnectionPool implements Serializable {
         for (int i = 0; i < configuration.getDbNumConnections(); i++) {
             connections.offer(createConnection());
         }
-        logger.log(Level.INFO, "Created " + connections.size() + " connection to database: " + configuration.getDbName());
+        logger.log(Level.INFO, "Created " + connections.size() + " connections to database: " + configuration.getDbName());
     }
 
     /**
