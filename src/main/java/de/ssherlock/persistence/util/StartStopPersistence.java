@@ -7,12 +7,9 @@ import de.ssherlock.persistence.connection.ConnectionPool;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletContextEvent;
-
-import java.io.InputStream;
 import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Connection;
-import java.util.function.Function;
 
 /**
  * Handles start and stop functionalities for the persistence layer.
@@ -41,17 +38,15 @@ public class StartStopPersistence implements Serializable {
      *
      * @param sce   The Servlet Context Event.
      */
-    public void init(Function<String, InputStream> resourceFetcher) {
-        LoggerCreator.readConfig(resourceFetcher);
-        configuration.init(resourceFetcher);
+    public void init(ServletContextEvent sce) {
+        LoggerCreator.readConfig(sce);
+        configuration.init(sce);
         connectionPool.init();
         Connection connection = connectionPool.getConnection();
-        DatabaseInitializer.initializeDatabase(resourceFetcher, connection);
+        DatabaseInitializer.initializeDatabase(sce, connection);
         connectionPool.releaseConnection(connection);
-
         logger.info("Persistence Layer initialized.");
     }
-
     /**
      * Destroys the persistence layer during application shutdown.
      */

@@ -2,6 +2,8 @@ package de.ssherlock.persistence.util;
 
 import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
+import jakarta.servlet.ServletContextEvent;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -38,9 +40,9 @@ public final class DatabaseInitializer {
      * @param connection A connection to the database.
      */
     public static void initializeDatabase(
-            Function<String, InputStream> resourceFetcher, Connection connection) {
+            ServletContextEvent sce , Connection connection) {
         String sqlScript;
-        try (InputStream input = resourceFetcher.apply(DATABASE_INITIALIZATION_PATH)) {
+        try (InputStream input = sce.getServletContext().getResourceAsStream(DATABASE_INITIALIZATION_PATH)) {
             if (input == null) {
                 throw new IOException("Could not find the file " + DATABASE_INITIALIZATION_PATH + ".");
             }
