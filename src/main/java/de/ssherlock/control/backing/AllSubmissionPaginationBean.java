@@ -4,7 +4,6 @@ import de.ssherlock.business.service.SubmissionService;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Submission;
-import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -72,7 +71,6 @@ public class AllSubmissionPaginationBean extends AbstractPaginationBean implemen
      * Initializes the AllSubmissionPaginationBean after construction. Retrieves all submissions upon
      * creation.
      */
-    @PostConstruct
     @Override
     public void initialize() {
         loadData();

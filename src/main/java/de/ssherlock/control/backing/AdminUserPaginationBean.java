@@ -72,7 +72,6 @@ public class AdminUserPaginationBean extends AbstractPaginationBean implements S
      * Initializes the AdminUserPaginationBean after construction. Sets up necessary components for
      * managing users.
      */
-    @PostConstruct
     @Override
     public void initialize() {
         loadData();

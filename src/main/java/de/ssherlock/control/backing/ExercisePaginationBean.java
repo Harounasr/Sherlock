@@ -4,7 +4,6 @@ import de.ssherlock.business.service.ExerciseService;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Exercise;
-import jakarta.annotation.PostConstruct;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
@@ -75,7 +74,7 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
      * Initializes the ExercisePaginationBean after construction. Retrieves the exercises from the
      * service.
      */
-    @PostConstruct
+    @Override
     public void initialize() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         Map<String, String> requestParams = facesContext.getExternalContext().getRequestParameterMap();

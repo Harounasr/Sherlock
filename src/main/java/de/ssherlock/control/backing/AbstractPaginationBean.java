@@ -2,6 +2,7 @@ package de.ssherlock.control.backing;
 
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Pagination;
+import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 
 import java.io.Serial;
@@ -45,10 +46,13 @@ public abstract class AbstractPaginationBean implements Serializable {
      * Must set the property sortBy in the pagination.
      * Otherwise, an IllegalStateException will be thrown.
      */
+    @PostConstruct
     public abstract void initialize();
 
     /**
      * Loads the data for the pagination.
+     *
+     * @return The navigation outcome.
      */
     public abstract String loadData();
 
