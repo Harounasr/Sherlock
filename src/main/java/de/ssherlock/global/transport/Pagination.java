@@ -184,6 +184,4 @@ public class Pagination implements Serializable {
     public void setSearchLocation(String searchLocation) {
         this.searchLocation = searchLocation;
     }
-
-
 }

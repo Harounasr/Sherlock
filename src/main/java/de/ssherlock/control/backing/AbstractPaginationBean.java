@@ -20,10 +20,16 @@ public abstract class AbstractPaginationBean implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The {@code Logger} instance to be used in this class.
+     */
     @Inject
     private transient SerializableLogger logger;
 
 
+    /**
+     * The pagination DTO.
+     */
     private Pagination pagination;
 
     /**
@@ -40,6 +46,11 @@ public abstract class AbstractPaginationBean implements Serializable {
      * Otherwise, an IllegalStateException will be thrown.
      */
     public abstract void initialize();
+
+    /**
+     * Loads the data for the pagination.
+     */
+    public abstract String loadData();
 
     /**
      * Getter for the pagination.
@@ -59,10 +70,6 @@ public abstract class AbstractPaginationBean implements Serializable {
         this.pagination = pagination;
     }
 
-    /**
-     * Loads the data for the pagination.
-     */
-    public abstract String loadData();
 
     /**
      * Filters the pagination by the search string.
@@ -92,7 +99,7 @@ public abstract class AbstractPaginationBean implements Serializable {
      * Navigates to the first page.
      */
     public String firstPage() {
-        pagination.setCurrentIndex(0);
+        pagination.setCurrentIndex(1);
         return loadData();
     }
 
@@ -104,10 +111,21 @@ public abstract class AbstractPaginationBean implements Serializable {
         return loadData();
     }
 
+    /**
+     * Navigates to a specific page of the pagination.
+     *
+     * @return The navigation outcome.
+     */
     public String selectedPage() {
         return loadData();
     }
 
+    /**
+     * Sorts the pagination by the given sortBy attribute.
+     *
+     * @param sortBy The sortBy attribute.
+     * @return The navigation outcome.
+     */
     public String sort(String sortBy) {
         logger.finest("Sorting by " + sortBy);
         if (pagination.getSortBy().equals(sortBy)) {
@@ -152,7 +170,7 @@ public abstract class AbstractPaginationBean implements Serializable {
      * @return {@code true} if the previous button is enabled otherwise {@code false}.
      */
     public boolean prevButtonEnabled() {
-        return pagination.getCurrentIndex() > 0;
+        return pagination.getCurrentIndex() > 1;
     }
 
     /**
