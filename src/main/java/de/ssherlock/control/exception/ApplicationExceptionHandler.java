@@ -64,16 +64,19 @@ public class ApplicationExceptionHandler extends ExceptionHandlerWrapper {
                && (exception instanceof FacesException || exception instanceof ELException)) {
             exception = exception.getCause();
         }
-        switch (exception) {
-        case NoAccessException ignored -> show404Page(context, exception);
-        case DBUnavailableException ignored -> showErrorPage(context, exception, "Database unavailable.");
-        case ConfigNotReadableException ignored -> showErrorPage(context, exception, "Configuration file not readable.");
-        case RuntimeException ignored -> showErrorPage(context, exception, "An unexpected error occurred.");
-        default -> {
+        if (exception instanceof NoAccessException) {
+            show404Page(context, exception);
+        } else if (exception instanceof DBUnavailableException) {
+            showErrorPage(context, exception, "Database unavailable.");
+        } else if (exception instanceof ConfigNotReadableException) {
+            showErrorPage(context, exception, "Configuration file not readable.");
+        } else if (exception instanceof FacesException) {
+            return;
+        } else if (exception instanceof RuntimeException) {
+            showErrorPage(context, exception, "An unexpected error occurred.");
+        } else {
             return;
         }
-        }
-
         unhandledExceptions.remove();
         while (unhandledExceptions.hasNext()) {
             unhandledExceptions.next();
