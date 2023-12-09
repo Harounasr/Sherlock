@@ -17,13 +17,12 @@ public final class PasswordHashing {
 
   /** The algorithm to use for hashing. */
   private static final String ALGORITHM = "SHA-512";
+
   /** The size of the salt. */
   private static final int SALT_SIZE = 16;
 
-    /**
-     * For random byte generation.
-     */
-    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
+  /** For random byte generation. */
+  private static final SecureRandom SECURE_RANDOM = new SecureRandom();
 
   /** Default constructor. */
   private PasswordHashing() {}
@@ -46,7 +45,7 @@ public final class PasswordHashing {
    * @return A String object containing the hashed password.
    */
   public static String getHashedPassword(String password, String salt) {
-    return hashPassword(password, Optional.of(salt)).getSalt();
+    return hashPassword(password, Optional.of(salt)).getHash();
   }
 
   /**
