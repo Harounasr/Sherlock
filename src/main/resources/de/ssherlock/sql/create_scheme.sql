@@ -1,4 +1,3 @@
-
 DO $$
 BEGIN
         -- Check if course_role enum type exists
@@ -38,7 +37,7 @@ CREATE TABLE IF NOT EXISTS "user"
     faculty       VARCHAR(50)             DEFAULT 'NONE',
     password_hash VARCHAR(75)             NOT NULL,
     password_salt VARCHAR(50)             NOT NULL,
-    user_role     system_role             NOT NULL,
+    user_role     SYSTEM_ROLE             NOT NULL,
     failed_login_attempts INTEGER         DEFAULT 0,
     token         VARCHAR(75)             NOT NULL,
     expiry_date   TIMESTAMP               WITH TIME ZONE NOT NULL,
@@ -63,15 +62,12 @@ CREATE TABLE IF NOT EXISTS exercise
                                                 description          TEXT,
 
                                                 FOREIGN KEY (course_name) REFERENCES course (course_name) ON DELETE CASCADE,
-    CONSTRAINT date_constraints CHECK (
-                                          publish_date < recommended_deadline AND
-                                          recommended_deadline < obligatory_deadline
-                                      )
+    CONSTRAINT date_constraints CHECK (publish_date < recommended_deadline AND recommended_deadline < obligatory_deadline)
     );
 
 CREATE TABLE IF NOT EXISTS exercise_image
 (
-    uuid           uuid PRIMARY KEY NOT NULL,
+    uuid           UUID PRIMARY KEY NOT NULL,
     exercise_id    INTEGER          NOT NULL,
     exercise_image BYTEA,
 
@@ -86,7 +82,7 @@ CREATE TABLE IF NOT EXISTS checker
     is_required BOOLEAN     NOT NULL DEFAULT FALSE,
     parameter_1 VARCHAR(255),
     parameter_2 VARCHAR(255),
-    type         checker_type NOT NULL,
+    type         CHECKER_TYPE NOT NULL,
 
     PRIMARY KEY (id, exercise_id),
     FOREIGN KEY (exercise_id) REFERENCES exercise (id) ON DELETE CASCADE
@@ -109,7 +105,7 @@ CREATE TABLE IF NOT EXISTS checker_result
     has_passed         BOOLEAN,
     result_description TEXT,
 
-    PRIMARY key (Exercise_id, checker_id, submission_id),
+    PRIMARY KEY (Exercise_id, checker_id, submission_id),
     FOREIGN KEY (checker_id, Exercise_id) REFERENCES checker (id, exercise_id) ON DELETE CASCADE,
     FOREIGN KEY (submission_id) REFERENCES submission (id) ON DELETE CASCADE
     );
@@ -142,10 +138,10 @@ CREATE TABLE IF NOT EXISTS testate
     id SERIAL PRIMARY KEY NOT NULL,
     submission_id       INTEGER NOT NULL,
     tutor_id            INTEGER NOT NULL,
-    layout_grade        grade   NOT NULL,
-    structure_grade     grade   NOT NULL,
-    readability_grade   grade   NOT NULL,
-    functionality_grade grade   NOT NULL,
+    layout_grade        GRADE   NOT NULL,
+    structure_grade     GRADE   NOT NULL,
+    readability_grade   GRADE   NOT NULL,
+    functionality_grade GRADE   NOT NULL,
 
     FOREIGN KEY (submission_id) REFERENCES submission (id) ON DELETE CASCADE,
     FOREIGN KEY (tutor_id) REFERENCES "user" (id) ON DELETE SET NULL
@@ -166,11 +162,9 @@ CREATE TABLE IF NOT EXISTS participates
 (
     user_id    INTEGER     NOT NULL,
     course_id  INTEGER     NOT NULL,
-    user_role  course_role NOT NULL,
+    user_role  COURSE_ROLE NOT NULL,
 
     PRIMARY KEY (user_id, course_id),
     FOREIGN KEY (user_id) REFERENCES "user"(id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES course (id) ON DELETE CASCADE
     );
-
-
