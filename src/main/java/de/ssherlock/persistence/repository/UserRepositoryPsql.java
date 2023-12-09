@@ -73,14 +73,13 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
     String sqlQuery =
         """
                 SELECT
-                    username, email, firstname, lastname, user_role, password_hash,
-                    password_salt, faculty
+                    u.id, u.username, u.email, u.firstname, u.lastname, u.user_role, u.password_hash,
+                    u.password_salt, u.faculty, u.failed_login_attempts p.course_id, p.user_role
                 FROM
-                    "user"
+                    "user" u LEFT JOIN participates p ON u.id = p.user_id
                 WHERE
                     username = ?;
                 """;
-
     try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
       statement.setString(1, username);
       try (ResultSet result = statement.executeQuery()) {
@@ -93,19 +92,20 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
           user.setFirstName(result.getString("firstname"));
           user.setLastName(result.getString("lastname"));
           user.setEmail(result.getString("email"));
+          user.setFailedLoginAttempts(result.getInt("failed_login_attempts"));
           user.setSystemRole(SystemRole.valueOf(result.getString("user_role")));
           user.setFacultyName(result.getString("faculty"));
           user.setPassword(password);
-          Map<String, CourseRole> courseRoles = new HashMap<>();
-          /*
+          Map<Integer, CourseRole> courseRoles = new HashMap<>();
+
           do {
-            String courseName = result.getString("course_name");
+            int course_id = result.getInt("course_id");
             String courseRole = result.getString("course_role");
-            if (courseName != null && courseRole != null) {
-              courseRoles.put(courseName, CourseRole.valueOf(courseRole));
+            if (course_id != 0 && courseRole != null) {
+              courseRoles.put(course_id, CourseRole.valueOf(courseRole));
             }
           } while (result.next());
-          */
+
           user.setCourseRoles(courseRoles);
           return user;
         } else {

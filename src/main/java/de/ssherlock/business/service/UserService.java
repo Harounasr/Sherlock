@@ -98,7 +98,7 @@ public class UserService implements Serializable {
     }
     connectionPool.releaseConnection(connection);
     // uncomment after failedLoginAttemptsCleanUp was implemented
-      /*
+    /*
     if (user.getFailedLoginAttempts() >= 5) {
         throw new LoginFailedException();
     }
@@ -137,17 +137,6 @@ public class UserService implements Serializable {
         user,
         MailContentBuilder.buildVerificationMail(user, generateEmailVerificationToken()),
         MailType.VERIFICATION);
-    /*
-    User a = new User();
-    User b = new User();
-    a.setEmail("leon@galerie-hoefling.de");
-    b.setEmail("hoefli11@ads.uni-passau.de");
-    List<User> users = new ArrayList<>();
-    users.add(a);
-    users.add(b);
-    mail.sendMail(users, MailContentBuilder.buildReminderMail(new Exercise()));
-
-     */
   }
 
   /**
