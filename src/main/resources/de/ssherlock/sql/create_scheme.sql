@@ -105,8 +105,8 @@ CREATE TABLE IF NOT EXISTS checker_result
     has_passed         BOOLEAN,
     result_description TEXT,
 
-    PRIMARY KEY (Exercise_id, checker_id, submission_id),
-    FOREIGN KEY (checker_id, Exercise_id) REFERENCES checker (id, exercise_id) ON DELETE CASCADE,
+    PRIMARY KEY (exercise_id, checker_id, submission_id),
+    FOREIGN KEY (checker_id, exercise_id) REFERENCES checker (id, exercise_id) ON DELETE CASCADE,
     FOREIGN KEY (submission_id) REFERENCES submission (id) ON DELETE CASCADE
     );
 
