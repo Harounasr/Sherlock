@@ -9,6 +9,7 @@ import jakarta.inject.Inject;
 import jakarta.servlet.ServletContextEvent;
 import java.io.Serial;
 import java.io.Serializable;
+import java.sql.Connection;
 
 /**
  * Handles start and stop functionalities for the persistence layer.
@@ -41,12 +42,9 @@ public class StartStopPersistence implements Serializable {
         LoggerCreator.readConfig(sce);
         configuration.init(sce);
         connectionPool.init();
-        // TODO remove comment when Database Scheme is ready
-        /*
-        Connection connection = connectionPoolPsql.getConnection();
-        DatabaseInitializer.initialize(sce, connection);
+        Connection connection = connectionPool.getConnection();
+        DatabaseInitializer.initializeDatabase(sce, connection);
         connectionPool.releaseConnection(connection);
-         */
         logger.info("Persistence Layer initialized.");
     }
     /**
