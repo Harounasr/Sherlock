@@ -103,6 +103,8 @@ public class Configuration implements Serializable {
 
     /**
      * Initializes the Configuration instance by reading configuration properties from a file.
+     *
+     * @param logger The logger for this class.
      */
     @Inject
     public Configuration(SerializableLogger logger) {

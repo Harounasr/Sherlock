@@ -63,6 +63,9 @@ public class ConnectionPool implements Serializable {
 
     /**
      * Default constructor for creating a ConnectionPoolPsql instance.
+     *
+     * @param configuration The configuration of the database.
+     * @param logger The logger of this class.
      */
     @Inject
     public ConnectionPool(Configuration configuration, SerializableLogger logger) {
