@@ -33,6 +33,7 @@ import static org.mockito.Mockito.mock;
  * @author Victor Vollmann
  */
 @ExtendWith(MockitoExtension.class)
+@SuppressWarnings("checkstyle:MagicNumber")
 public class ConnectionPoolIT {
 
     /**
@@ -215,7 +216,8 @@ public class ConnectionPoolIT {
      * @throws NoSuchFieldException When the field does not exist.
      * @throws IllegalAccessException When the access is denied.
      */
-    private static Queue<Connection> getConnectionsFromPool(ConnectionPool connectionPool) throws NoSuchFieldException, IllegalAccessException {
+    private static Queue<Connection> getConnectionsFromPool(ConnectionPool connectionPool)
+            throws NoSuchFieldException, IllegalAccessException {
         Field field = ConnectionPool.class.getDeclaredField("connections");
         field.setAccessible(true);
         return (Queue<Connection>) field.get(connectionPool);
