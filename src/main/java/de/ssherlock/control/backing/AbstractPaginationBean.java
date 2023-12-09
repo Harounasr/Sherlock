@@ -73,6 +73,8 @@ public abstract class AbstractPaginationBean implements Serializable {
 
     /**
      * Filters the pagination by the search string.
+     *
+     * @return The navigation outcome.
      */
     public String filterBy() {
         logger.finest("Searching for" + pagination.getSearchString());
@@ -81,6 +83,8 @@ public abstract class AbstractPaginationBean implements Serializable {
 
     /**
      * Navigates to the next page.
+     *
+     * @return The navigation outcome.
      */
     public String nextPage() {
         pagination.setCurrentIndex(pagination.getCurrentIndex() + 1);
@@ -89,6 +93,8 @@ public abstract class AbstractPaginationBean implements Serializable {
 
     /**
      * Navigates to the previous page.
+     *
+     * @return The navigation outcome.
      */
     public String previousPage() {
         pagination.setCurrentIndex(pagination.getCurrentIndex() - 1);
@@ -97,6 +103,8 @@ public abstract class AbstractPaginationBean implements Serializable {
 
     /**
      * Navigates to the first page.
+     *
+     * @return The navigation outcome.
      */
     public String firstPage() {
         pagination.setCurrentIndex(1);
@@ -105,6 +113,8 @@ public abstract class AbstractPaginationBean implements Serializable {
 
     /**
      * Navigates to the last page.
+     *
+     * @return The navigation outcome.
      */
     public String lastPage() {
         pagination.setCurrentIndex(pagination.getLastIndex());
@@ -152,19 +162,6 @@ public abstract class AbstractPaginationBean implements Serializable {
     }
 
     /**
-     * Returns a symbol for the sort direction dependent of the selection in the pagination.
-     *
-     * @return A symbol for the sort direction.
-     */
-    private String getSortDirection() {
-        if (pagination.isSortAscending()) {
-            return "↑";
-        } else {
-            return "↓";
-        }
-    }
-
-    /**
      * Returns if the previous button is enabled.
      *
      * @return {@code true} if the previous button is enabled otherwise {@code false}.
@@ -181,4 +178,19 @@ public abstract class AbstractPaginationBean implements Serializable {
     public boolean nextButtonEnabled() {
         return pagination.getCurrentIndex() < pagination.getLastIndex();
     }
+
+    /**
+     * Returns a symbol for the sort direction dependent of the selection in the pagination.
+     *
+     * @return A symbol for the sort direction.
+     */
+    private String getSortDirection() {
+        if (pagination.isSortAscending()) {
+            return "↑";
+        } else {
+            return "↓";
+        }
+    }
+
+
 }
