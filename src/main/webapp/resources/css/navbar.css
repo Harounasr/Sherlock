@@ -1,0 +1,21 @@
+.sideways-navbar {
+  background-color: rgb(128,128,100);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 100px; /* Set the height of the navbar */
+}
+
+.sideways-navbar .navbar-nav {
+  display: flex;
+  flex-direction: row;
+}
+
+.sideways-navbar .navbar-nav .nav-item {
+  margin-right: 15px; /* Adjust the spacing between navbar items */
+}
+
+.sideways-navbar .navbar-brand {
+  margin-right: auto; /* Align the brand to the left */
+}

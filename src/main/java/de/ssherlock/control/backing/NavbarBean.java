@@ -15,13 +15,13 @@ import java.util.logging.Level;
 /**
  * Backing bean for the navbar.xhtml facelet.
  *
- * @author Leon Höfling
+ * @author Lennart Hohls
  */
 @Named
 @ViewScoped
 public class NavbarBean implements Serializable {
 
-  /** Serial Version UID. */
+  /** Serial Version UID */
   @Serial private static final long serialVersionUID = 1L;
 
   /** The logger for this class. */
@@ -55,7 +55,9 @@ public class NavbarBean implements Serializable {
   public void initialize() {}
 
   /** Logs out the current user. */
-  public void logout() {}
+  public void logout() {
+    appSession.logout();
+  }
 
   /**
    * Navigates to the page displaying all courses.
@@ -91,7 +93,7 @@ public class NavbarBean implements Serializable {
    * @return The destination view for admin settings.
    */
   public String navigateToAdminSettings() {
-    return "";
+    return "/view/registered/adminSettings.xhtml";
   }
 
   /**
@@ -99,8 +101,8 @@ public class NavbarBean implements Serializable {
    *
    * @return The destination view for help.
    */
-  public String help() {
-    return "";
+  public String navigateToHelp() {
+    return "/view/public/registration.xhtml";
   }
 
   /**
@@ -119,5 +121,9 @@ public class NavbarBean implements Serializable {
    */
   public void setSystemSettings(SystemSettings systemSettings) {
     this.systemSettings = systemSettings;
+  }
+
+  public AppSession getAppSession() {
+    return appSession;
   }
 }
