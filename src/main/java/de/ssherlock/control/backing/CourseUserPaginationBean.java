@@ -5,7 +5,6 @@ import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.CourseRole;
 import de.ssherlock.global.transport.User;
-import jakarta.annotation.PostConstruct;
 import jakarta.faces.event.ActionEvent;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
@@ -83,19 +82,6 @@ public class CourseUserPaginationBean extends AbstractPaginationBean implements 
      */
     public void changeUserRole(ActionEvent e) {}
 
-    /**
-     * Handles search operations.
-     */
-    public void handleSearch() {}
-
-    /**
-     * Sets the search string.
-     *
-     * @param searchString The string used for searching.
-     */
-    public void setSearchString(String searchString) {
-        this.searchString = searchString;
-    }
 
     @Override
     public String loadData() {

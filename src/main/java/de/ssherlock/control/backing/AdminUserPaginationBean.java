@@ -4,7 +4,6 @@ import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.User;
-import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -61,8 +60,7 @@ public class AdminUserPaginationBean extends AbstractPaginationBean implements S
      * @param userService The UserService used for user-related actions (Injected).
      */
     @Inject
-    public AdminUserPaginationBean(
-            SerializableLogger logger, AppSession appSession, UserService userService) {
+    public AdminUserPaginationBean(SerializableLogger logger, AppSession appSession, UserService userService) {
         this.logger = logger;
         this.appSession = appSession;
         this.userService = userService;

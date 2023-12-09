@@ -76,11 +76,11 @@ public abstract class AbstractPaginationBean implements Serializable {
 
 
     /**
-     * Filters the pagination by the search string.
+     * Searches the pagination for the search string.
      *
      * @return The navigation outcome.
      */
-    public String filterBy() {
+    public String search() {
         logger.finest("Searching for" + pagination.getSearchString());
         return loadData();
     }
