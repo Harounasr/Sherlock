@@ -12,7 +12,6 @@ import jakarta.inject.Named;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,6 +21,7 @@ import java.util.Map;
  */
 @Named
 @ViewScoped
+@SuppressWarnings("DesignForExtension")
 public class CourseUserPaginationBean extends AbstractPaginationBean implements Serializable {
 
     /**
@@ -86,7 +86,7 @@ public class CourseUserPaginationBean extends AbstractPaginationBean implements 
 
     @Override
     public String loadData() {
-        List<User> userList = userService.getUsers();
+        userService.getUsers();
         return "";
     }
 
