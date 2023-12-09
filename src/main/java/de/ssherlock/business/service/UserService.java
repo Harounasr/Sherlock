@@ -97,7 +97,7 @@ public class UserService implements Serializable {
           "The user " + loginInfo.getUsername() + " is not registered in the system");
     }
     connectionPool.releaseConnection(connection);
-    //TODO: uncomment after failedLoginAttemptsCleanUp was implemented
+    // uncomment after failedLoginAttemptsCleanUp was implemented
       /*
     if (user.getFailedLoginAttempts() >= 5) {
         throw new LoginFailedException();
