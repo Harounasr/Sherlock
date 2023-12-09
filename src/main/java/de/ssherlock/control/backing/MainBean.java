@@ -1,6 +1,7 @@
 package de.ssherlock.control.backing;
 
 import de.ssherlock.global.logging.SerializableLogger;
+import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -21,8 +22,10 @@ public class MainBean implements Serializable {
   /** Logger for this class. */
   private final SerializableLogger logger;
 
+  /** The text which is displayed on the verification page. */
+
   /**
-   * Constructor for MainBean.
+   * Constructor for VerificationBean.
    *
    * @param logger The logger for this class.
    */

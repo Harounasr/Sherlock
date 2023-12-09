@@ -10,6 +10,7 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.logging.Level;
 
 /**
  * Backing bean for the navbar.xhtml facelet.
@@ -82,6 +83,7 @@ public class NavbarBean implements Serializable {
    * @return The destination view for user's profile.
    */
   public String navigateToProfile() {
+    logger.log(Level.INFO, "Inside navbarbean");
     return "/view/registered/profile.xhtml";
   }
 
@@ -121,21 +123,7 @@ public class NavbarBean implements Serializable {
     this.systemSettings = systemSettings;
   }
 
-  /**
-   * Getter for the appSession.
-   *
-   * @return
-   */
   public AppSession getAppSession() {
     return appSession;
-  }
-
-  /**
-   * Getter for the logo, stored in the database.
-   *
-   * @return byteArray for the Logo.
-   */
-  public byte[] getLogo() {
-    return systemService.getSystemSettings().getLogo();
   }
 }

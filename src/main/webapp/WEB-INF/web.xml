@@ -23,7 +23,7 @@
     </error-page>
 
     <welcome-file-list>
-        <welcome-file>view/public/login.xhtml</welcome-file>
+        <welcome-file>view/public/main.xhtml</welcome-file>
     </welcome-file-list>
 
     <security-constraint>
