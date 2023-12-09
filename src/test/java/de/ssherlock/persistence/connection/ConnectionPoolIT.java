@@ -232,7 +232,8 @@ public class ConnectionPoolIT {
      * @throws NoSuchFieldException When the field does not exist.
      * @throws IllegalAccessException When the access is denied.
      */
-    private static List<Connection> getBorrowedConnectionsFromPool(ConnectionPool connectionPool) throws NoSuchFieldException, IllegalAccessException {
+    private static List<Connection> getBorrowedConnectionsFromPool(ConnectionPool connectionPool)
+            throws NoSuchFieldException, IllegalAccessException {
         Field field = ConnectionPool.class.getDeclaredField("borrowedConnections");
         field.setAccessible(true);
         return (List<Connection>) field.get(connectionPool);
