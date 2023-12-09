@@ -162,7 +162,7 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
      * {@inheritDoc}
      */
     @Override
-    public String filterBy() {
+    public String search() {
         return "";
     }
 }

@@ -120,7 +120,7 @@ public class AdminUserPaginationBean extends AbstractPaginationBean implements S
      * {@inheritDoc}
      */
     @Override
-    public String filterBy() {
+    public String search() {
         return "";
     }
 }

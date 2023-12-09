@@ -126,7 +126,7 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
      * {@inheritDoc}
      */
     @Override
-    public String filterBy() {
+    public String search() {
         return "";
     }
 }

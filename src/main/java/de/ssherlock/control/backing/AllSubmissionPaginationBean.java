@@ -117,7 +117,7 @@ public class AllSubmissionPaginationBean extends AbstractPaginationBean implemen
      * {@inheritDoc}
      */
     @Override
-    public String filterBy() {
+    public String search() {
         return "";
     }
 }

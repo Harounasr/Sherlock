@@ -116,7 +116,7 @@ public class AllTestatesPaginationBean extends AbstractPaginationBean implements
      * {@inheritDoc}
      */
     @Override
-    public String filterBy() {
+    public String search() {
         return "";
     }
 }
