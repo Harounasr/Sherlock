@@ -1,5 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
       xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Register now</title>
@@ -16,6 +17,9 @@
         .error-message {
             color: red;
             font-size: 12px;
+        }
+        form {
+            margin-bottom: 5px;
         }
     </style>
 </head>
@@ -55,8 +59,10 @@
                         </div>
                         <div class="form-group">
                             <label for="faculty">Faculty</label>
-                            <h:inputText id="faculty" value="#{registrationBean.user.facultyName}" styleClass="form-control"
-                                         placeholder="Enter your faculty" required="true" requiredMessage="Please fill in this field"/>
+                            <h:selectOneMenu id="faculty" value="#{registrationBean.user.facultyName}" styleClass="form-control" required="true">
+                                <f:selectItem itemLabel="-- Select Faculty --" itemValue="" />
+                                <f:selectItems value="#{registrationBean.faculties}" var="faculty" itemLabel="#{faculty.name}" itemValue="#{faculty}" />
+                            </h:selectOneMenu>
                             <h:message for="faculty" styleClass="error-message"/>
                         </div>
                         <div class="form-group">

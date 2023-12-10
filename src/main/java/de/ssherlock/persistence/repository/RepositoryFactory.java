@@ -184,4 +184,22 @@ public final class RepositoryFactory {
       }
     }
   }
+
+  /**
+   * Returns a FacultyRepository based on the RepositoryType and connection.
+   *
+   * @param type The RepositoryType to determine the repository type.
+   * @param connection The database connection.
+   * @return A FacultyRepository based on the RepositoryType.
+   */
+  public static FacultyRepository getFacultyRepository(RepositoryType type, Connection connection) {
+    switch (type) {
+      case POSTGRESQL -> {
+        return new FacultyRepositoryPsql(connection);
+      }
+      default -> {
+        return null;
+      }
+    }
+  }
 }
