@@ -68,7 +68,10 @@ public class CourseBean implements Serializable {
     courseName = requestParams.get("Id");
   }
 
-  /** Deletes the current course from the database. */
+  /** Deletes the current course from the database.
+   *
+   * @return the target page
+   * */
   public String deleteCourse() {
     try {
       courseService.removeCourse(courseName);
