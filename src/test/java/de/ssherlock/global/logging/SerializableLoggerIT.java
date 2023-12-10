@@ -16,6 +16,8 @@ import static org.mockito.Mockito.when;
 
 /**
  * Test class for {@link SerializableLogger}.
+ *
+ * @author Victor Vollmann
  */
 public class SerializableLoggerIT {
 
