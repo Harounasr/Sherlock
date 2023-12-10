@@ -15,7 +15,6 @@ import de.ssherlock.persistence.repository.RepositoryType;
 import de.ssherlock.persistence.repository.UserRepository;
 import de.ssherlock.persistence.util.Mail;
 import de.ssherlock.persistence.util.MailContentBuilder;
-import de.ssherlock.persistence.util.MailType;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -133,10 +132,7 @@ public class UserService implements Serializable {
    * @param user The user to be registered.
    */
   public void registerUser(User user) {
-    mail.sendMail(
-        user,
-        MailContentBuilder.buildVerificationMail(user, generateEmailVerificationToken()),
-        MailType.VERIFICATION);
+
   }
 
   /**
@@ -155,7 +151,7 @@ public class UserService implements Serializable {
     } catch (PersistenceNonExistentUserException e) {
       throw new BusinessNonExistentUserException();
     }
-    mail.sendMail(user, MailContentBuilder.buildPasswordResetMail(user), MailType.PASSWORD);
+      //mail.sendMail(user, MailContentBuilder.buildPasswordResetMail(user), MailType.PASSWORD);
   }
 
   /**
