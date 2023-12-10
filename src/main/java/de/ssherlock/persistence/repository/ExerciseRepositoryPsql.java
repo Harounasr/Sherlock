@@ -17,6 +17,7 @@ import java.util.List;
  *
  * @author Haroun Alswedany
  */
+@SuppressWarnings("checkstyle:MagicNumber")
 public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRepository {
   /** Logger instance for logging messages related to ExerciseRepositoryPsql. */
   private final SerializableLogger logger = LoggerCreator.get(ExerciseRepositoryPsql.class);

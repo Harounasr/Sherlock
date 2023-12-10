@@ -8,23 +8,23 @@ import de.ssherlock.global.transport.Testate;
 import de.ssherlock.global.transport.TestateComment;
 import de.ssherlock.persistence.exception.PersistenceNonExistentTestateException;
 
-import javax.xml.stream.events.Comment;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Implementation of TestateRepository for PostgreSQL database.
  *
- * @author Victor Vollmann
+ * @author Haroun Alswedany
  */
 public class TestateRepositoryPsql extends RepositoryPsql implements TestateRepository {
 
-    /** Logger instance for logging messages related to TestateRepositoryPsql. */
+    /**
+     * Logger instance for logging messages related to TestateRepositoryPsql.
+     */
     private final SerializableLogger logger = LoggerCreator.get(TestateRepositoryPsql.class);
 
     /**
@@ -36,41 +36,47 @@ public class TestateRepositoryPsql extends RepositoryPsql implements TestateRepo
         super(connection);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void insertTestate(Testate testate) {}
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Testate getTestate(long exerciseId, String studentUsername)
             throws PersistenceNonExistentTestateException {
         return null;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Testate> getTestates(long exerciseId) {
         List<Testate> testateList = new ArrayList<>();
         String sqlQuery =
                 """
-              SELECT *
-              FROM (
-                  SELECT *
-                  FROM submission
-                  WHERE exercise_id = ?
-              ) s
-              JOIN testate t ON s.id = t.submission_id
-              JOIN submission_file sf ON s.id = sf.submission_id
-              LEFT JOIN testate_comment tc ON sf.id = tc.file_id;
-        """;
+                      SELECT *
+                      FROM (
+                          SELECT *
+                          FROM submission
+                          WHERE exercise_id = ?
+                      ) s
+                      JOIN testate t ON s.id = t.submission_id
+                      JOIN submission_file sf ON s.id = sf.submission_id
+                      LEFT JOIN testate_comment tc ON sf.id = tc.file_id;
+                """;
 
-        try (PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+        try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
             statement.setLong(1, exerciseId);
             ResultSet resultSet = statement.executeQuery();
             testateList = processSubmissionResultSet(resultSet);
             boolean x = true;
 
-            while(x){
+            while (x) {
                 System.out.println(testateList.get(0).getComments().get(0));
                 System.out.println(testateList.get(0).getSubmission().getId());
                 System.out.println(testateList.get(1).getSubmission().getId());
@@ -78,7 +84,7 @@ public class TestateRepositoryPsql extends RepositoryPsql implements TestateRepo
                 System.out.println(testateList.get(1).getFunctionalityGrade());
                 System.out.println(testateList.get(0).getReadabilityGrade());
                 System.out.println(testateList.get(1).getReadabilityGrade());
-                x =false;
+                x = false;
 
             }
 
@@ -88,23 +94,25 @@ public class TestateRepositoryPsql extends RepositoryPsql implements TestateRepo
         return testateList;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Testate> getTestates(long exerciseId, String tutorUsername) {
         List<Testate> testateList = new ArrayList<>();
         String sqlQuery =
                 """
-            SELECT *
-              FROM (
-                  SELECT *
-                  FROM submission
-                  WHERE s.exercise_id = ? AND s.tutor_username = ?;
-              ) s
-              JOIN testate t ON s.id = t.submission_id
-              JOIN submission_file sf ON s.id = sf.submission_id
-              LEFT JOIN testate_comment tc ON sf.id = tc.file_id;
-        """;
-        try (PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+                    SELECT *
+                      FROM (
+                          SELECT *
+                          FROM submission
+                          WHERE s.exercise_id = ? AND s.tutor_username = ?;
+                      ) s
+                      JOIN testate t ON s.id = t.submission_id
+                      JOIN submission_file sf ON s.id = sf.submission_id
+                      LEFT JOIN testate_comment tc ON sf.id = tc.file_id;
+                """;
+        try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
             statement.setLong(1, exerciseId);
             statement.setString(2, tutorUsername);
             ResultSet resultSet = statement.executeQuery();

@@ -64,7 +64,7 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
     /**
      * The current course.
      */
-    private String course_name;
+    private String courseName;
 
     /**
      * Constructs an ExercisePaginationBean.
@@ -89,9 +89,9 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
     public void initialize() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         Map<String, String> requestParams = facesContext.getExternalContext().getRequestParameterMap();
-        course_name = requestParams.get("Id");
+        courseName = requestParams.get("Id");
         exercises = exerciseService.getExercises(requestParams.get("Id"));
-        course_name = requestParams.get("Id");
+        courseName = requestParams.get("Id");
         loadData();
     }
 
@@ -140,7 +140,7 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
      */
     @Override
     public String loadData() {
-        exercises = exerciseService.getExercises(course_name);
+        exercises = exerciseService.getExercises(courseName);
         return "";
     }
 

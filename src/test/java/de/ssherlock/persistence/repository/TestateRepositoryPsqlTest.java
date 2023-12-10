@@ -22,6 +22,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
  * @author Haroun Alswedany
  */
 @ExtendWith(MockitoExtension.class)
+@SuppressWarnings("checkstyle:MagicNumber")
 public class TestateRepositoryPsqlTest {
 
     /**
