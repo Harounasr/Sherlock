@@ -181,7 +181,7 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
 
     /**
      * Setter for the current index.
-     * @param currentIndex
+     * @param currentIndex the current index
      */
     public void setCurrentIndex(int currentIndex) {
         this.currentIndex = currentIndex;
