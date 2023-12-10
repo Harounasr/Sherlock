@@ -14,8 +14,6 @@ import de.ssherlock.persistence.repository.RepositoryFactory;
 import de.ssherlock.persistence.repository.RepositoryType;
 import de.ssherlock.persistence.repository.UserRepository;
 import de.ssherlock.persistence.util.Mail;
-import de.ssherlock.persistence.util.MailContentBuilder;
-import de.ssherlock.persistence.util.MailType;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -132,12 +130,7 @@ public class UserService implements Serializable {
    *
    * @param user The user to be registered.
    */
-  public void registerUser(User user) {
-    mail.sendMail(
-        user,
-        MailContentBuilder.buildVerificationMail(user, generateEmailVerificationToken()),
-        MailType.VERIFICATION);
-  }
+  public void registerUser(User user) {}
 
   /**
    * Sends a password reset email to the user.
@@ -146,7 +139,8 @@ public class UserService implements Serializable {
    * @throws BusinessNonExistentUserException when the user is not registered in the system.
    */
   public void sendPasswordForgottenEmail(String username) throws BusinessNonExistentUserException {
-    Connection connection = connectionPool.getConnection();
+    /*
+      Connection connection = connectionPool.getConnection();
     UserRepository userRepository =
         RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
     User user;
@@ -156,6 +150,7 @@ public class UserService implements Serializable {
       throw new BusinessNonExistentUserException();
     }
     mail.sendMail(user, MailContentBuilder.buildPasswordResetMail(user), MailType.PASSWORD);
+    */
   }
 
   /**

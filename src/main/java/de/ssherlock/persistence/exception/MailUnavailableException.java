@@ -5,7 +5,7 @@ import java.io.Serial;
 /**
  * Is thrown when the sending of mail did not work.
  *
- * @author Leon Föckersperger
+ * @author Leon Höfling
  */
 public class MailUnavailableException extends RuntimeException {
 
