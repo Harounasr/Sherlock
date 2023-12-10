@@ -14,12 +14,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @SuppressFBWarnings
 public class TestateRepositoryPsqlTest {
 
-  /**
+  /*
    * Test for getting testates with non-empty result set.
    *
    * @throws SQLException can be ignored.
-   */
-  /*
+
+
   @Test
   public void testGetTestatesWithNonEmptyResultSet() throws SQLException {
     Connection connectionMock = mock(Connection.class);
