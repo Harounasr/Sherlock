@@ -4,11 +4,15 @@ import de.ssherlock.business.exception.BusinessNonExistentTestateException;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Testate;
 import de.ssherlock.persistence.connection.ConnectionPool;
+import de.ssherlock.persistence.repository.RepositoryFactory;
+import de.ssherlock.persistence.repository.RepositoryType;
+import de.ssherlock.persistence.repository.TestateRepository;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import java.io.Serial;
 import java.io.Serializable;
+import java.sql.Connection;
 import java.util.List;
 
 /**
@@ -49,7 +53,13 @@ public class TestateService implements Serializable {
    * @return A list of assigned testates associated with the exercise and user.
    */
   public List<Testate> getAssignedTestates(long exerciseId, String username) {
-    return null;
+    Connection connection = connectionPool.getConnection();
+    TestateRepository testateRepository =
+        RepositoryFactory.getEvaluationRepository(RepositoryType.POSTGRESQL, connection);
+    List<Testate> testate = testateRepository.getTestates(exerciseId, username);
+    connectionPool.releaseConnection(connection);
+
+    return testate;
   }
 
   /**
@@ -59,7 +69,13 @@ public class TestateService implements Serializable {
    * @return A list of assigned testates associated with the exercise and user.
    */
   public List<Testate> getAllTestates(long exerciseId) {
-    return null;
+    Connection connection = connectionPool.getConnection();
+    TestateRepository testateRepository =
+        RepositoryFactory.getEvaluationRepository(RepositoryType.POSTGRESQL, connection);
+
+    List<Testate> testates = testateRepository.getTestates(exerciseId);
+    connectionPool.releaseConnection(connection);
+    return testates;
   }
 
   /**

@@ -42,6 +42,12 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
   /** The current course. */
   private List<Exercise> exercises;
 
+  /** The new Exercise. */
+  private Exercise exercise;
+
+  /** The current course. */
+  private String course_name;
+
   /**
    * Constructs an ExercisePaginationBean.
    *
@@ -65,7 +71,12 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
   public void initialize() {
     FacesContext facesContext = FacesContext.getCurrentInstance();
     Map<String, String> requestParams = facesContext.getExternalContext().getRequestParameterMap();
+    course_name = requestParams.get("Id");
     exercises = exerciseService.getExercises(requestParams.get("Id"));
+    course_name = requestParams.get("Id");
+    loadData();
+    setLastIndex(exercises.size() / getPageSize() * getPageSize());
+    setCurrentIndex(0);
   }
 
   /**
@@ -101,9 +112,15 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
     this.exercises = exercises;
   }
 
+  public void addExercise() {
+    exerciseService.addExercise(exercise);
+  }
+
   /** {@inheritDoc} */
   @Override
-  public void loadData() {}
+  public void loadData() {
+    exercises = exerciseService.getExercises(course_name);
+  }
 
   /** {@inheritDoc} */
   @Override

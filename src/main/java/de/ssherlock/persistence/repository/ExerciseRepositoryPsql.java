@@ -1,5 +1,7 @@
 package de.ssherlock.persistence.repository;
 
+import de.ssherlock.control.notification.Notification;
+import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Exercise;
@@ -31,7 +33,26 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
 
   /** {@inheritDoc} */
   @Override
-  public void insertExercise(Exercise exercise) {}
+  public void insertExercise(Exercise exercise) {
+    String sqlQuery =
+        """
+                   INSERT INTO exercise(name, course_name, publish_date, recommended_deadline,
+                       obligatory_deadline)
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+              """;
+    try (PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+      statement.setString(1, exercise.getName());
+      statement.setString(2, exercise.getCourseName());
+      statement.setDate(3, exercise.getPublishDate());
+      statement.setDate(4, exercise.getRecommendedDeadline());
+      statement.setDate(5, exercise.getObligatoryDeadline());
+
+      statement.executeUpdate();
+
+    } catch (SQLException e) {
+
+    }
+  }
 
   /** {@inheritDoc} */
   @SuppressWarnings("checkstyle:MagicNumber")
@@ -65,7 +86,22 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
 
   /** {@inheritDoc} */
   @Override
-  public void deleteExercise(long exerciseId) throws PersistenceNonExistentExerciseException {}
+  public void deleteExercise(long exerciseId) throws PersistenceNonExistentExerciseException {
+    String sqlQuery = "DELETE FROM Exercise WHERE id = ?";
+    try (PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+      statement.setLong(1, exerciseId);
+      if (statement.executeUpdate() == 0) {
+          throw new PersistenceNonExistentExerciseException(
+                  "The exercise with id " + exerciseId + " not found");
+      } else {
+          /*Notification notification =
+                  new Notification(Notification.WRONG_PASSWORD_MSG, NotificationType.SUCCESS);
+          notification.generateUIMessage();*/
+      }
+    } catch (SQLException e) {
+        logger.severe( "Error deleting exercise with id " + exerciseId+ e.getMessage());
+    }
+  }
 
   /** {@inheritDoc} */
   @Override
@@ -116,6 +152,7 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
         } while (result.next());
       }
     } catch (SQLException e) {
+        logger.severe("Error retrieving exercises: " + e.getMessage());
     }
     return exercises;
   }
