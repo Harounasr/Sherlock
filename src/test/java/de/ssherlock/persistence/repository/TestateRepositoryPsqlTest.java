@@ -1,6 +1,10 @@
 package de.ssherlock.persistence.repository;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.mock;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,9 +15,20 @@ import de.ssherlock.global.transport.Testate;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+/**
+ * Tests for {@link TestateRepositoryPsql}.
+ *
+ * @author Haroun Alswedany
+ */
 @ExtendWith(MockitoExtension.class)
 public class TestateRepositoryPsqlTest {
 
+    /**
+     * Test for getting testates with non-empty result set.
+     *
+     * @throws SQLException can be ignored.
+     */
     @Test
     public void testGetTestatesWithNonEmptyResultSet() throws SQLException {
         Connection connectionMock = mock(Connection.class);

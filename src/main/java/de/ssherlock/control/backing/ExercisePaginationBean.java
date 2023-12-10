@@ -4,6 +4,7 @@ import de.ssherlock.business.service.ExerciseService;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Exercise;
+import jakarta.annotation.PostConstruct;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
@@ -18,7 +19,7 @@ import java.util.logging.Level;
 /**
  * Backing bean for the exercisePagination.xhtml facelet.
  *
- * @author Leon Höfling
+ * @author Haroun Alswedany
  */
 @Named
 @ViewScoped
@@ -55,44 +56,16 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
      */
     private List<Exercise> exercises;
 
-<<<<<<< src/main/java/de/ssherlock/control/backing/ExercisePaginationBean.java
-  /** The new Exercise. */
-  private Exercise exercise;
+    /**
+     * The new Exercise.
+     */
+    private Exercise exercise;
 
-  /** The current course. */
-  private String course_name;
+    /**
+     * The current course.
+     */
+    private String course_name;
 
-  /**
-   * Constructs an ExercisePaginationBean.
-   *
-   * @param logger The logger used for logging within this class (Injected).
-   * @param appSession The active session (Injected).
-   * @param exerciseService The ExerciseService (Injected).
-   */
-  @Inject
-  public ExercisePaginationBean(
-      SerializableLogger logger, AppSession appSession, ExerciseService exerciseService) {
-    this.logger = logger;
-    this.appSession = appSession;
-    this.exerciseService = exerciseService;
-  }
-
-  /**
-   * Initializes the ExercisePaginationBean after construction. Retrieves the exercises from the
-   * service.
-   */
-  @PostConstruct
-  public void initialize() {
-    FacesContext facesContext = FacesContext.getCurrentInstance();
-    Map<String, String> requestParams = facesContext.getExternalContext().getRequestParameterMap();
-    course_name = requestParams.get("Id");
-    exercises = exerciseService.getExercises(requestParams.get("Id"));
-    course_name = requestParams.get("Id");
-    loadData();
-    setLastIndex(exercises.size() / getPageSize() * getPageSize());
-    setCurrentIndex(0);
-  }
-=======
     /**
      * Constructs an ExercisePaginationBean.
      *
@@ -112,13 +85,15 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
      * Initializes the ExercisePaginationBean after construction. Retrieves the exercises from the
      * service.
      */
-    @Override
+    @PostConstruct
     public void initialize() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         Map<String, String> requestParams = facesContext.getExternalContext().getRequestParameterMap();
+        course_name = requestParams.get("Id");
         exercises = exerciseService.getExercises(requestParams.get("Id"));
+        course_name = requestParams.get("Id");
+        loadData();
     }
->>>>>>> src/main/java/de/ssherlock/control/backing/ExercisePaginationBean.java
 
     /**
      * Navigates to the selected exercise.
@@ -153,25 +128,22 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
         this.exercises = exercises;
     }
 
-<<<<<<< src/main/java/de/ssherlock/control/backing/ExercisePaginationBean.java
-  public void addExercise() {
-    exerciseService.addExercise(exercise);
-  }
+    /**
+     * Adds an exercise to the database.
+     */
+    public void addExercise() {
+        exerciseService.addExercise(exercise);
+    }
 
-  /** {@inheritDoc} */
-  @Override
-  public void loadData() {
-    exercises = exerciseService.getExercises(course_name);
-  }
-=======
     /**
      * {@inheritDoc}
      */
     @Override
     public String loadData() {
+        exercises = exerciseService.getExercises(course_name);
         return "";
     }
->>>>>>> src/main/java/de/ssherlock/control/backing/ExercisePaginationBean.java
+
 
     /**
      * {@inheritDoc}

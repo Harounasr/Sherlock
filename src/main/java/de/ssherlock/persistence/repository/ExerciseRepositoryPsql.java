@@ -1,11 +1,10 @@
 package de.ssherlock.persistence.repository;
 
-import de.ssherlock.control.notification.Notification;
-import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.persistence.exception.PersistenceNonExistentExerciseException;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,7 +15,7 @@ import java.util.List;
 /**
  * Implementation of ExerciseRepository for PostgreSQL database.
  *
- * @author Victor Vollmann
+ * @author Haroun Alswedany
  */
 public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRepository {
   /** Logger instance for logging messages related to ExerciseRepositoryPsql. */
@@ -40,7 +39,7 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
                        obligatory_deadline)
                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
               """;
-    try (PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+    try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
       statement.setString(1, exercise.getName());
       statement.setString(2, exercise.getCourseName());
       statement.setDate(3, exercise.getPublishDate());
@@ -80,7 +79,7 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
       statement.setLong(7, exercise.getId());
       statement.executeUpdate();
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new PersistenceNonExistentExerciseException();
     }
   }
 
@@ -88,18 +87,15 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
   @Override
   public void deleteExercise(long exerciseId) throws PersistenceNonExistentExerciseException {
     String sqlQuery = "DELETE FROM Exercise WHERE id = ?";
-    try (PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+    try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
       statement.setLong(1, exerciseId);
       if (statement.executeUpdate() == 0) {
           throw new PersistenceNonExistentExerciseException(
                   "The exercise with id " + exerciseId + " not found");
-      } else {
-          /*Notification notification =
-                  new Notification(Notification.WRONG_PASSWORD_MSG, NotificationType.SUCCESS);
-          notification.generateUIMessage();*/
       }
     } catch (SQLException e) {
         logger.severe( "Error deleting exercise with id " + exerciseId+ e.getMessage());
+        throw new PersistenceNonExistentExerciseException();
     }
   }
 

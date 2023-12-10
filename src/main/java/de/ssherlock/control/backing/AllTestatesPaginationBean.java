@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Backing Bean for the allTestatesPagination.xhtml facelet.
  *
- * @author Victor Vollmann
+ * @author Haroun Alswedany
  */
 @Named
 @ViewScoped
