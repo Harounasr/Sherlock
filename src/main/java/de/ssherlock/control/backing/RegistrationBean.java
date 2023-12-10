@@ -37,6 +37,7 @@ public class RegistrationBean {
   /** The unhashed password entered by the user. */
   private String unhashedPassword;
 
+  /** The list of faculties. */
   private List<Faculty> faculties;
 
   /**
