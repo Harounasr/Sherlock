@@ -21,7 +21,6 @@ public class MainBean implements Serializable {
   /** Logger for this class. */
   private final SerializableLogger logger;
 
-  /** The text which is displayed on the verification page. */
 
   /**
    * Constructor for VerificationBean.

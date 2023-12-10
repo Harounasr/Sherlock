@@ -37,7 +37,9 @@
             </li>
             <li>
                 <h:form  styleClass="nav-item">
-                    <h:commandButton value="Admin" rendered="#{navbarBean.appSession.user.systemRole.toString() == 'ADMINISTRATOR'}" action="#{navbarBean.navigateToAdminSettings()}"/>
+                    <h:commandButton value="Admin"
+                                     rendered="#{navbarBean.appSession.user.systemRole.toString() == 'ADMINISTRATOR'}"
+                                     action="#{navbarBean.navigateToAdminSettings()}"/>
                 </h:form>
             </li>
             <li>
