@@ -45,9 +45,14 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
   /** List of courses to be displayed. */
   private List<Course> courses;
 
-
+    /**
+     * current Index.
+     */
   private int currentIndex;
 
+    /**
+     * page Size of the pagination.
+     */
   private int pageSize;
 
   /**

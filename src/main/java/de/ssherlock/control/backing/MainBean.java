@@ -10,7 +10,7 @@ import java.io.Serializable;
 /**
  * Backing bean for the main.xhtml facelet.
  *
- * @author Lennart Hohls
+ * @author Lennart Hohls.
  */
 @Named
 @ViewScoped
