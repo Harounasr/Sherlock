@@ -56,6 +56,7 @@ public class ExerciseService implements Serializable {
     Connection connection = connectionPool.getConnection();
     ExerciseRepository exerciseRepository =
         RepositoryFactory.getExerciseRepository(RepositoryType.POSTGRESQL, connection);
+
     List<Exercise> exercises = exerciseRepository.getExercises(courseName);
     connectionPool.releaseConnection(connection);
     return exercises;
@@ -83,7 +84,12 @@ public class ExerciseService implements Serializable {
    *
    * @param exercise The exercise to be added.
    */
-  public void addExercise(Exercise exercise) {}
+  public void addExercise(Exercise exercise) {
+    Connection connection = connectionPool.getConnection();
+    ExerciseRepository exerciseRepository =
+        RepositoryFactory.getExerciseRepository(RepositoryType.POSTGRESQL, connection);
+    exerciseRepository.insertExercise(exercise);
+  }
 
   /**
    * Removes an existing exercise.
@@ -91,7 +97,16 @@ public class ExerciseService implements Serializable {
    * @param exerciseId The exercise to be removed.
    * @throws BusinessNonExistentExerciseException when the exercise does not exist in the database.
    */
-  public void removeExercise(long exerciseId) throws BusinessNonExistentExerciseException {}
+  public void removeExercise(long exerciseId) throws BusinessNonExistentExerciseException {
+    Connection connection = connectionPool.getConnection();
+    ExerciseRepository exerciseRepository =
+        RepositoryFactory.getExerciseRepository(RepositoryType.POSTGRESQL, connection);
+    try {
+      exerciseRepository.deleteExercise(exerciseId);
+    } catch (PersistenceNonExistentExerciseException e) {
+      throw new BusinessNonExistentExerciseException();
+    }
+  }
 
   /**
    * Retrieves an exercise based on its unique identifier.

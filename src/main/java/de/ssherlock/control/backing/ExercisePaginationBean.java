@@ -4,6 +4,7 @@ import de.ssherlock.business.service.ExerciseService;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Exercise;
+import jakarta.annotation.PostConstruct;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
@@ -18,7 +19,7 @@ import java.util.logging.Level;
 /**
  * Backing bean for the exercisePagination.xhtml facelet.
  *
- * @author Leon Höfling
+ * @author Haroun Alswedany
  */
 @Named
 @ViewScoped
@@ -56,6 +57,16 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
     private List<Exercise> exercises;
 
     /**
+     * The new Exercise.
+     */
+    private Exercise exercise;
+
+    /**
+     * The current course.
+     */
+    private String courseName;
+
+    /**
      * Constructs an ExercisePaginationBean.
      *
      * @param logger          The logger used for logging within this class (Injected).
@@ -74,11 +85,14 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
      * Initializes the ExercisePaginationBean after construction. Retrieves the exercises from the
      * service.
      */
-    @Override
+    @PostConstruct
     public void initialize() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         Map<String, String> requestParams = facesContext.getExternalContext().getRequestParameterMap();
+        courseName = requestParams.get("Id");
         exercises = exerciseService.getExercises(requestParams.get("Id"));
+        courseName = requestParams.get("Id");
+        loadData();
     }
 
     /**
@@ -115,12 +129,21 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
     }
 
     /**
+     * Adds an exercise to the database.
+     */
+    public void addExercise() {
+        exerciseService.addExercise(exercise);
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
     public String loadData() {
+        exercises = exerciseService.getExercises(courseName);
         return "";
     }
+
 
     /**
      * {@inheritDoc}
@@ -128,5 +151,23 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
     @Override
     public String search() {
         return "";
+    }
+
+    /**
+     * Gets exercise.
+     *
+     * @return the exercise
+     */
+    public Exercise getExercise() {
+        return exercise;
+    }
+
+    /**
+     * Sets exercise.
+     *
+     * @param exercise the exercise
+     */
+    public void setExercise(Exercise exercise) {
+        this.exercise = exercise;
     }
 }
