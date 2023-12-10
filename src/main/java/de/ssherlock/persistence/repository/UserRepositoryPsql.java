@@ -38,6 +38,7 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
   }
 
   /** {@inheritDoc} */
+  @SuppressWarnings("checkstyle:MagicNumber")
   @Override
   public void insertUser(User user) {
     String sqlQuery =

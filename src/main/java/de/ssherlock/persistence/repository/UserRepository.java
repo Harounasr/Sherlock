@@ -53,12 +53,16 @@ public interface UserRepository {
   /**
    * Checks if a username already exists in the database.
    *
+   * @param userName The username.
+   *
    * @return true, in case the username exists, false otherwise.
    */
   boolean userNameExists(String userName);
 
   /**
    * Checks if an email already exists in the database.
+   *
+   * @param email The email.
    *
    * @return true, in case the email exists, false otherwise.
    */

@@ -28,7 +28,7 @@ public class RegistrationBean {
   /** The service handling user-related operations. */
   private final UserService userService;
 
-  /** The service handling faculty-related operations */
+  /** The service handling faculty-related operations. */
   private final FacultyService facultyService;
 
   /** The user that is to be registered. */

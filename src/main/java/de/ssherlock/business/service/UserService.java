@@ -149,6 +149,7 @@ public class UserService implements Serializable {
     } else {
       Notification notification =
           new Notification("Email could not be send. Please try again.", NotificationType.ERROR);
+      notification.generateUIMessage();
     }
   }
 
@@ -236,6 +237,8 @@ public class UserService implements Serializable {
   /**
    * Checks if a username already exists in the database.
    *
+   * @param userName the Username.
+   *
    * @return true, in case the username exists, false otherwise.
    */
   public boolean userNameExists(String userName) {
@@ -247,6 +250,8 @@ public class UserService implements Serializable {
 
   /**
    * Checks if an email already exists in the database.
+   *
+   * @param email The email.
    *
    * @return true, in case the email exists, false otherwise.
    */
