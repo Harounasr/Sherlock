@@ -11,9 +11,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 /**
  * Implementation of UserRepository for PostgreSQL database.
@@ -36,7 +39,30 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
 
   /** {@inheritDoc} */
   @Override
-  public void insertUser(User user) {}
+  public void insertUser(User user) {
+    String sqlQuery =
+        """
+              INSERT INTO "user" (username, email, firstname, lastname, faculty, password_hash, password_salt, user_role, token, expiry_date)
+              VALUES (?, ?, ?, ?, ?, ?, ?, 'NOT_REGISTERED', ?, ?);
+              """;
+
+    try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
+      statement.setString(1, user.getUsername());
+      statement.setString(2, user.getEmail());
+      statement.setString(3, user.getFirstName());
+      statement.setString(4, user.getLastName());
+      statement.setString(5, user.getFacultyName());
+      statement.setString(6, user.getPassword().getHash());
+      statement.setString(7, user.getPassword().getSalt());
+      statement.setString(8, user.getVerificationToken());
+      Instant now = Instant.now();
+      Timestamp timestamp = Timestamp.from(now);
+      statement.setTimestamp(9, timestamp);
+      statement.executeUpdate();
+    } catch (SQLException e) {
+      logger.log(Level.INFO, "Could not insert user." + e);
+    }
+  }
 
   /** {@inheritDoc} */
   @Override

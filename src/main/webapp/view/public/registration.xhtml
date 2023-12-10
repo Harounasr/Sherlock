@@ -61,7 +61,7 @@
                             <label for="faculty">Faculty</label>
                             <h:selectOneMenu id="faculty" value="#{registrationBean.user.facultyName}" styleClass="form-control" required="true">
                                 <f:selectItem itemLabel="-- Select Faculty --" itemValue="" />
-                                <f:selectItems value="#{registrationBean.faculties}" var="faculty" itemLabel="#{faculty.name}" itemValue="#{faculty}" />
+                                <f:selectItems value="#{registrationBean.faculties}" var="faculty" itemLabel="#{faculty.name}" itemValue="#{faculty.name}" />
                             </h:selectOneMenu>
                             <h:message for="faculty" styleClass="error-message"/>
                         </div>

@@ -58,7 +58,6 @@ public class RegistrationBean {
     this.facultyService = facultyService;
     this.user = user;
     this.faculties = this.facultyService.getFaculties();
-    System.out.println(faculties.size());
   }
 
   /** Tries to register a new user using the provided information. */
