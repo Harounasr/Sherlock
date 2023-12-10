@@ -14,7 +14,6 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 
 /**
  * Implementation of UserRepository for PostgreSQL database.
@@ -42,7 +41,6 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
   /** {@inheritDoc} */
   @Override
   public void updateUser(User user) throws PersistenceNonExistentUserException {
-    logger.log(Level.INFO, "1");
     String sqlQuery =
         """
                       UPDATE "user"
