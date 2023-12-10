@@ -10,12 +10,11 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.logging.Level;
 
 /**
  * Backing bean for the navbar.xhtml facelet.
  *
- * @author Leon Höfling
+ * @author Lennart Hohls
  */
 @Named
 @ViewScoped
@@ -55,7 +54,9 @@ public class NavbarBean implements Serializable {
   public void initialize() {}
 
   /** Logs out the current user. */
-  public void logout() {}
+  public void logout() {
+    appSession.logout();
+  }
 
   /**
    * Navigates to the page displaying all courses.
@@ -63,7 +64,7 @@ public class NavbarBean implements Serializable {
    * @return The destination view for all courses.
    */
   public String navigateToAllCourses() {
-    return "/view/registered/coursePagination.xhtml";
+    return "/view/registered/coursePagination.xhtml?all=true";
   }
 
   /**
@@ -72,7 +73,7 @@ public class NavbarBean implements Serializable {
    * @return The destination view for user's courses.
    */
   public String navigateToMyCourses() {
-    return "/view/registered/coursePagination.xhtml";
+    return "/view/registered/coursePagination.xhtml?all=false";
   }
 
   /**
@@ -81,7 +82,6 @@ public class NavbarBean implements Serializable {
    * @return The destination view for user's profile.
    */
   public String navigateToProfile() {
-    logger.log(Level.INFO, "Inside navbarbean");
     return "/view/registered/profile.xhtml";
   }
 
@@ -91,7 +91,7 @@ public class NavbarBean implements Serializable {
    * @return The destination view for admin settings.
    */
   public String navigateToAdminSettings() {
-    return "";
+    return "/view/registered/adminSettings.xhtml";
   }
 
   /**
@@ -99,8 +99,8 @@ public class NavbarBean implements Serializable {
    *
    * @return The destination view for help.
    */
-  public String help() {
-    return "";
+  public String navigateToHelp() {
+    return "/view/public/registration.xhtml";
   }
 
   /**
@@ -119,5 +119,23 @@ public class NavbarBean implements Serializable {
    */
   public void setSystemSettings(SystemSettings systemSettings) {
     this.systemSettings = systemSettings;
+  }
+
+  /**
+   * Getter for the appSession.
+   *
+   * @return AppSession
+   */
+  public AppSession getAppSession() {
+    return appSession;
+  }
+
+  /**
+   * Getter for the logo, stored in the database.
+   *
+   * @return byteArray for the Logo.
+   */
+  public byte[] getLogo() {
+    return systemService.getSystemSettings().getLogo();
   }
 }

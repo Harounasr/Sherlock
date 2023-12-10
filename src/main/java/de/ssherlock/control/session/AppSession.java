@@ -47,12 +47,10 @@ public class AppSession implements Serializable {
     this.userService = userService;
   }
 
-    /**
-     * Empty no-args constructor for CDI.
-     */
-    protected AppSession() {
-        this(null, null);
-    }
+  /** Empty no-args constructor for CDI. */
+  protected AppSession() {
+    this(null, null);
+  }
 
   /**
    * Checks whether the user is anonymous.

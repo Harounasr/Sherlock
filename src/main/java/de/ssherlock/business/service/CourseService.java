@@ -14,6 +14,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.util.List;
+import java.util.logging.Level;
 
 /**
  * The CourseService class provides functionality for managing courses and related operations.
@@ -74,7 +75,14 @@ public class CourseService implements Serializable {
    *
    * @param course The course to add.
    */
-  public void addCourse(Course course) {}
+  public void addCourse(Course course) {
+    Connection connection = connectionPool.getConnection();
+    CourseRepository courseRepository =
+        RepositoryFactory.getCourseRepository(RepositoryType.POSTGRESQL, connection);
+    logger.log(Level.INFO, "adding course");
+    courseRepository.insertCourse(course);
+    connectionPool.releaseConnection(connection);
+  }
 
   /**
    * Checks whether a course already exists in the database.
