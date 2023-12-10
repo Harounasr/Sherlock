@@ -152,4 +152,22 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
     public String search() {
         return "";
     }
+
+    /**
+     * Gets exercise.
+     *
+     * @return the exercise
+     */
+    public Exercise getExercise() {
+        return exercise;
+    }
+
+    /**
+     * Sets exercise.
+     *
+     * @param exercise the exercise
+     */
+    public void setExercise(Exercise exercise) {
+        this.exercise = exercise;
+    }
 }
