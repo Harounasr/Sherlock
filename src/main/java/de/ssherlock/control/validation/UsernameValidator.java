@@ -28,6 +28,9 @@ public class UsernameValidator implements Validator<String> {
   /** The user service for user-related operations. */
   private final UserService userService;
 
+  /** The minimum length for a password. */
+  private final int MIN_USERNAME_LENGTH = 5;
+
   /**
    * Constructs an UsernameValidator.
    *
@@ -56,7 +59,7 @@ public class UsernameValidator implements Validator<String> {
           new FacesMessage(FacesMessage.SEVERITY_ERROR, "Username is already taken.", null);
       throw new ValidatorException(facesMessage);
     }
-    if (username.length() < 5) {
+    if (username.length() < MIN_USERNAME_LENGTH) {
       FacesMessage facesMessage =
           new FacesMessage(FacesMessage.SEVERITY_ERROR, "Username musst be at least 5 long.", null);
       throw new ValidatorException(facesMessage);

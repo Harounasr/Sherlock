@@ -24,6 +24,9 @@ public class PasswordValidator implements Validator<String> {
   /** The logger instance for this class. */
   private final SerializableLogger logger;
 
+  /** The minimum length for a password. */
+  private final int MIN_PASSWORD_LENGTH = 8;
+
   /**
    * Constructs a new PasswordValidator.
    *
@@ -45,7 +48,7 @@ public class PasswordValidator implements Validator<String> {
   @Override
   public void validate(FacesContext facesContext, UIComponent uiComponent, String password)
       throws ValidatorException {
-    if (password == null || password.length() < 8) {
+    if (password == null || password.length() < MIN_PASSWORD_LENGTH) {
       FacesMessage facesMessage =
           new FacesMessage(
               FacesMessage.SEVERITY_ERROR, "Password has to be at least 8 long.", null);
