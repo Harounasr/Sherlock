@@ -1,7 +1,6 @@
 package de.ssherlock.persistence.repository;
 
 import de.ssherlock.global.transport.Faculty;
-import de.ssherlock.persistence.exception.PersistenceNonExistentExerciseException;
 import de.ssherlock.persistence.exception.PersistenceNonExistentFacultyException;
 import java.util.List;
 
