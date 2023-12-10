@@ -5,28 +5,38 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import de.ssherlock.global.transport.Password;
 import org.junit.jupiter.api.Test;
-
+/**
+ * Test class for {@link PasswordHashing}.
+ *
+ * @author Leon Höfling
+ */
 public class PasswordHashingIT {
 
-    @Test
-    void testGetHashedPasswordWithRandomSalt() {
-        String password = "testPassword";
-        Password hashedPassword = PasswordHashing.getHashedPassword(password);
+    /**
+     * Tests the hashing of a password without a salt.
+     */
+  @Test
+  void testGetHashedPasswordWithRandomSalt() {
+    String password = "testPassword";
+    Password hashedPassword = PasswordHashing.getHashedPassword(password);
 
-        assertNotNull(hashedPassword);
-        assertNotNull(hashedPassword.getHash());
-        assertNotNull(hashedPassword.getSalt());
-        assertNotEquals(password, hashedPassword.getHash());
-    }
+    assertNotNull(hashedPassword);
+    assertNotNull(hashedPassword.getHash());
+    assertNotNull(hashedPassword.getSalt());
+    assertNotEquals(password, hashedPassword.getHash());
+  }
 
-    @Test
-    void testGetHashedPasswordWithGivenSalt() {
-        String password = "testPassword";
-        String salt = "randomSalt";
+    /**
+     * Tests the hashing of a password with a given salt.
+     */
+  @Test
+  void testGetHashedPasswordWithGivenSalt() {
+    String password = "testPassword";
+    String salt = "randomSalt";
 
-        String hashedPassword = PasswordHashing.getHashedPassword(password, salt);
+    String hashedPassword = PasswordHashing.getHashedPassword(password, salt);
 
-        assertNotNull(hashedPassword);
-        assertNotEquals(password, hashedPassword);
-    }
+    assertNotNull(hashedPassword);
+    assertNotEquals(password, hashedPassword);
+  }
 }
