@@ -45,23 +45,8 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
   /** List of courses to be displayed. */
   private List<Course> courses;
 
-  public int getCurrentIndex() {
-    return currentIndex;
-  }
-
-  public void setCurrentIndex(int currentIndex) {
-    this.currentIndex = currentIndex;
-  }
 
   private int currentIndex;
-
-  public int getPageSize() {
-    return pageSize;
-  }
-
-  public void setPageSize(int pageSize) {
-    this.pageSize = pageSize;
-  }
 
   private int pageSize;
 
@@ -180,4 +165,21 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
   public AppSession getAppSession() {
     return appSession;
   }
+
+    /**
+     * Getter for the current index.
+     * @return the current index
+     */
+    public int getCurrentIndex() {
+        return currentIndex;
+    }
+
+    /**
+     * Setter for the current index.
+     * @param currentIndex
+     */
+    public void setCurrentIndex(int currentIndex) {
+        this.currentIndex = currentIndex;
+    }
+
 }
