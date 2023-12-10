@@ -48,7 +48,7 @@ public class FacultyService implements Serializable {
   /**
    * Retrieves a list of all faculties.
    *
-   * @return A list of all courses.
+   * @return A list of all faculties.
    */
   public List<Faculty> getFaculties() {
     Connection connection = connectionPool.getConnection();
@@ -70,7 +70,7 @@ public class FacultyService implements Serializable {
    * Checks whether a faculty already exists in the database.
    *
    * @param facultyName The faculty name.
-   * @return true if the course exists.
+   * @return true if the faculty exists.
    */
   public boolean facultyExists(String facultyName) {
     return false;
