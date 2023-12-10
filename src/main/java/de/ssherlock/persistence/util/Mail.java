@@ -56,6 +56,7 @@ public class Mail implements Serializable {
    *
    * @param recipients The users to whom the email will be sent.
    * @param content The content of the email.
+   *
    * @return Status of sending the mail.
    */
   public boolean sendReminderMail(List<User> recipients, String content) {
@@ -84,6 +85,7 @@ public class Mail implements Serializable {
    *
    * @param recipient The user to whom the email will be sent.
    * @param content The content of the email.
+   *
    * @return Status of sending the mail.
    */
   public boolean sendVerificationMail(User recipient, String content) {
@@ -110,6 +112,7 @@ public class Mail implements Serializable {
    *
    * @param recipient The user to whom the email will be sent.
    * @param content The content of the email.
+   *
    * @return Status of sending the mail.
    */
   public boolean sendPasswordResetMail(User recipient, String content) {
