@@ -148,4 +148,44 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
   public List<User> getUsers() {
     return null;
   }
+
+  /** {@inheritDoc} */
+  @Override
+  public boolean userNameExists(String userName) {
+    String sqlQuery = "SELECT COUNT(*) FROM \"user\" WHERE username = ?;";
+
+    try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
+      statement.setString(1, userName);
+      try (ResultSet resultSet = statement.executeQuery()) {
+        if (resultSet.next()) {
+          int count = resultSet.getInt(1);
+          return count > 0;
+        }
+      }
+    } catch (SQLException e) {
+      logger.log(Level.INFO, "Error while executing sql query.");
+      throw new RuntimeException(e);
+    }
+    return false;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public boolean emailExists(String email) {
+    String sqlQuery = "SELECT COUNT(*) FROM \"user\" WHERE email = ?;";
+
+    try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
+      statement.setString(1, email);
+      try (ResultSet resultSet = statement.executeQuery()) {
+        if (resultSet.next()) {
+          int count = resultSet.getInt(1);
+          return count > 0;
+        }
+      }
+    } catch (SQLException e) {
+      logger.log(Level.INFO, "Error while executing sql query.");
+      throw new RuntimeException(e);
+    }
+    return false;
+  }
 }

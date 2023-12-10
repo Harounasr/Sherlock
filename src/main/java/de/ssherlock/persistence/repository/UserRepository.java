@@ -49,4 +49,18 @@ public interface UserRepository {
    * @return The list of User entities.
    */
   List<User> getUsers();
+
+  /**
+   * Checks if a username already exists in the database.
+   *
+   * @return true, in case the username exists, false otherwise.
+   */
+  boolean userNameExists(String userName);
+
+  /**
+   * Checks if an email already exists in the database.
+   *
+   * @return true, in case the email exists, false otherwise.
+   */
+  boolean emailExists(String email);
 }

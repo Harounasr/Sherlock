@@ -4,6 +4,7 @@ import de.ssherlock.business.service.SystemService;
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.global.logging.SerializableLogger;
 import jakarta.enterprise.context.Dependent;
+import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.validator.FacesValidator;
@@ -56,5 +57,20 @@ public class EmailValidator implements Validator<String> {
    */
   @Override
   public void validate(FacesContext facesContext, UIComponent uiComponent, String emailAddress)
-      throws ValidatorException {}
+      throws ValidatorException {
+    if (userService.emailExists(emailAddress)) {
+      FacesMessage facesMessage =
+          new FacesMessage(FacesMessage.SEVERITY_ERROR, "Email is already taken.", null);
+      throw new ValidatorException(facesMessage);
+    }
+    /*
+    String emailRegex = systemService.getSystemSettings().getEmailRegex();
+    if (!emailAddress.matches(emailRegex)) {
+      FacesMessage facesMessage =
+          new FacesMessage(
+              FacesMessage.SEVERITY_ERROR, "Email does not correspond to the email pattern.", null);
+      throw new ValidatorException(facesMessage);
+    }
+     */
+  }
 }

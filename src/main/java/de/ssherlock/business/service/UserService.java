@@ -116,7 +116,6 @@ public class UserService implements Serializable {
       try {
         userRepository.updateUser(user);
       } catch (PersistenceNonExistentUserException e) {
-        logger.log(Level.INFO, "Throwd");
         throw new BusinessNonExistentUserException();
       }
       return user;
@@ -232,5 +231,29 @@ public class UserService implements Serializable {
     }
 
     return token;
+  }
+
+  /**
+   * Checks if a username already exists in the database.
+   *
+   * @return true, in case the username exists, false otherwise.
+   */
+  public boolean userNameExists(String userName) {
+    Connection connection = connectionPool.getConnection();
+    UserRepository userRepository =
+        RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
+    return userRepository.userNameExists(userName);
+  }
+
+  /**
+   * Checks if an email already exists in the database.
+   *
+   * @return true, in case the email exists, false otherwise.
+   */
+  public boolean emailExists(String email) {
+    Connection connection = connectionPool.getConnection();
+    UserRepository userRepository =
+        RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
+    return userRepository.emailExists(email);
   }
 }

@@ -3,6 +3,7 @@ package de.ssherlock.control.validation;
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.global.logging.SerializableLogger;
 import jakarta.enterprise.context.Dependent;
+import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.validator.FacesValidator;
@@ -44,10 +45,21 @@ public class UsernameValidator implements Validator<String> {
    *
    * @param facesContext The FacesContext for the current request.
    * @param uiComponent The UIComponent associated with the component being validated.
-   * @param s The username string to be validated.
+   * @param username The username string to be validated.
    * @throws ValidatorException if the validation fails.
    */
   @Override
-  public void validate(FacesContext facesContext, UIComponent uiComponent, String s)
-      throws ValidatorException {}
+  public void validate(FacesContext facesContext, UIComponent uiComponent, String username)
+      throws ValidatorException {
+    if (userService.userNameExists(username)) {
+      FacesMessage facesMessage =
+          new FacesMessage(FacesMessage.SEVERITY_ERROR, "Username is already taken.", null);
+      throw new ValidatorException(facesMessage);
+    }
+    if (username.length() < 5) {
+      FacesMessage facesMessage =
+          new FacesMessage(FacesMessage.SEVERITY_ERROR, "Username musst be at least 5 long.", null);
+      throw new ValidatorException(facesMessage);
+    }
+  }
 }
