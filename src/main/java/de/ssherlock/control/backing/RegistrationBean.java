@@ -45,7 +45,7 @@ public class RegistrationBean {
    *
    * @param logger The logger for this class (Injected).
    * @param userService The service for user-based operations (Injected).
-   * @param facultyService
+   * @param facultyService The service for faculty-based operations (Injected).
    * @param user The user that is to be registered (Injected empty).
    */
   @Inject
