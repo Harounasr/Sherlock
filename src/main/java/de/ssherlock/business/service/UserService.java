@@ -130,9 +130,7 @@ public class UserService implements Serializable {
    *
    * @param user The user to be registered.
    */
-  public void registerUser(User user) {
-
-  }
+  public void registerUser(User user) {}
 
   /**
    * Sends a password reset email to the user.
@@ -141,7 +139,8 @@ public class UserService implements Serializable {
    * @throws BusinessNonExistentUserException when the user is not registered in the system.
    */
   public void sendPasswordForgottenEmail(String username) throws BusinessNonExistentUserException {
-    Connection connection = connectionPool.getConnection();
+    /*
+      Connection connection = connectionPool.getConnection();
     UserRepository userRepository =
         RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
     User user;
@@ -150,7 +149,8 @@ public class UserService implements Serializable {
     } catch (PersistenceNonExistentUserException e) {
       throw new BusinessNonExistentUserException();
     }
-      //mail.sendMail(user, MailContentBuilder.buildPasswordResetMail(user), MailType.PASSWORD);
+    mail.sendMail(user, MailContentBuilder.buildPasswordResetMail(user), MailType.PASSWORD);
+    */
   }
 
   /**
