@@ -2,6 +2,7 @@ package de.ssherlock.global.logging;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -114,6 +115,15 @@ public class SerializableLogger implements Serializable {
      */
     public void severe(String msg) {
         logWithCallerInfo(Level.SEVERE, msg);
+    }
+
+    /**
+     * Adds a handler to the logger.
+     *
+     * @param handler The handler to add.
+     */
+    public void addHandler(Handler handler) {
+        logger.addHandler(handler);
     }
 
     /**

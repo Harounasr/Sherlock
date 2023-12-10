@@ -69,12 +69,12 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
                                   description = ?
                               WHERE id = ?;
                           """;
-    try (PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+    try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
       statement.setString(1, exercise.getName());
       statement.setDate(2, exercise.getPublishDate());
       statement.setDate(3, exercise.getRecommendedDeadline());
       statement.setDate(4, exercise.getObligatoryDeadline());
-      // TODO: update once test data is inserted in the database
+      // update once test data is inserted in the database
       statement.setString(5, exercise.getCourseName());
       statement.setString(6, exercise.getDescription());
       statement.setLong(7, exercise.getId());
@@ -108,7 +108,7 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
   public Exercise getExercise(long exerciseId) throws PersistenceNonExistentExerciseException {
     String sqlQuery = "SELECT * FROM exercises WHERE id = ?;";
     Exercise exercise = new Exercise();
-    try (PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+    try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
       statement.setLong(1, exerciseId);
       ResultSet result = statement.executeQuery();
       if (result.next()) {
@@ -136,7 +136,7 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
     String sqlQuery =
         "SELECT * FROM courses c LEFT JOIN exercises e ON c.name = e.coursename WHERE c.name = ?;";
     List<Exercise> exercises = new ArrayList<>();
-    try (PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+    try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
       statement.setString(1, courseName);
       ResultSet result = statement.executeQuery();
       if (result.next()) {

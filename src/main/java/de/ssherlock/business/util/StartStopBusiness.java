@@ -19,7 +19,7 @@ import java.io.Serializable;
 public class StartStopBusiness implements Serializable {
 
     /**
-     * Serial Version UID
+     * Serial Version UID.
      */
     @Serial
     private static final long serialVersionUID = 1L;
@@ -27,14 +27,20 @@ public class StartStopBusiness implements Serializable {
     /**
      * Logger for this class.
      */
-    @Inject private SerializableLogger logger;
+    @Inject
+    private SerializableLogger logger;
 
     /**
      * The StartStop instance of the persistence layer.
      */
-    @Inject private StartStopPersistence startStopPersistence;
+    @Inject
+    private StartStopPersistence startStopPersistence;
 
-    private MaintenanceProcessExecutor executor;
+
+    /**
+     * The MaintenanceProcessExecutor instance.
+     */
+    private transient MaintenanceProcessExecutor executor;
 
     /**
      * Default constructor.

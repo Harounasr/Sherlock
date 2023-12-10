@@ -1,130 +1,200 @@
 package de.ssherlock.control.backing;
 
+import de.ssherlock.global.logging.SerializableLogger;
+import de.ssherlock.global.transport.Pagination;
+import jakarta.annotation.PostConstruct;
+import jakarta.inject.Inject;
+
+import java.io.Serial;
+import java.io.Serializable;
+
 /**
  * Abstract class for handling Pagination events.
  *
- * @author Leon Höfling
+ * @author Leon Föckersperger
  */
-public abstract class AbstractPaginationBean {
+public abstract class AbstractPaginationBean implements Serializable {
 
-  /** The page size of the pagination. */
-  private int pageSize;
+    /**
+     * Serial version UID.
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
 
-  /** Index of the current page. */
-  private int currentIndex;
+    /**
+     * The {@code Logger} instance to be used in this class.
+     */
+    @Inject
+    private transient SerializableLogger logger;
 
-  /** Last possible index. */
-  private int lastIndex;
 
-  /** The String to filter by. */
-  private String searchString;
+    /**
+     * The pagination DTO.
+     */
+    private Pagination pagination;
 
-  /** Default Constructor. */
-  public AbstractPaginationBean() {}
+    /**
+     * Default constructor.
+     */
+    @Inject
+    public AbstractPaginationBean() {
 
-  /** Loads the data for the pagination. */
-  public abstract void loadData();
-
-  /** Filters the pagination by the search string. */
-  public abstract void filterBy();
-
-  /** Navigates to the next page. */
-  public void nextPage() {
-    if (currentIndex + pageSize - 1 < lastIndex) {
-      currentIndex += pageSize;
-      loadData();
     }
-  }
 
-  /** Navigates to the previous page. */
-  public void previousPage() {
-    if (currentIndex > 0) {
-      currentIndex -= pageSize;
-      loadData();
+    /**
+     * Initializes the backing bean for the pagination.
+     * Must set the property sortBy in the pagination.
+     * Otherwise, an IllegalStateException will be thrown.
+     */
+    @PostConstruct
+    public abstract void initialize();
+
+    /**
+     * Loads the data for the pagination.
+     *
+     * @return The navigation outcome.
+     */
+    public abstract String loadData();
+
+    /**
+     * Getter for the pagination.
+     *
+     * @return The pagination.
+     */
+    public Pagination getPagination() {
+        return pagination;
     }
-  }
 
-  /** Navigates to the first page. */
-  public void firstPage() {
-    currentIndex = 0;
-    loadData();
-  }
+    /**
+     * Setter for the pagination.
+     *
+     * @param pagination The pagination.
+     */
+    public void setPagination(Pagination pagination) {
+        this.pagination = pagination;
+    }
 
-  /** Navigates to the last page. */
-  public void lastPage() {
-    currentIndex = lastIndex;
-    loadData();
-  }
 
-  /**
-   * Gets page size.
-   *
-   * @return the page size
-   */
-  public int getPageSize() {
-    return pageSize;
-  }
+    /**
+     * Searches the pagination for the search string.
+     *
+     * @return The navigation outcome.
+     */
+    public String search() {
+        logger.finest("Searching for" + pagination.getSearchString());
+        return loadData();
+    }
 
-  /**
-   * Sets page size.
-   *
-   * @param pageSize the page size
-   */
-  public void setPageSize(int pageSize) {
-    this.pageSize = pageSize;
-  }
+    /**
+     * Navigates to the next page.
+     *
+     * @return The navigation outcome.
+     */
+    public String nextPage() {
+        pagination.setCurrentIndex(pagination.getCurrentIndex() + 1);
+        return loadData();
+    }
 
-  /**
-   * Gets current page.
-   *
-   * @return the current page
-   */
-  public int getCurrentIndex() {
-    return currentIndex;
-  }
+    /**
+     * Navigates to the previous page.
+     *
+     * @return The navigation outcome.
+     */
+    public String previousPage() {
+        pagination.setCurrentIndex(pagination.getCurrentIndex() - 1);
+        return loadData();
+    }
 
-  /**
-   * Sets current page.
-   *
-   * @param currentIndex the current page
-   */
-  public void setCurrentIndex(int currentIndex) {
-    this.currentIndex = currentIndex;
-  }
+    /**
+     * Navigates to the first page.
+     *
+     * @return The navigation outcome.
+     */
+    public String firstPage() {
+        pagination.setCurrentIndex(1);
+        return loadData();
+    }
 
-  /**
-   * Gets last index.
-   *
-   * @return the last index
-   */
-  public int getLastIndex() {
-    return lastIndex;
-  }
+    /**
+     * Navigates to the last page.
+     *
+     * @return The navigation outcome.
+     */
+    public String lastPage() {
+        pagination.setCurrentIndex(pagination.getLastIndex());
+        return loadData();
+    }
 
-  /**
-   * Sets last index.
-   *
-   * @param lastIndex the last index
-   */
-  public void setLastIndex(int lastIndex) {
-    this.lastIndex = lastIndex;
-  }
+    /**
+     * Navigates to a specific page of the pagination.
+     *
+     * @return The navigation outcome.
+     */
+    public String selectedPage() {
+        return loadData();
+    }
 
-  /**
-   * Gets search string.
-   *
-   * @return the search string
-   */
-  public String getSearchString() {
-    return searchString;
-  }
+    /**
+     * Sorts the pagination by the given sortBy attribute.
+     *
+     * @param sortBy The sortBy attribute.
+     * @return The navigation outcome.
+     */
+    public String sort(String sortBy) {
+        logger.finest("Sorting by " + sortBy);
+        if (pagination.getSortBy().equals(sortBy)) {
+            logger.finest("Toggle direction ascending " + pagination.isSortAscending());
+            pagination.setSortAscending(!pagination.isSortAscending());
+        }
+        pagination.setSortBy(sortBy);
+        return loadData();
+    }
 
-  /**
-   * Sets search string.
-   *
-   * @param searchString the search string
-   */
-  public void setSearchString(String searchString) {
-    this.searchString = searchString;
-  }
+    /**
+     * Returns the title of the header with the sort direction if the sortableHeader is sorted by.
+     *
+     * @param title  The title of the header.
+     * @param sortBy The sortBy attribute of the header.
+     * @return The title for the header.
+     */
+    public String getTitleForHeader(String title, String sortBy) {
+        if (pagination.getSortBy().equals(sortBy)) {
+            return title + getSortDirection();
+        } else {
+            return title;
+        }
+    }
+
+    /**
+     * Returns if the previous button is enabled.
+     *
+     * @return {@code true} if the previous button is enabled otherwise {@code false}.
+     */
+    public boolean prevButtonEnabled() {
+        return pagination.getCurrentIndex() > 1;
+    }
+
+    /**
+     * Returns if the next button is enabled.
+     *
+     * @return {@code true} if the next button is enabled otherwise {@code false}.
+     */
+    public boolean nextButtonEnabled() {
+        return pagination.getCurrentIndex() < pagination.getLastIndex();
+    }
+
+    /**
+     * Returns a symbol for the sort direction dependent of the selection in the pagination.
+     *
+     * @return A symbol for the sort direction.
+     */
+    private String getSortDirection() {
+        if (pagination.isSortAscending()) {
+            return "↑";
+        } else {
+            return "↓";
+        }
+    }
+
+
 }

@@ -35,7 +35,7 @@ public class SystemSettingsRepositoryPsql extends RepositoryPsql
     String query =
         "UPDATE SystemSettings SET emailRegex=?, primaryColorHex=?, "
             + "secondaryColor=?, systemName=?, logo=? WHERE id=?";
-    try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+    try (PreparedStatement preparedStatement = getConnection().prepareStatement(query)) {
       preparedStatement.setString(1, systemSettings.getEmailRegex());
       preparedStatement.setString(2, systemSettings.getPrimaryColorHex());
       preparedStatement.setString(3, systemSettings.getSecondaryColorHex());
@@ -54,7 +54,7 @@ public class SystemSettingsRepositoryPsql extends RepositoryPsql
   @Override
   public SystemSettings getSystemSettings() {
     String query = "SELECT * FROM SystemSettings ORDER BY id DESC LIMIT 1";
-    try (PreparedStatement preparedStatement = connection.prepareStatement(query);
+    try (PreparedStatement preparedStatement = getConnection().prepareStatement(query);
         ResultSet resultSet = preparedStatement.executeQuery()) {
       if (resultSet.next()) {
         SystemSettings systemSettings = new SystemSettings();

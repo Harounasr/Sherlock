@@ -17,40 +17,56 @@ import java.util.logging.Level;
  * Managed bean representing the user session in a Jakarta Faces (JF) application. This bean is
  * annotated with {@code @Named} and {@code @SessionScoped}.
  *
- * @author Victor Vollmann
+ * @author Leon Föckersperger
  */
 @Named
 @SessionScoped
 public class AppSession implements Serializable {
 
-  /** Serial Version UID. */
+  /** The serial version UID. */
   @Serial private static final long serialVersionUID = 1L;
 
-  /** Logger instance for logging messages related to AppSession. */
-  @Inject private SerializableLogger logger;
+  /** The logger for this class. */
+  private final SerializableLogger logger;
 
-  /** An Instance of the UserService for user related operations. */
-  @Inject private UserService userService;
+  /** The user service. */
+  private final UserService userService;
 
-  /** Username representing the current user in the session. Is null if not logged in. */
+  /** The username of the user currently logged in. */
   private String username;
 
-  /** Default constructor of AppSession. */
-  public AppSession() {}
+  /**
+   * Creates a new instance of this class.
+   *
+   * @param logger The logger for this class.
+   * @param userService The user service.
+   */
+  @Inject
+  public AppSession(SerializableLogger logger, UserService userService) {
+    this.logger = logger;
+    this.userService = userService;
+  }
+
+    /**
+     * Empty no-args constructor for CDI.
+     */
+    protected AppSession() {
+        this(null, null);
+    }
 
   /**
-   * Checks if the user is Anonymous.
+   * Checks whether the user is anonymous.
    *
-   * @return true, if the user is Anonymous.
+   * @return {@code true} if the user is anonymous, {@code false} otherwise.
    */
-  public synchronized boolean isAnonymous() {
+  public boolean isAnonymous() {
     return username == null;
   }
 
   /**
-   * Checks if the current logged-in user is an Admin.
+   * Checks if the logged-in user is an administrator.
    *
-   * @return true, if the logged-in user is an Admin.
+   * @return {@code true} if the user is an administrator, {@code false} otherwise.
    */
   public synchronized boolean isAdmin() {
     if (username == null) {
@@ -61,11 +77,13 @@ public class AppSession implements Serializable {
   }
 
   /**
-   * Gets the current user in the session.
+   * Fetches the User object of the currently logged-in user from the Database and returns it. If
+   * the user isn't yet set, an anonymous user is returned.
    *
-   * @return The current user.
+   * @return The User object of the currently logged-in user.
+   * @throws NoAccessException If the user was deleted.
    */
-  public synchronized User getUser() {
+  public User getUser() throws NoAccessException {
     if (username != null) {
       try {
         return userService.getUser(username);
@@ -74,31 +92,41 @@ public class AppSession implements Serializable {
         throw new NoAccessException("User was deleted");
       }
     } else {
-      User anonymousUser = new User();
-      anonymousUser.setSystemRole(SystemRole.ANONYMOUS);
-      return anonymousUser;
+      return createAnonymousUser();
     }
   }
 
   /**
-   * Sets the current user in the session and logs relevant information.
+   * Sets the user of this session.
    *
    * @param user The user to set.
    */
-  public synchronized void setUser(User user) {
-    username = user.getUsername();
-    logger.log(
-        Level.INFO,
-        "User " + user.getUsername() + " is now set. Course Roles: " + user.getCourseRoles());
+  public void setUser(User user) {
+    if (user == null) {
+      throw new IllegalArgumentException("User cannot be null");
+    }
+    this.username = user.getUsername();
+    logger.log(Level.INFO, "User " + user.getUsername() + " is now set.");
   }
 
   /**
-   * Performs necessary cleanup when the user logs out.
+   * Logs out the user.
    *
-   * @return Navigation target.
+   * @return The path to the login page.
    */
-  public synchronized String logout() {
+  public String logout() {
     username = null;
     return "/view/public/login?faces-redirect=true";
+  }
+
+  /**
+   * Creates an anonymous user.
+   *
+   * @return The anonymous user.
+   */
+  private User createAnonymousUser() {
+    User anonymousUser = new User();
+    anonymousUser.setSystemRole(SystemRole.ANONYMOUS);
+    return anonymousUser;
   }
 }

@@ -2,6 +2,7 @@ package de.ssherlock.control.util;
 
 import de.ssherlock.control.exception.ZIPNotReadableException;
 import de.ssherlock.global.transport.SubmissionFile;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jakarta.enterprise.inject.Default;
 import jakarta.enterprise.inject.Produces;
 import jakarta.servlet.http.Part;
@@ -14,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,7 +23,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -29,8 +30,12 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Test class for {@link ZipUtils}.
+ *
+ * @author Leon Föckersperger
  */
 @ExtendWith(MockitoExtension.class)
+@SuppressFBWarnings(value = {"NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE"},
+        justification = "Null value is handled")
 public class ZipUtilsIT {
 
     /**
@@ -88,20 +93,25 @@ public class ZipUtilsIT {
      */
     private List<SubmissionFile> loadFilesFromDirectory() throws URISyntaxException {
         List<SubmissionFile> fileList = new ArrayList<>();
-        Path path = Paths.get(Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource(UNPACKED_ZIP_TESTDATA)).toURI());
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
-            for (Path file : stream) {
-                if (Files.isRegularFile(file)) {
-                    SubmissionFile subFile = new SubmissionFile();
-                    subFile.setName(file.getFileName().toString());
-                    subFile.setBytes(Files.readAllBytes(file));
-                    fileList.add(subFile);
+        URL resourceUrl = Thread.currentThread().getContextClassLoader().getResource(UNPACKED_ZIP_TESTDATA);
+        if (resourceUrl == null) {
+            throw new RuntimeException("Test directory resource not found.");
+        } else {
+            Path path = Paths.get(resourceUrl.toURI());
+            try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
+                for (Path file : stream) {
+                    if (Files.isRegularFile(file)) {
+                        SubmissionFile subFile = new SubmissionFile();
+                        subFile.setName(file.getFileName().toString());
+                        subFile.setBytes(Files.readAllBytes(file));
+                        fileList.add(subFile);
+                    }
                 }
+            } catch (IOException e) {
+                throw new RuntimeException("Unable to load test files.");
             }
-        } catch (IOException e) {
-            fail("Unable to load test files");
+            fileList.sort(Comparator.comparing(SubmissionFile::getName));
         }
-        fileList.sort(Comparator.comparing(SubmissionFile::getName));
         return fileList;
     }
 }

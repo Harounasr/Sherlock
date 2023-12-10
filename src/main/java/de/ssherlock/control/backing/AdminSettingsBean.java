@@ -37,7 +37,7 @@ public class AdminSettingsBean implements Serializable {
   private SystemSettings systemSettings;
 
   /** The uploaded logo. */
-  private Part uploadedLogo;
+  private transient Part uploadedLogo;
 
   /**
    * Constructs an AdminSettingsBean.

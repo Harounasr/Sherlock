@@ -1,25 +1,28 @@
 package de.ssherlock.persistence.transaction;
 
-import java.sql.SQLException;
+import de.ssherlock.persistence.exception.PersistenceDBAccessException;
 
 /**
  * Interface for managing transactions, providing methods for committing and aborting transactions.
  *
- * @author Victor Vollmann
+ * @author Leon Föckersperger
  */
 public interface Transaction extends AutoCloseable {
 
-  /**
-   * Commits the transaction.
-   *
-   * @throws SQLException If an SQL exception occurs during the commit operation.
-   */
-  void commit() throws SQLException;
+    /**
+     * Commits the transaction.
+     *
+     * @throws PersistenceDBAccessException if the transaction could not be committed.
+     */
+    void commit() throws PersistenceDBAccessException;
 
-  /**
-   * Aborts (rolls back) the transaction.
-   *
-   * @throws SQLException If an SQL exception occurs during the abort operation.
-   */
-  void abort() throws SQLException;
+    /**
+     * Aborts (rolls back) the transaction.
+     */
+    void abort();
+
+    /**
+     * Closes this resource.
+     */
+    void close();
 }

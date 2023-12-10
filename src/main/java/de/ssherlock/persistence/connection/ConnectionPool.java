@@ -3,6 +3,7 @@ package de.ssherlock.persistence.connection;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.persistence.config.Configuration;
 import de.ssherlock.persistence.exception.DBUnavailableException;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -25,44 +26,58 @@ import java.util.logging.Level;
  */
 @Named
 @ApplicationScoped
+@SuppressFBWarnings(value = {"SE_TRANSIENT_FIELD_NOT_RESTORED"},
+        justification = "Suppress warnings about transient fields not being restored")
 public class ConnectionPool implements Serializable {
 
     /**
-     * Serial Version UID
+     * Serial Version UID.
      */
     @Serial
     private static final long serialVersionUID = 1L;
 
     /**
-     * Connection validation timeout
+     * Connection validation timeout.
      */
     private static final int VALIDATION_TIMEOUT = 2;
 
     /**
      * Configuration instance for obtaining database connection settings.
      */
-    @Inject private Configuration configuration;
+    private final Configuration configuration;
 
     /**
      * Logger instance for logging messages related to the ConnectionPoolPsql class.
      */
-    @Inject private SerializableLogger logger;
+    private final SerializableLogger logger;
 
     /**
      * Queue of available database connections.
      */
-    private final Queue<Connection> connections = new LinkedList<>();
+    private final transient Queue<Connection> connections = new LinkedList<>();
 
     /**
      * List of borrowed database connections.
      */
-    private final List<Connection> borrowedConnections = new LinkedList<>();
+    private final transient List<Connection> borrowedConnections = new LinkedList<>();
 
     /**
      * Default constructor for creating a ConnectionPoolPsql instance.
+     *
+     * @param configuration The configuration of the database.
+     * @param logger The logger of this class.
      */
-    public ConnectionPool() {
+    @Inject
+    public ConnectionPool(Configuration configuration, SerializableLogger logger) {
+        this.configuration = configuration;
+        this.logger = logger;
+    }
 
+    /**
+     * Protected constructor without arguments for CDI.
+     */
+    protected ConnectionPool() {
+        this(null, null);
     }
 
     /**
@@ -75,7 +90,7 @@ public class ConnectionPool implements Serializable {
         for (int i = 0; i < configuration.getDbNumConnections(); i++) {
             connections.offer(createConnection());
         }
-        logger.log(Level.INFO, "Created " + connections.size() + " connection to database: " + configuration.getDbName());
+        logger.log(Level.INFO, "Created " + connections.size() + " connections to database: " + configuration.getDbName());
     }
 
     /**
@@ -176,7 +191,7 @@ public class ConnectionPool implements Serializable {
         Connection conn;
         try {
             conn = DriverManager.getConnection(
-                    "jdbc:postgresql://" + configuration.getDbHost() + "/"+ configuration.getDbName(), configuration.getConnectionProperties());
+                    "jdbc:postgresql://" + configuration.getDbHost() + "/" + configuration.getDbName(), configuration.getConnectionProperties());
         } catch (SQLException e) {
             throw new DBUnavailableException("Connection could not be created.", e);
         }
