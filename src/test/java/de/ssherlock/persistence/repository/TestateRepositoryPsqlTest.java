@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import de.ssherlock.global.transport.Testate;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -23,6 +24,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
  */
 @ExtendWith(MockitoExtension.class)
 @SuppressWarnings("checkstyle:MagicNumber")
+@SuppressFBWarnings
 public class TestateRepositoryPsqlTest {
 
     /**
