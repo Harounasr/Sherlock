@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 /**
  * Implementation of CourseRepository for PostgreSQL database.
@@ -32,7 +33,28 @@ public class CourseRepositoryPsql extends RepositoryPsql implements CourseReposi
 
   /** {@inheritDoc} */
   @Override
-  public void insertCourse(Course course) {}
+  public void insertCourse(Course course) {
+    logger.log(Level.INFO, "1");
+    String sqlQuery =
+        """
+                            INSERT INTO course
+                             (course_name) VALUES (?)
+
+
+                          """;
+    try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
+      statement.setString(1, course.getName());
+
+      int rowsAffected = statement.executeUpdate();
+
+      if (rowsAffected == 0) {
+
+        logger.log(Level.INFO, "not addded");
+      }
+    } catch (SQLException e) {
+      logger.log(Level.INFO, e.getMessage());
+    }
+  }
 
   /** {@inheritDoc} */
   @Override
@@ -47,13 +69,13 @@ public class CourseRepositoryPsql extends RepositoryPsql implements CourseReposi
   /** {@inheritDoc} */
   @Override
   public List<Course> getCourses() {
-    String sqlQuery = "SELECT * FROM courses;";
+    String sqlQuery = "SELECT * FROM course;";
     List<Course> allCourses = new ArrayList<>();
     try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
       ResultSet result = statement.executeQuery();
       while (result.next()) {
         Course course = new Course();
-        course.setName(result.getString("name"));
+        course.setName(result.getString("course_name"));
         allCourses.add(course);
       }
     } catch (SQLException e) {

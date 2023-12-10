@@ -22,7 +22,7 @@
 <div id="navbar">
     <nav class="navbar navbar-expand-lg sideways-navbar">
         <a class="navbar-brand" >
-            <h:graphicImage value="#{navbarBean.logo}" alt="SoftwareSherlock Logo"/>
+            <h:graphicImage value=""/>
         </a>
         <ul class="navbar-nav mr-auto">
             <li>
@@ -36,10 +36,8 @@
                 </h:form>
             </li>
             <li>
-                <h:form styleClass="nav-item" rendered="#{
-                navbarBean.getAppSession().user.systemRole == 'ADMINISTRATOR' }">
-                    <h:commandButton value="Admin"
-                    />
+                <h:form  styleClass="nav-item">
+                    <h:commandButton value="Admin" rendered="#{navbarBean.appSession.user.systemRole.toString() == 'ADMINISTRATOR'}" action="#{navbarBean.navigateToAdminSettings()}"/>
                 </h:form>
             </li>
             <li>

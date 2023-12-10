@@ -1,7 +1,6 @@
 package de.ssherlock.control.backing;
 
 import de.ssherlock.global.logging.SerializableLogger;
-import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
