@@ -4,6 +4,7 @@ import de.ssherlock.business.exception.BusinessNonExistentCourseException;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Course;
 import de.ssherlock.persistence.connection.ConnectionPool;
+import de.ssherlock.persistence.exception.PersistenceNonExistentCourseException;
 import de.ssherlock.persistence.repository.CourseRepository;
 import de.ssherlock.persistence.repository.RepositoryFactory;
 import de.ssherlock.persistence.repository.RepositoryType;
@@ -100,5 +101,14 @@ public class CourseService implements Serializable {
    * @param courseName The course to remove.
    * @throws BusinessNonExistentCourseException when the course does not exist in the database.
    */
-  public void removeCourse(String courseName) throws BusinessNonExistentCourseException {}
+  public void removeCourse(String courseName) throws BusinessNonExistentCourseException {
+    Connection connection = connectionPool.getConnection();
+    CourseRepository courseRepository =
+        RepositoryFactory.getCourseRepository(RepositoryType.POSTGRESQL, connection);
+    try {
+      courseRepository.deleteCourse(courseName);
+    } catch (PersistenceNonExistentCourseException e) {
+      throw new BusinessNonExistentCourseException();
+    }
+  }
 }

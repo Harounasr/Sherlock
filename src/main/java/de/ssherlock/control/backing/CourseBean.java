@@ -1,6 +1,9 @@
 package de.ssherlock.control.backing;
 
+import de.ssherlock.business.exception.BusinessNonExistentCourseException;
 import de.ssherlock.business.service.CourseService;
+import de.ssherlock.control.notification.Notification;
+import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import jakarta.annotation.PostConstruct;
@@ -11,6 +14,7 @@ import jakarta.inject.Named;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Map;
+import java.util.logging.Level;
 
 /**
  * Backing bean for course.xhtml facelet.
@@ -64,8 +68,22 @@ public class CourseBean implements Serializable {
     courseName = requestParams.get("Id");
   }
 
-  /** Deletes the current course from the database. */
-  public void deleteCourse() {}
+  /** Deletes the current course from the database.
+   *
+   * @return the target page
+   * */
+  public String deleteCourse() {
+    try {
+      courseService.removeCourse(courseName);
+      logger.log(Level.INFO, "Course was deleted.");
+      return "/view/registered/coursePagination.xhtml";
+    } catch (BusinessNonExistentCourseException e) {
+      logger.log(Level.INFO, "Course could not be deleted.");
+      Notification notification = new Notification("Course could not be deleted.", NotificationType.ERROR);
+      notification.generateUIMessage();
+      return null;
+    }
+  }
 
   /**
    * Gets target page.

@@ -58,7 +58,15 @@ public class CourseRepositoryPsql extends RepositoryPsql implements CourseReposi
 
   /** {@inheritDoc} */
   @Override
-  public void deleteCourse(String courseName) throws PersistenceNonExistentCourseException {}
+  public void deleteCourse(String courseName) throws PersistenceNonExistentCourseException {
+    String sqlQuery = "DELETE FROM course WHERE course_name = ?";
+    try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
+      statement.setString(1, courseName);
+      statement.executeUpdate();
+    } catch (SQLException e) {
+      throw new PersistenceNonExistentCourseException();
+    }
+  }
 
   /** {@inheritDoc} */
   @Override
