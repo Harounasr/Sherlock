@@ -45,22 +45,20 @@ public class ExerciseDescriptionImageRepositoryPsql extends RepositoryPsql
 
   /** {@inheritDoc} */
   @Override
-  public ExerciseDescriptionImage getExerciseDescriptionImage(String uuid)
+  public ExerciseDescriptionImage getExerciseDescriptionImage(ExerciseDescriptionImage exerciseDescriptionImage)
       throws PersistenceNonExistentImageException {
     String sqlQuery = "SELECT * FROM exercise_description_image WHERE uuid::uuid = ?;";
-    ExerciseDescriptionImage image = new ExerciseDescriptionImage();
     try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
-      statement.setObject(1, UUID.fromString(uuid));
+      statement.setObject(1, UUID.fromString(exerciseDescriptionImage.getUUID()));
       ResultSet result = statement.executeQuery();
       if (result.next()) {
-        image.setUUID(uuid);
-        image.setImage(result.getBytes("image"));
+        exerciseDescriptionImage.setImage(result.getBytes("image"));
       } else {
         throw new PersistenceNonExistentImageException();
       }
     } catch (SQLException e) {
       throw new PersistenceNonExistentImageException("", e);
     }
-    return image;
+    return exerciseDescriptionImage;
   }
 }

@@ -1,7 +1,9 @@
 package de.ssherlock.persistence.repository;
 
+import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.persistence.exception.PersistenceNonExistentExerciseException;
+
 import java.util.List;
 
 /**
@@ -30,27 +32,27 @@ public interface ExerciseRepository {
   /**
    * Deletes an Exercise entity from the database based on its name.
    *
-   * @param exerciseId The name of the Exercise entity to be deleted.
+   * @param exercise The Exercise entity to be deleted.
    * @throws PersistenceNonExistentExerciseException when the exercise does not exist in the
    *     database.
    */
-  void deleteExercise(long exerciseId) throws PersistenceNonExistentExerciseException;
+  void deleteExercise(Exercise exercise) throws PersistenceNonExistentExerciseException;
 
   /**
    * Fetches an Exercise entity from the database based on its name.
    *
-   * @param exerciseId The name of the Exercise entity to be fetched.
+   * @param exercise The Exercise entity to be fetched.
    * @return The fetched Exercise entity, or null if not found.
    * @throws PersistenceNonExistentExerciseException when the exercise does not exist in the
    *     database.
    */
-  Exercise getExercise(long exerciseId) throws PersistenceNonExistentExerciseException;
+  Exercise getExercise(Exercise exercise) throws PersistenceNonExistentExerciseException;
 
   /**
    * Fetches a list of Exercise entities from the database for a specific course.
    *
-   * @param courseName The course.
+   * @param course The course.
    * @return The list of Exercise entities.
    */
-  List<Exercise> getExercises(String courseName);
+  List<Exercise> getExercises(Course course);
 }

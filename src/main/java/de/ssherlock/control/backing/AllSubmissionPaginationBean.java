@@ -3,6 +3,7 @@ package de.ssherlock.control.backing;
 import de.ssherlock.business.service.SubmissionService;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
+import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.Submission;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
@@ -53,6 +54,11 @@ public class AllSubmissionPaginationBean extends AbstractPaginationBean implemen
     private List<Submission> submissions;
 
     /**
+     * The current exercise.
+     */
+    private Exercise exercise;
+
+    /**
      * Constructs an AllSubmissionPaginationBean.
      *
      * @param logger            The logger used for logging within this class (Injected).
@@ -73,6 +79,9 @@ public class AllSubmissionPaginationBean extends AbstractPaginationBean implemen
      */
     @Override
     public void initialize() {
+        // Needs to be set to the actual exercise id.
+        exercise = new Exercise();
+        exercise.setId(0L);
         loadData();
     }
 
@@ -109,7 +118,7 @@ public class AllSubmissionPaginationBean extends AbstractPaginationBean implemen
      */
     @Override
     public String loadData() {
-        submissions = submissionService.getSubmissions(0L);
+        submissions = submissionService.getSubmissions(exercise);
         return "";
     }
 

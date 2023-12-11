@@ -13,6 +13,7 @@ import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.Part;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,178 +31,207 @@ import java.util.logging.Level;
 @ViewScoped
 public class ExerciseDescriptionBean implements Serializable {
 
-  /** Serial Version UID. */
-  @Serial private static final long serialVersionUID = 1L;
+    /**
+     * Serial Version UID.
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
 
-  /** Logger for logging within this class. */
-  private final SerializableLogger logger;
+    /**
+     * Logger for logging within this class.
+     */
+    private final SerializableLogger logger;
 
-  /** The active session. */
-  private final AppSession appSession;
+    /**
+     * The active session.
+     */
+    private final AppSession appSession;
 
-  /** Service for handling Exercise-related actions. */
-  private final ExerciseService exerciseService;
+    /**
+     * Service for handling Exercise-related actions.
+     */
+    private final ExerciseService exerciseService;
 
-  /** Service for handling Exercise Description Image related actions. */
-  private final ExerciseDescriptionImageService exerciseDescriptionImageService;
+    /**
+     * Service for handling Exercise Description Image related actions.
+     */
+    private final ExerciseDescriptionImageService exerciseDescriptionImageService;
 
-  /** The current exercise. */
-  private Exercise exercise;
+    /**
+     * The current exercise.
+     */
+    private Exercise exercise;
 
-  /** Whether the page is in edit mode. */
-  private boolean editMode;
+    /**
+     * Whether the page is in edit mode.
+     */
+    private boolean editMode;
 
-  /** The uploaded image. */
-  private transient Part uploadedImage;
+    /**
+     * The uploaded image.
+     */
+    private transient Part uploadedImage;
 
-  /** The img component that is generated. */
-  private String imgComponent;
+    /**
+     * The img component that is generated.
+     */
+    private String imgComponent;
 
-  /**
-   * Constructs an ExerciseDescriptionBean.
-   *
-   * @param logger The logger used for logging within this class (Injected).
-   * @param appSession The active session (Injected).
-   * @param exerciseService The ExerciseService (Injected).
-   * @param exerciseDescriptionImageService The ExerciseDescriptionImageService (Injected).
-   */
-  @Inject
-  public ExerciseDescriptionBean(
-      SerializableLogger logger,
-      AppSession appSession,
-      ExerciseService exerciseService,
-      ExerciseDescriptionImageService exerciseDescriptionImageService) {
-    this.logger = logger;
-    this.appSession = appSession;
-    this.exerciseService = exerciseService;
-    this.exerciseDescriptionImageService = exerciseDescriptionImageService;
-  }
-
-  /** Initializes the ExerciseDescriptionBean after construction. Performs any necessary setup. */
-  @PostConstruct
-  public void initialize() {
-    long exerciseId =
-        (long) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("exerciseId");
-    logger.log(Level.INFO, "Fetched id " + exerciseId + " from flash.");
-    try {
-      exercise = exerciseService.getExercise(exerciseId);
-    } catch (BusinessNonExistentExerciseException e) {
-      throw new RuntimeException(e);
+    /**
+     * Constructs an ExerciseDescriptionBean.
+     *
+     * @param logger                          The logger used for logging within this class (Injected).
+     * @param appSession                      The active session (Injected).
+     * @param exerciseService                 The ExerciseService (Injected).
+     * @param exerciseDescriptionImageService The ExerciseDescriptionImageService (Injected).
+     */
+    @Inject
+    public ExerciseDescriptionBean(
+            SerializableLogger logger,
+            AppSession appSession,
+            ExerciseService exerciseService,
+            ExerciseDescriptionImageService exerciseDescriptionImageService) {
+        this.logger = logger;
+        this.appSession = appSession;
+        this.exerciseService = exerciseService;
+        this.exerciseDescriptionImageService = exerciseDescriptionImageService;
     }
-  }
 
-  /** Switches to edit mode for the exercise details. */
-  public void startEditMode() {
-    this.editMode = true;
-  }
-
-  /** Saves all changes and disables edit mode. */
-  public void saveAndDisableEditMode() {
-    this.editMode = false;
-    try {
-      exerciseService.updateExercise(exercise);
-    } catch (BusinessNonExistentExerciseException e) {
-      throw new RuntimeException(e);
+    /**
+     * Initializes the ExerciseDescriptionBean after construction. Performs any necessary setup.
+     */
+    @PostConstruct
+    public void initialize() {
+        long exerciseId =
+                (long) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("exerciseId");
+        logger.log(Level.INFO, "Fetched id " + exerciseId + " from flash.");
+        exercise = new Exercise();
+        exercise.setId(exerciseId);
+        try {
+            exercise = exerciseService.getExercise(exercise);
+        } catch (BusinessNonExistentExerciseException e) {
+            throw new RuntimeException(e);
+        }
     }
-    logger.log(Level.INFO, "Exercise with id " + exercise.getId() + " was updated.");
-  }
 
-  /** Uploads an image related to the exercise. */
-  @SuppressWarnings("checkstyle:MagicNumber")
-  public void uploadImage() {
-    InputStream inputStream;
-    ExerciseDescriptionImage exerciseDescriptionImage = new ExerciseDescriptionImage();
-    try {
-      inputStream = uploadedImage.getInputStream();
-      ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-      byte[] buffer = new byte[1024];
-      int bytesRead;
-      while ((bytesRead = inputStream.read(buffer)) != -1) {
-        outputStream.write(buffer, 0, bytesRead);
-      }
-      byte[] imageBytes = outputStream.toByteArray();
-      exerciseDescriptionImage.setImage(imageBytes);
-      exerciseDescriptionImage.setUUID(UUID.randomUUID().toString());
-      exerciseDescriptionImageService.insertImage(exerciseDescriptionImage);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
+    /**
+     * Switches to edit mode for the exercise details.
+     */
+    public void startEditMode() {
+        this.editMode = true;
     }
-    imgComponent =
-        "<img src='http://localhost:8080/ssherlock_war_exploded/image?id="
-            + exerciseDescriptionImage.getUUID()
-            + "'/>";
-    logger.log(Level.INFO, imgComponent);
-  }
 
-  /**
-   * Is edit mode boolean.
-   *
-   * @return the boolean
-   */
-  public boolean isEditMode() {
-    return editMode;
-  }
+    /**
+     * Saves all changes and disables edit mode.
+     */
+    public void saveAndDisableEditMode() {
+        this.editMode = false;
+        try {
+            exerciseService.updateExercise(exercise);
+        } catch (BusinessNonExistentExerciseException e) {
+            throw new RuntimeException(e);
+        }
+        logger.log(Level.INFO, "Exercise with id " + exercise.getId() + " was updated.");
+    }
 
-  /**
-   * Sets edit mode.
-   *
-   * @param editMode the edit mode
-   */
-  public void setEditMode(boolean editMode) {
-    this.editMode = editMode;
-  }
+    /**
+     * Uploads an image related to the exercise.
+     */
+    @SuppressWarnings("checkstyle:MagicNumber")
+    public void uploadImage() {
+        InputStream inputStream;
+        ExerciseDescriptionImage exerciseDescriptionImage = new ExerciseDescriptionImage();
+        try {
+            inputStream = uploadedImage.getInputStream();
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+            byte[] imageBytes = outputStream.toByteArray();
+            exerciseDescriptionImage.setImage(imageBytes);
+            exerciseDescriptionImage.setUUID(UUID.randomUUID().toString());
+            exerciseDescriptionImageService.insertImage(exerciseDescriptionImage);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        imgComponent =
+                "<img src='http://localhost:8080/ssherlock_war_exploded/image?id="
+                + exerciseDescriptionImage.getUUID()
+                + "'/>";
+        logger.log(Level.INFO, imgComponent);
+    }
 
-  /**
-   * Gets uploaded image.
-   *
-   * @return the uploaded image
-   */
-  public Part getUploadedImage() {
-    return uploadedImage;
-  }
+    /**
+     * Is edit mode boolean.
+     *
+     * @return the boolean
+     */
+    public boolean isEditMode() {
+        return editMode;
+    }
 
-  /**
-   * Sets uploaded image.
-   *
-   * @param uploadedImage the uploaded image
-   */
-  public void setUploadedImage(Part uploadedImage) {
-    this.uploadedImage = uploadedImage;
-  }
+    /**
+     * Sets edit mode.
+     *
+     * @param editMode the edit mode
+     */
+    public void setEditMode(boolean editMode) {
+        this.editMode = editMode;
+    }
 
-  /**
-   * Gets img component.
-   *
-   * @return the img component
-   */
-  public String getImgComponent() {
-    return imgComponent;
-  }
+    /**
+     * Gets uploaded image.
+     *
+     * @return the uploaded image
+     */
+    public Part getUploadedImage() {
+        return uploadedImage;
+    }
 
-  /**
-   * Sets img component.
-   *
-   * @param imgComponent the img component
-   */
-  public void setImgComponent(String imgComponent) {
-    this.imgComponent = imgComponent;
-  }
+    /**
+     * Sets uploaded image.
+     *
+     * @param uploadedImage the uploaded image
+     */
+    public void setUploadedImage(Part uploadedImage) {
+        this.uploadedImage = uploadedImage;
+    }
 
-  /**
-   * Gets exercise.
-   *
-   * @return the exercise
-   */
-  public Exercise getExercise() {
-    return exercise;
-  }
+    /**
+     * Gets img component.
+     *
+     * @return the img component
+     */
+    public String getImgComponent() {
+        return imgComponent;
+    }
 
-  /**
-   * Sets exercise.
-   *
-   * @param exercise the exercise
-   */
-  public void setExercise(Exercise exercise) {
-    this.exercise = exercise;
-  }
+    /**
+     * Sets img component.
+     *
+     * @param imgComponent the img component
+     */
+    public void setImgComponent(String imgComponent) {
+        this.imgComponent = imgComponent;
+    }
+
+    /**
+     * Gets exercise.
+     *
+     * @return the exercise
+     */
+    public Exercise getExercise() {
+        return exercise;
+    }
+
+    /**
+     * Sets exercise.
+     *
+     * @param exercise the exercise
+     */
+    public void setExercise(Exercise exercise) {
+        this.exercise = exercise;
+    }
 }

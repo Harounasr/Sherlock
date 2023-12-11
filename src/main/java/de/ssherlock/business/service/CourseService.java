@@ -3,6 +3,7 @@ package de.ssherlock.business.service;
 import de.ssherlock.business.exception.BusinessNonExistentCourseException;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Course;
+import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.connection.ConnectionPool;
 import de.ssherlock.persistence.exception.PersistenceNonExistentCourseException;
 import de.ssherlock.persistence.repository.CourseRepository;
@@ -64,10 +65,10 @@ public class CourseService implements Serializable {
   /**
    * Retrieves a list of courses associated with the specified user.
    *
-   * @param username The user for whom to retrieve courses.
+   * @param user The user for whom to retrieve courses.
    * @return A list of courses associated with the user.
    */
-  public List<Course> getCourses(String username) {
+  public List<Course> getCourses(User user) {
     return null;
   }
 
@@ -88,25 +89,25 @@ public class CourseService implements Serializable {
   /**
    * Checks whether a course already exists in the database.
    *
-   * @param courseName The course name.
+   * @param course The course name.
    * @return true if the course exists.
    */
-  public boolean courseExists(String courseName) {
+  public boolean courseExists(Course course) {
     return false;
   }
 
   /**
    * Removes an existing course.
    *
-   * @param courseName The course to remove.
+   * @param course The course to remove.
    * @throws BusinessNonExistentCourseException when the course does not exist in the database.
    */
-  public void removeCourse(String courseName) throws BusinessNonExistentCourseException {
+  public void removeCourse(Course course) throws BusinessNonExistentCourseException {
     Connection connection = connectionPool.getConnection();
     CourseRepository courseRepository =
         RepositoryFactory.getCourseRepository(RepositoryType.POSTGRESQL, connection);
     try {
-      courseRepository.deleteCourse(courseName);
+      courseRepository.deleteCourse(course);
     } catch (PersistenceNonExistentCourseException e) {
       throw new BusinessNonExistentCourseException();
     }

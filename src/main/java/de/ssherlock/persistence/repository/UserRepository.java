@@ -29,19 +29,19 @@ public interface UserRepository {
   /**
    * Deletes a User entity from the database based on its username.
    *
-   * @param username The username of the User entity to be deleted.
+   * @param user The User entity to be deleted.
    * @throws PersistenceNonExistentUserException when the user does not exist in the database.
    */
-  void deleteUser(String username) throws PersistenceNonExistentUserException;
+  void deleteUser(User user) throws PersistenceNonExistentUserException;
 
   /**
    * Gets a User entity from the database based on its username.
    *
-   * @param username The username of the User entity to be fetched.
+   * @param user The User entity to be fetched.
    * @return The fetched User entity, or throws PersistenceNonExistentUserException if not found.
    * @throws PersistenceNonExistentUserException If the user with the given username is not found.
    */
-  User getUser(String username) throws PersistenceNonExistentUserException;
+  User getUser(User user) throws PersistenceNonExistentUserException;
 
   /**
    * Gets a list of User entities from the database.
@@ -53,18 +53,18 @@ public interface UserRepository {
   /**
    * Checks if a username already exists in the database.
    *
-   * @param userName The username.
+   * @param user The user for whom to check.
    *
    * @return true, in case the username exists, false otherwise.
    */
-  boolean userNameExists(String userName);
+  boolean userNameExists(User user);
 
   /**
    * Checks if an email already exists in the database.
    *
-   * @param email The email.
+   * @param user The user for whom to check.
    *
    * @return true, in case the email exists, false otherwise.
    */
-  boolean emailExists(String email);
+  boolean emailExists(User user);
 }

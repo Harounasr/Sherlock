@@ -2,7 +2,9 @@ package de.ssherlock.business.service;
 
 import de.ssherlock.business.exception.BusinessNonExistentTestateException;
 import de.ssherlock.global.logging.SerializableLogger;
+import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.Testate;
+import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.connection.ConnectionPool;
 import de.ssherlock.persistence.repository.RepositoryFactory;
 import de.ssherlock.persistence.repository.RepositoryType;
@@ -48,15 +50,15 @@ public class TestateService implements Serializable {
   /**
    * Retrieves a list of assigned testates associated with the specified exercise and user.
    *
-   * @param exerciseId The exercise for which to retrieve assigned testates.
-   * @param username The user for whom to retrieve assigned testates.
+   * @param exercise The exercise for which to retrieve assigned testates.
+   * @param user The user for whom to retrieve assigned testates.
    * @return A list of assigned testates associated with the exercise and user.
    */
-  public List<Testate> getAssignedTestates(long exerciseId, String username) {
+  public List<Testate> getAssignedTestates(Exercise exercise, User user) {
     Connection connection = connectionPool.getConnection();
     TestateRepository testateRepository =
         RepositoryFactory.getEvaluationRepository(RepositoryType.POSTGRESQL, connection);
-    List<Testate> testate = testateRepository.getTestates(exerciseId, username);
+    List<Testate> testate = testateRepository.getTestates(exercise, user);
     connectionPool.releaseConnection(connection);
 
     return testate;
@@ -65,15 +67,14 @@ public class TestateService implements Serializable {
   /**
    * Retrieves a list of all testates associated with the specified exercise.
    *
-   * @param exerciseId The exercise for which to retrieve the testates.
+   * @param exercise The exercise for which to retrieve the testates.
    * @return A list of assigned testates associated with the exercise and user.
    */
-  public List<Testate> getAllTestates(long exerciseId) {
+  public List<Testate> getAllTestates(Exercise exercise) {
     Connection connection = connectionPool.getConnection();
     TestateRepository testateRepository =
         RepositoryFactory.getEvaluationRepository(RepositoryType.POSTGRESQL, connection);
-
-    List<Testate> testates = testateRepository.getTestates(exerciseId);
+    List<Testate> testates = testateRepository.getTestates(exercise);
     connectionPool.releaseConnection(connection);
     return testates;
   }
@@ -81,12 +82,12 @@ public class TestateService implements Serializable {
   /**
    * Retrieves a testate associated with the specified exercise and user.
    *
-   * @param exerciseId The exercise for which to retrieve the testate.
-   * @param username The user for whom to retrieve the testate.
+   * @param exercise The exercise for which to retrieve the testate.
+   * @param user The user for whom to retrieve the testate.
    * @return The testate associated with the exercise and user.
    * @throws BusinessNonExistentTestateException when the testate does not exist in the database.
    */
-  public Testate getTestate(long exerciseId, String username)
+  public Testate getTestate(Exercise exercise, User user)
       throws BusinessNonExistentTestateException {
     return null;
   }

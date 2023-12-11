@@ -27,11 +27,11 @@ public class NotVerifiedUserRepositoryPsql extends RepositoryPsql
 
   /** {@inheritDoc} */
   @Override
-  public User getNotVerifiedUser(String token) throws PersistenceNonExistentUserException {
+  public User getNotVerifiedUser(User user) throws PersistenceNonExistentUserException {
     return null;
   }
 
   /** {@inheritDoc} */
   @Override
-  public void deleteNotVerifiedUser(String username) throws PersistenceNonExistentUserException {}
+  public void deleteNotVerifiedUser(User user) throws PersistenceNonExistentUserException {}
 }

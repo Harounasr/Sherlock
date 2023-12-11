@@ -2,10 +2,12 @@ package de.ssherlock.persistence.repository;
 
 import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
+import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.Submission;
 import de.ssherlock.global.transport.SubmissionFile;
 import de.ssherlock.global.transport.Testate;
 import de.ssherlock.global.transport.TestateComment;
+import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.exception.PersistenceNonExistentTestateException;
 
 import java.sql.Connection;
@@ -46,7 +48,7 @@ public class TestateRepositoryPsql extends RepositoryPsql implements TestateRepo
      * {@inheritDoc}
      */
     @Override
-    public Testate getTestate(long exerciseId, String studentUsername)
+    public Testate getTestate(Exercise exercise, User student)
             throws PersistenceNonExistentTestateException {
         return null;
     }
@@ -55,7 +57,7 @@ public class TestateRepositoryPsql extends RepositoryPsql implements TestateRepo
      * {@inheritDoc}
      */
     @Override
-    public List<Testate> getTestates(long exerciseId) {
+    public List<Testate> getTestates(Exercise exercise) {
         List<Testate> testateList = new ArrayList<>();
         String sqlQuery =
                 """
@@ -71,7 +73,7 @@ public class TestateRepositoryPsql extends RepositoryPsql implements TestateRepo
                 """;
 
         try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
-            statement.setLong(1, exerciseId);
+            statement.setLong(1, exercise.getId());
             ResultSet resultSet = statement.executeQuery();
             testateList = processSubmissionResultSet(resultSet);
             boolean x = true;
@@ -98,7 +100,7 @@ public class TestateRepositoryPsql extends RepositoryPsql implements TestateRepo
      * {@inheritDoc}
      */
     @Override
-    public List<Testate> getTestates(long exerciseId, String tutorUsername) {
+    public List<Testate> getTestates(Exercise exercise, User tutor) {
         List<Testate> testateList = new ArrayList<>();
         String sqlQuery =
                 """
@@ -113,8 +115,8 @@ public class TestateRepositoryPsql extends RepositoryPsql implements TestateRepo
                       LEFT JOIN testate_comment tc ON sf.id = tc.file_id;
                 """;
         try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
-            statement.setLong(1, exerciseId);
-            statement.setString(2, tutorUsername);
+            statement.setLong(1, exercise.getId());
+            statement.setString(2, tutor.getUsername());
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 testateList = processSubmissionResultSet(resultSet);

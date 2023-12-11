@@ -20,17 +20,19 @@ public interface NotVerifiedUserRepository {
   /**
    * Gets a not verified user from the database.
    *
-   * @param token The verification token of the user.
+   * @param user The user to be fetched.
    * @return the not verified User.
+   *
    * @throws PersistenceNonExistentUserException when the user does not exist in the database.
    */
-  User getNotVerifiedUser(String token) throws PersistenceNonExistentUserException;
+  User getNotVerifiedUser(User user) throws PersistenceNonExistentUserException;
 
   /**
    * Deletes a not verified user from the database.
    *
-   * @param username The username of the user.
+   * @param user The user.
+   *
    * @throws PersistenceNonExistentUserException when the user does not exist in the database.
    */
-  void deleteNotVerifiedUser(String username) throws PersistenceNonExistentUserException;
+  void deleteNotVerifiedUser(User user) throws PersistenceNonExistentUserException;
 }
