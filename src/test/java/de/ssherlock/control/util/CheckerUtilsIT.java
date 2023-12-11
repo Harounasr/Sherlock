@@ -1,14 +1,16 @@
 package de.ssherlock.control.util;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import de.ssherlock.global.transport.Checker;
 import de.ssherlock.global.transport.CheckerResult;
 import de.ssherlock.global.transport.CheckerType;
 import de.ssherlock.global.transport.SubmissionFile;
 import de.ssherlock.global.transport.User;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -19,14 +21,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test class for {@link ZipUtils}.
@@ -78,9 +79,15 @@ public class CheckerUtilsIT {
     private static List<SubmissionFile> filesToCheck;
 
     /**
+     * The list of checker results.
+     */
+    private static List<CheckerResult> checkerResults;
+
+    /**
      * The user for whom the checkers are run.
      */
     private static User user;
+
 
     /**
      * Initializes the test environment.
@@ -89,6 +96,7 @@ public class CheckerUtilsIT {
     public static void initTestEnvironment() {
         checkersToRun = new ArrayList<>();
         filesToCheck = new ArrayList<>();
+        checkerResults = new ArrayList<>();
         user = getUserMock();
     }
 
@@ -99,6 +107,7 @@ public class CheckerUtilsIT {
     public void clearLists() {
         checkersToRun.clear();
         filesToCheck.clear();
+        checkerResults.clear();
     }
 
     /**
@@ -111,9 +120,9 @@ public class CheckerUtilsIT {
     void testRunCompilationCheckerValidSubmission() throws Exception {
         checkersToRun.add(getCheckerMock(CheckerType.COMPILATION));
         filesToCheck = getSubmissionFilesForTest(VALID_SUBMISSION_TEST_DATA);
-        List<CheckerResult> results = CheckerUtils.runCheckers(checkersToRun, filesToCheck, user);
-        assertEquals(1, results.size());
-        CheckerResult compilationResult = results.get(0);
+        CheckerUtils.runCheckers(checkersToRun, filesToCheck, user, this::updateCheckerResults);
+        assertEquals(1, checkerResults.size());
+        CheckerResult compilationResult = checkerResults.get(0);
         assertEquals("All files compiled successfully.", compilationResult.getStackTrace());
         assertTrue(compilationResult.isPassed());
     }
@@ -134,9 +143,9 @@ public class CheckerUtilsIT {
                 """;
         checkersToRun.add(getCheckerMock(CheckerType.COMPILATION));
         filesToCheck = getSubmissionFilesForTest(COMPILATION_ERRORS_TEST_DATA);
-        List<CheckerResult> results = CheckerUtils.runCheckers(checkersToRun, filesToCheck, user);
-        assertEquals(1, results.size());
-        CheckerResult compilationResult = results.get(0);
+        CheckerUtils.runCheckers(checkersToRun, filesToCheck, user, this::updateCheckerResults);
+        assertEquals(1, checkerResults.size());
+        CheckerResult compilationResult = checkerResults.get(0);
         assertEquals(expectedErrors, compilationResult.getStackTrace());
         assertFalse(compilationResult.isPassed());
     }
@@ -156,9 +165,9 @@ public class CheckerUtilsIT {
                 """;
         checkersToRun.add(getCheckerMock(CheckerType.IDENTITY));
         filesToCheck = getSubmissionFilesForTest(VALID_SUBMISSION_TEST_DATA);
-        List<CheckerResult> results = CheckerUtils.runCheckers(checkersToRun, filesToCheck, user);
-        assertEquals(1, results.size());
-        CheckerResult identityResult = results.get(0);
+        CheckerUtils.runCheckers(checkersToRun, filesToCheck, user, this::updateCheckerResults);
+        assertEquals(1, checkerResults.size());
+        CheckerResult identityResult = checkerResults.get(0);
         assertEquals(expectedStacktrace, identityResult.getStackTrace());
         assertTrue(identityResult.isPassed());
     }
@@ -180,9 +189,9 @@ public class CheckerUtilsIT {
                 """;
         checkersToRun.add(getCheckerMock(CheckerType.IDENTITY));
         filesToCheck = getSubmissionFilesForTest(IDENTITY_ERRORS_TEST_DATA);
-        List<CheckerResult> results = CheckerUtils.runCheckers(checkersToRun, filesToCheck, user);
-        assertEquals(1, results.size());
-        CheckerResult identityResult = results.get(0);
+        CheckerUtils.runCheckers(checkersToRun, filesToCheck, user, this::updateCheckerResults);
+        assertEquals(1, checkerResults.size());
+        CheckerResult identityResult = checkerResults.get(0);
         assertEquals(expectedErrors, identityResult.getStackTrace());
         assertFalse(identityResult.isPassed());
     }
@@ -204,9 +213,9 @@ public class CheckerUtilsIT {
         Mockito.lenient().when(checker.getParameterOne()).thenReturn("90");
         checkersToRun.add(checker);
         filesToCheck = getSubmissionFilesForTest(VALID_SUBMISSION_TEST_DATA);
-        List<CheckerResult> results = CheckerUtils.runCheckers(checkersToRun, filesToCheck, user);
-        assertEquals(1, results.size());
-        CheckerResult lineWidthResult = results.get(0);
+        CheckerUtils.runCheckers(checkersToRun, filesToCheck, user, this::updateCheckerResults);
+        assertEquals(1, checkerResults.size());
+        CheckerResult lineWidthResult = checkerResults.get(0);
         assertEquals(expectedStacktrace, lineWidthResult.getStackTrace());
         assertTrue(lineWidthResult.isPassed());
     }
@@ -228,9 +237,9 @@ public class CheckerUtilsIT {
         Mockito.lenient().when(checker.getParameterOne()).thenReturn("90");
         checkersToRun.add(checker);
         filesToCheck = getSubmissionFilesForTest(LINE_WIDTH_ERRORS_TEST_DATA);
-        List<CheckerResult> results = CheckerUtils.runCheckers(checkersToRun, filesToCheck, user);
-        assertEquals(1, results.size());
-        CheckerResult lineWidthResult = results.get(0);
+        CheckerUtils.runCheckers(checkersToRun, filesToCheck, user, this::updateCheckerResults);
+        assertEquals(1, checkerResults.size());
+        CheckerResult lineWidthResult = checkerResults.get(0);
         assertEquals(expectedStacktrace, lineWidthResult.getStackTrace());
         assertFalse(lineWidthResult.isPassed());
     }
@@ -254,9 +263,9 @@ public class CheckerUtilsIT {
         Mockito.lenient().when(checker.getParameterTwo()).thenReturn(expectedOutput);
         checkersToRun.add(checker);
         filesToCheck = getSubmissionFilesForTest(USER_DEFINED_TEST_DATA);
-        List<CheckerResult> results = CheckerUtils.runCheckers(checkersToRun, filesToCheck, user);
-        assertEquals(1, results.size());
-        CheckerResult userDefinedResult = results.get(0);
+        CheckerUtils.runCheckers(checkersToRun, filesToCheck, user, this::updateCheckerResults);
+        assertEquals(1, checkerResults.size());
+        CheckerResult userDefinedResult = checkerResults.get(0);
         assertEquals("Checker USER_DEFINED ran successfully.", userDefinedResult.getStackTrace());
         assertTrue(userDefinedResult.isPassed());
     }
@@ -282,9 +291,9 @@ public class CheckerUtilsIT {
         Mockito.lenient().when(checker.getParameterTwo()).thenReturn(expectedOutput);
         checkersToRun.add(checker);
         filesToCheck = getSubmissionFilesForTest(USER_DEFINED_TEST_DATA);
-        List<CheckerResult> results = CheckerUtils.runCheckers(checkersToRun, filesToCheck, user);
-        assertEquals(1, results.size());
-        CheckerResult userDefinedResult = results.get(0);
+        CheckerUtils.runCheckers(checkersToRun, filesToCheck, user, this::updateCheckerResults);
+        assertEquals(1, checkerResults.size());
+        CheckerResult userDefinedResult = checkerResults.get(0);
         assertEquals("Checker USER_DEFINED ran successfully.", userDefinedResult.getStackTrace());
         assertTrue(userDefinedResult.isPassed());
     }
@@ -313,9 +322,9 @@ public class CheckerUtilsIT {
         Mockito.lenient().when(checker.getParameterTwo()).thenReturn(expectedOutput);
         checkersToRun.add(checker);
         filesToCheck = getSubmissionFilesForTest(USER_DEFINED_TEST_DATA);
-        List<CheckerResult> results = CheckerUtils.runCheckers(checkersToRun, filesToCheck, user);
-        assertEquals(1, results.size());
-        CheckerResult userDefinedResult = results.get(0);
+        CheckerUtils.runCheckers(checkersToRun, filesToCheck, user, this::updateCheckerResults);
+        assertEquals(1, checkerResults.size());
+        CheckerResult userDefinedResult = checkerResults.get(0);
         assertEquals(expectedStackTrace, userDefinedResult.getStackTrace());
         assertFalse(userDefinedResult.isPassed());
     }
@@ -336,12 +345,37 @@ public class CheckerUtilsIT {
         Mockito.lenient().when(checker.getParameterTwo()).thenReturn(expectedOutput);
         checkersToRun.add(checker);
         filesToCheck = getSubmissionFilesForTest(COMPILATION_ERRORS_TEST_DATA);
-        List<CheckerResult> results = CheckerUtils.runCheckers(checkersToRun, filesToCheck, user);
-        assertEquals(1, results.size());
-        CheckerResult userDefinedResult = results.get(0);
+        CheckerUtils.runCheckers(checkersToRun, filesToCheck, user, this::updateCheckerResults);
+        assertEquals(1, checkerResults.size());
+        CheckerResult userDefinedResult = checkerResults.get(0);
         assertEquals("The Checker: USER_DEFINED was not executed due to a compilation error.", userDefinedResult.getStackTrace());
         assertFalse(userDefinedResult.isPassed());
     }
+
+    /**
+     * Tests whether checker are running concurrently.
+     *
+     * @throws Exception Can be ignored.
+     */
+    @Test
+    void testConcurrentExecutionAndUpdateResults() throws Exception {
+        Checker checker1 = getCheckerMock(CheckerType.COMPILATION);
+        Checker checker2 = getCheckerMock(CheckerType.IDENTITY);
+        checkersToRun.add(checker1);
+        checkersToRun.add(checker2);
+        List<SubmissionFile> submissionFiles = getSubmissionFilesForTest(VALID_SUBMISSION_TEST_DATA);
+        CountDownLatch latch = new CountDownLatch(checkersToRun.size());
+        Consumer<CheckerResult> resultConsumer = result -> {
+            synchronized (checkerResults) {
+                checkerResults.add(result);
+            }
+            latch.countDown();
+        };
+        CheckerUtils.runCheckers(checkersToRun, submissionFiles, user, resultConsumer);
+        latch.await();
+        assertEquals(checkersToRun.size(), checkerResults.size());
+    }
+
 
     /**
      * Creates a user mock.
@@ -398,5 +432,15 @@ public class CheckerUtilsIT {
             });
         }
         return result;
+    }
+
+    /**
+     * Consumer for CheckerResult.
+     * Updates the list.
+     *
+     * @param checkerResult The result to add.
+     */
+    private void updateCheckerResults(CheckerResult checkerResult) {
+        checkerResults.add(checkerResult);
     }
 }
