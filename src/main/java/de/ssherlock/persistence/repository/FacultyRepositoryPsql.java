@@ -37,7 +37,7 @@ public class FacultyRepositoryPsql extends RepositoryPsql implements FacultyRepo
 
   /** {@inheritDoc} */
   @Override
-  public void deleteFaculty(String facultyName) throws PersistenceNonExistentFacultyException {}
+  public void deleteFaculty(Faculty faculty) throws PersistenceNonExistentFacultyException {}
 
   /** {@inheritDoc} */
   @Override

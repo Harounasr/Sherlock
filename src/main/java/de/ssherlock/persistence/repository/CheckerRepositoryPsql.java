@@ -36,11 +36,11 @@ public class CheckerRepositoryPsql extends RepositoryPsql implements CheckerRepo
 
   /** {@inheritDoc} */
   @Override
-  public void deleteChecker(long id) throws PersistenceNonExistentCheckerException {}
+  public void deleteChecker(Checker checker) throws PersistenceNonExistentCheckerException {}
 
   /** {@inheritDoc} */
   @Override
-  public Checker getChecker(long id) throws PersistenceNonExistentCheckerException {
+  public Checker getChecker(Checker checker) throws PersistenceNonExistentCheckerException {
     return null;
   }
 

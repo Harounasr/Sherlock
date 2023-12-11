@@ -29,19 +29,19 @@ public interface CheckerRepository {
   /**
    * Deletes a Checker entity from the database based on its ID.
    *
-   * @param id The ID of the Checker entity to be deleted.
+   * @param checker The Checker entity to be deleted.
    * @throws PersistenceNonExistentCheckerException when the Checker does not exist in the database.
    */
-  void deleteChecker(long id) throws PersistenceNonExistentCheckerException;
+  void deleteChecker(Checker checker) throws PersistenceNonExistentCheckerException;
 
   /**
    * Gets a Checker entity from the database based on its ID.
    *
-   * @param id The ID of the Checker entity to be fetched.
+   * @param checker The Checker entity to be fetched.
    * @return The fetched Checker entity, or null if not found.
    * @throws PersistenceNonExistentCheckerException when the Checker does not exist in the database.
    */
-  Checker getChecker(long id) throws PersistenceNonExistentCheckerException;
+  Checker getChecker(Checker checker) throws PersistenceNonExistentCheckerException;
 
   /**
    * Gets a list of Checker entities from the database based on a given predicate.

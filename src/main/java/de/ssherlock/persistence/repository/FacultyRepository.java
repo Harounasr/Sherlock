@@ -21,11 +21,11 @@ public interface FacultyRepository {
   /**
    * Deletes a Faculty entity from the database based on its name.
    *
-   * @param facultyName The name of the Faculty entity to be deleted.
+   * @param faculty The Faculty entity to be deleted.
    * @throws PersistenceNonExistentFacultyException when the exercise does not exist in the
    *     database.
    */
-  void deleteFaculty(String facultyName) throws PersistenceNonExistentFacultyException;
+  void deleteFaculty(Faculty faculty) throws PersistenceNonExistentFacultyException;
 
   /**
    * Fetches a list of Faculty entities from the database for a specific course.

@@ -21,18 +21,18 @@ public interface CourseRepository {
   /**
    * Deletes a Course entity from the database based on its name.
    *
-   * @param courseName The name of the Course entity to be deleted.
+   * @param course The Course entity to be deleted.
    * @throws PersistenceNonExistentCourseException when the Course does not exist in the database.
    */
-  void deleteCourse(String courseName) throws PersistenceNonExistentCourseException;
+  void deleteCourse(Course course) throws PersistenceNonExistentCourseException;
 
   /**
    * Checks whether a course exists in the database.
    *
-   * @param courseName The course name.
+   * @param course The course.
    * @return true if the course exists.
    */
-  boolean courseExists(String courseName);
+  boolean courseExists(Course course);
 
   /**
    * Fetches a list of Course entities from the database based on a given predicate.

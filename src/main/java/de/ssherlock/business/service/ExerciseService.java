@@ -2,6 +2,7 @@ package de.ssherlock.business.service;
 
 import de.ssherlock.business.exception.BusinessNonExistentExerciseException;
 import de.ssherlock.global.logging.SerializableLogger;
+import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.persistence.connection.ConnectionPool;
 import de.ssherlock.persistence.exception.PersistenceNonExistentExerciseException;
@@ -49,15 +50,15 @@ public class ExerciseService implements Serializable {
   /**
    * Retrieves a list of exercises associated with the specified course.
    *
-   * @param courseName The course for which to retrieve exercises.
+   * @param course The course for which to retrieve exercises.
    * @return A list of exercises associated with the course.
    */
-  public List<Exercise> getExercises(String courseName) {
+  public List<Exercise> getExercises(Course course) {
     Connection connection = connectionPool.getConnection();
     ExerciseRepository exerciseRepository =
         RepositoryFactory.getExerciseRepository(RepositoryType.POSTGRESQL, connection);
 
-    List<Exercise> exercises = exerciseRepository.getExercises(courseName);
+    List<Exercise> exercises = exerciseRepository.getExercises(course);
     connectionPool.releaseConnection(connection);
     return exercises;
   }
@@ -94,15 +95,15 @@ public class ExerciseService implements Serializable {
   /**
    * Removes an existing exercise.
    *
-   * @param exerciseId The exercise to be removed.
+   * @param exercise The exercise to be removed.
    * @throws BusinessNonExistentExerciseException when the exercise does not exist in the database.
    */
-  public void removeExercise(long exerciseId) throws BusinessNonExistentExerciseException {
+  public void removeExercise(Exercise exercise) throws BusinessNonExistentExerciseException {
     Connection connection = connectionPool.getConnection();
     ExerciseRepository exerciseRepository =
         RepositoryFactory.getExerciseRepository(RepositoryType.POSTGRESQL, connection);
     try {
-      exerciseRepository.deleteExercise(exerciseId);
+      exerciseRepository.deleteExercise(exercise);
     } catch (PersistenceNonExistentExerciseException e) {
       throw new BusinessNonExistentExerciseException();
     }
@@ -111,17 +112,16 @@ public class ExerciseService implements Serializable {
   /**
    * Retrieves an exercise based on its unique identifier.
    *
-   * @param id The unique identifier of the exercise.
+   * @param exercise The exercise to get.
    * @return The exercise with the specified identifier.
    * @throws BusinessNonExistentExerciseException when the exercise does not exist in the database.
    */
-  public Exercise getExercise(long id) throws BusinessNonExistentExerciseException {
+  public Exercise getExercise(Exercise exercise) throws BusinessNonExistentExerciseException {
     Connection connection = connectionPool.getConnection();
     ExerciseRepository exerciseRepository =
         RepositoryFactory.getExerciseRepository(RepositoryType.POSTGRESQL, connection);
-    Exercise exercise;
     try {
-      exercise = exerciseRepository.getExercise(id);
+      exercise = exerciseRepository.getExercise(exercise);
     } catch (PersistenceNonExistentExerciseException e) {
       throw new BusinessNonExistentExerciseException(e.getMessage(), e);
     }

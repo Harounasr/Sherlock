@@ -83,7 +83,7 @@ class AppSessionIT {
         User user = new User();
         user.setUsername("test");
         user.setSystemRole(SystemRole.ADMINISTRATOR);
-        when(userService.getUser("test")).thenReturn(user);
+        when(userService.getUser(user)).thenReturn(user);
         appSession.setUser(user);
         assertTrue(appSession.isAdmin());
     }
@@ -97,7 +97,7 @@ class AppSessionIT {
     void testGetUser() throws BusinessNonExistentUserException {
         User user = new User();
         user.setUsername("test");
-        when(userService.getUser("test")).thenReturn(user);
+        when(userService.getUser(user)).thenReturn(user);
         appSession.setUser(user);
         assertEquals(user, appSession.getUser());
     }

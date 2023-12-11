@@ -1,5 +1,6 @@
 package de.ssherlock.persistence.repository;
 
+import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.Submission;
 import de.ssherlock.persistence.exception.PersistenceNonExistentSubmissionException;
 import java.util.List;
@@ -21,18 +22,18 @@ public interface SubmissionRepository {
   /**
    * Fetches a Submission entity from the database based on its ID.
    *
-   * @param id The ID of the Submission entity to be fetched.
+   * @param submission The Submission entity to be fetched.
    * @return The fetched Submission entity, or null if not found.
    * @throws PersistenceNonExistentSubmissionException when the submission does not exist in the
    *     database.
    */
-  Submission getSubmission(long id) throws PersistenceNonExistentSubmissionException;
+  Submission getSubmission(Submission submission) throws PersistenceNonExistentSubmissionException;
 
   /**
    * Fetches a list of Submission entities for a specific exercise from the database.
    *
-   * @param exerciseId The exercise id.
+   * @param exercise The exercise.
    * @return The list of Submission entities of the exercise.
    */
-  List<Submission> getSubmissions(long exerciseId);
+  List<Submission> getSubmissions(Exercise exercise);
 }

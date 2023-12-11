@@ -1,6 +1,8 @@
 package de.ssherlock.persistence.repository;
 
+import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.Testate;
+import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.exception.PersistenceNonExistentTestateException;
 import java.util.List;
 
@@ -19,30 +21,30 @@ public interface TestateRepository {
   void insertTestate(Testate testate);
 
   /**
-   * Gets a Testate entity from the database based on an exercise and a student's username.
+   * Gets a Testate entity from the database based on an exercise and a student.
    *
-   * @param exerciseId The exercise ID.
-   * @param studentUsername The student's username.
+   * @param exercise The exercise.
+   * @param student The student.
    * @return The testate.
    * @throws PersistenceNonExistentTestateException when the testate does not exist in the database.
    */
-  Testate getTestate(long exerciseId, String studentUsername)
+  Testate getTestate(Exercise exercise, User student)
       throws PersistenceNonExistentTestateException;
 
   /**
    * Gets a list of Testate entities for a specific exercise from the database.
    *
-   * @param exerciseId The exerciseId.
+   * @param exercise The exercise.
    * @return The list of Testate entities.
    */
-  List<Testate> getTestates(long exerciseId);
+  List<Testate> getTestates(Exercise exercise);
 
   /**
    * Gets a list of Testate entities for a specific exercise and tutor from the database.
    *
-   * @param exerciseId The exerciseId.
-   * @param tutorUsername The username of the tutor.
+   * @param exercise The exerciseId.
+   * @param tutor The username of the tutor.
    * @return The list of Testate entities.
    */
-  List<Testate> getTestates(long exerciseId, String tutorUsername);
+  List<Testate> getTestates(Exercise exercise, User tutor);
 }

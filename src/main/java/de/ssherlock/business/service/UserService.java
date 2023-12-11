@@ -89,9 +89,10 @@ public class UserService implements Serializable {
     Connection connection = connectionPool.getConnection();
     UserRepository userRepository =
         RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
-    User user;
+    User user = new User();
+    user.setUsername(loginInfo.getUsername());
     try {
-      user = userRepository.getUser(loginInfo.getUsername());
+      user = userRepository.getUser(user);
     } catch (PersistenceNonExistentUserException e) {
       connectionPool.releaseConnection(connection);
       logger.log(Level.INFO, "Could not find user " + loginInfo.getUsername() + "");
@@ -156,18 +157,18 @@ public class UserService implements Serializable {
   /**
    * Sends a password reset email to the user.
    *
-   * @param username The username for whom to send the password reset email.
+   * @param user The user for whom to send the password reset email.
    * @throws BusinessNonExistentUserException when the user is not registered in the system.
    */
-  public void sendPasswordForgottenEmail(String username) throws BusinessNonExistentUserException {}
+  public void sendPasswordForgottenEmail(User user) throws BusinessNonExistentUserException {}
 
   /**
    * Deletes a user account.
    *
-   * @param username The user to be deleted.
+   * @param user The user to be deleted.
    * @throws BusinessNonExistentUserException when the user is not registered in the system.
    */
-  public void deleteUser(String username) throws BusinessNonExistentUserException {}
+  public void deleteUser(User user) throws BusinessNonExistentUserException {}
 
   /**
    * Updates user account information.
@@ -189,16 +190,16 @@ public class UserService implements Serializable {
   /**
    * Gets a user by its username.
    *
-   * @param username The username of the user.
+   * @param user The user to retrieve.
    * @return the user.
    * @throws BusinessNonExistentUserException when the user is not registered in the system.
    */
-  public User getUser(String username) throws BusinessNonExistentUserException {
+  public User getUser(User user) throws BusinessNonExistentUserException {
     Connection connection = connectionPool.getConnection();
     UserRepository userRepository =
         RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
     try {
-      return userRepository.getUser(username);
+      return userRepository.getUser(user);
     } catch (PersistenceNonExistentUserException e) {
       throw new BusinessNonExistentUserException();
     }
@@ -207,11 +208,11 @@ public class UserService implements Serializable {
   /**
    * Updates the role of a user in a specific course.
    *
-   * @param username The user for whom to update the role.
+   * @param user The user for whom to update the role.
    * @param courseRole The new role for the user in the course.
    * @throws BusinessNonExistentUserException when the user does not exist in the database.
    */
-  public void updateCourseRole(String username, CourseRole courseRole)
+  public void updateCourseRole(User user, CourseRole courseRole)
       throws BusinessNonExistentUserException {}
 
   /**
@@ -237,28 +238,28 @@ public class UserService implements Serializable {
   /**
    * Checks if a username already exists in the database.
    *
-   * @param userName the Username.
+   * @param user The user for whom to check.
    *
    * @return true, in case the username exists, false otherwise.
    */
-  public boolean userNameExists(String userName) {
+  public boolean userNameExists(User user) {
     Connection connection = connectionPool.getConnection();
     UserRepository userRepository =
         RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
-    return userRepository.userNameExists(userName);
+    return userRepository.userNameExists(user);
   }
 
   /**
    * Checks if an email already exists in the database.
    *
-   * @param email The email.
+   * @param user The user for whom to check.
    *
    * @return true, in case the email exists, false otherwise.
    */
-  public boolean emailExists(String email) {
+  public boolean emailExists(User user) {
     Connection connection = connectionPool.getConnection();
     UserRepository userRepository =
         RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
-    return userRepository.emailExists(email);
+    return userRepository.emailExists(user);
   }
 }

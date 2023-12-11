@@ -2,7 +2,9 @@ package de.ssherlock.persistence.repository;
 
 import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
+import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.Submission;
+
 import java.sql.Connection;
 import java.util.List;
 
@@ -30,13 +32,13 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
 
   /** {@inheritDoc} */
   @Override
-  public Submission getSubmission(long id) {
+  public Submission getSubmission(Submission submission) {
     return null;
   }
 
   /** {@inheritDoc} */
   @Override
-  public List<Submission> getSubmissions(long exerciseId) {
+  public List<Submission> getSubmissions(Exercise exercise) {
     return null;
   }
 }

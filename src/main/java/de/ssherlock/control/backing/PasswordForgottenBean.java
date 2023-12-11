@@ -5,6 +5,7 @@ import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.notification.Notification;
 import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.global.logging.SerializableLogger;
+import de.ssherlock.global.transport.User;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -24,8 +25,8 @@ public class PasswordForgottenBean {
   /** The service for user-related operations. */
   private final UserService userService;
 
-  /** The email address for password reset. */
-  private String username;
+  /** The user for password reset. */
+  private User user;
 
   /**
    * Constructor for PasswordForgottenBean.
@@ -37,12 +38,13 @@ public class PasswordForgottenBean {
   public PasswordForgottenBean(SerializableLogger logger, UserService userService) {
     this.logger = logger;
     this.userService = userService;
+    User user = new User();
   }
 
   /** Requests a password reset for the provided email address. */
   public void requestPasswordReset() {
     try {
-      userService.sendPasswordForgottenEmail(username);
+      userService.sendPasswordForgottenEmail(user);
     } catch (BusinessNonExistentUserException e) {
       Notification notification =
           new Notification("The current User doesnt exist", NotificationType.ERROR);
@@ -60,20 +62,20 @@ public class PasswordForgottenBean {
   }
 
   /**
-   * Gets email address.
+   * Gets the user.
    *
-   * @return the email address
+   * @return the user.
    */
-  public String getUsername() {
-    return username;
+  public User getUser() {
+    return user;
   }
 
   /**
-   * Sets the email address for password reset.
+   * Sets the user password reset.
    *
-   * @param username The email address for password reset.
+   * @param user The user for the password reset.
    */
-  public void setUsername(String username) {
-    this.username = username;
+  public void setUser(User user) {
+    this.user = user;
   }
 }

@@ -66,22 +66,21 @@ public class ExerciseDescriptionImageService implements Serializable {
   /**
    * Gets an ExerciseDescriptionImage from the database by its uuid.
    *
-   * @param uuid The UUID of the image.
+   * @param exerciseDescriptionImage The image to retrieve.
    * @return The image.
    * @throws BusinessNonExistentImageException when the image does not exist in the database.
    */
-  public ExerciseDescriptionImage getImage(String uuid) throws BusinessNonExistentImageException {
+  public ExerciseDescriptionImage getImage(ExerciseDescriptionImage exerciseDescriptionImage) throws BusinessNonExistentImageException {
     Connection connection = connectionPool.getConnection();
     ExerciseDescriptionImageRepository imageRepository =
         RepositoryFactory.getExerciseDescriptionImageRepository(
             RepositoryType.POSTGRESQL, connection);
-    ExerciseDescriptionImage image;
     try {
-      image = imageRepository.getExerciseDescriptionImage(uuid);
+      exerciseDescriptionImage = imageRepository.getExerciseDescriptionImage(exerciseDescriptionImage);
     } catch (PersistenceNonExistentImageException e) {
       throw new BusinessNonExistentImageException("", e);
     }
     connectionPool.releaseConnection(connection);
-    return image;
+    return exerciseDescriptionImage;
   }
 }

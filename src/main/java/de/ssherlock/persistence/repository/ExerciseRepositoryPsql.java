@@ -2,6 +2,7 @@ package de.ssherlock.persistence.repository;
 
 import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
+import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.persistence.exception.PersistenceNonExistentExerciseException;
 
@@ -94,16 +95,16 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
      * {@inheritDoc}
      */
     @Override
-    public void deleteExercise(long exerciseId) throws PersistenceNonExistentExerciseException {
+    public void deleteExercise(Exercise exercise) throws PersistenceNonExistentExerciseException {
         String sqlQuery = "DELETE FROM Exercise WHERE id = ?";
         try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
-            statement.setLong(1, exerciseId);
+            statement.setLong(1, exercise.getId());
             if (statement.executeUpdate() == 0) {
                 throw new PersistenceNonExistentExerciseException(
-                        "The exercise with id " + exerciseId + " not found");
+                        "The exercise with id " + exercise.getId() + " not found");
             }
         } catch (SQLException e) {
-            logger.severe("Error deleting exercise with id " + exerciseId + e.getMessage());
+            logger.severe("Error deleting exercise with id " + exercise.getId() + e.getMessage());
             throw new PersistenceNonExistentExerciseException();
         }
     }
@@ -112,14 +113,12 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
      * {@inheritDoc}
      */
     @Override
-    public Exercise getExercise(long exerciseId) throws PersistenceNonExistentExerciseException {
+    public Exercise getExercise(Exercise exercise) throws PersistenceNonExistentExerciseException {
         String sqlQuery = "SELECT * FROM exercises WHERE id = ?;";
-        Exercise exercise = new Exercise();
         try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
-            statement.setLong(1, exerciseId);
+            statement.setLong(1, exercise.getId());
             ResultSet result = statement.executeQuery();
             if (result.next()) {
-                exercise.setId(result.getLong("id"));
                 exercise.setName(result.getString("name"));
                 exercise.setPublishDate(result.getDate("publish_date"));
                 exercise.setRecommendedDeadline(result.getDate("recommended_deadline"));
@@ -128,11 +127,11 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
                 exercise.setCourseName(result.getString("coursename"));
             } else {
                 throw new PersistenceNonExistentExerciseException(
-                        "The exercise with id " + exerciseId + "is not stored in the database");
+                        "The exercise with id " + exercise.getId() + "is not stored in the database");
             }
         } catch (SQLException e) {
             throw new PersistenceNonExistentExerciseException(
-                    "The exercise with id " + exerciseId + "is not stored in the database", e);
+                    "The exercise with id " + exercise.getId() + "is not stored in the database", e);
         }
         return exercise;
     }
@@ -141,12 +140,12 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
      * {@inheritDoc}
      */
     @Override
-    public List<Exercise> getExercises(String courseName) {
+    public List<Exercise> getExercises(Course course) {
         String sqlQuery =
                 "SELECT * FROM courses c LEFT JOIN exercises e ON c.name = e.coursename WHERE c.name = ?;";
         List<Exercise> exercises = new ArrayList<>();
         try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
-            statement.setString(1, courseName);
+            statement.setString(1, course.getName());
             ResultSet result = statement.executeQuery();
             if (result.next()) {
                 do {

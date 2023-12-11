@@ -20,10 +20,10 @@ public interface ExerciseDescriptionImageRepository {
   /**
    * Gets an ExerciseDescriptionImage from the database by its UUID.
    *
-   * @param uuid the UUID.
+   * @param exerciseDescriptionImage The image to fetch.
    * @return The image.
    * @throws PersistenceNonExistentImageException when the image does not exist in the database.
    */
-  ExerciseDescriptionImage getExerciseDescriptionImage(String uuid)
+  ExerciseDescriptionImage getExerciseDescriptionImage(ExerciseDescriptionImage exerciseDescriptionImage)
       throws PersistenceNonExistentImageException;
 }

@@ -90,11 +90,11 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
 
   /** {@inheritDoc} */
   @Override
-  public void deleteUser(String username) throws PersistenceNonExistentUserException {}
+  public void deleteUser(User user) throws PersistenceNonExistentUserException {}
 
   /** {@inheritDoc} */
   @Override
-  public User getUser(String username) throws PersistenceNonExistentUserException {
+  public User getUser(User user) throws PersistenceNonExistentUserException {
     String sqlQuery =
         """
                 SELECT
@@ -106,14 +106,12 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
                     username = ?;
                 """;
     try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
-      statement.setString(1, username);
+      statement.setString(1, user.getUsername());
       try (ResultSet result = statement.executeQuery()) {
         if (result.next()) {
-          User user = new User();
           Password password = new Password();
           password.setHash(result.getString("password_hash"));
           password.setSalt(result.getString("password_salt"));
-          user.setUsername(username);
           user.setFirstName(result.getString("firstname"));
           user.setLastName(result.getString("lastname"));
           user.setEmail(result.getString("email"));
@@ -140,7 +138,7 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
       }
     } catch (SQLException e) {
       throw new PersistenceNonExistentUserException(
-          "The user with the username " + username + " could not be found in the database.", e);
+          "The user with the username " + user.getUsername() + " could not be found in the database.", e);
     }
   }
 
@@ -152,11 +150,11 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
 
   /** {@inheritDoc} */
   @Override
-  public boolean userNameExists(String userName) {
+  public boolean userNameExists(User user) {
     String sqlQuery = "SELECT COUNT(*) FROM \"user\" WHERE username = ?;";
 
     try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
-      statement.setString(1, userName);
+      statement.setString(1, user.getUsername());
       try (ResultSet resultSet = statement.executeQuery()) {
         if (resultSet.next()) {
           int count = resultSet.getInt(1);
@@ -172,11 +170,11 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
 
   /** {@inheritDoc} */
   @Override
-  public boolean emailExists(String email) {
+  public boolean emailExists(User user) {
     String sqlQuery = "SELECT COUNT(*) FROM \"user\" WHERE email = ?;";
 
     try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
-      statement.setString(1, email);
+      statement.setString(1, user.getEmail());
       try (ResultSet resultSet = statement.executeQuery()) {
         if (resultSet.next()) {
           int count = resultSet.getInt(1);

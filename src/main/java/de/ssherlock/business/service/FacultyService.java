@@ -69,18 +69,18 @@ public class FacultyService implements Serializable {
   /**
    * Checks whether a faculty already exists in the database.
    *
-   * @param facultyName The faculty name.
+   * @param faculty The faculty.
    * @return true if the faculty exists.
    */
-  public boolean facultyExists(String facultyName) {
+  public boolean facultyExists(Faculty faculty) {
     return false;
   }
 
   /**
    * Removes an existing faculty.
    *
-   * @param facultyName The faculty to remove.
+   * @param faculty The faculty to remove.
    * @throws BusinessNonExistentFacultyException when the faculty does not exist in the database.
    */
-  public void removeFaculty(String facultyName) throws BusinessNonExistentFacultyException {}
+  public void removeFaculty(Faculty faculty) throws BusinessNonExistentFacultyException {}
 }
