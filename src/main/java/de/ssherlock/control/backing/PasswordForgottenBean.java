@@ -13,7 +13,7 @@ import jakarta.inject.Named;
 /**
  * Backing bean for the passwordForgotten.xhtml facelet.
  *
- * @author Victor Vollmann
+ * @author Leon Höfling
  */
 @Named
 @RequestScoped
@@ -58,7 +58,7 @@ public class PasswordForgottenBean {
    * @return The destination view for the login page.
    */
   public String navigateToLogin() {
-    return "";
+    return "/view/public/login.xhtml";
   }
 
   /**

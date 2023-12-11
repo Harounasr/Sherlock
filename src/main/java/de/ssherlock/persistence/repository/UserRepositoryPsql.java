@@ -74,27 +74,30 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
     String sqlQuery =
         """
                       UPDATE "user"
-                      SET failed_login_attempts = COALESCE(?, failed_login_attempts),
-                      SET user_role = COALESCE(?, user_role),
-                      SET faculty = COALESCE(?, faculty),
-                      SET password_hash = COALESCE(?, password_hash),
-                      SET password_salt = coalesce(?, password_salt)
+                      SET
+                       failed_login_attempts = COALESCE(?, failed_login_attempts),
+                       user_role = CAST(? AS system_role),
+                       faculty = COALESCE(?, faculty),
+                       password_hash = COALESCE(?, password_hash),
+                       password_salt = coalesce(?, password_salt),
+                       token = coalesce(?, token)
                       WHERE username = ?;
                     """;
     try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
       statement.setInt(1, user.getFailedLoginAttempts());
-      statement.setString(2, user.getSystemRole().toString());
+      statement.setString(2, user.getSystemRole() != null ? user.getSystemRole().toString() : null);
       statement.setString(3, user.getFacultyName());
       statement.setString(4, user.getPassword().getHash());
       statement.setString(5, user.getPassword().getSalt());
-      statement.setString(6, user.getUsername());
+      statement.setString(6, user.getVerificationToken());
+      statement.setString(7, user.getUsername());
 
       int rowsAffected = statement.executeUpdate();
-
       if (rowsAffected == 0) {
         throw new PersistenceNonExistentUserException();
       }
     } catch (SQLException e) {
+      logger.log(Level.INFO, e.toString());
       throw new PersistenceNonExistentUserException();
     }
   }
