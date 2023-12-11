@@ -40,9 +40,10 @@ public class ExerciseDescriptionImageServlet extends HttpServlet {
     String imageId = request.getParameter("id");
     if (imageId != null) {
       logger.log(Level.INFO, "Client request for image with id " + imageId + "");
-      ExerciseDescriptionImage image = null;
+      ExerciseDescriptionImage image = new ExerciseDescriptionImage();
+      image.setUUID(imageId);
       try {
-        image = exerciseDescriptionImageService.getImage(imageId);
+        image = exerciseDescriptionImageService.getImage(image);
       } catch (BusinessNonExistentImageException e) {
         throw new RuntimeException(e);
       }

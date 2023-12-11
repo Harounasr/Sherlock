@@ -2,6 +2,7 @@ package de.ssherlock.control.validation;
 
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.global.logging.SerializableLogger;
+import de.ssherlock.global.transport.User;
 import jakarta.enterprise.context.Dependent;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.UIComponent;
@@ -54,7 +55,9 @@ public class UsernameValidator implements Validator<String> {
   @Override
   public void validate(FacesContext facesContext, UIComponent uiComponent, String username)
       throws ValidatorException {
-    if (userService.userNameExists(username)) {
+    User user = new User();
+    user.setUsername(username);
+    if (userService.userNameExists(user)) {
       FacesMessage facesMessage =
           new FacesMessage(FacesMessage.SEVERITY_ERROR, "Username is already taken.", null);
       throw new ValidatorException(facesMessage);

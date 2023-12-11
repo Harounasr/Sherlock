@@ -3,6 +3,7 @@ package de.ssherlock.control.validation;
 import de.ssherlock.business.service.SystemService;
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.global.logging.SerializableLogger;
+import de.ssherlock.global.transport.User;
 import jakarta.enterprise.context.Dependent;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.UIComponent;
@@ -58,7 +59,9 @@ public class EmailValidator implements Validator<String> {
   @Override
   public void validate(FacesContext facesContext, UIComponent uiComponent, String emailAddress)
       throws ValidatorException {
-    if (userService.emailExists(emailAddress)) {
+    User user = new User();
+    user.setEmail(emailAddress);
+    if (userService.emailExists(user)) {
       FacesMessage facesMessage =
           new FacesMessage(FacesMessage.SEVERITY_ERROR, "Email is already taken.", null);
       throw new ValidatorException(facesMessage);
