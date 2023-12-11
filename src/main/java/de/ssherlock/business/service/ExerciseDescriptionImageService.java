@@ -42,8 +42,7 @@ public class ExerciseDescriptionImageService implements Serializable {
    * @param connectionPool The connection pool instance.
    */
   @Inject
-  public ExerciseDescriptionImageService(
-      SerializableLogger logger, ConnectionPool connectionPool) {
+  public ExerciseDescriptionImageService(SerializableLogger logger, ConnectionPool connectionPool) {
     this.logger = logger;
     this.connectionPool = connectionPool;
   }
@@ -70,13 +69,15 @@ public class ExerciseDescriptionImageService implements Serializable {
    * @return The image.
    * @throws BusinessNonExistentImageException when the image does not exist in the database.
    */
-  public ExerciseDescriptionImage getImage(ExerciseDescriptionImage exerciseDescriptionImage) throws BusinessNonExistentImageException {
+  public ExerciseDescriptionImage getImage(ExerciseDescriptionImage exerciseDescriptionImage)
+      throws BusinessNonExistentImageException {
     Connection connection = connectionPool.getConnection();
     ExerciseDescriptionImageRepository imageRepository =
         RepositoryFactory.getExerciseDescriptionImageRepository(
             RepositoryType.POSTGRESQL, connection);
     try {
-      exerciseDescriptionImage = imageRepository.getExerciseDescriptionImage(exerciseDescriptionImage);
+      exerciseDescriptionImage =
+          imageRepository.getExerciseDescriptionImage(exerciseDescriptionImage);
     } catch (PersistenceNonExistentImageException e) {
       throw new BusinessNonExistentImageException("", e);
     }
