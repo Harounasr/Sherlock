@@ -6,6 +6,7 @@ import de.ssherlock.control.notification.Notification;
 import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
+import de.ssherlock.global.transport.Course;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
@@ -38,7 +39,7 @@ public class CourseBean implements Serializable {
   private final CourseService courseService;
 
   /** The name of the current course. */
-  private String courseName;
+  private Course course;
 
   /** The target page of the content. */
   private String targetPage;
@@ -65,7 +66,8 @@ public class CourseBean implements Serializable {
   public void initialize() {
     FacesContext facesContext = FacesContext.getCurrentInstance();
     Map<String, String> requestParams = facesContext.getExternalContext().getRequestParameterMap();
-    courseName = requestParams.get("Id");
+    course = new Course();
+    course.setName(requestParams.get("Id"));
   }
 
   /** Deletes the current course from the database.
@@ -74,7 +76,7 @@ public class CourseBean implements Serializable {
    * */
   public String deleteCourse() {
     try {
-      courseService.removeCourse(courseName);
+      courseService.removeCourse(course);
       logger.log(Level.INFO, "Course was deleted.");
       return "/view/registered/coursePagination.xhtml";
     } catch (BusinessNonExistentCourseException e) {
