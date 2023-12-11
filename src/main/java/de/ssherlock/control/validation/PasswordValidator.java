@@ -2,6 +2,7 @@ package de.ssherlock.control.validation;
 
 import de.ssherlock.global.logging.SerializableLogger;
 import jakarta.enterprise.context.Dependent;
+import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.validator.FacesValidator;
@@ -23,6 +24,9 @@ public class PasswordValidator implements Validator<String> {
   /** The logger instance for this class. */
   private final SerializableLogger logger;
 
+  /** The minimum length for a password. */
+  private static final int MINPASSWORDLENGTH = 8;
+
   /**
    * Constructs a new PasswordValidator.
    *
@@ -43,5 +47,21 @@ public class PasswordValidator implements Validator<String> {
    */
   @Override
   public void validate(FacesContext facesContext, UIComponent uiComponent, String password)
-      throws ValidatorException {}
+      throws ValidatorException {
+    if (password == null || password.length() < MINPASSWORDLENGTH) {
+      FacesMessage facesMessage =
+          new FacesMessage(
+              FacesMessage.SEVERITY_ERROR, "Password has to be at least 8 long.", null);
+      throw new ValidatorException(facesMessage);
+    }
+    // Check complexity (at least one uppercase, one lowercase, one digit, one special character)
+    if (!password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]+$")) {
+      FacesMessage message =
+          new FacesMessage(
+              FacesMessage.SEVERITY_ERROR,
+              "Password must include at least one uppercase letter, one lowercase letter, one digit, and one special character.",
+              null);
+      throw new ValidatorException(message);
+    }
+  }
 }

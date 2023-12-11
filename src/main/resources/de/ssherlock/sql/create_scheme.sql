@@ -7,7 +7,7 @@ END IF;
 
         -- Check if system_role enum type exists
         IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'system_role') THEN
-            EXECUTE 'CREATE TYPE system_role AS ENUM (''REGISTERED'', ''TEACHER'', ''ADMINISTRATOR'')';
+            EXECUTE 'CREATE TYPE system_role AS ENUM (''NOT_REGISTERED'', ''REGISTERED'', ''TEACHER'', ''ADMINISTRATOR'')';
 END IF;
 
         -- Check if grade enum type exists

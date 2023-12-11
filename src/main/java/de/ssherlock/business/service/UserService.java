@@ -3,10 +3,13 @@ package de.ssherlock.business.service;
 import de.ssherlock.business.exception.BusinessNonExistentUserException;
 import de.ssherlock.business.exception.LoginFailedException;
 import de.ssherlock.business.util.PasswordHashing;
+import de.ssherlock.control.notification.Notification;
+import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.CourseRole;
 import de.ssherlock.global.transport.LoginInfo;
+import de.ssherlock.global.transport.SystemRole;
 import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.connection.ConnectionPool;
 import de.ssherlock.persistence.exception.PersistenceNonExistentUserException;
@@ -14,6 +17,7 @@ import de.ssherlock.persistence.repository.RepositoryFactory;
 import de.ssherlock.persistence.repository.RepositoryType;
 import de.ssherlock.persistence.repository.UserRepository;
 import de.ssherlock.persistence.util.Mail;
+import de.ssherlock.persistence.util.MailContentBuilder;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -101,6 +105,9 @@ public class UserService implements Serializable {
         throw new LoginFailedException();
     }
        */
+    if (user.getSystemRole() == SystemRole.NOT_VERIFIED) {
+      throw new LoginFailedException();
+    }
     if (Objects.equals(
         user.getPassword().getHash(),
         PasswordHashing.getHashedPassword(
@@ -109,7 +116,6 @@ public class UserService implements Serializable {
       try {
         userRepository.updateUser(user);
       } catch (PersistenceNonExistentUserException e) {
-        logger.log(Level.INFO, "Throwd");
         throw new BusinessNonExistentUserException();
       }
       return user;
@@ -130,7 +136,22 @@ public class UserService implements Serializable {
    *
    * @param user The user to be registered.
    */
-  public void registerUser(User user) {}
+  public void registerUser(User user) {
+    user.setSystemRole(SystemRole.NOT_VERIFIED);
+    String verificationToken = generateEmailVerificationToken();
+    user.setVerificationToken(verificationToken);
+    if (mail.sendVerificationMail(
+        user, MailContentBuilder.buildVerificationMail(user, verificationToken))) {
+      UserRepository userRepository =
+          RepositoryFactory.getUserRepository(
+              RepositoryType.POSTGRESQL, connectionPool.getConnection());
+      userRepository.insertUser(user);
+    } else {
+      Notification notification =
+          new Notification("Email could not be send. Please try again.", NotificationType.ERROR);
+      notification.generateUIMessage();
+    }
+  }
 
   /**
    * Sends a password reset email to the user.
@@ -138,20 +159,7 @@ public class UserService implements Serializable {
    * @param username The username for whom to send the password reset email.
    * @throws BusinessNonExistentUserException when the user is not registered in the system.
    */
-  public void sendPasswordForgottenEmail(String username) throws BusinessNonExistentUserException {
-    /*
-      Connection connection = connectionPool.getConnection();
-    UserRepository userRepository =
-        RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
-    User user;
-    try {
-      user = userRepository.getUser(username);
-    } catch (PersistenceNonExistentUserException e) {
-      throw new BusinessNonExistentUserException();
-    }
-    mail.sendMail(user, MailContentBuilder.buildPasswordResetMail(user), MailType.PASSWORD);
-    */
-  }
+  public void sendPasswordForgottenEmail(String username) throws BusinessNonExistentUserException {}
 
   /**
    * Deletes a user account.
@@ -224,5 +232,33 @@ public class UserService implements Serializable {
     }
 
     return token;
+  }
+
+  /**
+   * Checks if a username already exists in the database.
+   *
+   * @param userName the Username.
+   *
+   * @return true, in case the username exists, false otherwise.
+   */
+  public boolean userNameExists(String userName) {
+    Connection connection = connectionPool.getConnection();
+    UserRepository userRepository =
+        RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
+    return userRepository.userNameExists(userName);
+  }
+
+  /**
+   * Checks if an email already exists in the database.
+   *
+   * @param email The email.
+   *
+   * @return true, in case the email exists, false otherwise.
+   */
+  public boolean emailExists(String email) {
+    Connection connection = connectionPool.getConnection();
+    UserRepository userRepository =
+        RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
+    return userRepository.emailExists(email);
   }
 }

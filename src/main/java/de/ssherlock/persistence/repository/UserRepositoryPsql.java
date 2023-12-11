@@ -11,9 +11,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 /**
  * Implementation of UserRepository for PostgreSQL database.
@@ -35,8 +38,32 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
   }
 
   /** {@inheritDoc} */
+  @SuppressWarnings("checkstyle:MagicNumber")
   @Override
-  public void insertUser(User user) {}
+  public void insertUser(User user) {
+    String sqlQuery =
+        """
+              INSERT INTO "user" (username, email, firstname, lastname, faculty, password_hash, password_salt, user_role, token, expiry_date)
+              VALUES (?, ?, ?, ?, ?, ?, ?, 'NOT_REGISTERED', ?, ?);
+              """;
+
+    try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
+      statement.setString(1, user.getUsername());
+      statement.setString(2, user.getEmail());
+      statement.setString(3, user.getFirstName());
+      statement.setString(4, user.getLastName());
+      statement.setString(5, user.getFacultyName());
+      statement.setString(6, user.getPassword().getHash());
+      statement.setString(7, user.getPassword().getSalt());
+      statement.setString(8, user.getVerificationToken());
+      Instant now = Instant.now();
+      Timestamp timestamp = Timestamp.from(now);
+      statement.setTimestamp(9, timestamp);
+      statement.executeUpdate();
+    } catch (SQLException e) {
+      logger.log(Level.INFO, "Could not insert user." + e);
+    }
+  }
 
   /** {@inheritDoc} */
   @Override
@@ -121,5 +148,45 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
   @Override
   public List<User> getUsers() {
     return null;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public boolean userNameExists(String userName) {
+    String sqlQuery = "SELECT COUNT(*) FROM \"user\" WHERE username = ?;";
+
+    try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
+      statement.setString(1, userName);
+      try (ResultSet resultSet = statement.executeQuery()) {
+        if (resultSet.next()) {
+          int count = resultSet.getInt(1);
+          return count > 0;
+        }
+      }
+    } catch (SQLException e) {
+      logger.log(Level.INFO, "Error while executing sql query.");
+      throw new RuntimeException(e);
+    }
+    return false;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public boolean emailExists(String email) {
+    String sqlQuery = "SELECT COUNT(*) FROM \"user\" WHERE email = ?;";
+
+    try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
+      statement.setString(1, email);
+      try (ResultSet resultSet = statement.executeQuery()) {
+        if (resultSet.next()) {
+          int count = resultSet.getInt(1);
+          return count > 0;
+        }
+      }
+    } catch (SQLException e) {
+      logger.log(Level.INFO, "Error while executing sql query.");
+      throw new RuntimeException(e);
+    }
+    return false;
   }
 }
