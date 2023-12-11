@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -83,7 +84,7 @@ class AppSessionIT {
         User user = new User();
         user.setUsername("test");
         user.setSystemRole(SystemRole.ADMINISTRATOR);
-        when(userService.getUser(user)).thenReturn(user);
+        when(userService.getUser(any(User.class))).thenReturn(user);
         appSession.setUser(user);
         assertTrue(appSession.isAdmin());
     }
@@ -97,7 +98,7 @@ class AppSessionIT {
     void testGetUser() throws BusinessNonExistentUserException {
         User user = new User();
         user.setUsername("test");
-        when(userService.getUser(user)).thenReturn(user);
+        when(userService.getUser(any(User.class))).thenReturn(user);
         appSession.setUser(user);
         assertEquals(user, appSession.getUser());
     }
