@@ -10,6 +10,7 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.logging.Level;
 
 /**
  * Backing bean for the profile.xhtml facelet.
@@ -35,6 +36,20 @@ public class ProfileBean implements Serializable {
   /** The user of the profile. */
   private User user;
 
+  private User changedUser;
+
+  /** username of the profile. */
+  private String username;
+
+  /** first name of the user. */
+  private String firstname;
+
+  /** last name of the user. */
+  private String lastname;
+
+  /** Faculty name of the user. */
+  private String facultyName;
+
   /** The first new password for change. */
   private String newPasswordOne;
 
@@ -57,7 +72,14 @@ public class ProfileBean implements Serializable {
 
   /** Initializes the bean after construction. */
   @PostConstruct
-  public void initialize() {}
+  public void initialize() {
+    logger.log(Level.INFO, appSession.getUser().getUsername());
+    username = appSession.getUser().getUsername();
+    firstname = appSession.getUser().getFirstName();
+    lastname = appSession.getUser().getLastName();
+    facultyName = appSession.getUser().getFacultyName();
+    changedUser = new User();
+  }
 
   /** Submits the password change request. */
   public void submitPasswordChange() {}
@@ -123,5 +145,25 @@ public class ProfileBean implements Serializable {
    */
   public void setNewPasswordTwo(String newPasswordTwo) {
     this.newPasswordTwo = newPasswordTwo;
+  }
+
+  public AppSession getAppSession() {
+    return appSession;
+  }
+
+  public String getUsername() {
+    return username;
+  }
+
+  public String getFirstname() {
+    return firstname;
+  }
+
+  public String getLastname() {
+    return lastname;
+  }
+
+  public String getFacultyName() {
+    return facultyName;
   }
 }
