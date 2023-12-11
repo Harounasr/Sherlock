@@ -63,7 +63,7 @@ public class RegistrationBean {
 
   /** Tries to register a new user using the provided information. */
   public void register() {
-    Password password = PasswordHashing.getHashedPassword(unhashedPassword);
+    Password password = PasswordHashing.hashPassword(unhashedPassword);
     user.setPassword(password);
     userService.registerUser(user);
   }
