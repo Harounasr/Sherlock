@@ -52,7 +52,9 @@ public class SystemService implements Serializable {
     Connection connection = connectionPool.getConnection();
     SystemSettingsRepository repository =
         RepositoryFactory.getSystemSettingsRepository(RepositoryType.POSTGRESQL, connection);
-    return repository.getSystemSettings();
+        SystemSettings systemSettings = repository.getSystemSettings();
+        connectionPool.releaseConnection(connection);
+    return systemSettings;
   }
 
   /**
@@ -65,5 +67,6 @@ public class SystemService implements Serializable {
     SystemSettingsRepository repository =
         RepositoryFactory.getSystemSettingsRepository(RepositoryType.POSTGRESQL, connection);
     repository.updateSystemSettings(systemSettings);
+    connectionPool.releaseConnection(connection);
   }
 }
