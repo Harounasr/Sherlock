@@ -1,6 +1,8 @@
 package de.ssherlock.control.backing;
 
+import de.ssherlock.business.service.UserService;
 import de.ssherlock.global.logging.SerializableLogger;
+import de.ssherlock.global.transport.User;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.context.FacesContext;
@@ -22,16 +24,21 @@ public class VerificationBean {
   private final SerializableLogger logger;
 
   /** The text which is displayed on the verification page. */
-  private static final String VERIFICATION_TEXT = "Thank you for registration.";
+  private static final String verificationText = "Thank you for registration.";
+
+  /** The Service for user-related operations. */
+  private final UserService userService;
 
   /**
    * Constructor for VerificationBean.
    *
    * @param logger The logger for this class.
+   * @param userService The UserService for user-related operations (Injected).
    */
   @Inject
-  public VerificationBean(SerializableLogger logger) {
+  public VerificationBean(SerializableLogger logger, UserService userService) {
     this.logger = logger;
+    this.userService = userService;
   }
 
   /** Handles actions after a verified registration. */
@@ -39,7 +46,10 @@ public class VerificationBean {
   public void handleVerifiedRegistration() {
     Map<String, String> parameter =
         FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-    logger.log(Level.INFO, "parameter = " + parameter.get("id"));
+    logger.log(Level.INFO, "parameter = " + parameter.get("token"));
+    User user = new User();
+    user.setVerificationToken(parameter.get("token"));
+    userService.verifyUser(user);
   }
 
   /**
@@ -50,5 +60,14 @@ public class VerificationBean {
   public String navigateToLogin() {
     logger.log(Level.INFO, "Back to login");
     return "/view/public/login.xhtml?faces-redirect=true";
+  }
+
+  /**
+   * Gets the verification text.
+   *
+   * @return The verification text.
+   */
+  public String getVerificationText() {
+    return verificationText;
   }
 }

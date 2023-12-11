@@ -51,10 +51,16 @@ public interface UserRepository {
   List<User> getUsers();
 
   /**
+   * Updates a users SystemRole after verification.
+   *
+   * @param user The user to verify.
+   */
+  void verifyUser(User user);
+
+  /**
    * Checks if a username already exists in the database.
    *
    * @param user The user for whom to check.
-   *
    * @return true, in case the username exists, false otherwise.
    */
   boolean userNameExists(User user);
@@ -63,7 +69,6 @@ public interface UserRepository {
    * Checks if an email already exists in the database.
    *
    * @param user The user for whom to check.
-   *
    * @return true, in case the email exists, false otherwise.
    */
   boolean emailExists(User user);
