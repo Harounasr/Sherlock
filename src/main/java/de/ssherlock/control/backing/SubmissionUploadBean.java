@@ -2,13 +2,13 @@ package de.ssherlock.control.backing;
 
 import de.ssherlock.business.service.CheckerService;
 import de.ssherlock.business.service.SubmissionService;
-import de.ssherlock.control.exception.CheckerExecutionException;
 import de.ssherlock.control.exception.ZIPNotReadableException;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.control.util.CheckerUtils;
 import de.ssherlock.control.util.ZipUtils;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Checker;
+import de.ssherlock.global.transport.CheckerResult;
 import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.Submission;
 import de.ssherlock.global.transport.SubmissionFile;
@@ -17,8 +17,10 @@ import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.Part;
+
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -62,6 +64,11 @@ public class SubmissionUploadBean implements Serializable {
   /** Whether the user can save the submission to the database. */
   private boolean canSubmit;
 
+    /**
+     * The checker results.
+     */
+  private final List<CheckerResult> checkerResults;
+
   /**
    * Constructor for SubmissionUploadBean.
    *
@@ -81,6 +88,7 @@ public class SubmissionUploadBean implements Serializable {
     this.submissionService = submissionService;
     this.checkerService = checkerService;
     this.newSubmission = new Submission();
+    checkerResults = new ArrayList<>();
   }
 
   /** Initializes the bean after construction. */
@@ -91,22 +99,18 @@ public class SubmissionUploadBean implements Serializable {
     canSubmit = false;
   }
 
+
   /** Uploads the submission archive and runs the checkers. */
   public void upload() {
     try {
       submissionFiles = ZipUtils.unzipSubmissionArchive(archiveFile);
-
       logger.log(Level.INFO, "Unzipped files:");
       for (SubmissionFile file : submissionFiles) {
         logger.log(Level.INFO, file.getName());
       }
-
-      newSubmission.setCheckerResults(
-          CheckerUtils.runCheckers(checkers, submissionFiles, appSession.getUser()));
+      CheckerUtils.runCheckers(checkers, submissionFiles, appSession.getUser(), this::updateResults);
     } catch (ZIPNotReadableException e) {
       logger.log(Level.SEVERE, "Error while unzipping file: " + e.getMessage());
-    } catch (CheckerExecutionException e) {
-      logger.log(Level.SEVERE, "Error while executing checkers.\n" + e.getMessage());
     }
   }
 
@@ -165,5 +169,16 @@ public class SubmissionUploadBean implements Serializable {
    */
   public void setCanSubmit(boolean canSubmit) {
     this.canSubmit = canSubmit;
+  }
+
+    /**
+     * Updates the checker results.
+     *
+     * @param result The result to add.
+     */
+  private void updateResults(CheckerResult result) {
+      synchronized (checkerResults) {
+          checkerResults.add(result);
+      }
   }
 }
