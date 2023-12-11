@@ -41,18 +41,16 @@ public class LoginBean {
    * @param userService The UserService for user-related operations (Injected).
    * @param logger The logger for this class (Injected).
    * @param appSession The active session.
-   * @param loginInfo The login information entered by the user (Injected empty).
    */
   @Inject
   public LoginBean(
       UserService userService,
       SerializableLogger logger,
-      AppSession appSession,
-      LoginInfo loginInfo) {
+      AppSession appSession) {
     this.userService = userService;
     this.logger = logger;
     this.appSession = appSession;
-    this.loginInfo = loginInfo;
+    this.loginInfo = new LoginInfo();
   }
 
   /**

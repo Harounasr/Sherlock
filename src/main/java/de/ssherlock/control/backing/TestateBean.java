@@ -54,7 +54,6 @@ public class TestateBean implements Serializable {
    * @param submissionService The service handling submission-related operations.
    * @param checkerService The service handling checker-related operations.
    * @param testateService The service handling testate-related operations.
-   * @param newTestate The testate the user creates (Injected empty).
    */
   @Inject
   public TestateBean(
@@ -62,14 +61,13 @@ public class TestateBean implements Serializable {
       AppSession appSession,
       SubmissionService submissionService,
       CheckerService checkerService,
-      TestateService testateService,
-      Testate newTestate) {
+      TestateService testateService) {
     this.logger = logger;
     this.appSession = appSession;
     this.submissionService = submissionService;
     this.checkerService = checkerService;
     this.testateService = testateService;
-    this.newTestate = newTestate;
+    this.newTestate = new Testate();
   }
 
   /** Initializes the bean after construction. */

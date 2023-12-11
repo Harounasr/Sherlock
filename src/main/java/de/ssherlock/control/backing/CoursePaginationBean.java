@@ -45,14 +45,10 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
   /** List of courses to be displayed. */
   private List<Course> courses;
 
-    /**
-     * current Index.
-     */
+  /** current Index. */
   private int currentIndex;
 
-    /**
-     * page Size of the pagination.
-     */
+  /** page Size of the pagination. */
   private int pageSize;
 
   /**
@@ -61,18 +57,16 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
    * @param logger The logger used for logging within this class (Injected).
    * @param appSession The active session (Injected).
    * @param courseService The CourseService (Injected).
-   * @param newCourse Empty injected DTO.
    */
   @Inject
   public CoursePaginationBean(
       SerializableLogger logger,
       AppSession appSession,
-      CourseService courseService,
-      Course newCourse) {
+      CourseService courseService) {
     this.logger = logger;
     this.appSession = appSession;
     this.courseService = courseService;
-    this.newCourse = newCourse;
+    this.newCourse = new Course();
   }
 
   /**
@@ -171,20 +165,21 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
     return appSession;
   }
 
-    /**
-     * Getter for the current index.
-     * @return the current index
-     */
-    public int getCurrentIndex() {
-        return currentIndex;
-    }
+  /**
+   * Getter for the current index.
+   *
+   * @return the current index
+   */
+  public int getCurrentIndex() {
+    return currentIndex;
+  }
 
-    /**
-     * Setter for the current index.
-     * @param currentIndex the current index
-     */
-    public void setCurrentIndex(int currentIndex) {
-        this.currentIndex = currentIndex;
-    }
-
+  /**
+   * Setter for the current index.
+   *
+   * @param currentIndex the current index
+   */
+  public void setCurrentIndex(int currentIndex) {
+    this.currentIndex = currentIndex;
+  }
 }
