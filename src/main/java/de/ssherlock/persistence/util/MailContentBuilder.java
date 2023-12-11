@@ -43,7 +43,7 @@ public final class MailContentBuilder {
         + ".\nThis email was sent to you because you requested a password reset."
         + "\nPlease follow this link in order to change your password: \n"
         + URL
-        + "passwordForgotten.xhtml?token="
+        + "passwordReset.xhtml?token="
         + user.getVerificationToken()
         + "\n If that was not you, please just ignore this email.";
   }
