@@ -1,9 +1,6 @@
 package de.ssherlock.control.backing;
 
-import de.ssherlock.business.exception.BusinessNonExistentUserException;
 import de.ssherlock.business.service.UserService;
-import de.ssherlock.control.notification.Notification;
-import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.User;
 import jakarta.enterprise.context.RequestScoped;
