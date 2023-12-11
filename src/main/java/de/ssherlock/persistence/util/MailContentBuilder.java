@@ -19,34 +19,32 @@ public final class MailContentBuilder {
    * Builds the content for a verification email.
    *
    * @param user The user for whom the verification email is generated.
-   * @param token The verification token.
    * @return The content of the verification email.
    */
-  public static String buildVerificationMail(User user, String token) {
+  public static String buildVerificationMail(User user) {
     return "Hi "
         + user.getUsername()
         + ".\nThank you for registration.\n"
         + "Please follow the link below in order to verify your account.\n"
         + URL
         + "verification.xhtml?token="
-        + token;
+        + user.getVerificationToken();
   }
 
   /**
    * Builds the content for a password reset email.
    *
    * @param user The user for whom the password reset email is generated.
-   * @param token The verification token.
    * @return The content of the password reset email.
    */
-  public static String buildPasswordResetMail(User user, String token) {
+  public static String buildPasswordResetMail(User user) {
     return "Hi "
         + user.getUsername()
         + ".\nThis email was sent to you because you requested a password reset."
         + "\nPlease follow this link in order to change your password: \n"
         + URL
         + "passwordForgotten.xhtml?token="
-        + token
+        + user.getVerificationToken()
         + "\n If that was not you, please just ignore this email.";
   }
 

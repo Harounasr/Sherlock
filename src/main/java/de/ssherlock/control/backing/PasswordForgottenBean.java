@@ -58,7 +58,7 @@ public class PasswordForgottenBean {
    * @return The destination view for the login page.
    */
   public String navigateToLogin() {
-    return "";
+    return "/view/public/login.xhtml";
   }
 
   /**

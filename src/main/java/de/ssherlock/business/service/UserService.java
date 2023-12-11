@@ -141,8 +141,7 @@ public class UserService implements Serializable {
     user.setSystemRole(SystemRole.NOT_VERIFIED);
     String verificationToken = generateEmailVerificationToken();
     user.setVerificationToken(verificationToken);
-    if (mail.sendVerificationMail(
-        user, MailContentBuilder.buildVerificationMail(user, verificationToken))) {
+    if (mail.sendVerificationMail(user, MailContentBuilder.buildVerificationMail(user))) {
       UserRepository userRepository =
           RepositoryFactory.getUserRepository(
               RepositoryType.POSTGRESQL, connectionPool.getConnection());
@@ -160,7 +159,21 @@ public class UserService implements Serializable {
    * @param user The user for whom to send the password reset email.
    * @throws BusinessNonExistentUserException when the user is not registered in the system.
    */
-  public void sendPasswordForgottenEmail(User user) throws BusinessNonExistentUserException {}
+  public void sendPasswordForgottenEmail(User user) throws BusinessNonExistentUserException {
+    Connection connection = connectionPool.getConnection();
+    UserRepository userRepository =
+        RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
+    try {
+      user = userRepository.getUser(user);
+      user.setVerificationToken(generateEmailVerificationToken());
+      userRepository.updateUser(user);
+      mail.sendPasswordResetMail(user, MailContentBuilder.buildPasswordResetMail(user));
+    } catch (PersistenceNonExistentUserException e) {
+      logger.log(Level.INFO, "No user found.");
+      throw new BusinessNonExistentUserException();
+    }
+    connectionPool.releaseConnection(connection);
+  }
 
   /**
    * Deletes a user account.
