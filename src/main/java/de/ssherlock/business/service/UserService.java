@@ -143,10 +143,12 @@ public class UserService implements Serializable {
     user.setVerificationToken(verificationToken);
     if (mail.sendVerificationMail(
         user, MailContentBuilder.buildVerificationMail(user, verificationToken))) {
+        Connection connection = connectionPool.getConnection();
       UserRepository userRepository =
           RepositoryFactory.getUserRepository(
-              RepositoryType.POSTGRESQL, connectionPool.getConnection());
+              RepositoryType.POSTGRESQL, connection);
       userRepository.insertUser(user);
+      connectionPool.releaseConnection(connection);
     } else {
       Notification notification =
           new Notification("Email could not be send. Please try again.", NotificationType.ERROR);
@@ -199,8 +201,11 @@ public class UserService implements Serializable {
     UserRepository userRepository =
         RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
     try {
-      return userRepository.getUser(user);
+        User returnedUser = userRepository.getUser(user);
+        connectionPool.releaseConnection(connection);
+      return returnedUser;
     } catch (PersistenceNonExistentUserException e) {
+        connectionPool.releaseConnection(connection);
       throw new BusinessNonExistentUserException();
     }
   }
@@ -245,7 +250,9 @@ public class UserService implements Serializable {
     Connection connection = connectionPool.getConnection();
     UserRepository userRepository =
         RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
-    return userRepository.userNameExists(user);
+    boolean userExists = userRepository.userNameExists(user);
+    connectionPool.releaseConnection(connection);
+    return userExists;
   }
 
   /**
@@ -258,7 +265,9 @@ public class UserService implements Serializable {
     Connection connection = connectionPool.getConnection();
     UserRepository userRepository =
         RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
-    return userRepository.emailExists(user);
+    boolean emailExists = userRepository.emailExists(user);
+    connectionPool.releaseConnection(connection);
+    return emailExists;
   }
 
   /**
@@ -271,5 +280,6 @@ public class UserService implements Serializable {
     UserRepository userRepository =
         RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
     userRepository.verifyUser(user);
+    connectionPool.releaseConnection(connection);
   }
 }
