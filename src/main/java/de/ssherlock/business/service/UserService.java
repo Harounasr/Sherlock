@@ -110,8 +110,8 @@ public class UserService implements Serializable {
       throw new LoginFailedException();
     }
     if (Objects.equals(
-        user.getPassword().getHash(),
-        PasswordHashing.getHashedPassword(
+        user.getPassword(),
+        PasswordHashing.hashPassword(
             loginInfo.getUnhashedPassword(), user.getPassword().getSalt()))) {
       user.setFailedLoginAttempts(0);
       try {

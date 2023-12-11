@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import de.ssherlock.global.transport.Password;
 import org.junit.jupiter.api.Test;
+
 /**
  * Test class for {@link PasswordHashing}.
  *
@@ -12,13 +13,11 @@ import org.junit.jupiter.api.Test;
  */
 public class PasswordHashingIT {
 
-    /**
-     * Tests the hashing of a password without a salt.
-     */
+  /** Tests the hashing of a password without a salt. */
   @Test
   void testGetHashedPasswordWithRandomSalt() {
     String password = "testPassword";
-    Password hashedPassword = PasswordHashing.getHashedPassword(password);
+    Password hashedPassword = PasswordHashing.hashPassword(password);
 
     assertNotNull(hashedPassword);
     assertNotNull(hashedPassword.getHash());
@@ -26,15 +25,13 @@ public class PasswordHashingIT {
     assertNotEquals(password, hashedPassword.getHash());
   }
 
-    /**
-     * Tests the hashing of a password with a given salt.
-     */
+  /** Tests the hashing of a password with a given salt. */
   @Test
   void testGetHashedPasswordWithGivenSalt() {
     String password = "testPassword";
     String salt = "randomSalt";
 
-    String hashedPassword = PasswordHashing.getHashedPassword(password, salt);
+    String hashedPassword = PasswordHashing.hashPassword(password, salt).getHash();
 
     assertNotNull(hashedPassword);
     assertNotEquals(password, hashedPassword);

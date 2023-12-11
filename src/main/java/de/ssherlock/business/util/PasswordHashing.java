@@ -6,7 +6,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
-import java.util.Optional;
 
 /**
  * Utility class for password hashing using a secure hash algorithm and salt.
@@ -28,43 +27,52 @@ public final class PasswordHashing {
   private PasswordHashing() {}
 
   /**
-   * Generates a hashed password with a random salt.
+   * Hashes the provided password.
    *
    * @param password The password to be hashed.
-   * @return A Password object containing the hashed password and the salt used.
+   * @return The hashed password.
    */
-  public static Password getHashedPassword(String password) {
-    return hashPassword(password, Optional.empty());
-  }
+  public static Password hashPassword(String password) {
+    try {
+      byte[] salt = generateSalt();
+      // Combine the password and salt
+      byte[] saltedPassword =
+          combinePasswordAndSalt(password.getBytes(StandardCharsets.UTF_8), salt);
 
-  /**
-   * Generates a hashed password with a given salt.
-   *
-   * @param password The password to be hashed.
-   * @param salt The salt to hash with.
-   * @return A String object containing the hashed password.
-   */
-  public static String getHashedPassword(String password, String salt) {
-    return hashPassword(password, Optional.of(salt)).getHash();
+      // Create a MessageDigest object for SHA-512
+      MessageDigest md = MessageDigest.getInstance(ALGORITHM);
+
+      // Update the digest with the salted password
+      md.update(saltedPassword);
+
+      // Get the hash bytes
+      byte[] hashedBytes = md.digest();
+
+      // Convert the salt and hash to a base64-encoded string
+      String saltBase64 = Base64.getEncoder().encodeToString(salt);
+      String hashedPasswordBase64 = Base64.getEncoder().encodeToString(hashedBytes);
+
+      // Combine the salt and hash for storage
+      Password p = new Password();
+      p.setHash(hashedPasswordBase64);
+      p.setSalt(saltBase64);
+      return p;
+    } catch (NoSuchAlgorithmException e) {
+      return null;
+    }
   }
 
   /**
    * Hashes the provided password using the specified salt.
    *
    * @param password The password to be hashed.
-   * @param passwordSalt Optional salt value. If provided, the password will be hashed with this
-   *     salt. Otherwise, a random salt will be generated.
+   * @param passwordSalt The password will be hashed with this salt.
    * @return The hashed password.
    */
-  private static Password hashPassword(String password, Optional<String> passwordSalt) {
+  public static Password hashPassword(String password, String passwordSalt) {
     try {
-      byte[] salt;
-      // Generate a random salt
-      if (passwordSalt.isPresent()) {
-        salt = Base64.getDecoder().decode(passwordSalt.get());
-      } else {
-        salt = generateSalt();
-      }
+      byte[] salt = Base64.getDecoder().decode(passwordSalt);
+
       // Combine the password and salt
       byte[] saltedPassword =
           combinePasswordAndSalt(password.getBytes(StandardCharsets.UTF_8), salt);
