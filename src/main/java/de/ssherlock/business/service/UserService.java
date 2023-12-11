@@ -239,7 +239,6 @@ public class UserService implements Serializable {
    * Checks if a username already exists in the database.
    *
    * @param user The user for whom to check.
-   *
    * @return true, in case the username exists, false otherwise.
    */
   public boolean userNameExists(User user) {
@@ -253,7 +252,6 @@ public class UserService implements Serializable {
    * Checks if an email already exists in the database.
    *
    * @param user The user for whom to check.
-   *
    * @return true, in case the email exists, false otherwise.
    */
   public boolean emailExists(User user) {
@@ -261,5 +259,17 @@ public class UserService implements Serializable {
     UserRepository userRepository =
         RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
     return userRepository.emailExists(user);
+  }
+
+  /**
+   * Verifies a user.
+   *
+   * @param user The user to verify.
+   */
+  public void verifyUser(User user) {
+    Connection connection = connectionPool.getConnection();
+    UserRepository userRepository =
+        RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
+    userRepository.verifyUser(user);
   }
 }
