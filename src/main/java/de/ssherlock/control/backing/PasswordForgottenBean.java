@@ -13,7 +13,7 @@ import jakarta.inject.Named;
 /**
  * Backing bean for the passwordForgotten.xhtml facelet.
  *
- * @author Victor Vollmann
+ * @author Leon Höfling
  */
 @Named
 @RequestScoped
