@@ -54,7 +54,7 @@ public class CheckerListBean implements Serializable {
     this.logger = logger;
     this.checkerService = checkerService;
     this.appSession = appSession;
-    this.checker = checker = new Checker();
+    this.checker = new Checker();
   }
 
   /**
