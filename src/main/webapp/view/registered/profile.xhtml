@@ -1,7 +1,7 @@
 <ui:composition xmlns:h="jakarta.faces.html"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns="http://www.w3.org/1999/xhtml"
-                template="../../resources/templates/template.xhtml">
+                template="../../resources/templates/main.xhtml">
 
     <ui:define name="title">My Profile</ui:define>
 
@@ -10,26 +10,26 @@
         <div id="profilebody">
             <div class="profilecontainer">
                 <div id="profileContent">
-                    <h2>Welcome, #{profileBean.appSession.username}!</h2>
+                    <h2>Welcome, #{profileBean.username}!</h2>
 
                     <div class="form-group">
                         <label for="username">Username:</label>
-                        <h:outputLabel id="username" class="profileoutput" type="text" value="#{profileBean.appSession.getUser.username}"/>
+                        <h:inputText id="username" class="profileoutput" placeholder="#{profileBean.username}"/>
                     </div>
 
                     <div class="form-group">
                         <label for="firstName">First Name:</label>
-                        <h:outputLabel class="profileoutput" id="firstName" type="text" value="#{profileBean.appSession.getUser.firstName}"/>
+                        <h:outputLabel class="profileoutput" id="firstName" type="text" value="#{profileBean.firstname}"/>
                     </div>
 
                     <div class="form-group">
                         <label for="lastName">Last Name:</label>
-                        <h:outputLabel class="profileoutput" id="lastName" type="text" value="#{profileBean.appSession.getUser.lastName}"/>
+                        <h:outputLabel class="profileoutput" id="lastName" type="text" value="#{profileBean.lastname}"/>
                     </div>
 
                     <div class="form-group">
                         <label for="faculty">Faculty:</label>
-                        <h:outputLabel class="profileoutput" id="faculty" type="text" value="#{profileBean.appSession.getUser.facultyName}"/>
+                        <h:outputLabel class="profileoutput" id="faculty" type="text" value="#{profileBean.facultyName}"/>
                     </div>
 
                     <h5>Change Password</h5>
