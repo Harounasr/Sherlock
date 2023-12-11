@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
@@ -57,7 +58,8 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
       statement.setString(7, user.getPassword().getSalt());
       statement.setString(8, user.getVerificationToken());
       Instant now = Instant.now();
-      Timestamp timestamp = Timestamp.from(now);
+      Instant oneWeekLater = now.plus(Duration.ofDays(7));
+      Timestamp timestamp = Timestamp.from(oneWeekLater);
       statement.setTimestamp(9, timestamp);
       statement.executeUpdate();
     } catch (SQLException e) {
@@ -66,17 +68,26 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
   }
 
   /** {@inheritDoc} */
+  @SuppressWarnings("checkstyle:MagicNumber")
   @Override
   public void updateUser(User user) throws PersistenceNonExistentUserException {
     String sqlQuery =
         """
                       UPDATE "user"
-                      SET failed_login_attempts = ?
-                      WHERE username = ?
+                      SET failed_login_attempts = COALESCE(?, failed_login_attempts),
+                      SET user_role = COALESCE(?, user_role),
+                      SET faculty = COALESCE(?, faculty),
+                      SET password_hash = COALESCE(?, password_hash),
+                      SET password_salt = coalesce(?, password_salt)
+                      WHERE username = ?;
                     """;
     try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
       statement.setInt(1, user.getFailedLoginAttempts());
-      statement.setString(2, user.getUsername());
+      statement.setString(2, user.getSystemRole().toString());
+      statement.setString(3, user.getFacultyName());
+      statement.setString(4, user.getPassword().getHash());
+      statement.setString(5, user.getPassword().getSalt());
+      statement.setString(6, user.getUsername());
 
       int rowsAffected = statement.executeUpdate();
 
@@ -138,7 +149,10 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
       }
     } catch (SQLException e) {
       throw new PersistenceNonExistentUserException(
-          "The user with the username " + user.getUsername() + " could not be found in the database.", e);
+          "The user with the username "
+              + user.getUsername()
+              + " could not be found in the database.",
+          e);
     }
   }
 
@@ -186,5 +200,24 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
       throw new RuntimeException(e);
     }
     return false;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public void verifyUser(User user) {
+    String sqlQuery =
+        """
+                        UPDATE "user"
+                              SET user_role = 'REGISTERED'
+                              WHERE token = ?
+                              AND expiry_date > NOW();
+                        """;
+    try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
+      statement.setString(1, user.getVerificationToken());
+      statement.executeUpdate();
+    } catch (SQLException e) {
+      logger.log(Level.INFO, "Error while executing sql query.");
+      throw new RuntimeException(e);
+    }
   }
 }
