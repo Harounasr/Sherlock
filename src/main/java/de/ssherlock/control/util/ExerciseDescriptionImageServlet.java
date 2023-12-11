@@ -33,6 +33,9 @@ public class ExerciseDescriptionImageServlet extends HttpServlet {
 
     /**
      * Default constructor.
+     *
+     * @param logger The logger of this class.
+     * @param exerciseDescriptionImageService The service for exercise description images.
      */
     @Inject
     public ExerciseDescriptionImageServlet(
@@ -57,30 +60,18 @@ public class ExerciseDescriptionImageServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        try {
-            handleImageRequest(request, response);
-        } catch (Exception e) {
-            handleException(response, e);
-        }
-    }
-
-    /**
-     * Handles the client request for retrieving an image based on the provided ID.
-     *
-     * @param request  The HttpServletRequest object representing the client's request.
-     * @param response The HttpServletResponse object for sending the response back to the client.
-     * @throws IOException                       If an I/O error occurs while processing the request or response.
-     * @throws BusinessNonExistentImageException If the requested image does not exist in the system.
-     */
-    private void handleImageRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, BusinessNonExistentImageException {
         String imageId = request.getParameter("id");
         if (imageId != null) {
             logger.log(Level.INFO, "Client request for image with id " + imageId);
             ExerciseDescriptionImage image = new ExerciseDescriptionImage();
             image.setUUID(imageId);
-            image = exerciseDescriptionImageService.getImage(image);
-            response.setContentType("image/png");
-            response.getOutputStream().write(image.getImage());
+            try {
+                image = exerciseDescriptionImageService.getImage(image);
+                response.setContentType("image/png");
+                response.getOutputStream().write(image.getImage());
+            } catch (IOException | BusinessNonExistentImageException e) {
+                handleException(response, e);
+            }
         } else {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println("Image ID parameter is missing");
