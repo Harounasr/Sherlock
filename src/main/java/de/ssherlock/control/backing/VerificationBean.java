@@ -24,7 +24,7 @@ public class VerificationBean {
   private final SerializableLogger logger;
 
   /** The text which is displayed on the verification page. */
-  private String verificationText = "Thank you for registration.";
+  private static final String VERIFICATIONTEXT = "Thank you for registration.";
 
   /** The Service for user-related operations. */
   private final UserService userService;
@@ -68,6 +68,6 @@ public class VerificationBean {
    * @return The verification text.
    */
   public String getVerificationText() {
-    return verificationText;
+    return VERIFICATIONTEXT;
   }
 }
