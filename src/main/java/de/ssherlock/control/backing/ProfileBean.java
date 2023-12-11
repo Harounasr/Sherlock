@@ -74,10 +74,14 @@ public class ProfileBean implements Serializable {
   @PostConstruct
   public void initialize() {
     logger.log(Level.INFO, appSession.getUser().getUsername());
+    /*
     username = appSession.getUser().getUsername();
     firstname = appSession.getUser().getFirstName();
     lastname = appSession.getUser().getLastName();
     facultyName = appSession.getUser().getFacultyName();
+
+     */
+    user = appSession.getUser();
     changedUser = new User();
   }
 
