@@ -38,7 +38,7 @@ public class PasswordForgottenBean {
   public PasswordForgottenBean(SerializableLogger logger, UserService userService) {
     this.logger = logger;
     this.userService = userService;
-    User user = new User();
+    user = new User();
   }
 
   /** Requests a password reset for the provided email address. */

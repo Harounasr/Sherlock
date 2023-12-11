@@ -48,7 +48,6 @@ public class ExerciseDescriptionImageRepositoryPsql extends RepositoryPsql
   public ExerciseDescriptionImage getExerciseDescriptionImage(ExerciseDescriptionImage exerciseDescriptionImage)
       throws PersistenceNonExistentImageException {
     String sqlQuery = "SELECT * FROM exercise_description_image WHERE uuid::uuid = ?;";
-    ExerciseDescriptionImage image = new ExerciseDescriptionImage();
     try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
       statement.setObject(1, UUID.fromString(exerciseDescriptionImage.getUUID()));
       ResultSet result = statement.executeQuery();
