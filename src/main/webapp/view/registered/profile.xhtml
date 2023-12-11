@@ -10,26 +10,26 @@
         <div id="profilebody">
             <div class="profilecontainer">
                 <div id="profileContent">
-                    <h2>Welcome, #{profileBean.username}!</h2>
+                    <h2>Welcome, #{profileBean.user.username}!</h2>
 
                     <div class="form-group">
                         <label for="username">Username:</label>
-                        <h:inputText id="username" class="profileoutput" placeholder="#{profileBean.username}"/>
+                        <h:inputText id="username" class="profileoutput" placeholder="#{profileBean.user.username}"/>
                     </div>
 
                     <div class="form-group">
                         <label for="firstName">First Name:</label>
-                        <h:outputLabel class="profileoutput" id="firstName" type="text" value="#{profileBean.firstname}"/>
+                        <h:outputLabel class="profileoutput" id="firstName" type="text" value="#{profileBean.user.firstName}"/>
                     </div>
 
                     <div class="form-group">
                         <label for="lastName">Last Name:</label>
-                        <h:outputLabel class="profileoutput" id="lastName" type="text" value="#{profileBean.lastname}"/>
+                        <h:outputLabel class="profileoutput" id="lastName" type="text" value="#{profileBean.user.lastName}"/>
                     </div>
 
                     <div class="form-group">
                         <label for="faculty">Faculty:</label>
-                        <h:outputLabel class="profileoutput" id="faculty" type="text" value="#{profileBean.facultyName}"/>
+                        <h:outputLabel class="profileoutput" id="faculty" type="text" value="#{profileBean.user.facultyName}"/>
                     </div>
 
                     <h5>Change Password</h5>
