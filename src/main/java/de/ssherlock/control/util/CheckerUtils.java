@@ -25,6 +25,10 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -51,27 +55,63 @@ public final class CheckerUtils {
      * @param checkers        The list of checkers to run.
      * @param submissionFiles The list of files to run the checkers on.
      * @param user            The user for whom the checkers are run.
-     * @return The results of the checkers.
-     *
-     * @throws CheckerExecutionException When there is an error during execution.
+     * @param resultConsumer  The consumer handling the results.
      */
-    public static List<CheckerResult> runCheckers(
-            List<Checker> checkers, List<SubmissionFile> submissionFiles, User user) throws CheckerExecutionException {
+    public static void runCheckers(
+            List<Checker> checkers, List<SubmissionFile> submissionFiles, User user, Consumer<CheckerResult> resultConsumer) {
         LOGGER.finer("Start running checkers.");
         submissionFiles.sort(Comparator.comparing(SubmissionFile::getName));
-        List<CheckerResult> results = new ArrayList<>();
+
+        ExecutorService executorService = Executors.newFixedThreadPool(checkers.size());
+        List<CompletableFuture<Void>> futures = new ArrayList<>();
+
         for (Checker checker : checkers) {
-            switch (checker.getCheckerType()) {
-            case COMPILATION -> results.add(runCompilationChecker(checker, submissionFiles));
-            case IDENTITY -> results.add(runIdentityChecker(checker, submissionFiles, user));
-            case LINE_WIDTH -> results.add(runLineWidthChecker(checker, submissionFiles));
-            case USER_DEFINED -> results.add(runUserDefinedChecker(checker, submissionFiles));
-            default -> {
-                return null;
-            }
-            }
+            CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
+                CheckerResult result;
+                try {
+                    result = runChecker(checker, submissionFiles, user);
+                } catch (CheckerExecutionException e) {
+                    result = new CheckerResult();
+                    result.setChecker(checker);
+                    result.setPassed(false);
+                    result.setStackTrace(e.getMessage());
+                }
+                resultConsumer.accept(result);
+            }, executorService);
+            futures.add(future);
         }
-        return results;
+
+        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
+        executorService.shutdown();
+    }
+
+    /**
+     * Runs a checkers depending on its CheckerType.
+     *
+     * @param checker         The checker to run.
+     * @param submissionFiles The files to check.
+     * @param user            The associated user.
+     * @return The Checker result.
+     * @throws CheckerExecutionException when the Checker Type is not set.
+     */
+    private static CheckerResult runChecker(Checker checker, List<SubmissionFile> submissionFiles, User user) throws CheckerExecutionException {
+        switch (checker.getCheckerType()) {
+        case COMPILATION -> {
+            return runCompilationChecker(checker, submissionFiles);
+        }
+        case IDENTITY -> {
+            return runIdentityChecker(checker, submissionFiles, user);
+        }
+        case LINE_WIDTH -> {
+            return runLineWidthChecker(checker, submissionFiles);
+        }
+        case USER_DEFINED -> {
+            return runUserDefinedChecker(checker, submissionFiles);
+        }
+        default -> {
+            throw new CheckerExecutionException("The Checker Type was not set.");
+        }
+        }
     }
 
     /**
@@ -212,7 +252,6 @@ public final class CheckerUtils {
      * @param checker         The checker to be used.
      * @param submissionFiles The list of submission files to be checked.
      * @return The result of the user-defined checker.
-     *
      * @throws CheckerExecutionException When there is an error during execution.
      */
     private static CheckerResult runUserDefinedChecker(
@@ -262,7 +301,6 @@ public final class CheckerUtils {
      *
      * @param fileName The name of the file.
      * @return The class name.
-     *
      * @throws CheckerExecutionException When there is an error during execution.
      */
     private static String extractClassName(String fileName) throws CheckerExecutionException {
@@ -286,7 +324,6 @@ public final class CheckerUtils {
      * @param checker The associated checker.
      * @param files   The files to save.
      * @return A list of paths to the saved classes.
-     *
      * @throws CheckerExecutionException When there is an error during execution.
      */
     private static List<String> saveJavaClasses(Checker checker, List<SubmissionFile> files) throws CheckerExecutionException {
@@ -336,7 +373,6 @@ public final class CheckerUtils {
      * @param filePaths   The classes to compile.
      * @param diagnostics The diagnostics collector.
      * @return Whether the files compiled successfully.
-     *
      * @throws CheckerExecutionException When there is an error during execution.
      */
     private static boolean compileClasses(
@@ -371,7 +407,6 @@ public final class CheckerUtils {
      * @param input     The input command.
      * @param checker   The associated checker.
      * @return The execution output.
-     *
      * @throws CheckerExecutionException When there is an error during execution.
      */
     private static String runWithInput(List<String> filePaths, String input, Checker checker) throws CheckerExecutionException {
