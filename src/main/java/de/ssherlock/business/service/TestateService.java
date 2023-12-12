@@ -60,7 +60,6 @@ public class TestateService implements Serializable {
         RepositoryFactory.getEvaluationRepository(RepositoryType.POSTGRESQL, connection);
     List<Testate> testate = testateRepository.getTestates(exercise, user);
     connectionPool.releaseConnection(connection);
-
     return testate;
   }
 

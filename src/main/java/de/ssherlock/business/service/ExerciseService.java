@@ -57,7 +57,6 @@ public class ExerciseService implements Serializable {
     Connection connection = connectionPool.getConnection();
     ExerciseRepository exerciseRepository =
         RepositoryFactory.getExerciseRepository(RepositoryType.POSTGRESQL, connection);
-
     List<Exercise> exercises = exerciseRepository.getExercises(course);
     connectionPool.releaseConnection(connection);
     return exercises;
@@ -75,10 +74,10 @@ public class ExerciseService implements Serializable {
         RepositoryFactory.getExerciseRepository(RepositoryType.POSTGRESQL, connection);
     try {
       exerciseRepository.updateExercise(exercise);
-      connectionPool.releaseConnection(connection);
     } catch (PersistenceNonExistentExerciseException e) {
       throw new BusinessNonExistentExerciseException("", e);
     }
+      connectionPool.releaseConnection(connection);
   }
 
   /**
