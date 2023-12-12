@@ -52,8 +52,8 @@ public class SystemService implements Serializable {
     Connection connection = connectionPool.getConnection();
     SystemSettingsRepository repository =
         RepositoryFactory.getSystemSettingsRepository(RepositoryType.POSTGRESQL, connection);
-        SystemSettings systemSettings = repository.getSystemSettings();
-        connectionPool.releaseConnection(connection);
+    SystemSettings systemSettings = repository.getSystemSettings();
+    connectionPool.releaseConnection(connection);
     return systemSettings;
   }
 
