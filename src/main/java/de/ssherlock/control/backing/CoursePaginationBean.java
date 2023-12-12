@@ -60,9 +60,7 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
    */
   @Inject
   public CoursePaginationBean(
-      SerializableLogger logger,
-      AppSession appSession,
-      CourseService courseService) {
+      SerializableLogger logger, AppSession appSession, CourseService courseService) {
     this.logger = logger;
     this.appSession = appSession;
     this.courseService = courseService;
