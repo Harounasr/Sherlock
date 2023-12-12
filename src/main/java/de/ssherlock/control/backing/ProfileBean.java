@@ -1,8 +1,14 @@
 package de.ssherlock.control.backing;
 
+import static java.util.logging.Level.INFO;
+
+import de.ssherlock.business.exception.BusinessNonExistentUserException;
+import de.ssherlock.business.service.FacultyService;
 import de.ssherlock.business.service.UserService;
+import de.ssherlock.business.util.PasswordHashing;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
+import de.ssherlock.global.transport.Password;
 import de.ssherlock.global.transport.User;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
@@ -10,7 +16,6 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.logging.Level;
 
 /**
  * Backing bean for the profile.xhtml facelet.
@@ -32,6 +37,8 @@ public class ProfileBean implements Serializable {
 
   /** The service for user-related operations. */
   private final UserService userService;
+
+  private final FacultyService facultyService;
 
   /** The user of the profile. */
   private User user;
@@ -64,38 +71,68 @@ public class ProfileBean implements Serializable {
    * @param userService The service for user-related operations.
    */
   @Inject
-  public ProfileBean(SerializableLogger logger, AppSession appSession, UserService userService) {
+  public ProfileBean(
+      SerializableLogger logger,
+      AppSession appSession,
+      UserService userService,
+      FacultyService facultyService) {
     this.logger = logger;
     this.appSession = appSession;
     this.userService = userService;
+    this.facultyService = facultyService;
   }
 
   /** Initializes the bean after construction. */
   @PostConstruct
   public void initialize() {
-    logger.log(Level.INFO, appSession.getUser().getUsername());
-    /*
-    username = appSession.getUser().getUsername();
-    firstname = appSession.getUser().getFirstName();
-    lastname = appSession.getUser().getLastName();
-    facultyName = appSession.getUser().getFacultyName();
-
-     */
+    logger.log(INFO, appSession.getUser().getUsername());
     user = appSession.getUser();
     changedUser = new User();
+    changedUser.setUsername(user.getUsername());
   }
 
   /** Submits the password change request. */
-  public void submitPasswordChange() {}
+  public void submitPasswordChange() {
+    if (newPasswordTwo != null) {
+      Password password = PasswordHashing.hashPassword(newPasswordTwo);
+      changedUser.setPassword(password);
+    } else {
+      System.out.println("fucking return");
+      return;
+    }
+    try {
+      userService.updateUser(changedUser);
+    } catch (BusinessNonExistentUserException e) {
+      logger.log(INFO, "bean coulnd not find user");
+    }
+  }
 
   /** Submits the faculty change request. */
-  public void submitFacultyChange() {}
+  public void submitFacultyChange() {
+    logger.log(INFO, "faculty to be inserted: " + changedUser.getFacultyName());
+    try {
+      userService.updateUser(changedUser);
+    } catch (BusinessNonExistentUserException e) {
+      logger.log(INFO, "bean could not find user");
+    }
+  }
 
   /** Submits the system role change request. */
   public void submitSystemRoleChange() {}
 
   /** Deletes the user account. */
-  public void deleteAccount() {}
+  public String deleteAccount() {
+    logger.log(INFO, "bean: " + user.getUsername());
+    try {
+      userService.deleteUser(user);
+    } catch (BusinessNonExistentUserException e) {
+      logger.log(INFO, "user could not be found and was not deleted");
+      return "";
+    }
+    logger.log(INFO, user.getUsername() + "was deleted.");
+
+    return "view/public/login.xhtml";
+  }
 
   /**
    * Gets user.
@@ -159,15 +196,19 @@ public class ProfileBean implements Serializable {
     return username;
   }
 
-  public String getFirstname() {
-    return firstname;
-  }
-
-  public String getLastname() {
-    return lastname;
-  }
-
   public String getFacultyName() {
     return facultyName;
+  }
+
+  public void setChangedFacultyName(String facultyName) {
+    changedUser.setFacultyName(facultyName);
+  }
+
+  public User getChangedUser() {
+    return changedUser;
+  }
+
+  public FacultyService getFacultyService() {
+    return facultyService;
   }
 }
