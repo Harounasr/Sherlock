@@ -69,9 +69,6 @@ public class CourseService implements Serializable {
    * @return A list of courses associated with the user.
    */
   public List<Course> getCourses(User user) {
-    Connection connection = connectionPool.getConnection();
-    CourseRepository courseRepository =
-        RepositoryFactory.getCourseRepository(RepositoryType.POSTGRESQL, connection);
     return null;
   }
 
