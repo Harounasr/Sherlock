@@ -48,7 +48,6 @@ public class CourseRepositoryPsql extends RepositoryPsql implements CourseReposi
       int rowsAffected = statement.executeUpdate();
 
       if (rowsAffected == 0) {
-
         logger.log(Level.INFO, "not addded");
       }
     } catch (SQLException e) {

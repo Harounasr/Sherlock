@@ -70,10 +70,11 @@ public class CourseBean implements Serializable {
     course.setName(requestParams.get("Id"));
   }
 
-  /** Deletes the current course from the database.
+  /**
+   * Deletes the current course from the database.
    *
    * @return the target page
-   * */
+   */
   public String deleteCourse() {
     try {
       courseService.removeCourse(course);
@@ -81,7 +82,8 @@ public class CourseBean implements Serializable {
       return "/view/registered/coursePagination.xhtml";
     } catch (BusinessNonExistentCourseException e) {
       logger.log(Level.INFO, "Course could not be deleted.");
-      Notification notification = new Notification("Course could not be deleted.", NotificationType.ERROR);
+      Notification notification =
+          new Notification("Course could not be deleted.", NotificationType.ERROR);
       notification.generateUIMessage();
       return null;
     }
@@ -103,5 +105,9 @@ public class CourseBean implements Serializable {
    */
   public void setTargetPage(String targetPage) {
     this.targetPage = targetPage;
+  }
+
+  public Course getCourse() {
+    return course;
   }
 }

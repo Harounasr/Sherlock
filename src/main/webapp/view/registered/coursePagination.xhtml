@@ -3,8 +3,9 @@
                 xmlns:f="jakarta.faces.core"
                 xmlns="http://www.w3.org/1999/xhtml"
                 template="../../resources/templates/main.xhtml">
-
+<h:head>
     <ui:define name="title">My Courses</ui:define>
+</h:head>
     <ui:define name="content">
         <h:dataTable value="#{coursePaginationBean.courses}" var="course" first="#{coursePaginationBean.currentIndex}"
                      rows="#{coursePaginationBean.pageSize}">
@@ -16,11 +17,16 @@
             <h:column>
                 <f:facet name="header">Join</f:facet>
                 <h:form>
-                    <h:commandButton value="Join" action="#{coursePaginationBean.select(item)}">
+                    <h:commandButton value="Join" action="#{coursePaginationBean.select(course)}">
                     </h:commandButton>
                 </h:form>
             </h:column>
         </h:dataTable>
+        <h:form>
+            <h:inputText value="#{coursePaginationBean.newCourse.name}"
+                     rendered="#{navbarBean.appSession.user.systemRole.toString() == 'ADMINISTRATOR'}" required="true"/>
+            <h:commandButton value="Add Course" action="#{coursePaginationBean.addCourse()}"/>
+        </h:form>
         <h:form>
             <h:commandButton value="First" action="#{coursePaginationBean.firstPage}"/>
             <h:commandButton value="Previous" action="#{coursePaginationBean.previousPage}"/>
