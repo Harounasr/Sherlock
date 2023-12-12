@@ -103,9 +103,7 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
   /** Adds the newly created course to the database. */
   public void addCourse() {
     logger.log(INFO, "trying to add");
-    Course newCOurrrse = new Course();
-    newCOurrrse.setName("Franzia");
-    courseService.addCourse(newCOurrrse);
+    courseService.addCourse(newCourse);
   }
 
   /**
