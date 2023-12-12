@@ -73,13 +73,16 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
    */
   @PostConstruct
   public void initialize() {
-    currentIndex = getPagination().getCurrentIndex();
-    pageSize = 2;
+    currentIndex = 0;
+    pageSize = 5;
     loadData();
+    /*
     getPagination().setPageSize(PAGE_SIZE);
     getPagination().setCurrentIndex(0);
     getPagination().setLastIndex(courses.size() - 1);
     logger.log(INFO, String.valueOf(courses.get(0).getName()));
+
+     */
   }
 
   /**
@@ -179,5 +182,9 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
    */
   public void setCurrentIndex(int currentIndex) {
     this.currentIndex = currentIndex;
+  }
+
+  public int getPageSize() {
+    return pageSize;
   }
 }
