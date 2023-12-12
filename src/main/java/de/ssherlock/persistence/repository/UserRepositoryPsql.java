@@ -70,7 +70,7 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
                       UPDATE "user"
                       SET
                        failed_login_attempts = COALESCE(?, failed_login_attempts),
-                       user_role = CAST(? AS system_role),
+                       user_role = COALESCE(CAST(? AS system_role), user_role),
                        faculty = COALESCE(?, faculty),
                        password_hash = COALESCE(?, password_hash),
                        password_salt = coalesce(?, password_salt),
@@ -81,8 +81,8 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
       statement.setInt(1, user.getFailedLoginAttempts());
       statement.setString(2, user.getSystemRole() != null ? user.getSystemRole().toString() : null);
       statement.setString(3, user.getFacultyName());
-      statement.setString(4, user.getPassword().getHash());
-      statement.setString(5, user.getPassword().getSalt());
+      statement.setString(4, user.getPassword() != null ? user.getPassword().getHash() : null);
+      statement.setString(5, user.getPassword() != null ? user.getPassword().getSalt() : null);
       statement.setString(6, user.getVerificationToken());
       statement.setString(7, user.getUsername());
 
@@ -98,7 +98,29 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
 
   /** {@inheritDoc} */
   @Override
-  public void deleteUser(User user) throws PersistenceNonExistentUserException {}
+  public void deleteUser(User user) {
+    logger.log(Level.INFO, "repo: " + user.getUsername());
+    String sqlQuery = "DELETE FROM \"user\" WHERE username = ?";
+
+    try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
+      statement.setString(1, user.getUsername());
+      int rowsAffected = statement.executeUpdate();
+
+      if (rowsAffected > 0) {
+        // Deletion successful
+        logger.log(
+            Level.INFO, "User with username '" + user.getUsername() + "' deleted successfully.");
+      } else {
+        // No user found with the given username
+        logger.log(
+            Level.INFO,
+            "No user found with username '" + user.getUsername() + "'. Deletion failed.");
+      }
+    } catch (SQLException e) {
+      logger.log(
+          Level.INFO, "Could not delete user with username '" + user.getUsername() + "'. " + e);
+    }
+  }
 
   /** {@inheritDoc} */
   @Override
