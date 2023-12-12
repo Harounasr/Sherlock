@@ -99,7 +99,6 @@ public class UserService implements Serializable {
       throw new BusinessNonExistentUserException(
           "The user " + loginInfo.getUsername() + " is not registered in the system");
     }
-    connectionPool.releaseConnection(connection);
     // uncomment after failedLoginAttemptsCleanUp was implemented
     /*
     if (user.getFailedLoginAttempts() >= 5) {
@@ -119,17 +118,21 @@ public class UserService implements Serializable {
       } catch (PersistenceNonExistentUserException e) {
         throw new BusinessNonExistentUserException();
       }
+        connectionPool.releaseConnection(connection);
       return user;
     } else {
       user.setFailedLoginAttempts(user.getFailedLoginAttempts() + 1);
       try {
         userRepository.updateUser(user);
+          connectionPool.releaseConnection(connection);
       } catch (PersistenceNonExistentUserException e) {
+          connectionPool.releaseConnection(connection);
         throw new BusinessNonExistentUserException();
       }
       throw new LoginFailedException(
           "The password for " + loginInfo.getUsername() + " was not correct");
     }
+
   }
 
   /**
@@ -142,10 +145,11 @@ public class UserService implements Serializable {
     String verificationToken = generateEmailVerificationToken();
     user.setVerificationToken(verificationToken);
     if (mail.sendVerificationMail(user, MailContentBuilder.buildVerificationMail(user))) {
+      Connection connection = connectionPool.getConnection();
       UserRepository userRepository =
-          RepositoryFactory.getUserRepository(
-              RepositoryType.POSTGRESQL, connectionPool.getConnection());
+          RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
       userRepository.insertUser(user);
+      connectionPool.releaseConnection(connection);
     } else {
       Notification notification =
           new Notification("Email could not be send. Please try again.", NotificationType.ERROR);
@@ -160,19 +164,19 @@ public class UserService implements Serializable {
    * @throws BusinessNonExistentUserException when the user is not registered in the system.
    */
   public void sendPasswordForgottenEmail(User user) throws BusinessNonExistentUserException {
-    Connection connection = connectionPool.getConnection();
-    UserRepository userRepository =
-        RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
-    try {
-      user = userRepository.getUser(user);
-      user.setVerificationToken(generateEmailVerificationToken());
-      userRepository.updateUser(user);
-      mail.sendPasswordResetMail(user, MailContentBuilder.buildPasswordResetMail(user));
-    } catch (PersistenceNonExistentUserException e) {
-      logger.log(Level.INFO, "No user found.");
-      throw new BusinessNonExistentUserException();
-    }
-    connectionPool.releaseConnection(connection);
+      Connection connection = connectionPool.getConnection();
+      UserRepository userRepository =
+              RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
+      try {
+          user = userRepository.getUser(user);
+          user.setVerificationToken(generateEmailVerificationToken());
+          userRepository.updateUser(user);
+          mail.sendPasswordResetMail(user, MailContentBuilder.buildPasswordResetMail(user));
+      } catch (PersistenceNonExistentUserException e) {
+          logger.log(Level.INFO, "No user found.");
+          throw new BusinessNonExistentUserException();
+      }
+      connectionPool.releaseConnection(connection);
   }
 
   /**
@@ -212,8 +216,11 @@ public class UserService implements Serializable {
     UserRepository userRepository =
         RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
     try {
-      return userRepository.getUser(user);
+      User returnedUser = userRepository.getUser(user);
+      connectionPool.releaseConnection(connection);
+      return returnedUser;
     } catch (PersistenceNonExistentUserException e) {
+      connectionPool.releaseConnection(connection);
       throw new BusinessNonExistentUserException();
     }
   }
@@ -258,7 +265,9 @@ public class UserService implements Serializable {
     Connection connection = connectionPool.getConnection();
     UserRepository userRepository =
         RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
-    return userRepository.userNameExists(user);
+    boolean userExists = userRepository.userNameExists(user);
+    connectionPool.releaseConnection(connection);
+    return userExists;
   }
 
   /**
@@ -271,8 +280,12 @@ public class UserService implements Serializable {
     Connection connection = connectionPool.getConnection();
     UserRepository userRepository =
         RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
-    return userRepository.emailExists(user);
+    boolean emailExists = userRepository.emailExists(user);
+    connectionPool.releaseConnection(connection);
+    return emailExists;
   }
+
+
 
   /**
    * Verifies a user.
@@ -284,5 +297,6 @@ public class UserService implements Serializable {
     UserRepository userRepository =
         RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
     userRepository.verifyUser(user);
+    connectionPool.releaseConnection(connection);
   }
 }

@@ -111,5 +111,6 @@ public class CourseService implements Serializable {
     } catch (PersistenceNonExistentCourseException e) {
       throw new BusinessNonExistentCourseException();
     }
+    connectionPool.releaseConnection(connection);
   }
 }

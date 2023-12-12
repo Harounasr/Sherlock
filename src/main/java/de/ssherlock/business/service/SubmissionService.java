@@ -90,7 +90,8 @@ public class SubmissionService implements Serializable {
    * @throws BusinessNonExistentSubmissionException when the submission does not exist in the
    *     database.
    */
-  public Submission getSubmission(Submission submission) throws BusinessNonExistentSubmissionException {
+  public Submission getSubmission(Submission submission)
+      throws BusinessNonExistentSubmissionException {
     return null;
   }
 }
