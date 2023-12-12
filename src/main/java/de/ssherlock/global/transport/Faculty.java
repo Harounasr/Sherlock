@@ -56,4 +56,8 @@ public class Faculty implements Serializable {
   public int hashCode() {
     return Objects.hash(name);
   }
+
+  public String toString() {
+    return name;
+  }
 }
