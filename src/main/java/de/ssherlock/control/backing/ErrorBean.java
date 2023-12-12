@@ -14,36 +14,38 @@ import jakarta.inject.Named;
 @RequestScoped
 public class ErrorBean {
 
-    /**
-     * Error instance to be handled.
-     */
-    private Error error;
+  /** Error instance to be handled. */
+  private Error error;
 
-    /**
-     * Constructs an ErrorBean.
-     *
-     * @param error The empty error.
-     */
-    @Inject
-    public ErrorBean(Error error) {
-        this.error = error;
-    }
+  /**
+   * Constructs an ErrorBean.
+   *
+   * @param error The empty error.
+   */
+  @Inject
+  public ErrorBean(Error error) {
+    this.error = error;
+  }
 
-    /**
-     * Sets the error instance.
-     *
-     * @param error The error instance to be set.
-     */
-    public void setError(Error error) {
-        this.error = error;
-    }
+  public ErrorBean() {
+    this(null);
+  }
 
-    /**
-     * Retrieves the error instance.
-     *
-     * @return The error instance.
-     */
-    public Error getError() {
-        return error;
-    }
+  /**
+   * Sets the error instance.
+   *
+   * @param error The error instance to be set.
+   */
+  public void setError(Error error) {
+    this.error = error;
+  }
+
+  /**
+   * Retrieves the error instance.
+   *
+   * @return The error instance.
+   */
+  public Error getError() {
+    return error;
+  }
 }
