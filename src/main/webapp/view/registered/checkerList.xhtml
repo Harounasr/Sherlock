@@ -6,6 +6,7 @@
 
     <h:head>
         <ui:define name="title">Checkers</ui:define>
+        <h:outputStylesheet library="css" name="checkerList.css"/>
     </h:head>
             <ui:define name="content">
                 <h:dataTable value="#{checkerListBean.checkers}" var="checker"
@@ -46,22 +47,22 @@
                     </h:column>
                 </h:dataTable>
 
-                <h:form styleClass="" rendered="#{navbarBean.appSession.user.systemRole.toString() == 'ADMINISTRATOR'}">
+                <h:form styleClass="form-container" rendered="#{navbarBean.appSession.user.systemRole.toString() == 'ADMINISTRATOR'}">
                     <h:outputLabel value="Checker ID required" for="inputID"/>
                     <h:inputText id="inputID" value="#{checkerListBean.newChecker.id}" required="true"/>
 
-                    <h:inputText value="#{checkerListBean.newChecker.exerciseId}" required="true">
-                        <h:outputLabel value="Exercise ID required"/>
-                    </h:inputText>
-                    <h:inputText value="#{checkerListBean.newChecker.parameterOne}" required="true">
-                      <h:outputLabel value="Param 1 required"/>
-                    </h:inputText>
-                    <h:inputText value="#{checkerListBean.newChecker.parameterTwo}" required="true">
-                     <h:outputLabel value="Param 2 required"/>
-                    </h:inputText>
-                    <h:inputText value="#{checkerListBean.newChecker.checkerType}" required="true">
-                       <h:outputLabel value="Checker type required ('COMPILATION','IDENTITY','LINE_WIDTH','USER_DEFINED')"/>
-                    </h:inputText>
+                    <h:outputLabel value="Exercise ID required" for="inputEID"/>
+                    <h:inputText id="inputEID" value="#{checkerListBean.newChecker.exerciseId}" required="true"/>
+
+                    <h:outputLabel value="Param 1 required" for="inputParamOne"/>
+                    <h:inputText id="inputParamOne" value="#{checkerListBean.newChecker.parameterOne}" required="true"/>
+
+                    <h:outputLabel value="Param 2 required" for="inputParamTwo"/>
+                    <h:inputText id="inputParamTwo" value="#{checkerListBean.newChecker.parameterTwo}" required="true"/>
+
+                    <h:outputLabel value="'COMPILATION','IDENTITY','LINE_WIDTH','USER_DEFINED'" for="inputType"/>
+                    <h:inputText id="inputType" value="#{checkerListBean.newChecker.checkerType}" required="true"/>
+
                     <h:commandButton value="Add Checker" action="#{checkerListBean.addChecker()}" />
                 </h:form>
 
