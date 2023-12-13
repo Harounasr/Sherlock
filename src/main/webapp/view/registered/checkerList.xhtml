@@ -36,6 +36,13 @@
                     <h:commandButton value="Add Checker" action="#{checkerListBean.addChecker()}" />
                 </h:form>
 
+                <h:form rendered="#{navbarBean.appSession.user.systemRole.toString() == 'ADMINISTRATOR'}">
+                    <h:inputText value="#{checkerListBean.deleteCheckerID}" required="true">
+                        Checker ID required
+                    </h:inputText>
+                    <h:commandButton value="Delete Checker" action="#{checkerListBean.deleteChecker()}" />
+                </h:form>
+
 
                 <h:form>
                     <h:commandButton value="First" action="#{coursePaginationBean.firstPage}" />

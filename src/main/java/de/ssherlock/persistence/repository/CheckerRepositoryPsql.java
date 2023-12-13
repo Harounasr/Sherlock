@@ -61,7 +61,26 @@ public class CheckerRepositoryPsql extends RepositoryPsql implements CheckerRepo
 
   /** {@inheritDoc} */
   @Override
-  public void deleteChecker(Checker checker) throws PersistenceNonExistentCheckerException {}
+  public void deleteChecker(Checker checker) throws PersistenceNonExistentCheckerException {
+    logger.log(Level.INFO, "repo: " + checker.getId());
+    String sqlQuery = "DELETE FROM checker WHERE id = ?";
+
+    try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
+      statement.setLong(1, checker.getId());
+      int rowsAffected = statement.executeUpdate();
+
+      if (rowsAffected > 0) {
+        // Deletion successful
+        logger.log(Level.INFO, "Checker with id '" + checker.getId() + "' deleted successfully.");
+      } else {
+        // No user found with the given username
+        logger.log(
+            Level.INFO, "No user found with username '" + checker.getId() + "'. Deletion failed.");
+      }
+    } catch (SQLException e) {
+      logger.log(Level.INFO, "Could not delete user with username '" + checker.getId() + "'. " + e);
+    }
+  }
 
   /** {@inheritDoc} */
   @Override
