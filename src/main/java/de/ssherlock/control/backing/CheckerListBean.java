@@ -36,7 +36,7 @@ public class CheckerListBean implements Serializable {
   private final CheckerService checkerService;
 
   /** New Checker that can be added to the exercise. */
-  private Checker checker;
+  private Checker newChecker;
 
   /** List of all checkers retrieved for the exercise. */
   private List<Checker> checkers;
@@ -60,7 +60,7 @@ public class CheckerListBean implements Serializable {
     this.logger = logger;
     this.checkerService = checkerService;
     this.appSession = appSession;
-    this.checker = new Checker();
+    this.newChecker = new Checker();
     System.out.println("checkerbean inittin");
   }
 
@@ -75,13 +75,15 @@ public class CheckerListBean implements Serializable {
     } catch (BusinessNonExistentCheckerException e) {
       logger.log(Level.INFO, "threw this in checkerlist init");
     }
-    for(Checker c : checkers) {
-        System.out.println(c.getId());
+    for (Checker c : checkers) {
+      System.out.println(c.getId());
     }
   }
 
   /** Adds the newly created checker. */
-  public void addChecker() {}
+  public void addChecker() {
+    checkerService.addChecker(newChecker);
+  }
 
   /** Submits all changes. */
   public void submitChanges() {}
@@ -105,12 +107,12 @@ public class CheckerListBean implements Serializable {
   }
 
   /**
-   * Gets checker.
+   * Gets the new checker.
    *
    * @return the checker
    */
-  public Checker getChecker() {
-    return checker;
+  public Checker getNewChecker() {
+    return newChecker;
   }
 
   /**
@@ -118,8 +120,8 @@ public class CheckerListBean implements Serializable {
    *
    * @param checker the checker
    */
-  public void setChecker(Checker checker) {
-    this.checker = checker;
+  public void setNewChecker(Checker checker) {
+    this.newChecker = checker;
   }
 
   public void setPageSize(int pageSize) {

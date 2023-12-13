@@ -33,7 +33,27 @@ public class CheckerRepositoryPsql extends RepositoryPsql implements CheckerRepo
 
   /** {@inheritDoc} */
   @Override
-  public void insertChecker(Checker checker) {}
+  public void insertChecker(Checker checker) {
+    String sqlQuery =
+        """
+              INSERT INTO checker
+              (id,exercise_id,is_visible,is_required,parameter_1,parameter_2,type)
+              VALUES (?,?,?,?,?,?,CAST(? as checker_type));
+              """;
+    try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
+      statement.setLong(1, checker.getId());
+      statement.setLong(2, checker.getExerciseId());
+      statement.setBoolean(3, checker.isVisible());
+      statement.setBoolean(4, checker.isMandatory());
+      statement.setString(5, checker.getParameterOne());
+      statement.setString(6, checker.getParameterTwo());
+      statement.setString(7, checker.getCheckerType().toString());
+      statement.executeUpdate();
+    } catch (SQLException e) {
+      logger.log(Level.INFO, e.getMessage());
+      logger.log(Level.INFO, "could not insert checker");
+    }
+  }
 
   /** {@inheritDoc} */
   @Override

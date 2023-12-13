@@ -17,15 +17,31 @@
 
                 </h:dataTable>
 
+                <h:form rendered="#{navbarBean.appSession.user.systemRole.toString() == 'ADMINISTRATOR'}">
+                    <h:inputText value="#{checkerListBean.newChecker.id}" required="true">
+                        Checker ID required
+                    </h:inputText>
+                    <h:inputText value="#{checkerListBean.newChecker.exerciseId}" required="true">
+                        Exercise ID required
+                    </h:inputText>
+                    <h:inputText value="#{checkerListBean.newChecker.parameterOne}" required="true">
+                        Param 1 required
+                    </h:inputText>
+                    <h:inputText value="#{checkerListBean.newChecker.parameterTwo}" required="true">
+                      Param 2 required
+                    </h:inputText>
+                    <h:inputText value="#{checkerListBean.newChecker.checkerType}" required="true">
+                        Checker type required ('COMPILATION','IDENTITY','LINE_WIDTH','USER_DEFINED')
+                    </h:inputText>
+                    <h:commandButton value="Add Checker" action="#{checkerListBean.addChecker()}" />
+                </h:form>
+
+
                 <h:form>
                     <h:commandButton value="First" action="#{coursePaginationBean.firstPage}" />
                     <h:commandButton value="Previous" action="#{coursePaginationBean.previousPage}" />
                     <h:commandButton value="Next" action="#{coursePaginationBean.nextPage}" />
                     <h:commandButton value="Last" action="#{coursePaginationBean.lastPage}" />
-                </h:form>
-
-                <h:form>
-                    <h:commandButton value="Add Checker" action="#{checkerListBean.addChecker()}" />
                 </h:form>
             </ui:define>
         </ui:composition>
