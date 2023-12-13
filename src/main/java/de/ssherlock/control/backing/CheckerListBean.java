@@ -47,6 +47,7 @@ public class CheckerListBean implements Serializable {
   /** current Index. */
   private int currentIndex;
 
+  /** ID of the checker to be deleted. */
   private int deleteCheckerID;
 
   /**
