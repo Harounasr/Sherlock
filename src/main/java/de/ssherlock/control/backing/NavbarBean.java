@@ -89,7 +89,7 @@ public class NavbarBean implements Serializable {
   }
 
   public String navigateToCheckers() {
-    return "view/registered/checkerList.xhtml";
+    return "/view/registered/checkerList.xhtml";
   }
 
   /**
