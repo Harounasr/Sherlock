@@ -15,30 +15,59 @@
                         #{checker.id}
                     </h:column>
 
+                    <h:column>
+                        <f:facet name="header">Exercise ID</f:facet>
+                        #{checker.exerciseId}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">isMandatory</f:facet>
+                        #{checker.mandatory}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">isVisible</f:facet>
+                        #{checker.visible}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Parameter One</f:facet>
+                        #{checker.parameterOne}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Parameter Two</f:facet>
+                        #{checker.parameterTwo}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Type</f:facet>
+                        #{checker.checkerType.toString()}
+                    </h:column>
                 </h:dataTable>
 
-                <h:form rendered="#{navbarBean.appSession.user.systemRole.toString() == 'ADMINISTRATOR'}">
-                    <h:inputText value="#{checkerListBean.newChecker.id}" required="true">
-                        Checker ID required
-                    </h:inputText>
+                <h:form styleClass="" rendered="#{navbarBean.appSession.user.systemRole.toString() == 'ADMINISTRATOR'}">
+                    <h:outputLabel value="Checker ID required" for="inputID"/>
+                    <h:inputText id="inputID" value="#{checkerListBean.newChecker.id}" required="true"/>
+
                     <h:inputText value="#{checkerListBean.newChecker.exerciseId}" required="true">
-                        Exercise ID required
+                        <h:outputLabel value="Exercise ID required"/>
                     </h:inputText>
                     <h:inputText value="#{checkerListBean.newChecker.parameterOne}" required="true">
-                        Param 1 required
+                      <h:outputLabel value="Param 1 required"/>
                     </h:inputText>
                     <h:inputText value="#{checkerListBean.newChecker.parameterTwo}" required="true">
-                      Param 2 required
+                     <h:outputLabel value="Param 2 required"/>
                     </h:inputText>
                     <h:inputText value="#{checkerListBean.newChecker.checkerType}" required="true">
-                        Checker type required ('COMPILATION','IDENTITY','LINE_WIDTH','USER_DEFINED')
+                       <h:outputLabel value="Checker type required ('COMPILATION','IDENTITY','LINE_WIDTH','USER_DEFINED')"/>
                     </h:inputText>
                     <h:commandButton value="Add Checker" action="#{checkerListBean.addChecker()}" />
                 </h:form>
 
                 <h:form rendered="#{navbarBean.appSession.user.systemRole.toString() == 'ADMINISTRATOR'}">
                     <h:inputText value="#{checkerListBean.deleteCheckerID}" required="true">
-                        Checker ID required
+                     <h:outputLabel value="Checker ID required"/>
                     </h:inputText>
                     <h:commandButton value="Delete Checker" action="#{checkerListBean.deleteChecker()}" />
                 </h:form>
