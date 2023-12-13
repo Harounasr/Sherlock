@@ -35,6 +35,16 @@ public class NavbarBean implements Serializable {
   /** The current system settings. */
   private SystemSettings systemSettings;
 
+  public boolean isSeeAllCourses() {
+    return seeAllCourses;
+  }
+
+  public void setSeeAllCourses(boolean seeAllCourses) {
+    this.seeAllCourses = seeAllCourses;
+  }
+
+  private boolean seeAllCourses;
+
   /**
    * Constructor for NavbarBean.
    *
@@ -64,7 +74,8 @@ public class NavbarBean implements Serializable {
    * @return The destination view for all courses.
    */
   public String navigateToAllCourses() {
-    return "/view/registered/coursePagination.xhtml?all=true";
+    seeAllCourses = true;
+    return "/view/registered/coursePagination.xhtml";
   }
 
   /**
@@ -73,7 +84,8 @@ public class NavbarBean implements Serializable {
    * @return The destination view for user's courses.
    */
   public String navigateToMyCourses() {
-    return "/view/registered/coursePagination.xhtml?all=false";
+    seeAllCourses = false;
+    return "/view/registered/coursePagination.xhtml";
   }
 
   /**
