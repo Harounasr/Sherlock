@@ -5,7 +5,12 @@ import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Checker;
 import de.ssherlock.persistence.exception.PersistenceNonExistentCheckerException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 /**
  * Implementation of CheckerRepository for PostgreSQL database.
@@ -47,6 +52,25 @@ public class CheckerRepositoryPsql extends RepositoryPsql implements CheckerRepo
   /** {@inheritDoc} */
   @Override
   public List<Checker> getCheckers() {
-    return null;
+    String sqlQuery = "SELECT * FROM checker;";
+    List<Checker> allChecker = new ArrayList<>();
+    try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
+      ResultSet result = statement.executeQuery();
+      while (result.next()) {
+        Checker checker = new Checker();
+        checker.setId(result.getInt("id"));
+        checker.setExerciseId(result.getInt("exercise_id"));
+        checker.setMandatory(result.getBoolean("is_required"));
+        checker.setParameterOne(result.getString("parameter_1"));
+        checker.setParameterTwo(result.getString("parameter_2"));
+        checker.setVisible(result.getBoolean("is_visible"));
+        allChecker.add(checker);
+      }
+
+    } catch (SQLException e) {
+      logger.log(Level.INFO, "sql exception checkerRep");
+      throw new RuntimeException(e);
+    }
+    return allChecker;
   }
 }

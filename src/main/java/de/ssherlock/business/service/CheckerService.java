@@ -5,12 +5,17 @@ import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Checker;
 import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.persistence.connection.ConnectionPool;
+import de.ssherlock.persistence.repository.CheckerRepository;
+import de.ssherlock.persistence.repository.RepositoryFactory;
+import de.ssherlock.persistence.repository.RepositoryType;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import java.io.Serial;
 import java.io.Serializable;
+import java.sql.Connection;
 import java.util.List;
+import java.util.logging.Level;
 
 /**
  * The CheckerService class provides functionality for managing checkers and related operations.
@@ -72,5 +77,22 @@ public class CheckerService implements Serializable {
    */
   public List<Checker> getCheckersForExercise(Exercise exercise) {
     return null;
+  }
+
+  /** Retrieves a list of all available Checkers. */
+  public List<Checker> getChecker() throws BusinessNonExistentCheckerException {
+    Connection connection = connectionPool.getConnection();
+    List<Checker> checkerList;
+    CheckerRepository checkerRepository =
+        RepositoryFactory.getCheckerRepository(RepositoryType.POSTGRESQL, connection);
+    try {
+      checkerList = checkerRepository.getCheckers();
+    } catch (Exception e) {
+      logger.log(Level.INFO, "service threw except");
+      connectionPool.releaseConnection(connection);
+      throw new BusinessNonExistentCheckerException();
+    }
+    connectionPool.releaseConnection(connection);
+    return checkerList;
   }
 }

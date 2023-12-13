@@ -1,5 +1,6 @@
 package de.ssherlock.control.backing;
 
+import de.ssherlock.business.exception.BusinessNonExistentCheckerException;
 import de.ssherlock.business.service.CheckerService;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
@@ -11,11 +12,12 @@ import jakarta.inject.Named;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
 
 /**
  * Backing bean for the checkerList.xhtml facelet.
  *
- * @author Leon Höfling
+ * @author Lennart Hohls
  */
 @Named
 @ViewScoped
@@ -39,6 +41,12 @@ public class CheckerListBean implements Serializable {
   /** List of all checkers retrieved for the exercise. */
   private List<Checker> checkers;
 
+  /** page Size. */
+  private int pageSize;
+
+  /** current Index. */
+  private int currentIndex;
+
   /**
    * Constructs a CheckerListBean.
    *
@@ -48,13 +56,12 @@ public class CheckerListBean implements Serializable {
    */
   @Inject
   public CheckerListBean(
-      SerializableLogger logger,
-      AppSession appSession,
-      CheckerService checkerService) {
+      SerializableLogger logger, AppSession appSession, CheckerService checkerService) {
     this.logger = logger;
     this.checkerService = checkerService;
     this.appSession = appSession;
     this.checker = new Checker();
+    System.out.println("checkerbean inittin");
   }
 
   /**
@@ -62,7 +69,16 @@ public class CheckerListBean implements Serializable {
    * upon creation.
    */
   @PostConstruct
-  public void initialize() {}
+  public void initialize() {
+    try {
+      checkers = checkerService.getChecker();
+    } catch (BusinessNonExistentCheckerException e) {
+      logger.log(Level.INFO, "threw this in checkerlist init");
+    }
+    for(Checker c : checkers) {
+        System.out.println(c.getId());
+    }
+  }
 
   /** Adds the newly created checker. */
   public void addChecker() {}
@@ -104,5 +120,21 @@ public class CheckerListBean implements Serializable {
    */
   public void setChecker(Checker checker) {
     this.checker = checker;
+  }
+
+  public void setPageSize(int pageSize) {
+    this.pageSize = pageSize;
+  }
+
+  public int getPageSize() {
+    return pageSize;
+  }
+
+  public int getCurrentIndex() {
+    return currentIndex;
+  }
+
+  public void setCurrentIndex(int index) {
+    currentIndex = index;
   }
 }
