@@ -7,8 +7,8 @@ import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Course;
 import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.context.FacesContext;
-import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import java.io.Serial;
@@ -21,7 +21,7 @@ import java.util.List;
  * @author Victor Vollmann
  */
 @Named
-@ViewScoped
+@RequestScoped
 public class CoursePaginationBean extends AbstractPaginationBean implements Serializable {
 
   /** Serial Version UID. */
@@ -45,11 +45,17 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
   /** List of courses to be displayed. */
   private List<Course> courses;
 
+  private List<Course> myCourses;
+  private List<Course> allCourses;
+
   /** current Index. */
   private int currentIndex;
 
   /** page Size of the pagination. */
   private int pageSize;
+
+  /** Boolean for which lsit to display. */
+  private boolean getAllCoursesBool;
 
   /**
    * Constructs a CoursesPaginationBean.
@@ -75,7 +81,9 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
   public void initialize() {
     currentIndex = 0;
     pageSize = 5;
-    loadData();
+    System.out.println("bool: " + getAllCoursesBool);
+    initCourses();
+
     /*
     getPagination().setPageSize(PAGE_SIZE);
     getPagination().setCurrentIndex(0);
@@ -83,6 +91,26 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
     logger.log(INFO, String.valueOf(courses.get(0).getName()));
 
      */
+
+  }
+
+  private void initCourses() {
+    myCourses = courseService.getCourses(appSession.getUser());
+    allCourses = courseService.getCourses();
+    getAllCoursesBool =
+        Boolean.parseBoolean(
+            FacesContext.getCurrentInstance()
+                .getExternalContext()
+                .getRequestParameterMap()
+                .get("seeAllCourses"));
+    System.out.println(getAllCoursesBool);
+    if (getAllCoursesBool) {
+      System.out.println("init set all");
+      courses = allCourses;
+    } else {
+      System.out.println("init set my");
+      courses = myCourses;
+    }
   }
 
   /**
@@ -145,7 +173,7 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
   /** {@inheritDoc} */
   @Override
   public String loadData() {
-    courses = courseService.getCourses();
+    courses = courseService.getCourses(appSession.getUser());
     return "";
   }
 
@@ -184,5 +212,13 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
 
   public int getPageSize() {
     return pageSize;
+  }
+
+  public boolean isGetAllCoursesBool() {
+    return getAllCoursesBool;
+  }
+
+  public void setGetAllCoursesBool(boolean bool) {
+    getAllCoursesBool = bool;
   }
 }

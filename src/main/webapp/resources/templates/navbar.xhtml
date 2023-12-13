@@ -10,7 +10,8 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <head>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
@@ -27,12 +28,16 @@
         <ul class="navbar-nav mr-auto">
             <li>
                 <h:form styleClass="nav-item">
-                    <h:commandButton value="My Courses"/>
+                    <h:commandButton value="My Courses" action="#{navbarBean.navigateToMyCourses()}">
+                        <f:param name="all" value="false"/>
+                    </h:commandButton>
                 </h:form>
             </li>
             <li>
                 <h:form styleClass="nav-item">
-                    <h:commandButton value="All Courses"/>
+                    <h:commandButton value="All Courses" action="#{navbarBean.navigateToAllCourses()}">
+                        <f:param name="all" value="true"/>
+                    </h:commandButton>
                 </h:form>
             </li>
             <li>
