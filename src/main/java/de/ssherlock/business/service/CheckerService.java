@@ -52,7 +52,14 @@ public class CheckerService implements Serializable {
    *
    * @param checker The checker to be added.
    */
-  public void addChecker(Checker checker) {}
+  public void addChecker(Checker checker) {
+    Connection connection = connectionPool.getConnection();
+    CheckerRepository checkerRepository =
+        RepositoryFactory.getCheckerRepository(RepositoryType.POSTGRESQL, connection);
+    checkerRepository.insertChecker(checker);
+    logger.log(Level.INFO, "adding checker in service");
+    connectionPool.releaseConnection(connection);
+  }
 
   /**
    * Removes an existing checker.
