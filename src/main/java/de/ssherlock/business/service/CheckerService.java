@@ -5,6 +5,7 @@ import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Checker;
 import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.persistence.connection.ConnectionPool;
+import de.ssherlock.persistence.exception.PersistenceNonExistentCheckerException;
 import de.ssherlock.persistence.repository.CheckerRepository;
 import de.ssherlock.persistence.repository.RepositoryFactory;
 import de.ssherlock.persistence.repository.RepositoryType;
@@ -66,7 +67,18 @@ public class CheckerService implements Serializable {
    *
    * @param checker The checker to be removed.
    */
-  public void removeChecker(Checker checker) {}
+  public void removeChecker(Checker checker) {
+    Connection connection = connectionPool.getConnection();
+    CheckerRepository checkerRepository =
+        RepositoryFactory.getCheckerRepository(RepositoryType.POSTGRESQL, connection);
+    try {
+      checkerRepository.deleteChecker(checker);
+      logger.log(Level.INFO, "deleting checker in service");
+    } catch (PersistenceNonExistentCheckerException e) {
+      logger.log(Level.INFO, "service: could not delete checker");
+    }
+    connectionPool.releaseConnection(connection);
+  }
 
   /**
    * Updates the information of an existing checker.

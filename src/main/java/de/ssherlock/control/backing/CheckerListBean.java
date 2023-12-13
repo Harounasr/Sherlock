@@ -47,6 +47,8 @@ public class CheckerListBean implements Serializable {
   /** current Index. */
   private int currentIndex;
 
+  private int deleteCheckerID;
+
   /**
    * Constructs a CheckerListBean.
    *
@@ -97,6 +99,12 @@ public class CheckerListBean implements Serializable {
     return checkers;
   }
 
+  public void deleteChecker() {
+    Checker deletedChecker = new Checker();
+    deletedChecker.setId(deleteCheckerID);
+    checkerService.removeChecker(deletedChecker);
+  }
+
   /**
    * Sets checkers.
    *
@@ -138,5 +146,13 @@ public class CheckerListBean implements Serializable {
 
   public void setCurrentIndex(int index) {
     currentIndex = index;
+  }
+
+  public int getDeleteCheckerID() {
+    return deleteCheckerID;
+  }
+
+  public void setDeleteCheckerID(int id) {
+    deleteCheckerID = id;
   }
 }
