@@ -80,6 +80,7 @@ public class TestateService implements Serializable {
      *
      * @param pagination The pagination
      * @param exercise The exercise
+     * @param user The user.
      * @return The list of testates
      */
     public List<Testate> getAssignedTestates(Pagination pagination, Exercise exercise, User user) {

@@ -23,6 +23,9 @@ public abstract class AbstractPaginationBean implements Serializable {
      */
     private Pagination pagination;
 
+    /**
+     * Default constructor.
+     */
     public AbstractPaginationBean() {
 
     }

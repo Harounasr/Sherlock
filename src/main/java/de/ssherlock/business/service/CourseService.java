@@ -3,7 +3,6 @@ package de.ssherlock.business.service;
 import de.ssherlock.business.exception.BusinessNonExistentCourseException;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Course;
-import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.Pagination;
 import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.connection.ConnectionPool;
