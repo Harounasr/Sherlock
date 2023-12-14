@@ -112,7 +112,7 @@ public class AdminUserPaginationBean extends AbstractPaginationBean implements S
      */
     @Override
     public String loadData() {
-        users = userService.getUsers();
+        users = userService.getUsers(getPagination());
         return "";
     }
 

@@ -7,8 +7,10 @@ import de.ssherlock.control.notification.Notification;
 import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
+import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.CourseRole;
 import de.ssherlock.global.transport.LoginInfo;
+import de.ssherlock.global.transport.Pagination;
 import de.ssherlock.global.transport.SystemRole;
 import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.connection.ConnectionPool;
@@ -29,9 +31,12 @@ import java.sql.Connection;
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * The UserService class provides functionality for managing users and related operations, such as
@@ -243,11 +248,66 @@ public class UserService implements Serializable {
     /**
      * Retrieves a list of all users.
      *
+     * @param pagination The pagination.
      * @return A list of all users.
      */
-    public List<User> getUsers() {
-        return null;
+    public List<User> getUsers(Pagination pagination, Course course) {
+        Connection connection = connectionPool.getConnection();
+        UserRepository userRepository = RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
+        List<User> users = userRepository.getUsers();
+        connectionPool.releaseConnection(connection);
+
+        Stream<User> userStream = users.stream();
+
+        if (!pagination.getSearchString().isEmpty()) {
+            userStream = userStream.filter(user -> user.getUsername().contains(pagination.getSearchString()));
+        }
+
+        String sortBy = pagination.getSortBy();
+        if (!sortBy.isEmpty()) {
+            Comparator<User> comparator = switch (sortBy) {
+                case "username" -> Comparator.comparing(User::getUsername);
+                case "courserole" -> Comparator.comparing(user -> user.getCourseRoles().get(course.getId()).toString());
+                default -> (user1, user2) -> 0;
+            };
+            userStream = pagination.isSortAscending() ? userStream.sorted(comparator) : userStream.sorted(comparator.reversed());
+        }
+
+        return userStream.collect(Collectors.toList());
     }
+
+    /**
+     * Retrieves a list of all users.
+     *
+     * @param pagination The pagination.
+     * @return A list of all users.
+     */
+    public List<User> getUsers(Pagination pagination) {
+        Connection connection = connectionPool.getConnection();
+        UserRepository userRepository = RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
+        List<User> users = userRepository.getUsers();
+        connectionPool.releaseConnection(connection);
+
+        Stream<User> userStream = users.stream();
+
+        if (!pagination.getSearchString().isEmpty()) {
+            userStream = userStream.filter(user -> user.getUsername().contains(pagination.getSearchString()));
+        }
+
+        String sortBy = pagination.getSortBy();
+        if (!sortBy.isEmpty()) {
+            Comparator<User> comparator = switch (sortBy) {
+                case "username" -> Comparator.comparing(User::getUsername);
+                case "systemrole" -> Comparator.comparing(user -> user.getSystemRole().toString());
+                default -> (user1, user2) -> 0;
+            };
+            userStream = pagination.isSortAscending() ? userStream.sorted(comparator) : userStream.sorted(comparator.reversed());
+        }
+
+        return userStream.collect(Collectors.toList());
+    }
+
+
 
     /**
      * Gets a user by its username.

@@ -22,32 +22,13 @@ public abstract class AbstractPaginationBean implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The {@code Logger} instance to be used in this class.
-     */
-    @Inject
-    private transient SerializableLogger logger;
-
-
-    /**
      * The pagination DTO.
      */
     private Pagination pagination;
 
-    /**
-     * Default constructor.
-     */
-    @Inject
     public AbstractPaginationBean() {
 
     }
-
-    /**
-     * Initializes the backing bean for the pagination.
-     * Must set the property sortBy in the pagination.
-     * Otherwise, an IllegalStateException will be thrown.
-     */
-    @PostConstruct
-    public abstract void initialize();
 
     /**
      * Loads the data for the pagination.
@@ -81,7 +62,6 @@ public abstract class AbstractPaginationBean implements Serializable {
      * @return The navigation outcome.
      */
     public String search() {
-        logger.finest("Searching for" + pagination.getSearchString());
         return loadData();
     }
 
@@ -141,9 +121,7 @@ public abstract class AbstractPaginationBean implements Serializable {
      * @return The navigation outcome.
      */
     public String sort(String sortBy) {
-        logger.finest("Sorting by " + sortBy);
         if (pagination.getSortBy().equals(sortBy)) {
-            logger.finest("Toggle direction ascending " + pagination.isSortAscending());
             pagination.setSortAscending(!pagination.isSortAscending());
         }
         pagination.setSortBy(sortBy);

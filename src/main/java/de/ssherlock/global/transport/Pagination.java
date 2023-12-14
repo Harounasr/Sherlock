@@ -35,11 +35,6 @@ public class Pagination implements Serializable {
      */
     private String searchString;
 
-
-    /**
-     * The Location of a search.
-     */
-    private String searchLocation;
     /**
      * The sortBy of the pagination.
      */
@@ -167,21 +162,4 @@ public class Pagination implements Serializable {
         this.sortAscending = sortAscending;
     }
 
-    /**
-     * Getter for the searchLocation of the pagination.
-     *
-     * @return The searchLocation of the pagination.
-     */
-    public String getSearchLocation() {
-        return searchLocation;
-    }
-
-    /**
-     * Setter for the searchLocation of the pagination.
-     *
-     * @param searchLocation The searchLocation to be set.
-     */
-    public void setSearchLocation(String searchLocation) {
-        this.searchLocation = searchLocation;
-    }
 }
