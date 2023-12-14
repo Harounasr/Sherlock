@@ -11,9 +11,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,10 +54,7 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
       statement.setString(6, user.getPassword().getHash());
       statement.setString(7, user.getPassword().getSalt());
       statement.setString(8, user.getVerificationToken());
-      Instant now = Instant.now();
-      Instant oneWeekLater = now.plus(Duration.ofDays(7));
-      Timestamp timestamp = Timestamp.from(oneWeekLater);
-      statement.setTimestamp(9, timestamp);
+      statement.setTimestamp(9, user.getExpiryDate());
       statement.executeUpdate();
     } catch (SQLException e) {
       logger.log(Level.INFO, "Could not insert user." + e);
@@ -222,5 +216,28 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
       logger.log(Level.INFO, "Error while executing sql query.");
       throw new RuntimeException(e);
     }
+  }
+
+  /** {@inheritDoc} **/
+  @SuppressWarnings("checkstyle:MagicNumber")
+  @Override
+    public boolean resetPassword(User user) {
+      String sqlQuery = """
+                        UPDATE "user"
+                        SET password_hash = ?,
+                            password_salt = ?
+                        WHERE token = ?
+                        AND expiry_date > NOW();
+                        """;
+      try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
+          statement.setString(1, user.getPassword().getHash());
+          statement.setString(2, user.getPassword().getSalt());
+          statement.setString(3, user.getVerificationToken());
+          statement.executeUpdate();
+          return true;
+      } catch (SQLException e) {
+          logger.log(Level.INFO, "Error while updating user.");
+          throw new RuntimeException(e);
+      }
   }
 }

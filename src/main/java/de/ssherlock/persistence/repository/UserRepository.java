@@ -72,4 +72,13 @@ public interface UserRepository {
    * @return true, in case the email exists, false otherwise.
    */
   boolean emailExists(User user);
+
+    /**
+     * Sets the users new password by matching the given verification token.
+     *
+     * @param user The user to reset the password for.
+     * @return Whether the reset was successfully or not.
+     */
+  boolean resetPassword(User user);
+
 }
