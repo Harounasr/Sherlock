@@ -10,19 +10,23 @@
 
         <!-- EXERCISE DESCRIPTION -->
         <h:panelGroup rendered="#{!exerciseDescriptionBean.editMode}">
-            <h:commandButton rendered="#{exerciseDescriptionBean.userCanEdit}" value="Edit" styleClass="full-width-button btn btn-primary" action="#{exerciseDescriptionBean.startEditMode}"/>
+            <h:commandButton rendered="#{exerciseDescriptionBean.userCanEdit}" value="Edit" styleClass="full-width-button btn btn-primary"
+                             action="#{exerciseDescriptionBean.startEditMode}"/>
             <div class="container">
                 <div class="row">
                     <div class="col">
-                        <label class="#{exerciseDescriptionBean.recommendedDeadlinePast ? 'past-deadline' : 'future-deadline'} deadline-label" for="recDeadline">Recommended Deadline:</label>
+                        <label class="#{exerciseDescriptionBean.recommendedDeadlinePast ? 'past-deadline' : 'future-deadline'} deadline-label"
+                               for="recDeadline">Recommended Deadline:</label>
                         <h:outputText id="recDeadline" value="#{exerciseDescriptionBean.exercise.recommendedDeadline}" converter="dateConverter"/>
                     </div>
                     <div class="col">
-                        <label class="#{exerciseDescriptionBean.obligatoryDeadlinePast ? 'past-deadline' : 'future-deadline'} deadline-label" for="obDeadline">Obligatory Deadline:</label>
+                        <label class="#{exerciseDescriptionBean.obligatoryDeadlinePast ? 'past-deadline' : 'future-deadline'} deadline-label"
+                               for="obDeadline">Obligatory Deadline:</label>
                         <h:outputText id="obDeadline" value="#{exerciseDescriptionBean.exercise.obligatoryDeadline}" converter="dateConverter"/>
                     </div>
                     <div class="col">
-                        <label class="#{exerciseDescriptionBean.publishDatePast ? 'past-deadline' : 'future-deadline'} deadline-label" for="pubDate">Publish Date:</label>
+                        <label class="#{exerciseDescriptionBean.publishDatePast ? 'past-deadline' : 'future-deadline'} deadline-label"
+                               for="pubDate">Publish Date:</label>
                         <h:outputText id="pubDate" value="#{exerciseDescriptionBean.exercise.publishDate}" converter="dateConverter"/>
                     </div>
                 </div>
@@ -42,7 +46,8 @@
                     <h:panelGroup rendered="#{!exerciseDescriptionBean.recommendedDeadlinePast}">
                         <label for="recommendedDeadline" class="deadline-label">Recommended Deadline:</label>
                         <h:inputText id="recommendedDeadline" styleClass="form-control" type="datetime-local"
-                                     value="#{exerciseDescriptionBean.exercise.recommendedDeadline}" validator="dateValidator" converter="dateConverter"/>
+                                     value="#{exerciseDescriptionBean.exercise.recommendedDeadline}" validator="dateValidator"
+                                     converter="dateConverter"/>
                         <h:message for="recommendedDeadline" styleClass="error-message"/>
                     </h:panelGroup>
                 </div>
@@ -51,7 +56,8 @@
                     <h:panelGroup rendered="#{!exerciseDescriptionBean.obligatoryDeadlinePast}">
                         <label for="obligatoryDeadline" class="deadline-label">Obligatory Deadline:</label>
                         <h:inputText id="obligatoryDeadline" styleClass="datetimepicker-input" type="datetime-local"
-                                     value="#{exerciseDescriptionBean.exercise.obligatoryDeadline}" validator="dateValidator" converter="dateConverter"/>
+                                     value="#{exerciseDescriptionBean.exercise.obligatoryDeadline}" validator="dateValidator"
+                                     converter="dateConverter"/>
                         <h:message for="obligatoryDeadline" styleClass="error-message"/>
                     </h:panelGroup>
                 </div>
