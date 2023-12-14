@@ -179,9 +179,7 @@ public class ExerciseDescriptionBean implements Serializable {
         }
         try {
             exerciseService.updateExercise(exercise);
-        } catch (BusinessNonExistentExerciseException | RuntimeException e) {
-            logger.info(e.getMessage());
-            logger.info(e.getCause().getMessage());
+        } catch (BusinessNonExistentExerciseException e) {
             Notification notification = new Notification(
                     "The exercise could not be updated. Please try again.", NotificationType.ERROR);
             notification.generateUIMessage();
