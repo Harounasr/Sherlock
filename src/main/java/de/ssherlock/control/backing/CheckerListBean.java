@@ -67,7 +67,9 @@ public class CheckerListBean implements Serializable {
     this.checkerService = checkerService;
     this.appSession = appSession;
     this.newChecker = new Checker();
+    this.updateChecker = new Checker();
     System.out.println("checkerbean inittin");
+    System.out.println("EID: " + updateChecker.getExerciseId());
   }
 
   /**
