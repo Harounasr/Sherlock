@@ -59,6 +59,8 @@ public class ConnectionPoolIT {
 
     /**
      * Sets up the configuration mock and instantiates the connection pool.
+     *
+     * @throws SQLException can be ignored.
      */
     @BeforeEach
     public void setup() throws SQLException {
