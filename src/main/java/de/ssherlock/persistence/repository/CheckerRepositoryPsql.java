@@ -15,10 +15,11 @@ import java.util.List;
 import java.util.logging.Level;
 
 /**
- * Implementation of CheckerRepository for PostgreSQL database.
+ *  of CheckerRepository for PostgreSQL database.
  *
  * @author Lennart Hohls
  */
+@SuppressWarnings("checkstyle:MagicNumber")
 public class CheckerRepositoryPsql extends RepositoryPsql implements CheckerRepository {
 
   /** Logger instance for logging messages related to CheckerRepositoryPsql. */
@@ -170,7 +171,7 @@ public class CheckerRepositoryPsql extends RepositoryPsql implements CheckerRepo
      * @throws PersistenceNonExistentCheckerException if no checkers were found.
      */
   @Override
-  public List<Checker> getCheckers() throws PersistenceNonExistentCheckerException{
+  public List<Checker> getCheckers() throws PersistenceNonExistentCheckerException {
     String sqlQuery = "SELECT * FROM checker;";
     List<Checker> allChecker = new ArrayList<>();
     try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
