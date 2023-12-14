@@ -133,10 +133,10 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
           user.setSystemRole(SystemRole.valueOf(result.getString("user_role")));
           user.setFacultyName(result.getString("faculty"));
           user.setPassword(password);
-          Map<Integer, CourseRole> courseRoles = new HashMap<>();
+          Map<Long, CourseRole> courseRoles = new HashMap<>();
 
           do {
-            int courseId = result.getInt("course_id");
+            long courseId = result.getLong("course_id");
             String courseRole = result.getString("course_role");
             if (courseId != 0 && courseRole != null) {
               courseRoles.put(courseId, CourseRole.valueOf(courseRole));

@@ -21,27 +21,19 @@ import java.util.logging.Level;
 public class ExerciseDescriptionImageServlet extends HttpServlet {
 
   /** The logger instance for this class. */
-  private final SerializableLogger logger;
+  @Inject
+  private SerializableLogger logger;
 
   /** Exercise description image service for image related operations. */
-  private final ExerciseDescriptionImageService exerciseDescriptionImageService;
+  @Inject
+  private ExerciseDescriptionImageService exerciseDescriptionImageService;
 
   /**
    * Default constructor.
-   *
-   * @param logger The logger of this class.
-   * @param exerciseDescriptionImageService The service for exercise description images.
    */
   @Inject
-  public ExerciseDescriptionImageServlet(
-      SerializableLogger logger, ExerciseDescriptionImageService exerciseDescriptionImageService) {
-    this.logger = logger;
-    this.exerciseDescriptionImageService = exerciseDescriptionImageService;
-  }
+  public ExerciseDescriptionImageServlet() {
 
-  /** Empty constructor for CDI. */
-  protected ExerciseDescriptionImageServlet() {
-    this(null, null);
   }
 
   /**
@@ -56,19 +48,21 @@ public class ExerciseDescriptionImageServlet extends HttpServlet {
       throws IOException {
     String imageId = request.getParameter("id");
     if (imageId != null) {
-      logger.log(Level.INFO, "Client request for image with id " + imageId);
+      logger.info("Client request for image with id " + imageId);
       ExerciseDescriptionImage image = new ExerciseDescriptionImage();
       image.setUUID(imageId);
       try {
         image = exerciseDescriptionImageService.getImage(image);
         response.setContentType("image/png");
         response.getOutputStream().write(image.getImage());
+        logger.info("Request managed successfully.");
       } catch (IOException | BusinessNonExistentImageException e) {
         handleException(response, e);
       }
     } else {
       response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
       response.getWriter().println("Image ID parameter is missing");
+      logger.warning("Requested an image without use of id.");
     }
   }
 
@@ -82,7 +76,7 @@ public class ExerciseDescriptionImageServlet extends HttpServlet {
    */
   private void handleException(HttpServletResponse response, Exception e) throws IOException {
     if (e instanceof BusinessNonExistentImageException) {
-      logger.log(Level.WARNING, "Requested image does not exist: " + e.getMessage());
+      logger.log(Level.WARNING, "Requested image does not exist.");
       response.setStatus(HttpServletResponse.SC_NOT_FOUND);
       response.getWriter().println("Image not found");
     } else {

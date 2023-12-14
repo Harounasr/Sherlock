@@ -26,7 +26,7 @@
         <maven-javadoc-plugin.version>3.4.1</maven-javadoc-plugin.version>
         <formatter.version>2.21.1</formatter.version>
         <faces.version>4.0.0</faces.version>
-        <weld.version>5.1.1.Final</weld.version>
+        <weld.version>5.1.2.Final</weld.version>
         <postgresql.version>42.6.0</postgresql.version>
         <bootstrap.version>5.3.2</bootstrap.version>
         <jakarta.mail.version>2.0.1</jakarta.mail.version>
@@ -44,6 +44,7 @@
         <maven-failsafe-plugin.version>3.2.2</maven-failsafe-plugin.version>
         <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
+        <jsoup.version>1.17.1</jsoup.version>
     </properties>
 
     <dependencies>
@@ -81,7 +82,7 @@
         <dependency>
             <groupId>org.jboss.weld</groupId>
             <artifactId>weld-core-impl</artifactId>
-            <version>5.1.2.Final</version>
+            <version>${weld.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -168,6 +169,13 @@
             <artifactId>spotbugs-annotations</artifactId>
             <version>${spotbugs-annotations.version}</version>
         </dependency>
+
+        <!-- jsoup HTML parser library -->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>${jsoup.version}</version>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
@@ -232,19 +240,6 @@
                     <failOnError>true</failOnError>
                     <failOnWarnings>true</failOnWarnings>
                 </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>com.spotify.fmt</groupId>
-                <artifactId>fmt-maven-plugin</artifactId>
-                <version>${formatter.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>format</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
 
             <plugin>

@@ -41,16 +41,16 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
     public void insertExercise(Exercise exercise) {
         String sqlQuery =
                 """
-                     INSERT INTO exercise(name, course_name, publish_date, recommended_deadline,
+                     INSERT INTO exercise(name, course_id, publish_date, recommended_deadline,
                          obligatory_deadline)
                      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                 """;
         try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
             statement.setString(1, exercise.getName());
-            statement.setString(2, exercise.getCourseName());
-            statement.setDate(3, exercise.getPublishDate());
-            statement.setDate(4, exercise.getRecommendedDeadline());
-            statement.setDate(5, exercise.getObligatoryDeadline());
+            statement.setLong(2, exercise.getCourseId());
+            statement.setTimestamp(3, exercise.getPublishDate());
+            statement.setTimestamp(4, exercise.getRecommendedDeadline());
+            statement.setTimestamp(5, exercise.getObligatoryDeadline());
 
             statement.executeUpdate();
 
@@ -67,22 +67,21 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
     public void updateExercise(Exercise exercise) throws PersistenceNonExistentExerciseException {
         String sqlQuery =
                 """
-                    UPDATE exercises
+                    UPDATE exercise
                     SET name = ?,
                         publish_date = ?,
                         recommended_deadline = ?,
                         obligatory_deadline = ?,
-                        coursename = ?,
+                        course_name = ?,
                         description = ?
                     WHERE id = ?;
                 """;
         try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
             statement.setString(1, exercise.getName());
-            statement.setDate(2, exercise.getPublishDate());
-            statement.setDate(3, exercise.getRecommendedDeadline());
-            statement.setDate(4, exercise.getObligatoryDeadline());
-            // update once test data is inserted in the database
-            statement.setString(5, exercise.getCourseName());
+            statement.setTimestamp(2, exercise.getPublishDate());
+            statement.setTimestamp(3, exercise.getRecommendedDeadline());
+            statement.setTimestamp(4, exercise.getObligatoryDeadline());
+            statement.setLong(5, exercise.getCourseId());
             statement.setString(6, exercise.getDescription());
             statement.setLong(7, exercise.getId());
             statement.executeUpdate();
@@ -114,17 +113,17 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
      */
     @Override
     public Exercise getExercise(Exercise exercise) throws PersistenceNonExistentExerciseException {
-        String sqlQuery = "SELECT * FROM exercises WHERE id = ?;";
+        String sqlQuery = "SELECT * FROM exercise WHERE id = ?;";
         try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
             statement.setLong(1, exercise.getId());
             ResultSet result = statement.executeQuery();
             if (result.next()) {
                 exercise.setName(result.getString("name"));
-                exercise.setPublishDate(result.getDate("publish_date"));
-                exercise.setRecommendedDeadline(result.getDate("recommended_deadline"));
-                exercise.setObligatoryDeadline(result.getDate("obligatory_deadline"));
+                exercise.setPublishDate(result.getTimestamp("publish_date"));
+                exercise.setRecommendedDeadline(result.getTimestamp("recommended_deadline"));
+                exercise.setObligatoryDeadline(result.getTimestamp("obligatory_deadline"));
                 exercise.setDescription(result.getString("description"));
-                exercise.setCourseName(result.getString("coursename"));
+                exercise.setCourseId(result.getLong("course_id"));
             } else {
                 throw new PersistenceNonExistentExerciseException(
                         "The exercise with id " + exercise.getId() + "is not stored in the database");
@@ -152,10 +151,10 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
                     Exercise exercise = new Exercise();
                     exercise.setId(result.getLong("id"));
                     exercise.setName(result.getString("name"));
-                    exercise.setPublishDate(result.getDate("publish_date"));
-                    exercise.setRecommendedDeadline(result.getDate("recommended_deadline"));
-                    exercise.setObligatoryDeadline(result.getDate("obligatory_deadline"));
-                    exercise.setCourseName(result.getString("coursename"));
+                    exercise.setPublishDate(result.getTimestamp("publish_date"));
+                    exercise.setRecommendedDeadline(result.getTimestamp("recommended_deadline"));
+                    exercise.setObligatoryDeadline(result.getTimestamp("obligatory_deadline"));
+                    exercise.setCourseId(result.getLong("course_id"));
                     exercises.add(exercise);
                 } while (result.next());
             }
