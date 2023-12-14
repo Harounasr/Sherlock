@@ -165,9 +165,6 @@ public class ConnectionPool implements Serializable {
                         connection.rollback();
                         logger.finest("Connection successfully rolled back.");
                     }
-                    if (!isValidConnection(connection)) {
-                        connection = createConnection();
-                    }
                     connections.offer(connection);
                     logger.info("Connection was released successfully");
                 }
@@ -218,21 +215,6 @@ public class ConnectionPool implements Serializable {
             logger.info("Database Driver loaded.");
         } catch (ClassNotFoundException e) {
             throw new DBUnavailableException("DB Driver could not be found.", e);
-        }
-    }
-
-    /**
-     * Validates a given connection.
-     *
-     * @param connection The connection to validate.
-     * @return Whether the connection is valid.
-     */
-    private boolean isValidConnection(Connection connection) {
-        try {
-            return connection.isValid(VALIDATION_TIMEOUT);
-        } catch (SQLException e) {
-            logger.warning("Connection could not be validated.");
-            return false;
         }
     }
 }
