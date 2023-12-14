@@ -86,7 +86,7 @@ public class CourseUserPaginationBean extends AbstractPaginationBean implements 
 
     @Override
     public String loadData() {
-        userService.getUsers();
+        userService.getUsers(getPagination());
         return "";
     }
 
