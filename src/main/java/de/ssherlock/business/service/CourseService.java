@@ -91,28 +91,53 @@ public class CourseService implements Serializable {
     }
 
 
-  /**
-   * Retrieves a list of courses associated with the specified user.
-   *
-   * @param user The user for whom to retrieve courses.
-   * @return A list of courses associated with the user.
-   */
-  public List<Course> getCourses(User user) {
-    Connection connection = connectionPool.getConnection();
-    CourseRepository courseRepository =
-        RepositoryFactory.getCourseRepository(RepositoryType.POSTGRESQL, connection);
-    logger.log(Level.INFO, "getting courses");
-    try {
-      List<Course> test;
-      test = courseRepository.getCourses(user);
-      logger.log(Level.INFO, test.toString());
-      return test;
-    } catch (PersistenceNonExistentCourseException e) {
-      logger.log(Level.INFO, "service found no courses.");
+    /**
+     * Retrieves a list of courses associated with the specified user.
+     *
+     * @param user The user for whom to retrieve courses.
+     * @return A list of courses associated with the user.
+     */
+    public List<Course> getCourses(User user) {
+        Connection connection = connectionPool.getConnection();
+        CourseRepository courseRepository =
+                RepositoryFactory.getCourseRepository(RepositoryType.POSTGRESQL, connection);
+        logger.log(Level.INFO, "getting courses");
+        try {
+            List<Course> test;
+            test = courseRepository.getCourses(user);
+            logger.log(Level.INFO, test.toString());
+            return test;
+        } catch (PersistenceNonExistentCourseException e) {
+            logger.log(Level.INFO, "service found no courses.");
+        }
+        connectionPool.releaseConnection(connection);
+        return Collections.emptyList();
     }
-    connectionPool.releaseConnection(connection);
-    return Collections.emptyList();
-  }
+
+    /**
+     * Retrieves a list of courses associated with the specified user.
+     *
+     * @param pagination The pagination.
+     * @param user The user for whom to retrieve courses.
+     * @return A list of courses associated with the user.
+     */
+    public List<Course> getCourses(Pagination pagination, User user) {
+        Connection connection = connectionPool.getConnection();
+        CourseRepository courseRepository =
+                RepositoryFactory.getCourseRepository(RepositoryType.POSTGRESQL, connection);
+        logger.log(Level.INFO, "getting courses");
+        try {
+            List<Course> test;
+            test = courseRepository.getCourses(user);
+            logger.log(Level.INFO, test.toString());
+            return sortAndFilterCourses(test, pagination);
+        } catch (PersistenceNonExistentCourseException e) {
+            logger.log(Level.INFO, "service found no courses.");
+        } finally {
+            connectionPool.releaseConnection(connection);
+        }
+        return Collections.emptyList();
+    }
 
 
     /**
@@ -160,7 +185,7 @@ public class CourseService implements Serializable {
     /**
      * Sorts and filters a list of courses.
      *
-     * @param courses The courses.
+     * @param courses    The courses.
      * @param pagination The pagination.
      * @return The sorted and filtered list.
      */

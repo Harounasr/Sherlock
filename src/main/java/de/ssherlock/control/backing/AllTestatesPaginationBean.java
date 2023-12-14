@@ -117,16 +117,8 @@ public class AllTestatesPaginationBean extends AbstractPaginationBean implements
      * {@inheritDoc}
      */
     @Override
-    public String loadData() {
+    public void loadData() {
         testateService.getAllTestates(exercise);
-        return "";
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String search() {
-        return "";
-    }
 }

@@ -118,16 +118,9 @@ public class AllSubmissionPaginationBean extends AbstractPaginationBean implemen
      * {@inheritDoc}
      */
     @Override
-    public String loadData() {
+    public void loadData() {
         submissions = submissionService.getSubmissions(getPagination(), exercise);
-        return "";
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String search() {
-        return "";
-    }
+
 }
