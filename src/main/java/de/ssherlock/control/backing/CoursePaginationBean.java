@@ -1,13 +1,10 @@
 package de.ssherlock.control.backing;
 
-import static java.util.logging.Level.INFO;
-
 import de.ssherlock.business.service.CourseService;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Course;
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
@@ -17,6 +14,8 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+
+import static java.util.logging.Level.INFO;
 
 /**
  * Backing bean for the coursePagination.xhtml facelet.

@@ -73,11 +73,7 @@ public abstract class AbstractPaginationBean implements Serializable {
      * Navigates to the previous page.
      */
     public void previousPage() {
-        if (pagination.getCurrentIndex() - pagination.getPageSize() >= 0) {
-            pagination.setCurrentIndex(pagination.getCurrentIndex() - pagination.getPageSize());
-        } else {
-            pagination.setCurrentIndex(0);
-        }
+        pagination.setCurrentIndex(Math.max(pagination.getCurrentIndex() - pagination.getPageSize(), 0));
         loadData();
     }
 
@@ -111,7 +107,7 @@ public abstract class AbstractPaginationBean implements Serializable {
     }
 
     /**
-     * Initializes the search
+     * Initializes the search.
      */
     public void search() {
         pagination.setCurrentIndex(0);
