@@ -20,67 +20,76 @@ import java.sql.Connection;
  * The ExerciseDescriptionImageService class provides functionality for managing
  * ExerciseDescriptionImages and related operations.
  *
- * @author Leon Höfling
+ * @author Victor Vollmann
  */
 @Named
 @Dependent
 public class ExerciseDescriptionImageService implements Serializable {
 
-  /** Serial Version UID. */
-  @Serial private static final long serialVersionUID = 1L;
+    /**
+     * Serial Version UID.
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
 
-  /** The logger instance for this class. */
-  private final SerializableLogger logger;
+    /**
+     * The logger instance for this class.
+     */
+    private final SerializableLogger logger;
 
-  /** The connection pool instance. */
-  private final ConnectionPool connectionPool;
+    /**
+     * The connection pool instance.
+     */
+    private final ConnectionPool connectionPool;
 
-  /**
-   * Constructs a ExerciseDescriptionImageService.
-   *
-   * @param logger The logger instance for this class.
-   * @param connectionPool The connection pool instance.
-   */
-  @Inject
-  public ExerciseDescriptionImageService(SerializableLogger logger, ConnectionPool connectionPool) {
-    this.logger = logger;
-    this.connectionPool = connectionPool;
-  }
-
-  /**
-   * Inserts an ExerciseDescriptionImage into the database.
-   *
-   * @param image The ExerciseDescriptionImage to insert.
-   */
-  public void insertImage(ExerciseDescriptionImage image) {
-    Connection connection = connectionPool.getConnection();
-    ExerciseDescriptionImageRepository imageRepository =
-        RepositoryFactory.getExerciseDescriptionImageRepository(
-            RepositoryType.POSTGRESQL, connection);
-    imageRepository.insertExerciseDescriptionImage(image);
-    connectionPool.releaseConnection(connection);
-  }
-
-  /**
-   * Gets an ExerciseDescriptionImage from the database by its uuid.
-   *
-   * @param exerciseDescriptionImage The image to retrieve.
-   * @return The image.
-   * @throws BusinessNonExistentImageException when the image does not exist in the database.
-   */
-  public ExerciseDescriptionImage getImage(ExerciseDescriptionImage exerciseDescriptionImage)
-      throws BusinessNonExistentImageException {
-    Connection connection = connectionPool.getConnection();
-    ExerciseDescriptionImageRepository imageRepository =
-        RepositoryFactory.getExerciseDescriptionImageRepository(
-            RepositoryType.POSTGRESQL, connection);
-    try {
-      exerciseDescriptionImage =
-          imageRepository.getExerciseDescriptionImage(exerciseDescriptionImage);
-    } catch (PersistenceNonExistentImageException e) {
-      throw new BusinessNonExistentImageException("The image was not stored in the database.", e);
+    /**
+     * Constructs a ExerciseDescriptionImageService.
+     *
+     * @param logger         The logger instance for this class.
+     * @param connectionPool The connection pool instance.
+     */
+    @Inject
+    public ExerciseDescriptionImageService(SerializableLogger logger, ConnectionPool connectionPool) {
+        this.logger = logger;
+        this.connectionPool = connectionPool;
     }
-    connectionPool.releaseConnection(connection);
-    return exerciseDescriptionImage;
-  }
+
+    /**
+     * Inserts an ExerciseDescriptionImage into the database.
+     *
+     * @param image The ExerciseDescriptionImage to insert.
+     */
+    public void insertImage(ExerciseDescriptionImage image) {
+        logger.fine("Service request for inserting image " + image.getUUID());
+        Connection connection = connectionPool.getConnection();
+        ExerciseDescriptionImageRepository imageRepository =
+                RepositoryFactory.getExerciseDescriptionImageRepository(
+                        RepositoryType.POSTGRESQL, connection);
+        imageRepository.insertExerciseDescriptionImage(image);
+        connectionPool.releaseConnection(connection);
+    }
+
+    /**
+     * Gets an ExerciseDescriptionImage from the database by its uuid.
+     *
+     * @param image The image to retrieve.
+     * @return The image.
+     * @throws BusinessNonExistentImageException when the image does not exist in the database.
+     */
+    public ExerciseDescriptionImage getImage(ExerciseDescriptionImage image)
+            throws BusinessNonExistentImageException {
+        logger.fine("Service request for getting image " + image.getUUID());
+        Connection connection = connectionPool.getConnection();
+        ExerciseDescriptionImageRepository imageRepository =
+                RepositoryFactory.getExerciseDescriptionImageRepository(
+                        RepositoryType.POSTGRESQL, connection);
+        try {
+            image = imageRepository.getExerciseDescriptionImage(image);
+        } catch (PersistenceNonExistentImageException e) {
+            throw new BusinessNonExistentImageException("The image was not stored in the database.", e);
+        } finally {
+            connectionPool.releaseConnection(connection);
+        }
+        return image;
+    }
 }
