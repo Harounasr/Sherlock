@@ -33,7 +33,10 @@ public class CheckerRepositoryPsql extends RepositoryPsql implements CheckerRepo
     super(connection);
   }
 
-  /** {@inheritDoc} */
+    /**
+     * inserts a checker.
+     * @param checker The Checker entity to be inserted.
+     */
   @Override
   public void insertChecker(Checker checker) {
     String sqlQuery =
@@ -57,7 +60,11 @@ public class CheckerRepositoryPsql extends RepositoryPsql implements CheckerRepo
     }
   }
 
-  /** {@inheritDoc} */
+    /**
+     * Updates a checker.
+     * @param checker The Checker entity to be updated.
+     * @throws PersistenceNonExistentCheckerException if the checker was not found
+     */
   @Override
   public void updateChecker(Checker checker) throws PersistenceNonExistentCheckerException {
     String sqlQuery =
@@ -93,7 +100,11 @@ public class CheckerRepositoryPsql extends RepositoryPsql implements CheckerRepo
     }
   }
 
-  /** {@inheritDoc} */
+    /**
+     * Deletes a checker.
+     * @param checker The Checker entity to be deleted.
+     * @throws PersistenceNonExistentCheckerException if the checker was not found
+     */
   @Override
   public void deleteChecker(Checker checker) throws PersistenceNonExistentCheckerException {
     logger.log(Level.INFO, "repo: " + checker.getId());
@@ -120,7 +131,12 @@ public class CheckerRepositoryPsql extends RepositoryPsql implements CheckerRepo
     }
   }
 
-  /** {@inheritDoc} */
+    /**
+     * Gets a specific checker.
+     * @param checker The Checker entity to be fetched.
+     * @return the checker DTO
+     * @throws PersistenceNonExistentCheckerException if the checker was not found
+     */
   @Override
   public Checker getChecker(Checker checker) throws PersistenceNonExistentCheckerException {
     String sqlQuery = "SELECT * FROM checker where id=?;";
@@ -148,7 +164,11 @@ public class CheckerRepositoryPsql extends RepositoryPsql implements CheckerRepo
     return returnChecker;
   }
 
-  /** {@inheritDoc} */
+    /**
+     * Gets the list of all available checkers.
+     * @return list of checkers.
+     * @throws PersistenceNonExistentCheckerException
+     */
   @Override
   public List<Checker> getCheckers() throws PersistenceNonExistentCheckerException{
     String sqlQuery = "SELECT * FROM checker;";
@@ -175,7 +195,11 @@ public class CheckerRepositoryPsql extends RepositoryPsql implements CheckerRepo
     return allChecker;
   }
 
-    /** {@inheritDoc} */
+    /**
+     * Getter for list of checkers with exercise.
+     * @param exercise the exercise
+     * @return list of checkers
+     */
     @Override
     public List<Checker> getCheckersForExercise(Exercise exercise) {
         String sqlQuery = "SELECT * FROM checker WHERE exercise_id = ?;";

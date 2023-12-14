@@ -16,7 +16,7 @@ import java.util.logging.Level;
 /**
  * Implementation of CourseRepository for PostgreSQL database.
  *
- * @author Victor Vollmann
+ * @author Lennart Hohls
  */
 public class CourseRepositoryPsql extends RepositoryPsql implements CourseRepository {
 
@@ -92,6 +92,12 @@ public class CourseRepositoryPsql extends RepositoryPsql implements CourseReposi
     return allCourses;
   }
 
+    /**
+     * Gets a list of all courses for a given user.
+     * @param user the user.
+     * @return the list of courses
+     * @throws PersistenceNonExistentCourseException if the user has no courses.
+     */
   public List<Course> getCourses(User user) throws PersistenceNonExistentCourseException {
     String sqlQuery =
         "SELECT c.* FROM course c "
