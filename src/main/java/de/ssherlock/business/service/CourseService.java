@@ -1,9 +1,10 @@
 package de.ssherlock.business.service;
 
 import de.ssherlock.business.exception.BusinessNonExistentCourseException;
-import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Course;
+import de.ssherlock.global.transport.Exercise;
+import de.ssherlock.global.transport.Pagination;
 import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.connection.ConnectionPool;
 import de.ssherlock.persistence.exception.PersistenceNonExistentCourseException;
@@ -13,62 +14,83 @@ import de.ssherlock.persistence.repository.RepositoryType;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * The CourseService class provides functionality for managing courses and related operations.
  *
- * @author Lennart Hohls
+ * @author Victor Vollmann
  */
 @Named
 @Dependent
 public class CourseService implements Serializable {
 
-  /** Serial Version UID. */
-  @Serial private static final long serialVersionUID = 1L;
+    /**
+     * Serial Version UID.
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
 
-  /** Logger instance for logging messages related to CourseService. */
-  private final SerializableLogger logger;
+    /**
+     * Logger instance for logging messages related to CourseService.
+     */
+    private final SerializableLogger logger;
 
-  /** ConnectionPoolPsql instance for getting a database connection. */
-  private final ConnectionPool connectionPool;
+    /**
+     * ConnectionPoolPsql instance for getting a database connection.
+     */
+    private final ConnectionPool connectionPool;
 
-  /** AppSession for the User. */
-  private final AppSession appSession;
+    /**
+     * Constructs a CourseService with the specified logger.
+     *
+     * @param logger         The logger to be used for logging messages related to CourseService.
+     * @param connectionPool The connection pool.
+     */
+    @Inject
+    public CourseService(SerializableLogger logger, ConnectionPool connectionPool) {
+        this.logger = logger;
+        this.connectionPool = connectionPool;
+    }
 
-  /**
-   * Constructs a CourseService with the specified logger.
-   *
-   * @param logger The logger to be used for logging messages related to CourseService.
-   * @param connectionPool The connection pool.
-*    @param appSession the appSession
-   */
-  @Inject
-  public CourseService(
-      SerializableLogger logger, ConnectionPool connectionPool, AppSession appSession) {
-    this.logger = logger;
-    this.connectionPool = connectionPool;
-    this.appSession = appSession;
-  }
+    /**
+     * Retrieves a list of all courses.
+     *
+     * @return A list of all courses.
+     */
+    public List<Course> getCourses() {
+        Connection connection = connectionPool.getConnection();
+        CourseRepository courseRepository =
+                RepositoryFactory.getCourseRepository(RepositoryType.POSTGRESQL, connection);
+        List<Course> courses = courseRepository.getCourses();
+        connectionPool.releaseConnection(connection);
+        return courses;
+    }
 
-  /**
-   * Retrieves a list of all courses.
-   *
-   * @return A list of all courses.
-   */
-  public List<Course> getCourses() {
-    Connection connection = connectionPool.getConnection();
-    CourseRepository courseRepository =
-        RepositoryFactory.getCourseRepository(RepositoryType.POSTGRESQL, connection);
-    List<Course> courses = courseRepository.getCourses();
-    connectionPool.releaseConnection(connection);
-    return courses;
-  }
+    /**
+     * Retrieves a list of all courses.
+     *
+     * @param pagination The pagination.
+     * @return A list of all courses.
+     */
+    public List<Course> getCourses(Pagination pagination) {
+        Connection connection = connectionPool.getConnection();
+        CourseRepository courseRepository =
+                RepositoryFactory.getCourseRepository(RepositoryType.POSTGRESQL, connection);
+        List<Course> courses = courseRepository.getCourses();
+        connectionPool.releaseConnection(connection);
+        return sortAndFilterCourses(courses, pagination);
+    }
+
 
   /**
    * Retrieves a list of courses associated with the specified user.
@@ -93,45 +115,73 @@ public class CourseService implements Serializable {
     return Collections.emptyList();
   }
 
-  /**
-   * Adds a new course.
-   *
-   * @param course The course to add.
-   */
-  public void addCourse(Course course) {
-    Connection connection = connectionPool.getConnection();
-    CourseRepository courseRepository =
-        RepositoryFactory.getCourseRepository(RepositoryType.POSTGRESQL, connection);
-    logger.log(Level.INFO, "adding course");
-    courseRepository.insertCourse(course);
-    connectionPool.releaseConnection(connection);
-  }
 
-  /**
-   * Checks whether a course already exists in the database.
-   *
-   * @param course The course name.
-   * @return true if the course exists.
-   */
-  public boolean courseExists(Course course) {
-    return false;
-  }
-
-  /**
-   * Removes an existing course.
-   *
-   * @param course The course to remove.
-   * @throws BusinessNonExistentCourseException when the course does not exist in the database.
-   */
-  public void removeCourse(Course course) throws BusinessNonExistentCourseException {
-    Connection connection = connectionPool.getConnection();
-    CourseRepository courseRepository =
-        RepositoryFactory.getCourseRepository(RepositoryType.POSTGRESQL, connection);
-    try {
-      courseRepository.deleteCourse(course);
-    } catch (PersistenceNonExistentCourseException e) {
-      throw new BusinessNonExistentCourseException();
+    /**
+     * Adds a new course.
+     *
+     * @param course The course to add.
+     */
+    public void addCourse(Course course) {
+        Connection connection = connectionPool.getConnection();
+        CourseRepository courseRepository =
+                RepositoryFactory.getCourseRepository(RepositoryType.POSTGRESQL, connection);
+        logger.log(Level.INFO, "adding course");
+        courseRepository.insertCourse(course);
+        connectionPool.releaseConnection(connection);
     }
-    connectionPool.releaseConnection(connection);
-  }
+
+    /**
+     * Checks whether a course already exists in the database.
+     *
+     * @param course The course name.
+     * @return true if the course exists.
+     */
+    public boolean courseExists(Course course) {
+        return false;
+    }
+
+    /**
+     * Removes an existing course.
+     *
+     * @param course The course to remove.
+     * @throws BusinessNonExistentCourseException when the course does not exist in the database.
+     */
+    public void removeCourse(Course course) throws BusinessNonExistentCourseException {
+        Connection connection = connectionPool.getConnection();
+        CourseRepository courseRepository =
+                RepositoryFactory.getCourseRepository(RepositoryType.POSTGRESQL, connection);
+        try {
+            courseRepository.deleteCourse(course);
+        } catch (PersistenceNonExistentCourseException e) {
+            throw new BusinessNonExistentCourseException();
+        }
+        connectionPool.releaseConnection(connection);
+    }
+
+    /**
+     * Sorts and filters a list of courses.
+     *
+     * @param courses The courses.
+     * @param pagination The pagination.
+     * @return The sorted and filtered list.
+     */
+    private List<Course> sortAndFilterCourses(List<Course> courses, Pagination pagination) {
+        Stream<Course> courseStream = courses.stream();
+
+        if (!pagination.getSearchString().isEmpty()) {
+            courseStream = courseStream.filter(course -> course.getName().contains(pagination.getSearchString()));
+        }
+
+        String sortBy = pagination.getSortBy();
+        if (!sortBy.isEmpty()) {
+            Comparator<Course> comparator = switch (sortBy) {
+                case "name" -> Comparator.comparing(Course::getName);
+                case "id" -> Comparator.comparing(Course::getId);
+                default -> (course1, course2) -> 0;
+            };
+            courseStream = pagination.isSortAscending() ? courseStream.sorted(comparator) : courseStream.sorted(comparator.reversed());
+        }
+
+        return courseStream.collect(Collectors.toList());
+    }
 }
