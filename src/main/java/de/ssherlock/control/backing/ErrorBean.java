@@ -27,6 +27,9 @@ public class ErrorBean {
     this.error = error;
   }
 
+    /**
+     * Constructor for CDI.
+     */
   public ErrorBean() {
     this(null);
   }

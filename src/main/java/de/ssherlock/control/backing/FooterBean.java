@@ -28,7 +28,7 @@ public class FooterBean implements Serializable {
   private final AppSession appSession;
 
   /** A SystemService instance. */
-  private SystemService systemService;
+  private final SystemService systemService;
 
   /** The imprint text. */
   private String imprint;
@@ -38,6 +38,7 @@ public class FooterBean implements Serializable {
    *
    * @param logger The logger used for logging within this class (Injected).
    * @param appSession The active session (Injected).
+   *                   @param systemService the systemservice(Injected).
    */
   @Inject
   public FooterBean(SerializableLogger logger, AppSession appSession, SystemService systemService) {
