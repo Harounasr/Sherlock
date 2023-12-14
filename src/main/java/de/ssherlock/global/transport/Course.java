@@ -22,6 +22,9 @@ public class Course implements Serializable {
      */
     private String name;
 
+    /**
+     * The course id.
+     */
     private long id;
 
     /**
