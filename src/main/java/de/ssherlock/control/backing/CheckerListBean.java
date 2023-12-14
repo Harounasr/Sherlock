@@ -112,6 +112,9 @@ public class CheckerListBean implements Serializable {
     return checkers;
   }
 
+    /**
+     * Deletes the Checkers.
+     */
   public void deleteChecker() {
     Checker deletedChecker = new Checker();
     deletedChecker.setId(deleteCheckerID);
@@ -145,34 +148,66 @@ public class CheckerListBean implements Serializable {
     this.newChecker = checker;
   }
 
+    /**
+     * Setter for the page Size.
+     * @param pageSize page size
+     */
   public void setPageSize(int pageSize) {
     this.pageSize = pageSize;
   }
 
+    /***
+     * Getter for the page Size.
+     * @return page Size
+     */
   public int getPageSize() {
     return pageSize;
   }
 
+    /***
+     * Gets the current Index.
+     * @return the current index.
+     */
   public int getCurrentIndex() {
     return currentIndex;
   }
 
+    /**
+     * Sets the current Index.
+     * @param index index.
+     */
   public void setCurrentIndex(int index) {
     currentIndex = index;
   }
 
+    /***
+     * Getter for the deleteCheckerID
+     * @return the ID of the checker to be deleted.
+     */
   public int getDeleteCheckerID() {
     return deleteCheckerID;
   }
 
+    /**
+     * Sette for the checkers id
+     * @param id the id.
+     */
   public void setDeleteCheckerID(int id) {
     deleteCheckerID = id;
   }
 
+    /**
+     * Getter for the udpated Checker
+     * @return Checker
+     */
   public Checker getUpdateChecker() {
     return updateChecker;
   }
 
+    /**
+     * Setter for the Update Checker
+     * @param checker checker to be updated.
+     */
   public void setUpdateChecker(Checker checker) {
     updateChecker = checker;
   }

@@ -37,25 +37,18 @@ public class ProfileBean implements Serializable {
 
   /** The service for user-related operations. */
   private final UserService userService;
-
+/** The faculty service.*/
   private final FacultyService facultyService;
 
   /** The user of the profile. */
   private User user;
 
+  /** The userdata to be changed.*/
   private User changedUser;
 
   /** username of the profile. */
   private String username;
 
-  /** first name of the user. */
-  private String firstname;
-
-  /** last name of the user. */
-  private String lastname;
-
-  /** Faculty name of the user. */
-  private String facultyName;
 
   /** The first new password for change. */
   private String newPasswordOne;
@@ -69,6 +62,7 @@ public class ProfileBean implements Serializable {
    * @param logger The logger for logging events.
    * @param appSession The active session of the user.
    * @param userService The service for user-related operations.
+   *                    @param facultyService the faculty service.
    */
   @Inject
   public ProfileBean(
@@ -120,7 +114,8 @@ public class ProfileBean implements Serializable {
   /** Submits the system role change request. */
   public void submitSystemRoleChange() {}
 
-  /** Deletes the user account. */
+  /** Deletes the user account.
+   * @return to login*/
   public String deleteAccount() {
     logger.log(INFO, "bean: " + user.getUsername());
     try {
@@ -188,26 +183,34 @@ public class ProfileBean implements Serializable {
     this.newPasswordTwo = newPasswordTwo;
   }
 
+    /**
+     * Gets the appsession.
+     * @return appSession
+     */
   public AppSession getAppSession() {
     return appSession;
   }
 
+    /**
+     * Gets the username.
+     * @return username
+     */
   public String getUsername() {
     return username;
   }
 
-  public String getFacultyName() {
-    return facultyName;
-  }
-
-  public void setChangedFacultyName(String facultyName) {
-    changedUser.setFacultyName(facultyName);
-  }
-
+    /**
+     * Gets the changed user.
+     * @return changed user
+     */
   public User getChangedUser() {
     return changedUser;
   }
 
+    /**
+     * Gets the facultyservice.
+     * @return facultyservice
+     */
   public FacultyService getFacultyService() {
     return facultyService;
   }

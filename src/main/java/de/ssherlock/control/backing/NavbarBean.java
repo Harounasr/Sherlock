@@ -35,14 +35,25 @@ public class NavbarBean implements Serializable {
   /** The current system settings. */
   private SystemSettings systemSettings;
 
+    /**
+     * Getter for the boolean.
+     * @return boolean
+     */
   public boolean isSeeAllCourses() {
     return seeAllCourses;
   }
+    /**
+     * Setter for the boolean.
+     * @param seeAllCourses boolean
+     */
 
   public void setSeeAllCourses(boolean seeAllCourses) {
     this.seeAllCourses = seeAllCourses;
   }
 
+    /**
+     * Boolean which list to display.
+     */
   private boolean seeAllCourses;
 
   /**
@@ -88,6 +99,10 @@ public class NavbarBean implements Serializable {
     return "/view/registered/coursePagination.xhtml?all=false";
   }
 
+    /**
+     * navigation String to Checker List
+     * @return String.
+     */
   public String navigateToCheckers() {
     return "/view/registered/checkerList.xhtml";
   }

@@ -103,6 +103,7 @@ public class CheckerService implements Serializable {
    *
    * @param exercise The exercise for which to retrieve checkers.
    * @return A list of checkers associated with the exercise.
+   * @throws BusinessNonExistentCheckerException if no checkers were found.
    */
   public List<Checker> getCheckersForExercise (Exercise exercise) throws BusinessNonExistentCheckerException {
       Connection connection = connectionPool.getConnection();
@@ -120,7 +121,9 @@ public class CheckerService implements Serializable {
       return checkerList;
   }
 
-  /** Retrieves a list of all available Checkers. */
+  /** Retrieves a list of all available Checkers.
+   * @return List of Checkers
+   * @throws BusinessNonExistentCheckerException if no checkers were found.*/
   public List<Checker> getChecker() throws BusinessNonExistentCheckerException {
     Connection connection = connectionPool.getConnection();
     List<Checker> checkerList;
@@ -128,7 +131,7 @@ public class CheckerService implements Serializable {
         RepositoryFactory.getCheckerRepository(RepositoryType.POSTGRESQL, connection);
     try {
       checkerList = checkerRepository.getCheckers();
-    } catch (Exception e) {
+    } catch (PersistenceNonExistentCheckerException e) {
       logger.log(Level.INFO, "service threw except");
       connectionPool.releaseConnection(connection);
       throw new BusinessNonExistentCheckerException();
