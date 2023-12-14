@@ -58,11 +58,12 @@ public class SystemSettingsRepositoryPsql extends RepositoryPsql
         ResultSet resultSet = preparedStatement.executeQuery()) {
       if (resultSet.next()) {
         SystemSettings systemSettings = new SystemSettings();
-        systemSettings.setEmailRegex(resultSet.getString("emailRegex"));
-        systemSettings.setPrimaryColorHex(resultSet.getString("primaryColorHex"));
-        systemSettings.setSecondaryColorHex(resultSet.getString("secondaryColor"));
-        systemSettings.setSystemName(resultSet.getString("systemName"));
-        systemSettings.setLogo(resultSet.getBytes("logo"));
+        systemSettings.setEmailRegex(resultSet.getString("email_regex"));
+        systemSettings.setPrimaryColorHex(resultSet.getString("primary_color_hex"));
+        systemSettings.setSecondaryColorHex(resultSet.getString("secondary_color_hex"));
+        systemSettings.setSystemName(resultSet.getString("system_name"));
+        systemSettings.setLogo(resultSet.getBytes("system_logo"));
+        systemSettings.setImprint(resultSet.getString("imprint"));
         return systemSettings;
       }
     } catch (SQLException e) {

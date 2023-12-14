@@ -31,9 +31,16 @@ public class NavbarBean implements Serializable {
 
   /** The system service for system-related operations. */
   private final SystemService systemService;
+    /**
+     * Boolean which list to display.
+     */
+    private boolean seeAllCourses;
 
-  /** The current system settings. */
+
+    /** The current system settings. */
   private SystemSettings systemSettings;
+
+
 
   /**
    * Constructor for NavbarBean.
@@ -64,6 +71,7 @@ public class NavbarBean implements Serializable {
    * @return The destination view for all courses.
    */
   public String navigateToAllCourses() {
+    seeAllCourses = true;
     return "/view/registered/coursePagination.xhtml?all=true";
   }
 
@@ -73,7 +81,16 @@ public class NavbarBean implements Serializable {
    * @return The destination view for user's courses.
    */
   public String navigateToMyCourses() {
+    seeAllCourses = false;
     return "/view/registered/coursePagination.xhtml?all=false";
+  }
+
+    /**
+     * navigation String to Checker List.
+     * @return String.
+     */
+  public String navigateToCheckers() {
+    return "/view/registered/checkerList.xhtml";
   }
 
   /**
@@ -138,4 +155,21 @@ public class NavbarBean implements Serializable {
   public byte[] getLogo() {
     return systemService.getSystemSettings().getLogo();
   }
+
+    /**
+     * Getter for the boolean.
+     * @return boolean
+     */
+    public boolean isSeeAllCourses() {
+        return seeAllCourses;
+    }
+    /**
+     * Setter for the boolean.
+     * @param seeAllCourses boolean
+     */
+
+    public void setSeeAllCourses(boolean seeAllCourses) {
+        this.seeAllCourses = seeAllCourses;
+    }
+
 }

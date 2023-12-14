@@ -1,6 +1,7 @@
 package de.ssherlock.persistence.repository;
 
 import de.ssherlock.global.transport.Checker;
+import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.persistence.exception.PersistenceNonExistentCheckerException;
 import java.util.List;
 
@@ -45,8 +46,16 @@ public interface CheckerRepository {
 
   /**
    * Gets a list of Checker entities from the database based on a given predicate.
-   *
+   *@throws PersistenceNonExistentCheckerException if no checkers were found.
    * @return The list of Checker entities that satisfy the predicate.
    */
-  List<Checker> getCheckers();
+  List<Checker> getCheckers() throws PersistenceNonExistentCheckerException;
+
+    /**
+     * Gets a list of Checker entities based on a exercise id.
+     * @param exercise the exercise
+     * @return List of Checker
+     * @throws PersistenceNonExistentCheckerException if no checkers were found.
+     */
+  List<Checker> getCheckersForExercise(Exercise exercise) throws PersistenceNonExistentCheckerException;
 }

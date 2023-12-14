@@ -1,5 +1,6 @@
 package de.ssherlock.control.backing;
 
+import de.ssherlock.business.exception.BusinessNonExistentCheckerException;
 import de.ssherlock.business.service.CheckerService;
 import de.ssherlock.business.service.SubmissionService;
 import de.ssherlock.control.exception.ZIPNotReadableException;
@@ -17,7 +18,6 @@ import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.Part;
-
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -64,9 +64,7 @@ public class SubmissionUploadBean implements Serializable {
   /** Whether the user can save the submission to the database. */
   private boolean canSubmit;
 
-    /**
-     * The checker results.
-     */
+  /** The checker results. */
   private final List<CheckerResult> checkerResults;
 
   /**
@@ -95,10 +93,13 @@ public class SubmissionUploadBean implements Serializable {
   @PostConstruct
   public void initialize() {
     Exercise exerciseTest = new Exercise();
-    checkers = checkerService.getCheckersForExercise(exerciseTest);
+    try {
+        checkers = checkerService.getCheckersForExercise(exerciseTest);
+    } catch (BusinessNonExistentCheckerException e) {
+        logger.log(Level.INFO, "submissionUpload throws this");
+    }
     canSubmit = false;
   }
-
 
   /** Uploads the submission archive and runs the checkers. */
   public void upload() {
@@ -108,7 +109,8 @@ public class SubmissionUploadBean implements Serializable {
       for (SubmissionFile file : submissionFiles) {
         logger.log(Level.INFO, file.getName());
       }
-      CheckerUtils.runCheckers(checkers, submissionFiles, appSession.getUser(), this::updateResults);
+      CheckerUtils.runCheckers(
+          checkers, submissionFiles, appSession.getUser(), this::updateResults);
     } catch (ZIPNotReadableException e) {
       logger.log(Level.SEVERE, "Error while unzipping file: " + e.getMessage());
     }
@@ -171,14 +173,14 @@ public class SubmissionUploadBean implements Serializable {
     this.canSubmit = canSubmit;
   }
 
-    /**
-     * Updates the checker results.
-     *
-     * @param result The result to add.
-     */
+  /**
+   * Updates the checker results.
+   *
+   * @param result The result to add.
+   */
   private void updateResults(CheckerResult result) {
-      synchronized (checkerResults) {
-          checkerResults.add(result);
-      }
+    synchronized (checkerResults) {
+      checkerResults.add(result);
+    }
   }
 }

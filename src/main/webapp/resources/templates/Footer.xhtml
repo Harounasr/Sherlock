@@ -4,18 +4,18 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="jakarta.faces.html">
 
-<head>
+<h:head>
     <link rel="stylesheet" href="#{request.contextPath}/resources/css/main.css"/>
-</head>
+</h:head>>
 <body>
 
 <div id="footer">
         <div class="container">
             <div class="row">
                 <div class="col-sm-6">
-                    <h:outputLabel value="#{footerBean.imprintText}"/>
+                    <h:outputLabel value="#{footerBean.imprint}"/>
                 </div>
             </div>
         </div>

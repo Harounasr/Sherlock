@@ -1,6 +1,7 @@
 package de.ssherlock.persistence.repository;
 
 import de.ssherlock.global.transport.Course;
+import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.exception.PersistenceNonExistentCourseException;
 import java.util.List;
 
@@ -40,4 +41,13 @@ public interface CourseRepository {
    * @return The list of Course entities that satisfy the predicate.
    */
   List<Course> getCourses();
+
+  /**
+   * Fetches the list of courses for a given user.
+   *
+   * @param user the user.
+   * @return the users courses.
+   * @throws PersistenceNonExistentCourseException if no courses were found.
+   */
+  List<Course> getCourses(User user) throws PersistenceNonExistentCourseException;
 }

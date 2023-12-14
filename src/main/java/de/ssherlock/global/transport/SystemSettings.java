@@ -33,6 +33,8 @@ public class SystemSettings implements Serializable {
 
   /** A list of faculties on the system. */
   private List<String> faculties;
+/** The imprint text displayed in the footer.*/
+  private String imprint;
 
   /** Instantiates new System settings. */
   public SystemSettings() {}
@@ -134,6 +136,18 @@ public class SystemSettings implements Serializable {
    */
   public List<String> getFaculties() {
     return faculties;
+  }
+
+  /** Getter for the imprint.
+   * @return imprint*/
+  public String getImprint() {
+    return imprint;
+  }
+
+  /** Setter for the imprint.
+   * @param imprint the imprint text */
+  public void setImprint(String imprint) {
+    this.imprint = imprint;
   }
 
   /**

@@ -1,6 +1,7 @@
 package de.ssherlock.business.service;
 
 import de.ssherlock.business.exception.BusinessNonExistentCourseException;
+import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.User;
@@ -15,13 +16,14 @@ import jakarta.inject.Named;
 import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Connection;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 
 /**
  * The CourseService class provides functionality for managing courses and related operations.
  *
- * @author Victor Vollmann
+ * @author Lennart Hohls
  */
 @Named
 @Dependent
@@ -36,16 +38,22 @@ public class CourseService implements Serializable {
   /** ConnectionPoolPsql instance for getting a database connection. */
   private final ConnectionPool connectionPool;
 
+  /** AppSession for the User. */
+  private final AppSession appSession;
+
   /**
    * Constructs a CourseService with the specified logger.
    *
    * @param logger The logger to be used for logging messages related to CourseService.
    * @param connectionPool The connection pool.
+*    @param appSession the appSession
    */
   @Inject
-  public CourseService(SerializableLogger logger, ConnectionPool connectionPool) {
+  public CourseService(
+      SerializableLogger logger, ConnectionPool connectionPool, AppSession appSession) {
     this.logger = logger;
     this.connectionPool = connectionPool;
+    this.appSession = appSession;
   }
 
   /**
@@ -69,7 +77,20 @@ public class CourseService implements Serializable {
    * @return A list of courses associated with the user.
    */
   public List<Course> getCourses(User user) {
-    return null;
+    Connection connection = connectionPool.getConnection();
+    CourseRepository courseRepository =
+        RepositoryFactory.getCourseRepository(RepositoryType.POSTGRESQL, connection);
+    logger.log(Level.INFO, "getting courses");
+    try {
+      List<Course> test;
+      test = courseRepository.getCourses(user);
+      logger.log(Level.INFO, test.toString());
+      return test;
+    } catch (PersistenceNonExistentCourseException e) {
+      logger.log(Level.INFO, "service found no courses.");
+    }
+    connectionPool.releaseConnection(connection);
+    return Collections.emptyList();
   }
 
   /**

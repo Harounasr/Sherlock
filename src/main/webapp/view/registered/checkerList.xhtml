@@ -1,0 +1,105 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        template="../../resources/templates/main.xhtml">
+
+    <h:head>
+        <ui:define name="title">Checkers</ui:define>
+        <h:outputStylesheet library="css" name="checkerList.css"/>
+    </h:head>
+            <ui:define name="content">
+                <h:dataTable value="#{checkerListBean.checkers}" var="checker"
+                             first="#{checkerListBean.currentIndex}" rows="#{checkerListBean.pageSize}">
+                    <h:column>
+                        <f:facet name="header">ID</f:facet>
+                        #{checker.id}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Exercise ID</f:facet>
+                        #{checker.exerciseId}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">isMandatory</f:facet>
+                        #{checker.mandatory}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">isVisible</f:facet>
+                        #{checker.visible}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Parameter One</f:facet>
+                        #{checker.parameterOne}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Parameter Two</f:facet>
+                        #{checker.parameterTwo}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Type</f:facet>
+                        #{checker.checkerType}
+                    </h:column>
+                </h:dataTable>
+
+                <h:form styleClass="form-container" rendered="#{navbarBean.appSession.user.systemRole.toString() == 'ADMINISTRATOR'}">
+                    <h:outputLabel value="Checker ID required" for="inputID"/>
+                    <h:inputText id="inputID" value="#{checkerListBean.newChecker.id}" required="true"/>
+
+                    <h:outputLabel value="Exercise ID required" for="inputEID"/>
+                    <h:inputText id="inputEID" value="#{checkerListBean.newChecker.exerciseId}" required="true"/>
+
+                    <h:outputLabel value="Param 1 required" for="inputParamOne"/>
+                    <h:inputText id="inputParamOne" value="#{checkerListBean.newChecker.parameterOne}" required="true"/>
+
+                    <h:outputLabel value="Param 2 required" for="inputParamTwo"/>
+                    <h:inputText id="inputParamTwo" value="#{checkerListBean.newChecker.parameterTwo}" required="true"/>
+
+                    <h:outputLabel value="'COMPILATION','IDENTITY','LINE_WIDTH','USER_DEFINED'" for="inputType"/>
+                    <h:inputText id="inputType" value="#{checkerListBean.newChecker.checkerType}" required="true"/>
+
+                    <h:commandButton value="Add Checker" action="#{checkerListBean.addChecker()}" />
+                </h:form>
+
+                <h:form styleClass="form-container" >
+                    <h:outputLabel value="Checker ID required for Update" for="inputCID"/>
+                    <h:inputText id="inputCID" value="#{checkerListBean.updateChecker.id}" required="true"/>
+
+                    <h:outputLabel value="Exercise ID Update" for="inputCEID"/>
+                    <h:inputText id="inputCEID" value="#{checkerListBean.updateChecker.exerciseId}"/>
+
+                    <h:outputLabel value="Param 1 Update" for="inputCParamOne"/>
+                    <h:inputText id="inputCParamOne" value="#{checkerListBean.updateChecker.parameterOne}" />
+
+                    <h:outputLabel value="Param 2 Update" for="inputCParamTwo"/>
+                    <h:inputText id="inputCParamTwo" value="#{checkerListBean.updateChecker.parameterTwo}" />
+
+                    <h:outputLabel value="Update 'COMPILATION','IDENTITY','LINE_WIDTH','USER_DEFINED'" for="inputCType"/>
+                    <h:inputText id="inputCType" value="#{checkerListBean.updateChecker.checkerType}" />
+
+                    <h:commandButton value="Update Checker" action="#{checkerListBean.submitChanges()}" />
+                </h:form>
+
+
+                <h:form rendered="#{navbarBean.appSession.user.systemRole.toString() == 'ADMINISTRATOR'}">
+                    <h:inputText value="#{checkerListBean.deleteCheckerID}" required="true">
+                     <h:outputLabel value="Checker ID required"/>
+                    </h:inputText>
+                    <h:commandButton value="Delete Checker" action="#{checkerListBean.deleteChecker()}" />
+                </h:form>
+
+
+                <h:form>
+                    <h:commandButton value="First" action="#{coursePaginationBean.firstPage}" />
+                    <h:commandButton value="Previous" action="#{coursePaginationBean.previousPage}" />
+                    <h:commandButton value="Next" action="#{coursePaginationBean.nextPage}" />
+                    <h:commandButton value="Last" action="#{coursePaginationBean.lastPage}" />
+                </h:form>
+            </ui:define>
+        </ui:composition>
+

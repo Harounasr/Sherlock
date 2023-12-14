@@ -1,55 +1,86 @@
 <ui:composition xmlns:h="jakarta.faces.html"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="jakarta.faces.core"
                 xmlns="http://www.w3.org/1999/xhtml"
-                template="../../resources/templates/template.xhtml">
+                template="../../resources/templates/main.xhtml">
 
+    <h:head>
     <ui:define name="title">My Profile</ui:define>
+        <h:outputStylesheet library="css" name="profile.css"/>
+    </h:head>
 
     <ui:define name="content">
-        <h:outputStylesheet library="css" name="profile.css"/>
+
         <div id="profilebody">
             <div class="profilecontainer">
                 <div id="profileContent">
-                    <h2>Welcome, #{profileBean.appSession.username}!</h2>
+                    <h2>Welcome, #{profileBean.user.username}!</h2>
 
                     <div class="form-group">
                         <label for="username">Username:</label>
-                        <h:outputLabel id="username" class="profileoutput" type="text" value="#{profileBean.appSession.getUser.username}"/>
+                        <h:outputLabel id="username" class="profileoutput" value="#{profileBean.user.username}"/>
                     </div>
 
                     <div class="form-group">
                         <label for="firstName">First Name:</label>
-                        <h:outputLabel class="profileoutput" id="firstName" type="text" value="#{profileBean.appSession.getUser.firstName}"/>
+                        <h:outputLabel class="profileoutput" id="firstName" type="text" value="#{profileBean.user.firstName}"/>
                     </div>
 
                     <div class="form-group">
                         <label for="lastName">Last Name:</label>
-                        <h:outputLabel class="profileoutput" id="lastName" type="text" value="#{profileBean.appSession.getUser.lastName}"/>
+                        <h:outputLabel class="profileoutput" id="lastName" type="text" value="#{profileBean.user.lastName}"/>
                     </div>
 
-                    <div class="form-group">
-                        <label for="faculty">Faculty:</label>
-                        <h:outputLabel class="profileoutput" id="faculty" type="text" value="#{profileBean.appSession.getUser.facultyName}"/>
-                    </div>
+                    <h:outputLabel styleClass="form-group" value="#{profileBean.user.facultyName}"/>
+
+
+
+
+                    <h:form>
+                        <div class="form-group">
+                            <label for="facultyDropdown">Select Faculty:</label>
+                            <h:selectOneMenu id="facultyDropdown" value="#{profileBean.changedUser.facultyName}">
+                                <f:selectItem itemLabel="-- Select Faculty --" itemValue="" />
+                                <f:selectItems value="#{profileBean.facultyService.faculties}" />
+                            </h:selectOneMenu>
+                        </div>
+
+                        <h:commandButton value="Submit" action="#{profileBean.submitFacultyChange()}" />
+                    </h:form>
+
+
+
+
+
+
 
                     <h5>Change Password</h5>
-                    <div class="form-group">
                         <label for="newPassword">New Password</label>
-                        <h:inputSecret class="profileinput" id="newPassword" value="#{profileBean.newPasswordOne}" styleClass="form-control"
-                                       placeholder="Enter your new password"/>
-                    </div>
+                        <h:inputSecret class="profileinput" id="newPassword" value="#{profileBean.newPasswordOne}"
+                                       placeholder="Enter your new password" required="true">
+                         <!--   <f:validator validatorId="passwordValidator"/>
+                            <h:message for="newPassword"/> -->
+                        </h:inputSecret>
 
-                    <div class="form-group">
+
+
+            <h:form>
                         <label for="repeatPassword">Repeat Password</label>
-                        <h:inputSecret class="profileinput" id="repeatPassword" value="#{profileBean.newPasswordTwo}" styleClass="form-control"
-                                       placeholder="Repeat your new password"/>
-                    </div>
-                    <h:form>
-                        <h:commandButton class="commandButton" value="Change Password" action="#{profileBean.submitPasswordChange}"/>
+                        <h:inputSecret class="profileinput" id="repeatPassword" value="#{profileBean.newPasswordTwo}" >
+                         <!--   <f:validator validatorId="passwordsEqualValidator"/>
+                            <f:attribute name="confirmPassword" value="#{profileBean.newPasswordTwo}"/> -->
+                        </h:inputSecret>
+                        <h:message for="repeatPassword"/>
+
+
+
+                        <h:commandButton  value="Change Password" action="#{profileBean.submitPasswordChange()}"/>
                         <h:commandButton class="commandButton" value="Delete Account" action="#{profileBean.deleteAccount}"/>
-                    </h:form>
+            </h:form>
+
                 </div>
             </div>
         </div>
     </ui:define>
+
 </ui:composition>

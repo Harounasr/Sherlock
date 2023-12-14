@@ -31,7 +31,6 @@ public class ExerciseDescriptionImageServlet extends HttpServlet {
   /**
    * Default constructor.
    */
-  @Inject
   public ExerciseDescriptionImageServlet() {
 
   }

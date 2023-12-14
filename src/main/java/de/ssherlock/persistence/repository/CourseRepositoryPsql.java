@@ -3,6 +3,7 @@ package de.ssherlock.persistence.repository;
 import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Course;
+import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.exception.PersistenceNonExistentCourseException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,7 +16,7 @@ import java.util.logging.Level;
 /**
  * Implementation of CourseRepository for PostgreSQL database.
  *
- * @author Victor Vollmann
+ * @author Lennart Hohls
  */
 public class CourseRepositoryPsql extends RepositoryPsql implements CourseRepository {
 
@@ -48,7 +49,6 @@ public class CourseRepositoryPsql extends RepositoryPsql implements CourseReposi
       int rowsAffected = statement.executeUpdate();
 
       if (rowsAffected == 0) {
-
         logger.log(Level.INFO, "not addded");
       }
     } catch (SQLException e) {
@@ -90,5 +90,40 @@ public class CourseRepositoryPsql extends RepositoryPsql implements CourseReposi
       throw new RuntimeException(e);
     }
     return allCourses;
+  }
+
+    /**
+     * Gets a list of all courses for a given user.
+     * @param user the user.
+     * @return the list of courses
+     * @throws PersistenceNonExistentCourseException if the user has no courses.
+     */
+  public List<Course> getCourses(User user) throws PersistenceNonExistentCourseException {
+    String sqlQuery =
+        "SELECT c.* FROM course c "
+            + "JOIN participates p ON c.id = p.course_id "
+            + "JOIN \"user\" u ON p.user_id = u.id "
+            + "WHERE u.username = ?;";
+
+    List<Course> userCourses = new ArrayList<>();
+
+    try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
+      statement.setString(1, user.getUsername());
+      ResultSet result = statement.executeQuery();
+      if (result.wasNull()) {
+        logger.log(Level.INFO, "nothing was returned.");
+        throw new PersistenceNonExistentCourseException();
+      }
+      while (result.next()) {
+        Course course = new Course();
+        course.setName(result.getString("course_name"));
+        userCourses.add(course);
+      }
+
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+
+    return userCourses;
   }
 }

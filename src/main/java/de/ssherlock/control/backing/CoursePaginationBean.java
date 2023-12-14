@@ -14,12 +14,14 @@ import jakarta.inject.Named;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Backing bean for the coursePagination.xhtml facelet.
  *
- * @author Victor Vollmann
+ * @author Lennart Hohls
  */
+@SuppressWarnings("checkstyle:MagicNumber")
 @Named
 @ViewScoped
 public class CoursePaginationBean extends AbstractPaginationBean implements Serializable {
@@ -44,12 +46,19 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
 
   /** List of courses to be displayed. */
   private List<Course> courses;
+/** List of the users courses.*/
+  private List<Course> myCourses;
+  /** List of all courses.*/
+  private List<Course> allCourses;
 
   /** current Index. */
   private int currentIndex;
 
   /** page Size of the pagination. */
   private int pageSize;
+
+  /** Boolean for which lsit to display. */
+  private boolean getAllCoursesBool;
 
   /**
    * Constructs a CoursesPaginationBean.
@@ -60,9 +69,7 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
    */
   @Inject
   public CoursePaginationBean(
-      SerializableLogger logger,
-      AppSession appSession,
-      CourseService courseService) {
+      SerializableLogger logger, AppSession appSession, CourseService courseService) {
     this.logger = logger;
     this.appSession = appSession;
     this.courseService = courseService;
@@ -75,13 +82,43 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
    */
   @PostConstruct
   public void initialize() {
-    currentIndex = getPagination().getCurrentIndex();
-    pageSize = 2;
-    loadData();
+    currentIndex = 0;
+    pageSize = 5;
+    System.out.println("bool: " + getAllCoursesBool);
+    Map<String, String> params =
+        FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+    getAllCoursesBool = Boolean.parseBoolean(params.get("all"));
+    initCourses();
+    /*
     getPagination().setPageSize(PAGE_SIZE);
     getPagination().setCurrentIndex(0);
     getPagination().setLastIndex(courses.size() - 1);
     logger.log(INFO, String.valueOf(courses.get(0).getName()));
+
+     */
+
+  }
+
+  private void initCourses() {
+    myCourses = courseService.getCourses(appSession.getUser());
+    allCourses = courseService.getCourses();
+    /*
+    getAllCoursesBool =
+        Boolean.parseBoolean(
+            FacesContext.getCurrentInstance()
+                .getExternalContext()
+                .getRequestParameterMap()
+                .get("seeAllCourses"));
+
+     */
+    System.out.println(getAllCoursesBool);
+    if (getAllCoursesBool) {
+      System.out.println("init set all");
+      courses = allCourses;
+    } else {
+      System.out.println("init set my");
+      courses = myCourses;
+    }
   }
 
   /**
@@ -102,9 +139,7 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
   /** Adds the newly created course to the database. */
   public void addCourse() {
     logger.log(INFO, "trying to add");
-    Course newCOurrrse = new Course();
-    newCOurrrse.setName("Franzia");
-    courseService.addCourse(newCOurrrse);
+    courseService.addCourse(newCourse);
   }
 
   /**
@@ -146,7 +181,8 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
   /** {@inheritDoc} */
   @Override
   public String loadData() {
-    courses = courseService.getCourses();
+    initCourses();
+    // courses = courseService.getCourses(appSession.getUser());
     return "";
   }
 
@@ -181,5 +217,28 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
    */
   public void setCurrentIndex(int currentIndex) {
     this.currentIndex = currentIndex;
+  }
+
+    /**
+     * Getter for the Page Size.
+     * @return page size
+     */
+  public int getPageSize() {
+    return pageSize;
+  }
+
+    /**
+     * Getter for the bool (not used at the moment).
+     * @return boolean
+     */
+  public boolean isGetAllCoursesBool() {
+    return getAllCoursesBool;
+  }
+    /**
+     * Setter for the bool (not used at the moment).
+     * @param bool boolean
+     */
+  public void setGetAllCoursesBool(boolean bool) {
+    getAllCoursesBool = bool;
   }
 }

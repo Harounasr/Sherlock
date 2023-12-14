@@ -1,5 +1,6 @@
 package de.ssherlock.control.backing;
 
+import de.ssherlock.business.service.SystemService;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import jakarta.faces.view.ViewScoped;
@@ -26,20 +27,25 @@ public class FooterBean implements Serializable {
   /** The active session. */
   private final AppSession appSession;
 
-  /** The text content for the imprint. */
-  private String imprintText;
+  /** A SystemService instance. */
+  private final SystemService systemService;
+
+  /** The imprint text. */
+  private String imprint;
 
   /**
    * Constructs a FooterBean.
    *
    * @param logger The logger used for logging within this class (Injected).
    * @param appSession The active session (Injected).
+   *                   @param systemService the systemservice(Injected).
    */
   @Inject
-  public FooterBean(SerializableLogger logger, AppSession appSession) {
+  public FooterBean(SerializableLogger logger, AppSession appSession, SystemService systemService) {
     this.logger = logger;
     this.appSession = appSession;
-    setImprintText(" SoftwareSherlock, Maximilianstraße 1, 80539 München");
+    this.systemService = systemService;
+    setImprintText();
   }
 
   /**
@@ -47,8 +53,8 @@ public class FooterBean implements Serializable {
    *
    * @return The Imprint text.
    */
-  public String getImprintText() {
-    return imprintText;
+  public String getImprint() {
+    return imprint;
   }
 
   /**
@@ -56,7 +62,11 @@ public class FooterBean implements Serializable {
    *
    * @param imprintText Text which will me set.
    */
-  public void setImprintText(String imprintText) {
-    this.imprintText = imprintText;
+  public void setImprint(String imprintText) {
+    this.imprint = imprintText;
+  }
+
+  private void setImprintText() {
+    imprint = systemService.getSystemSettings().getImprint();
   }
 }

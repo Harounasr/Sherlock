@@ -21,7 +21,6 @@ import de.ssherlock.persistence.util.MailContentBuilder;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigInteger;
@@ -204,21 +203,42 @@ public class UserService implements Serializable {
         }
     }
 
-    /**
-     * Deletes a user account.
-     *
-     * @param user The user to be deleted.
-     * @throws BusinessNonExistentUserException when the user is not registered in the system.
-     */
-    public void deleteUser(User user) throws BusinessNonExistentUserException {}
+  /**
+   * Deletes a user account.
+   *
+   * @param user The user to be deleted.
+   * @throws BusinessNonExistentUserException when the user is not registered in the system.
+   */
+  public void deleteUser(User user) throws BusinessNonExistentUserException {
+    Connection connection = connectionPool.getConnection();
+    UserRepository userRepository =
+        RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
+    try {
+      userRepository.deleteUser(user);
+    } catch (PersistenceNonExistentUserException e) {
+      throw new BusinessNonExistentUserException();
+    }
+    connectionPool.releaseConnection(connection);
+  }
 
-    /**
-     * Updates user account information.
-     *
-     * @param user The user with updated information.
-     * @throws BusinessNonExistentUserException when the user is not registered in the system.
-     */
-    public void updateUser(User user) throws BusinessNonExistentUserException {}
+
+  /**
+   * Updates user account information.
+   *
+   * @param user The user with updated information.
+   * @throws BusinessNonExistentUserException when the user is not registered in the system.
+   */
+  public void updateUser(User user) throws BusinessNonExistentUserException {
+    Connection connection = connectionPool.getConnection();
+    UserRepository userRepository =
+        RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
+    try {
+      userRepository.updateUser(user);
+    } catch (PersistenceNonExistentUserException e) {
+      throw new BusinessNonExistentUserException();
+    }
+    connectionPool.releaseConnection(connection);
+  }
 
     /**
      * Retrieves a list of all users.
