@@ -1,9 +1,6 @@
 package de.ssherlock.control.backing;
 
-import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Pagination;
-import jakarta.annotation.PostConstruct;
-import jakarta.inject.Inject;
 
 import java.io.Serial;
 import java.io.Serializable;

@@ -4,9 +4,11 @@ import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.User;
+import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import org.jboss.logging.annotations.Pos;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -70,7 +72,7 @@ public class AdminUserPaginationBean extends AbstractPaginationBean implements S
      * Initializes the AdminUserPaginationBean after construction. Sets up necessary components for
      * managing users.
      */
-    @Override
+    @PostConstruct
     public void initialize() {
         loadData();
         getPagination().setPageSize(PAGE_SIZE);
