@@ -74,7 +74,7 @@ public class PasswordResetBean implements Serializable {
     }
 
     @PostConstruct
-    public void getToken() {
+    public void setToken() {
         Map<String, String> parameter =
                 FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         if (!Objects.equals(parameter.get("token"), "")) {
