@@ -73,6 +73,9 @@ public class PasswordResetBean implements Serializable {
         logger.log(Level.INFO, "Inside PasswordResetBean");
     }
 
+    /**
+     * Gets the token from the url and sets the value.
+     */
     @PostConstruct
     public void setToken() {
         Map<String, String> parameter =
@@ -83,16 +86,9 @@ public class PasswordResetBean implements Serializable {
     }
 
     /**
-     * Navigates to the login page.
-     *
-     * @return The destination view for the login page.
-     */
-    public String navigateToLogin() {
-        return "/view/public/login.xhtml";
-    }
-
-    /**
      * Reset the password.
+     *
+     * @return The destination view.
      */
     public String resetPassword() {
         user.setVerificationToken(token);

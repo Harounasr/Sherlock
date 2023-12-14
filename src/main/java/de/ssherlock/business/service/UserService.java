@@ -157,6 +157,7 @@ public class UserService implements Serializable {
      *
      * @param user The user to be registered.
      */
+    @SuppressWarnings("checkstyle:MagicNumber")
     public void registerUser(User user) {
         user.setSystemRole(SystemRole.NOT_VERIFIED);
         String verificationToken = generateEmailVerificationToken();
@@ -327,6 +328,8 @@ public class UserService implements Serializable {
      * Resets the password of a user.
      *
      * @param user The user to reset the password for.
+     *
+     * @return Whether the reset was successfully or not.
      */
     public boolean resetPassword(User user) {
         Connection connection = connectionPool.getConnection();

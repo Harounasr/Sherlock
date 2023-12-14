@@ -219,13 +219,13 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
   }
 
   /** {@inheritDoc} **/
+  @SuppressWarnings("checkstyle:MagicNumber")
   @Override
     public boolean resetPassword(User user) {
       String sqlQuery = """
                         UPDATE "user"
-                        SET 
-                        password_hash = ?,
-                        password_salt = ?
+                        SET password_hash = ?,
+                            password_salt = ?
                         WHERE token = ?
                         AND expiry_date > NOW();
                         """;
