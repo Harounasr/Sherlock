@@ -249,6 +249,7 @@ public class UserService implements Serializable {
      * Retrieves a list of all users.
      *
      * @param pagination The pagination.
+     * @param course The course.
      * @return A list of all users.
      */
     public List<User> getUsers(Pagination pagination, Course course) {

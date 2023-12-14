@@ -5,7 +5,6 @@ import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.Pagination;
-import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.connection.ConnectionPool;
 import de.ssherlock.persistence.exception.PersistenceNonExistentExerciseException;
 import de.ssherlock.persistence.repository.ExerciseRepository;
