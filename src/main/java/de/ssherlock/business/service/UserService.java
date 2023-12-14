@@ -26,6 +26,9 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.sql.Connection;
+import java.sql.Timestamp;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -144,6 +147,9 @@ public class UserService implements Serializable {
     user.setSystemRole(SystemRole.NOT_VERIFIED);
     String verificationToken = generateEmailVerificationToken();
     user.setVerificationToken(verificationToken);
+      Instant now = Instant.now();
+      Instant oneWeekLater = now.plus(Duration.ofDays(7));
+      user.setExpiryDate(Timestamp.from(oneWeekLater));
     if (mail.sendVerificationMail(user, MailContentBuilder.buildVerificationMail(user))) {
       Connection connection = connectionPool.getConnection();
       UserRepository userRepository =

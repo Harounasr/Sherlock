@@ -57,10 +57,7 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
       statement.setString(6, user.getPassword().getHash());
       statement.setString(7, user.getPassword().getSalt());
       statement.setString(8, user.getVerificationToken());
-      Instant now = Instant.now();
-      Instant oneWeekLater = now.plus(Duration.ofDays(7));
-      Timestamp timestamp = Timestamp.from(oneWeekLater);
-      statement.setTimestamp(9, timestamp);
+      statement.setTimestamp(9, user.getExpiryDate());
       statement.executeUpdate();
     } catch (SQLException e) {
       logger.log(Level.INFO, "Could not insert user." + e);
