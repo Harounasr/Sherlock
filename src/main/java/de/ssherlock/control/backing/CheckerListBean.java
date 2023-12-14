@@ -181,7 +181,7 @@ public class CheckerListBean implements Serializable {
   }
 
     /***
-     * Getter for the deleteCheckerID
+     * Getter for the deleteCheckerID.
      * @return the ID of the checker to be deleted.
      */
   public int getDeleteCheckerID() {
@@ -189,7 +189,7 @@ public class CheckerListBean implements Serializable {
   }
 
     /**
-     * Sette for the checkers id
+     * Sette for the checkers id.
      * @param id the id.
      */
   public void setDeleteCheckerID(int id) {
@@ -197,7 +197,7 @@ public class CheckerListBean implements Serializable {
   }
 
     /**
-     * Getter for the udpated Checker
+     * Getter for the udpated Checker.
      * @return Checker
      */
   public Checker getUpdateChecker() {
@@ -205,7 +205,7 @@ public class CheckerListBean implements Serializable {
   }
 
     /**
-     * Setter for the Update Checker
+     * Setter for the Update Checker.
      * @param checker checker to be updated.
      */
   public void setUpdateChecker(Checker checker) {

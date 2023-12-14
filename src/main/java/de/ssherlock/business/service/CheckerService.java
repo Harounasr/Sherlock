@@ -21,7 +21,7 @@ import java.util.logging.Level;
 /**
  * The CheckerService class provides functionality for managing checkers and related operations.
  *
- * @author Leon Höfling
+ * @author Lennart Hohls
  */
 @Named
 @Dependent
@@ -105,7 +105,7 @@ public class CheckerService implements Serializable {
    * @return A list of checkers associated with the exercise.
    * @throws BusinessNonExistentCheckerException if no checkers were found.
    */
-  public List<Checker> getCheckersForExercise (Exercise exercise) throws BusinessNonExistentCheckerException {
+  public List<Checker> getCheckersForExercise(Exercise exercise) throws BusinessNonExistentCheckerException {
       Connection connection = connectionPool.getConnection();
       List<Checker> checkerList;
       CheckerRepository checkerRepository =
