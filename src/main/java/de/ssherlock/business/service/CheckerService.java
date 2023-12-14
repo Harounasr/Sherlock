@@ -86,7 +86,17 @@ public class CheckerService implements Serializable {
    * @param checker The checker to be updated.
    * @throws BusinessNonExistentCheckerException when checker does not exist in the database.
    */
-  public void updateChecker(Checker checker) throws BusinessNonExistentCheckerException {}
+  public void updateChecker(Checker checker) throws BusinessNonExistentCheckerException {
+    Connection connection = connectionPool.getConnection();
+    CheckerRepository checkerRepository =
+        RepositoryFactory.getCheckerRepository(RepositoryType.POSTGRESQL, connection);
+    try {
+      checkerRepository.updateChecker(checker);
+    } catch (PersistenceNonExistentCheckerException e) {
+      logger.log(Level.INFO, "service threw this");
+      throw new BusinessNonExistentCheckerException();
+    }
+  }
 
   /**
    * Retrieves a list of checkers associated with the specified exercise.

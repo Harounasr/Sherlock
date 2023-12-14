@@ -38,6 +38,9 @@ public class CheckerListBean implements Serializable {
   /** New Checker that can be added to the exercise. */
   private Checker newChecker;
 
+  /** Checker Object for the update. */
+  private Checker updateChecker;
+
   /** List of all checkers retrieved for the exercise. */
   private List<Checker> checkers;
 
@@ -89,7 +92,15 @@ public class CheckerListBean implements Serializable {
   }
 
   /** Submits all changes. */
-  public void submitChanges() {}
+  public void submitChanges() {
+    try {
+      checkerService.updateChecker(updateChecker);
+    } catch (BusinessNonExistentCheckerException e) {
+      logger.log(Level.INFO, "threw this in checkerUpdate");
+      return;
+    }
+    logger.log(Level.INFO, "updated Checker");
+  }
 
   /**
    * Gets checkers.
@@ -155,5 +166,13 @@ public class CheckerListBean implements Serializable {
 
   public void setDeleteCheckerID(int id) {
     deleteCheckerID = id;
+  }
+
+  public Checker getUpdateChecker() {
+    return updateChecker;
+  }
+
+  public void setUpdateChecker(Checker checker) {
+    updateChecker = checker;
   }
 }

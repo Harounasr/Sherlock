@@ -15,7 +15,7 @@ import java.util.logging.Level;
 /**
  * Implementation of CheckerRepository for PostgreSQL database.
  *
- * @author Leon Höfling
+ * @author Lennart Hohls
  */
 public class CheckerRepositoryPsql extends RepositoryPsql implements CheckerRepository {
 
@@ -57,7 +57,36 @@ public class CheckerRepositoryPsql extends RepositoryPsql implements CheckerRepo
 
   /** {@inheritDoc} */
   @Override
-  public void updateChecker(Checker checker) throws PersistenceNonExistentCheckerException {}
+  public void updateChecker(Checker checker) throws PersistenceNonExistentCheckerException {
+    String sqlQuery =
+        """
+           UPDATE checker
+           SET
+           exercise_id = COALESCE(?,exercise_id),
+           is_visible = COALESCE(?,is_visible),
+           is_required = COALESCE(?,is_required),
+           parameter_1 = COALESCE(?,parameter_1),
+           parameter_2 = COALESCE(?,parameter_2),
+           checker_type = COALESCE(CAST(? as checker_type),checker_type)
+           WHERE id = ?
+           """;
+    try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
+      statement.setLong(1, checker.getExerciseId());
+      statement.setBoolean(2, checker.isVisible());
+      statement.setBoolean(3, checker.isMandatory());
+      statement.setString(4, checker.getParameterOne());
+      statement.setString(5, checker.getParameterTwo());
+      statement.setString(6, checker.getCheckerType().toString());
+      statement.setLong(7, checker.getId());
+      int rowsAffected = statement.executeUpdate();
+      if (rowsAffected == 0) {
+        throw new PersistenceNonExistentCheckerException();
+      }
+    } catch (SQLException e) {
+      logger.log(Level.INFO, "sqlEXEP");
+      throw new PersistenceNonExistentCheckerException();
+    }
+  }
 
   /** {@inheritDoc} */
   @Override
@@ -75,10 +104,14 @@ public class CheckerRepositoryPsql extends RepositoryPsql implements CheckerRepo
       } else {
         // No user found with the given username
         logger.log(
-            Level.INFO, "No user found with username '" + checker.getId() + "'. Deletion failed.");
+            Level.INFO,
+            "No checker found with checkerID '" + checker.getId() + "'. Deletion failed.");
       }
+      throw new PersistenceNonExistentCheckerException();
     } catch (SQLException e) {
-      logger.log(Level.INFO, "Could not delete user with username '" + checker.getId() + "'. " + e);
+      logger.log(
+          Level.INFO, "Could not delete checker with checkerID '" + checker.getId() + "'. " + e);
+      throw new PersistenceNonExistentCheckerException();
     }
   }
 
