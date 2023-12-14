@@ -1,24 +1,17 @@
 package de.ssherlock.control.backing;
 
-import de.ssherlock.business.exception.BusinessNonExistentUserException;
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.business.util.PasswordHashing;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.User;
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.faces.annotation.View;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import org.jboss.logging.annotations.Pos;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.sql.Timestamp;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
