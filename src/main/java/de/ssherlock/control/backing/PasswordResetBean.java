@@ -5,15 +5,22 @@ import de.ssherlock.business.service.UserService;
 import de.ssherlock.business.util.PasswordHashing;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.User;
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.annotation.View;
 import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import org.jboss.logging.annotations.Pos;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Map;
+import java.util.Objects;
 import java.util.logging.Level;
 
 /**
@@ -22,8 +29,12 @@ import java.util.logging.Level;
  * @author Leon Höfling
  */
 @Named
-@RequestScoped
-public class PasswordResetBean {
+@ViewScoped
+public class PasswordResetBean implements Serializable {
+
+    /** Serial Version UID. */
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     /**
      * The logger for logging events.
@@ -51,6 +62,11 @@ public class PasswordResetBean {
     private User user;
 
     /**
+     * The Token given in the url.
+     */
+    private String token;
+
+    /**
      * Constructor for PasswordForgottenBean.
      *
      * @param logger      The logger for logging events (Injected).
@@ -61,6 +77,16 @@ public class PasswordResetBean {
         this.logger = logger;
         this.userService = userService;
         user = new User();
+        logger.log(Level.INFO, "Inside PasswordResetBean");
+    }
+
+    @PostConstruct
+    public void getToken() {
+        Map<String, String> parameter =
+                FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        if (!Objects.equals(parameter.get("token"), "")) {
+            token = parameter.get("token");
+        }
     }
 
     /**
@@ -76,9 +102,8 @@ public class PasswordResetBean {
      * Reset the password.
      */
     public String resetPassword() {
-        Map<String, String> parameter =
-                FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        user.setVerificationToken(parameter.get("token"));
+        user.setVerificationToken(token);
+        logger.log(Level.INFO, "Token: " + token);
         user.setPassword(PasswordHashing.hashPassword(passwordOne));
         if (userService.resetPassword(user)) {
             return "/view/public/login";
