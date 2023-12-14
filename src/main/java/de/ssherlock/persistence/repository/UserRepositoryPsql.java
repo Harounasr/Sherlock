@@ -220,4 +220,27 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
       throw new RuntimeException(e);
     }
   }
+
+  /** {@inheritDoc} **/
+  @Override
+    public boolean resetPassword(User user) {
+      String sqlQuery = """
+                        UPDATE "user"
+                        SET 
+                        password_hash = ?,
+                        password_salt = ?
+                        WHERE token = ?
+                        AND expiry_date > NOW();
+                        """;
+      try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
+          statement.setString(1, user.getPassword().getHash());
+          statement.setString(2, user.getPassword().getSalt());
+          statement.setString(3, user.getVerificationToken());
+          statement.executeUpdate();
+          return true;
+      } catch (SQLException e) {
+          logger.log(Level.INFO, "Error while updating user.");
+          throw new RuntimeException(e);
+      }
+  }
 }
