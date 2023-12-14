@@ -119,6 +119,7 @@ public class ExerciseDescriptionBean implements Serializable {
      * @param appSession                      The active session (Injected).
      * @param exerciseService                 The ExerciseService (Injected).
      * @param exerciseDescriptionImageService The ExerciseDescriptionImageService (Injected).
+     * @param exerciseBean                    The parent Exercise bean (Injected).
      */
     @Inject
     public ExerciseDescriptionBean(
