@@ -100,25 +100,26 @@ public class ConnectionPool implements Serializable {
         borrowedConnections.removeIf(Objects::isNull);
         for (Connection connection : connections) {
             try {
-                connection.close();
+                if (connection != null && !connection.isClosed()) {
+                    connection.close();
+                    logger.finest("Successfully closed connection.");
+                }
             } catch (SQLException e) {
-                logger.warning("Failed to close Connection.");
+                logger.warning("Failed to close connection.");
             }
             logger.finest("Successfully closed connection.");
         }
         for (Connection connection : borrowedConnections) {
             try {
-                if (connection.getAutoCommit()) {
-                    connection.rollback();
-                    logger.finest("Successfully rolled back connection.");
+                if (connection != null && !connection.isClosed()) {
+                    if (!connection.getAutoCommit()) {
+                        connection.rollback();
+                        logger.finest("Successfully rolled back connection.");
+                    }
+                    connection.close();
                 }
             } catch (SQLException e) {
-                logger.warning("Borrowed connection could not be rolled back.");
-            }
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                logger.warning("Borrowed connection could not be closed.");
+                logger.warning("Borrowed connection could not be rolled back or closed.");
             }
         }
         connections.clear();
