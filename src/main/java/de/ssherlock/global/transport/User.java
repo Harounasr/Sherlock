@@ -37,7 +37,7 @@ public class User implements Serializable {
   private String facultyName;
 
   /** The roles the user has in all courses he/she is in. */
-  private Map<Integer, CourseRole> courseRoles;
+  private Map<Long, CourseRole> courseRoles;
 
   /** The token to verify the user's registration. */
   private String verificationToken;
@@ -179,7 +179,7 @@ public class User implements Serializable {
    *
    * @return the course roles
    */
-  public Map<Integer, CourseRole> getCourseRoles() {
+  public Map<Long, CourseRole> getCourseRoles() {
     return courseRoles;
   }
 
@@ -188,7 +188,7 @@ public class User implements Serializable {
    *
    * @param courseRoles the course roles
    */
-  public void setCourseRoles(Map<Integer, CourseRole> courseRoles) {
+  public void setCourseRoles(Map<Long, CourseRole> courseRoles) {
     this.courseRoles = courseRoles;
   }
 

@@ -2,7 +2,6 @@ package de.ssherlock.control.backing;
 
 import de.ssherlock.global.transport.Error;
 import jakarta.enterprise.context.RequestScoped;
-import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 /**
@@ -21,12 +20,9 @@ public class ErrorBean {
 
     /**
      * Constructs an ErrorBean.
-     *
-     * @param error The empty error.
      */
-    @Inject
-    public ErrorBean(Error error) {
-        this.error = error;
+    public ErrorBean() {
+
     }
 
     /**

@@ -1,0 +1,19 @@
+html, body, .container-fluid, .row {
+  height: 100%;
+}
+
+.sidebar {
+  background-color:  rgb(128,128,100);
+  height: 100%;
+}
+
+.sidebar-menu {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.sidebar-menu li {
+  margin-bottom: 10px;
+  list-style-type: none;
+}
+

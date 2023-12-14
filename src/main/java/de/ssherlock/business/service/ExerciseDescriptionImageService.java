@@ -11,10 +11,10 @@ import de.ssherlock.persistence.repository.RepositoryType;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Connection;
-import java.util.UUID;
 
 /**
  * The ExerciseDescriptionImageService class provides functionality for managing
@@ -57,7 +57,6 @@ public class ExerciseDescriptionImageService implements Serializable {
     ExerciseDescriptionImageRepository imageRepository =
         RepositoryFactory.getExerciseDescriptionImageRepository(
             RepositoryType.POSTGRESQL, connection);
-    image.setUUID(UUID.randomUUID().toString());
     imageRepository.insertExerciseDescriptionImage(image);
     connectionPool.releaseConnection(connection);
   }
@@ -79,7 +78,7 @@ public class ExerciseDescriptionImageService implements Serializable {
       exerciseDescriptionImage =
           imageRepository.getExerciseDescriptionImage(exerciseDescriptionImage);
     } catch (PersistenceNonExistentImageException e) {
-      throw new BusinessNonExistentImageException("", e);
+      throw new BusinessNonExistentImageException("The image was not stored in the database.", e);
     }
     connectionPool.releaseConnection(connection);
     return exerciseDescriptionImage;

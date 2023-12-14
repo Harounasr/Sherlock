@@ -2,6 +2,7 @@ package de.ssherlock.control.validation;
 
 import de.ssherlock.global.logging.SerializableLogger;
 import jakarta.enterprise.context.Dependent;
+import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.validator.FacesValidator;
@@ -43,6 +44,28 @@ public class ImageValidator implements Validator<Part> {
    * @throws ValidatorException if the validation fails.
    */
   @Override
-  public void validate(FacesContext facesContext, UIComponent uiComponent, Part part)
-      throws ValidatorException {}
+  public void validate(FacesContext facesContext, UIComponent uiComponent, Part part) throws ValidatorException {
+      if (part == null) {
+          logger.info("Part is valid image as it is null.");
+          return;
+      }
+
+      String mimeType = part.getContentType();
+      if (!isImage(mimeType)) {
+          logger.warning("The Part is not an image.");
+          throw new ValidatorException(new FacesMessage("File is not a valid image."));
+      }
+
+      logger.info("Part is valid image.");
+  }
+
+    /**
+     * Checks whether mimetype is image.
+     *
+     * @param mimeType The type.
+     * @return Whether it is an image.
+     */
+    private boolean isImage(String mimeType) {
+        return mimeType != null && mimeType.startsWith("image/");
+    }
 }

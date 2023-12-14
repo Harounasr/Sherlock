@@ -2,7 +2,7 @@ package de.ssherlock.global.transport;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 /**
@@ -22,19 +22,19 @@ public class Exercise implements Serializable {
   private String name;
 
   /** The publishing date of the exercise. */
-  private Date publishDate;
+  private Timestamp publishDate;
 
   /** The recommended deadline for submissions. */
-  private Date recommendedDeadline;
+  private Timestamp recommendedDeadline;
 
   /** The obligatory deadline for submissions. */
-  private Date obligatoryDeadline;
+  private Timestamp obligatoryDeadline;
 
   /** The exercise description in HTML format. */
   private String description;
 
   /** The name of the course associated with this exercise. */
-  private String courseName;
+  private long courseId;
 
   /** Instantiates a new Exercise. */
   public Exercise() {}
@@ -80,7 +80,7 @@ public class Exercise implements Serializable {
    *
    * @return the publishing date
    */
-  public Date getPublishDate() {
+  public Timestamp getPublishDate() {
     return publishDate;
   }
 
@@ -89,7 +89,7 @@ public class Exercise implements Serializable {
    *
    * @param publishDate the publishing date
    */
-  public void setPublishDate(Date publishDate) {
+  public void setPublishDate(Timestamp publishDate) {
     this.publishDate = publishDate;
   }
 
@@ -98,7 +98,7 @@ public class Exercise implements Serializable {
    *
    * @return the recommended deadline
    */
-  public Date getRecommendedDeadline() {
+  public Timestamp getRecommendedDeadline() {
     return recommendedDeadline;
   }
 
@@ -107,7 +107,7 @@ public class Exercise implements Serializable {
    *
    * @param recommendedDeadline the recommended deadline
    */
-  public void setRecommendedDeadline(Date recommendedDeadline) {
+  public void setRecommendedDeadline(Timestamp recommendedDeadline) {
     this.recommendedDeadline = recommendedDeadline;
   }
 
@@ -116,7 +116,7 @@ public class Exercise implements Serializable {
    *
    * @return the obligatory deadline
    */
-  public Date getObligatoryDeadline() {
+  public Timestamp getObligatoryDeadline() {
     return obligatoryDeadline;
   }
 
@@ -125,7 +125,7 @@ public class Exercise implements Serializable {
    *
    * @param obligatoryDeadline the obligatory deadline
    */
-  public void setObligatoryDeadline(Date obligatoryDeadline) {
+  public void setObligatoryDeadline(Timestamp obligatoryDeadline) {
     this.obligatoryDeadline = obligatoryDeadline;
   }
 
@@ -148,21 +148,21 @@ public class Exercise implements Serializable {
   }
 
   /**
-   * Gets course name.
+   * Gets course id.
    *
-   * @return the course name
+   * @return the course id
    */
-  public String getCourseName() {
-    return courseName;
+  public long getCourseId() {
+    return courseId;
   }
 
   /**
-   * Sets course name.
+   * Sets course id.
    *
-   * @param courseName the course name
+   * @param courseId the course id
    */
-  public void setCourseName(String courseName) {
-    this.courseName = courseName;
+  public void setCourseId(long courseId) {
+    this.courseId = courseId;
   }
 
   /** {@inheritDoc} */

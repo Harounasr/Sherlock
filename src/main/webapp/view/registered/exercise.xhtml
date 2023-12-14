@@ -1,27 +1,35 @@
-<ui:composition xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+<!-- Author Victor Vollmann -->
+<ui:composition xmlns:h="jakarta.faces.html"
+                xmlns:ui="jakarta.faces.facelets"
                 xmlns="http://www.w3.org/1999/xhtml"
-                template="../../resources/templates/template.xhtml">
-
-    <ui:define name="title">Exercise</ui:define>
+                template="../../resources/templates/main.xhtml">
+    <ui:define name="headElements">
+        <link rel="stylesheet" href="#{request.contextPath}/resources/css/sidebar.css"/>
+    </ui:define>
     <ui:define name="content">
-        <section>
-            <nav id="nav1">
-                <strong id="main">Software Testing</strong>
-                <ul>
+        <div class="container-fluid h-100">
+            <div class="row h-100">
+
+                <!-- Sidebar -->
+                <div class="col-2 sidebar">
                     <h:form>
-                        <li>
-                            <h:commandButton value="Description" action="#{exerciseBean.setTargetPage('exerciseDescription.xhtml')}"/>
-                        </li>
-                        <li>
-                            <h:commandButton value="Submit" action="#{exerciseBean.setTargetPage('submit.xhtml')}"/>
-                        </li>
+                        <h3>#{exerciseDescriptionBean.exercise.name}</h3>
+                        <ul class="sidebar-menu">
+                            <li>
+                                <h:commandButton value="Description" action="#{exerciseBean.setTargetPage('exerciseDescription.xhtml')}"/>
+                            </li>
+                            <li>
+                                <h:commandButton value="Submit" action="#{exerciseBean.setTargetPage('submit.xhtml')}"/>
+                            </li>
+                        </ul>
                     </h:form>
-                </ul>
-            </nav>
-            <div>
-                <ui:include src="#{exerciseBean.targetPage}"/>
+                </div>
+
+                <!-- Main Content -->
+                <div class="col-10">
+                    <ui:include src="#{exerciseBean.targetPage}" />
+                </div>
             </div>
-        </section>
+        </div>
     </ui:define>
 </ui:composition>

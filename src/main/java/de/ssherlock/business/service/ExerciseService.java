@@ -75,9 +75,10 @@ public class ExerciseService implements Serializable {
     try {
       exerciseRepository.updateExercise(exercise);
     } catch (PersistenceNonExistentExerciseException e) {
-      throw new BusinessNonExistentExerciseException("", e);
+      throw new BusinessNonExistentExerciseException("The exercise could not be updated because it does not exist.", e);
+    } finally {
+        connectionPool.releaseConnection(connection);
     }
-      connectionPool.releaseConnection(connection);
   }
 
   /**
