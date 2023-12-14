@@ -19,8 +19,9 @@ import java.util.Map;
 /**
  * Backing bean for the coursePagination.xhtml facelet.
  *
- * @author Victor Vollmann
+ * @author Lennart Hohls
  */
+@SuppressWarnings("checkstyle:MagicNumber")
 @Named
 @ViewScoped
 public class CoursePaginationBean extends AbstractPaginationBean implements Serializable {
