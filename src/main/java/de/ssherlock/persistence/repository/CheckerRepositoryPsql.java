@@ -3,6 +3,7 @@ package de.ssherlock.persistence.repository;
 import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Checker;
+import de.ssherlock.global.transport.CheckerType;
 import de.ssherlock.persistence.exception.PersistenceNonExistentCheckerException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -67,23 +68,26 @@ public class CheckerRepositoryPsql extends RepositoryPsql implements CheckerRepo
            is_required = COALESCE(?,is_required),
            parameter_1 = COALESCE(?,parameter_1),
            parameter_2 = COALESCE(?,parameter_2),
-           checker_type = COALESCE(CAST(? as checker_type),checker_type)
+           type = COALESCE(CAST(? as checker_type),type)
            WHERE id = ?
            """;
+    Long exerciseID = checker.getExerciseId();
     try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
-      statement.setLong(1, checker.getExerciseId());
+      statement.setObject(1, exerciseID != 0 ? checker.getExerciseId() : null);
       statement.setBoolean(2, checker.isVisible());
       statement.setBoolean(3, checker.isMandatory());
       statement.setString(4, checker.getParameterOne());
       statement.setString(5, checker.getParameterTwo());
-      statement.setString(6, checker.getCheckerType().toString());
+      statement.setString(
+          6, checker.getCheckerType() != null ? checker.getCheckerType().toString() : null);
       statement.setLong(7, checker.getId());
       int rowsAffected = statement.executeUpdate();
       if (rowsAffected == 0) {
+        logger.log(Level.INFO, "not update nada");
         throw new PersistenceNonExistentCheckerException();
       }
     } catch (SQLException e) {
-      logger.log(Level.INFO, "sqlEXEP");
+      logger.log(Level.INFO, e.getMessage());
       throw new PersistenceNonExistentCheckerException();
     }
   }
@@ -118,7 +122,29 @@ public class CheckerRepositoryPsql extends RepositoryPsql implements CheckerRepo
   /** {@inheritDoc} */
   @Override
   public Checker getChecker(Checker checker) throws PersistenceNonExistentCheckerException {
-    return null;
+    String sqlQuery = "SELECT * FROM checker where id=?;";
+
+    Checker returnChecker = new Checker();
+    try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
+      statement.setLong(1, checker.getId());
+      ResultSet result = statement.executeQuery();
+      if (result.next()) {
+        returnChecker.setId(result.getInt("id"));
+        returnChecker.setExerciseId(result.getInt("exercise_id"));
+        returnChecker.setMandatory(result.getBoolean("is_required"));
+        returnChecker.setParameterOne(result.getString("parameter_1"));
+        returnChecker.setParameterTwo(result.getString("parameter_2"));
+        returnChecker.setVisible(result.getBoolean("is_visible"));
+        returnChecker.setCheckerType(CheckerType.valueOf(result.getString("checker_type")));
+      } else {
+        throw new PersistenceNonExistentCheckerException();
+      }
+
+    } catch (SQLException e) {
+      logger.log(Level.INFO, "sql exception checkerRep");
+      throw new RuntimeException(e);
+    }
+    return returnChecker;
   }
 
   /** {@inheritDoc} */
@@ -136,6 +162,7 @@ public class CheckerRepositoryPsql extends RepositoryPsql implements CheckerRepo
         checker.setParameterOne(result.getString("parameter_1"));
         checker.setParameterTwo(result.getString("parameter_2"));
         checker.setVisible(result.getBoolean("is_visible"));
+        checker.setCheckerType(CheckerType.valueOf(result.getString("type")));
         allChecker.add(checker);
       }
 

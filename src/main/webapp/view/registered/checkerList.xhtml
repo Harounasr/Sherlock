@@ -66,7 +66,7 @@
                     <h:commandButton value="Add Checker" action="#{checkerListBean.addChecker()}" />
                 </h:form>
 
-                <h:form styleClass="form-container" rendered="#{navbarBean.appSession.user.systemRole.toString() == 'ADMINISTRATOR'}">
+                <h:form styleClass="form-container" >
                     <h:outputLabel value="Checker ID required for Update" for="inputCID"/>
                     <h:inputText id="inputCID" value="#{checkerListBean.updateChecker.id}" required="true"/>
 
