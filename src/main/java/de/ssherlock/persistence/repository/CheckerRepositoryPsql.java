@@ -150,11 +150,12 @@ public class CheckerRepositoryPsql extends RepositoryPsql implements CheckerRepo
 
   /** {@inheritDoc} */
   @Override
-  public List<Checker> getCheckers() {
+  public List<Checker> getCheckers() throws PersistenceNonExistentCheckerException{
     String sqlQuery = "SELECT * FROM checker;";
     List<Checker> allChecker = new ArrayList<>();
     try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
       ResultSet result = statement.executeQuery();
+
       while (result.next()) {
         Checker checker = new Checker();
         checker.setId(result.getInt("id"));
@@ -169,7 +170,7 @@ public class CheckerRepositoryPsql extends RepositoryPsql implements CheckerRepo
 
     } catch (SQLException e) {
       logger.log(Level.INFO, "sql exception checkerRep");
-      throw new RuntimeException(e);
+      throw new PersistenceNonExistentCheckerException();
     }
     return allChecker;
   }

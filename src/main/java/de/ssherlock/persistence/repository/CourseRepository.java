@@ -47,6 +47,7 @@ public interface CourseRepository {
    *
    * @param user the user.
    * @return the users courses.
+   * @throws PersistenceNonExistentCourseException if no courses were found.
    */
   List<Course> getCourses(User user) throws PersistenceNonExistentCourseException;
 }

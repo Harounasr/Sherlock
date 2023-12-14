@@ -7,13 +7,14 @@ import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Course;
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Backing bean for the coursePagination.xhtml facelet.
@@ -21,7 +22,7 @@ import java.util.List;
  * @author Victor Vollmann
  */
 @Named
-@RequestScoped
+@ViewScoped
 public class CoursePaginationBean extends AbstractPaginationBean implements Serializable {
 
   /** Serial Version UID. */
@@ -44,8 +45,9 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
 
   /** List of courses to be displayed. */
   private List<Course> courses;
-
+/** List of the users courses*/
   private List<Course> myCourses;
+  /** List of all courses.*/
   private List<Course> allCourses;
 
   /** current Index. */
@@ -82,8 +84,10 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
     currentIndex = 0;
     pageSize = 5;
     System.out.println("bool: " + getAllCoursesBool);
+    Map<String, String> params =
+        FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+    getAllCoursesBool = Boolean.parseBoolean(params.get("all"));
     initCourses();
-
     /*
     getPagination().setPageSize(PAGE_SIZE);
     getPagination().setCurrentIndex(0);
@@ -97,12 +101,15 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
   private void initCourses() {
     myCourses = courseService.getCourses(appSession.getUser());
     allCourses = courseService.getCourses();
+    /*
     getAllCoursesBool =
         Boolean.parseBoolean(
             FacesContext.getCurrentInstance()
                 .getExternalContext()
                 .getRequestParameterMap()
                 .get("seeAllCourses"));
+
+     */
     System.out.println(getAllCoursesBool);
     if (getAllCoursesBool) {
       System.out.println("init set all");
@@ -173,7 +180,8 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
   /** {@inheritDoc} */
   @Override
   public String loadData() {
-    courses = courseService.getCourses(appSession.getUser());
+    initCourses();
+    // courses = courseService.getCourses(appSession.getUser());
     return "";
   }
 
@@ -210,14 +218,25 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
     this.currentIndex = currentIndex;
   }
 
+    /**
+     * Getter for the Page Size.
+     * @return page size
+     */
   public int getPageSize() {
     return pageSize;
   }
 
+    /**
+     * Getter for the bool (not used at the moment).
+     * @return boolean
+     */
   public boolean isGetAllCoursesBool() {
     return getAllCoursesBool;
   }
-
+    /**
+     * Setter for the bool (not used at the moment).
+     * @param bool boolean
+     */
   public void setGetAllCoursesBool(boolean bool) {
     getAllCoursesBool = bool;
   }
