@@ -23,7 +23,7 @@ import java.util.logging.Level;
 /**
  * The CourseService class provides functionality for managing courses and related operations.
  *
- * @author Victor Vollmann
+ * @author Lennart Hohls
  */
 @Named
 @Dependent

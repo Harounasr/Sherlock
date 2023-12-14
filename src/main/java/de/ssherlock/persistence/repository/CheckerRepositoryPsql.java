@@ -167,7 +167,7 @@ public class CheckerRepositoryPsql extends RepositoryPsql implements CheckerRepo
     /**
      * Gets the list of all available checkers.
      * @return list of checkers.
-     * @throws PersistenceNonExistentCheckerException
+     * @throws PersistenceNonExistentCheckerException if no checkers were found.
      */
   @Override
   public List<Checker> getCheckers() throws PersistenceNonExistentCheckerException{
@@ -205,7 +205,7 @@ public class CheckerRepositoryPsql extends RepositoryPsql implements CheckerRepo
         String sqlQuery = "SELECT * FROM checker WHERE exercise_id = ?;";
         List<Checker> allChecker = new ArrayList<>();
         try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
-            statement.setLong(1,exercise.getId());
+            statement.setLong(1, exercise.getId());
             ResultSet result = statement.executeQuery();
             while (result.next()) {
                 Checker checker = new Checker();

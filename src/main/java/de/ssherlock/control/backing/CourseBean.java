@@ -20,7 +20,7 @@ import java.util.logging.Level;
 /**
  * Backing bean for course.xhtml facelet.
  *
- * @author Leon Höfling
+ * @author Lennart Hohls
  */
 @Named
 @ViewScoped
@@ -107,6 +107,10 @@ public class CourseBean implements Serializable {
     this.targetPage = targetPage;
   }
 
+    /**
+     * Getter for the course.
+     * @return Course
+     */
   public Course getCourse() {
     return course;
   }
