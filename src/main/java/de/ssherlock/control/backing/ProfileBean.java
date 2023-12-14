@@ -46,8 +46,6 @@ public class ProfileBean implements Serializable {
   /** The userdata to be changed.*/
   private User changedUser;
 
-  /** username of the profile. */
-  private String username;
 
 
   /** The first new password for change. */
@@ -191,13 +189,6 @@ public class ProfileBean implements Serializable {
     return appSession;
   }
 
-    /**
-     * Gets the username.
-     * @return username
-     */
-  public String getUsername() {
-    return username;
-  }
 
     /**
      * Gets the changed user.

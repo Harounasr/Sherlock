@@ -96,7 +96,7 @@ public class SubmissionUploadBean implements Serializable {
     try {
         checkers = checkerService.getCheckersForExercise(exerciseTest);
     } catch (BusinessNonExistentCheckerException e) {
-        logger.log(Level.INFO,"submissionUpload throws this");
+        logger.log(Level.INFO, "submissionUpload throws this");
     }
     canSubmit = false;
   }
