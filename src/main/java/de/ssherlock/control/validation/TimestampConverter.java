@@ -23,6 +23,13 @@ import java.time.format.DateTimeFormatter;
 public class TimestampConverter implements Converter<Timestamp> {
 
     /**
+     * Constructs a new timestamp converter.
+     */
+    public TimestampConverter() {
+
+    }
+
+    /**
      * Converts a String to the corresponding date.
      *
      * @param facesContext The context.

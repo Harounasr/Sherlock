@@ -24,6 +24,13 @@ import java.util.Calendar;
 public class TimestampValidator implements Validator<Timestamp> {
 
     /**
+     * Constructs a timestamp validator.
+     */
+    public TimestampValidator() {
+
+    }
+
+    /**
      * Validates a date to be in the future.
      *
      * @param facesContext The FacesContext for the current request.
