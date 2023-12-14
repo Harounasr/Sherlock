@@ -13,20 +13,23 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Queue;
+import java.util.Set;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Level;
 
 /**
- * Application-scoped connection pool class for managing PostgreSQL database connections.
- * This class provides methods to create, borrow, and release database connections.
+ * Application-scoped connection pool class for managing database connections. This class provides
+ * methods to create, borrow, and release database connections.
  *
  * @author Victor Vollmann
  */
 @Named
 @ApplicationScoped
-@SuppressFBWarnings(value = {"SE_TRANSIENT_FIELD_NOT_RESTORED"},
+@SuppressFBWarnings(
+        value = {"SE_TRANSIENT_FIELD_NOT_RESTORED"},
         justification = "Suppress warnings about transient fields not being restored")
 public class ConnectionPool implements Serializable {
 
@@ -54,18 +57,18 @@ public class ConnectionPool implements Serializable {
     /**
      * Queue of available database connections.
      */
-    private final transient Queue<Connection> connections = new LinkedList<>();
+    private final transient Queue<Connection> connections = new ConcurrentLinkedQueue<>();
 
     /**
      * List of borrowed database connections.
      */
-    private final transient List<Connection> borrowedConnections = new LinkedList<>();
+    private final transient Set<Connection> borrowedConnections = new HashSet<>();
 
     /**
      * Default constructor for creating a ConnectionPoolPsql instance.
      *
      * @param configuration The configuration of the database.
-     * @param logger The logger of this class.
+     * @param logger        The logger of this class.
      */
     @Inject
     public ConnectionPool(Configuration configuration, SerializableLogger logger) {
@@ -74,61 +77,58 @@ public class ConnectionPool implements Serializable {
     }
 
     /**
-     * Protected constructor without arguments for CDI.
-     */
-    protected ConnectionPool() {
-        this(null, null);
-    }
-
-    /**
-     * Initializes the connection pool after creation.
-     * Loads the database driver and creates the initial pool of database connections.
+     * Initializes the connection pool after creation. Loads the database driver and creates the
+     * initial pool of database connections.
      */
     public synchronized void init() {
-        logger.log(Level.INFO, "New ConnectionPool created.");
+        logger.info("New ConnectionPool created.");
         loadDriver();
         for (int i = 0; i < configuration.getDbNumConnections(); i++) {
             connections.offer(createConnection());
         }
-        logger.log(Level.INFO, "Created " + connections.size() + " connections to database: " + configuration.getDbName());
+        logger.log(
+                Level.INFO,
+                "Created " + connections.size() + " connections to database: " + configuration.getDbName());
     }
 
     /**
-     * Destroys the connection pool.
-     * Closes all available and borrowed connections and clears the connection queues.
+     * Destroys the connection pool. Closes all available and borrowed connections and clears the
+     * connection queues.
      */
     public synchronized void destroy() {
-        for (Connection conn : connections) {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    logger.warning("Failed to close Connection.");
-                }
-                logger.finest("Successfully closed connection.");
+        connections.removeIf(Objects::isNull);
+        borrowedConnections.removeIf(Objects::isNull);
+        for (Connection connection : connections) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.warning("Failed to close Connection.");
             }
+            logger.finest("Successfully closed connection.");
         }
-        for (Connection conn : borrowedConnections) {
-            if (conn != null) {
-                try {
-                    conn.rollback();
-                } catch (SQLException e) {
-                    logger.warning("Borrowed Connection could not be rolled back.");
+        for (Connection connection : borrowedConnections) {
+            try {
+                if (connection.getAutoCommit()) {
+                    connection.rollback();
+                    logger.finest("Successfully rolled back connection.");
                 }
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    logger.warning("Borrowed Connection could not be closed.");
-                }
+            } catch (SQLException e) {
+                logger.warning("Borrowed connection could not be rolled back.");
+            }
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.warning("Borrowed connection could not be closed.");
             }
         }
         connections.clear();
         borrowedConnections.clear();
+        logger.info("Successfully destroyed connection pool.");
     }
 
     /**
-     * Retrieves a database connection from the connection pool.
-     * If the pool is empty, the method waits until a connection becomes available.
+     * Retrieves a database connection from the connection pool. If the pool is empty, the method
+     * waits until a connection becomes available.
      *
      * @return A database connection.
      */
@@ -159,23 +159,26 @@ public class ConnectionPool implements Serializable {
     public synchronized void releaseConnection(Connection connection) {
         if (borrowedConnections.remove(connection)) {
             try {
-                if (isValidConnection(connection)) {
-                    connection.rollback();
-                    logger.finest("Connection successfully rolled back.");
-                } else {
-                    connection = createConnection();
-                    logger.finest("Connection successfully reset.");
+                if (connection != null && !connection.isClosed()) {
+                    if (!connection.getAutoCommit()) {
+                        connection.rollback();
+                        logger.finest("Connection successfully rolled back.");
+                    }
+                    if (!isValidConnection(connection)) {
+                        connection = createConnection();
+                    }
+                    connections.offer(connection);
+                    logger.info("Connection was released successfully");
                 }
             } catch (SQLException e) {
-                connection = createConnection();
-            } finally {
-                logger.info("Connection was released successfully");
-                connections.offer(connection);
+                logger.log(Level.WARNING, "Error during connection release: ", e);
             }
         } else {
             try {
-                connection.close();
-                logger.warning("Connection was not borrowed, so it was closed.");
+                if (connection != null && !connection.isClosed()) {
+                    connection.close();
+                    logger.warning("Connection was not borrowed, so it was closed.");
+                }
             } catch (SQLException e) {
                 logger.warning("Connection was not borrowed and could not be closed.");
             }
@@ -190,8 +193,15 @@ public class ConnectionPool implements Serializable {
     private synchronized Connection createConnection() {
         Connection conn;
         try {
-            conn = DriverManager.getConnection(
-                    "jdbc:postgresql://" + configuration.getDbHost() + "/" + configuration.getDbName(), configuration.getConnectionProperties());
+            conn =
+                    DriverManager.getConnection(
+                            String.format(
+                                    "%s://%s/%s",
+                                    configuration.getDbConnectionPrefix(),
+                                    configuration.getDbHost(),
+                                    configuration.getDbName()),
+                            configuration.getConnectionProperties());
+            logger.finer("Created a new connection to the database.");
         } catch (SQLException e) {
             throw new DBUnavailableException("Connection could not be created.", e);
         }
@@ -199,8 +209,7 @@ public class ConnectionPool implements Serializable {
     }
 
     /**
-     * Loads the PostgreSQL database driver.
-     * Throws an error if the driver is not found.
+     * Loads the database driver. Throws an error if the driver is not found.
      */
     private synchronized void loadDriver() {
         try {
