@@ -4,6 +4,7 @@ import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Checker;
 import de.ssherlock.global.transport.CheckerType;
+import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.persistence.exception.PersistenceNonExistentCheckerException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -172,4 +173,31 @@ public class CheckerRepositoryPsql extends RepositoryPsql implements CheckerRepo
     }
     return allChecker;
   }
+
+    /** {@inheritDoc} */
+    @Override
+    public List<Checker> getCheckersForExercise(Exercise exercise) {
+        String sqlQuery = "SELECT * FROM checker WHERE exercise_id = ?;";
+        List<Checker> allChecker = new ArrayList<>();
+        try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
+            statement.setLong(1,exercise.getId());
+            ResultSet result = statement.executeQuery();
+            while (result.next()) {
+                Checker checker = new Checker();
+                checker.setId(result.getInt("id"));
+                checker.setExerciseId(result.getInt("exercise_id"));
+                checker.setMandatory(result.getBoolean("is_required"));
+                checker.setParameterOne(result.getString("parameter_1"));
+                checker.setParameterTwo(result.getString("parameter_2"));
+                checker.setVisible(result.getBoolean("is_visible"));
+                checker.setCheckerType(CheckerType.valueOf(result.getString("type")));
+                allChecker.add(checker);
+            }
+
+        } catch (SQLException e) {
+            logger.log(Level.INFO, "sql exception checkerRep");
+            throw new RuntimeException(e);
+        }
+        return allChecker;
+    }
 }
