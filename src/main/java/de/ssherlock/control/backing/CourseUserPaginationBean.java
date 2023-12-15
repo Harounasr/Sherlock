@@ -1,17 +1,11 @@
 package de.ssherlock.control.backing;
 
-import de.ssherlock.business.exception.BusinessNonExistentUserException;
-import de.ssherlock.business.service.CourseService;
 import de.ssherlock.business.service.UserService;
-import de.ssherlock.control.notification.Notification;
-import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
-import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.CourseRole;
 import de.ssherlock.global.transport.User;
 import jakarta.annotation.PostConstruct;
-import jakarta.faces.event.ActionEvent;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -55,11 +49,6 @@ public class CourseUserPaginationBean extends AbstractPaginationBean implements 
     private final UserService userService;
 
     /**
-     * Service handling for course related operations.
-     */
-    private final CourseService courseService;
-
-    /**
      * The parent backing bean.
      */
     private final CourseBean courseBean;
@@ -80,16 +69,14 @@ public class CourseUserPaginationBean extends AbstractPaginationBean implements 
      * @param logger        The logger for logging purposes (Injected).
      * @param appSession    The active session (Injected).
      * @param userService   The service handling user-related operations (Injected).
-     * @param courseService The service handling course-related operations (Injected).
      * @param courseBean    The parent backing bean (Injected).
      */
     @Inject
     public CourseUserPaginationBean(
-            SerializableLogger logger, AppSession appSession, UserService userService, CourseService courseService, CourseBean courseBean) {
+            SerializableLogger logger, AppSession appSession, UserService userService, CourseBean courseBean) {
         this.logger = logger;
         this.appSession = appSession;
         this.userService = userService;
-        this.courseService = courseService;
         this.courseBean = courseBean;
     }
 

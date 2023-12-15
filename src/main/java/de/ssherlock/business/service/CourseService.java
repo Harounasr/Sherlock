@@ -187,6 +187,8 @@ public class CourseService implements Serializable {
      *
      * @param course The course.
      * @return The course.
+     *
+     * @throws BusinessNonExistentCourseException when the course does not exist.
      */
     public Course getCourseById(Course course) throws BusinessNonExistentCourseException {
         Connection connection = connectionPool.getConnection();
