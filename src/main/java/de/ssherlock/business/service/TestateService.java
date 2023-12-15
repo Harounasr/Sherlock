@@ -1,5 +1,6 @@
 package de.ssherlock.business.service;
 
+import de.ssherlock.business.exception.BusinessNonExistentSubmissionException;
 import de.ssherlock.business.exception.BusinessNonExistentTestateException;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Exercise;
@@ -7,8 +8,11 @@ import de.ssherlock.global.transport.Pagination;
 import de.ssherlock.global.transport.Testate;
 import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.connection.ConnectionPool;
+import de.ssherlock.persistence.exception.PersistenceNonExistentSubmissionException;
+import de.ssherlock.persistence.exception.PersistenceNonExistentTestateException;
 import de.ssherlock.persistence.repository.RepositoryFactory;
 import de.ssherlock.persistence.repository.RepositoryType;
+import de.ssherlock.persistence.repository.SubmissionRepository;
 import de.ssherlock.persistence.repository.TestateRepository;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
@@ -130,8 +134,25 @@ public class TestateService implements Serializable {
      * @throws BusinessNonExistentTestateException when the testate does not exist in the database.
      */
     public Testate getTestate(Exercise exercise, User user)
-            throws BusinessNonExistentTestateException {
-        return null;
+            throws BusinessNonExistentTestateException, BusinessNonExistentSubmissionException {
+        Connection connection = connectionPool.getConnection();
+        TestateRepository testateRepository = RepositoryFactory.getEvaluationRepository(RepositoryType.POSTGRESQL, connection);
+        Testate testate = new Testate();
+        try {
+            testate = testateRepository.getTestate(exercise, user);
+        } catch (PersistenceNonExistentTestateException e) {
+            throw new BusinessNonExistentTestateException();
+        } finally {
+            connectionPool.releaseConnection(connection);
+        }
+        connection = connectionPool.getConnection();
+        SubmissionRepository submissionRepository = RepositoryFactory.getSubmissionRepository(RepositoryType.POSTGRESQL, connection);
+        try {
+            testate.setSubmission(submissionRepository.getSubmissions(exercise).getFirst());
+        } finally {
+            connectionPool.releaseConnection(connection);
+        }
+        return testate;
     }
 
     /**
@@ -139,7 +160,11 @@ public class TestateService implements Serializable {
      *
      * @param testate The testate to be updated.
      */
-    public void addTestate(Testate testate) {}
+    public void addTestate(Testate testate) {
+        Connection connection = connectionPool.getConnection();
+        TestateRepository testateRepository = RepositoryFactory.getEvaluationRepository(RepositoryType.POSTGRESQL, connection);
+        testateRepository.insertTestate(testate);
+    }
 
     /**
      * Sorts and filters a list of testates based on the pagination.
@@ -152,7 +177,7 @@ public class TestateService implements Serializable {
         Stream<Testate> testateStream = testates.stream();
 
         if (!pagination.getSearchString().isEmpty()) {
-            testateStream = testateStream.filter(testate -> testate.getEvaluator().contains(pagination.getSearchString())
+            testateStream = testateStream.filter(testate -> testate.getEvaluatorId() == (Integer.parseInt(pagination.getSearchString()))
                                                             || testate.getStudent().contains(pagination.getSearchString()));
         }
 
@@ -160,7 +185,7 @@ public class TestateService implements Serializable {
         if (!sortBy.isEmpty()) {
             Comparator<Testate> comparator = switch (sortBy) {
                 case "student" -> Comparator.comparing(Testate::getStudent);
-                case "tutor" -> Comparator.comparing(Testate::getEvaluator);
+                case "tutor" -> Comparator.comparing(Testate::getEvaluatorId);
                 default -> (testate1, testate2) -> 0;
             };
             testateStream = pagination.isSortAscending() ? testateStream.sorted(comparator) : testateStream.sorted(comparator.reversed());

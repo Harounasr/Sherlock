@@ -16,6 +16,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 /**
  * Implementation of TestateRepository for PostgreSQL database.
@@ -41,8 +42,34 @@ public class TestateRepositoryPsql extends RepositoryPsql implements TestateRepo
     /**
      * {@inheritDoc}
      */
+    @SuppressWarnings("checkstyle:MagicNumber")
     @Override
-    public void insertTestate(Testate testate) {}
+    public void insertTestate(Testate testate) {
+        String sqlQuery = """
+                          INSERT INTO testate (submission_id, tutor_id, layout_grade, structure_grade, readability_grade, functionality_grade)
+                          VALUES (
+                          submission_id = ?,
+                          tutor_id = ?,
+                          layout_grade = ?,
+                          structure_grade = ?,
+                          readability_grade = ?,
+                          functionality_grade = ?
+                          )
+                          """;
+        try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
+            statement.setLong(1, testate.getSubmission().getId());
+            statement.setLong(2, testate.getEvaluatorId());
+            statement.setInt(3, testate.getLayoutGrade());
+            statement.setInt(4, testate.getStructureGrade());
+            statement.setInt(5, testate.getReadabilityGrade());
+            statement.setInt(6, testate.getFunctionalityGrade());
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.log(Level.INFO, "Insertion of new testate was not possible.");
+            throw new RuntimeException(e);
+        }
+    }
 
     /**
      * {@inheritDoc}
@@ -50,7 +77,28 @@ public class TestateRepositoryPsql extends RepositoryPsql implements TestateRepo
     @Override
     public Testate getTestate(Exercise exercise, User student)
             throws PersistenceNonExistentTestateException {
-        return null;
+        String sqlQuery = """
+                          SELECT * FROM testate
+                          WHERE submission_id IN (
+                          SELECT * FROM submission s
+                          WHERE s.student_username = ? AND s.exercise_id = ?
+                          );
+                          """;
+        Testate testate = new Testate();
+        try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
+            statement.setString(1, student.getUsername());
+            statement.setLong(2, exercise.getId());
+            ResultSet resultSet = statement.executeQuery();
+            testate.setLayoutGrade(resultSet.getInt("layout_grade"));
+            testate.setStructureGrade(resultSet.getInt("structure_grade"));
+            testate.setFunctionalityGrade(resultSet.getInt("functionality_grade"));
+            testate.setReadabilityGrade(resultSet.getInt("readability_grade"));
+            testate.setEvaluatorId(resultSet.getLong("tutor_id"));
+        } catch (SQLException e) {
+            logger.log(Level.INFO, "Testate not available.");
+            throw new PersistenceNonExistentTestateException();
+        }
+        return testate;
     }
 
     /**
@@ -249,7 +297,7 @@ public class TestateRepositoryPsql extends RepositoryPsql implements TestateRepo
         testate.setSubmission(submission);
         testate.setFunctionalityGrade(resultSet.getInt("functionality_grade"));
         testate.setReadabilityGrade(resultSet.getInt("readability_grade"));
-        testate.setEvaluator(resultSet.getString("tutor_username"));
+        testate.setEvaluatorId(resultSet.getLong("tutor_username"));
         testate.setStudent(resultSet.getString("student_username"));
         return testate;
     }
