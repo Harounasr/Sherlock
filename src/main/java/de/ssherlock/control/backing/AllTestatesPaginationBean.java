@@ -5,6 +5,7 @@ import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.Testate;
+import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -76,9 +77,8 @@ public class AllTestatesPaginationBean extends AbstractPaginationBean implements
     /**
      * Initializes the AllTestatesPaginationBean after construction. Retrieves all available testates upon creation.
      */
-    @Override
+    @PostConstruct
     public void initialize() {
-        // Needs to be set to the actual exercise id.
         exercise = new Exercise();
         exercise.setId(0L);
         loadData();
@@ -117,16 +117,8 @@ public class AllTestatesPaginationBean extends AbstractPaginationBean implements
      * {@inheritDoc}
      */
     @Override
-    public String loadData() {
+    public void loadData() {
         testateService.getAllTestates(exercise);
-        return "";
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String search() {
-        return "";
-    }
 }

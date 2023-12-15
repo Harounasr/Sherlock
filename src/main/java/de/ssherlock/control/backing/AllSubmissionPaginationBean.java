@@ -5,6 +5,7 @@ import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.Submission;
+import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -77,7 +78,7 @@ public class AllSubmissionPaginationBean extends AbstractPaginationBean implemen
      * Initializes the AllSubmissionPaginationBean after construction. Retrieves all submissions upon
      * creation.
      */
-    @Override
+    @PostConstruct
     public void initialize() {
         // Needs to be set to the actual exercise id.
         exercise = new Exercise();
@@ -117,16 +118,9 @@ public class AllSubmissionPaginationBean extends AbstractPaginationBean implemen
      * {@inheritDoc}
      */
     @Override
-    public String loadData() {
-        submissions = submissionService.getSubmissions(exercise);
-        return "";
+    public void loadData() {
+        submissions = submissionService.getSubmissions(getPagination(), exercise);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String search() {
-        return "";
-    }
+
 }

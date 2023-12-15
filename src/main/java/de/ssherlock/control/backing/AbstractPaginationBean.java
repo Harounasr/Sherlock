@@ -1,9 +1,6 @@
 package de.ssherlock.control.backing;
 
-import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Pagination;
-import jakarta.annotation.PostConstruct;
-import jakarta.inject.Inject;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -22,13 +19,6 @@ public abstract class AbstractPaginationBean implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The {@code Logger} instance to be used in this class.
-     */
-    @Inject
-    private transient SerializableLogger logger;
-
-
-    /**
      * The pagination DTO.
      */
     private Pagination pagination;
@@ -36,25 +26,18 @@ public abstract class AbstractPaginationBean implements Serializable {
     /**
      * Default constructor.
      */
-    @Inject
     public AbstractPaginationBean() {
-
+        pagination = new Pagination();
+        pagination.setCurrentIndex(0);
+        pagination.setSortBy("");
+        pagination.setSearchString("");
+        pagination.setSortAscending(true);
     }
 
     /**
-     * Initializes the backing bean for the pagination.
-     * Must set the property sortBy in the pagination.
-     * Otherwise, an IllegalStateException will be thrown.
-     */
-    @PostConstruct
-    public abstract void initialize();
-
-    /**
      * Loads the data for the pagination.
-     *
-     * @return The navigation outcome.
      */
-    public abstract String loadData();
+    public abstract void loadData();
 
     /**
      * Getter for the pagination.
@@ -74,95 +57,61 @@ public abstract class AbstractPaginationBean implements Serializable {
         this.pagination = pagination;
     }
 
-
-    /**
-     * Searches the pagination for the search string.
-     *
-     * @return The navigation outcome.
-     */
-    public String search() {
-        logger.finest("Searching for" + pagination.getSearchString());
-        return loadData();
-    }
-
     /**
      * Navigates to the next page.
-     *
-     * @return The navigation outcome.
      */
-    public String nextPage() {
-        pagination.setCurrentIndex(pagination.getCurrentIndex() + 1);
-        return loadData();
+    public void nextPage() {
+        if (pagination.getCurrentIndex() + pagination.getPageSize() <= pagination.getLastIndex()) {
+            pagination.setCurrentIndex(pagination.getCurrentIndex() + pagination.getPageSize());
+        } else {
+            pagination.setCurrentIndex(pagination.getLastIndex() - (pagination.getLastIndex() % pagination.getPageSize()));
+        }
+        loadData();
     }
 
     /**
      * Navigates to the previous page.
-     *
-     * @return The navigation outcome.
      */
-    public String previousPage() {
-        pagination.setCurrentIndex(pagination.getCurrentIndex() - 1);
-        return loadData();
+    public void previousPage() {
+        pagination.setCurrentIndex(Math.max(pagination.getCurrentIndex() - pagination.getPageSize(), 0));
+        loadData();
     }
 
     /**
      * Navigates to the first page.
-     *
-     * @return The navigation outcome.
      */
-    public String firstPage() {
+    public void firstPage() {
         pagination.setCurrentIndex(1);
-        return loadData();
+        loadData();
     }
 
     /**
      * Navigates to the last page.
-     *
-     * @return The navigation outcome.
      */
-    public String lastPage() {
+    public void lastPage() {
         pagination.setCurrentIndex(pagination.getLastIndex());
-        return loadData();
-    }
-
-    /**
-     * Navigates to a specific page of the pagination.
-     *
-     * @return The navigation outcome.
-     */
-    public String selectedPage() {
-        return loadData();
+        loadData();
     }
 
     /**
      * Sorts the pagination by the given sortBy attribute.
      *
      * @param sortBy The sortBy attribute.
-     * @return The navigation outcome.
      */
-    public String sort(String sortBy) {
-        logger.finest("Sorting by " + sortBy);
+    public void sort(String sortBy) {
         if (pagination.getSortBy().equals(sortBy)) {
-            logger.finest("Toggle direction ascending " + pagination.isSortAscending());
             pagination.setSortAscending(!pagination.isSortAscending());
         }
         pagination.setSortBy(sortBy);
-        return loadData();
+        loadData();
     }
 
     /**
-     * Returns the title of the header with the sort direction if the sortableHeader is sorted by.
-     *
-     * @param title  The title of the header.
-     * @param sortBy The sortBy attribute of the header.
-     * @return The title for the header.
+     * Initializes the search.
      */
-    public String getTitleForHeader(String title, String sortBy) {
-        if (pagination.getSortBy().equals(sortBy)) {
-            return title + getSortDirection();
-        } else {
-            return title;
-        }
+    public void search() {
+        pagination.setCurrentIndex(0);
+        loadData();
     }
 
     /**
@@ -171,7 +120,7 @@ public abstract class AbstractPaginationBean implements Serializable {
      * @return {@code true} if the previous button is enabled otherwise {@code false}.
      */
     public boolean prevButtonEnabled() {
-        return pagination.getCurrentIndex() > 1;
+        return pagination.getCurrentIndex() >= pagination.getPageSize();
     }
 
     /**
@@ -180,21 +129,7 @@ public abstract class AbstractPaginationBean implements Serializable {
      * @return {@code true} if the next button is enabled otherwise {@code false}.
      */
     public boolean nextButtonEnabled() {
-        return pagination.getCurrentIndex() < pagination.getLastIndex();
+        return pagination.getCurrentIndex() + pagination.getPageSize() <= pagination.getLastIndex();
     }
-
-    /**
-     * Returns a symbol for the sort direction dependent of the selection in the pagination.
-     *
-     * @return A symbol for the sort direction.
-     */
-    private String getSortDirection() {
-        if (pagination.isSortAscending()) {
-            return "↑";
-        } else {
-            return "↓";
-        }
-    }
-
 
 }

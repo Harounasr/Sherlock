@@ -4,6 +4,7 @@ import de.ssherlock.business.exception.BusinessNonExistentExerciseException;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.Exercise;
+import de.ssherlock.global.transport.Pagination;
 import de.ssherlock.persistence.connection.ConnectionPool;
 import de.ssherlock.persistence.exception.PersistenceNonExistentExerciseException;
 import de.ssherlock.persistence.repository.ExerciseRepository;
@@ -16,7 +17,10 @@ import jakarta.inject.Named;
 import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Connection;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * The ExerciseService class provides functionality for managing exercises and related operations.
@@ -69,6 +73,38 @@ public class ExerciseService implements Serializable {
         List<Exercise> exercises = exerciseRepository.getExercises(course);
         connectionPool.releaseConnection(connection);
         return exercises;
+    }
+
+    /**
+     * Retrieves a list of exercises associated with the specified course.
+     *
+     * @param pagination The pagination.
+     * @param course The course for which to retrieve exercises.
+     * @return A list of exercises associated with the course.
+     */
+    public List<Exercise> getExercises(Pagination pagination, Course course) {
+        Connection connection = connectionPool.getConnection();
+        ExerciseRepository exerciseRepository =
+                RepositoryFactory.getExerciseRepository(RepositoryType.POSTGRESQL, connection);
+        List<Exercise> exercises = exerciseRepository.getExercises(course);
+        connectionPool.releaseConnection(connection);
+        Stream<Exercise> exerciseStream = exercises.stream();
+
+        if (!pagination.getSearchString().isEmpty()) {
+            exerciseStream = exerciseStream.filter(exercise -> exercise.getName().contains(pagination.getSearchString()));
+        }
+
+        String sortBy = pagination.getSortBy();
+        if (!sortBy.isEmpty()) {
+            Comparator<Exercise> comparator = switch (sortBy) {
+                case "name" -> Comparator.comparing(Exercise::getName);
+                case "id" -> Comparator.comparing(Exercise::getId);
+                default -> (exercise1, exercise2) -> 0;
+            };
+            exerciseStream = pagination.isSortAscending() ? exerciseStream.sorted(comparator) : exerciseStream.sorted(comparator.reversed());
+        }
+
+        return exerciseStream.collect(Collectors.toList());
     }
 
     /**
