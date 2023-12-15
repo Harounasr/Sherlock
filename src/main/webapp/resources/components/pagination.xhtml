@@ -16,46 +16,29 @@
     <!-- Implementation -->
     <cc:implementation>
 
-        <!-- searchBar -->
-        <h:panelGrid id="searchBar_panelGrid" columns="2" styleClass="table table-borderless allign-middle">
-
-            <h:panelGrid scope="col">
-                <h:inputText id="searchBar_searchInput"
-                             value="#{cc.attrs.backingBean.pagination.searchString}"
-                             styleClass="form-control"
-                             a:placeholder="Search"/>
-            </h:panelGrid>
-
-            <h:panelGrid scope="col">
-                <h:commandButton id="searchBar_searchButton"
-                                 value="Search"
-                                 action="#{cc.attrs.backingBean.search()}"
-                                 styleClass="btn btn-secondary"/>
-            </h:panelGrid>
-        </h:panelGrid>
-        <!-- searchBar end -->
-
         <!-- pagination -->
-        <h:panelGrid rendered="#{cc.attrs.backingBean.pagination.lastIndex > 0}" id="pagination_navigationGrid" columns="6">
-            <h:commandButton id="pagination_firstButton"
-                             value="First Page"
-                             action="#{cc.attrs.backingBean.firstPage()}"
-                             styleClass="btn btn-primary"/>
-            <h:commandButton id="pagination_prevButton"
-                             value="Previous Page"
-                             action="#{cc.attrs.backingBean.previousPage()}"
-                             disabled="#{!cc.attrs.backingBean.prevButtonEnabled()}"
-                             styleClass="btn btn-primary"/>
-            <h:commandButton id="pagination_nextButton"
-                             value="Next Page"
-                             action="#{cc.attrs.backingBean.nextPage()}"
-                             disabled="#{!cc.attrs.backingBean.nextButtonEnabled()}"
-                             styleClass="btn btn-primary"/>
-            <h:commandButton id="pagination_lastButton"
-                             value="Last Page"
-                             action="#{cc.attrs.backingBean.lastPage()}"
-                             styleClass="btn btn-primary"/>
-        </h:panelGrid>
+        <div class="d-flex justify-content-center mt-3">
+            <h:panelGroup rendered="#{cc.attrs.backingBean.pagination.lastIndex > 0}" id="pagination_navigationGrid" layout="block" styleClass="btn-group" role="group" aria-label="Pagination">
+                <h:commandButton id="pagination_firstButton"
+                                 value="First Page"
+                                 action="#{cc.attrs.backingBean.firstPage()}"
+                                 styleClass="btn btn-primary mx-1"/>
+                <h:commandButton id="pagination_prevButton"
+                                 value="Previous Page"
+                                 action="#{cc.attrs.backingBean.previousPage()}"
+                                 disabled="#{!cc.attrs.backingBean.prevButtonEnabled()}"
+                                 styleClass="btn btn-primary mx-1"/>
+                <h:commandButton id="pagination_nextButton"
+                                 value="Next Page"
+                                 action="#{cc.attrs.backingBean.nextPage()}"
+                                 disabled="#{!cc.attrs.backingBean.nextButtonEnabled()}"
+                                 styleClass="btn btn-primary mx-1"/>
+                <h:commandButton id="pagination_lastButton"
+                                 value="Last Page"
+                                 action="#{cc.attrs.backingBean.lastPage()}"
+                                 styleClass="btn btn-primary mx-1"/>
+            </h:panelGroup>
+        </div>
     </cc:implementation>
 </ui:component>
 

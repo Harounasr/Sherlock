@@ -3,32 +3,39 @@
         xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
         xmlns="http://www.w3.org/1999/xhtml"
         template="../../resources/templates/main.xhtml">
-
+    <ui:define name="headElements">
+        <link rel="stylesheet" href="#{request.contextPath}/resources/css/sidebar.css"/>
+    </ui:define>
     <h:head>
-    <ui:define name="title">#{courseBean.course.name}</ui:define>
+        <ui:define name="title">#{courseBean.course.name}</ui:define>
     </h:head>
 
     <ui:define name="content">
-        <section>
-            <nav id="nav1">
-                <strong id="main">Software Testing</strong>
-                <ul>
+        <div class="container-fluid h-100">
+            <div class="row h-100">
+
+                <!-- Sidebar -->
+                <div class="col-2 sidebar">
                     <h:form>
-                        <li>
-                            <h:commandButton value="Exercises" action="#{courseBean.setTargetPage('exercisePagination.xhtml')}"/>
-                        </li>
-                        <li>
-                            <h:commandButton value="Users" action="#{courseBean.setTargetPage('courseUserPagination.xhtml')}"/>
-                        </li>
-                        <li>
-                            <h:commandButton value="Delete Course" action="#{courseBean.deleteCourse}"/>
-                        </li>
+                        <h3>#{courseBean.course.name}</h3>
+                        <ul class="sidebar-menu">
+                            <li>
+                                <h:commandButton value="Exercises" action="#{courseBean.setTargetPage('exercisePagination.xhtml')}"
+                                                 styleClass="btn btn-primary"/>
+                            </li>
+                            <li>
+                                <h:commandButton rendered="#{courseBean.teacherRights}" value="Users"
+                                                 action="#{courseBean.setTargetPage('courseUserPagination.xhtml')}" styleClass="btn btn-primary"/>
+                            </li>
+                        </ul>
                     </h:form>
-                </ul>
-            </nav>
-            <div class="container">
-                <ui:include src="exercisePagination.xhtml"/>
+                </div>
+
+                <!-- Main Content -->
+                <div class="col-10">
+                    <ui:include src="#{courseBean.targetPage}"/>
+                </div>
             </div>
-        </section>
+        </div>
     </ui:define>
 </ui:composition>

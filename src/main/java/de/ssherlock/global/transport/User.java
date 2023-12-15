@@ -20,6 +20,11 @@ public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * The user's id.
+     */
+    private long id;
+
+    /**
      * The username of the user.
      */
     private String username;
@@ -78,6 +83,24 @@ public class User implements Serializable {
      * Instantiates a new User.
      */
     public User() {}
+
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
+    public long getId() {
+        return id;
+    }
+
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
+    public void setId(long id) {
+        this.id = id;
+    }
 
     /**
      * Gets username.

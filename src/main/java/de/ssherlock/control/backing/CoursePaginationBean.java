@@ -106,7 +106,7 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
     public String select(Course course) {
         FacesContext.getCurrentInstance().getExternalContext().getFlash().put("courseName", course.getName());
         logger.log(INFO, "Selected Course: " + course.getName());
-        return "/view/registered/course.xhtml?faces-redirect=true&Id=" + course.getName();
+        return "/view/registered/course.xhtml?faces-redirect=true&Id=" + course.getId();
     }
 
     /**

@@ -16,10 +16,11 @@
                         <h3>#{exerciseDescriptionBean.exercise.name}</h3>
                         <ul class="sidebar-menu">
                             <li>
-                                <h:commandButton value="Description" action="#{exerciseBean.setTargetPage('exerciseDescription.xhtml')}"/>
+                                <h:commandButton value="Description" action="#{exerciseBean.setTargetPage('exerciseDescription.xhtml')}"
+                                                 styleClass="btn btn-primary"/>
                             </li>
                             <li>
-                                <h:commandButton value="Submit" action="#{exerciseBean.setTargetPage('submit.xhtml')}"/>
+                                <h:commandButton value="Submit" action="#{exerciseBean.setTargetPage('submit.xhtml')}" styleClass="btn btn-primary"/>
                             </li>
                         </ul>
                     </h:form>
@@ -27,7 +28,7 @@
 
                 <!-- Main Content -->
                 <div class="col-10">
-                    <ui:include src="#{exerciseBean.targetPage}" />
+                    <ui:include src="#{exerciseBean.targetPage}"/>
                 </div>
             </div>
         </div>

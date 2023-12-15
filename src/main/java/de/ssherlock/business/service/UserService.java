@@ -23,6 +23,7 @@ import de.ssherlock.persistence.util.MailContentBuilder;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigInteger;
@@ -208,48 +209,48 @@ public class UserService implements Serializable {
         }
     }
 
-  /**
-   * Deletes a user account.
-   *
-   * @param user The user to be deleted.
-   * @throws BusinessNonExistentUserException when the user is not registered in the system.
-   */
-  public void deleteUser(User user) throws BusinessNonExistentUserException {
-    Connection connection = connectionPool.getConnection();
-    UserRepository userRepository =
-        RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
-    try {
-      userRepository.deleteUser(user);
-    } catch (PersistenceNonExistentUserException e) {
-      throw new BusinessNonExistentUserException();
+    /**
+     * Deletes a user account.
+     *
+     * @param user The user to be deleted.
+     * @throws BusinessNonExistentUserException when the user is not registered in the system.
+     */
+    public void deleteUser(User user) throws BusinessNonExistentUserException {
+        Connection connection = connectionPool.getConnection();
+        UserRepository userRepository =
+                RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
+        try {
+            userRepository.deleteUser(user);
+        } catch (PersistenceNonExistentUserException e) {
+            throw new BusinessNonExistentUserException();
+        }
+        connectionPool.releaseConnection(connection);
     }
-    connectionPool.releaseConnection(connection);
-  }
 
 
-  /**
-   * Updates user account information.
-   *
-   * @param user The user with updated information.
-   * @throws BusinessNonExistentUserException when the user is not registered in the system.
-   */
-  public void updateUser(User user) throws BusinessNonExistentUserException {
-    Connection connection = connectionPool.getConnection();
-    UserRepository userRepository =
-        RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
-    try {
-      userRepository.updateUser(user);
-    } catch (PersistenceNonExistentUserException e) {
-      throw new BusinessNonExistentUserException();
+    /**
+     * Updates user account information.
+     *
+     * @param user The user with updated information.
+     * @throws BusinessNonExistentUserException when the user is not registered in the system.
+     */
+    public void updateUser(User user) throws BusinessNonExistentUserException {
+        Connection connection = connectionPool.getConnection();
+        UserRepository userRepository =
+                RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
+        try {
+            userRepository.updateUser(user);
+        } catch (PersistenceNonExistentUserException e) {
+            throw new BusinessNonExistentUserException();
+        }
+        connectionPool.releaseConnection(connection);
     }
-    connectionPool.releaseConnection(connection);
-  }
 
     /**
      * Retrieves a list of all users.
      *
      * @param pagination The pagination.
-     * @param course The course.
+     * @param course     The course.
      * @return A list of all users.
      */
     public List<User> getUsers(Pagination pagination, Course course) {
@@ -309,7 +310,6 @@ public class UserService implements Serializable {
     }
 
 
-
     /**
      * Gets a user by its username.
      *
@@ -335,11 +335,17 @@ public class UserService implements Serializable {
      * Updates the role of a user in a specific course.
      *
      * @param user       The user for whom to update the role.
+     * @param course     The course.
      * @param courseRole The new role for the user in the course.
-     * @throws BusinessNonExistentUserException when the user does not exist in the database.
      */
-    public void updateCourseRole(User user, CourseRole courseRole)
-            throws BusinessNonExistentUserException {}
+    public void updateCourseRole(User user, Course course, CourseRole courseRole) {
+        Connection connection = connectionPool.getConnection();
+        UserRepository userRepository =
+                RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
+
+        userRepository.updateCourseRole(user, course, courseRole);
+        connectionPool.releaseConnection(connection);
+    }
 
     /**
      * Generates a user verification token.
@@ -409,7 +415,6 @@ public class UserService implements Serializable {
      * Resets the password of a user.
      *
      * @param user The user to reset the password for.
-     *
      * @return Whether the reset was successfully or not.
      */
     public boolean resetPassword(User user) {

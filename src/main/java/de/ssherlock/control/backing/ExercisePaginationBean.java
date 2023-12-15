@@ -141,7 +141,7 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
      */
     @Override
     public void loadData() {
-        exercises = exerciseService.getExercises(course);
+        exercises = exerciseService.getExercises(getPagination(), course);
     }
 
     /**

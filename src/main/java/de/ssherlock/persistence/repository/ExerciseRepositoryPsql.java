@@ -95,7 +95,7 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
      */
     @Override
     public void deleteExercise(Exercise exercise) throws PersistenceNonExistentExerciseException {
-        String sqlQuery = "DELETE FROM Exercise WHERE id = ?";
+        String sqlQuery = "DELETE FROM exercise WHERE id = ?";
         try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
             statement.setLong(1, exercise.getId());
             if (statement.executeUpdate() == 0) {
@@ -141,7 +141,7 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
     @Override
     public List<Exercise> getExercises(Course course) {
         String sqlQuery =
-                "SELECT * FROM courses c LEFT JOIN exercises e ON c.name = e.coursename WHERE c.name = ?;";
+                "SELECT * FROM courses c LEFT JOIN exercise e ON c.name = e.coursename WHERE c.name = ?;";
         List<Exercise> exercises = new ArrayList<>();
         try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
             statement.setString(1, course.getName());

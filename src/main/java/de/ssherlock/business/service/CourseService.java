@@ -183,6 +183,26 @@ public class CourseService implements Serializable {
     }
 
     /**
+     * Gets the course associated with the id.
+     *
+     * @param course The course.
+     * @return The course.
+     */
+    public Course getCourseById(Course course) throws BusinessNonExistentCourseException {
+        Connection connection = connectionPool.getConnection();
+        CourseRepository courseRepository =
+                RepositoryFactory.getCourseRepository(RepositoryType.POSTGRESQL, connection);
+        try {
+            course = courseRepository.getCourseById(course);
+        } catch (PersistenceNonExistentCourseException e) {
+            throw new BusinessNonExistentCourseException();
+        } finally {
+            connectionPool.releaseConnection(connection);
+        }
+        return course;
+    }
+
+    /**
      * Sorts and filters a list of courses.
      *
      * @param courses    The courses.
