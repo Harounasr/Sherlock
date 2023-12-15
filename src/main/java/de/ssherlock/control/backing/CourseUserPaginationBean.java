@@ -1,17 +1,11 @@
 package de.ssherlock.control.backing;
 
-import de.ssherlock.business.exception.BusinessNonExistentUserException;
-import de.ssherlock.business.service.CourseService;
 import de.ssherlock.business.service.UserService;
-import de.ssherlock.control.notification.Notification;
-import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
-import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.CourseRole;
 import de.ssherlock.global.transport.User;
 import jakarta.annotation.PostConstruct;
-import jakarta.faces.event.ActionEvent;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -40,6 +34,11 @@ public class CourseUserPaginationBean extends AbstractPaginationBean implements 
     private static final long serialVersionUID = 1L;
 
     /**
+     * The page size for the pagination.
+     */
+    private static final int PAGE_SIZE = 5;
+
+    /**
      * Logger for this class.
      */
     private final SerializableLogger logger;
@@ -53,11 +52,6 @@ public class CourseUserPaginationBean extends AbstractPaginationBean implements 
      * Service handling user-related operations.
      */
     private final UserService userService;
-
-    /**
-     * Service handling for course related operations.
-     */
-    private final CourseService courseService;
 
     /**
      * The parent backing bean.
@@ -80,16 +74,14 @@ public class CourseUserPaginationBean extends AbstractPaginationBean implements 
      * @param logger        The logger for logging purposes (Injected).
      * @param appSession    The active session (Injected).
      * @param userService   The service handling user-related operations (Injected).
-     * @param courseService The service handling course-related operations (Injected).
      * @param courseBean    The parent backing bean (Injected).
      */
     @Inject
     public CourseUserPaginationBean(
-            SerializableLogger logger, AppSession appSession, UserService userService, CourseService courseService, CourseBean courseBean) {
+            SerializableLogger logger, AppSession appSession, UserService userService, CourseBean courseBean) {
         this.logger = logger;
         this.appSession = appSession;
         this.userService = userService;
-        this.courseService = courseService;
         this.courseBean = courseBean;
     }
 
@@ -99,7 +91,7 @@ public class CourseUserPaginationBean extends AbstractPaginationBean implements 
     @PostConstruct
     public void initialize() {
         getPagination().setSortBy("username");
-        getPagination().setPageSize(5);
+        getPagination().setPageSize(PAGE_SIZE);
         users = userService.getUsers(getPagination());
         getPagination().setLastIndex(users.size() - 1);
         selectedRole = new HashMap<>();

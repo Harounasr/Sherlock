@@ -18,7 +18,8 @@
 
         <!-- pagination -->
         <div class="d-flex justify-content-center mt-3">
-            <h:panelGroup rendered="#{cc.attrs.backingBean.pagination.lastIndex > 0}" id="pagination_navigationGrid" layout="block" styleClass="btn-group" role="group" aria-label="Pagination">
+            <h:panelGroup rendered="#{cc.attrs.backingBean.pagination.lastIndex > 0}" id="pagination_navigationGrid" layout="block"
+                          styleClass="btn-group" role="group" aria-label="Pagination">
                 <h:commandButton id="pagination_firstButton"
                                  value="First Page"
                                  action="#{cc.attrs.backingBean.firstPage()}"
