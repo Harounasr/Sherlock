@@ -134,7 +134,7 @@ public class TestateService implements Serializable {
      * @throws BusinessNonExistentTestateException when the testate does not exist in the database.
      */
     public Testate getTestate(Exercise exercise, User user)
-            throws BusinessNonExistentTestateException, BusinessNonExistentSubmissionException {
+            throws BusinessNonExistentTestateException {
         Connection connection = connectionPool.getConnection();
         TestateRepository testateRepository = RepositoryFactory.getEvaluationRepository(RepositoryType.POSTGRESQL, connection);
         Testate testate = new Testate();
