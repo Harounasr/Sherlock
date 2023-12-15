@@ -82,7 +82,9 @@ public class TestateBean implements Serializable {
   public void rerunChecker(CheckerResult checkerResult) {}
 
   /** Submits the testate. */
-  public void submitTestate() {}
+  public void submitTestate() {
+      testateService.addTestate(newTestate);
+  }
 
   /**
    * Converts the current submission files to text for the facelet.
