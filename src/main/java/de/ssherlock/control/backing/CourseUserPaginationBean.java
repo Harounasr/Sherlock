@@ -34,6 +34,11 @@ public class CourseUserPaginationBean extends AbstractPaginationBean implements 
     private static final long serialVersionUID = 1L;
 
     /**
+     * The page size for the pagination.
+     */
+    private static final int PAGE_SIZE = 5;
+
+    /**
      * Logger for this class.
      */
     private final SerializableLogger logger;
@@ -86,7 +91,7 @@ public class CourseUserPaginationBean extends AbstractPaginationBean implements 
     @PostConstruct
     public void initialize() {
         getPagination().setSortBy("username");
-        getPagination().setPageSize(5);
+        getPagination().setPageSize(PAGE_SIZE);
         users = userService.getUsers(getPagination());
         getPagination().setLastIndex(users.size() - 1);
         selectedRole = new HashMap<>();

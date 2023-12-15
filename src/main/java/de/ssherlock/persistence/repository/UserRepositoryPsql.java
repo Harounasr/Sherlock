@@ -25,6 +25,7 @@ import java.util.logging.Level;
  *
  * @author Leon Höfling
  */
+@SuppressWarnings("checkstyle:MagicNumber")
 public class UserRepositoryPsql extends RepositoryPsql implements UserRepository {
 
     /**
