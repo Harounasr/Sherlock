@@ -3,9 +3,13 @@ package de.ssherlock.control.backing;
 import de.ssherlock.business.service.TestateService;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
+import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.Exercise;
+import de.ssherlock.global.transport.SystemRole;
 import de.ssherlock.global.transport.Testate;
+import de.ssherlock.global.transport.User;
 import jakarta.annotation.PostConstruct;
+import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -13,6 +17,7 @@ import jakarta.inject.Named;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Backing Bean for the allTestatesPagination.xhtml facelet.
@@ -59,6 +64,14 @@ public class AllTestatesPaginationBean extends AbstractPaginationBean implements
      */
     private Exercise exercise;
 
+    /** The current user */
+    private User user;
+
+    /** */
+
+
+
+
     /**
      * Constructs an AllTestatesPaginationBean.
      *
@@ -80,8 +93,18 @@ public class AllTestatesPaginationBean extends AbstractPaginationBean implements
     @PostConstruct
     public void initialize() {
         exercise = new Exercise();
-        exercise.setId(0L);
-        loadData();
+        getPagination().setPageSize(PAGE_SIZE);
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        Map<String, String> requestParams = facesContext.getExternalContext().getRequestParameterMap();
+        exercise.setId(Long.parseLong(requestParams.get("Id")));
+        user = appSession.getUser();
+
+        if (user.getSystemRole() == SystemRole.TEACHER || appSession.isAdmin()) {
+            testates = testateService.getAllTestates(getPagination(), exercise);
+        } else {
+            testateService.getAssignedTestates(getPagination(), exercise,user);
+        }
+        getPagination().setLastIndex(testates.size() - 1);
     }
 
     /**
@@ -118,7 +141,11 @@ public class AllTestatesPaginationBean extends AbstractPaginationBean implements
      */
     @Override
     public void loadData() {
-        testateService.getAllTestates(exercise);
+        if (user.getSystemRole() == SystemRole.TEACHER || appSession.isAdmin()) {
+            testates = testateService.getAllTestates(getPagination(), exercise);
+        } else {
+            testateService.getAssignedTestates(getPagination(), exercise,user);
+        }
     }
 
 }

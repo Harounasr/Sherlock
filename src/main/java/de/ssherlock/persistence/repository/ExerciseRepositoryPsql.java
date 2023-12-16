@@ -4,6 +4,7 @@ import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.Exercise;
+import de.ssherlock.persistence.exception.DBUnavailableException;
 import de.ssherlock.persistence.exception.PersistenceNonExistentExerciseException;
 
 import java.sql.Connection;
@@ -53,9 +54,9 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
             statement.setTimestamp(5, exercise.getObligatoryDeadline());
 
             statement.executeUpdate();
-
+            logger.fine(" exercise Successfully added");
         } catch (SQLException e) {
-
+            logger.severe("Error occurred while adding exercise: " + e.getMessage());
         }
     }
 
@@ -99,11 +100,10 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
         try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
             statement.setLong(1, exercise.getId());
             if (statement.executeUpdate() == 0) {
-                throw new PersistenceNonExistentExerciseException(
-                        "The exercise with id " + exercise.getId() + " not found");
+                logger.severe("Error deleting exercise with id " + exercise.getId());
+                throw new PersistenceNonExistentExerciseException();
             }
         } catch (SQLException e) {
-            logger.severe("Error deleting exercise with id " + exercise.getId() + e.getMessage());
             throw new PersistenceNonExistentExerciseException();
         }
     }
@@ -141,7 +141,7 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
     @Override
     public List<Exercise> getExercises(Course course) {
         String sqlQuery =
-                "SELECT * FROM courses c LEFT JOIN exercise e ON c.name = e.coursename WHERE c.name = ?;";
+                "SELECT * FROM course c LEFT JOIN exercise e ON c.id = e.course_id WHERE c.course_name = ?;";
         List<Exercise> exercises = new ArrayList<>();
         try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
             statement.setString(1, course.getName());

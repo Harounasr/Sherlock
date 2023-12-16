@@ -17,6 +17,8 @@ import jakarta.inject.Named;
 import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Connection;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -65,7 +67,14 @@ public class SubmissionService implements Serializable {
      *
      * @param submission The submission to be added.
      */
-    public void addSubmission(Submission submission) {}
+    public void addSubmission(Submission submission) {
+        Connection connection = connectionPool.getConnection();
+        SubmissionRepository submissionRepository = RepositoryFactory.getSubmissionRepository(RepositoryType.POSTGRESQL, connection);
+        LocalDateTime localDateTime = LocalDateTime.now();
+        Timestamp timestamp = Timestamp.valueOf(localDateTime);
+        submission.setTimestamp(timestamp);
+        submissionRepository.insertSubmission(submission);
+    }
 
     /**
      * Retrieves a list of submissions associated with the specified exercise.

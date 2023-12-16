@@ -1,35 +1,38 @@
-<!DOCTYPE html>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html >
 <html xmlns:h="jakarta.faces.html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns="http://www.w3.org/1999/xhtml">
-
-<h:head>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
-</h:head>
-
+      xmlns="http://www.w3.org/1999/xhtml" xmlns:comp="http://xmlns.jcp.org/jsf/composite/components" xmlns:f="jakarta.faces.core">
 <h:body>
-
-    <h:dataTable value="#{exercisePaginationBean.course.exercises}" var="item" first="#{exercisePaginationBean.currentPage}"
-                 rows="#{exercisePaginationBean.pageSize}">
-        <h:column>
-            <f:facet name="name">Name</f:facet>
-            #{item.name}
-        </h:column>
-
-        <h:column>
-            <f:facet name="id">id</f:facet>
+    <h:form enctype="multipart/form-data">
+        <div class="container mt-3">
+            <h2 class="mb-3">Exercise List</h2>
             <h:form>
-                <h:commandButton value="Join" action="#{exercisePaginationBean.select(item)}">
-                </h:commandButton>
+                <comp:paginationSearch backingBean="#{exercisePaginationBean}"/>
             </h:form>
-        </h:column>
-    </h:dataTable>
-    <h:form>
-        <h:commandButton value="First" action="#{exercisePaginationBean.firstPage}"/>
-        <h:commandButton value="Previous" action="#{exercisePaginationBean.previousPage}"/>
-        <h:commandButton value="Next" action="#{exercisePaginationBean.nextPage}"/>
-        <h:commandButton value="Last" action="#{exercisePaginationBean.lastPage}"/>
+
+            <h:dataTable value="#{exercisePaginationBean.exercises}" var="exercise"
+                         first="#{exercisePaginationBean.pagination.currentIndex}" rows="#{exercisePaginationBean.pagination.pageSize}"
+                         styleClass="table table-striped table-bordered w-100">
+                <h:column>
+                    <f:facet name="header">ID</f:facet>
+                    #{exercise.name}
+                </h:column>
+
+                <h:column>
+                    <h:commandButton value="To Exercise" action="#{exercisePaginationBean.select(exercise)}" class="btn btn-primary"/>
+                </h:column>
+            </h:dataTable>
+
+            <h:form rendered="#{navbarBean.appSession.user.systemRole.toString() == 'TEACHER'}" class="mb-3">
+                <h:inputText value="#{exercisePaginationBean.exercise.name}" required="true" class="form-control"/>
+                <h:commandButton value="Add Exercise" action="#{exercisePaginationBean.addExercise()}" class="btn btn-success"/>
+            </h:form>
+
+            <h:form>
+                <comp:pagination backingBean="#{exercisePaginationBean}"/>
+            </h:form>
+            <h:messages/>
+        </div>
     </h:form>
 </h:body>
-
 </html>

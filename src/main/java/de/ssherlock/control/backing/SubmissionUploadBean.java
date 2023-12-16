@@ -14,6 +14,7 @@ import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.Submission;
 import de.ssherlock.global.transport.SubmissionFile;
 import jakarta.annotation.PostConstruct;
+import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -22,6 +23,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 
 /**
@@ -67,6 +69,9 @@ public class SubmissionUploadBean implements Serializable {
   /** The checker results. */
   private final List<CheckerResult> checkerResults;
 
+    /** The current exercise. */
+  private Exercise exercise;
+
   /**
    * Constructor for SubmissionUploadBean.
    *
@@ -92,9 +97,11 @@ public class SubmissionUploadBean implements Serializable {
   /** Initializes the bean after construction. */
   @PostConstruct
   public void initialize() {
-    Exercise exerciseTest = new Exercise();
+    FacesContext facesContext = FacesContext.getCurrentInstance();
+    Map<String, String> requestParams = facesContext.getExternalContext().getRequestParameterMap();
+    exercise.setId(Long.parseLong(requestParams.get("Id")));
     try {
-        checkers = checkerService.getCheckersForExercise(exerciseTest);
+        checkers = checkerService.getCheckersForExercise(exercise);
     } catch (BusinessNonExistentCheckerException e) {
         logger.log(Level.INFO, "submissionUpload throws this");
     }
@@ -117,7 +124,16 @@ public class SubmissionUploadBean implements Serializable {
   }
 
   /** Saves the created submission to the database. */
-  public void submit() {}
+  public void submit() {
+      if (isCanSubmit()) {
+          newSubmission.setSubmissionFiles(submissionFiles);
+          newSubmission.setUser(appSession.getUser().getUsername());
+          newSubmission.setCheckerResults(checkerResults);
+          newSubmission.setExerciseId(exercise.getId());
+          submissionService.addSubmission(newSubmission);
+          canSubmit = false;
+      }
+  }
 
   /**
    * Sets the archive file for processing.
@@ -161,7 +177,12 @@ public class SubmissionUploadBean implements Serializable {
    * @return the boolean
    */
   public boolean isCanSubmit() {
-    return canSubmit;
+      for (CheckerResult checkerResult : checkerResults) {
+          if (checkerResult.getChecker().isMandatory() && !checkerResult.isPassed()) {
+              return false;
+          }
+      }
+      return true;
   }
 
   /**
