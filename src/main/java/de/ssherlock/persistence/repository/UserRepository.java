@@ -3,6 +3,7 @@ package de.ssherlock.persistence.repository;
 import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.CourseRole;
 import de.ssherlock.global.transport.User;
+import de.ssherlock.persistence.exception.PersistenceNonExistentCourseException;
 import de.ssherlock.persistence.exception.PersistenceNonExistentUserException;
 
 import java.util.List;
@@ -52,6 +53,14 @@ public interface UserRepository {
      * @return The list of User entities.
      */
     List<User> getUsers();
+
+    /**
+     * Gets all users for a specific course.
+     *
+     * @return The users.
+     * @throws PersistenceNonExistentCourseException when the course does not exist.
+     */
+    List<User> getUsersForCourse(Course course) throws PersistenceNonExistentCourseException;
 
     /**
      * Updates a users SystemRole after verification.

@@ -1,6 +1,10 @@
 package de.ssherlock.control.backing;
 
+import de.ssherlock.business.exception.BusinessDBAccessException;
+import de.ssherlock.business.exception.BusinessNonExistentCourseException;
 import de.ssherlock.business.service.SubmissionService;
+import de.ssherlock.control.notification.Notification;
+import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Exercise;
@@ -12,6 +16,7 @@ import jakarta.inject.Named;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -119,7 +124,13 @@ public class AllSubmissionPaginationBean extends AbstractPaginationBean implemen
      */
     @Override
     public void loadData() {
-        submissions = submissionService.getSubmissions(getPagination(), exercise);
+        try {
+            submissions = submissionService.getSubmissions(getPagination(), exercise);
+        } catch (BusinessDBAccessException | BusinessNonExistentCourseException e) {
+            submissions = Collections.emptyList();
+            Notification notification = new Notification("The submissions could not be loaded", NotificationType.ERROR);
+            notification.generateUIMessage();
+        }
     }
 
 
