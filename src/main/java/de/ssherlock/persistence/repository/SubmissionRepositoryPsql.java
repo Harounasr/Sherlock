@@ -39,35 +39,37 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
         super(connection);
     }
 
-  /** {@inheritDoc} */
-  @Override
-  public void insertSubmission(Submission submission) {
-      String sqlQuery =
-              """
-                    INSERT INTO submission (timestamp_submission, student_username, exercise_id)
-                    VALUES (?, ?, ?) RETURNING id
-      
-                    """;
-      try (PreparedStatement submissionStatement = getConnection().prepareStatement(sqlQuery)) {
-          submissionStatement.setTimestamp(1, submission.getTimestamp());
-          submissionStatement.setString(2, submission.getUser());
-          submissionStatement.setLong(3, submission.getExerciseId());
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void insertSubmission(Submission submission) {
+        String sqlQuery =
+                """
+                INSERT INTO submission (timestamp_submission, student_username, exercise_id)
+                VALUES (?, ?, ?) RETURNING id
+                      
+                """;
+        try (PreparedStatement submissionStatement = getConnection().prepareStatement(sqlQuery)) {
+            submissionStatement.setTimestamp(1, submission.getTimestamp());
+            submissionStatement.setString(2, submission.getUser());
+            submissionStatement.setLong(3, submission.getExerciseId());
 
-          try (ResultSet resultSet = submissionStatement.executeQuery()) {
-              if (resultSet.next()) {
-                  long submissionId = resultSet.getLong("id");
-                  submission.setId(submissionId);
-                  insertSubmissionFiles(getConnection(), submission);
-                  insertCheckerResults(getConnection(), submission);
-              }
-          } catch (SQLException e) {
+            try (ResultSet resultSet = submissionStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    long submissionId = resultSet.getLong("id");
+                    submission.setId(submissionId);
+                    insertSubmissionFiles(getConnection(), submission);
+                    insertCheckerResults(getConnection(), submission);
+                }
+            } catch (SQLException e) {
 
-          }
+            }
 
-      } catch (SQLException e) {
+        } catch (SQLException e) {
 
-      }
-  }
+        }
+    }
 
     /**
      * {@inheritDoc}
@@ -210,12 +212,6 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
         }
         return checkerResults;
     }
-}
-  /** {@inheritDoc} */
-  @Override
-  public List<Submission> getSubmissions(Exercise exercise) {
-    return null;
-  }
 
     private void insertSubmissionFiles(Connection connection, Submission submission)
             throws SQLException {
