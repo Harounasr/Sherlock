@@ -6,48 +6,43 @@
         xmlns:comp="http://xmlns.jcp.org/jsf/composite/components">
 
     <h:head>
-        <ui:define name="title">Exercise List</ui:define>
+        <ui:define name="title">Testates</ui:define>
     </h:head>
 
     <h:body>
-        <title>Exercise List</title>
+        <title>Testates</title>
         <ui:composition template="../../resources/templates/main.xhtml">
 
-            <f:metadata>
-                <f:param name="courseId" value="#{exercisePaginationBean.course.name}" />
-            </f:metadata>
+           <!-- <f:metadata>
+                <f:param name="exerciseId" value="#{allTestatesPaginationBean.course.name}" />
+            </f:metadata> -->
 
             <ui:define name="content">
 
                 <div class="container mt-3">
                     <h2 class="mb-3">Exercise List</h2>
                     <h:form>
-                        <comp:paginationSearch backingBean="#{exercisePaginationBean}" />
+                        <comp:paginationSearch backingBean="#{allTestatesPaginationBean}" />
                     </h:form>
 
-                    <h:dataTable value="#{exercisePaginationBean.exercises}" var="exercise"
-                                 first="#{exercisePaginationBean.pagination.currentIndex}" rows="#{exercisePaginationBean.pagination.pageSize}"
+                    <h:dataTable value="#{allTestatesPaginationBean.testates}" var="testate"
+                                 first="#{allTestatesPaginationBean.pagination.currentIndex}" rows="#{allTestatesPaginationBean.pagination.pageSize}"
                                  styleClass="table table-striped table-bordered w-100">
                         <h:column>
                             <f:facet name="header">ID</f:facet>
-                            #{exercise.name}
+                            #{testate.submission.user}
                         </h:column>
 
                         <h:column>
                             <f:facet name="header">Details</f:facet>
                             <h:form>
-                                <h:commandButton value="Details" action="#{exercisePaginationBean.select(exercise)}" class="btn btn-primary"/>
+                                <h:commandButton value="Details" action="#{allTestatesPaginationBean.select(testate)}" class="btn btn-primary"/>
                             </h:form>
                         </h:column>
                     </h:dataTable>
 
-                    <h:form rendered="#{navbarBean.appSession.user.systemRole.toString() == 'TEACHER'}" class="mb-3">
-                        <h:inputText value="#{exercisePaginationBean.exercise.name}" required="true" class="form-control"/>
-                        <h:commandButton value="Add Exercise" action="#{exercisePaginationBean.addExercise()}" class="btn btn-success"/>
-                    </h:form>
-
                     <h:form>
-                        <comp:pagination backingBean="#{exercisePaginationBean}" />
+                        <comp:pagination backingBean="#{allTestatesPaginationBean}" />
                     </h:form>
                 </div>
             </ui:define>

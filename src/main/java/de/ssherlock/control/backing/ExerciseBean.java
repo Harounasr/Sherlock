@@ -10,11 +10,13 @@ import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.SystemRole;
 import de.ssherlock.global.transport.User;
 import jakarta.annotation.PostConstruct;
+import jakarta.faces.context.ExternalContext;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+import java.io.IOException;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Map;
@@ -66,6 +68,11 @@ public class ExerciseBean implements Serializable {
     private CourseRole userCourseRole;
 
     /**
+     * The current exercise.
+     */
+    private Exercise exercise;
+
+    /**
      * Constructs an ExerciseBean.
      *
      * @param logger          The logger used for logging within this class (Injected).
@@ -90,7 +97,8 @@ public class ExerciseBean implements Serializable {
         exerciseId = Long.parseLong(requestParams.get("Id"));
         logger.log(Level.INFO, "Param: " + exerciseId);
         this.setTargetPage("exerciseDescription.xhtml");
-        Exercise exercise = new Exercise();
+        exercise = new Exercise();
+       // Exercise exercise = new Exercise();
         exercise.setId(exerciseId);
         try {
             exercise = exerciseService.getExercise(exercise);
@@ -110,7 +118,19 @@ public class ExerciseBean implements Serializable {
     /**
      * Deletes the current exercise.
      */
-    public void deleteExercise() {}
+    public void deleteExercise() {
+        try {
+            exerciseService.removeExercise(exercise);
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            ExternalContext externalContext = facesContext.getExternalContext();
+            externalContext.redirect("/view/registered/course.xhtml");
+        } catch(BusinessNonExistentExerciseException e) {
+            logger.severe("The exercise with id " + exercise.getId() + " does not exist anymore.");
+            throw new RuntimeException("The requested exercise does not exist.", e);
+        } catch (IOException ioException) {
+            logger.severe("Error navigating after deleting exercise: " + ioException.getMessage());
+        }
+    }
 
     /**
      * Gets target page.
@@ -127,7 +147,7 @@ public class ExerciseBean implements Serializable {
      * @param targetPage the target page
      */
     public void setTargetPage(String targetPage) {
-        this.targetPage = targetPage;
+        this.targetPage = targetPage + exerciseId;
     }
 
     /**

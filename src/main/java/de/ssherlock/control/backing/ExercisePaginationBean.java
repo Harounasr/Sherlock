@@ -6,6 +6,7 @@ import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.Exercise;
 import jakarta.annotation.PostConstruct;
+import jakarta.faces.context.ExternalContext;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
@@ -16,6 +17,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
+
+import static java.util.logging.Level.INFO;
 
 /**
  * Backing bean for the exercisePagination.xhtml facelet.
@@ -92,8 +95,10 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
         Map<String, String> requestParams = facesContext.getExternalContext().getRequestParameterMap();
         course = new Course();
         course.setName(requestParams.get("Id"));
-        exercises = exerciseService.getExercises(course);
-        loadData();
+        getPagination().setPageSize(PAGE_SIZE);
+        getPagination().setSortBy("name");
+        exercises = exerciseService.getExercises(getPagination(),course);
+        getPagination().setLastIndex(exercises.size() - 1);
     }
 
     /**
@@ -103,10 +108,16 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
      * @return The navigation outcome.
      */
     public String select(Exercise exercise) {
-        FacesContext.getCurrentInstance()
+       /* FacesContext.getCurrentInstance()
                     .getExternalContext()
                     .getFlash()
                     .put("exerciseId", exercise.getId());
+        logger.log(Level.INFO, "Selected Exercise: " + exercise.getId());
+        return "/view/registered/exercise.xhtml?faces-redirect=true&Id=" + exercise.getId();*/
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = facesContext.getExternalContext();
+        externalContext.getFlash().put("courseId", course.getName());
+        externalContext.getFlash().put("exerciseId", exercise.getId());
         logger.log(Level.INFO, "Selected Exercise: " + exercise.getId());
         return "/view/registered/exercise.xhtml?faces-redirect=true&Id=" + exercise.getId();
     }
@@ -133,6 +144,7 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
      * Adds an exercise to the database.
      */
     public void addExercise() {
+        logger.log(INFO, "add new exercise");
         exerciseService.addExercise(exercise);
     }
 
