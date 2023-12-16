@@ -90,6 +90,8 @@ public class SubmissionService implements Serializable {
      * @param pagination The pagination
      * @param exercise   The exercise for which to retrieve submissions.
      * @return A list of submissions associated with the exercise.
+     * @throws BusinessDBAccessException When the access is denied.
+     * @throws BusinessNonExistentCourseException When the course does not exist.
      */
     public List<Submission> getSubmissions(Pagination pagination, Exercise exercise)
             throws BusinessDBAccessException, BusinessNonExistentCourseException {

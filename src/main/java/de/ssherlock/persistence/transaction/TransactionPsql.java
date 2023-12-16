@@ -16,7 +16,7 @@ import java.util.logging.Level;
  *
  * @author Leon Föckersperger
  */
-@SuppressFBWarnings(value = "CT_CONSTRUCTION_THROW")
+@SuppressFBWarnings("CT_CONSTRUCTOR_THROW")
 public class TransactionPsql implements Transaction {
 
     /**
@@ -43,6 +43,7 @@ public class TransactionPsql implements Transaction {
      * Default constructor.
      *
      * @param connection The connection.
+     * @throws PersistenceDBAccessException When the access is denied.
      */
     public TransactionPsql(Connection connection) throws PersistenceDBAccessException {
         this.connection = connection;
