@@ -125,7 +125,12 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
                 LEFT JOIN submission_file f ON s.id = f.submission_id
                 LEFT JOIN checker_result cr ON s.id = cr.submission_id
                 WHERE
-                    s.tutor_username = ? AND s.exercise_id = ?
+                    s.tutor_username = ? AND s.exercise_id = ? AND
+                    s.timestamp_submission = (
+                        SELECT MAX(timestamp_submission)
+                        FROM submission sub
+                        WHERE sub.student_username = s.student_username AND sub.exercise_id = s.exercise_id
+                    )
                 GROUP BY s.id;
                 """;
         List<Submission> submissions = new ArrayList<>();
