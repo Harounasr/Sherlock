@@ -1,6 +1,8 @@
 package de.ssherlock.persistence.transaction;
 
 import de.ssherlock.persistence.exception.PersistenceDBAccessException;
+import java.sql.Connection;
+
 
 /**
  * Interface for managing transactions, providing methods for committing and aborting transactions.
@@ -25,4 +27,11 @@ public interface Transaction extends AutoCloseable {
      * Closes this resource.
      */
     void close();
+
+    /**
+     * Gets the connection.
+     *
+     * @return The connection
+     */
+    Connection getConnection();
 }

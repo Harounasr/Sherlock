@@ -1,10 +1,10 @@
 package de.ssherlock.persistence.transaction;
 
+import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.persistence.connection.ConnectionPool;
 import de.ssherlock.persistence.exception.PersistenceDBAccessException;
 import jakarta.enterprise.inject.spi.CDI;
-import jakarta.inject.Inject;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -25,7 +25,7 @@ public class TransactionPsql implements Transaction {
     /**
      * Logger instance for logging messages related to the TransactionPsql class.
      */
-    private final SerializableLogger logger;
+    private final SerializableLogger logger = LoggerCreator.get(TransactionPsql.class);
 
     /**
      * Indicates whether the transaction was already terminated.
@@ -40,13 +40,13 @@ public class TransactionPsql implements Transaction {
     /**
      * Default constructor.
      *
-     * @param logger The logger instance.
+     * @param connection The connection.
      */
-    @Inject
-    public TransactionPsql(SerializableLogger logger) {
-        this.logger = logger;
+    public TransactionPsql(Connection connection) throws PersistenceDBAccessException {
+        this.connection = connection;
         isInitiated = false;
         isTerminated = false;
+        initConnection();
     }
 
     /**
@@ -105,18 +105,14 @@ public class TransactionPsql implements Transaction {
      * @return The database connection.
      * @throws PersistenceDBAccessException if the connection could not be retrieved
      */
-    public Connection getConnection() throws PersistenceDBAccessException {
-        if (connection == null) {
-            connection = CDI.current().select(ConnectionPool.class).get().getConnection();
-            try {
-                connection.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
-                connection.setAutoCommit(false);
-            } catch (SQLException e) {
-                throw new PersistenceDBAccessException("Could not set transaction auto commit.");
-            }
-            isInitiated = true;
+    public void initConnection() throws PersistenceDBAccessException {
+        try {
+            connection.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
+            connection.setAutoCommit(false);
+        } catch (SQLException e) {
+            throw new PersistenceDBAccessException("Could not set transaction auto commit.");
         }
-        return connection;
+        isInitiated = true;
     }
 
     /**
@@ -142,5 +138,12 @@ public class TransactionPsql implements Transaction {
     private void terminate() {
         isTerminated = true;
         logger.finest("End of transaction.");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public Connection getConnection() {
+        return connection;
     }
 }
