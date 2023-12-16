@@ -3,9 +3,37 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:comp="http://xmlns.jcp.org/jsf/composite/components">
 <f:view>
-    <h:outputLabel value="Hello, world"/>
+    <div class="container mt-4">
+        <h2 class="mb-3">Submissions</h2>
+
+        <h:form>
+            <comp:paginationSearch backingBean="#{submissionPaginationBean}"/>
+        </h:form>
+
+        <h:form>
+            <h:dataTable first="#{submissionPaginationBean.pagination.currentIndex}" rows="#{submissionPaginationBean.pagination.pageSize}"
+                         value="#{submissionPaginationBean.submissions}" var="sub" styleClass="table table-striped table-bordered">
+                <h:column rendered="#{submissionPaginationBean.courseRole.toString() != 'MEMBER'}">
+                    <f:facet name="header">Assigned Tutor</f:facet>
+                    <h:outputText>
+                        #{sub.tutor}
+                    </h:outputText>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Timestamp</f:facet>
+                    <h:outputText converter="dateConverter">
+                        #{sub.timestamp}
+                    </h:outputText>
+                </h:column>
+            </h:dataTable>
+        </h:form>
+
+        <h:form>
+            <comp:pagination backingBean="#{courseUserPaginationBean}"/>
+        </h:form>
+    </div>
 </f:view>
 </html>
