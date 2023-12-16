@@ -8,6 +8,7 @@ import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.Submission;
 import de.ssherlock.global.transport.SubmissionFile;
 import de.ssherlock.global.transport.User;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,6 +23,7 @@ import java.util.List;
  *
  * @author Victor Vollmann
  */
+@SuppressFBWarnings("DM_DEFAULT_ENCODING")
 public class SubmissionRepositoryPsql extends RepositoryPsql implements SubmissionRepository {
     /**
      * Logger instance for logging messages related to SubmissionRepositoryPsql.
