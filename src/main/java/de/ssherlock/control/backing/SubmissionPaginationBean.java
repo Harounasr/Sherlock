@@ -40,7 +40,7 @@ public class SubmissionPaginationBean extends AbstractPaginationBean implements 
     /**
      * Page size for the pagination.
      */
-    private static final int PAGE_SIZE = 10;
+    private static final int PAGE_SIZE = 6;
 
     /**
      * The {@code Logger} instance to be used in this class.
@@ -109,7 +109,7 @@ public class SubmissionPaginationBean extends AbstractPaginationBean implements 
     @PostConstruct
     public void initialize() {
         getPagination().setCurrentIndex(1);
-        getPagination().setPageSize(6);
+        getPagination().setPageSize(PAGE_SIZE);
         exercise = new Exercise();
         exercise.setId(exerciseBean.getExerciseId());
         courseRole = exerciseBean.getUserCourseRole();
@@ -156,12 +156,12 @@ public class SubmissionPaginationBean extends AbstractPaginationBean implements 
     @Override
     public void loadData() {
         try {
-            switch (courseRole) {
-            case TEACHER -> submissions = submissionService.getSubmissions(getPagination(), exercise);
-            case TUTOR -> submissions = submissionService.getSubmissionsForTutor(getPagination(), appSession.getUser(), exercise);
-            case MEMBER -> submissions = submissionService.getSubmissionsForStudent(getPagination(), appSession.getUser(), exercise);
-            default -> submissions = Collections.emptyList();
-            }
+            submissions = switch (courseRole) {
+                case TEACHER -> submissionService.getSubmissions(getPagination(), exercise);
+                case TUTOR -> submissionService.getSubmissionsForTutor(getPagination(), appSession.getUser(), exercise);
+                case MEMBER -> submissionService.getSubmissionsForStudent(getPagination(), appSession.getUser(), exercise);
+                default -> Collections.emptyList();
+            };
         } catch (BusinessDBAccessException | BusinessNonExistentCourseException e) {
             submissions = Collections.emptyList();
             Notification notification = new Notification("The submissions could not be loaded", NotificationType.ERROR);

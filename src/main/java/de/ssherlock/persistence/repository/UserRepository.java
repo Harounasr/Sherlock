@@ -56,7 +56,7 @@ public interface UserRepository {
 
     /**
      * Gets all users for a specific course.
-     *
+     * @param course The course.
      * @return The users.
      * @throws PersistenceNonExistentCourseException when the course does not exist.
      */
