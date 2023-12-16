@@ -4,6 +4,7 @@ import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.persistence.connection.ConnectionPool;
 import de.ssherlock.persistence.exception.PersistenceDBAccessException;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jakarta.enterprise.inject.spi.CDI;
 
 import java.sql.Connection;
@@ -15,12 +16,13 @@ import java.util.logging.Level;
  *
  * @author Leon Föckersperger
  */
+@SuppressFBWarnings(value = "CT_CONSTRUCTION_THROW")
 public class TransactionPsql implements Transaction {
 
     /**
      * Database connection associated with the transaction.
      */
-    private Connection connection;
+    private final Connection connection;
 
     /**
      * Logger instance for logging messages related to the TransactionPsql class.
@@ -101,8 +103,6 @@ public class TransactionPsql implements Transaction {
 
     /**
      * Retrieves the database connection associated with the transaction.
-     *
-     * @return The database connection.
      * @throws PersistenceDBAccessException if the connection could not be retrieved
      */
     public void initConnection() throws PersistenceDBAccessException {

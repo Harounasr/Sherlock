@@ -91,7 +91,6 @@ public class SubmissionService implements Serializable {
             throw new BusinessDBAccessException();
         }
         UserRepository userRepository = RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, transaction.getConnection());
-        SubmissionRepository submissionRepository = RepositoryFactory.getSubmissionRepository(RepositoryType.POSTGRESQL, transaction.getConnection());
         List<User> users;
         try {
             Course course = new Course();
@@ -101,6 +100,7 @@ public class SubmissionService implements Serializable {
             transaction.abort();
             throw new BusinessNonExistentCourseException();
         }
+        SubmissionRepository submissionRepository = RepositoryFactory.getSubmissionRepository(RepositoryType.POSTGRESQL, transaction.getConnection());
         List<Submission> submissions = submissionRepository.getSubmissions(exercise, users);
         return sortAndFilterSubmissions(submissions, pagination);
     }
