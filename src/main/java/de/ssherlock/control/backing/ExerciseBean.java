@@ -147,7 +147,7 @@ public class ExerciseBean implements Serializable {
      * @param targetPage the target page
      */
     public void setTargetPage(String targetPage) {
-        this.targetPage = targetPage + exerciseId;
+        this.targetPage = targetPage;
     }
 
     /**
@@ -184,5 +184,14 @@ public class ExerciseBean implements Serializable {
      */
     public void setUserCourseRole(CourseRole userCourseRole) {
         this.userCourseRole = userCourseRole;
+    }
+
+    /**
+     * Gets app session.
+     *
+     * @return the app session
+     */
+    public AppSession getAppSession() {
+        return appSession;
     }
 }

@@ -141,7 +141,7 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
     @Override
     public List<Exercise> getExercises(Course course) {
         String sqlQuery =
-                "SELECT * FROM courses c LEFT JOIN exercise e ON c.name = e.coursename WHERE c.name = ?;";
+                "SELECT * FROM course c LEFT JOIN exercise e ON c.id = e.course_id WHERE c.course_name = ?;";
         List<Exercise> exercises = new ArrayList<>();
         try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
             statement.setString(1, course.getName());

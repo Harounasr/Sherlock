@@ -56,6 +56,11 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
     private final ExerciseService exerciseService;
 
     /**
+     * The parent bean.
+     */
+    private final CourseBean courseBean;
+
+    /**
      * The current course.
      */
     private List<Exercise> exercises;
@@ -66,23 +71,20 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
     private Exercise exercise;
 
     /**
-     * The current course.
-     */
-    private Course course;
-
-    /**
      * Constructs an ExercisePaginationBean.
      *
      * @param logger          The logger used for logging within this class (Injected).
      * @param appSession      The active session (Injected).
      * @param exerciseService The ExerciseService (Injected).
+     * @param courseBean The parent bean.
      */
     @Inject
     public ExercisePaginationBean(
-            SerializableLogger logger, AppSession appSession, ExerciseService exerciseService) {
+            SerializableLogger logger, AppSession appSession, ExerciseService exerciseService, CourseBean courseBean) {
         this.logger = logger;
         this.appSession = appSession;
         this.exerciseService = exerciseService;
+        this.courseBean = courseBean;
     }
 
     /**
@@ -91,13 +93,9 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
      */
     @PostConstruct
     public void initialize() {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        Map<String, String> requestParams = facesContext.getExternalContext().getRequestParameterMap();
-        course = new Course();
-        course.setName(requestParams.get("Id"));
         getPagination().setPageSize(PAGE_SIZE);
         getPagination().setSortBy("name");
-        exercises = exerciseService.getExercises(getPagination(),course);
+        exercises = exerciseService.getExercises(getPagination(), courseBean.getCourse());
         getPagination().setLastIndex(exercises.size() - 1);
     }
 
@@ -108,16 +106,6 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
      * @return The navigation outcome.
      */
     public String select(Exercise exercise) {
-       /* FacesContext.getCurrentInstance()
-                    .getExternalContext()
-                    .getFlash()
-                    .put("exerciseId", exercise.getId());
-        logger.log(Level.INFO, "Selected Exercise: " + exercise.getId());
-        return "/view/registered/exercise.xhtml?faces-redirect=true&Id=" + exercise.getId();*/
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        ExternalContext externalContext = facesContext.getExternalContext();
-        externalContext.getFlash().put("courseId", course.getName());
-        externalContext.getFlash().put("exerciseId", exercise.getId());
         logger.log(Level.INFO, "Selected Exercise: " + exercise.getId());
         return "/view/registered/exercise.xhtml?faces-redirect=true&Id=" + exercise.getId();
     }
@@ -153,7 +141,7 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
      */
     @Override
     public void loadData() {
-        exercises = exerciseService.getExercises(getPagination(), course);
+        exercises = exerciseService.getExercises(getPagination(), courseBean.getCourse());
     }
 
     /**
