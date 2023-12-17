@@ -7,6 +7,7 @@ import de.ssherlock.global.transport.CourseRole;
 import de.ssherlock.global.transport.Password;
 import de.ssherlock.global.transport.SystemRole;
 import de.ssherlock.global.transport.User;
+import de.ssherlock.persistence.exception.PersistenceNonExistentCourseException;
 import de.ssherlock.persistence.exception.PersistenceNonExistentUserException;
 
 import java.sql.Connection;
@@ -217,6 +218,42 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
             }
         } catch (SQLException e) {
             return Collections.emptyList();
+        }
+        return users;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<User> getUsersForCourse(Course course) throws PersistenceNonExistentCourseException {
+        String sqlQuery =
+                """
+                SELECT
+                    u.username
+                FROM
+                    participates p
+                JOIN
+                    "user" u ON p.user_id = u.id
+                WHERE
+                    p.course_id = ?;
+                """;
+        List<User> users = new ArrayList<>();
+        try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
+            try (ResultSet result = statement.executeQuery()) {
+                while (result.next()) {
+                    User user = new User();
+                    user.setUsername(result.getString("username"));
+                    try {
+                        user = getUser(user);
+                    } catch (PersistenceNonExistentUserException e) {
+                        logger.severe("User with username " + user.getUsername() + " does not exist anymore.");
+                    }
+                    users.add(user);
+                }
+            }
+        } catch (SQLException e) {
+            throw new PersistenceNonExistentCourseException("The course does not exist.");
         }
         return users;
     }
