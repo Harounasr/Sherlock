@@ -83,7 +83,6 @@ public class ArchiveValidator implements Validator<Part> {
               FacesMessage facesMessage = new FacesMessage("Exceeded the maximum allowed number of files in the ZIP archive (100 files).");
               throw new ValidatorException(facesMessage);
           }
-
           logger.info("Validated ZIP file successfully. Files: ");
       } catch (IOException e) {
           logger.log(Level.SEVERE,"Error validating archive file" +e.getMessage());
