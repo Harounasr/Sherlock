@@ -12,8 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 @SuppressWarnings("checkstyle:MagicNumber")
 @SuppressFBWarnings
-public class TestateRepositoryPsqlTest {
-
+public class TestateRepositoryPsqlIT {
   /*
    * Test for getting testates with non-empty result set.
    *
