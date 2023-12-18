@@ -3,11 +3,8 @@ package de.ssherlock.control.backing;
 import de.ssherlock.business.service.ExerciseService;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
-import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.Exercise;
 import jakarta.annotation.PostConstruct;
-import jakarta.faces.context.ExternalContext;
-import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -15,8 +12,6 @@ import jakarta.inject.Named;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
 
 import static java.util.logging.Level.INFO;
 
@@ -106,7 +101,7 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
      * @return The navigation outcome.
      */
     public String select(Exercise exercise) {
-        logger.log(Level.INFO, "Selected Exercise: " + exercise.getId());
+        logger.info("Selected Exercise: " + exercise.getId());
         return "/view/registered/exercise.xhtml?faces-redirect=true&Id=" + exercise.getId();
     }
 

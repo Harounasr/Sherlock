@@ -3,7 +3,6 @@ package de.ssherlock.control.backing;
 import de.ssherlock.business.service.TestateService;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
-import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.SystemRole;
 import de.ssherlock.global.transport.Testate;
