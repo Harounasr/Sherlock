@@ -48,7 +48,6 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
         String sqlQuery = """
                           INSERT INTO submission (timestamp_submission, student_username, exercise_id)
                           VALUES (?, ?, ?) RETURNING id
-                                
                           """;
         try (PreparedStatement submissionStatement = getConnection().prepareStatement(sqlQuery)) {
             submissionStatement.setTimestamp(1, submission.getTimestamp());
