@@ -61,8 +61,8 @@ public class NavbarBean implements Serializable {
   public void initialize() {}
 
   /** Logs out the current user. */
-  public void logout() {
-    appSession.logout();
+  public String logout() {
+   return appSession.logout();
   }
 
   /**
