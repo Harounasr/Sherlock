@@ -14,7 +14,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 
-
 /**
  * Backing bean for the exercisePagination.xhtml facelet.
  *
@@ -100,7 +99,7 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
      * @return The navigation outcome.
      */
     public String select(Exercise exercise) {
-        logger.log(Level.INFO, "Selected Exercise: " + exercise.getId());
+        logger.info("Selected Exercise: " + exercise.getId());
         return "/view/registered/exercise.xhtml?faces-redirect=true&Id=" + exercise.getId();
     }
 
