@@ -16,23 +16,28 @@
         <h:form>
             <h:dataTable first="#{submissionPaginationBean.pagination.currentIndex}" rows="#{submissionPaginationBean.pagination.pageSize}"
                          value="#{submissionPaginationBean.submissions}" var="sub" styleClass="table table-striped table-bordered">
-                <h:column rendered="#{submissionPaginationBean.courseRole.toString() != 'MEMBER'}">
+                <h:column rendered="#{submissionPaginationBean.isTeacher() || submissionPaginationBean.isAdmin()}">
                     <f:facet name="header">Assigned Tutor</f:facet>
-                    <h:outputText>
-                        #{sub.tutor}
-                    </h:outputText>
+                    <h:outputText value="#{sub.tutor}" />
                 </h:column>
                 <h:column>
-                    <f:facet name="header">Timestamp</f:facet>
-                    <h:outputText converter="dateConverter">
-                        #{sub.timestamp}
+                    <f:facet name="header">Submitted On</f:facet>
+                    <h:outputText converter="dateConverter" value="#{sub.timestamp}" />
+                </h:column>
+                <h:column rendered="#{submissionPaginationBean.isTeacher() || submissionPaginationBean.isAdmin()}">
+                    <f:facet name="header">Status</f:facet>
+                    <h:outputText rendered="#{submissionPaginationBean.isMember()}" value="#{sub.passedCheckers ? 'Passed' : 'Failed'}">
+
                     </h:outputText>
+                    <h:commandButton rendered="#{!submissionPaginationBean.isMember()}"
+                                     value="#{sub.testateCreated ? 'To testate' : 'Create testate'}"
+                                     action="#{submissionPaginationBean.selectSubmission(sub.id)}"/>
                 </h:column>
             </h:dataTable>
         </h:form>
 
         <h:form>
-            <comp:pagination backingBean="#{courseUserPaginationBean}"/>
+            <comp:pagination backingBean="#{submissionPaginationBean}"/>
         </h:form>
     </div>
 </f:view>
