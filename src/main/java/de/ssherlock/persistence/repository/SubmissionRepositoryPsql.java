@@ -42,6 +42,7 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
     /**
      * {@inheritDoc}
      */
+    @SuppressWarnings("checkstyle:MagicNumber")
     @Override
     public void insertSubmission(Submission submission) {
         String sqlQuery =
@@ -92,6 +93,7 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
     /**
      * {@inheritDoc}
      */
+    @SuppressWarnings("checkstyle:MagicNumber")
     @Override
     public List<Submission> getSubmissionsForStudent(Exercise exercise, User user) {
         String sqlQuery =
@@ -137,6 +139,7 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
     /**
      * {@inheritDoc}
      */
+    @SuppressWarnings("checkstyle:MagicNumber")
     @Override
     public List<Submission> getSubmissionsForTutor(Exercise exercise, User user) {
         String sqlQuery =

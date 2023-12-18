@@ -4,7 +4,6 @@ import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.Exercise;
-import de.ssherlock.persistence.exception.DBUnavailableException;
 import de.ssherlock.persistence.exception.PersistenceNonExistentExerciseException;
 
 import java.sql.Connection;
