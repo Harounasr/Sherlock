@@ -12,16 +12,22 @@ import de.ssherlock.global.transport.SubmissionFile;
 import de.ssherlock.global.transport.Testate;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.event.ObserverException;
+import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serial;
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 
 /**
@@ -80,6 +86,11 @@ public class TestateBean implements Serializable {
     private Submission submission;
 
     /**
+     * The uploaded classes of the submission in text form.
+     */
+    private List<List<Object[]>> files;
+
+    /**
      * Constructor for TestateBean.
      *
      * @param logger            The logger for this class.
@@ -110,15 +121,16 @@ public class TestateBean implements Serializable {
      */
     @PostConstruct
     public void initialize() {
-
-        submission.setId();
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        Map<String, String> requestParams = facesContext.getExternalContext().getRequestParameterMap();
+        submission.setId(Integer.parseInt(requestParams.get("id")));
         try {
             submission = submissionService.getSubmission(submission);
         } catch (BusinessNonExistentSubmissionException e) {
             logger.log(Level.INFO, "Submission not existent.");
             throw new RuntimeException(e);
         }
-
+        files = convertSubmissionFileToText(submission.getSubmissionFiles());
     }
 
     /**
@@ -141,36 +153,19 @@ public class TestateBean implements Serializable {
      * @param submissionFiles The files.
      * @return The Text.
      */
-    public List<Object[]> convertSubmissionFileToText(List<SubmissionFile> submissionFiles) {
-        List<Object[]> resultFiles;
+    public List<List<Object[]>> convertSubmissionFileToText(List<SubmissionFile> submissionFiles) {
+        List<List<Object[]>> resultFiles = new ArrayList<>();
         for (SubmissionFile file : submissionFiles) {
-            file.getBytes()
-        }
-    /*
-    List<Object[]> fileContentLines = new ArrayList<>();
-    try {
-        if (uploadedFile != null) {
-            try (InputStream input = uploadedFile.getInputStream();
-                 BufferedReader reader = new BufferedReader(new InputStreamReader(input))) {
-
-                StringBuilder content = new StringBuilder();
-
-                String line;
-                int counter = 0;
-                while ((line = reader.readLine()) != null) {
-                    counter++;
-                    content.append(line).append("\n");
-                    fileContentLines.add(new Object[] {counter, line}); // Add this line
-                }
-
-                fileContent = content.toString();
+            String bytesToString = new String(file.getBytes(), StandardCharsets.UTF_8);
+            String[] fileContent = bytesToString.split("\n");
+            List<Object[]> objects = new ArrayList<>();
+            int counter = 0;
+            for (String s : fileContent) {
+                objects.add(new Object[]{counter, s});
+                counter++;
             }
+            resultFiles.add(objects);
         }
-    } catch (Exception e) {
-        logger.log(Level.INFO, "Inside upload method");
-        e.printStackTrace();
-    }
-     */
         return null;
     }
 
@@ -204,7 +199,7 @@ public class TestateBean implements Serializable {
     /**
      * Sets the possible grades.
      *
-     * @param grades
+     * @param grades The grades.
      */
     public void setGrades(List<Integer> grades) {
         this.grades = grades;
