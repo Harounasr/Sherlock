@@ -64,7 +64,7 @@ public class AllTestatesPaginationBean extends AbstractPaginationBean implements
     private Exercise exercise;
 
     /**
-     * The current user
+     * The current user.
      */
     private User user;
 

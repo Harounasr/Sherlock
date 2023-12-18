@@ -23,7 +23,15 @@
                                 <h:commandButton value="Submit" action="#{exerciseBean.setTargetPage('submit.xhtml')}" styleClass="btn btn-primary"/>
                             </li>
                             <li>
-                                <h:commandButton value="Submissions" action="#{exerciseBean.setTargetPage('submissionPagination.xhtml')}" styleClass="btn btn-primary"/>
+                                <h:commandButton value="Submissions" action="#{exerciseBean.setTargetPage('submissionPagination.xhtml')}"
+                                                 styleClass="btn btn-primary"/>
+                            </li>
+                            <li>
+                                <h:commandButton value="Testates"
+                                                 rendered="#{exerciseBean.userCourseRole.toString() == 'TUTOR'
+                                                 || exerciseBean.userCourseRole.toString() == 'TEACHER'
+                                                 || exerciseBean.appSession.admin}"
+                                                 action="#{exerciseBean.setTargetPage('testatePagination.xhtml')}" styleClass="btn btn-primary"/>
                             </li>
                         </ul>
                     </h:form>
