@@ -138,7 +138,7 @@ public class AllTestatesPaginationBean extends AbstractPaginationBean implements
         if (user.getSystemRole() == SystemRole.TEACHER || appSession.isAdmin()) {
             testates = testateService.getAllTestates(getPagination(), exercise);
         } else {
-            testateService.getAssignedTestates(getPagination(), exercise,user);
+            testateService.getAssignedTestates(getPagination(), exercise, user);
         }
     }
 
