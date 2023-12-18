@@ -63,13 +63,10 @@ public class AllTestatesPaginationBean extends AbstractPaginationBean implements
      */
     private Exercise exercise;
 
-    /** The current user */
+    /**
+     * The current user
+     */
     private User user;
-
-    /** */
-
-
-
 
     /**
      * Constructs an AllTestatesPaginationBean.
@@ -79,8 +76,7 @@ public class AllTestatesPaginationBean extends AbstractPaginationBean implements
      * @param testateService The TestateService used for testate-related actions (Injected).
      */
     @Inject
-    public AllTestatesPaginationBean(
-            SerializableLogger logger, AppSession appSession, TestateService testateService) {
+    public AllTestatesPaginationBean(SerializableLogger logger, AppSession appSession, TestateService testateService) {
         this.logger = logger;
         this.appSession = appSession;
         this.testateService = testateService;
@@ -101,7 +97,7 @@ public class AllTestatesPaginationBean extends AbstractPaginationBean implements
         if (user.getSystemRole() == SystemRole.TEACHER || appSession.isAdmin()) {
             testates = testateService.getAllTestates(getPagination(), exercise);
         } else {
-            testateService.getAssignedTestates(getPagination(), exercise,user);
+            testateService.getAssignedTestates(getPagination(), exercise, user);
         }
         getPagination().setLastIndex(testates.size() - 1);
     }
@@ -143,7 +139,7 @@ public class AllTestatesPaginationBean extends AbstractPaginationBean implements
         if (user.getSystemRole() == SystemRole.TEACHER || appSession.isAdmin()) {
             testates = testateService.getAllTestates(getPagination(), exercise);
         } else {
-            testateService.getAssignedTestates(getPagination(), exercise,user);
+            testateService.getAssignedTestates(getPagination(), exercise, user);
         }
     }
 

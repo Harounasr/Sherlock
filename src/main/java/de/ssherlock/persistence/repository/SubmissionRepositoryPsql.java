@@ -24,6 +24,7 @@ import java.util.List;
  * @author Victor Vollmann
  */
 @SuppressFBWarnings("DM_DEFAULT_ENCODING")
+@SuppressWarnings("checkstyle:MagicNumber")
 public class SubmissionRepositoryPsql extends RepositoryPsql implements SubmissionRepository {
     /**
      * Logger instance for logging messages related to SubmissionRepositoryPsql.
@@ -44,12 +45,11 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
      */
     @Override
     public void insertSubmission(Submission submission) {
-        String sqlQuery =
-                """
-                INSERT INTO submission (timestamp_submission, student_username, exercise_id)
-                VALUES (?, ?, ?) RETURNING id
-                      
-                """;
+        String sqlQuery = """
+                          INSERT INTO submission (timestamp_submission, student_username, exercise_id)
+                          VALUES (?, ?, ?) RETURNING id
+                                
+                          """;
         try (PreparedStatement submissionStatement = getConnection().prepareStatement(sqlQuery)) {
             submissionStatement.setTimestamp(1, submission.getTimestamp());
             submissionStatement.setString(2, submission.getUser());
@@ -94,24 +94,23 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
      */
     @Override
     public List<Submission> getSubmissionsForStudent(Exercise exercise, User user) {
-        String sqlQuery =
-                """
-                SELECT
-                    s.id,
-                    s.timestamp_submission,
-                    s.tutor_username,
-                    CASE\s
-                        WHEN COUNT(*) = COUNT(CASE WHEN cr.has_passed THEN 1 END) THEN true
-                        ELSE false
-                    END AS checkers_passed
-                FROM
-                    submission s
-                LEFT JOIN checker_result cr ON s.id = cr.submission_id
-                LEFT JOIN checker c ON cr.checker_id = c.id AND c.is_required = TRUE
-                WHERE
-                    s.student_username = ? AND s.exercise_id = ?
-                GROUP BY s.id;
-                """;
+        String sqlQuery = """
+                          SELECT
+                              s.id,
+                              s.timestamp_submission,
+                              s.tutor_username,
+                              CASE\s
+                                  WHEN COUNT(*) = COUNT(CASE WHEN cr.has_passed THEN 1 END) THEN true
+                                  ELSE false
+                              END AS checkers_passed
+                          FROM
+                              submission s
+                          LEFT JOIN checker_result cr ON s.id = cr.submission_id
+                          LEFT JOIN checker c ON cr.checker_id = c.id AND c.is_required = TRUE
+                          WHERE
+                              s.student_username = ? AND s.exercise_id = ?
+                          GROUP BY s.id;
+                          """;
         List<Submission> submissions = new ArrayList<>();
         try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
             statement.setString(1, user.getUsername());
@@ -139,28 +138,27 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
      */
     @Override
     public List<Submission> getSubmissionsForTutor(Exercise exercise, User user) {
-        String sqlQuery =
-                """
-                SELECT
-                    s.id,
-                    s.timestamp_submission,
-                    s.student_username,
-                    EXISTS (
-                        SELECT 1
-                        FROM testate t
-                        WHERE t.submission_id = s.id
-                    ) AS testate_created
-                FROM
-                    submission s
-                WHERE
-                    s.tutor_username = ? AND s.exercise_id = ? AND
-                    s.timestamp_submission = (
-                        SELECT MAX(timestamp_submission)
-                        FROM submission sub
-                        WHERE sub.student_username = s.student_username AND sub.exercise_id = s.exercise_id
-                    )
-                GROUP BY s.id;
-                """;
+        String sqlQuery = """
+                          SELECT
+                              s.id,
+                              s.timestamp_submission,
+                              s.student_username,
+                              EXISTS (
+                                  SELECT 1
+                                  FROM testate t
+                                  WHERE t.submission_id = s.id
+                              ) AS testate_created
+                          FROM
+                              submission s
+                          WHERE
+                              s.tutor_username = ? AND s.exercise_id = ? AND
+                              s.timestamp_submission = (
+                                  SELECT MAX(timestamp_submission)
+                                  FROM submission sub
+                                  WHERE sub.student_username = s.student_username AND sub.exercise_id = s.exercise_id
+                              )
+                          GROUP BY s.id;
+                          """;
         List<Submission> submissions = new ArrayList<>();
         try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
             statement.setString(1, user.getUsername());
@@ -183,13 +181,10 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
         return submissions;
     }
 
-    private void insertSubmissionFiles(Connection connection, Submission submission)
-            throws SQLException {
-        String insertSubmissionFileQuery =
-                "INSERT INTO submission_file (submission_id, file_name, file) VALUES (?, ?, ?)";
+    private void insertSubmissionFiles(Connection connection, Submission submission) throws SQLException {
+        String insertSubmissionFileQuery = "INSERT INTO submission_file (submission_id, file_name, file) VALUES (?, ?, ?)";
 
-        try (PreparedStatement submissionFileStatement =
-                     connection.prepareStatement(insertSubmissionFileQuery)) {
+        try (PreparedStatement submissionFileStatement = connection.prepareStatement(insertSubmissionFileQuery)) {
             for (SubmissionFile submissionFile : submission.getSubmissionFiles()) {
                 submissionFileStatement.setLong(1, submission.getId());
                 submissionFileStatement.setString(2, submissionFile.getName());
@@ -202,15 +197,13 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
         }
     }
 
-    private void insertCheckerResults(Connection connection, Submission submission)
-            throws SQLException {
+    private void insertCheckerResults(Connection connection, Submission submission) throws SQLException {
 
         if (submission.getCheckerResults() != null) {
-            String insertCheckerResultQuery =
-                    "INSERT INTO checker_result (exercise_id, checker_id, submission_id, has_passed, result_description) VALUES (?, ?, ?, ?, ?)";
+            String insertCheckerResultQuery
+                    = "INSERT INTO checker_result (exercise_id, checker_id, submission_id, has_passed, result_description) VALUES (?, ?, ?, ?, ?)";
 
-            try (PreparedStatement checkerResultStatement =
-                         connection.prepareStatement(insertCheckerResultQuery)) {
+            try (PreparedStatement checkerResultStatement = connection.prepareStatement(insertCheckerResultQuery)) {
                 for (CheckerResult checkerResult : submission.getCheckerResults()) {
                     Checker checker = checkerResult.getChecker();
 
