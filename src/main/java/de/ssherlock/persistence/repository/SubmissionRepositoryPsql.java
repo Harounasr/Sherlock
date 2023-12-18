@@ -92,7 +92,6 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("checkstyle:MagicNumber")
     @Override
     public List<Submission> getSubmissionsForStudent(Exercise exercise, User user) {
         String sqlQuery =
@@ -101,13 +100,14 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
                     s.id,
                     s.timestamp_submission,
                     s.tutor_username,
-                    GROUP_CONCAT(f.file_name SEPARATOR ';') AS file_names,
-                    GROUP_CONCAT(f.file SEPARATOR ';') AS files,
-                    GROUP_CONCAT(CONCAT_WS(',', cr.checker_id, cr.has_passed, cr.result_description) SEPARATOR ';') AS checker_results
+                    CASE\s
+                        WHEN COUNT(*) = COUNT(CASE WHEN cr.has_passed THEN 1 END) THEN true
+                        ELSE false
+                    END AS checkers_passed
                 FROM
                     submission s
-                LEFT JOIN submission_file f ON s.id = f.submission_id
                 LEFT JOIN checker_result cr ON s.id = cr.submission_id
+                LEFT JOIN checker c ON cr.checker_id = c.id AND c.is_required = TRUE
                 WHERE
                     s.student_username = ? AND s.exercise_id = ?
                 GROUP BY s.id;
@@ -124,8 +124,7 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
                     submission.setId(result.getLong("id"));
                     submission.setTutor(result.getString("tutor_username"));
                     submission.setTimestamp(result.getTimestamp("timestamp_submission"));
-                    submission.setSubmissionFiles(processSubmissionFiles(result));
-                    submission.setCheckerResults(processCheckerResults(result));
+                    submission.setPassedCheckers(result.getBoolean("checkers_passed"));
                     submissions.add(submission);
                 }
             }
@@ -138,7 +137,6 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("checkstyle:MagicNumber")
     @Override
     public List<Submission> getSubmissionsForTutor(Exercise exercise, User user) {
         String sqlQuery =
@@ -147,13 +145,13 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
                     s.id,
                     s.timestamp_submission,
                     s.student_username,
-                    GROUP_CONCAT(f.file_name SEPARATOR ';') AS file_names,
-                    GROUP_CONCAT(f.file SEPARATOR ';') AS files,
-                    GROUP_CONCAT(CONCAT_WS(',', cr.checker_id, cr.has_passed, cr.result_description) SEPARATOR ';') AS checker_results
+                    EXISTS (
+                        SELECT 1
+                        FROM testate t
+                        WHERE t.submission_id = s.id
+                    ) AS testate_created
                 FROM
                     submission s
-                LEFT JOIN submission_file f ON s.id = f.submission_id
-                LEFT JOIN checker_result cr ON s.id = cr.submission_id
                 WHERE
                     s.tutor_username = ? AND s.exercise_id = ? AND
                     s.timestamp_submission = (
@@ -175,8 +173,7 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
                     submission.setId(result.getLong("id"));
                     submission.setTutor(result.getString("tutor_username"));
                     submission.setTimestamp(result.getTimestamp("timestamp_submission"));
-                    submission.setSubmissionFiles(processSubmissionFiles(result));
-                    submission.setCheckerResults(processCheckerResults(result));
+                    submission.setTestateCreated(result.getBoolean("testate_created"));
                     submissions.add(submission);
                 }
             }
@@ -186,36 +183,6 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
         return submissions;
     }
 
-    private List<SubmissionFile> processSubmissionFiles(ResultSet result) throws SQLException {
-        String[] fileNames = result.getString("file_names").split(";");
-        String[] files = result.getString("files").split(";");
-        List<SubmissionFile> submissionFiles = new ArrayList<>();
-        for (int i = 0; i < fileNames.length; i++) {
-            SubmissionFile file = new SubmissionFile();
-            file.setName(fileNames[i]);
-            file.setBytes(files[i].getBytes());
-            submissionFiles.add(file);
-        }
-        return submissionFiles;
-    }
-
-    private List<CheckerResult> processCheckerResults(ResultSet result) throws SQLException {
-        String[] checkerResultsData = result.getString("checker_results").split(";");
-        List<CheckerResult> checkerResults = new ArrayList<>();
-        for (String checkerResult : checkerResultsData) {
-            String[] parts = checkerResult.split(",");
-            CheckerResult cr = new CheckerResult();
-            Checker checker = new Checker();
-            checker.setId(Long.parseLong(parts[0]));
-            cr.setChecker(checker);
-            cr.setPassed(Boolean.parseBoolean(parts[1]));
-            cr.setStackTrace(parts[2]);
-            checkerResults.add(cr);
-        }
-        return checkerResults;
-    }
-
-    @SuppressWarnings("checkstyle:MagicNumber")
     private void insertSubmissionFiles(Connection connection, Submission submission)
             throws SQLException {
         String insertSubmissionFileQuery =

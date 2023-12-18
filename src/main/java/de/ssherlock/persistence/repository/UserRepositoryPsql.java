@@ -240,6 +240,7 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
                 """;
         List<User> users = new ArrayList<>();
         try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
+            statement.setLong(1, course.getId());
             try (ResultSet result = statement.executeQuery()) {
                 while (result.next()) {
                     User user = new User();

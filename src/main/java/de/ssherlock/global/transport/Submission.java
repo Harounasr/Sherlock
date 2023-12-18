@@ -55,6 +55,16 @@ public class Submission implements Serializable {
     private Timestamp timestamp;
 
     /**
+     * Whether submission passed all mandatory checkers.
+     */
+    private boolean passedCheckers;
+
+    /**
+     * Whether testate has been created.
+     */
+    private boolean testateCreated;
+
+    /**
      * Instantiates a new Submission.
      */
     public Submission() {}
@@ -210,5 +220,41 @@ public class Submission implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(exerciseId, user, checkerResults, submissionFiles, timestamp);
+    }
+
+    /**
+     * Is passed checkers boolean.
+     *
+     * @return the boolean
+     */
+    public boolean isPassedCheckers() {
+        return passedCheckers;
+    }
+
+    /**
+     * Sets passed checkers.
+     *
+     * @param passedCheckers the passed checkers
+     */
+    public void setPassedCheckers(boolean passedCheckers) {
+        this.passedCheckers = passedCheckers;
+    }
+
+    /**
+     * Is testate created boolean.
+     *
+     * @return the boolean
+     */
+    public boolean isTestateCreated() {
+        return testateCreated;
+    }
+
+    /**
+     * Sets testate created.
+     *
+     * @param testateCreated the testate created
+     */
+    public void setTestateCreated(boolean testateCreated) {
+        this.testateCreated = testateCreated;
     }
 }
