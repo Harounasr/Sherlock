@@ -235,6 +235,7 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
         }
     }
 
+    @SuppressWarnings("checkstyle:MagicNumber")
     private void insertCheckerResults(Connection connection, Submission submission)
             throws SQLException {
 
