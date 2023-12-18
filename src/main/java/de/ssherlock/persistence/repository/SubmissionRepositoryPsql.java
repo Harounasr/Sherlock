@@ -42,13 +42,13 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
     /**
      * {@inheritDoc}
      */
+    @SuppressWarnings("checkstyle:MagicNumber")
     @Override
     public void insertSubmission(Submission submission) {
         String sqlQuery =
                 """
                 INSERT INTO submission (timestamp_submission, student_username, exercise_id)
-                VALUES (?, ?, ?) RETURNING id
-                      
+                VALUES (?, ?, ?) RETURNING id;
                 """;
         try (PreparedStatement submissionStatement = getConnection().prepareStatement(sqlQuery)) {
             submissionStatement.setTimestamp(1, submission.getTimestamp());
@@ -92,6 +92,7 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
     /**
      * {@inheritDoc}
      */
+    @SuppressWarnings("checkstyle:MagicNumber")
     @Override
     public List<Submission> getSubmissionsForStudent(Exercise exercise, User user) {
         String sqlQuery =
@@ -137,6 +138,7 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
     /**
      * {@inheritDoc}
      */
+    @SuppressWarnings("checkstyle:MagicNumber")
     @Override
     public List<Submission> getSubmissionsForTutor(Exercise exercise, User user) {
         String sqlQuery =
@@ -213,6 +215,7 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
         return checkerResults;
     }
 
+    @SuppressWarnings("checkstyle:MagicNumber")
     private void insertSubmissionFiles(Connection connection, Submission submission)
             throws SQLException {
         String insertSubmissionFileQuery =
@@ -232,6 +235,7 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
         }
     }
 
+    @SuppressWarnings("checkstyle:MagicNumber")
     private void insertCheckerResults(Connection connection, Submission submission)
             throws SQLException {
 

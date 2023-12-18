@@ -124,7 +124,7 @@ public class ExerciseBean implements Serializable {
             FacesContext facesContext = FacesContext.getCurrentInstance();
             ExternalContext externalContext = facesContext.getExternalContext();
             externalContext.redirect("/view/registered/course.xhtml");
-        } catch(BusinessNonExistentExerciseException e) {
+        } catch (BusinessNonExistentExerciseException e) {
             logger.severe("The exercise with id " + exercise.getId() + " does not exist anymore.");
             throw new RuntimeException("The requested exercise does not exist.", e);
         } catch (IOException ioException) {
