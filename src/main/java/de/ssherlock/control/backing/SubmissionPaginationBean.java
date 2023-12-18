@@ -172,14 +172,26 @@ public class SubmissionPaginationBean extends AbstractPaginationBean implements 
         logger.log(Level.INFO, String.valueOf(submissions.size()));
     }
 
+    /**
+     * Whether user is member.
+     * @return is member
+     */
     public boolean isMember() {
         return courseRole == CourseRole.MEMBER;
     }
 
+    /**
+     * Whether user is teacher.
+     * @return is teacher.
+     */
     public boolean isTeacher() {
         return courseRole == CourseRole.TEACHER;
     }
 
+    /**
+     * Whether the user is admin.
+     * @return is admin.
+     */
     public boolean isAdmin() {
         return appSession.isAdmin();
     }

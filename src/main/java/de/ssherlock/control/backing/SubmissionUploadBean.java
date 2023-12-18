@@ -99,6 +99,7 @@ public class SubmissionUploadBean implements Serializable {
   public void initialize() {
     FacesContext facesContext = FacesContext.getCurrentInstance();
     Map<String, String> requestParams = facesContext.getExternalContext().getRequestParameterMap();
+    exercise = new Exercise();
     exercise.setId(Long.parseLong(requestParams.get("Id")));
     try {
         checkers = checkerService.getCheckersForExercise(exercise);
