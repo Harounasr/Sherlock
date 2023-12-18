@@ -3,7 +3,6 @@ package de.ssherlock.control.backing;
 import de.ssherlock.business.service.TestateService;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
-import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.SystemRole;
 import de.ssherlock.global.transport.Testate;
@@ -64,13 +63,8 @@ public class AllTestatesPaginationBean extends AbstractPaginationBean implements
      */
     private Exercise exercise;
 
-    /** The current user */
+    /** The current user. */
     private User user;
-
-    /** */
-
-
-
 
     /**
      * Constructs an AllTestatesPaginationBean.
@@ -102,7 +96,7 @@ public class AllTestatesPaginationBean extends AbstractPaginationBean implements
         if (user.getSystemRole() == SystemRole.TEACHER || appSession.isAdmin()) {
             testates = testateService.getAllTestates(getPagination(), exercise);
         } else {
-            testateService.getAssignedTestates(getPagination(), exercise,user);
+            testateService.getAssignedTestates(getPagination(), exercise, user);
         }
         getPagination().setLastIndex(testates.size() - 1);
     }

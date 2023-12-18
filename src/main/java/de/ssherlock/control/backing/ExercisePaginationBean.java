@@ -14,7 +14,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 
-import static java.util.logging.Level.INFO;
 
 /**
  * Backing bean for the exercisePagination.xhtml facelet.
@@ -127,7 +126,7 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
      * Adds an exercise to the database.
      */
     public void addExercise() {
-        logger.log(INFO, "add new exercise");
+        logger.log(Level.INFO, "add new exercise");
         exerciseService.addExercise(exercise);
     }
 

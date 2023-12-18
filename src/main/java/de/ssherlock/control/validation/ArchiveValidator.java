@@ -85,7 +85,7 @@ public class ArchiveValidator implements Validator<Part> {
           }
           logger.info("Validated ZIP file successfully. Files: ");
       } catch (IOException e) {
-          logger.log(Level.SEVERE,"Error validating archive file" +e.getMessage());
+          logger.log(Level.SEVERE,"Error validating archive file" + e.getMessage());
           FacesMessage facesMessage = new FacesMessage("Error validating archive file. Please try again.");
           throw new ValidatorException(facesMessage);
       }
