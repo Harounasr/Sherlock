@@ -26,7 +26,7 @@ public class Testate implements Serializable {
     /**
      * The username of the student.
      */
-    private String student;
+    private long studentId;
 
     /**
      * The functionality grade.
@@ -87,21 +87,21 @@ public class Testate implements Serializable {
     }
 
     /**
-     * Gets student.
+     * Gets studentId.
      *
-     * @return the student
+     * @return The studentId.
      */
-    public String getStudent() {
-        return student;
+    public long getStudentId() {
+        return studentId;
     }
 
     /**
      * Sets student.
      *
-     * @param student the student
+     * @param studentId The student.
      */
-    public void setStudent(String student) {
-        this.student = student;
+    public void setStudentId(long studentId) {
+        this.studentId = studentId;
     }
 
     /**
@@ -245,7 +245,7 @@ public class Testate implements Serializable {
         return functionalityGrade == testate.functionalityGrade
                && readabilityGrade == testate.readabilityGrade
                && Objects.equals(evaluatorId, testate.evaluatorId)
-               && Objects.equals(student, testate.student)
+               && Objects.equals(studentId, testate.studentId)
                && Objects.equals(comments, testate.comments)
                && Objects.equals(comment, testate.comment)
                && Objects.equals(submission, testate.submission);
@@ -257,6 +257,6 @@ public class Testate implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(
-                evaluatorId, student, functionalityGrade, readabilityGrade, comments, comment, submission);
+                evaluatorId, studentId, functionalityGrade, readabilityGrade, comments, comment, submission);
     }
 }

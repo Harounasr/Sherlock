@@ -112,7 +112,7 @@ public class TestateBean implements Serializable {
         this.checkerService = checkerService;
         this.testateService = testateService;
         this.newTestate = new Testate();
-        this.grades = new ArrayList<>(Arrays.asList(1,2,3,4,5));
+        this.grades = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6));
         this.submission = new Submission();
     }
 
@@ -144,6 +144,9 @@ public class TestateBean implements Serializable {
      * Submits the testate.
      */
     public void submitTestate() {
+        //Set the userId (as Evaluator.)
+        //newTestate.setEvaluator(appSession.getUser().getUsername().getId);
+        //newTestate.setStudentId(submission.getUserId());
         testateService.addTestate(newTestate);
     }
 
