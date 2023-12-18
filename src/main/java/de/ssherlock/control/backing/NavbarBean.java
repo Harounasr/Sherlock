@@ -108,7 +108,7 @@ public class NavbarBean implements Serializable {
    * @return The destination view for admin settings.
    */
   public String navigateToAdminSettings() {
-    return "/view/registered/adminSettings.xhtml";
+    return "/view/registered/admin.xhtml";
   }
 
   /**
