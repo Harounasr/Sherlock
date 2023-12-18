@@ -80,8 +80,7 @@ public class ExerciseBean implements Serializable {
      * @param exerciseService The ExerciseService (Injected).
      */
     @Inject
-    public ExerciseBean(
-            SerializableLogger logger, AppSession appSession, ExerciseService exerciseService) {
+    public ExerciseBean(SerializableLogger logger, AppSession appSession, ExerciseService exerciseService) {
         this.logger = logger;
         this.appSession = appSession;
         this.exerciseService = exerciseService;
@@ -98,7 +97,7 @@ public class ExerciseBean implements Serializable {
         logger.log(Level.INFO, "Param: " + exerciseId);
         this.setTargetPage("exerciseDescription.xhtml");
         exercise = new Exercise();
-       // Exercise exercise = new Exercise();
+        // Exercise exercise = new Exercise();
         exercise.setId(exerciseId);
         try {
             exercise = exerciseService.getExercise(exercise);
