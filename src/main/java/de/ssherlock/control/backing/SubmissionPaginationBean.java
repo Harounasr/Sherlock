@@ -21,6 +21,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
 
 /**
  * Backing bean for the allSubmissionPaginationBean.xhtml facelet.
@@ -108,7 +109,7 @@ public class SubmissionPaginationBean extends AbstractPaginationBean implements 
      */
     @PostConstruct
     public void initialize() {
-        getPagination().setCurrentIndex(1);
+        getPagination().setCurrentIndex(0);
         getPagination().setPageSize(PAGE_SIZE);
         exercise = new Exercise();
         exercise.setId(exerciseBean.getExerciseId());
@@ -129,7 +130,7 @@ public class SubmissionPaginationBean extends AbstractPaginationBean implements 
      * @return The navigation outcome.
      */
     public String selectSubmission(long submissionId) {
-        return "";
+        return "/view/registered/testate.xhtml?faces-redirect=true?subId=" + submissionId;
     }
 
     /**
@@ -164,26 +165,34 @@ public class SubmissionPaginationBean extends AbstractPaginationBean implements 
             };
         } catch (BusinessDBAccessException | BusinessNonExistentCourseException e) {
             submissions = Collections.emptyList();
+            logger.log(Level.SEVERE, "LOL", e);
             Notification notification = new Notification("The submissions could not be loaded", NotificationType.ERROR);
             notification.generateUIMessage();
         }
+        logger.log(Level.INFO, String.valueOf(submissions.size()));
     }
 
     /**
-     * Gets course role.
-     *
-     * @return the course role
+     * Whether user is member.
+     * @return is member
      */
-    public CourseRole getCourseRole() {
-        return courseRole;
+    public boolean isMember() {
+        return courseRole == CourseRole.MEMBER;
     }
 
     /**
-     * Sets course role.
-     *
-     * @param courseRole the course role
+     * Whether user is teacher.
+     * @return is teacher.
      */
-    public void setCourseRole(CourseRole courseRole) {
-        this.courseRole = courseRole;
+    public boolean isTeacher() {
+        return courseRole == CourseRole.TEACHER;
+    }
+
+    /**
+     * Whether the user is admin.
+     * @return is admin.
+     */
+    public boolean isAdmin() {
+        return appSession.isAdmin();
     }
 }
