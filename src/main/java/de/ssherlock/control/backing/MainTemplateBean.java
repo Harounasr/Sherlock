@@ -8,13 +8,13 @@ import java.io.Serial;
 import java.io.Serializable;
 
 /**
- } * Backing bean for the mainTemplateBean.xhtml facelet.
+ } * Backing bean for the MainTemplateBean.xhtml facelet.
  *
  * @author Lennart Hohls.
  */
 @Named
 @ViewScoped
-public class mainTemplateBean implements Serializable {
+public class MainTemplateBean implements Serializable {
 
   @Serial private static final long serialVersionUID = 1L;
 
@@ -27,7 +27,7 @@ public class mainTemplateBean implements Serializable {
    * @param logger The logger for this class.
    */
   @Inject
-  public mainTemplateBean(SerializableLogger logger) {
+  public MainTemplateBean(SerializableLogger logger) {
     this.logger = logger;
   }
 }

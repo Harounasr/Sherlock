@@ -96,7 +96,7 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
         getAllCoursesBool = Boolean.parseBoolean(params.get("all"));
         courses = getAllCoursesBool ? courseService.getCourses(getPagination()) : courseService.getCourses(getPagination(), appSession.getUser());
         getPagination().setLastIndex(courses.size() - 1);
-        FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO,"To all Courses","To all Courses"));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "To all Courses", "To all Courses"));
     }
 
     /**
