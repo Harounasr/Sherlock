@@ -5,6 +5,7 @@ import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Course;
 import jakarta.annotation.PostConstruct;
+import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
@@ -115,6 +116,8 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
     public void addCourse() {
         logger.log(INFO, "trying to add");
         courseService.addCourse(newCourse);
+        String message = "Added course" + newCourse.getName();
+        FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(message,message));
     }
 
     /**

@@ -5,6 +5,7 @@
 <h:body>
     <h:form enctype="multipart/form-data">
         <div class="container mt-3">
+            <h:messages globalOnly="true"/>
             <h2 class="mb-3">Exercise List</h2>
             <h:form>
                 <comp:paginationSearch backingBean="#{exercisePaginationBean}"/>
