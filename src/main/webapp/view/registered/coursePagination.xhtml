@@ -6,6 +6,7 @@
 
     <h:head>
         <ui:define name="title">My Courses</ui:define>
+        <h:outputStylesheet library="css" name="coursePagination.css"/>
     </h:head>
 
     <h:body>
@@ -18,7 +19,6 @@
             <ui:define name="content">
 
                 <div class="container mt-3">
-                    <h:messages globalOnly="true"/>
                     <h2 class="mb-3">#{coursePaginationBean.getAllCoursesBool ? "All" : "My"} Courses</h2>
                     <h:form>
                         <comp:paginationSearch backingBean="#{coursePaginationBean}"/>
@@ -46,6 +46,7 @@
                     <h:form>
                         <comp:pagination backingBean="#{coursePaginationBean}"/>
                     </h:form>
+                    <h:messages globalOnly="true" styleClass="fade-out"/>
                 </div>
             </ui:define>
         </ui:composition>
