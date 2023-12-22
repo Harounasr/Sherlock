@@ -2,12 +2,13 @@
 <ui:composition xmlns:h="jakarta.faces.html"
                 xmlns:ui="jakarta.faces.facelets"
                 xmlns="http://www.w3.org/1999/xhtml"
-                template="../../resources/templates/main.xhtml">
+                template="../../resources/templates/mainTemplate.xhtml">
     <ui:define name="headElements">
         <link rel="stylesheet" href="#{request.contextPath}/resources/css/sidebar.css"/>
     </ui:define>
     <ui:define name="content">
         <div class="container-fluid h-100">
+            <h:messages globalOnly="true"/>
             <div class="row h-100">
 
                 <!-- Sidebar -->

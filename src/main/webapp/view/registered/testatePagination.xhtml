@@ -11,7 +11,7 @@
 
     <h:body>
         <title>Testates</title>
-        <ui:composition template="../../resources/templates/main.xhtml">
+        <ui:composition template="../../resources/templates/mainTemplate.xhtml">
 
            <!-- <f:metadata>
                 <f:param name="exerciseId" value="#{allTestatesPaginationBean.course.name}" />
@@ -20,6 +20,7 @@
             <ui:define name="content">
 
                 <div class="container mt-3">
+                    <h:messages globalOnly="true"/>
                     <h2 class="mb-3">Exercise List</h2>
                     <h:form>
                         <comp:paginationSearch backingBean="#{allTestatesPaginationBean}" />

@@ -6,11 +6,12 @@
 
     <h:head>
         <ui:define name="title">My Courses</ui:define>
+        <h:outputStylesheet library="css" name="coursePagination.css"/>
     </h:head>
 
     <h:body>
         <title>My Courses</title>
-        <ui:composition template="../../resources/templates/main.xhtml">
+        <ui:composition template="../../resources/templates/mainTemplate.xhtml">
 
             <f:metadata>
                 <f:param name="all" value="#{coursePaginationBean.getAllCoursesBool}"/>
@@ -45,6 +46,7 @@
                     <h:form>
                         <comp:pagination backingBean="#{coursePaginationBean}"/>
                     </h:form>
+                    <h:messages globalOnly="true" styleClass="fade-out"/>
                 </div>
             </ui:define>
         </ui:composition>

@@ -73,7 +73,7 @@ public class NavbarBean implements Serializable {
    */
   public String navigateToAllCourses() {
     seeAllCourses = true;
-    return "/view/registered/coursePagination.xhtml?all=true";
+      return "/view/registered/coursePagination.xhtml?all=true";
   }
 
   /**

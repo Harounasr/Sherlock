@@ -7,7 +7,7 @@
 </head>
 <h:body>
     <h:form enctype="multipart/form-data">
-
+        <h:messages globalOnly="true"/>
         <!-- EXERCISE DESCRIPTION -->
         <h:panelGroup rendered="#{!exerciseDescriptionBean.editMode}">
             <h:commandButton rendered="#{exerciseDescriptionBean.userCanEdit}" value="Edit" styleClass="full-width-button btn btn-primary"
