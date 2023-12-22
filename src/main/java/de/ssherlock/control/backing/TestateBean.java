@@ -11,19 +11,15 @@ import de.ssherlock.global.transport.Submission;
 import de.ssherlock.global.transport.SubmissionFile;
 import de.ssherlock.global.transport.Testate;
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.event.ObserverException;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serial;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -99,6 +95,8 @@ public class TestateBean implements Serializable {
      * @param checkerService    The service handling checker-related operations.
      * @param testateService    The service handling testate-related operations.
      */
+    @SuppressWarnings("checkstyle:MagicNumber")
+
     @Inject
     public TestateBean(
             SerializableLogger logger,
