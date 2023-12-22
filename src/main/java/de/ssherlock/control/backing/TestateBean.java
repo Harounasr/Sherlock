@@ -167,7 +167,7 @@ public class TestateBean implements Serializable {
             }
             resultFiles.add(objects);
         }
-        return null;
+        return resultFiles;
     }
 
     /**
