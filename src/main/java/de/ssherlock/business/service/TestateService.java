@@ -148,7 +148,7 @@ public class TestateService implements Serializable {
         connection = connectionPool.getConnection();
         SubmissionRepository submissionRepository = RepositoryFactory.getSubmissionRepository(RepositoryType.POSTGRESQL, connection);
         try {
-            testate.setSubmission(submissionRepository.getSubmissions(exercise).getFirst());
+            testate.setSubmission(submissionRepository.getSubmissionsForStudent(exercise, user).getFirst());
         } finally {
             connectionPool.releaseConnection(connection);
         }
@@ -160,7 +160,7 @@ public class TestateService implements Serializable {
      *
      * @param testate The testate to be updated.
      */
-    public void addTestate(Testate testate) {
+    public void addTestate (Testate testate) {
         Connection connection = connectionPool.getConnection();
         TestateRepository testateRepository = RepositoryFactory.getEvaluationRepository(RepositoryType.POSTGRESQL, connection);
         testateRepository.insertTestate(testate);
