@@ -1,6 +1,5 @@
 package de.ssherlock.business.service;
 
-import de.ssherlock.business.exception.BusinessNonExistentSubmissionException;
 import de.ssherlock.business.exception.BusinessNonExistentTestateException;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Exercise;
@@ -8,7 +7,6 @@ import de.ssherlock.global.transport.Pagination;
 import de.ssherlock.global.transport.Testate;
 import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.connection.ConnectionPool;
-import de.ssherlock.persistence.exception.PersistenceNonExistentSubmissionException;
 import de.ssherlock.persistence.exception.PersistenceNonExistentTestateException;
 import de.ssherlock.persistence.repository.RepositoryFactory;
 import de.ssherlock.persistence.repository.RepositoryType;
