@@ -9,8 +9,12 @@ import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.Part;
+
+import java.io.IOException;
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Backing Bean for the adminSettings.xhtml facelet.
@@ -21,84 +25,112 @@ import java.io.Serializable;
 @ViewScoped
 public class AdminSettingsBean implements Serializable {
 
-  /** Serial Version UID. */
-  @Serial private static final long serialVersionUID = 1L;
+    /** Serial Version UID. */
+    @Serial private static final long serialVersionUID = 1L;
 
-  /** Logger for logging within this class. */
-  private final SerializableLogger logger;
+    /** Logger for logging within this class. */
+    private final SerializableLogger logger;
 
-  /** The active session. */
-  private final AppSession appSession;
+    /** The active session. */
+    private final AppSession appSession;
 
-  /** Service to handle SystemSetting-specific actions. */
-  private final SystemService systemService;
+    /** Service to handle SystemSetting-specific actions. */
+    private final SystemService systemService;
 
-  /** Currently active SystemSettings. */
-  private SystemSettings systemSettings;
+    /** Currently active SystemSettings. */
+    private SystemSettings systemSettings;
 
-  /** The uploaded logo. */
-  private transient Part uploadedLogo;
+    /** The uploaded logo. */
+    private transient Part uploadedLogo;
 
-  /**
-   * Constructs an AdminSettingsBean.
-   *
-   * @param logger The logger used for logging within this class (Injected).
-   * @param appSession The active session (Injected).
-   * @param systemService The SystemService (Injected).
-   */
-  @Inject
-  public AdminSettingsBean(
-      SerializableLogger logger, AppSession appSession, SystemService systemService) {
-    this.logger = logger;
-    this.appSession = appSession;
-    this.systemService = systemService;
-  }
+    private List<String> availableColors;
 
-  /** Initializes the bean after construction. */
-  @PostConstruct
-  public void initialize() {
-    systemSettings = systemService.getSystemSettings();
-  }
+    /**
+     * Constructs an AdminSettingsBean.
+     *
+     * @param logger The logger used for logging within this class (Injected).
+     * @param appSession The active session (Injected).
+     * @param systemService The SystemService (Injected).
+     */
+    @Inject
+    public AdminSettingsBean(
+            SerializableLogger logger, AppSession appSession, SystemService systemService) {
+        this.logger = logger;
+        this.appSession = appSession;
+        this.systemService = systemService;
+    }
 
-  /** Action for submitting all current changes. */
-  public void submitAllChanges() {}
+    /** Initializes the bean after construction. */
+    @PostConstruct
+    public void initialize() {
+        systemSettings = new SystemSettings();
+        systemSettings = systemService.getSystemSettings();
+    }
 
-  /** Uploads the logo. */
-  public void uploadLogo() {}
+    /** Action for submitting all current changes. */
+    public void submitAllChanges() {
+        systemService.updateSystemSettings(systemSettings);
+    }
 
-  /**
-   * Gets uploaded logo.
-   *
-   * @return the uploaded logo
-   */
-  public Part getUploadedLogo() {
-    return uploadedLogo;
-  }
+    /** Uploads the logo. */
+    public void uploadLogo() {
+        try {
+            this.systemSettings.setLogo(uploadedLogo.getInputStream().readAllBytes());
+        } catch(IOException e) {
+            logger.severe("Upload Logo failed");
+        }
+    }
 
-  /**
-   * Setter for the uploaded logo.
-   *
-   * @param uploadedLogo The uploaded logo.
-   */
-  public void setUploadedLogo(Part uploadedLogo) {
-    this.uploadedLogo = uploadedLogo;
-  }
+    /**
+     * Gets uploaded logo.
+     *
+     * @return the uploaded logo
+     */
+    public Part getUploadedLogo() {
+        return uploadedLogo;
+    }
 
-  /**
-   * Gets system settings.
-   *
-   * @return the system settings
-   */
-  public SystemSettings getSystemSettings() {
-    return systemSettings;
-  }
+    /**
+     * Setter for the uploaded logo.
+     *
+     * @param uploadedLogo The uploaded logo.
+     */
+    public void setUploadedLogo(Part uploadedLogo) {
+        this.uploadedLogo = uploadedLogo;
+    }
 
-  /**
-   * Sets system settings.
-   *
-   * @param systemSettings the system settings
-   */
-  public void setSystemSettings(SystemSettings systemSettings) {
-    this.systemSettings = systemSettings;
-  }
+    /**
+     * Gets system settings.
+     *
+     * @return the system settings
+     */
+    public SystemSettings getSystemSettings() {
+        return systemSettings;
+    }
+
+    /**
+     * Sets system settings.
+     *
+     * @param systemSettings the system settings
+     */
+    public void setSystemSettings(SystemSettings systemSettings) {
+        this.systemSettings = systemSettings;
+    }
+    /**
+     * Sets available colors.
+     *
+     * @return the available colors.
+     */
+    public List<String> getAvailableColors() {
+        availableColors = new ArrayList<>();
+        availableColors.add("#ff0000"); // Red
+        availableColors.add("#00ff00"); // Green
+        availableColors.add("#0000ff"); // Blue
+        availableColors.add("#ffff00"); // Yellow
+        availableColors.add("#800080"); // Purple
+        availableColors.add("#ffA500"); // Orange
+        availableColors.add("#ffc0cb"); // Pink
+        availableColors.add("#a52a2a"); // Brown
+        return availableColors;
+    }
 }

@@ -2,6 +2,7 @@
 <html xmlns:h="jakarta.faces.html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns="http://www.w3.org/1999/xhtml">
 
 <h:head>
@@ -9,49 +10,62 @@
         <ui:insert name="title"/>
     </title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="#{request.contextPath}/resources/css/submit.css"/>
 </h:head>
 
 <h:body>
-    <div id="con" class="container">
-        <h:messages globalOnly="true"/>
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div id="upload-archive" class="card-header">
-                    Upload Archive
+    <h:form enctype="multipart/form-data">
+        <div id="con" class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div id="upload-archive" class="card-header bg-primary text-white">
+                        <h2>Upload Archive</h2>
+                    </div>
+                    <div class="card-body">
+
+                        <h:panelGroup rendered="#{submissionUploadBean.submissionFiles == null}">
+                            <!-- Section for uploading -->
+                            <div class="form-group">
+                                <label for="file">Choose Folder: </label>
+                                <h:inputFile id="file"  value="#{submissionUploadBean.archiveFile}"
+                                             class="form-control-file"/>
+                            </div>
+                            <div class="form-group">
+                                <h:commandButton id="upload-button" value="Upload" class="btn btn-primary"
+                                                 action="#{submissionUploadBean.upload}"/>
+                            </div>
+                        </h:panelGroup>
+
+                        <h:panelGroup rendered="#{submissionUploadBean.submissionFiles != null}">
+                            <!-- Section for successful upload -->
+                            <div class="form-group">
+                                <h2>Upload was successful. Here are the Checker Results:</h2>
+                                <c:forEach items="#{submissionUploadBean.checkerResults}" var="result">
+                                    <c:if test="#{result.checker.visible}">
+                                        <div class="col">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <!-- Verwendung von <span> für Distanz -->
+                                                    <span class="checker-name">#{result.checker.name}</span>
+                                                    <span class="checker-result">#{result.passed ? 'Passed' : 'Failed'}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </c:if>
+                                </c:forEach>
+
+                                <!-- Move the "Submit" button inside the second panel group -->
+                                <div class="form-group">
+                                    <h:commandButton rendered="#{submissionUploadBean.submissionFiles != null}" id="submit-button" value="Submit" class="btn btn-primary"
+                                                     action="#{submissionUploadBean.submit}"
+                                                     disabled="#{not submissionUploadBean.canSubmit}"/>
+                                </div>
+                            </div>
+                        </h:panelGroup>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <h:form enctype="multipart/form-data" rendered="#{submissionUploadBean.submissionFiles == null}">
-                        <div class="form-group">
-                            <label for="file">Choose Folder: </label>
-                            <h:inputFile id="file" accept="zip" required="true" value="#{submissionUploadBean.archiveFile}"/>
-                            <h:commandButton id="upload-button" value="Upload" action="#{submissionUploadBean.submitUpload()}"
-                                             class="btn btn-primary"/>
-                        </div>
-                    </h:form>
-                    <!-- Checker results -->
-                   <h:form rendered="#{submissionUploadBean.submissionFiles != null}">
-                       <div class="form-group">
-                           <h1>Upload was successful. Here are the Checker Results:</h1>
-                           <h:dataTable value="#{submissionUploadBean.checkerResults}" var="result">
-                               <h:column rendered="#{result.checker.isVisible}">
-                                   <f:facet name="header">Checker Name</f:facet>
-                                   #{result.checker.name}
-                               </h:column>
-                               <h:column rendered="#{result.checker.isVisible}">
-                                   <f:facet name="header">Checker Result</f:facet>
-                                   #{result.passed ? 'Passed' : 'Failed'}
-                               </h:column>
-                           </h:dataTable>
-                       </div>
-                       <div class="form-group">
-                           <h:commandButton value="Submit" action="#{submissionUploadBean.submit()}"
-                                            class="btn btn-primary"
-                                            disabled="#{not submissionUploadBean.canSubmit}"/>
-                       </div>
-                   </h:form>
-               </div>
-           </div>
-       </div>
-   </div>
+            </div>
+        </div>
+    </h:form>
 </h:body>
 </html>
