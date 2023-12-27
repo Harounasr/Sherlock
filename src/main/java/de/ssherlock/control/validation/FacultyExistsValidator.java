@@ -47,7 +47,7 @@ public class FacultyExistsValidator implements Validator<String> {
      *
      * @param facesContext The FacesContext for the current request.
      * @param uiComponent The UIComponent associated with the component being validated.
-     * @param faculty The faculty identifier or name to be validated.
+     * @param facultyName The faculty identifier or name to be validated.
      * @throws ValidatorException if the validation fails.
      */
     @Override
