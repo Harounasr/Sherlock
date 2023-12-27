@@ -55,7 +55,7 @@ public class SystemSettings implements Serializable {
     /**
      * Sets email regex.
      *
-     * @param emailRegex the email regex
+     * @param emailRegex the email regex.
      */
     public void setEmailRegex(String emailRegex) {
         this.emailRegex = emailRegex;
