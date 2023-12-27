@@ -56,7 +56,8 @@
 
                                 <!-- Move the "Submit" button inside the second panel group -->
                                 <div class="form-group">
-                                    <h:commandButton rendered="#{submissionUploadBean.submissionFiles != null}" id="submit-button" value="Submit" class="btn btn-primary"
+                                    <h:commandButton rendered="#{submissionUploadBean.submissionFiles != null}" id="submit-button"
+                                                     value="Submit" class="btn btn-primary"
                                                      action="#{submissionUploadBean.submit}"
                                                      disabled="#{not submissionUploadBean.canSubmit}"/>
                                 </div>

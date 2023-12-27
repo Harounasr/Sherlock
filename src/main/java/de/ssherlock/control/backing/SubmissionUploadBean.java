@@ -4,8 +4,6 @@ import de.ssherlock.business.exception.BusinessNonExistentCheckerException;
 import de.ssherlock.business.service.CheckerService;
 import de.ssherlock.business.service.SubmissionService;
 import de.ssherlock.control.exception.ZIPNotReadableException;
-import de.ssherlock.control.notification.Notification;
-import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.control.util.CheckerUtils;
 import de.ssherlock.control.util.ZipUtils;
@@ -16,9 +14,6 @@ import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.Submission;
 import de.ssherlock.global.transport.SubmissionFile;
 import jakarta.annotation.PostConstruct;
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.context.FacesContext;
-import jakarta.faces.context.PartialViewContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -27,7 +22,6 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 
 
@@ -77,6 +71,9 @@ public class SubmissionUploadBean implements Serializable {
     /** The current exercise. */
     private Exercise exercise;
 
+    /**
+     * The parent exercise bean.
+     */
     private ExerciseBean exerciseBean;
 
     /**
@@ -121,9 +118,7 @@ public class SubmissionUploadBean implements Serializable {
             return;
         }
 
-        SubmissionFile submissionFile = new SubmissionFile();
         submissionFiles = new ArrayList<>();
-        submissionFiles.add(submissionFile);
         try {
             submissionFiles = ZipUtils.unzipSubmissionArchive(archiveFile);
             logger.log(Level.INFO, "Unzipped files:");

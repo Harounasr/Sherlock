@@ -1,9 +1,6 @@
 package de.ssherlock.business.maintenance;
-
 import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
-
-import java.util.Timer;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 //import java.util.concurrent.TimeUnit;
 
@@ -22,6 +19,7 @@ public class MaintenanceProcessExecutor extends ScheduledThreadPoolExecutor {
     /** Defines the number of simultaneous threads. */
     private static final int CORE_POOL_SIZE = 4;
 
+    /** Defines the time to wait until the threads are interrupted. */
     private static final int DESTROY_TIMEOUT = 70;
 
 
@@ -57,16 +55,16 @@ public class MaintenanceProcessExecutor extends ScheduledThreadPoolExecutor {
       }
       */
     }
-    private void executeEmailNotifications() {
-        SendEmailNotificationEvent sendEmailNotificationEvent = new SendEmailNotificationEvent();
-        sendEmailNotificationEvent.sendEmailNotifications();
+     private void executeEmailNotifications() {
+         SendEmailNotificationEvent sendEmailNotificationEvent = new SendEmailNotificationEvent();
+         sendEmailNotificationEvent.sendEmailNotifications();
 
-    }
+     }
 
-    /**
-     * Executes clean unverified users task.
-     */
-    private void executeCleanUnverifiedUsers() {
+     /**
+      * Executes clean unverified users task.
+      */
+     private void executeCleanUnverifiedUsers() {
         UnverifiedUsersCleanEvent unverifiedUsersCleanEvent = new UnverifiedUsersCleanEvent();
         unverifiedUsersCleanEvent.cleanUnverifiedUsers();
     }

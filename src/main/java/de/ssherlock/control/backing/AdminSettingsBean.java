@@ -43,6 +43,8 @@ public class AdminSettingsBean implements Serializable {
     /** The uploaded logo. */
     private transient Part uploadedLogo;
 
+
+    /** List of available colors. */
     private List<String> availableColors;
 
     /**
@@ -63,6 +65,15 @@ public class AdminSettingsBean implements Serializable {
     /** Initializes the bean after construction. */
     @PostConstruct
     public void initialize() {
+        availableColors = new ArrayList<>();
+        availableColors.add("#ff0000"); // Red
+        availableColors.add("#00ff00"); // Green
+        availableColors.add("#0000ff"); // Blue
+        availableColors.add("#ffff00"); // Yellow
+        availableColors.add("#800080"); // Purple
+        availableColors.add("#ffA500"); // Orange
+        availableColors.add("#ffc0cb"); // Pink
+        availableColors.add("#a52a2a"); // Brown
         systemSettings = new SystemSettings();
         systemSettings = systemService.getSystemSettings();
     }
@@ -116,21 +127,13 @@ public class AdminSettingsBean implements Serializable {
     public void setSystemSettings(SystemSettings systemSettings) {
         this.systemSettings = systemSettings;
     }
+
     /**
-     * Sets available colors.
+     * Gets the list of available colors.
      *
-     * @return the available colors.
+     * @return List of available colors
      */
     public List<String> getAvailableColors() {
-        availableColors = new ArrayList<>();
-        availableColors.add("#ff0000"); // Red
-        availableColors.add("#00ff00"); // Green
-        availableColors.add("#0000ff"); // Blue
-        availableColors.add("#ffff00"); // Yellow
-        availableColors.add("#800080"); // Purple
-        availableColors.add("#ffA500"); // Orange
-        availableColors.add("#ffc0cb"); // Pink
-        availableColors.add("#a52a2a"); // Brown
         return availableColors;
     }
 }

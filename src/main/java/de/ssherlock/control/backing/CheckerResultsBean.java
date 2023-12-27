@@ -4,9 +4,7 @@ import de.ssherlock.business.exception.BusinessNonExistentSubmissionException;
 import de.ssherlock.business.service.SubmissionService;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
-import de.ssherlock.global.transport.Checker;
 import de.ssherlock.global.transport.CheckerResult;
-import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.Submission;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.context.FacesContext;
@@ -42,6 +40,7 @@ public class CheckerResultsBean implements Serializable {
     /** List of all CheckerResults. */
     private List<CheckerResult> checkerResults;
 
+    /** Holds the Submission object for which Checker Results are being managed. */
     private Submission submission;
 
     /**
@@ -71,7 +70,7 @@ public class CheckerResultsBean implements Serializable {
       submission.setId(Long.parseLong(requestParams.get("Id")));
       try {
           submissionService.getSubmission(submission);
-          logger.info("Error fetching submission. Non-existent submission ID: " + submission.getId());
+          logger.severe("Error fetching submission. Non-existent submission ID: " + submission.getId());
       } catch(BusinessNonExistentSubmissionException e) {
           throw new RuntimeException("Failed to fetch submission", e);
       }
