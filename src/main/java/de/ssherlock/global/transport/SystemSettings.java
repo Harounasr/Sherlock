@@ -154,14 +154,18 @@ public class SystemSettings implements Serializable {
         this.imprint = imprint;
     }
 
-    /** Setter for the contactInformation.
-     * @param contactInformation the contactInformation text */
+    /** Sets the contactInformation.
+     *
+     * @param contactInformation the contactInformation text
+     */
     public void setContactInformation(String contactInformation) {
         this.contact_information = contactInformation;
     }
 
-    /** Getter for the contact_information.
-     * @return contact_information*/
+    /** Gets the contact_information.
+     *
+     * @return contact_information
+     */
     public String getContactInformation() {
         return this.contact_information;
     }

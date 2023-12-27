@@ -66,7 +66,7 @@ public class SubmissionUploadBean implements Serializable {
     private boolean canSubmit;
 
     /** The checker results. */
-    private  List<CheckerResult> checkerResults;
+    private final List<CheckerResult> checkerResults;
 
     /** The current exercise. */
     private Exercise exercise;
@@ -74,7 +74,7 @@ public class SubmissionUploadBean implements Serializable {
     /**
      * The parent exercise bean.
      */
-    private ExerciseBean exerciseBean;
+    private final ExerciseBean exerciseBean;
 
     /**
      * Constructor for SubmissionUploadBean.
@@ -218,6 +218,11 @@ public class SubmissionUploadBean implements Serializable {
         }
     }
 
+    /**
+     * Gets the checker results.
+     *
+     * @return the checker list.
+     */
     public List<CheckerResult> getCheckerResults() {
         return checkerResults;
     }

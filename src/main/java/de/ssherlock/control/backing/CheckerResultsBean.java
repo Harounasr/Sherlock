@@ -71,7 +71,7 @@ public class CheckerResultsBean implements Serializable {
       try {
           submissionService.getSubmission(submission);
           logger.severe("Error fetching submission. Non-existent submission ID: " + submission.getId());
-      } catch(BusinessNonExistentSubmissionException e) {
+      } catch (BusinessNonExistentSubmissionException e) {
           throw new RuntimeException("Failed to fetch submission", e);
       }
       checkerResults = submission.getCheckerResults();

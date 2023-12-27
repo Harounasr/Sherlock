@@ -87,7 +87,7 @@ public class AdminSettingsBean implements Serializable {
     public void uploadLogo() {
         try {
             this.systemSettings.setLogo(uploadedLogo.getInputStream().readAllBytes());
-        } catch(IOException e) {
+        } catch (IOException e) {
             logger.severe("Upload Logo failed");
         }
     }
