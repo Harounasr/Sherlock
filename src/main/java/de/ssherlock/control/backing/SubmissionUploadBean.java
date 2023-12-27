@@ -83,6 +83,7 @@ public class SubmissionUploadBean implements Serializable {
      * @param appSession The active session (Injected).
      * @param submissionService The service handling submission-related operations (Injected).
      * @param checkerService The service handling checker-related operations (Injected).
+     * @param exerciseBean   The parent Exercise bean (Injected).
      */
     @Inject
     public SubmissionUploadBean(

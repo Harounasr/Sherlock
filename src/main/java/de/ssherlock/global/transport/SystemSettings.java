@@ -38,7 +38,7 @@ public class SystemSettings implements Serializable {
     private String imprint;
 
     /** The  contact_information displayed in the footer.*/
-    private String contact_information;
+    private String contactInformation;
 
     /** Instantiates new System settings. */
     public SystemSettings() {}
@@ -159,15 +159,15 @@ public class SystemSettings implements Serializable {
      * @param contactInformation the contactInformation text
      */
     public void setContactInformation(String contactInformation) {
-        this.contact_information = contactInformation;
+        this.contactInformation = contactInformation;
     }
 
-    /** Gets the contact_information.
+    /** Gets the contactInformation.
      *
-     * @return contact_information
+     * @return contactInformation
      */
     public String getContactInformation() {
-        return this.contact_information;
+        return this.contactInformation;
     }
 
     /**
