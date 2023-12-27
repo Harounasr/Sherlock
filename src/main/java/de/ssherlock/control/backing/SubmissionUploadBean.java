@@ -117,7 +117,6 @@ public class SubmissionUploadBean implements Serializable {
         if (archiveFile == null) {
             return;
         }
-
         submissionFiles = new ArrayList<>();
         try {
             submissionFiles = ZipUtils.unzipSubmissionArchive(archiveFile);
