@@ -34,7 +34,7 @@ public class FacultyExistsValidator implements Validator<String> {
      * Constructs a FacultyExistsValidator.
      *
      * @param logger The logger instance for this class.
-     * @param systemService The system service for system-related operations.
+     * @param facultyService The faculty service for faculty-related operations.
      */
     @Inject
     public FacultyExistsValidator(SerializableLogger logger, FacultyService facultyService) {
