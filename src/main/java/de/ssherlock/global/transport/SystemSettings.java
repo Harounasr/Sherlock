@@ -156,7 +156,7 @@ public class SystemSettings implements Serializable {
 
     /** Sets the contactInformation.
      *
-     * @param contactInformation the contactInformation text
+     * @param contactInformation the contactInformation text.
      */
     public void setContactInformation(String contactInformation) {
         this.contactInformation = contactInformation;
