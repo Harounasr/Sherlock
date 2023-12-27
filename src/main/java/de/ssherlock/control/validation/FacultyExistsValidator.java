@@ -27,7 +27,7 @@ public class FacultyExistsValidator implements Validator<String> {
     private final SerializableLogger logger;
 
     /** The system service for system-related operations. */
-    private final FacultyService facultyService ;
+    private final FacultyService facultyService;
 
     /**
      * Constructs a FacultyExistsValidator.
@@ -56,7 +56,7 @@ public class FacultyExistsValidator implements Validator<String> {
         faculty.setName(facultyName);
         if (!facultyService.facultyExists(faculty)) {
             FacesMessage facesMessage =
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Faculty does not exist. " , null);
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Faculty does not exist. ", null);
             throw new ValidatorException(facesMessage);
         }
 
