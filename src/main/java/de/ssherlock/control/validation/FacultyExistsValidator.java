@@ -1,7 +1,6 @@
 package de.ssherlock.control.validation;
 
 import de.ssherlock.business.service.FacultyService;
-import de.ssherlock.business.service.SystemService;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Faculty;
 import jakarta.enterprise.context.Dependent;
