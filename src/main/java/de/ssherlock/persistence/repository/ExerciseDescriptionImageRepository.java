@@ -26,4 +26,9 @@ public interface ExerciseDescriptionImageRepository {
    */
   ExerciseDescriptionImage getExerciseDescriptionImage(ExerciseDescriptionImage exerciseDescriptionImage)
       throws PersistenceNonExistentImageException;
+
+    /**
+     * Deletes all the unused exercise Images from the database.
+     */
+  void cleanUnusedImages();
 }
