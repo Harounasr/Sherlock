@@ -41,7 +41,7 @@ public class MaintenanceProcessExecutor extends ScheduledThreadPoolExecutor {
         this.scheduleAtFixedRate(this::executeEmailNotifications,
                                   0, MAINTENANCE_RATE, TimeUnit.SECONDS);
         this.scheduleWithFixedDelay(this::executeCleanUnverifiedUsers,
-                                    0, CLEAN_INTERVAL,TimeUnit.SECONDS);
+                                    0, CLEAN_INTERVAL, TimeUnit.SECONDS);
         this.scheduleWithFixedDelay(this::executeCleanUnusedImages,
                                     0, CLEAN_INTERVAL, TimeUnit.SECONDS);
     }

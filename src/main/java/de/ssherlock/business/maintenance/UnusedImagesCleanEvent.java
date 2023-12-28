@@ -4,7 +4,6 @@ import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.persistence.connection.ConnectionPool;
 import de.ssherlock.persistence.repository.ExerciseDescriptionImageRepository;
-import de.ssherlock.persistence.repository.ExerciseDescriptionImageRepositoryPsql;
 import de.ssherlock.persistence.repository.RepositoryFactory;
 import de.ssherlock.persistence.repository.RepositoryType;
 import jakarta.inject.Inject;
