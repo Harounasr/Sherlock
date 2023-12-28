@@ -38,7 +38,7 @@ public class UnusedImagesCleanEvent {
         Connection connection = connectionPool.getConnection();
         ExerciseDescriptionImageRepository exerciseDescriptionImageRepository =
                 RepositoryFactory.getExerciseDescriptionImageRepository(RepositoryType.POSTGRESQL, connection);
-
+        exerciseDescriptionImageRepository.cleanUnusedImages();
     }
 
     /**
