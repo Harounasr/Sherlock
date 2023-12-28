@@ -2,7 +2,8 @@ package de.ssherlock.business.maintenance;
 import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
-//import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 
 
 /**
@@ -27,8 +28,8 @@ public class MaintenanceProcessExecutor extends ScheduledThreadPoolExecutor {
     private static final int MAINTENANCE_RATE = 60 * 60; // Execute every hour
 
 
-    /** The interval at which the clean unverified users task is executed. */
-    private static final int CLEAN_UNVERIFIED_USERS_INTERVAL = 60 * 60 * 3; // Execute every 3 hours
+    /** The interval at which the clean task is executed. */
+    private static final int CLEAN_INTERVAL = 60 * 60 * 3; // Execute every 3 hours
 
     /** Constructs a new MaintenanceProcessExecutor. */
     public MaintenanceProcessExecutor() {
@@ -37,28 +38,31 @@ public class MaintenanceProcessExecutor extends ScheduledThreadPoolExecutor {
 
     /** Initializes a thread. */
     public void init() {
-        //  this.scheduleAtFixedRate(this::executeEmailNotifications,
-        //                          0, MAINTENANCE_RATE, TimeUnit.SECONDS);
-
-        // this.scheduleWithFixedDelay(this::executeCleanUnverifiedUsers,
-        //                       0, CLEAN_UNVERIFIED_USERS_INTERVAL,TimeUnit.SECONDS);
+        this.scheduleAtFixedRate(this::executeEmailNotifications,
+                                  0, MAINTENANCE_RATE, TimeUnit.SECONDS);
+        this.scheduleWithFixedDelay(this::executeCleanUnverifiedUsers,
+                                    0, CLEAN_INTERVAL,TimeUnit.SECONDS);
+        this.scheduleWithFixedDelay(this::executeCleanUnusedImages,
+                                    0, CLEAN_INTERVAL, TimeUnit.SECONDS);
     }
 
     /** Destroys a thread. */
     public void destroy() {
-      /* try {
+      try {
           this.shutdown();
         this.awaitTermination(DESTROY_TIMEOUT, TimeUnit.SECONDS);
       } catch (InterruptedException e) {
-          LOGGER.log(Level.INFO,"Error while destroying MaintenanceProcessExecutor" + e);
+          LOGGER.log(Level.INFO, "Error while destroying MaintenanceProcessExecutor" + e);
           Thread.currentThread().interrupt();
       }
-      */
     }
+
+    /**
+     * Executes send email notification task.
+     */
      private void executeEmailNotifications() {
          SendEmailNotificationEvent sendEmailNotificationEvent = new SendEmailNotificationEvent();
          sendEmailNotificationEvent.sendEmailNotifications();
-
      }
 
      /**
@@ -67,5 +71,13 @@ public class MaintenanceProcessExecutor extends ScheduledThreadPoolExecutor {
      private void executeCleanUnverifiedUsers() {
         UnverifiedUsersCleanEvent unverifiedUsersCleanEvent = new UnverifiedUsersCleanEvent();
         unverifiedUsersCleanEvent.cleanUnverifiedUsers();
+    }
+
+    /**
+     * Executes clean unused images task.
+     */
+    private void executeCleanUnusedImages() {
+        UnusedImagesCleanEvent unusedImagesCleanEvent = new UnusedImagesCleanEvent();
+        unusedImagesCleanEvent.cleanUnusedImages();
     }
 }
