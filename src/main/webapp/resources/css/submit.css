@@ -1,0 +1,18 @@
+.card {
+  margin-bottom: 10px;
+}
+
+.card-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.checker-name {
+  order: 1;
+}
+
+.checker-result {
+  order: 2;
+}
+
