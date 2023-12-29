@@ -205,4 +205,22 @@ public class TestateBean implements Serializable {
     public void setGrades(List<Integer> grades) {
         this.grades = grades;
     }
+
+    /**
+     * Gets the files.
+     *
+     * @return The files.
+     */
+    public List<List<Object[]>> getFiles() {
+        return files;
+    }
+
+    /**
+     * Sets the files.
+     *
+     * @param files The files.
+     */
+    public void setFiles(List<List<Object[]>> files) {
+        this.files = files;
+    }
 }
