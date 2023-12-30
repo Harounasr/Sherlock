@@ -1,8 +1,12 @@
 package de.ssherlock.control.backing;
 
+import de.ssherlock.business.exception.BusinessNonExistentUserException;
 import de.ssherlock.business.service.UserService;
+import de.ssherlock.control.notification.Notification;
+import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
+import de.ssherlock.global.transport.SystemRole;
 import de.ssherlock.global.transport.User;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
@@ -11,7 +15,10 @@ import jakarta.inject.Named;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Backing bean for the adminUserPagination.xhtml facelet.
@@ -31,7 +38,7 @@ public class AdminUserPaginationBean extends AbstractPaginationBean implements S
     /**
      * Page size of the pagination.
      */
-    private static final int PAGE_SIZE = 20;
+    private static final int PAGE_SIZE = 10;
 
     /**
      * The {@code Logger} instance to be used in this class.
@@ -54,6 +61,11 @@ public class AdminUserPaginationBean extends AbstractPaginationBean implements S
     private List<User> users;
 
     /**
+     * The selected roles.
+     */
+    private Map<String, String> selectedRole;
+
+    /**
      * Constructs an AdminUserPaginationBean.
      *
      * @param logger      The logger used for logging within this class (Injected).
@@ -73,9 +85,29 @@ public class AdminUserPaginationBean extends AbstractPaginationBean implements S
      */
     @PostConstruct
     public void initialize() {
-        loadData();
         getPagination().setPageSize(PAGE_SIZE);
+        getPagination().setSortBy("systemrole");
+        users = userService.getUsers(getPagination());
         getPagination().setLastIndex(users.size() - 1);
+        selectedRole = new HashMap<>();
+        for (User user : users) {
+            selectedRole.put(user.getUsername(), user.getSystemRole().toString());
+        }
+    }
+
+    /**
+     * Changes the role of a selected user in the UI.
+     *
+     * @param user The user.
+     */
+    public void changeUserRole(User user) {
+        user.setSystemRole(SystemRole.valueOf(selectedRole.get(user.getUsername())));
+        try {
+            userService.updateUser(user);
+        } catch (BusinessNonExistentUserException e) {
+            Notification notification = new Notification("Update failed", NotificationType.ERROR);
+            notification.generateUIMessage();
+        }
     }
 
     /**
@@ -114,5 +146,32 @@ public class AdminUserPaginationBean extends AbstractPaginationBean implements S
     @Override
     public void loadData() {
         users = userService.getUsers(getPagination());
+    }
+
+    /**
+     * Gets selected role.
+     *
+     * @return the selected role
+     */
+    public Map<String, String> getSelectedRole() {
+        return selectedRole;
+    }
+
+    /**
+     * Sets selected role.
+     *
+     * @param selectedRole the selected role
+     */
+    public void setSelectedRole(Map<String, String> selectedRole) {
+        this.selectedRole = selectedRole;
+    }
+
+    /**
+     * Gets available roles.
+     *
+     * @return the available roles
+     */
+    public List<SystemRole> getAvailableRoles() {
+        return Arrays.asList(SystemRole.values());
     }
 }
