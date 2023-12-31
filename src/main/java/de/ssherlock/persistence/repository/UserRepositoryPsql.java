@@ -385,4 +385,21 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void deleteUnverifiedUsers() {
+        String sqlQuery = """
+                          DELETE FROM "user"
+                          WHERE expiry_date < (SELECT CURRENT_TIMESTAMP)
+                          AND user_role = 'NOT_REGISTERED'
+                          """;
+        try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.log(Level.INFO, "Could not delete user.");
+        }
+    }
 }

@@ -29,7 +29,7 @@ public class MaintenanceProcessExecutor extends ScheduledThreadPoolExecutor {
 
 
     /** The interval at which the clean task is executed. */
-    private static final int CLEAN_INTERVAL = 60 * 60 * 24; // Execute every 3 hours
+    private static final int CLEAN_INTERVAL = 60 * 60 * 24; // Execute every 24 hours
 
     /** Constructs a new MaintenanceProcessExecutor. */
     public MaintenanceProcessExecutor() {
