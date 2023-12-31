@@ -77,4 +77,24 @@ public class ExerciseDescriptionImageRepositoryPsql extends RepositoryPsql
         logger.fine("Successfully executed query to get image with id: " + exerciseDescriptionImage.getUUID() + ".");
         return exerciseDescriptionImage;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void cleanUnusedImages() {
+        String sqlQuery = """
+                          DELETE FROM exercise_image
+                          WHERE NOT EXISTS (
+                              SELECT 1
+                              FROM exercise
+                              WHERE description ILIKE '%' || exercise_image.uuid || '%'
+                          );
+                          """;
+        try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
