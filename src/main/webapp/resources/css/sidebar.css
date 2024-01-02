@@ -3,7 +3,7 @@ html, body, .container-fluid, .row {
 }
 
 .sidebar {
-  background-color:  rgb(128,128,100);
+  background-color: var(--primary-color, #ffffff);
   height: 100%;
 }
 
