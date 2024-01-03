@@ -356,9 +356,9 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
     public void updateCourseRole(User user, Course course, CourseRole courseRole) {
         if (courseRole == CourseRole.NONE) {
             String sqlQuery = """
-                          DELETE FROM participates
-                          WHERE user_id = ? AND course_id = ?;
-                          """;
+                              DELETE FROM participates
+                              WHERE user_id = ? AND course_id = ?;
+                              """;
             try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
                 statement.setLong(1, user.getId());
                 statement.setLong(2, course.getId());
@@ -400,6 +400,22 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
             statement.executeUpdate();
         } catch (SQLException e) {
             logger.log(Level.INFO, "Could not delete user.");
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+
+    public void resetPasswordAttempts() {
+        String sqlQuery = """
+                          UPDATE "user"
+                          SET failed_login_attempts = 0;
+                          """;
+        try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.log(Level.INFO, "Could not Reset Password Attempts.");
         }
     }
 }
