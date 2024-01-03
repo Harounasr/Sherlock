@@ -25,6 +25,9 @@ public class ResetPasswordAttemptsEvent {
      */
     public ResetPasswordAttemptsEvent() {}
 
+    /**
+     * Resets the numbers of failed logins to zero.
+     */
     public void resetPasswordAttempts() {
         Connection connection = connectionPool.getConnection();
         UserRepository userRepository = RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
