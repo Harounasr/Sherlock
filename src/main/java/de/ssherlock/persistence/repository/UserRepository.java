@@ -102,4 +102,8 @@ public interface UserRepository {
      */
     void updateCourseRole(User user, Course course, CourseRole courseRole);
 
+    /**
+     * Deletes the users which have not been verified for 3 days.
+     */
+    void deleteUnverifiedUsers();
 }
