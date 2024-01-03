@@ -10,6 +10,7 @@ import java.sql.Connection;
 
 /**
  * Resets the Password Attempts for every user every hour.
+ *
  * @author Lennart Hohls
  */
 public class ResetPasswordAttemptsEvent {
@@ -22,11 +23,11 @@ public class ResetPasswordAttemptsEvent {
     /**
      * Constructs a new ResetPasswordAttemptsEvent.
      */
-    public ResetPasswordAttemptsEvent(){}
+    public ResetPasswordAttemptsEvent() {}
 
-    public void resetPasswordAttempts(){
+    public void resetPasswordAttempts() {
         Connection connection = connectionPool.getConnection();
-        UserRepository userRepository = RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL,connection);
+        UserRepository userRepository = RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
         userRepository.resetPasswordAttempts();
         connectionPool.releaseConnection(connection);
     }
@@ -40,7 +41,9 @@ public class ResetPasswordAttemptsEvent {
         return false;
     }
 
-    /** Shuts down the SendEmailNotificationEvent. */
+    /**
+     * Shuts down the SendEmailNotificationEvent.
+     */
     public void shutdown() {}
 }
 
