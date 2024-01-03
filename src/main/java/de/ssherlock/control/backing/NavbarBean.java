@@ -118,7 +118,7 @@ public class NavbarBean implements Serializable {
    * @return The destination view for help.
    */
   public String navigateToHelp() {
-    return "/view/public/registration.xhtml";
+    return "/view/public/help.xhtml";
   }
 
   /**
