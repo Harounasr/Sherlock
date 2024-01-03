@@ -402,4 +402,20 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
             logger.log(Level.INFO, "Could not delete user.");
         }
     }
+
+    /**
+     * {@inheritDoc}
+     */
+
+    public void resetPasswordAttempts(){
+        String sqlQuery = """
+                          UPDATE "user"
+                          SET failed_login_attempts = 0;
+                          """;
+        try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
+                statement.executeUpdate();
+            } catch (SQLException e) {
+            logger.log(Level.INFO, "Could not Reset Password Attempts.");
+        }
+    }
 }

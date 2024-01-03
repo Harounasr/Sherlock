@@ -35,6 +35,7 @@ public class UnverifiedUsersCleanEvent {
       Connection connection = connectionPool.getConnection();
       UserRepository userRepository = RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
       userRepository.deleteUnverifiedUsers();
+      connectionPool.releaseConnection(connection);
   }
 
   /**

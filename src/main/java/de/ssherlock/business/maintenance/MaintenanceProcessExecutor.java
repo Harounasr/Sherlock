@@ -44,6 +44,8 @@ public class MaintenanceProcessExecutor extends ScheduledThreadPoolExecutor {
                                     0, CLEAN_INTERVAL, TimeUnit.SECONDS);
         this.scheduleWithFixedDelay(this::executeCleanUnusedImages,
                                     0, CLEAN_INTERVAL, TimeUnit.SECONDS);
+        this.scheduleWithFixedDelay(this::resetPasswordAttempts,
+                                    0,MAINTENANCE_RATE,TimeUnit.SECONDS);
     }
 
     /** Destroys a thread. */
@@ -79,5 +81,13 @@ public class MaintenanceProcessExecutor extends ScheduledThreadPoolExecutor {
     private void executeCleanUnusedImages() {
         UnusedImagesCleanEvent unusedImagesCleanEvent = new UnusedImagesCleanEvent();
         unusedImagesCleanEvent.cleanUnusedImages();
+    }
+
+    /**
+     * Executes Reset Password Attempts.
+     */
+    private void resetPasswordAttempts(){
+        ResetPasswordAttemptsEvent resetPasswordAttemptsEvent = new ResetPasswordAttemptsEvent();
+        resetPasswordAttemptsEvent.resetPasswordAttempts();
     }
 }
