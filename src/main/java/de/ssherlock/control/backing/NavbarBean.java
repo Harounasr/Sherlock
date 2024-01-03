@@ -13,6 +13,7 @@ import jakarta.inject.Named;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Base64;
+import java.util.Objects;
 
 /**
  * Backing bean for the navbar.xhtml facelet.
@@ -43,15 +44,6 @@ public class NavbarBean implements Serializable {
      * The system service for system-related operations.
      */
     private final SystemService systemService;
-    /**
-     * Boolean which list to display.
-     */
-    private boolean seeAllCourses;
-
-    /**
-     * The current system settings.
-     */
-    private SystemSettings systemSettings;
 
     /**
      * The current facelet as a string.
@@ -97,7 +89,6 @@ public class NavbarBean implements Serializable {
      * @return The destination view for all courses.
      */
     public String navigateToAllCourses() {
-        seeAllCourses = true;
         return "/view/registered/coursePagination.xhtml?all=true";
     }
 
@@ -107,7 +98,6 @@ public class NavbarBean implements Serializable {
      * @return The destination view for user's courses.
      */
     public String navigateToMyCourses() {
-        seeAllCourses = false;
         return "/view/registered/coursePagination.xhtml?all=false";
     }
 
@@ -148,24 +138,6 @@ public class NavbarBean implements Serializable {
     }
 
     /**
-     * Gets system settings.
-     *
-     * @return the system settings
-     */
-    public SystemSettings getSystemSettings() {
-        return systemSettings;
-    }
-
-    /**
-     * Sets system settings.
-     *
-     * @param systemSettings the system settings
-     */
-    public void setSystemSettings(SystemSettings systemSettings) {
-        this.systemSettings = systemSettings;
-    }
-
-    /**
      * Getter for the appSession.
      *
      * @return AppSession
@@ -184,30 +156,49 @@ public class NavbarBean implements Serializable {
     }
 
     /**
-     * Getter for the boolean.
+     * Is my courses boolean.
      *
-     * @return boolean
+     * @return the boolean
      */
-    public boolean isSeeAllCourses() {
-        return seeAllCourses;
+    public boolean isMyCourses() {
+        boolean all = Boolean.parseBoolean(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("all"));
+        return Objects.equals(currentFacelet, "coursePagination") && !all;
     }
 
     /**
-     * Setter for the boolean.
+     * Is all courses boolean.
      *
-     * @param seeAllCourses boolean
+     * @return the boolean
      */
-
-    public void setSeeAllCourses(boolean seeAllCourses) {
-        this.seeAllCourses = seeAllCourses;
+    public boolean isAllCourses() {
+        boolean all = Boolean.parseBoolean(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("all"));
+        return Objects.equals(currentFacelet, "coursePagination") && all;
     }
 
     /**
-     * Gets current facelet.
+     * Is admin boolean.
      *
-     * @return the current facelet
+     * @return the boolean
      */
-    public String getCurrentFacelet() {
-        return currentFacelet;
+    public boolean isAdmin() {
+        return Objects.equals(currentFacelet, "admin");
+    }
+
+    /**
+     * Is help boolean.
+     *
+     * @return the boolean
+     */
+    public boolean isHelp() {
+        return Objects.equals(currentFacelet, "help");
+    }
+
+    /**
+     * Is profile boolean.
+     *
+     * @return the boolean
+     */
+    public boolean isProfile() {
+        return Objects.equals(currentFacelet, "profile");
     }
 }

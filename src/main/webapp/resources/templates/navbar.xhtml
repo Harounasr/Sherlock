@@ -19,64 +19,67 @@
         <a class="navbar-brand">
             <h:graphicImage value="data:image/png;base64,#{navbarBean.logoBase64}" styleClass="img-fluid"/>
         </a>
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <h:form>
-                    <h:commandButton value="My Courses"
-                                     styleClass="btn btn-primary nav-link
-                                     #{navbarBean.currentFacelet == 'coursePagination' ? 'nav-item-selected' : ''}"
-                                     action="#{navbarBean.navigateToMyCourses()}"/>
-                </h:form>
-            </li>
-            <li class="nav-item">
-                <h:form>
-                    <h:commandButton value="All Courses"
-                                     styleClass="btn btn-primary nav-link
-                                     #{navbarBean.currentFacelet == 'coursePagination' ? 'nav-item-selected' : ''}"
-                                     action="#{navbarBean.navigateToAllCourses()}"/>
-                </h:form>
-            </li>
-            <li class="nav-item">
-                <h:form rendered="#{navbarBean.appSession.user.systemRole.toString() == 'ADMINISTRATOR'}">
-                    <h:commandButton value="Admin"
-                                     styleClass="btn btn-primary nav-link #{navbarBean.currentFacelet == 'admin' ? 'nav-item-selected' : ''}"
-                                     action="#{navbarBean.navigateToAdminSettings()}"/>
-                </h:form>
-            </li>
-            <li class="nav-item">
-                <h:form rendered="#{navbarBean.appSession.user.systemRole.toString() == 'ADMINISTRATOR'}">
-                    <h:commandButton value="Checkers"
-                                     styleClass="btn btn-primary nav-link #{navbarBean.currentFacelet == 'checkerList' ? 'nav-item-selected' : ''}"
-                                     action="#{navbarBean.navigateToCheckers()}"/>
-                </h:form>
-            </li>
-            <li class="nav-item">
-                <h:form>
-                    <h:commandButton value="Profile"
-                                     styleClass="btn btn-primary nav-link #{navbarBean.currentFacelet == 'profile' ? 'nav-item-selected' : ''}"
-                                     action="#{navbarBean.navigateToProfile()}"/>
-                </h:form>
-            </li>
-            <li class="nav-item">
-                <h:form>
-                    <h:commandButton styleClass="btn btn-primary nav-link #{navbarBean.currentFacelet == 'help' ? 'nav-link-selected' : ''}"
-                                     action="#{navbarBean.navigateToHelp()}">
-                        <i class="bi bi-question-circle secondary-color-background">
+        <div class="navbar-buttons">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <h:form>
+                        <h:commandButton value="My Courses"
+                                         styleClass="btn nav-link #{navbarBean.myCourses ? 'nav-item-selected' : ''}"
+                                         action="#{navbarBean.navigateToMyCourses()}"/>
+                    </h:form>
+                </li>
+                <li class="nav-item">
+                    <h:form>
+                        <h:commandButton value="All Courses"
+                                         styleClass="btn nav-link #{navbarBean.allCourses ? 'nav-item-selected' : ''}"
+                                         action="#{navbarBean.navigateToAllCourses()}"/>
+                    </h:form>
+                </li>
+                <li class="nav-item">
+                    <h:form rendered="#{navbarBean.appSession.user.systemRole.toString() == 'ADMINISTRATOR'}">
+                        <h:commandButton value="Admin"
+                                         styleClass="btn nav-link #{navbarBean.admin ? 'nav-item-selected' : ''}"
+                                         action="#{navbarBean.navigateToAdminSettings()}"/>
+                    </h:form>
+                </li>
+                <li class="nav-item">
+                    <h:form rendered="#{navbarBean.appSession.user.systemRole.toString() == 'ADMINISTRATOR'}">
+                        <h:commandButton value="Checkers"
+                                         styleClass="btn nav-link "
+                                         action="#{navbarBean.navigateToCheckers()}"/>
+                    </h:form>
+                </li>
 
-                        </i>
-                    </h:commandButton>
-                </h:form>
-            </li>
-            <li class="nav-item">
-                <h:form>
-                    <h:commandButton value="Logout" styleClass="btn btn-primary nav-link" action="#{navbarBean.logout()}">
-                        <i class="bi bi-box-arrow-right secondary-color-background">
-
-                        </i>
-                    </h:commandButton>
-                </h:form>
-            </li>
-        </ul>
+            </ul>
+        </div>
+        <div class="navbar-links">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <h:form>
+                        <h:commandLink styleClass="btn nav-icon #{navbarBean.help ? 'nav-icon-selected' : ''}"
+                                       action="#{navbarBean.navigateToHelp()}">
+                            <i class="bi bi-question-circle" />
+                        </h:commandLink>
+                    </h:form>
+                </li>
+                <li class="nav-item">
+                    <h:form>
+                        <h:commandLink styleClass="btn nav-icon #{navbarBean.profile ? 'nav-icon-selected' : ''}"
+                                         action="#{navbarBean.navigateToProfile()}">
+                            <i class="bi bi-person"/>
+                        </h:commandLink>
+                    </h:form>
+                </li>
+                <li class="nav-item">
+                    <h:form>
+                        <h:commandLink styleClass="btn nav-icon"
+                                       action="#{navbarBean.logout()}">
+                            <i class="bi bi-box-arrow-right"/>
+                        </h:commandLink>
+                    </h:form>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
 </body>
