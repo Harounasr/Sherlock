@@ -47,6 +47,6 @@ public class UnverifiedUsersCleanEvent {
     return false;
   }
 
-  /** Shuts down the SendEmailNotificationEvent. */
+  /** Shuts down the UnverifiedUsersCleanEvent. */
   public void shutdown() {}
 }

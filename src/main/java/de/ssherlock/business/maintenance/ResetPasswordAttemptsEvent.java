@@ -33,16 +33,16 @@ public class ResetPasswordAttemptsEvent {
     }
 
     /**
-     * Checks if UnverifiedUsersCleanEvent is currently running.
+     * Checks if ResetPasswordAttemptsEvent is currently running.
      *
-     * @return true/false according to the state of UnverifiedUsersCleanEvent.
+     * @return true/false according to the state of ResetPasswordAttemptsEvent.
      */
     public boolean isRunning() {
         return false;
     }
 
     /**
-     * Shuts down the SendEmailNotificationEvent.
+     * Shuts down the ResetPasswordAttemptsEvent.
      */
     public void shutdown() {}
 }
