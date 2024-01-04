@@ -165,10 +165,10 @@ public class Configuration implements Serializable {
                 prop.load(dbstream);
                 prop.load(mailstream);
             } else {
-                throw new ConfigNotReadableException("The configuration file is not readable");
+                throw new ConfigNotReadableException("The configuration file is not readable.");
             }
         } catch (IOException e) {
-            throw new ConfigNotReadableException("Error reading the configuration file", e);
+            throw new ConfigNotReadableException("Error reading the configuration file.");
         }
 
         return prop;
