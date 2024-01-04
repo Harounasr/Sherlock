@@ -45,6 +45,8 @@
         <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
         <jsoup.version>1.17.1</jsoup.version>
+        <jquery.version>3.7.1</jquery.version>
+        <popperjs.version>1.12.9-1</popperjs.version>
     </properties>
 
     <dependencies>
@@ -175,6 +177,18 @@
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
             <version>${jsoup.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery</artifactId>
+            <version>${jquery.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>popper.js</artifactId>
+            <version>${popperjs.version}</version>
         </dependency>
     </dependencies>
 

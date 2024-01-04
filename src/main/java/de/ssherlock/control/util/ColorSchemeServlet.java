@@ -29,7 +29,6 @@ public class ColorSchemeServlet extends HttpServlet {
     /**
      * System Settings Service to get the color scheme.
      */
-
     @Inject
     private SystemService systemService;
 
@@ -50,7 +49,7 @@ public class ColorSchemeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
-        logger.info("Request for color scheme received.");
+        logger.finer("Request for color scheme received.");
         SystemSettings systemSettings = systemService.getSystemSettings();
         response.setContentType("text/css");
         PrintWriter out = response.getWriter();
@@ -58,7 +57,7 @@ public class ColorSchemeServlet extends HttpServlet {
         out.println("  --primary-color: #" + systemSettings.getPrimaryColorHex() + ";");
         out.println("  --secondary-color: #" + systemSettings.getSecondaryColorHex() + ";");
         out.println("}");
-        logger.info("Request for color scheme handled.");
+        logger.finer("Request for color scheme handled.");
     }
 
 }

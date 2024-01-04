@@ -29,12 +29,12 @@
                                            placeholder="Enter your password"/>
                             <h:message for="password" id="loginError" errorStyle="text-emphasis-color: darkred"/>
                         </div>
-                        <h:commandButton id="login" value="Login" styleClass="btn btn-primary btn-block secondary-color-background"
+                        <h:commandButton id="login" value="Login" styleClass="btn text-black btn-block secondary-color-background"
                                          action="#{loginBean.login}"/>
-                        <h:commandButton id="register" value="Register" styleClass="btn btn-primary btn-block secondary-color-background"
+                        <h:commandButton id="register" value="Register" styleClass="btn text-black btn-block secondary-color-background"
                                          action="#{loginBean.registerClicked}"/>
                         <h:commandButton id="passwordForgotten" value="Forgot password"
-                                         styleClass="btn btn-primary btn-block secondary-color-background"
+                                         styleClass="btn text-black btn-block secondary-color-background"
                                          action="#{loginBean.passwordForgottenClicked}"/>
                         <h:messages/>
                     </div>

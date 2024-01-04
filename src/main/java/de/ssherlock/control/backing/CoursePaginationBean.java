@@ -4,6 +4,8 @@ import de.ssherlock.business.service.CourseService;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Course;
+import de.ssherlock.global.transport.CourseRole;
+import de.ssherlock.global.transport.User;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
@@ -191,5 +193,17 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
      */
     public void setGetAllCoursesBool(boolean bool) {
         getAllCoursesBool = bool;
+    }
+
+    /**
+     * Checks whether user is member of course.
+     *
+     * @param course The course.
+     * @return Whether user is course member.
+     */
+    public boolean isInCourse(Course course) {
+        User user = appSession.getUser();
+        Map<Long, CourseRole> courseRoles = user.getCourseRoles();
+        return courseRoles.get(course.getId()) != null && courseRoles.get(course.getId()) != CourseRole.NONE;
     }
 }

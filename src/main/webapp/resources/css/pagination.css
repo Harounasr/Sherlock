@@ -1,0 +1,4 @@
+.pagination-button {
+  background-color: var(--secondary-color, #ffffff);
+  color: #565656;
+}
