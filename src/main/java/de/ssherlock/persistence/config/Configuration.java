@@ -72,11 +72,6 @@ public class Configuration implements Serializable {
     private String dbConnectionPrefix;
 
     /**
-     * Flag indicating whether SSL is enabled for database connections.
-     */
-    private boolean sslEnabled;
-
-    /**
      * Email address from which emails will be sent.
      */
     private String mailFrom;
@@ -240,15 +235,6 @@ public class Configuration implements Serializable {
      */
     public long getDbTimeoutMillis() {
         return dbTimeoutMillis;
-    }
-
-    /**
-     * Checks if SSL is enabled for database connections.
-     *
-     * @return True if SSL is enabled, false otherwise.
-     */
-    public boolean isSslEnabled() {
-        return sslEnabled;
     }
 
     /**
