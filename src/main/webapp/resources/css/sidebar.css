@@ -17,25 +17,31 @@ html, body, .container-fluid, .row {
   list-style-type: none;
 }
 
-.nav-item-sidebar {
+.nav-item-sidebar, .nav-item-sidebar-selected {
   display: flex;
+  border-radius: 5px;
 }
 
-.nav-item-sidebar .btn {
+.nav-item-sidebar .btn, .nav-item-sidebar-selected .btn {
   font-size: 20px;
   font-weight: bold;
   color: var(--secondary-color, #ffffff);
   background-color: transparent;
-  height: 100px;
+  height: fit-content;
   border: none;
-  width: 200px;
   text-align: left;
+}
+
+.nav-item-sidebar-selected .btn:hover {
+  background-color: var(--primary-color, #ffffff);
+  border-color: inherit;
+  color: var(--secondary-color, #ffffff);
 }
 
 .nav-item-sidebar .btn:hover, .nav-item-sidebar-selected {
   font-size: 22px;
   transition: 0.2s ease-in-out;
-  background-color: inherit;
+  background-color: var(--primary-color, #ffffff);
   border-color: inherit;
   color: var(--secondary-color, #ffffff);
   filter: brightness(75%);

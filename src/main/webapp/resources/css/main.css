@@ -24,19 +24,19 @@ body {
 }
 
 .primary-color-background {
-  background-color: var(--primary-color, #ffffff);;
+  background-color: var(--primary-color, #ffffff) !important;
 }
 
 .secondary-color-background {
-  background-color: var(--secondary-color, #ffffff);;
+  background-color: var(--secondary-color, #ffffff) !important;
 }
 
-.primary-color-btn {
-  background-color: var(--primary-color, #ffffff);;
-  color: #f4f4f4;
+input.primary-color-btn {
+  background-color: var(--primary-color, #ffffff) !important;
+  color: #f4f4f4 !important;
 }
 
-.secondary-color-btn {
-  background-color: var(--secondary-color, #ffffff);;
-  color: #f4f4f4;
+input.secondary-color-btn {
+  background-color: var(--secondary-color, #ffffff) !important;
+  color: black !important;
 }

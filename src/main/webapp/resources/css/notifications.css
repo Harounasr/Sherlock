@@ -1,0 +1,11 @@
+.popup-notifications {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  border: 1px solid #ddd;
+  background-color: var(--secondary-color, #ffffff);
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
+  display: none;
+  z-index: 1000;
+}

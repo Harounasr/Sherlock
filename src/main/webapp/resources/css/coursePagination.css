@@ -9,7 +9,7 @@ input.join-enter-course-btn {
 input.join-enter-course-btn:hover {
   transition: 0.1s ease-in-out;
   transform: scale(1.05);
-  color: inherit;
+  color: #f4f4f4;
   background-color: var(--primary-color, #ffffff);
   filter: brightness(75%);
 }
