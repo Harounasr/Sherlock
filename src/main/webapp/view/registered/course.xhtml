@@ -15,17 +15,20 @@
             <div class="row h-100">
 
                 <!-- Sidebar -->
-                <div class="col-2 sidebar">
+                <div class="col-1 sidebar">
                     <h:form>
                         <h3>#{courseBean.course.name}</h3>
                         <ul class="sidebar-menu">
-                            <li>
+                            <li class="nav-item-sidebar">
                                 <h:commandButton value="Exercises" action="#{courseBean.setTargetPage('exercisePagination.xhtml')}"
-                                                 styleClass="btn btn-primary"/>
+                                                 styleClass="btn
+                                                 #{courseBean.targetPage == 'exercisePagination.xhtml' ? 'nav-item-sidebar-selected' : ''}"/>
                             </li>
-                            <li>
+                            <li class="nav-item-sidebar">
                                 <h:commandButton rendered="#{courseBean.teacherRights}" value="Users"
-                                                 action="#{courseBean.setTargetPage('courseUserPagination.xhtml')}" styleClass="btn btn-primary"/>
+                                                 action="#{courseBean.setTargetPage('courseUserPagination.xhtml')}"
+                                                 styleClass="btn
+                                                 #{courseBean.targetPage == 'courseUserPagination.xhtml' ? 'nav-item-sidebar-selected' : ''}"/>
                             </li>
                         </ul>
                     </h:form>

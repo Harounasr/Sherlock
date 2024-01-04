@@ -9,7 +9,7 @@ html, body, .container-fluid, .row {
 
 .sidebar-menu {
   list-style-type: none;
-  padding-left: 0;
+  padding: 0;
 }
 
 .sidebar-menu li {
@@ -17,6 +17,26 @@ html, body, .container-fluid, .row {
   list-style-type: none;
 }
 
-.sidebar-button {
+.nav-item-sidebar {
+  display: flex;
+}
 
+.nav-item-sidebar .btn {
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--secondary-color, #ffffff);
+  background-color: transparent;
+  height: 100px;
+  border: none;
+  width: 200px;
+  text-align: left;
+}
+
+.nav-item-sidebar .btn:hover, .nav-item-sidebar-selected {
+  font-size: 22px;
+  transition: 0.2s ease-in-out;
+  background-color: inherit;
+  border-color: inherit;
+  color: var(--secondary-color, #ffffff);
+  filter: brightness(75%);
 }
