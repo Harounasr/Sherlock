@@ -1,6 +1,5 @@
 package de.ssherlock.persistence.config;
 
-import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.persistence.exception.ConfigNotReadableException;
 import jakarta.enterprise.inject.Default;
