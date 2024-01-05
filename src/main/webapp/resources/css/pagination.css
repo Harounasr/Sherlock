@@ -1,4 +1,27 @@
-.pagination-button {
+input.pagination-button {
   background-color: var(--secondary-color, #ffffff);
   color: #565656;
+}
+
+input.pagination-button:disabled {
+  background-color: var(--secondary-color, #ffffff);
+  color: #565656;
+  border: none;
+  filter: opacity(50%);
+}
+
+input.pagination-content-button {
+  background-color: var(--primary-color, #ffffff);
+  color: #f4f4f4;
+  width: 100px;
+  border: none;
+  float: right;
+}
+
+input.pagination-content-button:hover {
+  transition: 0.1s ease-in-out;
+  transform: scale(1.05);
+  color: #f4f4f4;
+  background-color: var(--primary-color, #ffffff);
+  filter: brightness(75%);
 }

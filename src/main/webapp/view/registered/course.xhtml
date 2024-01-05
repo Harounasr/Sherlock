@@ -1,10 +1,11 @@
 <ui:composition
-        xmlns:h="http://xmlns.jcp.org/jsf/html"
-        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="jakarta.faces.html"
+        xmlns:ui="jakarta.faces.facelets"
         xmlns="http://www.w3.org/1999/xhtml"
         template="../../resources/templates/mainTemplate.xhtml">
     <ui:define name="headElements">
         <link rel="stylesheet" href="#{request.contextPath}/resources/css/sidebar.css"/>
+        <link rel="stylesheet" href="#{request.contextPath}/resources/css/exerciseDescription.css"/>
     </ui:define>
     <h:head>
         <ui:define name="title">#{courseBean.course.name}</ui:define>

@@ -89,7 +89,7 @@ public class NavbarBean implements Serializable {
      * @return The destination view for all courses.
      */
     public String navigateToAllCourses() {
-        return "/view/registered/coursePagination.xhtml?all=true";
+        return "/view/registered/coursePagination.xhtml?faces-redirect=true&all=true";
     }
 
     /**
@@ -98,7 +98,7 @@ public class NavbarBean implements Serializable {
      * @return The destination view for user's courses.
      */
     public String navigateToMyCourses() {
-        return "/view/registered/coursePagination.xhtml?all=false";
+        return "/view/registered/coursePagination.xhtml?faces-redirect=true&all=false";
     }
 
     /**
@@ -107,7 +107,7 @@ public class NavbarBean implements Serializable {
      * @return String.
      */
     public String navigateToCheckers() {
-        return "/view/registered/checkerList.xhtml";
+        return "/view/registered/checkerList.xhtml?faces-redirect=true";
     }
 
     /**
@@ -116,7 +116,7 @@ public class NavbarBean implements Serializable {
      * @return The destination view for user's profile.
      */
     public String navigateToProfile() {
-        return "/view/registered/profile.xhtml";
+        return "/view/registered/profile.xhtml?faces-redirect=true";
     }
 
     /**
@@ -125,7 +125,7 @@ public class NavbarBean implements Serializable {
      * @return The destination view for admin settings.
      */
     public String navigateToAdminSettings() {
-        return "/view/admin/admin.xhtml";
+        return "/view/admin/admin.xhtmlfaces-redirect=true";
     }
 
     /**
@@ -134,7 +134,7 @@ public class NavbarBean implements Serializable {
      * @return The destination view for help.
      */
     public String navigateToHelp() {
-        return "/view/public/registration.xhtml";
+        return "/view/public/registration.xhtml?faces-redirect=true";
     }
 
     /**

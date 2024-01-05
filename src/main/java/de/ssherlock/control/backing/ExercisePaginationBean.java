@@ -11,6 +11,7 @@ import jakarta.inject.Named;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -87,7 +88,7 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
     @PostConstruct
     public void initialize() {
         getPagination().setPageSize(PAGE_SIZE);
-        getPagination().setSortBy("name");
+        getPagination().setSortBy("obligatoryDeadline");
         exercises = exerciseService.getExercises(getPagination(), courseBean.getCourse());
         getPagination().setLastIndex(exercises.size() - 1);
     }
@@ -153,5 +154,35 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
      */
     public void setExercise(Exercise exercise) {
         this.exercise = exercise;
+    }
+
+    /**
+     * Checks whether the publish date of the exercise has passed.
+     *
+     * @param exercise The Exercise.
+     * @return Whether the date has passed.
+     */
+    public boolean isPublishDatePast(Exercise exercise) {
+        return exercise.getPublishDate().toInstant().isBefore(Calendar.getInstance().toInstant());
+    }
+
+    /**
+     * Checks whether the recommended deadline of the exercise has passed.
+     *
+     * @param exercise The Exercise.
+     * @return Whether the date has passed.
+     */
+    public boolean isRecommendedDeadlinePast(Exercise exercise) {
+        return exercise.getRecommendedDeadline().toInstant().isBefore(Calendar.getInstance().toInstant());
+    }
+
+    /**
+     * Checks whether the obligatory deadline of the exercise has passed.
+     *
+     * @param exercise The Exercise.
+     * @return Whether the date has passed.
+     */
+    public boolean isObligatoryDeadlinePast(Exercise exercise) {
+        return exercise.getObligatoryDeadline().toInstant().isBefore(Calendar.getInstance().toInstant());
     }
 }

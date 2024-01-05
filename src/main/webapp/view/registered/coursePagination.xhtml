@@ -7,10 +7,6 @@
 
     <ui:define name="headElements">
         <ui:define name="title">My Courses</ui:define>
-        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/css/coursePagination.css"/>
-        <h:outputScript library="webjars" name="bootstrap/5.3.2/js/bootstrap.min.js"/>
-        <h:outputScript library="webjars" name="jquery/3.7.1/jquery.min.js"/>
-        <h:outputScript library="webjars" name="popper.js/1.12.9-1/umd/popper.min.js"/>
     </ui:define>
 
     <ui:define name="content">
@@ -40,7 +36,7 @@
                 <h:column>
                     <f:facet name="header">Join / To Course</f:facet>
                     <h:form>
-                        <h:commandButton value="#{coursePaginationBean.isInCourse(course) ? 'To Course' : 'Join Course'}" action="#{coursePaginationBean.select(course)}" class="btn join-enter-course-btn"/>
+                        <h:commandButton value="#{coursePaginationBean.isInCourse(course) ? 'To Course' : 'Join Course'}" action="#{coursePaginationBean.select(course)}" styleClass="btn pagination-content-button"/>
                     </h:form>
                 </h:column>
             </h:dataTable>
@@ -48,9 +44,7 @@
             <h:form>
                 <comp:pagination backingBean="#{coursePaginationBean}"/>
             </h:form>
-            <h:messages globalOnly="true" styleClass="fade-out"/>
         </div>
-
 
         <div class="modal fade" id="createCourseModal" tabindex="-1" role="dialog" aria-labelledby="createCourseModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -73,7 +67,5 @@
                 </div>
             </div>
         </div>
-
-
     </ui:define>
 </ui:composition>

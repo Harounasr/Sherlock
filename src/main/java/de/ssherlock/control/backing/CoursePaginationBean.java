@@ -39,7 +39,7 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
     /**
      * Page size for the pagination.
      */
-    private static final int PAGE_SIZE = 2;
+    private static final int PAGE_SIZE = 5;
 
     /**
      * Logger for logging within this class.

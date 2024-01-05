@@ -11,6 +11,7 @@ import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.LoginInfo;
 import de.ssherlock.global.transport.User;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
@@ -86,9 +87,9 @@ public class LoginBean {
             return "/view/registered/coursePagination.xhtml?faces-redirect=true&all=true";
         } catch (LoginFailedException | BusinessNonExistentUserException e) {
             logger.log(Level.INFO, "Incorrect password for user " + loginInfo.getUsername());
-            Notification notification =
-                    new Notification(Notification.WRONG_PASSWORD_MSG, NotificationType.ERROR);
+            Notification notification = new Notification(Notification.WRONG_PASSWORD_MSG, NotificationType.ERROR);
             notification.generateUIMessage();
+            logger.info(FacesContext.getCurrentInstance().getMaximumSeverity().toString());
             return "";
         }
     }
