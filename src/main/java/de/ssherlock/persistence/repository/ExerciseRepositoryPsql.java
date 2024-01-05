@@ -18,7 +18,7 @@ import java.util.List;
  *
  * @author Haroun Alswedany
  */
-@SuppressWarnings("checkstyle:MagicNumber")
+@SuppressWarnings({"checkstyle:MagicNumber", "checkstyle:RegexpSingleline"})
 public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRepository {
     /**
      * Logger instance for logging messages related to ExerciseRepositoryPsql.
@@ -42,22 +42,19 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
         String sqlQuery =
                 """
                      INSERT INTO exercise(name, course_id, publish_date, recommended_deadline,
-                         obligatory_deadline)
-                     VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                         obligatory_deadline, description)
+                     VALUES (?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL '7 days', 
+                             CURRENT_TIMESTAMP + INTERVAL '14 days', 'DEFAULTDESCRIPTION')
                 """;
         try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
             statement.setString(1, exercise.getName());
             statement.setLong(2, exercise.getCourseId());
-            statement.setTimestamp(3, exercise.getPublishDate());
-            statement.setTimestamp(4, exercise.getRecommendedDeadline());
-            statement.setTimestamp(5, exercise.getObligatoryDeadline());
-
             statement.executeUpdate();
-            logger.fine(" exercise Successfully added");
         } catch (SQLException e) {
             logger.severe("Error occurred while adding exercise: " + e.getMessage());
         }
     }
+
 
     /**
      * {@inheritDoc}
@@ -140,7 +137,21 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
     @Override
     public List<Exercise> getExercises(Course course) {
         String sqlQuery =
-                "SELECT * FROM course c LEFT JOIN exercise e ON c.id = e.course_id WHERE c.course_name = ?;";
+                "SELECT "
+                + "    c.id AS course_id, "
+                + "    c.course_name, "
+                + "    e.id AS exercise_id, "
+                + "    e.name AS exercise_name, "
+                + "    e.publish_date, "
+                + "    e.recommended_deadline, "
+                + "    e.obligatory_deadline, "
+                + "    e.description "
+                + "FROM "
+                + "    course c "
+                + "LEFT JOIN "
+                + "    exercise e ON c.id = e.course_id "
+                + "WHERE "
+                + "    c.course_name = ?";
         List<Exercise> exercises = new ArrayList<>();
         try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
             statement.setString(1, course.getName());
@@ -148,8 +159,8 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
             if (result.next()) {
                 do {
                     Exercise exercise = new Exercise();
-                    exercise.setId(result.getLong("id"));
-                    exercise.setName(result.getString("name"));
+                    exercise.setId(result.getLong("exercise_id"));
+                    exercise.setName(result.getString("exercise_name"));
                     exercise.setPublishDate(result.getTimestamp("publish_date"));
                     exercise.setRecommendedDeadline(result.getTimestamp("recommended_deadline"));
                     exercise.setObligatoryDeadline(result.getTimestamp("obligatory_deadline"));
@@ -162,4 +173,5 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
         }
         return exercises;
     }
+
 }

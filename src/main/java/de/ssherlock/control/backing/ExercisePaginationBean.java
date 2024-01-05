@@ -5,6 +5,7 @@ import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Exercise;
 import jakarta.annotation.PostConstruct;
+import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -87,6 +88,7 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
      */
     @PostConstruct
     public void initialize() {
+        exercise = new Exercise();
         getPagination().setPageSize(PAGE_SIZE);
         getPagination().setSortBy("obligatoryDeadline");
         exercises = exerciseService.getExercises(getPagination(), courseBean.getCourse());
@@ -100,6 +102,8 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
      * @return The navigation outcome.
      */
     public String select(Exercise exercise) {
+        FacesContext.getCurrentInstance().getExternalContext().getFlash().put("courseID", courseBean.getCourse().getId());
+        logger.log(Level.INFO, "Selected Course: " + courseBean.getCourse().getId());
         logger.info("Selected Exercise: " + exercise.getId());
         return "/view/registered/exercise.xhtml?faces-redirect=true&Id=" + exercise.getId();
     }
@@ -125,10 +129,13 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
     /**
      * Adds an exercise to the database.
      */
-    public void addExercise() {
-        logger.log(Level.INFO, "add new exercise");
+    public String addExercise() {
+        logger.log(Level.INFO, "add new exercise.");
+        exercise.setCourseId(courseBean.getCourse().getId());
         exerciseService.addExercise(exercise);
+        return "/view/registered/course.xhtml?faces-redirect=true&Id=" + courseBean.getCourse().getId();
     }
+
 
     /**
      * {@inheritDoc}
