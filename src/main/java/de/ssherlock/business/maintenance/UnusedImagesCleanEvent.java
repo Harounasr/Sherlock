@@ -28,7 +28,6 @@ public class UnusedImagesCleanEvent {
     private ConnectionPool connectionPool;
 
     /** Constructs a new UnusedImagesCleanEvent. */
-    @Inject
     public UnusedImagesCleanEvent() {
     }
 

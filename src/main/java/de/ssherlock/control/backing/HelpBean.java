@@ -9,7 +9,7 @@ import jakarta.inject.Named;
 /**
  * Backing bean for the help.xhtml facelet.
  *
- * @author Victor Vollmann
+ * @author Lennart Hohls
  */
 @Named
 @RequestScoped

@@ -102,4 +102,13 @@ public interface UserRepository {
      */
     void updateCourseRole(User user, Course course, CourseRole courseRole);
 
+    /**
+     * Deletes the users which have not been verified for 3 days.
+     */
+    void deleteUnverifiedUsers();
+
+    /**
+     * Resets the Number of Attempts to enter a password for every user every hour.
+     */
+    void resetPasswordAttempts();
 }
