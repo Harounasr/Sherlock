@@ -72,7 +72,7 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
                         publish_date = ?,
                         recommended_deadline = ?,
                         obligatory_deadline = ?,
-                        course_name = ?,
+                        course_id = ?,
                         description = ?
                     WHERE id = ?;
                 """;

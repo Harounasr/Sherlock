@@ -65,7 +65,7 @@ section {
 #nav1 {
   flex: 0 0 10%; /* Set the width of nav1 */
   padding: 20px;
-  background: rgb(128, 128, 100);
+  background: var(--primary-color, #ffffff);
   height: 100%;
 }
 

@@ -103,7 +103,7 @@ public class CourseBean implements Serializable {
             throw new NoAccessException("Can not access, as user is not part of this course.");
         }
         teacherRights = userCourseRole == CourseRole.TEACHER || user.getSystemRole() == SystemRole.ADMINISTRATOR;
-        setTargetPage("courseUserPagination.xhtml");
+        setTargetPage("exercisePagination.xhtml");
     }
 
     /**
@@ -115,7 +115,7 @@ public class CourseBean implements Serializable {
         try {
             courseService.removeCourse(course);
             logger.log(Level.INFO, "Course was deleted.");
-            return "/view/registered/coursePagination.xhtml";
+            return "/view/registered/coursePagination.xhtml?faces-redirect=true";
         } catch (BusinessNonExistentCourseException e) {
             logger.log(Level.INFO, "Course could not be deleted.");
             Notification notification =

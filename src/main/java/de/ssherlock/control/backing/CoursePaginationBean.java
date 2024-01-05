@@ -4,8 +4,9 @@ import de.ssherlock.business.service.CourseService;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Course;
+import de.ssherlock.global.transport.CourseRole;
+import de.ssherlock.global.transport.User;
 import jakarta.annotation.PostConstruct;
-import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
@@ -37,7 +38,7 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
     /**
      * Page size for the pagination.
      */
-    private static final int PAGE_SIZE = 2;
+    private static final int PAGE_SIZE = 5;
 
     /**
      * Logger for logging within this class.
@@ -96,7 +97,6 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
         getAllCoursesBool = Boolean.parseBoolean(params.get("all"));
         courses = getAllCoursesBool ? courseService.getCourses(getPagination()) : courseService.getCourses(getPagination(), appSession.getUser());
         getPagination().setLastIndex(courses.size() - 1);
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "To all Courses", "To all Courses"));
     }
 
     /**
@@ -118,7 +118,7 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
         logger.log(INFO, "trying to add");
         courseService.addCourse(newCourse);
         String message = "Added course" + newCourse.getName();
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(message, message));
+        logger.info(message);
     }
 
     /**
@@ -191,5 +191,17 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
      */
     public void setGetAllCoursesBool(boolean bool) {
         getAllCoursesBool = bool;
+    }
+
+    /**
+     * Checks whether user is member of course.
+     *
+     * @param course The course.
+     * @return Whether user is course member.
+     */
+    public boolean isInCourse(Course course) {
+        User user = appSession.getUser();
+        Map<Long, CourseRole> courseRoles = user.getCourseRoles();
+        return courseRoles.get(course.getId()) != null && courseRoles.get(course.getId()) != CourseRole.NONE;
     }
 }

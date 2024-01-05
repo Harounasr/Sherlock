@@ -8,7 +8,7 @@ footer {
   bottom: 0;
   left: 0;
   width: 100%;
-  background: rgb(128, 128, 100);
+  background: var(--primary-color, #ffffff);
   color: floralwhite;
   padding: 20px;
 }
@@ -23,7 +23,7 @@ li {
 }
 
 .navbar {
-  background: rgb(128, 128, 100);
+  background: var(--primary-color, #ffffff);
 }
 
 nav ul {
@@ -32,7 +32,7 @@ nav ul {
 }
 
 .commandButton {
-  background-color: rgb(128, 128, 100);
+  background-color: var(--primary-color, #ffffff);
   color: white;
   border: none;
   padding: 10px 20px;

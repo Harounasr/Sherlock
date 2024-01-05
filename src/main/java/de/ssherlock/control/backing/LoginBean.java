@@ -2,6 +2,7 @@ package de.ssherlock.control.backing;
 
 import de.ssherlock.business.exception.BusinessNonExistentUserException;
 import de.ssherlock.business.exception.LoginFailedException;
+import de.ssherlock.business.service.SystemService;
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.notification.Notification;
 import de.ssherlock.control.notification.NotificationType;
@@ -10,8 +11,11 @@ import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.LoginInfo;
 import de.ssherlock.global.transport.User;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+
+import java.util.Base64;
 import java.util.logging.Level;
 
 /**
@@ -23,90 +27,115 @@ import java.util.logging.Level;
 @RequestScoped
 public class LoginBean {
 
-  /** The logger for this class. */
-  private final SerializableLogger logger;
+    /**
+     * The logger for this class.
+     */
+    private final SerializableLogger logger;
 
-  /** The active session. */
-  private final AppSession appSession;
+    /**
+     * The active session.
+     */
+    private final AppSession appSession;
 
-  /** The Service for user-related operations. */
-  private final UserService userService;
+    /**
+     * The Service for user-related operations.
+     */
+    private final UserService userService;
 
-  /** The loginInfo entered by the user. */
-  private LoginInfo loginInfo;
+    /**
+     * The system service.
+     */
+    private final SystemService systemService;
 
-  /**
-   * Constructor for LoginBean.
-   *
-   * @param userService The UserService for user-related operations (Injected).
-   * @param logger The logger for this class (Injected).
-   * @param appSession The active session.
-   */
-  @Inject
-  public LoginBean(
-      UserService userService,
-      SerializableLogger logger,
-      AppSession appSession) {
-    this.userService = userService;
-    this.logger = logger;
-    this.appSession = appSession;
-    this.loginInfo = new LoginInfo();
-  }
+    /**
+     * The loginInfo entered by the user.
+     */
+    private LoginInfo loginInfo;
 
-  /**
-   * Method to log in the user.
-   *
-   * @return The destination view after successful login.
-   * @throws LoginFailedException when the login fails.
-   */
-  public String login() throws LoginFailedException {
-    try {
-      User user = userService.login(loginInfo);
-      logger.log(Level.INFO, "Login for user " + loginInfo.getUsername() + " was successful.");
-      appSession.setUser(user);
-      return "/view/registered/coursePagination.xhtml?faces-redirect=true&all=true";
-    } catch (LoginFailedException | BusinessNonExistentUserException e) {
-      logger.log(Level.INFO, "Incorrect password for user " + loginInfo.getUsername());
-      Notification notification =
-          new Notification(Notification.WRONG_PASSWORD_MSG, NotificationType.ERROR);
-      notification.generateUIMessage();
-      return "";
+    /**
+     * Constructor for LoginBean.
+     *
+     * @param userService   The UserService for user-related operations (Injected).
+     * @param logger        The logger for this class (Injected).
+     * @param systemService The system service.
+     * @param appSession    The active session.
+     */
+    @Inject
+    public LoginBean(
+            UserService userService,
+            SerializableLogger logger,
+            SystemService systemService,
+            AppSession appSession) {
+        this.userService = userService;
+        this.logger = logger;
+        this.appSession = appSession;
+        this.systemService = systemService;
+        this.loginInfo = new LoginInfo();
     }
-  }
 
-  /**
-   * Redirects to the registration page.
-   *
-   * @return The destination view for registration.
-   */
-  public String registerClicked() {
-    return "/view/public/registration.xhtml";
-  }
+    /**
+     * Method to log in the user.
+     *
+     * @return The destination view after successful login.
+     * @throws LoginFailedException when the login fails.
+     */
+    public String login() throws LoginFailedException {
+        try {
+            User user = userService.login(loginInfo);
+            logger.log(Level.INFO, "Login for user " + loginInfo.getUsername() + " was successful.");
+            appSession.setUser(user);
+            return "/view/registered/coursePagination.xhtml?faces-redirect=true&all=true";
+        } catch (LoginFailedException | BusinessNonExistentUserException e) {
+            logger.log(Level.INFO, "Incorrect password for user " + loginInfo.getUsername());
+            Notification notification = new Notification(Notification.WRONG_PASSWORD_MSG, NotificationType.ERROR);
+            notification.generateUIMessage();
+            logger.info(FacesContext.getCurrentInstance().getMaximumSeverity().toString());
+            return "";
+        }
+    }
 
-  /**
-   * Redirects the user to the password forgotten page.
-   *
-   * @return The navigation outcome.
-   */
-  public String passwordForgottenClicked() {
-    return "/view/public/passwordForgotten.xhtml";
-  }
+    /**
+     * Redirects to the registration page.
+     *
+     * @return The destination view for registration.
+     */
+    public String registerClicked() {
+        return "/view/public/registration.xhtml";
+    }
 
-  /**
-   * Gets login info.
-   *
-   * @return the login info
-   */
-  public LoginInfo getLoginInfo() {
-    return loginInfo;
-  }
+    /**
+     * Redirects the user to the password forgotten page.
+     *
+     * @return The navigation outcome.
+     */
+    public String passwordForgottenClicked() {
+        return "/view/public/passwordForgotten.xhtml";
+    }
 
-  /**
-   * Sets login info.
-   *
-   * @param loginInfo the login info
-   */
-  public void setLoginInfo(LoginInfo loginInfo) {
-    this.loginInfo = loginInfo;
-  }
+    /**
+     * Gets login info.
+     *
+     * @return the login info
+     */
+    public LoginInfo getLoginInfo() {
+        return loginInfo;
+    }
+
+    /**
+     * Sets login info.
+     *
+     * @param loginInfo the login info
+     */
+    public void setLoginInfo(LoginInfo loginInfo) {
+        this.loginInfo = loginInfo;
+    }
+
+    /**
+     * Gets the logo in base 64.
+     *
+     * @return The logo.
+     */
+    public String getLogoBase64() {
+        return Base64.getEncoder().encodeToString(systemService.getSystemSettings().getLogo());
+    }
 }

@@ -3,13 +3,13 @@ html, body, .container-fluid, .row {
 }
 
 .sidebar {
-  background-color:  rgb(128,128,100);
+  background-color: var(--primary-color, #ffffff);
   height: 100%;
 }
 
 .sidebar-menu {
   list-style-type: none;
-  padding-left: 0;
+  padding: 0;
 }
 
 .sidebar-menu li {
@@ -17,3 +17,32 @@ html, body, .container-fluid, .row {
   list-style-type: none;
 }
 
+.nav-item-sidebar, .nav-item-sidebar-selected {
+  display: flex;
+  border-radius: 5px;
+}
+
+.nav-item-sidebar .btn, .nav-item-sidebar-selected .btn {
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--secondary-color, #ffffff);
+  background-color: transparent;
+  height: fit-content;
+  border: none;
+  text-align: left;
+}
+
+.nav-item-sidebar-selected .btn:hover {
+  background-color: var(--primary-color, #ffffff);
+  border-color: inherit;
+  color: var(--secondary-color, #ffffff);
+}
+
+.nav-item-sidebar .btn:hover, .nav-item-sidebar-selected {
+  font-size: 22px;
+  transition: 0.2s ease-in-out;
+  background-color: var(--primary-color, #ffffff);
+  border-color: inherit;
+  color: var(--secondary-color, #ffffff);
+  filter: brightness(75%);
+}

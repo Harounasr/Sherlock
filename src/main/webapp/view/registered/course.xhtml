@@ -1,15 +1,13 @@
 <ui:composition
-        xmlns:h="http://xmlns.jcp.org/jsf/html"
-        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="jakarta.faces.html"
+        xmlns:ui="jakarta.faces.facelets"
         xmlns="http://www.w3.org/1999/xhtml"
         template="../../resources/templates/mainTemplate.xhtml">
     <ui:define name="headElements">
         <link rel="stylesheet" href="#{request.contextPath}/resources/css/sidebar.css"/>
+        <link rel="stylesheet" href="#{request.contextPath}/resources/css/exerciseDescription.css"/>
+        <title>#{courseBean.course.name}</title>
     </ui:define>
-    <h:head>
-        <ui:define name="title">#{courseBean.course.name}</ui:define>
-    </h:head>
-
     <ui:define name="content">
         <div class="container-fluid h-100">
             <div class="row h-100">
@@ -19,13 +17,14 @@
                     <h:form>
                         <h3>#{courseBean.course.name}</h3>
                         <ul class="sidebar-menu">
-                            <li>
+                            <li class="#{courseBean.targetPage == 'exercisePagination.xhtml' ? 'nav-item-sidebar-selected' : 'nav-item-sidebar'}">
                                 <h:commandButton value="Exercises" action="#{courseBean.setTargetPage('exercisePagination.xhtml')}"
-                                                 styleClass="btn btn-primary"/>
+                                                 styleClass="btn w-100"/>
                             </li>
-                            <li>
+                            <li class="#{courseBean.targetPage == 'courseUserPagination.xhtml' ? 'nav-item-sidebar-selected' : 'nav-item-sidebar'}">
                                 <h:commandButton rendered="#{courseBean.teacherRights}" value="Users"
-                                                 action="#{courseBean.setTargetPage('courseUserPagination.xhtml')}" styleClass="btn btn-primary"/>
+                                                 action="#{courseBean.setTargetPage('courseUserPagination.xhtml')}"
+                                                 styleClass="btn w-100"/>
                             </li>
                         </ul>
                     </h:form>

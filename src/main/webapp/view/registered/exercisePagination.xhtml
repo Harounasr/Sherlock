@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html >
 <html xmlns:h="jakarta.faces.html"
-      xmlns="http://www.w3.org/1999/xhtml" xmlns:comp="http://xmlns.jcp.org/jsf/composite/components" xmlns:f="jakarta.faces.core">
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:comp="jakarta.faces.composite/components"
+      xmlns:f="jakarta.faces.core">
 <h:body>
     <h:form enctype="multipart/form-data">
         <div class="container mt-3">
@@ -16,11 +18,27 @@
                          styleClass="table table-striped table-bordered w-100">
                 <h:column>
                     <f:facet name="header">ID</f:facet>
-                    #{exercise.name}
+                    <h:outputText value="#{exercise.name}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Publish Date</f:facet>
+                    <h:outputText styleClass="#{exercisePaginationBean.isPublishDatePast(exercise) ? 'past-deadline' : 'future-deadline'}"
+                                  value="#{exercise.publishDate}" converter="dateConverter"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Recommended Deadline</f:facet>
+                    <h:outputText styleClass="#{exercisePaginationBean.isRecommendedDeadlinePast(exercise) ? 'past-deadline' : 'future-deadline'}"
+                                  value="#{exercise.recommendedDeadline}" converter="dateConverter"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Obligatory Deadline</f:facet>
+                    <h:outputText styleClass="#{exercisePaginationBean.isObligatoryDeadlinePast(exercise) ? 'past-deadline' : 'future-deadline'}"
+                                  value="#{exercise.obligatoryDeadline}" converter="dateConverter"/>
                 </h:column>
 
                 <h:column>
-                    <h:commandButton value="To Exercise" action="#{exercisePaginationBean.select(exercise)}" class="btn btn-primary"/>
+                    <h:commandButton value="To Exercise" action="#{exercisePaginationBean.select(exercise)}"
+                                     styleClass="btn pagination-content-button"/>
                 </h:column>
             </h:dataTable>
 

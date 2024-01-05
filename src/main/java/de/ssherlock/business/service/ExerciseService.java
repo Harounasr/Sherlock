@@ -99,6 +99,9 @@ public class ExerciseService implements Serializable {
             Comparator<Exercise> comparator = switch (sortBy) {
                 case "name" -> Comparator.comparing(Exercise::getName);
                 case "id" -> Comparator.comparing(Exercise::getId);
+                case "obligatoryDeadline" -> Comparator.comparing(Exercise::getObligatoryDeadline).reversed();
+                case "recommendedDeadline" -> Comparator.comparing(Exercise::getRecommendedDeadline).reversed();
+                case "publishDate" -> Comparator.comparing(Exercise::getPublishDate).reversed();
                 default -> (exercise1, exercise2) -> 0;
             };
             exerciseStream = pagination.isSortAscending() ? exerciseStream.sorted(comparator) : exerciseStream.sorted(comparator.reversed());

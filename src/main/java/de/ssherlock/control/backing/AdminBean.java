@@ -2,6 +2,7 @@ package de.ssherlock.control.backing;
 
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
+import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -49,6 +50,14 @@ public class AdminBean implements Serializable {
     public AdminBean(SerializableLogger logger, AppSession appSession) {
         this.logger = logger;
         this.appSession = appSession;
+    }
+
+    /**
+     * Initializes the bean.
+     */
+    @PostConstruct
+    public void initialize() {
+        targetPage = "adminSettings.xhtml";
     }
 
     /**

@@ -8,7 +8,6 @@
     </ui:define>
     <ui:define name="content">
         <div class="container-fluid h-100">
-            <h:messages globalOnly="true"/>
             <div class="row h-100">
 
                 <!-- Sidebar -->
@@ -16,30 +15,32 @@
                     <h:form>
                         <h3>#{exerciseDescriptionBean.exercise.name}</h3>
                         <ul class="sidebar-menu">
-                            <li>
+                            <li class="#{exerciseBean.targetPage == 'exerciseDescription.xhtml' ? 'nav-item-sidebar-selected' : 'nav-item-sidebar'}">
                                 <h:commandButton value="Description" action="#{exerciseBean.setTargetPage('exerciseDescription.xhtml')}"
-                                                 styleClass="btn btn-primary"/>
+                                                 styleClass="btn w-100"/>
                             </li>
-                            <li>
-                                <h:commandButton value="Submit" action="#{exerciseBean.setTargetPage('submit.xhtml')}" styleClass="btn btn-primary"/>
+                            <li class="#{exerciseBean.targetPage == 'submit.xhtml' ? 'nav-item-sidebar-selected' : 'nav-item-sidebar'}">
+                                <h:commandButton value="Submit" action="#{exerciseBean.setTargetPage('submit.xhtml')}"
+                                                 styleClass="btn w-100"/>
                             </li>
-                            <li>
+                            <li class="#{exerciseBean.targetPage == 'submissionPagination.xhtml' ? 'nav-item-sidebar-selected' : 'nav-item-sidebar'}">
                                 <h:commandButton value="Submissions" action="#{exerciseBean.setTargetPage('submissionPagination.xhtml')}"
-                                                 styleClass="btn btn-primary"/>
+                                                 styleClass="btn w-100"/>
                             </li>
-                            <li>
+                            <li class="#{exerciseBean.targetPage == 'testatePagination.xhtml' ? 'nav-item-sidebar-selected' : 'nav-item-sidebar'}">
                                 <h:commandButton value="Testates"
                                                  rendered="#{exerciseBean.userCourseRole.toString() == 'TUTOR'
                                                  || exerciseBean.userCourseRole.toString() == 'TEACHER'
                                                  || exerciseBean.appSession.admin}"
-                                                 action="#{exerciseBean.setTargetPage('testatePagination.xhtml')}" styleClass="btn btn-primary"/>
+                                                 action="#{exerciseBean.setTargetPage('testatePagination.xhtml')}"
+                                                 styleClass="btn w-100"/>
                             </li>
                         </ul>
                     </h:form>
                 </div>
 
                 <!-- Main Content -->
-                <div class="col-10">
+                <div class="col-10 mt-3">
                     <ui:include src="#{exerciseBean.targetPage}"/>
                 </div>
             </div>

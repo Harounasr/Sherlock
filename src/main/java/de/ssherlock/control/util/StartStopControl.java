@@ -2,7 +2,6 @@ package de.ssherlock.control.util;
 
 import de.ssherlock.business.util.StartStopBusiness;
 import de.ssherlock.global.logging.SerializableLogger;
-import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
@@ -18,7 +17,6 @@ import java.io.Serializable;
  * @author Victor Vollmann
  */
 @WebListener
-@ApplicationScoped
 public class StartStopControl implements ServletContextListener, Serializable {
 
     /**
