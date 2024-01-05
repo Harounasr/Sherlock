@@ -55,7 +55,8 @@
         <!-- Current Logo -->
         <div class="form-group mb-3">
             <label for="currentLogo">Current Logo</label>
-            <h:graphicImage id="currentLogo" value="data:image/png;base64,#{adminSettingsBean.logoBase64}" alt="no Logo" styleClass="img-fluid image-container"/>
+            <h:graphicImage id="currentLogo" value="data:image/png;base64,#{adminSettingsBean.logoBase64}" alt="no Logo"
+                            styleClass="img-fluid image-container"/>
         </div>
 
         <!-- Datei auswählen Button -->
@@ -63,7 +64,7 @@
             <label for="newLogo" class="btn btn-primary btn-file">
                 Datei auswählen
                 <!-- New Logo -->
-                <h:inputFile id="newLogo" value="#{adminSettingsBean.uploadedLogo}" class="custom-file-input" style="width: auto; display: none;" />
+                <h:inputFile id="newLogo" value="#{adminSettingsBean.uploadedLogo}" class="custom-file-input" style="width: auto; display: none;"/>
             </label>
         </div>
 

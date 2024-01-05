@@ -17,7 +17,8 @@
                 <div class="col-auto">
                     <h:form rendered="#{navbarBean.appSession.user.systemRole.toString() == 'ADMINISTRATOR'
                         || navbarBean.appSession.user.systemRole.toString() == 'TEACHER'}">
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#createCourseModal" class="btn bg-success text-light">Create New Course
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#createCourseModal"
+                                class="btn bg-success text-light">Create New Course
                         </button>
                     </h:form>
                 </div>
@@ -36,7 +37,8 @@
                 <h:column>
                     <f:facet name="header">Join / To Course</f:facet>
                     <h:form>
-                        <h:commandButton value="#{coursePaginationBean.isInCourse(course) ? 'To Course' : 'Join Course'}" action="#{coursePaginationBean.select(course)}" styleClass="btn pagination-content-button"/>
+                        <h:commandButton value="#{coursePaginationBean.isInCourse(course) ? 'To Course' : 'Join Course'}"
+                                         action="#{coursePaginationBean.select(course)}" styleClass="btn pagination-content-button"/>
                     </h:form>
                 </h:column>
             </h:dataTable>

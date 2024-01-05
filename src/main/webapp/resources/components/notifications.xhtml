@@ -11,7 +11,8 @@
     <cc:implementation>
         <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/css/notifications.css"/>
         <script src="#{request.contextPath}/resources/js/notifications.js"> </script>
-        <h:messages styleClass="popup-notifications #{facesContext.maximumSeverity.toString() == 'ERROR 2' ? 'notification-error' : 'notification-success'}" layout="table"/>
+        <h:messages styleClass="popup-notifications
+        #{facesContext.maximumSeverity.toString() == 'ERROR 2' ? 'notification-error' : 'notification-success'}" layout="table"/>
     </cc:implementation>
 
 </ui:component>

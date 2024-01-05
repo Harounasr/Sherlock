@@ -3,7 +3,6 @@ package de.ssherlock.control.backing;
 import de.ssherlock.business.service.SystemService;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
-import de.ssherlock.global.transport.SystemSettings;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
