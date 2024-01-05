@@ -128,6 +128,8 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
 
     /**
      * Adds an exercise to the database.
+     *
+     * @return The navigation outcome.
      */
     public String addExercise() {
         logger.log(Level.INFO, "add new exercise.");
