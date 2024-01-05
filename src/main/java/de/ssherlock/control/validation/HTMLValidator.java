@@ -11,7 +11,6 @@ import jakarta.faces.validator.ValidatorException;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 
 /**
  * Handles validation of HTML.
@@ -53,10 +52,24 @@ public class HTMLValidator implements Validator<String> {
             logger.info("The String is valid HTML as it is empty.");
             return;
         }
-        Document document = Jsoup.parse(s);
-        if (!document.html().contains("<html")) {
-            logger.warning("The String is not valid HTML.");
-            FacesMessage message = new FacesMessage("Invalid HTML content.");
+        if (s.toLowerCase().contains("<html")) {
+            logger.warning("The String is not valid HTML body.");
+            FacesMessage message = new FacesMessage("HTML tag detected. There should be no outer html, only the contents of the body.");
+            throw new ValidatorException(message);
+        } else if (s.toLowerCase().contains("<head")) {
+            logger.warning("The String is not valid HTML body.");
+            FacesMessage message = new FacesMessage("HEAD tag detected. There should be no outer html, only the contents of the body.");
+            throw new ValidatorException(message);
+        } else if (s.toLowerCase().contains("<body")) {
+            logger.warning("The String is not valid HTML body.");
+            FacesMessage message = new FacesMessage("BODY tag detected. There should be no outer html, only the contents of the body.");
+            throw new ValidatorException(message);
+        }
+        try {
+            Jsoup.parse(s);
+        } catch (Error e) {
+            logger.warning("The HTML string could not be parsed.");
+            FacesMessage message = new FacesMessage("The HTML string could not be parsed and is therefore invalid.");
             throw new ValidatorException(message);
         }
         logger.info("The String is valid HTML.");

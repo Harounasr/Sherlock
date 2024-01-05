@@ -30,7 +30,7 @@
                     <h:outputText rendered="#{submissionPaginationBean.isMember()}" value="#{sub.passedCheckers ? 'Passed' : 'Failed'}">
 
                     </h:outputText>
-                    <h:commandButton rendered="#{!submissionPaginationBean.isMember()}"
+                    <h:commandButton styleClass="pagination-content-button" rendered="#{!submissionPaginationBean.isMember()}"
                                      value="#{sub.testateCreated ? 'To testate' : 'Create testate'}"
                                      action="#{submissionPaginationBean.selectSubmission(sub.id)}"/>
                 </h:column>

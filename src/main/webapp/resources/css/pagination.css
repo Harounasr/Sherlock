@@ -3,6 +3,13 @@ input.pagination-button {
   color: #565656;
 }
 
+input.pagination-button:hover {
+  background-color: var(--secondary-color, #ffffff);
+  color: #565656;
+  border: none;
+  filter: brightness(75%);
+}
+
 input.pagination-button:disabled {
   background-color: var(--secondary-color, #ffffff);
   color: #565656;

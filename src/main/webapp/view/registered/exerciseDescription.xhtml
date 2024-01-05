@@ -7,9 +7,8 @@
 </head>
 <h:body>
     <h:form enctype="multipart/form-data">
-        <h:messages globalOnly="true"/>
         <!-- EXERCISE DESCRIPTION -->
-        <h:panelGroup rendered="#{!exerciseDescriptionBean.editMode}">
+        <h:panelGroup rendered="#{!exerciseDescriptionBean.editMode}" styleClass="mt-2">
             <h:commandButton rendered="#{exerciseDescriptionBean.userCanEdit}" value="Edit" styleClass="full-width-button btn btn-primary"
                              action="#{exerciseDescriptionBean.startEditMode}"/>
             <div class="container">
@@ -38,9 +37,8 @@
         </h:panelGroup>
 
         <!-- EDITOR -->
-        <h:panelGroup rendered="#{exerciseDescriptionBean.editMode}">
+        <h:panelGroup rendered="#{exerciseDescriptionBean.editMode}" styleClass="mt-2">
             <h:commandButton value="Save" styleClass="full-width-button btn btn-success" action="#{exerciseDescriptionBean.saveAndDisableEditMode}"/>
-            <h:message for="htmlInput" styleClass="error-message"/>
             <div class="row">
                 <div class="col">
                     <h:panelGroup rendered="#{!exerciseDescriptionBean.recommendedDeadlinePast}">
@@ -72,7 +70,7 @@
                 </div>
             </div>
 
-
+            <h:message for="htmlInput" styleClass="error-message"/>
             <h:inputTextarea id="htmlInput" validator="htmlValidator" value="#{exerciseDescriptionBean.exercise.description}"
                              styleClass="text-area-custom" rows="30" cols="200"/>
 
@@ -80,7 +78,6 @@
                 <label for="file">Choose an image:</label>
                 <h:inputFile id="file" value="#{exerciseDescriptionBean.uploadedImage}" validator="imageValidator"/>
                 <h:message for="file" styleClass="error-message"/>
-
                 <h:commandButton value="Convert to &lt;img&gt; Component" action="#{exerciseDescriptionBean.uploadImage()}" class="btn btn-primary"/>
                 <h:outputText value="#{exerciseDescriptionBean.imgComponent}" styleClass="output-text-img-component"/>
             </div>

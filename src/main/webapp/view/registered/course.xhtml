@@ -6,11 +6,8 @@
     <ui:define name="headElements">
         <link rel="stylesheet" href="#{request.contextPath}/resources/css/sidebar.css"/>
         <link rel="stylesheet" href="#{request.contextPath}/resources/css/exerciseDescription.css"/>
+        <title>#{courseBean.course.name}</title>
     </ui:define>
-    <h:head>
-        <ui:define name="title">#{courseBean.course.name}</ui:define>
-    </h:head>
-
     <ui:define name="content">
         <div class="container-fluid h-100">
             <div class="row h-100">

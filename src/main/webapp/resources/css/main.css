@@ -17,7 +17,7 @@ body {
   height: fit-content;
   background-color: var(--primary-color, #ffffff);
   color: var(--secondary-color, #ffffff);
-  position: absolute;
+  position: fixed;
   bottom: 0;
   width: 100%;
   text-align: center;

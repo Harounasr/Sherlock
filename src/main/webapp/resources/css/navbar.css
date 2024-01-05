@@ -12,6 +12,10 @@
   display: flex;
 }
 
+.navbar-links {
+  float: right;
+}
+
 .navbar-nav {
   display: flex;
   flex: 1;
@@ -36,7 +40,7 @@
   background-color: transparent;
   height: 100px;
   border: none;
-  width: 200px;
+  width: fit-content;
   justify-content: center;
 }
 

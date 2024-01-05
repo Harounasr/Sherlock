@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 /**
@@ -25,33 +26,47 @@ import java.util.List;
 @ViewScoped
 public class AdminSettingsBean implements Serializable {
 
-    /** Serial Version UID. */
-    @Serial private static final long serialVersionUID = 1L;
+    /**
+     * Serial Version UID.
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
 
-    /** Logger for logging within this class. */
+    /**
+     * Logger for logging within this class.
+     */
     private final SerializableLogger logger;
 
-    /** The active session. */
+    /**
+     * The active session.
+     */
     private final AppSession appSession;
 
-    /** Service to handle SystemSetting-specific actions. */
+    /**
+     * Service to handle SystemSetting-specific actions.
+     */
     private final SystemService systemService;
 
-    /** Currently active SystemSettings. */
+    /**
+     * Currently active SystemSettings.
+     */
     private SystemSettings systemSettings;
 
-    /** The uploaded logo. */
+    /**
+     * The uploaded logo.
+     */
     private transient Part uploadedLogo;
 
-
-    /** List of available colors. */
+    /**
+     * List of available colors.
+     */
     private List<String> availableColors;
 
     /**
      * Constructs an AdminSettingsBean.
      *
-     * @param logger The logger used for logging within this class (Injected).
-     * @param appSession The active session (Injected).
+     * @param logger        The logger used for logging within this class (Injected).
+     * @param appSession    The active session (Injected).
      * @param systemService The SystemService (Injected).
      */
     @Inject
@@ -62,7 +77,9 @@ public class AdminSettingsBean implements Serializable {
         this.systemService = systemService;
     }
 
-    /** Initializes the bean after construction. */
+    /**
+     * Initializes the bean after construction.
+     */
     @PostConstruct
     public void initialize() {
         availableColors = new ArrayList<>();
@@ -78,12 +95,16 @@ public class AdminSettingsBean implements Serializable {
         systemSettings = systemService.getSystemSettings();
     }
 
-    /** Action for submitting all current changes. */
+    /**
+     * Action for submitting all current changes.
+     */
     public void submitAllChanges() {
         systemService.updateSystemSettings(systemSettings);
     }
 
-    /** Uploads the logo. */
+    /**
+     * Uploads the logo.
+     */
     public void uploadLogo() {
         try {
             this.systemSettings.setLogo(uploadedLogo.getInputStream().readAllBytes());
@@ -135,5 +156,14 @@ public class AdminSettingsBean implements Serializable {
      */
     public List<String> getAvailableColors() {
         return availableColors;
+    }
+
+    /**
+     * Gets logo base 64.
+     *
+     * @return the logo base 64
+     */
+    public String getLogoBase64() {
+        return Base64.getEncoder().encodeToString(systemSettings.getLogo());
     }
 }
