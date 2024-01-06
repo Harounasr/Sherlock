@@ -148,7 +148,7 @@ public class TestateBean implements Serializable {
         newTestate.setEvaluatorId(appSession.getUser().getId());
         newTestate.setSubmission(submission);
         testateService.addTestate(newTestate);
-        return "/view/registered/exercise.xhtml";
+        return "/view/registered/exercise.xhtml?redirect=true";
     }
 
     /**
