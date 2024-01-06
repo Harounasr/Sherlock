@@ -143,6 +143,8 @@ public class TestateBean implements Serializable {
 
     /**
      * Submits the testate.
+     *
+     * @return The page to be redirected.
      */
     public String submitTestate() {
         newTestate.setEvaluatorId(appSession.getUser().getId());

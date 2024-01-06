@@ -1,6 +1,5 @@
 package de.ssherlock.persistence.repository;
 
-import de.ssherlock.control.backing.LoginBean;
 import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Checker;
@@ -82,7 +81,7 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
                                       SELECT * FROM submission_file
                                       WHERE submission_id = ?;
                                       """;
-        try(PreparedStatement statement = getConnection().prepareStatement(submissionFilesQuery)) {
+        try (PreparedStatement statement = getConnection().prepareStatement(submissionFilesQuery)) {
             statement.setLong(1, submission.getId());
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -106,7 +105,7 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
                           SELECT * FROM submission
                           WHERE id = ?;
                           """;
-        try(PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
+        try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
             statement.setLong(1, submission.getId());
             ResultSet resultSet = statement.executeQuery();
             Submission resultSubmission = new Submission();
