@@ -121,7 +121,10 @@ public class TestateBean implements Serializable {
     public void initialize() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         Map<String, String> requestParams = facesContext.getExternalContext().getRequestParameterMap();
-        submission.setId(Integer.parseInt(requestParams.get("id")));
+        for (Map.Entry<String, String> entry : requestParams.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
+        submission.setId(Long.parseLong(requestParams.get("?subId")));
         try {
             submission = submissionService.getSubmission(submission);
         } catch (BusinessNonExistentSubmissionException e) {
@@ -140,12 +143,14 @@ public class TestateBean implements Serializable {
 
     /**
      * Submits the testate.
+     *
+     * @return The page to be redirected.
      */
-    public void submitTestate() {
-        //Set the userId (as Evaluator.)
-        //newTestate.setEvaluator(appSession.getUser().getUsername().getId);
-        //newTestate.setStudentId(submission.getUserId());
+    public String submitTestate() {
+        newTestate.setEvaluatorId(appSession.getUser().getId());
+        newTestate.setSubmission(submission);
         testateService.addTestate(newTestate);
+        return "/view/registered/exercise.xhtml?redirect=true";
     }
 
     /**
@@ -204,5 +209,23 @@ public class TestateBean implements Serializable {
      */
     public void setGrades(List<Integer> grades) {
         this.grades = grades;
+    }
+
+    /**
+     * Gets the files.
+     *
+     * @return The files.
+     */
+    public List<List<Object[]>> getFiles() {
+        return files;
+    }
+
+    /**
+     * Sets the files.
+     *
+     * @param files The files.
+     */
+    public void setFiles(List<List<Object[]>> files) {
+        this.files = files;
     }
 }
