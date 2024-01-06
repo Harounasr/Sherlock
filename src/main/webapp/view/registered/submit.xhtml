@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:h="jakarta.faces.html"
-      xmlns:ui="jakarta.faces.facelets"
-      xmlns:c="jakarta.faces.core"
+<html xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns="http://www.w3.org/1999/xhtml">
 
 <h:head>
@@ -36,21 +36,19 @@
                             <!-- Section for successful upload -->
                             <div class="form-group">
                                 <h2>Upload was successful. Here are the Checker Results:</h2>
-                                <c:forEach items="#{submissionUploadBean.checkerResults}" var="result">
-                                    <c:if test="#{result.checker.visible}">
+                                <ui:repeat value="#{submissionUploadBean.checkerResults}" var="result">
+                                    <ui:fragment rendered="#{result.checker.visible}">
                                         <div class="col">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <!-- Verwendung von <span> für Distanz -->
                                                     <span class="checker-name">#{result.checker.name}</span>
                                                     <span class="checker-result">#{result.passed ? 'Passed' : 'Failed'}</span>
                                                 </div>
                                             </div>
                                         </div>
-                                    </c:if>
-                                </c:forEach>
+                                    </ui:fragment>
+                                </ui:repeat>
 
-                                <!-- Move the "Submit" button inside the second panel group -->
                                 <div class="form-group">
                                     <h:commandButton rendered="#{submissionUploadBean.submissionFiles != null}" id="submit-button"
                                                      value="Submit" class="btn btn-primary"

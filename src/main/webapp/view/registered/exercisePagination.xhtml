@@ -5,44 +5,44 @@
       xmlns:comp="jakarta.faces.composite/components"
       xmlns:f="jakarta.faces.core">
 <h:body>
-    <h:form enctype="multipart/form-data">
         <div class="container mt-3">
             <h:messages globalOnly="true"/>
             <h2 class="mb-3">Exercise List</h2>
             <h:form>
                 <comp:paginationSearch backingBean="#{exercisePaginationBean}"/>
             </h:form>
+            <h:form>
+                <h:dataTable value="#{exercisePaginationBean.exercises}" var="exercise"
+                             first="#{exercisePaginationBean.pagination.currentIndex}" rows="#{exercisePaginationBean.pagination.pageSize}"
+                             styleClass="table table-striped table-bordered w-100">
+                    <h:column>
+                        <f:facet name="header">ID</f:facet>
+                        <h:outputText value="#{exercise.name}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Publish Date</f:facet>
+                        <h:outputText styleClass="#{exercisePaginationBean.isPublishDatePast(exercise) ? 'past-deadline' : 'future-deadline'}"
+                                      value="#{exercise.publishDate}" converter="dateConverter"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Recommended Deadline</f:facet>
+                        <h:outputText styleClass="#{exercisePaginationBean.isRecommendedDeadlinePast(exercise) ? 'past-deadline' : 'future-deadline'}"
+                                      value="#{exercise.recommendedDeadline}" converter="dateConverter"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Obligatory Deadline</f:facet>
+                        <h:outputText styleClass="#{exercisePaginationBean.isObligatoryDeadlinePast(exercise) ? 'past-deadline' : 'future-deadline'}"
+                                      value="#{exercise.obligatoryDeadline}" converter="dateConverter"/>
+                    </h:column>
 
-            <h:dataTable value="#{exercisePaginationBean.exercises}" var="exercise"
-                         first="#{exercisePaginationBean.pagination.currentIndex}" rows="#{exercisePaginationBean.pagination.pageSize}"
-                         styleClass="table table-striped table-bordered w-100">
-                <h:column>
-                    <f:facet name="header">ID</f:facet>
-                    <h:outputText value="#{exercise.name}"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Publish Date</f:facet>
-                    <h:outputText styleClass="#{exercisePaginationBean.isPublishDatePast(exercise) ? 'past-deadline' : 'future-deadline'}"
-                                  value="#{exercise.publishDate}" converter="dateConverter"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Recommended Deadline</f:facet>
-                    <h:outputText styleClass="#{exercisePaginationBean.isRecommendedDeadlinePast(exercise) ? 'past-deadline' : 'future-deadline'}"
-                                  value="#{exercise.recommendedDeadline}" converter="dateConverter"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Obligatory Deadline</f:facet>
-                    <h:outputText styleClass="#{exercisePaginationBean.isObligatoryDeadlinePast(exercise) ? 'past-deadline' : 'future-deadline'}"
-                                  value="#{exercise.obligatoryDeadline}" converter="dateConverter"/>
-                </h:column>
+                    <h:column>
+                        <h:commandButton value="To Exercise" action="#{exercisePaginationBean.select(exercise)}"
+                                         styleClass="btn pagination-content-button"/>
+                    </h:column>
+                </h:dataTable>
+            </h:form>
 
-                <h:column>
-                    <h:commandButton value="To Exercise" action="#{exercisePaginationBean.select(exercise)}"
-                                     styleClass="btn pagination-content-button"/>
-                </h:column>
-            </h:dataTable>
-
-            <h:form rendered="#{navbarBean.appSession.user.systemRole.toString() == 'TEACHER'}" class="mb-3">
+            <h:form rendered="#{navbarBean.appSession.user.systemRole.toString() == 'ADMINISTRATOR'}" class="mb-3">
                 <h:inputText value="#{exercisePaginationBean.exercise.name}" required="true" class="form-control"/>
                 <h:commandButton value="Add Exercise" action="#{exercisePaginationBean.addExercise()}" class="btn btn-success"/>
             </h:form>
@@ -52,6 +52,5 @@
             </h:form>
             <h:messages/>
         </div>
-    </h:form>
 </h:body>
 </html>

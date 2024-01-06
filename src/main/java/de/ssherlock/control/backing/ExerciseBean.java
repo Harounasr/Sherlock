@@ -16,7 +16,6 @@ import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
-import java.io.IOException;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Map;
@@ -73,6 +72,11 @@ public class ExerciseBean implements Serializable {
     private Exercise exercise;
 
     /**
+     * The current courseId.
+     */
+    private long courseId;
+
+    /**
      * Constructs an ExerciseBean.
      *
      * @param logger          The logger used for logging within this class (Injected).
@@ -94,10 +98,12 @@ public class ExerciseBean implements Serializable {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         Map<String, String> requestParams = facesContext.getExternalContext().getRequestParameterMap();
         exerciseId = Long.parseLong(requestParams.get("Id"));
+        ExternalContext externalContext = facesContext.getExternalContext();
+        Map<String, Object> flashMap = externalContext.getFlash();
+        courseId = (Long) flashMap.get("courseID");
         logger.log(Level.INFO, "Param: " + exerciseId);
         this.setTargetPage("exerciseDescription.xhtml");
         exercise = new Exercise();
-        // Exercise exercise = new Exercise();
         exercise.setId(exerciseId);
         try {
             exercise = exerciseService.getExercise(exercise);
@@ -116,18 +122,16 @@ public class ExerciseBean implements Serializable {
 
     /**
      * Deletes the current exercise.
+     *
+     * @return the course page for redirection.
      */
-    public void deleteExercise() {
+    public String deleteExercise() {
         try {
             exerciseService.removeExercise(exercise);
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            ExternalContext externalContext = facesContext.getExternalContext();
-            externalContext.redirect("/view/registered/course.xhtml");
+            return "/view/registered/course.xhtml?faces-redirect=true&Id=" + courseId;
         } catch (BusinessNonExistentExerciseException e) {
             logger.severe("The exercise with id " + exercise.getId() + " does not exist anymore.");
             throw new RuntimeException("The requested exercise does not exist.", e);
-        } catch (IOException ioException) {
-            logger.severe("Error navigating after deleting exercise: " + ioException.getMessage());
         }
     }
 
