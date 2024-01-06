@@ -5,7 +5,6 @@ import de.ssherlock.global.logging.SerializableLogger;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
-import jakarta.servlet.annotation.WebListener;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -16,7 +15,6 @@ import java.io.Serializable;
  *
  * @author Victor Vollmann
  */
-@WebListener
 public class StartStopControl implements ServletContextListener, Serializable {
 
     /**
@@ -42,17 +40,6 @@ public class StartStopControl implements ServletContextListener, Serializable {
      */
     public StartStopControl() {
 
-    }
-
-    /**
-     * Destroys the system.
-     *
-     * @param sce The ServletContextEvent representing the destruction of the servlet context.
-     */
-    @Override
-    public void contextDestroyed(ServletContextEvent sce) {
-        logger.info("Control layer destroyed.");
-        startStopBusiness.destroy();
     }
 
     /**
