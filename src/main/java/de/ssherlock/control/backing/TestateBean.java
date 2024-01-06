@@ -144,11 +144,11 @@ public class TestateBean implements Serializable {
     /**
      * Submits the testate.
      */
-    public void submitTestate() {
-        //Set the userId (as Evaluator.)
-        //newTestate.setEvaluator(appSession.getUser().getUsername().getId);
-        //newTestate.setStudentId(submission.getUserId());
+    public String submitTestate() {
+        newTestate.setEvaluatorId(appSession.getUser().getId());
+        newTestate.setSubmission(submission);
         testateService.addTestate(newTestate);
+        return "/view/registered/exercise.xhtml";
     }
 
     /**
