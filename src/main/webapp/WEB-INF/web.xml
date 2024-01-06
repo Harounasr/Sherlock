@@ -44,6 +44,7 @@
             jakarta.enterprise.inject.spi.BeanManager
         </resource-env-ref-type>
     </resource-env-ref>
+
     <listener>
         <listener-class>de.ssherlock.control.util.StartStopControl</listener-class>
     </listener>
