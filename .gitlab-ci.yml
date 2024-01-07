@@ -21,7 +21,6 @@ default:
 # Set Maven's local dependency repository
 variables:
     MAVEN_OPTS: "-Dmaven.repo.local=/home/test/.m2/repository"
-    RUN_SYSTEM_TESTS: "true"
 
 # A build target for compilation
 build:
@@ -88,8 +87,6 @@ system-test-chrome:
             junit:
                 - target/failsafe-reports/TEST-*.xml
         expire_in: 1 day
-    rules:
-        -   if: $RUN_SYSTEM_TESTS == "true"
 
 # A target for running system tests
 system-test-firefox:
@@ -108,8 +105,6 @@ system-test-firefox:
             junit:
                 - target/failsafe-reports/TEST-*.xml
         expire_in: 1 day
-    rules:
-        -   if: $RUN_SYSTEM_TESTS == "true"
 
 # A target for running system tests
 system-test-edge:
@@ -128,8 +123,7 @@ system-test-edge:
             junit:
                 - target/failsafe-reports/TEST-*.xml
         expire_in: 1 day
-    rules:
-        -   if: $RUN_SYSTEM_TESTS == "true"
+
 
 # A target for building the WAR archive
 package:
