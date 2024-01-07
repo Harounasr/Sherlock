@@ -400,6 +400,7 @@
                                     <goal>report</goal>
                                 </goals>
                                 <configuration>
+                                    <skip>${skipIntegrationTests}</skip>
                                     <dataFile>${project.build.directory}/coverage-reports/jacoco-it.exec</dataFile>
                                     <outputDirectory>${project.reporting.outputDirectory}/jacoco-it</outputDirectory>
                                 </configuration>
@@ -516,13 +517,13 @@
                         <executions>
                             <execution>
                                 <id>pre-system-test</id>
+                                <phase>pre-integration-test</phase>
                                 <goals>
                                     <goal>prepare-agent</goal>
                                 </goals>
                                 <configuration>
-                                    <skip>${skipIntegrationTests}</skip>
                                     <destFile>${project.build.directory}/coverage-reports/jacoco-st.exec</destFile>
-                                    <propertyName>failsafeIntegrationTestArgLine</propertyName>
+                                    <propertyName>failsafeSystemTestArgLine</propertyName>
                                 </configuration>
                             </execution>
                             <execution>
@@ -532,7 +533,7 @@
                                     <goal>report</goal>
                                 </goals>
                                 <configuration>
-                                    <dataFile>${project.build.directory}/coverage-reports/jacoco-st-*.exec</dataFile>
+                                    <dataFile>${project.build.directory}/coverage-reports/jacoco-st.exec</dataFile>
                                     <outputDirectory>${project.reporting.outputDirectory}/jacoco-st</outputDirectory>
                                 </configuration>
                             </execution>
