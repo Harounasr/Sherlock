@@ -50,7 +50,7 @@ public class LoginBean {
     /**
      * The loginInfo entered by the user.
      */
-    private LoginInfo loginInfo;
+    private final LoginInfo loginInfo;
 
     /**
      * Constructor for LoginBean.
@@ -100,7 +100,7 @@ public class LoginBean {
      * @return The destination view for registration.
      */
     public String registerClicked() {
-        return "/view/public/registration.xhtml";
+        return "/view/public/registration.xhtml?faces-redirect=true";
     }
 
     /**
@@ -109,7 +109,7 @@ public class LoginBean {
      * @return The navigation outcome.
      */
     public String passwordForgottenClicked() {
-        return "/view/public/passwordForgotten.xhtml";
+        return "/view/public/passwordForgotten.xhtml?faces-redirect=true";
     }
 
     /**
@@ -119,15 +119,6 @@ public class LoginBean {
      */
     public LoginInfo getLoginInfo() {
         return loginInfo;
-    }
-
-    /**
-     * Sets login info.
-     *
-     * @param loginInfo the login info
-     */
-    public void setLoginInfo(LoginInfo loginInfo) {
-        this.loginInfo = loginInfo;
     }
 
     /**

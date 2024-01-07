@@ -48,6 +48,7 @@
         <jquery.version>3.7.1</jquery.version>
         <popperjs.version>1.12.9-1</popperjs.version>
         <fontawesome.version>6.5.1</fontawesome.version>
+        <cargo-maven3-plugin.version>1.10.10</cargo-maven3-plugin.version>
     </properties>
 
     <dependencies>
@@ -128,14 +129,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Cargo -->
-        <dependency>
-            <groupId>org.codehaus.cargo</groupId>
-            <artifactId>cargo-maven3-plugin</artifactId>
-            <version>${cargo-maven3-plugin.version}</version>
-            <scope>test</scope>
-        </dependency>
-
         <!-- Tomcat container -->
         <dependency>
             <groupId>org.codehaus.cargo</groupId>
@@ -180,18 +173,21 @@
             <version>${jsoup.version}</version>
         </dependency>
 
+        <!-- Jquery webjar -->
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>jquery</artifactId>
             <version>${jquery.version}</version>
         </dependency>
 
+        <!-- PopperJS webjar -->
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>popper.js</artifactId>
             <version>${popperjs.version}</version>
         </dependency>
 
+        <!-- Font Awesome webjar -->
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>font-awesome</artifactId>
@@ -404,6 +400,7 @@
                                     <goal>report</goal>
                                 </goals>
                                 <configuration>
+                                    <skip>${skipIntegrationTests}</skip>
                                     <dataFile>${project.build.directory}/coverage-reports/jacoco-it.exec</dataFile>
                                     <outputDirectory>${project.reporting.outputDirectory}/jacoco-it</outputDirectory>
                                 </configuration>
@@ -415,21 +412,48 @@
         </profile>
 
         <profile>
-            <!--
-            A profile for system tests.
-
-            System tests shall be stored in src/st/java and their respective resources in
-            src/st/resources.  Furthermore, we require system tests to be suffixed with `ST`, e.g., `FooST`.
-
-            The profile is not activated by default, i.e., when running `mvn verify` the system tests will
-            not be executed.  To execute them, run `mvn -Psystem-tests verify`; to execute system and
-            integration tests run `mvn -Pintegration-tests -Psystem-tests verify`.
-            Please note that running the system tests might take a long time!
-            -->
             <id>system-tests</id>
-
             <build>
                 <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.cargo</groupId>
+                        <artifactId>cargo-maven3-plugin</artifactId>
+                        <version>${cargo-maven3-plugin.version}</version>
+                        <configuration>
+                            <container>
+                                <containerId>tomcat10x</containerId>
+                                <zipUrlInstaller>
+                                    <url>https://downloads.apache.org/tomcat/tomcat-10/v10.1.17/bin/apache-tomcat-10.1.17.zip</url>
+                                </zipUrlInstaller>
+                            </container>
+                            <configuration>
+                                <properties>
+                                    <cargo.jvmargs>
+                                        -javaagent:${settings.localRepository}/org/jacoco/org.jacoco.agent/${jacoco.version}/org.jacoco.agent-${jacoco.version}-runtime.jar=destfile=${project.build.directory}/coverage-reports/jacoco-st.exec,append=true
+                                    </cargo.jvmargs>
+                                </properties>
+                                <type>standalone</type>
+                                <home>${project.build.directory}/tomcat</home>
+                            </configuration>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>start-tomcat</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>start</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>stop-tomcat</id>
+                                <phase>post-integration-test</phase>
+                                <goals>
+                                    <goal>stop</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-compiler-plugin</artifactId>
@@ -447,7 +471,7 @@
                         <artifactId>maven-war-plugin</artifactId>
                         <version>${maven-war-plugin.version}</version>
                         <configuration>
-                            <warName>${project.artifactId}-${project.version}-system_test</warName>
+                            <warName>${project.artifactId}-system_test</warName>
                             <webResources>
                                 <resource>
                                     <directory>${project.basedir}/src/test/resources/WEB-INF</directory>
@@ -479,7 +503,7 @@
                                 </goals>
                                 <configuration>
                                     <includes>
-                                        <include>**/*ST.java</include>
+                                        <include>**/*UITest.java</include>
                                     </includes>
 
                                     <skipTests>${skipSystemTests}</skipTests>
@@ -503,7 +527,7 @@
                                     <goal>report</goal>
                                 </goals>
                                 <configuration>
-                                    <dataFile>${project.build.directory}/coverage-reports/jacoco-st-*.exec</dataFile>
+                                    <dataFile>${project.build.directory}/coverage-reports/jacoco-st.exec</dataFile>
                                     <outputDirectory>${project.reporting.outputDirectory}/jacoco-st</outputDirectory>
                                 </configuration>
                             </execution>
