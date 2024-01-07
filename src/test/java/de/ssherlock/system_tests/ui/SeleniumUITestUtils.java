@@ -5,8 +5,10 @@ import de.ssherlock.control.notification.NotificationType;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
 
 /**
  * Utility class for selenium ui tests.
@@ -56,11 +58,11 @@ public final class SeleniumUITestUtils {
      * @param username The username.
      * @param password The password.
      */
-    public static void tryLogin(WebDriver webDriver, String username, String password) {
+    public static void tryLogin(WebDriver webDriver, WebDriverWait wait, String username, String password) {
         navigateTo(webDriver, "view/public/login.xhtml");
         webDriver.findElement(By.id("loginForm:username")).sendKeys(username);
         webDriver.findElement(By.id("loginForm:password")).sendKeys(password);
-        webDriver.findElement(By.id("loginForm:login")).click();
+        clickOnElementWithId(wait, "loginForm:login");
     }
 
     /**
@@ -79,11 +81,12 @@ public final class SeleniumUITestUtils {
     /**
      * Clicks on the element with the specified id.
      *
-     * @param webDriver The web driver.
+     * @param wait The web driver wait.
      * @param id The css id.
      */
-    public static void clickOnElementWithId(WebDriver webDriver, String id) {
-        webDriver.findElement(By.id(id)).click();
+    public static void clickOnElementWithId(WebDriverWait wait, String id) {
+        WebElement element = wait.until(elementToBeClickable(By.id(id)));
+        element.click();
     }
 
 }

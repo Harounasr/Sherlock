@@ -5,9 +5,7 @@ import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.system_tests.ui.AbstractSeleniumUITest;
 import de.ssherlock.system_tests.ui.SeleniumUITestUtils;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestClassOrder;
 import org.junit.jupiter.api.TestInstance;
-import org.openqa.selenium.By;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -24,7 +22,7 @@ public class LoginUITest extends AbstractSeleniumUITest {
      */
     @Test
     void testLoginSuccess() {
-        SeleniumUITestUtils.tryLogin(getDriver(), SeleniumUITestUtils.ADMIN_USERNAME, SeleniumUITestUtils.ADMIN_PASSWORD);
+        SeleniumUITestUtils.tryLogin(getDriver(), getWait(), SeleniumUITestUtils.ADMIN_USERNAME, SeleniumUITestUtils.ADMIN_PASSWORD);
         assertEquals(SeleniumUITestUtils.BASE_URL + "view/registered/coursePagination.xhtml?all=true", getDriver().getCurrentUrl());
     }
 
@@ -33,7 +31,7 @@ public class LoginUITest extends AbstractSeleniumUITest {
      */
     @Test
     void testLoginFailed() {
-        SeleniumUITestUtils.tryLogin(getDriver(), SeleniumUITestUtils.ADMIN_USERNAME, "wrongPassword");
+        SeleniumUITestUtils.tryLogin(getDriver(), getWait(), SeleniumUITestUtils.ADMIN_USERNAME, "wrongPassword");
         assertEquals(SeleniumUITestUtils.BASE_URL + "view/public/login.xhtml", getDriver().getCurrentUrl());
         Notification expectedNotification = new Notification("Login Failed, Username and password do not match.", NotificationType.ERROR);
         SeleniumUITestUtils.checkNotification(getDriver(), expectedNotification);
@@ -46,7 +44,7 @@ public class LoginUITest extends AbstractSeleniumUITest {
     @Test
     void testRegisterClicked() {
         SeleniumUITestUtils.navigateTo(getDriver(), "view/public/login.xhtml");
-        SeleniumUITestUtils.clickOnElementWithId(getDriver(), "loginForm:register");
+        SeleniumUITestUtils.clickOnElementWithId(getWait(), "loginForm:register");
         assertEquals(SeleniumUITestUtils.BASE_URL + "view/public/registration.xhtml", getDriver().getCurrentUrl());
     }
 
@@ -57,7 +55,7 @@ public class LoginUITest extends AbstractSeleniumUITest {
     @Test
     void testPasswordForgottenClicked() {
         SeleniumUITestUtils.navigateTo(getDriver(), "view/public/login.xhtml");
-        SeleniumUITestUtils.clickOnElementWithId(getDriver(), "loginForm:passwordForgotten");
+        SeleniumUITestUtils.clickOnElementWithId(getWait(), "loginForm:passwordForgotten");
         assertEquals(SeleniumUITestUtils.BASE_URL + "view/public/passwordForgotten.xhtml", getDriver().getCurrentUrl());
     }
 
