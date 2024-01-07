@@ -427,6 +427,11 @@
                                 </zipUrlInstaller>
                             </container>
                             <configuration>
+                                <properties>
+                                    <cargo.jvmargs>
+                                        -javaagent:${settings.localRepository}/org/jacoco/org.jacoco.agent/${jacoco.version}/org.jacoco.agent-${jacoco.version}-runtime.jar=destfile=${project.build.directory}/coverage-reports/jacoco-st.exec,append=true
+                                    </cargo.jvmargs>
+                                </properties>
                                 <type>standalone</type>
                                 <home>${project.build.directory}/tomcat</home>
                             </configuration>
@@ -515,17 +520,6 @@
                         <artifactId>jacoco-maven-plugin</artifactId>
                         <version>${jacoco.version}</version>
                         <executions>
-                            <execution>
-                                <id>pre-system-test</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>prepare-agent</goal>
-                                </goals>
-                                <configuration>
-                                    <destFile>${project.build.directory}/coverage-reports/jacoco-st.exec</destFile>
-                                    <propertyName>failsafeSystemTestArgLine</propertyName>
-                                </configuration>
-                            </execution>
                             <execution>
                                 <id>post-system-test</id>
                                 <phase>post-integration-test</phase>
