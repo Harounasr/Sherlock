@@ -35,7 +35,9 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
@@ -218,9 +220,8 @@ public class UserService implements Serializable {
         Connection connection = connectionPool.getConnection();
         UserRepository userRepository = RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
         HashMap<Exercise, List<User>> data = userRepository.getDataForReminderMail();
-        for (Exercise exercise : data.keySet()) {
-            List<User> users = data.get(exercise);
-            mail.sendReminderMail(users, MailContentBuilder.buildReminderMail(exercise));
+        for (Map.Entry<Exercise, List<User>> entry : data.entrySet()) {
+            mail.sendReminderMail(entry.getValue(), MailContentBuilder.buildReminderMail(entry.getKey()));
         }
     }
 
