@@ -1,14 +1,9 @@
 package de.ssherlock.business.maintenance;
 
-import de.ssherlock.business.service.ExerciseService;
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
-import de.ssherlock.persistence.connection.ConnectionPool;
-import de.ssherlock.persistence.util.Mail;
 import jakarta.inject.Inject;
-
-import java.util.List;
 
 /**
  * Automatically sends an E-Mail to a user.
