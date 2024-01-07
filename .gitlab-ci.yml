@@ -81,8 +81,6 @@ system-test-chrome:
         - scripts/system_tests_chrome.sh
     artifacts:
         when: always
-        paths:
-            - target/tomcat.log
         reports:
             junit:
                 - target/failsafe-reports/TEST-*.xml

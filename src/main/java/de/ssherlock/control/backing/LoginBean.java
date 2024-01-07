@@ -50,7 +50,7 @@ public class LoginBean {
     /**
      * The loginInfo entered by the user.
      */
-    private LoginInfo loginInfo;
+    private final LoginInfo loginInfo;
 
     /**
      * Constructor for LoginBean.
