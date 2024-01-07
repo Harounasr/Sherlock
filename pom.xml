@@ -515,6 +515,17 @@
                         <version>${jacoco.version}</version>
                         <executions>
                             <execution>
+                                <id>pre-system-test</id>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                                <configuration>
+                                    <skip>${skipIntegrationTests}</skip>
+                                    <destFile>${project.build.directory}/coverage-reports/jacoco-st.exec</destFile>
+                                    <propertyName>failsafeIntegrationTestArgLine</propertyName>
+                                </configuration>
+                            </execution>
+                            <execution>
                                 <id>post-system-test</id>
                                 <phase>post-integration-test</phase>
                                 <goals>
