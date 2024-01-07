@@ -23,7 +23,7 @@ variables:
     MAVEN_OPTS: "-Dmaven.repo.local=/home/test/.m2/repository"
     RUN_SYSTEM_TESTS: "true"
 
-# A build /target for compilation
+# A build target for compilation
 build:
     stage: build
     needs: []
@@ -32,10 +32,10 @@ build:
     artifacts:
         paths:
             - .m2/
-            - /target
+            - target
         expire_in: 3 hrs
 
-# A /target for mega-linter
+# A target for mega-linter
 mega-linter:
     stage: lint
     needs: []
@@ -49,14 +49,14 @@ mega-linter:
             - report
         expire_in: 1 week
 
-# A /target for spotbugs
+# A target for spotbugs
 spotbugs:
     stage: lint
     needs: []
     script:
         - scripts/spotbugs.sh
 
-# A /target for running integration tests
+# A target for running integration tests
 integration-test:
     stage: test
     needs:
@@ -68,10 +68,10 @@ integration-test:
         when: always
         reports:
             junit:
-                - /target/failsafe-reports/TEST-*.xml
+                - target/failsafe-reports/TEST-*.xml
         expire_in: 1 week
 
-# A /target for running system tests with chrome
+# A target for running system tests with chrome
 system-test-chrome:
     image: leonfoeck/sep2023:st-1.0.2
     stage: test
@@ -83,15 +83,15 @@ system-test-chrome:
     artifacts:
         when: always
         paths:
-            - /target/tomcat.log
+            - target/tomcat.log
         reports:
             junit:
-                - /target/failsafe-reports/TEST-*.xml
+                - target/failsafe-reports/TEST-*.xml
         expire_in: 1 day
     rules:
         -   if: $RUN_SYSTEM_TESTS == "true"
 
-# A /target for running system tests
+# A target for running system tests
 system-test-firefox:
     image: leonfoeck/sep2023:st-1.0.2
     stage: test
@@ -103,15 +103,15 @@ system-test-firefox:
     artifacts:
         when: always
         paths:
-            - /target/tomcat.log
+            - target/tomcat.log
         reports:
             junit:
-                - /target/failsafe-reports/TEST-*.xml
+                - target/failsafe-reports/TEST-*.xml
         expire_in: 1 day
     rules:
         -   if: $RUN_SYSTEM_TESTS == "true"
 
-# A /target for running system tests
+# A target for running system tests
 system-test-edge:
     image: leonfoeck/sep2023:st-1.0.2
     stage: test
@@ -123,15 +123,15 @@ system-test-edge:
     artifacts:
         when: always
         paths:
-            - /target/tomcat.log
+            - target/tomcat.log
         reports:
             junit:
-                - /target/failsafe-reports/TEST-*.xml
+                - target/failsafe-reports/TEST-*.xml
         expire_in: 1 day
     rules:
         -   if: $RUN_SYSTEM_TESTS == "true"
 
-# A /target for building the WAR archive
+# A target for building the WAR archive
 package:
     stage: package
     needs:
@@ -140,12 +140,12 @@ package:
         - scripts/package.sh
     artifacts:
         paths:
-            - /target/*.war
-            - /target/*-maven-project.zip
+            - target/*.war
+            - target/*-maven-project.zip
         expire_in: 1 week
     rules: [if: $CI_COMMIT_TAG, if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH]
 
-# A /target for generating the javadoc
+# A target for generating the javadoc
 javadoc:
     stage: doc
     needs: []
@@ -154,5 +154,5 @@ javadoc:
     artifacts:
         when: always
         paths:
-            - /target/site/apidocs/
+            - target/site/apidocs/
         expire_in: 1 week

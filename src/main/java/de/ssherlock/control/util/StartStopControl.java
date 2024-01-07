@@ -52,7 +52,7 @@ public class StartStopControl implements ServletContextListener, Serializable {
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
         logger.info("Control layer destroyed.");
-        startStopBusiness.destroy();
+        //startStopBusiness.destroy();
     }
 
     /**
