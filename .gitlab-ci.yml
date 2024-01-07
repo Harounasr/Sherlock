@@ -21,7 +21,7 @@ default:
 # Set Maven's local dependency repository
 variables:
     MAVEN_OPTS: "-Dmaven.repo.local=/home/test/.m2/repository"
-    RUN_SYSTEM_TESTS: "false"
+    RUN_SYSTEM_TESTS: "true"
 
 # A build target for compilation
 build:

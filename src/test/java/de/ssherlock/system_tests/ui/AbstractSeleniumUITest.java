@@ -37,6 +37,9 @@ public class AbstractSeleniumUITest {
     @BeforeAll
     public static void setUp() {
         ChromeOptions options = new ChromeOptions();
+        if (System.getenv("GITLAB_CI") != null || System.getenv("JENKINS_NODE_COOKIE") != null) {
+            options.addArguments("--headless");
+        }
         driver = new ChromeDriver(options);
         wait = new WebDriverWait(driver, Duration.ofSeconds(TIMEOUT));
     }

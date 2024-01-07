@@ -23,7 +23,7 @@ public class SeleniumUITestUtils {
     /**
      * This' systems base location.
      */
-    public static final String BASE_URL = "http://localhost:8080/software_sherlock_exploded/";
+    public static final String BASE_URL = "http://localhost:8080/ssherlock_war_exploded/";
 
     /**
      * Navigates to the provided location.
