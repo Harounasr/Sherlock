@@ -75,6 +75,7 @@ public class ExerciseDescriptionImageServletIT {
      *
      * @throws Exception can be ignored.
      */
+    @SuppressWarnings("checkstyle:MagicNumber")
     @Test
     void testDoGetSuccess() throws Exception {
         when(request.getParameter("id")).thenReturn("validImageId");

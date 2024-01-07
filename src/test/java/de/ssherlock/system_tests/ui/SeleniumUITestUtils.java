@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * @author Victor Vollmann
  */
-public class SeleniumUITestUtils {
+public final class SeleniumUITestUtils {
 
     /**
      * Username of an administrator in the system.

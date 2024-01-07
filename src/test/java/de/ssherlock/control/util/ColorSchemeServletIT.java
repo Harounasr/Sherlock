@@ -39,7 +39,7 @@ public class ColorSchemeServletIT {
     private HttpServletResponse response;
 
     /**
-     * Mocked system service
+     * Mocked system service.
      */
     @Mock
     private SystemService systemService;

@@ -1,5 +1,6 @@
 package de.ssherlock.system_tests.ui;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.openqa.selenium.WebDriver;
@@ -22,7 +23,7 @@ public class AbstractSeleniumUITest {
     private static WebDriver driver;
 
     /**
-     * The current WebDriverWait
+     * The current WebDriverWait.
      */
     private static WebDriverWait wait;
 
@@ -30,6 +31,13 @@ public class AbstractSeleniumUITest {
      * The timeout for elements to be found.
      */
     private static final int TIMEOUT = 10;
+
+    /**
+     * Default constructor.
+     */
+    protected AbstractSeleniumUITest() {
+
+    }
 
     /**
      * Sets up the web driver and wait.
@@ -59,6 +67,7 @@ public class AbstractSeleniumUITest {
      *
      * @return the driver
      */
+    @SuppressFBWarnings("MS_EXPOSE_REP")
     public static WebDriver getDriver() {
         return driver;
     }
