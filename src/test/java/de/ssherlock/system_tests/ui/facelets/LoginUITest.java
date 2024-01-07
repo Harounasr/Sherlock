@@ -5,7 +5,9 @@ import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.system_tests.ui.AbstractSeleniumUITest;
 import de.ssherlock.system_tests.ui.SeleniumUITestUtils;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestClassOrder;
 import org.junit.jupiter.api.TestInstance;
+import org.openqa.selenium.By;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -35,6 +37,28 @@ public class LoginUITest extends AbstractSeleniumUITest {
         assertEquals(SeleniumUITestUtils.BASE_URL + "view/public/login.xhtml", getDriver().getCurrentUrl());
         Notification expectedNotification = new Notification("Login Failed, Username and password do not match.", NotificationType.ERROR);
         SeleniumUITestUtils.checkNotification(getDriver(), expectedNotification);
+    }
+
+    /**
+     * Test for clicking on the register button.
+     * User should be redirected to the register Facelet.
+     */
+    @Test
+    void testRegisterClicked() {
+        SeleniumUITestUtils.navigateTo(getDriver(), "view/public/login.xhtml");
+        SeleniumUITestUtils.clickOnElementWithId(getDriver(), "loginForm:register");
+        assertEquals(SeleniumUITestUtils.BASE_URL + "view/public/registration.xhtml", getDriver().getCurrentUrl());
+    }
+
+    /**
+     * Test for clicking on the password forgotten button.
+     * User should be redirected to the passwordForgotten Facelet.
+     */
+    @Test
+    void testPasswordForgottenClicked() {
+        SeleniumUITestUtils.navigateTo(getDriver(), "view/public/login.xhtml");
+        SeleniumUITestUtils.clickOnElementWithId(getDriver(), "loginForm:passwordForgotten");
+        assertEquals(SeleniumUITestUtils.BASE_URL + "view/public/passwordForgotten.xhtml", getDriver().getCurrentUrl());
     }
 
 }

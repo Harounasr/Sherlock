@@ -26,7 +26,7 @@ public final class SeleniumUITestUtils {
     public static final String ADMIN_PASSWORD = "lennyistdoof";
 
     /**
-     * This' systems base location.
+     * This systems' base location.
      * If running a single test and manually starting tomcat you may want
      * to change this to /ssherlock_war_exploded/.
      */
@@ -74,6 +74,16 @@ public final class SeleniumUITestUtils {
         WebElement element = webDriver.findElement(By.cssSelector(".popup-notifications, " + typeClassName + " > td"));
         assertTrue(element.isDisplayed());
         assertTrue(element.getText().contains(notification.text()));
+    }
+
+    /**
+     * Clicks on the element with the specified id.
+     *
+     * @param webDriver The web driver.
+     * @param id The css id.
+     */
+    public static void clickOnElementWithId(WebDriver webDriver, String id) {
+        webDriver.findElement(By.id(id)).click();
     }
 
 }
