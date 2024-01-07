@@ -3,6 +3,7 @@ package de.ssherlock.system_tests.ui;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -42,6 +43,7 @@ public abstract class AbstractSeleniumUITest {
             options.addArguments("--headless");
         }
         driver = new ChromeDriver(options);
+        driver.manage().window().setSize(new Dimension(1920, 1080));
         wait = new WebDriverWait(driver, Duration.ofSeconds(TIMEOUT));
     }
 

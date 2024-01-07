@@ -55,6 +55,7 @@ public final class SeleniumUITestUtils {
      * Attempts to log in with the given credentials.
      *
      * @param webDriver The web driver.
+     * @param wait The web driver wait.
      * @param username The username.
      * @param password The password.
      */
