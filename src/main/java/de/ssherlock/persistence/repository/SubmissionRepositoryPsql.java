@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
 
 /**
  * Implementation of SubmissionRepository for PostgreSQL database.
@@ -75,7 +76,50 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
      */
     @Override
     public Submission getSubmission(Submission submission) {
-        return null;
+        List<SubmissionFile> submissionFiles = new ArrayList<>();
+        String submissionFilesQuery = """
+                                      SELECT * FROM submission_file
+                                      WHERE submission_id = ?;
+                                      """;
+        try (PreparedStatement statement = getConnection().prepareStatement(submissionFilesQuery)) {
+            statement.setLong(1, submission.getId());
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                do {
+                    SubmissionFile submissionFile = new SubmissionFile();
+                    submissionFile.setName(resultSet.getString("file_name"));
+                    submissionFile.setBytes(resultSet.getBytes("file"));
+                    submissionFiles.add(submissionFile);
+                } while (resultSet.next());
+            } else {
+                // Handle the case where no submission files were found
+                logger.log(Level.INFO, "No submission files found for submission ID: " + submission.getId());
+                return new Submission();
+            }
+        } catch (SQLException e) {
+            logger.log(Level.INFO, "Submission files could not be loaded." + e);
+            return new Submission();
+        }
+
+        String sqlQuery = """
+                          SELECT * FROM submission
+                          WHERE id = ?;
+                          """;
+        try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
+            statement.setLong(1, submission.getId());
+            ResultSet resultSet = statement.executeQuery();
+            Submission resultSubmission = new Submission();
+            if (resultSet.next()) {
+                resultSubmission.setSubmissionFiles(submissionFiles);
+                resultSubmission.setUser(resultSet.getString("student_username"));
+                resultSubmission.setTutor(resultSet.getString("tutor_username"));
+                resultSubmission.setId(resultSet.getLong("id"));
+            }
+            return resultSubmission;
+        } catch (SQLException e) {
+            logger.log(Level.INFO, "Submission could not be loaded." + e);
+            return new Submission();
+        }
     }
 
     /**

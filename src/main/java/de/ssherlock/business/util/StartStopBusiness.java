@@ -3,6 +3,7 @@ package de.ssherlock.business.util;
 import de.ssherlock.business.maintenance.MaintenanceProcessExecutor;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.persistence.util.StartStopPersistence;
+import jakarta.annotation.PreDestroy;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletContextEvent;
@@ -64,6 +65,7 @@ public class StartStopBusiness implements Serializable {
     /**
      * Destroys the business layer.
      */
+    @PreDestroy
     public void destroy() {
         executor.destroy();
         logger.info("Business Layer destroyed.");

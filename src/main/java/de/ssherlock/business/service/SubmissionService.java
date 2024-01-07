@@ -12,6 +12,7 @@ import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.connection.ConnectionPool;
 import de.ssherlock.persistence.exception.PersistenceDBAccessException;
 import de.ssherlock.persistence.exception.PersistenceNonExistentCourseException;
+import de.ssherlock.persistence.exception.PersistenceNonExistentSubmissionException;
 import de.ssherlock.persistence.repository.RepositoryFactory;
 import de.ssherlock.persistence.repository.RepositoryType;
 import de.ssherlock.persistence.repository.SubmissionRepository;
@@ -168,7 +169,15 @@ public class SubmissionService implements Serializable {
      */
     public Submission getSubmission(Submission submission)
             throws BusinessNonExistentSubmissionException {
-        return null;
+        Connection connection = connectionPool.getConnection();
+        SubmissionRepository submissionRepository = RepositoryFactory.getSubmissionRepository(RepositoryType.POSTGRESQL, connection);
+        try {
+            return submissionRepository.getSubmission(submission);
+        } catch (PersistenceNonExistentSubmissionException e) {
+            throw new RuntimeException(e);
+        } finally {
+            connectionPool.releaseConnection(connection);
+        }
     }
 
     /**

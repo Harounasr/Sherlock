@@ -14,6 +14,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -47,22 +48,15 @@ public class TestateRepositoryPsql extends RepositoryPsql implements TestateRepo
     public void insertTestate(Testate testate) {
         String sqlQuery = """
                           INSERT INTO testate (submission_id, tutor_id, layout_grade, structure_grade, readability_grade, functionality_grade)
-                          VALUES (
-                          submission_id = ?,
-                          tutor_id = ?,
-                          layout_grade = ?,
-                          structure_grade = ?,
-                          readability_grade = ?,
-                          functionality_grade = ?
-                          )
+                          VALUES (?, ?, ?, ?, ?, ?);
                           """;
         try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
             statement.setLong(1, testate.getSubmission().getId());
             statement.setLong(2, testate.getEvaluatorId());
-            statement.setInt(3, testate.getLayoutGrade());
-            statement.setInt(4, testate.getStructureGrade());
-            statement.setInt(5, testate.getReadabilityGrade());
-            statement.setInt(6, testate.getFunctionalityGrade());
+            statement.setObject(3, testate.getLayoutGrade(), Types.OTHER);
+            statement.setObject(4, testate.getStructureGrade(), Types.OTHER);
+            statement.setObject(5, testate.getReadabilityGrade(), Types.OTHER);
+            statement.setObject(6, testate.getFunctionalityGrade(), Types.OTHER);
 
             statement.executeUpdate();
         } catch (SQLException e) {
