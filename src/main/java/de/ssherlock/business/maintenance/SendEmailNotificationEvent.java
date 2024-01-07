@@ -1,37 +1,57 @@
 package de.ssherlock.business.maintenance;
 
+import de.ssherlock.business.service.ExerciseService;
+import de.ssherlock.business.service.UserService;
 import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
+import de.ssherlock.persistence.connection.ConnectionPool;
+import de.ssherlock.persistence.util.Mail;
+import jakarta.inject.Inject;
+
+import java.util.List;
 
 /**
  * Automatically sends an E-Mail to a user.
  *
  * @author Leon Höfling
  */
-final class SendEmailNotificationEvent {
+public class SendEmailNotificationEvent {
 
-  /** Logger instance for logging messages related to CourseService. */
-  private static final SerializableLogger LOGGER =
-      LoggerCreator.get(SendEmailNotificationEvent.class);
+    /**
+     * Logger instance for logging messages related to CourseService.
+     */
+    private static final SerializableLogger LOGGER =
+            LoggerCreator.get(SendEmailNotificationEvent.class);
 
-  /** Defines the rate in which this Event should be executed. */
-  public static final int EXECUTION_RATE = 60 * 60 * 3;
+    /**
+     * The User-service for this class.
+     */
+    @Inject
+    private UserService userService;
 
-  /** Constructs a new SendEmailNotificationEvent. */
-  SendEmailNotificationEvent() {}
+    /**
+     * Constructs a new SendEmailNotificationEvent.
+     */
+    public SendEmailNotificationEvent() {}
 
-  /**
-   * Checks if SendEmailNotificationEvent is currently running.
-   *
-   * @return true/false according to the state of SendEmailNotificationEvent.
-   */
-  public boolean isRunning() {
-    return false;
-  }
+    /**
+     * Sends email notifications.
+     */
+    public void sendEmailNotifications() {
+        userService.sendReminderEmail();
+    }
 
-  /** Shuts down the SendEmailNotificationEvent. */
-  public void shutdown() {}
+    /**
+     * Checks if SendEmailNotificationEvent is currently running.
+     *
+     * @return true/false according to the state of SendEmailNotificationEvent.
+     */
+    public boolean isRunning() {
+        return false;
+    }
 
-  /** Sends email notifications. */
-  public void sendEmailNotifications() {}
+    /**
+     * Shuts down the SendEmailNotificationEvent.
+     */
+    public void shutdown() {}
 }

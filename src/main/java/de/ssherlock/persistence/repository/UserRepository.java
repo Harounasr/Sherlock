@@ -2,10 +2,12 @@ package de.ssherlock.persistence.repository;
 
 import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.CourseRole;
+import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.exception.PersistenceNonExistentCourseException;
 import de.ssherlock.persistence.exception.PersistenceNonExistentUserException;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -111,4 +113,9 @@ public interface UserRepository {
      * Resets the Number of Attempts to enter a password for every user every hour.
      */
     void resetPasswordAttempts();
+
+    /**
+     * Gets the users information and exercise required for sending the reminder mails.
+     */
+    HashMap<Exercise, List<User>> getDataForReminderMail();
 }
