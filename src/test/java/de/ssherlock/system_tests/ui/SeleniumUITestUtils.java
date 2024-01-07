@@ -33,6 +33,13 @@ public final class SeleniumUITestUtils {
     public static final String BASE_URL = "http://localhost:8080/ssherlock/";
 
     /**
+     * Private constructor for utility class.
+     */
+    private SeleniumUITestUtils() {
+
+    }
+
+    /**
      * Navigates to the provided location.
      *
      * @param webDriver The web driver.

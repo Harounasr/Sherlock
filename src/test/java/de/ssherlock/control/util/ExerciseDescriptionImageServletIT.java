@@ -75,8 +75,8 @@ public class ExerciseDescriptionImageServletIT {
      *
      * @throws Exception can be ignored.
      */
-    @SuppressWarnings("checkstyle:MagicNumber")
     @Test
+    @SuppressWarnings("checkstyle:MagicNumber")
     void testDoGetSuccess() throws Exception {
         when(request.getParameter("id")).thenReturn("validImageId");
         ExerciseDescriptionImage mockImage = new ExerciseDescriptionImage();
@@ -123,6 +123,7 @@ public class ExerciseDescriptionImageServletIT {
      * @throws Exception can be ignored.
      */
     @Test
+    @SuppressWarnings("checkstyle:MagicNumber")
     void testDoGetFailedIOException() throws Exception {
         when(request.getParameter("id")).thenReturn("validImageId");
         doThrow(new IOException()).when(mockedOutputStream).write(any(byte[].class));

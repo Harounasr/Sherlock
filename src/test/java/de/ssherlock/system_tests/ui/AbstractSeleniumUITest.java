@@ -15,7 +15,7 @@ import java.time.Duration;
  *
  * @author Victor Vollmann
  */
-public class AbstractSeleniumUITest {
+public abstract class AbstractSeleniumUITest {
 
     /**
      * The current WebDriver.
@@ -31,13 +31,6 @@ public class AbstractSeleniumUITest {
      * The timeout for elements to be found.
      */
     private static final int TIMEOUT = 10;
-
-    /**
-     * Default constructor.
-     */
-    protected AbstractSeleniumUITest() {
-
-    }
 
     /**
      * Sets up the web driver and wait.
