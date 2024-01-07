@@ -34,6 +34,16 @@ public abstract class AbstractSeleniumUITest {
     private static final int TIMEOUT = 10;
 
     /**
+     * Screen height.
+     */
+    private static final int SCREEN_WIDTH = 1920;
+
+    /**
+     * Screen width.
+     */
+    private static final int SCREEN_HEIGHT = 1080;
+
+    /**
      * Sets up the web driver and wait.
      */
     @BeforeAll
@@ -43,7 +53,7 @@ public abstract class AbstractSeleniumUITest {
             options.addArguments("--headless");
         }
         driver = new ChromeDriver(options);
-        driver.manage().window().setSize(new Dimension(1920, 1080));
+        driver.manage().window().setSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         wait = new WebDriverWait(driver, Duration.ofSeconds(TIMEOUT));
     }
 
