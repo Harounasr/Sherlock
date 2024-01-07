@@ -108,6 +108,7 @@ public class UserService implements Serializable {
      *                                          password.
      * @throws BusinessNonExistentUserException when the user is not registered in the system.
      */
+    @SuppressWarnings("checkstyle:MagicNumber")
     public User login(LoginInfo loginInfo)
             throws LoginFailedException, BusinessNonExistentUserException {
         Connection connection = connectionPool.getConnection();

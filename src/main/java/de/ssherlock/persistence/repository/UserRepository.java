@@ -116,6 +116,8 @@ public interface UserRepository {
 
     /**
      * Gets the users information and exercise required for sending the reminder mails.
+     *
+     * @return the data.
      */
     HashMap<Exercise, List<User>> getDataForReminderMail();
 }
