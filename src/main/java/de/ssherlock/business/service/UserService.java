@@ -9,6 +9,7 @@ import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.CourseRole;
+import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.LoginInfo;
 import de.ssherlock.global.transport.Pagination;
 import de.ssherlock.global.transport.SystemRole;
@@ -33,7 +34,9 @@ import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
@@ -106,6 +109,7 @@ public class UserService implements Serializable {
      *                                          password.
      * @throws BusinessNonExistentUserException when the user is not registered in the system.
      */
+    @SuppressWarnings("checkstyle:MagicNumber")
     public User login(LoginInfo loginInfo)
             throws LoginFailedException, BusinessNonExistentUserException {
         Connection connection = connectionPool.getConnection();
@@ -121,12 +125,11 @@ public class UserService implements Serializable {
             throw new BusinessNonExistentUserException(
                     "The user " + loginInfo.getUsername() + " is not registered in the system");
         }
-        // uncomment after failedLoginAttemptsCleanUp was implemented
-    /*
-    if (user.getFailedLoginAttempts() >= 5) {
-        throw new LoginFailedException();
-    }
-       */
+
+        if (user.getFailedLoginAttempts() >= 5) {
+            throw new LoginFailedException();
+        }
+
         if (user.getSystemRole() == SystemRole.NOT_VERIFIED) {
             throw new LoginFailedException();
         }
@@ -206,6 +209,18 @@ public class UserService implements Serializable {
             throw new BusinessNonExistentUserException();
         } finally {
             connectionPool.releaseConnection(connection);
+        }
+    }
+
+    /**
+     * Sends reminder Emails to a List of users.
+     */
+    public void sendReminderEmail() {
+        Connection connection = connectionPool.getConnection();
+        UserRepository userRepository = RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
+        HashMap<Exercise, List<User>> data = userRepository.getDataForReminderMail();
+        for (Map.Entry<Exercise, List<User>> entry : data.entrySet()) {
+            mail.sendReminderMail(entry.getValue(), MailContentBuilder.buildReminderMail(entry.getKey()));
         }
     }
 

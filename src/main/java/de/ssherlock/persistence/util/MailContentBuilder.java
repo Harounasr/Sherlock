@@ -52,8 +52,8 @@ public final class MailContentBuilder {
   public static String buildReminderMail(Exercise exercise) {
 
       return String.format("Hi.%nThis is a reminder that you have an upcoming "
-                                             + "deadline for this exercise: %s.%nRecommended deadline: %s%nObligatory deadline: %s",
-                                             exercise.getName(), exercise.getRecommendedDeadline(), exercise.getObligatoryDeadline());
+                                             + "deadline for this exercise: %s.%nObligatory deadline: %s",
+                                             exercise.getName(), exercise.getObligatoryDeadline());
 
   }
 }

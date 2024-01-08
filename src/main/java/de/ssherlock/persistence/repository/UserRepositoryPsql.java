@@ -4,6 +4,7 @@ import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Course;
 import de.ssherlock.global.transport.CourseRole;
+import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.Password;
 import de.ssherlock.global.transport.SystemRole;
 import de.ssherlock.global.transport.User;
@@ -417,5 +418,47 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
         } catch (SQLException e) {
             logger.log(Level.INFO, "Could not Reset Password Attempts.");
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public HashMap<Exercise, List<User>> getDataForReminderMail() {
+        HashMap<Exercise, List<User>> result = new HashMap<>();
+        String sqlQuery = """
+                          SELECT
+                              e.id,
+                              e.name,
+                              e.obligatory_deadline,
+                              u.email
+                          FROM
+                              exercise e
+                                  JOIN
+                              course c ON e.course_id = c.id
+                                  JOIN
+                              participates p ON c.id = p.course_id
+                                  JOIN
+                              "user" u ON p.user_id = u.id
+                          WHERE obligatory_deadline < NOW() + INTERVAL '2 DAYS' AND reminder_mail_sent = FALSE;
+                          """;
+        try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                do {
+                    User user = new User();
+                    user.setEmail(resultSet.getString("email"));
+
+                    Exercise exercise = new Exercise();
+                    exercise.setId(resultSet.getLong("id"));
+                    exercise.setName(resultSet.getString("name"));
+                    exercise.setObligatoryDeadline(resultSet.getTimestamp("obligatory_deadline"));
+
+                    result.computeIfAbsent(exercise, k -> new ArrayList<>()).add(user);
+                } while (resultSet.next());
+            }
+        } catch (SQLException e) {
+            logger.log(Level.INFO, "Could not get data for reminder mail.");
+        }
+        return result;
     }
 }

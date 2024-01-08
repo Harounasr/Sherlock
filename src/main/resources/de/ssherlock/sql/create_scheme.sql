@@ -59,7 +59,8 @@ CREATE TABLE IF NOT EXISTS exercise
     publish_date         TIMESTAMP          WITH TIME ZONE NOT NULL,
     recommended_deadline TIMESTAMP          WITH TIME ZONE NOT NULL,
     obligatory_deadline  TIMESTAMP          WITH TIME ZONE NOT NULL,
-                                                description          TEXT,
+    description          TEXT,
+    reminder_mail_sent   BOOL DEFAULT FALSE,
 
                                                 FOREIGN KEY (course_name) REFERENCES course (course_name) ON DELETE CASCADE,
     CONSTRAINT date_constraints CHECK (publish_date < recommended_deadline AND recommended_deadline < obligatory_deadline)
