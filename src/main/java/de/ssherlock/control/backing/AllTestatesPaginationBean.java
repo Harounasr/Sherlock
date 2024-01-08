@@ -8,7 +8,6 @@ import de.ssherlock.global.transport.SystemRole;
 import de.ssherlock.global.transport.Testate;
 import de.ssherlock.global.transport.User;
 import jakarta.annotation.PostConstruct;
-import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -16,7 +15,6 @@ import jakarta.inject.Named;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Backing Bean for the allTestatesPagination.xhtml facelet.
@@ -54,6 +52,11 @@ public class AllTestatesPaginationBean extends AbstractPaginationBean implements
     private final TestateService testateService;
 
     /**
+     * Parent Backing bean for exercise.xhtml.
+     */
+    private final ExerciseBean exerciseBean;
+
+    /**
      * List of all testates.
      */
     private List<Testate> testates;
@@ -74,12 +77,14 @@ public class AllTestatesPaginationBean extends AbstractPaginationBean implements
      * @param logger         The logger used for logging within this class (Injected).
      * @param appSession     The active session (Injected).
      * @param testateService The TestateService used for testate-related actions (Injected).
+     * @param exerciseBean   The parent backing bean.
      */
     @Inject
-    public AllTestatesPaginationBean(SerializableLogger logger, AppSession appSession, TestateService testateService) {
+    public AllTestatesPaginationBean(SerializableLogger logger, AppSession appSession, TestateService testateService, ExerciseBean exerciseBean) {
         this.logger = logger;
         this.appSession = appSession;
         this.testateService = testateService;
+        this.exerciseBean = exerciseBean;
     }
 
     /**
@@ -89,9 +94,8 @@ public class AllTestatesPaginationBean extends AbstractPaginationBean implements
     public void initialize() {
         exercise = new Exercise();
         getPagination().setPageSize(PAGE_SIZE);
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        Map<String, String> requestParams = facesContext.getExternalContext().getRequestParameterMap();
-        exercise.setId(Long.parseLong(requestParams.get("Id")));
+        getPagination().setCurrentIndex(0);
+        exercise.setId(exerciseBean.getExerciseId());
         user = appSession.getUser();
 
         if (user.getSystemRole() == SystemRole.TEACHER || appSession.isAdmin()) {
@@ -105,11 +109,10 @@ public class AllTestatesPaginationBean extends AbstractPaginationBean implements
     /**
      * Action that redirects the user to the selected testate.
      *
-     * @param exerciseId The exercise id.
-     * @param username   The username.
+     * @param testate The testate.
      * @return The navigation outcome.
      */
-    public String selectTestate(long exerciseId, String username) {
+    public String selectTestate(Testate testate) {
         return "";
     }
 
