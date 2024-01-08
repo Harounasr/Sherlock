@@ -26,7 +26,7 @@ import java.util.logging.Level;
 /**
  * Backing bean for the allSubmissionPaginationBean.xhtml facelet.
  *
- * @author Leon Höfling
+ * @author Victor Vollmann
  */
 @Named
 @ViewScoped

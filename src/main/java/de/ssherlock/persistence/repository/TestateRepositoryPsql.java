@@ -119,19 +119,6 @@ public class TestateRepositoryPsql extends RepositoryPsql implements TestateRepo
             ResultSet resultSet = statement.executeQuery();
             testateList = processSubmissionResultSet(resultSet);
             boolean x = true;
-
-            while (x) {
-                System.out.println(testateList.get(0).getComments().get(0));
-                System.out.println(testateList.get(0).getSubmission().getId());
-                System.out.println(testateList.get(1).getSubmission().getId());
-                System.out.println(testateList.get(0).getFunctionalityGrade());
-                System.out.println(testateList.get(1).getFunctionalityGrade());
-                System.out.println(testateList.get(0).getReadabilityGrade());
-                System.out.println(testateList.get(1).getReadabilityGrade());
-                x = false;
-
-            }
-
         } catch (SQLException e) {
 
         }

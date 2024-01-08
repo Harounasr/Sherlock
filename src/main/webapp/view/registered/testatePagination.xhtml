@@ -13,9 +13,9 @@
         <title>Testates</title>
         <ui:composition template="../../resources/templates/mainTemplate.xhtml">
 
-           <!-- <f:metadata>
-                <f:param name="exerciseId" value="#{allTestatesPaginationBean.course.name}" />
-            </f:metadata> -->
+            <!-- <f:metadata>
+                 <f:param name="exerciseId" value="#{allTestatesPaginationBean.course.name}" />
+             </f:metadata> -->
 
             <ui:define name="content">
 
@@ -23,7 +23,7 @@
                     <h:messages globalOnly="true"/>
                     <h2 class="mb-3">Exercise List</h2>
                     <h:form>
-                        <comp:paginationSearch backingBean="#{allTestatesPaginationBean}" />
+                        <comp:paginationSearch backingBean="#{allTestatesPaginationBean}"/>
                     </h:form>
 
                     <h:dataTable value="#{allTestatesPaginationBean.testates}" var="testate"
@@ -37,13 +37,14 @@
                         <h:column>
                             <f:facet name="header">Details</f:facet>
                             <h:form>
-                                <h:commandButton value="Details" action="#{allTestatesPaginationBean.select(testate)}" class="btn btn-primary"/>
+                                <h:commandButton value="Details" action="#{allTestatesPaginationBean.selectTestate(testate)}"
+                                                 class="btn btn-primary"/>
                             </h:form>
                         </h:column>
                     </h:dataTable>
 
                     <h:form>
-                        <comp:pagination backingBean="#{allTestatesPaginationBean}" />
+                        <comp:pagination backingBean="#{allTestatesPaginationBean}"/>
                     </h:form>
                 </div>
             </ui:define>
