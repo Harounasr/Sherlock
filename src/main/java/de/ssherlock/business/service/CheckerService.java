@@ -3,7 +3,9 @@ package de.ssherlock.business.service;
 import de.ssherlock.business.exception.BusinessNonExistentCheckerException;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Checker;
+import de.ssherlock.global.transport.CheckerResult;
 import de.ssherlock.global.transport.Exercise;
+import de.ssherlock.global.transport.Submission;
 import de.ssherlock.persistence.connection.ConnectionPool;
 import de.ssherlock.persistence.exception.PersistenceNonExistentCheckerException;
 import de.ssherlock.persistence.repository.CheckerRepository;
@@ -138,5 +140,17 @@ public class CheckerService implements Serializable {
     }
     connectionPool.releaseConnection(connection);
     return checkerList;
+  }
+
+    /**
+     * Gets the CheckerResults for a submission.
+     *
+     * @param submission The submission.
+     * @return The Checker Results.
+     */
+  public List<CheckerResult> getCheckerResultsForSubmission(Submission submission) {
+      Connection connection = connectionPool.getConnection();
+      CheckerRepository checkerRepository = RepositoryFactory.getCheckerRepository(RepositoryType.POSTGRESQL, connection);
+      return checkerRepository.getCheckerResultsForSubmission(submission);
   }
 }

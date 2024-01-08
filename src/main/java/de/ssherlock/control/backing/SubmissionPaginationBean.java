@@ -131,7 +131,9 @@ public class SubmissionPaginationBean extends AbstractPaginationBean implements 
      * @return The navigation outcome.
      */
     public String selectSubmission(long submissionId) {
+        logger.log(Level.INFO, "Put into flash!");
         FacesContext.getCurrentInstance().getExternalContext().getFlash().put("subId", submissionId);
+        logger.log(Level.INFO, "Did so!");
         return "/view/registered/testate.xhtml?faces-redirect=true";
     }
 
