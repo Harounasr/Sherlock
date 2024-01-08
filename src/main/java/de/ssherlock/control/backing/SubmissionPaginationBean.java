@@ -13,6 +13,7 @@ import de.ssherlock.global.transport.CourseRole;
 import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.Submission;
 import jakarta.annotation.PostConstruct;
+import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -130,7 +131,8 @@ public class SubmissionPaginationBean extends AbstractPaginationBean implements 
      * @return The navigation outcome.
      */
     public String selectSubmission(long submissionId) {
-        return "/view/registered/testate.xhtml?faces-redirect=true?subId=" + submissionId;
+        FacesContext.getCurrentInstance().getExternalContext().getFlash().put("subId", submissionId);
+        return "/view/registered/testate.xhtml?faces-redirect=true";
     }
 
     /**
