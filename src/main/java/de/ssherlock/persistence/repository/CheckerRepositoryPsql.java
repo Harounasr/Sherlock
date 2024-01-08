@@ -3,8 +3,10 @@ package de.ssherlock.persistence.repository;
 import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Checker;
+import de.ssherlock.global.transport.CheckerResult;
 import de.ssherlock.global.transport.CheckerType;
 import de.ssherlock.global.transport.Exercise;
+import de.ssherlock.global.transport.Submission;
 import de.ssherlock.persistence.exception.PersistenceNonExistentCheckerException;
 
 import java.sql.Connection;
@@ -236,4 +238,40 @@ public class CheckerRepositoryPsql extends RepositoryPsql implements CheckerRepo
         return allChecker;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<CheckerResult> getCheckerResultsForSubmission(Submission submission) {
+        List<CheckerResult> checkerResults = new ArrayList<>();
+        String sqlQuery = """
+                          SELECT cr.has_passed,
+                                 chk.parameter_1,
+                                 chk.parameter_2,
+                                 chk.type
+                          FROM checker_result cr
+                          JOIN checker chk ON cr.checker_id = chk.id AND cr.exercise_id = chk.exercise_id
+                          WHERE cr.submission_id = ?;
+                          """;
+        try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
+            statement.setLong(1, submission.getId());
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                do {
+                    Checker checker = new Checker();
+                    checker.setParameterOne(resultSet.getString("parameter_1"));
+                    checker.setParameterTwo(resultSet.getString("parameter_2"));
+                    checker.setCheckerType(CheckerType.valueOf(resultSet.getString("type")));
+                    CheckerResult checkerResult = new CheckerResult();
+                    checkerResult.setPassed(resultSet.getBoolean("has_passed"));
+                    checkerResult.setChecker(checker);
+                    checkerResults.add(checkerResult);
+                } while(resultSet.next());
+            }
+        } catch (SQLException e) {
+            logger.log(Level.INFO, "Could not load checkerresults.");
+            throw new RuntimeException();
+        }
+        return checkerResults;
+    }
 }

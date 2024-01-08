@@ -6,7 +6,9 @@ import de.ssherlock.business.service.CheckerService;
 import de.ssherlock.business.service.SubmissionService;
 import de.ssherlock.business.service.TestateService;
 import de.ssherlock.control.session.AppSession;
+import de.ssherlock.control.util.CheckerUtils;
 import de.ssherlock.global.logging.SerializableLogger;
+import de.ssherlock.global.transport.Checker;
 import de.ssherlock.global.transport.CheckerResult;
 import de.ssherlock.global.transport.Submission;
 import de.ssherlock.global.transport.SubmissionFile;
@@ -88,6 +90,11 @@ public class TestateBean implements Serializable {
     private List<List<Object[]>> files;
 
     /**
+     * The List of checker-results.
+     */
+    private List<CheckerResult> checkerResults;
+
+    /**
      * Constructor for TestateBean.
      *
      * @param logger            The logger for this class.
@@ -120,7 +127,9 @@ public class TestateBean implements Serializable {
      */
     @PostConstruct
     public void initialize() {
+        logger.log(Level.INFO, "Trying to get to flash:");
         submission.setId((Long) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("subId"));
+        logger.log(Level.INFO, "Got this: " + FacesContext.getCurrentInstance().getExternalContext().getFlash().get("subId"));
         try {
             submission = submissionService.getSubmission(submission);
         } catch (BusinessNonExistentSubmissionException e) {
@@ -128,6 +137,7 @@ public class TestateBean implements Serializable {
             throw new RuntimeException(e);
         }
         files = convertSubmissionFileToText(submission.getSubmissionFiles());
+        checkerResults = checkerService.getCheckerResultsForSubmission(submission);
     }
 
     /**
@@ -135,7 +145,9 @@ public class TestateBean implements Serializable {
      *
      * @param checkerResult Result of the checker to rerun.
      */
-    public void rerunChecker(CheckerResult checkerResult) {}
+    public void rerunChecker(CheckerResult checkerResult) {
+
+    }
 
     /**
      * Submits the testate.
@@ -227,5 +239,23 @@ public class TestateBean implements Serializable {
      */
     public void setFiles(List<List<Object[]>> files) {
         this.files = files;
+    }
+
+    /**
+     * Gets the checker results.
+     *
+     * @return The checker results.
+     */
+    public List<CheckerResult> getCheckerResults() {
+        return checkerResults;
+    }
+
+    /**
+     * Sets the checker results.
+     *
+     * @param checkerResults The checker results.
+     */
+    public void setCheckerResults(List<CheckerResult> checkerResults) {
+        this.checkerResults = checkerResults;
     }
 }
