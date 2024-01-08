@@ -119,12 +119,7 @@ public class TestateBean implements Serializable {
      */
     @PostConstruct
     public void initialize() {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        Map<String, String> requestParams = facesContext.getExternalContext().getRequestParameterMap();
-        for (Map.Entry<String, String> entry : requestParams.entrySet()) {
-            System.out.println(entry.getKey() + ": " + entry.getValue());
-        }
-        submission.setId(Long.parseLong(requestParams.get("?subId")));
+        submission.setId((Long) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("subId"));
         try {
             submission = submissionService.getSubmission(submission);
         } catch (BusinessNonExistentSubmissionException e) {
