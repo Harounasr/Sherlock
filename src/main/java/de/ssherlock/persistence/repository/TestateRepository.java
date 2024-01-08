@@ -47,4 +47,11 @@ public interface TestateRepository {
    * @return The list of Testate entities.
    */
   List<Testate> getTestates(Exercise exercise, User tutor);
+
+    /**
+     * Insert a new comment for the testate.
+     *
+     * @param testate The testate.
+     */
+  void insertTestateComment(Testate testate);
 }

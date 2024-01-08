@@ -175,4 +175,22 @@ public class TestateRepositoryPsql extends RepositoryPsql implements TestateRepo
         }
         return testateList;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void insertTestateComment(Testate testate) {
+        String sqlQuery = """
+                          INSERT INTO testate_comment (submission_id, comment)
+                          VALUES (?, ?);
+                          """;
+        try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
+            statement.setLong(1, testate.getSubmission().getId());
+            statement.setString(2, testate.getComment());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.log(Level.INFO, "Could not insert comment for testate.");
+            throw new RuntimeException();
+        }
+    }
 }

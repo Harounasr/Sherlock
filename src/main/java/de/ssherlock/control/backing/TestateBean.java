@@ -1,5 +1,6 @@
 package de.ssherlock.control.backing;
 
+import de.ssherlock.business.exception.BusinessDBAccessException;
 import de.ssherlock.business.exception.BusinessNonExistentSubmissionException;
 import de.ssherlock.business.service.CheckerService;
 import de.ssherlock.business.service.SubmissionService;
@@ -144,8 +145,12 @@ public class TestateBean implements Serializable {
     public String submitTestate() {
         newTestate.setEvaluatorId(appSession.getUser().getId());
         newTestate.setSubmission(submission);
-        testateService.addTestate(newTestate);
-        return "/view/registered/exercise.xhtml?redirect=true";
+        try {
+            testateService.addTestate(newTestate);
+        } catch (BusinessDBAccessException e) {
+            throw new RuntimeException(e);
+        }
+        return "/view/registered/exercise.xhtml?faces-redirect=true";
     }
 
     /**

@@ -1,5 +1,6 @@
 package de.ssherlock.business.service;
 
+import de.ssherlock.business.exception.BusinessDBAccessException;
 import de.ssherlock.business.exception.BusinessNonExistentTestateException;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Exercise;
@@ -7,11 +8,14 @@ import de.ssherlock.global.transport.Pagination;
 import de.ssherlock.global.transport.Testate;
 import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.connection.ConnectionPool;
+import de.ssherlock.persistence.exception.PersistenceDBAccessException;
 import de.ssherlock.persistence.exception.PersistenceNonExistentTestateException;
 import de.ssherlock.persistence.repository.RepositoryFactory;
 import de.ssherlock.persistence.repository.RepositoryType;
 import de.ssherlock.persistence.repository.SubmissionRepository;
 import de.ssherlock.persistence.repository.TestateRepository;
+import de.ssherlock.persistence.transaction.Transaction;
+import de.ssherlock.persistence.transaction.TransactionPsql;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -158,10 +162,16 @@ public class TestateService implements Serializable {
      *
      * @param testate The testate to be updated.
      */
-    public void addTestate(Testate testate) {
-        Connection connection = connectionPool.getConnection();
-        TestateRepository testateRepository = RepositoryFactory.getEvaluationRepository(RepositoryType.POSTGRESQL, connection);
+    public void addTestate(Testate testate) throws BusinessDBAccessException {
+        Transaction transaction;
+        try {
+            transaction = new TransactionPsql(connectionPool.getConnection());
+        } catch (PersistenceDBAccessException e) {
+            throw new BusinessDBAccessException();
+        }
+        TestateRepository testateRepository = RepositoryFactory.getEvaluationRepository(RepositoryType.POSTGRESQL, transaction.getConnection());
         testateRepository.insertTestate(testate);
+        testateRepository.insertTestateComment(testate);
     }
 
     /**
