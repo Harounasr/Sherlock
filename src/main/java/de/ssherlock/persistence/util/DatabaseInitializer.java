@@ -37,7 +37,9 @@ public final class DatabaseInitializer {
    */
   public static void initializeDatabase(ServletContextEvent sce, Connection connection) {
       try {
-          if (connection.getSchema().contains("test-db")) return;
+          if (connection.getSchema().contains("test-db")) {
+              return;
+          }
           LOGGER.info("Skipped database initialization, because of test environment.");
       } catch (SQLException e) {
           LOGGER.info("Database schema is not for a test environment.");
