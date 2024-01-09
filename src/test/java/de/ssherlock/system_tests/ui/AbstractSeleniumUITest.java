@@ -48,18 +48,15 @@ public abstract class AbstractSeleniumUITest {
     /**
      * Sets up the web driver and wait and the embedded database.
      *
-     * @throws IOException When the database cannot be opened.
-     * @throws SQLException When the sql is invalid.
      */
     @BeforeAll
-    public static void setUp() throws IOException, SQLException {
+    public static void setUp() {
         ChromeOptions options = new ChromeOptions();
         if (System.getenv("GITLAB_CI") != null || System.getenv("JENKINS_NODE_COOKIE") != null) {
             options.addArguments("--headless");
         }
         driver = new ChromeDriver(options);
         driver.manage().window().setSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
-        driver.manage().window().maximize();
         wait = new WebDriverWait(driver, Duration.ofSeconds(TIMEOUT));
     }
 
