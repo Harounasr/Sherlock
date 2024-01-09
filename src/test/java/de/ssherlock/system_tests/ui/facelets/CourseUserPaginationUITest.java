@@ -134,7 +134,7 @@ public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
     @Order(3)
     void testNextButton() {
         WebElement nextPage = getWait().until(elementToBeClickable(By.cssSelector("[id^='pagination:'][id$=':pagination_nextButton']")));
-        SeleniumUITestUtils.scrollElementIntoViewWithJS(getDriver(), nextPage);
+        nextPage.click();
         assertEquals(SECOND_PAGE_ELEMENTS, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
     }
 
@@ -145,7 +145,7 @@ public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
     @Order(4)
     void testLastButton() {
         WebElement lastPage = getWait().until(elementToBeClickable(By.cssSelector("[id^='pagination:'][id$=':pagination_lastButton']")));
-        SeleniumUITestUtils.scrollElementIntoViewWithJS(getDriver(), lastPage);
+        lastPage.click();
         assertEquals(LAST_PAGE_ELEMENTS, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
     }
 
@@ -156,9 +156,9 @@ public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
     @Order(5)
     void testPrevButton() {
         WebElement nextPage = getWait().until(elementToBeClickable(By.cssSelector("[id^='pagination:'][id$=':pagination_nextButton']")));
-        SeleniumUITestUtils.scrollElementIntoViewWithJS(getDriver(), nextPage);
+        nextPage.click();
         WebElement prevPage = getWait().until(elementToBeClickable(By.cssSelector("[id^='pagination:'][id$=':pagination_prevButton']")));
-        SeleniumUITestUtils.scrollElementIntoViewWithJS(getDriver(), prevPage);
+        prevPage.click();
         assertEquals(FIRST_PAGE_ELEMENTS, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
     }
 
@@ -169,9 +169,9 @@ public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
     @Order(6)
     void testFirstButton() {
         WebElement nextPage = getWait().until(elementToBeClickable(By.cssSelector("[id^='pagination:'][id$=':pagination_nextButton']")));
-        SeleniumUITestUtils.scrollElementIntoViewWithJS(getDriver(), nextPage);
+        nextPage.click();
         WebElement firstPage = getWait().until(elementToBeClickable(By.cssSelector("[id^='pagination:'][id$=':pagination_firstButton']")));
-        SeleniumUITestUtils.scrollElementIntoViewWithJS(getDriver(), firstPage);
+        firstPage.click();
         assertEquals(FIRST_PAGE_ELEMENTS, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
     }
 }

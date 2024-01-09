@@ -3,7 +3,6 @@ package de.ssherlock.system_tests.ui;
 import de.ssherlock.control.notification.Notification;
 import de.ssherlock.control.notification.NotificationType;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -139,10 +138,4 @@ public final class SeleniumUITestUtils {
         result.remove(0);
         return result;
     }
-    public static void scrollElementIntoViewWithJS(WebDriver driver, WebElement element) {
-        JavascriptExecutor executor = (JavascriptExecutor) driver;
-        executor.executeScript("arguments[0].scrollIntoView(true);", element);
-    }
-
-
 }
