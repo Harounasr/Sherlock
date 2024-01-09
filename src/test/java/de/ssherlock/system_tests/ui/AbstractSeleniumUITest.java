@@ -10,7 +10,6 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.time.Duration;
 
 /**

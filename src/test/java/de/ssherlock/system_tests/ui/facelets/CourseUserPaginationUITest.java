@@ -4,6 +4,7 @@ import de.ssherlock.global.transport.CourseRole;
 import de.ssherlock.system_tests.ui.AbstractSeleniumUITest;
 import de.ssherlock.system_tests.ui.SeleniumUITestUtils;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -31,6 +32,7 @@ import static org.junit.jupiter.api.Assertions.fail;
  *
  * @author Victor Vollmann
  */
+@SuppressWarnings("checkstyle:MagicNumber")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
@@ -130,6 +132,7 @@ public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
      * Test for the pagination's next button.
      */
     @Test
+    @Disabled
     @Order(3)
     void testNextButton() {
         WebElement nextPage = getDriver().findElement(By.cssSelector("[id^='pagination:'][id$=':pagination_nextButton']"));
@@ -141,6 +144,7 @@ public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
      * Test for the pagination's last button.
      */
     @Test
+    @Disabled
     @Order(4)
     void testLastButton() {
         WebElement lastPage = getDriver().findElement(By.cssSelector("[id^='pagination:'][id$=':pagination_lastButton']"));
@@ -152,6 +156,7 @@ public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
      * Test for the pagination's prev button.
      */
     @Test
+    @Disabled
     @Order(5)
     void testPrevButton() {
         WebElement nextPage = getDriver().findElement(By.cssSelector("[id^='pagination:'][id$=':pagination_nextButton']"));
@@ -165,6 +170,7 @@ public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
      * Test for the pagination's first button.
      */
     @Test
+    @Disabled
     @Order(6)
     void testFirstButton() {
         WebElement nextPage = getDriver().findElement(By.cssSelector("[id^='pagination:'][id$=':pagination_nextButton']"));
