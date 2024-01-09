@@ -23,7 +23,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
-import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
 
 /**
  * Test class for the {@code courseUserPagination.xhtml} facelet.
@@ -93,7 +92,7 @@ public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
     void testCheckSearch() {
         WebElement searchBar = getDriver().findElement(By.cssSelector("[id^='paginationSearch:'][id$=':searchBar_searchInput']"));
         searchBar.sendKeys("admin");
-        WebElement searchButton = getWait().until(elementToBeClickable(By.cssSelector("[id^='paginationSearch:'][id$=':searchBar_searchButton']")));
+        WebElement searchButton = getDriver().findElement(By.cssSelector("[id^='paginationSearch:'][id$=':searchBar_searchButton']"));
         searchButton.click();
         List<List<String>> expectedTableData = Arrays.asList(Arrays.asList("admin", "User", "One", "admin", "NONE"));
         assertEquals(expectedTableData, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
@@ -102,7 +101,7 @@ public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
     /**
      * Test for changing a users role in the course. Matches it in the database.
      *
-     * @throws SQLException
+     * @throws SQLException When the sql query fails.
      */
     @Test
     @Order(7)
@@ -133,7 +132,7 @@ public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
     @Test
     @Order(3)
     void testNextButton() {
-        WebElement nextPage = getWait().until(elementToBeClickable(By.cssSelector("[id^='pagination:'][id$=':pagination_nextButton']")));
+        WebElement nextPage = getDriver().findElement(By.cssSelector("[id^='pagination:'][id$=':pagination_nextButton']"));
         nextPage.click();
         assertEquals(SECOND_PAGE_ELEMENTS, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
     }
@@ -144,7 +143,7 @@ public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
     @Test
     @Order(4)
     void testLastButton() {
-        WebElement lastPage = getWait().until(elementToBeClickable(By.cssSelector("[id^='pagination:'][id$=':pagination_lastButton']")));
+        WebElement lastPage = getDriver().findElement(By.cssSelector("[id^='pagination:'][id$=':pagination_lastButton']"));
         lastPage.click();
         assertEquals(LAST_PAGE_ELEMENTS, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
     }
@@ -155,9 +154,9 @@ public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
     @Test
     @Order(5)
     void testPrevButton() {
-        WebElement nextPage = getWait().until(elementToBeClickable(By.cssSelector("[id^='pagination:'][id$=':pagination_nextButton']")));
+        WebElement nextPage = getDriver().findElement(By.cssSelector("[id^='pagination:'][id$=':pagination_nextButton']"));
         nextPage.click();
-        WebElement prevPage = getWait().until(elementToBeClickable(By.cssSelector("[id^='pagination:'][id$=':pagination_prevButton']")));
+        WebElement prevPage = getDriver().findElement(By.cssSelector("[id^='pagination:'][id$=':pagination_prevButton']"));
         prevPage.click();
         assertEquals(FIRST_PAGE_ELEMENTS, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
     }
@@ -168,9 +167,9 @@ public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
     @Test
     @Order(6)
     void testFirstButton() {
-        WebElement nextPage = getWait().until(elementToBeClickable(By.cssSelector("[id^='pagination:'][id$=':pagination_nextButton']")));
+        WebElement nextPage = getDriver().findElement(By.cssSelector("[id^='pagination:'][id$=':pagination_nextButton']"));
         nextPage.click();
-        WebElement firstPage = getWait().until(elementToBeClickable(By.cssSelector("[id^='pagination:'][id$=':pagination_firstButton']")));
+        WebElement firstPage = getDriver().findElement(By.cssSelector("[id^='pagination:'][id$=':pagination_firstButton']"));
         firstPage.click();
         assertEquals(FIRST_PAGE_ELEMENTS, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
     }
