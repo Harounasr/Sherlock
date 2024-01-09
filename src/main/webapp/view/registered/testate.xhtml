@@ -7,18 +7,25 @@
 
     <h:head>
         <ui:define name="title">Testate</ui:define>
+        <h:outputStylesheet library="css" name="testate.css"/>
     </h:head>
     <ui:define name="content">
-        <ui:repeat value="#{testateBean.files}" var="file">
-            <div class="card">
-                <h3>Class Details</h3>
-                <ui:repeat value="#{file}" var="line">
-                    <div class="line">
-                        <p>#{line[0]} #{line[1]}</p>
+
+        <div class="card-container">
+            <ui:repeat value="#{testateBean.files}" var="file">
+                <div class="card">
+                    <h3>Class Details</h3>
+                    <div class="details">
+                        <ui:repeat value="#{file}" var="line">
+                            <div class="line">
+                                <p>#{line[0]} #{line[1]}</p>
+                            </div>
+                        </ui:repeat>
                     </div>
-                </ui:repeat>
-            </div>
-        </ui:repeat>
+                </div>
+            </ui:repeat>
+        </div>
+
 
         <h:dataTable value="#{testateBean.checkerResults}" var="checkerResult">
             <h:column>
@@ -36,13 +43,6 @@
             <h:column>
                 <f:facet name="header">Type</f:facet>
                 #{checkerResult.checker.checkerType}
-            </h:column>
-            <h:column>
-                <f:facet name="header">Rerun Checker</f:facet>
-                <h:form>
-                    <h:commandButton value="Run"
-                                     action="#{testateBean.reRunChecker(checkerResult)}" styleClass="btn pagination-content-button"/>
-                </h:form>
             </h:column>
         </h:dataTable>
 

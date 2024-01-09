@@ -7,12 +7,14 @@ import de.ssherlock.business.service.SubmissionService;
 import de.ssherlock.business.service.TestateService;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.control.util.CheckerUtils;
+import de.ssherlock.control.util.ZipUtils;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Checker;
 import de.ssherlock.global.transport.CheckerResult;
 import de.ssherlock.global.transport.Submission;
 import de.ssherlock.global.transport.SubmissionFile;
 import de.ssherlock.global.transport.Testate;
+import de.ssherlock.global.transport.User;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
@@ -127,9 +129,7 @@ public class TestateBean implements Serializable {
      */
     @PostConstruct
     public void initialize() {
-        logger.log(Level.INFO, "Trying to get to flash:");
         submission.setId((Long) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("subId"));
-        logger.log(Level.INFO, "Got this: " + FacesContext.getCurrentInstance().getExternalContext().getFlash().get("subId"));
         try {
             submission = submissionService.getSubmission(submission);
         } catch (BusinessNonExistentSubmissionException e) {
@@ -138,15 +138,6 @@ public class TestateBean implements Serializable {
         }
         files = convertSubmissionFileToText(submission.getSubmissionFiles());
         checkerResults = checkerService.getCheckerResultsForSubmission(submission);
-    }
-
-    /**
-     * Reruns a checker for the submission.
-     *
-     * @param checkerResult Result of the checker to rerun.
-     */
-    public void rerunChecker(CheckerResult checkerResult) {
-
     }
 
     /**

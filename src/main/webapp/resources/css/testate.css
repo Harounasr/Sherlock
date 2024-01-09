@@ -1,0 +1,50 @@
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.card {
+  flex: 1;
+  max-width: 300px; /* Adjust the maximum width as needed */
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.details {
+  max-height: 150px; /* Adjust the maximum height for scrollable content */
+  overflow-y: auto;
+}
+
+/* Style for the dataTable */
+.dataTable {
+  margin-top: 20px; /* Adjust the top margin as needed */
+  width: 100%;
+  border-collapse: collapse;
+  overflow: auto;
+}
+
+.dataTable th, .dataTable td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.dataTable th {
+  background-color: #f2f2f2;
+}
+
+/* Style for the form */
+form {
+  margin-top: 20px; /* Adjust the top margin as needed */
+}
+
+/* Style for the inputTextarea and commandButton */
+#commentInput {
+  margin-bottom: 10px; /* Adjust the bottom margin as needed */
+}
+
+#submitTestate {
+  width: 100%; /* Make the button take the full width */
+}
