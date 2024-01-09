@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  *
  * @author Victor Vollmann
  */
-public class StartEmbeddedDatabase {
+public final class StartEmbeddedDatabase {
 
     /**
      * The location of the script to create the database.
