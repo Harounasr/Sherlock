@@ -39,7 +39,7 @@ public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
     /**
      * The elements visible on the first page of the pagination.
      */
-    private static final List<List<String>> firstPageElements = Arrays.asList(
+    private static final List<List<String>> FIRST_PAGE_ELEMENTS = Arrays.asList(
             Arrays.asList("admin", "User", "One", "admin", "NONE"),
             Arrays.asList("member", "User", "Three", "member", "MEMBER"),
             Arrays.asList("member1", "User", "Five", "member1", "MEMBER"),
@@ -50,7 +50,7 @@ public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
     /**
      * The elements visible on the second page of the pagination.
      */
-    private static final List<List<String>> secondPageElements = Arrays.asList(
+    private static final List<List<String>> SECOND_PAGE_ELEMENTS = Arrays.asList(
             Arrays.asList("member4", "User", "Eight", "member4", "MEMBER"),
             Arrays.asList("member5", "User", "Nine", "member5", "MEMBER"),
             Arrays.asList("member6", "User", "Ten", "member6", "MEMBER"),
@@ -61,7 +61,7 @@ public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
     /**
      * The elements visible on the last page of the pagination.
      */
-    private static final List<List<String>> lastPageElements = Arrays.asList(
+    private static final List<List<String>> LAST_PAGE_ELEMENTS = Arrays.asList(
             Arrays.asList("tutor", "User", "Four", "tutor", "TUTOR")
     );
 
@@ -82,7 +82,7 @@ public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
     @Test
     @Order(1)
     void testCheckCorrectContent() {
-        assertEquals(firstPageElements, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
+        assertEquals(FIRST_PAGE_ELEMENTS, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
     }
 
     /**
@@ -135,7 +135,7 @@ public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
     void testNextButton() {
         WebElement nextPage = getWait().until(elementToBeClickable(By.cssSelector("[id^='pagination:'][id$=':pagination_nextButton']")));
         nextPage.click();
-        assertEquals(secondPageElements, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
+        assertEquals(SECOND_PAGE_ELEMENTS, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
     }
 
     /**
@@ -146,7 +146,7 @@ public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
     void testLastButton() {
         WebElement lastPage = getWait().until(elementToBeClickable(By.cssSelector("[id^='pagination:'][id$=':pagination_lastButton']")));
         lastPage.click();
-        assertEquals(lastPageElements, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
+        assertEquals(LAST_PAGE_ELEMENTS, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
     }
 
     /**
@@ -159,7 +159,7 @@ public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
         nextPage.click();
         WebElement prevPage = getWait().until(elementToBeClickable(By.cssSelector("[id^='pagination:'][id$=':pagination_prevButton']")));
         prevPage.click();
-        assertEquals(firstPageElements, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
+        assertEquals(FIRST_PAGE_ELEMENTS, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
     }
 
     /**
@@ -172,6 +172,6 @@ public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
         nextPage.click();
         WebElement firstPage = getWait().until(elementToBeClickable(By.cssSelector("[id^='pagination:'][id$=':pagination_firstButton']")));
         firstPage.click();
-        assertEquals(firstPageElements, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
+        assertEquals(FIRST_PAGE_ELEMENTS, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
     }
 }

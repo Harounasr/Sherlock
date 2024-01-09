@@ -476,7 +476,7 @@
                             <container>
                                 <containerId>tomcat10x</containerId>
                                 <zipUrlInstaller>
-                                    <url>https://downloads.apache.org/tomcat/tomcat-10/v10.1.17/bin/apache-tomcat-10.1.17.zip</url>
+                                    <url>https://downloads.apache.org/tomcat/tomcat-10/v10.1.18/bin/apache-tomcat-10.1.18.zip</url>
                                 </zipUrlInstaller>
                             </container>
                             <deployables>
