@@ -9,6 +9,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.time.Duration;
 
 /**
@@ -44,10 +46,13 @@ public abstract class AbstractSeleniumUITest {
     private static final int SCREEN_HEIGHT = 1080;
 
     /**
-     * Sets up the web driver and wait.
+     * Sets up the web driver and wait and the embedded database.
+     *
+     * @throws IOException When the database cannot be opened.
+     * @throws SQLException When the sql is invalid.
      */
     @BeforeAll
-    public static void setUp() {
+    public static void setUp() throws IOException, SQLException {
         ChromeOptions options = new ChromeOptions();
         if (System.getenv("GITLAB_CI") != null || System.getenv("JENKINS_NODE_COOKIE") != null) {
             options.addArguments("--headless");
@@ -59,9 +64,11 @@ public abstract class AbstractSeleniumUITest {
 
     /**
      * Tears down the web driver.
+     *
+     * @throws IOException When the embedded database cannot be closed.
      */
     @AfterAll
-    public static void tearDown() {
+    public static void tearDown() throws IOException {
         if (driver != null) {
             driver.quit();
         }

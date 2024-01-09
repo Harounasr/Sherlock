@@ -20,7 +20,7 @@ public final class SeleniumUITestUtils {
     /**
      * Username of an administrator in the system.
      */
-    public static final String ADMIN_USERNAME = "user";
+    public static final String ADMIN_USERNAME = "admin";
 
     /**
      * Password of the administrator of the system.

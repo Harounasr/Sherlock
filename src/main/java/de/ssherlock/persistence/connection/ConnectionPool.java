@@ -166,7 +166,7 @@ public class ConnectionPool implements Serializable {
                         logger.finest("Connection successfully rolled back.");
                     }
                     connections.offer(connection);
-                    logger.info("Connection was released successfully");
+                    logger.finer("Connection was released successfully");
                 }
             } catch (SQLException e) {
                 logger.log(Level.WARNING, "Error during connection release: ", e);

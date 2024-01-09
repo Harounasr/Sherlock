@@ -125,14 +125,15 @@ public class Configuration implements Serializable {
      */
     public void init(ServletContextEvent sce) {
         Properties properties = readConfigFile(sce);
-
-        connectionProperties = new Properties();
-        connectionProperties.setProperty("user", properties.getProperty("DB_AUTH_USERNAME"));
-        connectionProperties.setProperty("password", properties.getProperty("DB_AUTH_PASSWORD"));
-        connectionProperties.setProperty("ssl", properties.getProperty("SSL_ENABLED"));
         dbHost = properties.getProperty("DB_HOST");
         dbDriver = properties.getProperty("DB_DRIVER");
         dbName = properties.getProperty("DB_NAME");
+        connectionProperties = new Properties();
+        connectionProperties.setProperty("user", properties.getProperty("DB_AUTH_USERNAME"));
+        if (!dbName.contains("test-db")) {
+            connectionProperties.setProperty("password", properties.getProperty("DB_AUTH_PASSWORD"));
+            connectionProperties.setProperty("ssl", properties.getProperty("SSL_ENABLED"));
+        }
         dbNumConnections = Integer.parseInt(properties.getProperty("DB_CONNECTIONS"));
         dbTimeoutMillis = Long.parseLong(properties.getProperty("DB_TIMEOUT_MILLIS"));
         dbConnectionPrefix = properties.getProperty("DB_CONNECTION_PREFIX");
