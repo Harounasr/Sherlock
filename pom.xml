@@ -50,7 +50,7 @@
         <fontawesome.version>6.5.1</fontawesome.version>
         <cargo-maven3-plugin.version>1.10.10</cargo-maven3-plugin.version>
         <exec-maven.version>3.1.1</exec-maven.version>
-        <tomcat.version>7.0.25</tomcat.version>
+        <commons-io.version>2.15.1</commons-io.version>
     </properties>
 
     <dependencies>
@@ -197,10 +197,11 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>tomcat-catalina</artifactId>
-            <version>${tomcat.version}</version>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io.version}</version>
         </dependency>
+
     </dependencies>
 
     <dependencyManagement>
@@ -431,7 +432,42 @@
         <profile>
             <id>system-tests</id>
             <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                    </resource>
+                    <resource>
+                        <directory>src/test/resources</directory>
+                    </resource>
+                    <resource>
+                        <directory>src/main/webapp</directory>
+                    </resource>
+                </resources>
                 <plugins>
+                    <plugin>
+                        <!-- The failsafe plugin does similar to surefire but for system tests -->
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>${maven-failsafe-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>system-tests</id>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                                <configuration>
+                                    <includes>
+                                        <include>**/*UITest.java</include>
+                                    </includes>
+
+                                    <skipTests>${skipSystemTests}</skipTests>
+                                    <!--suppress UnresolvedMavenProperty -->
+                                    <argLine>${failsafeSystemTestArgLine}</argLine>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
                     <plugin>
                         <groupId>org.codehaus.cargo</groupId>
                         <artifactId>cargo-maven3-plugin</artifactId>
@@ -443,14 +479,20 @@
                                     <url>https://downloads.apache.org/tomcat/tomcat-10/v10.1.17/bin/apache-tomcat-10.1.17.zip</url>
                                 </zipUrlInstaller>
                             </container>
+                            <deployables>
+                                <deployable>
+                                    <location>${project.build.directory}/ssherlock-system_test.war</location>
+                                    <type>war</type>
+                                </deployable>
+                            </deployables>
                             <configuration>
                                 <properties>
                                     <cargo.jvmargs>
                                         -javaagent:${settings.localRepository}/org/jacoco/org.jacoco.agent/${jacoco.version}/org.jacoco.agent-${jacoco.version}-runtime.jar=destfile=${project.build.directory}/coverage-reports/jacoco-st.exec,append=true
                                     </cargo.jvmargs>
                                 </properties>
-                                <type>standalone</type>
                                 <home>${project.build.directory}/tomcat</home>
+                                <type>standalone</type>
                             </configuration>
                         </configuration>
                         <executions>
@@ -498,30 +540,7 @@
                         </configuration>
                     </plugin>
 
-                    <plugin>
-                        <!-- The failsafe plugin does similar to surefire but for system tests -->
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>${maven-failsafe-plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <id>system-tests</id>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
-                                </goals>
-                                <configuration>
-                                    <includes>
-                                        <include>**/*UITest.java</include>
-                                    </includes>
 
-                                    <skipTests>${skipSystemTests}</skipTests>
-                                    <!--suppress UnresolvedMavenProperty -->
-                                    <argLine>${failsafeSystemTestArgLine}</argLine>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
 
                     <plugin>
                         <!-- Measure coverage for system tests -->

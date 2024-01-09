@@ -3,6 +3,7 @@ package de.ssherlock.persistence.util;
 import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
 import jakarta.servlet.ServletContextEvent;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -35,7 +36,13 @@ public final class DatabaseInitializer {
    * @param connection A connection to the database.
    */
   public static void initializeDatabase(ServletContextEvent sce, Connection connection) {
-    String sqlScript;
+      try {
+          if (connection.getSchema().contains("test-db")) return;
+          LOGGER.info("Skipped database initialization, because of test environment.");
+      } catch (SQLException e) {
+          LOGGER.info("Database schema is not for a test environment.");
+      }
+      String sqlScript;
     try (InputStream input =
         sce.getServletContext().getResourceAsStream(DATABASE_INITIALIZATION_PATH)) {
       if (input == null) {

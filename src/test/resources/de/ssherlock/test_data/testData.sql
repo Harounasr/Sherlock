@@ -44,9 +44,6 @@ INSERT INTO faculty (id, name) VALUES (2, 'Mathematik');
 INSERT INTO faculty (id, name) VALUES (3, 'Informatik');
 INSERT INTO faculty (id, name) VALUES (4, 'Psychologie');
 
-
-
-
 INSERT INTO "user" (id, username, email, firstname, lastname, faculty, password_hash, password_salt, user_role, failed_login_attempts, token, expiry_date) VALUES (1, 'admin', 'admin', 'User', 'One', 'Mathematik', 'QWIbZACnFJmEF0R0DBrVkhXoOeUb2qF0ioqrcLLMogl1bM0fuzlvrF4/u2xYeqGqBNFgJkUBzuYW3ezdm/qZ+g==', 'cF94pcrvA83ZBcJ6tQc4PA==', 'ADMINISTRATOR', 1, '67f417691e0a37322d9ece6fcfe6dfe240a8f91aa458eda7e520f8c4caa8f771', '2025-12-01 01:00:00+01');
 INSERT INTO "user" (id, username, email, firstname, lastname, faculty, password_hash, password_salt, user_role, failed_login_attempts, token, expiry_date) VALUES (2, 'teacher', 'teacher', 'User', 'Two', 'Mathematik', 'QWIbZACnFJmEF0R0DBrVkhXoOeUb2qF0ioqrcLLMogl1bM0fuzlvrF4/u2xYeqGqBNFgJkUBzuYW3ezdm/qZ+g==', 'cF94pcrvA83ZBcJ6tQc4PA==', 'TEACHER', 1, '67f417691e0a37322d9ece6fcfe6dfe240a8f91aa458eda7e520f8c4caa8f771', '2025-12-01 01:00:00+01');
 INSERT INTO "user" (id, username, email, firstname, lastname, faculty, password_hash, password_salt, user_role, failed_login_attempts, token, expiry_date) VALUES (3, 'member', 'member', 'User', 'Three', 'Mathematik', 'QWIbZACnFJmEF0R0DBrVkhXoOeUb2qF0ioqrcLLMogl1bM0fuzlvrF4/u2xYeqGqBNFgJkUBzuYW3ezdm/qZ+g==', 'cF94pcrvA83ZBcJ6tQc4PA==', 'REGISTERED', 1, '67f417691e0a37322d9ece6fcfe6dfe240a8f91aa458eda7e520f8c4caa8f771', '2025-12-01 01:00:00+01');
