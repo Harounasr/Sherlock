@@ -7,6 +7,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
 
@@ -35,6 +38,11 @@ public final class SeleniumUITestUtils {
     public static final String BASE_URL = "http://localhost:8080/ssherlock/";
 
     /**
+     * The database Url.
+     */
+    public static final String DATABASE_URL = "jdbc:postgresql://localhost:5432/ssherlock-test-db?user=postgres";
+
+    /**
      * Private constructor for utility class.
      */
     private SeleniumUITestUtils() {
@@ -45,7 +53,7 @@ public final class SeleniumUITestUtils {
      * Navigates to the provided location.
      *
      * @param webDriver The web driver.
-     * @param location The location.
+     * @param location  The location.
      */
     public static void navigateTo(WebDriver webDriver, String location) {
         webDriver.get(BASE_URL + location);
@@ -55,9 +63,9 @@ public final class SeleniumUITestUtils {
      * Attempts to log in with the given credentials.
      *
      * @param webDriver The web driver.
-     * @param wait The web driver wait.
-     * @param username The username.
-     * @param password The password.
+     * @param wait      The web driver wait.
+     * @param username  The username.
+     * @param password  The password.
      */
     public static void tryLogin(WebDriver webDriver, WebDriverWait wait, String username, String password) {
         navigateTo(webDriver, "view/public/login.xhtml");
@@ -69,7 +77,7 @@ public final class SeleniumUITestUtils {
     /**
      * Checks the current screen for a certain Notification.
      *
-     * @param webDriver The web driver.
+     * @param webDriver    The web driver.
      * @param notification The expected notification.
      */
     public static void checkNotification(WebDriver webDriver, Notification notification) {
@@ -83,11 +91,53 @@ public final class SeleniumUITestUtils {
      * Clicks on the element with the specified id.
      *
      * @param wait The web driver wait.
-     * @param id The css id.
+     * @param id   The css id.
      */
     public static void clickOnElementWithId(WebDriverWait wait, String id) {
         WebElement element = wait.until(elementToBeClickable(By.id(id)));
         element.click();
     }
+
+    /**
+     * Clicks on a menu item in the sidebar based on its label.
+     *
+     * @param wait The web driver wait.
+     * @param label The label.
+     */
+    public static void clickOnSidebarItem(WebDriverWait wait, String label) {
+        WebElement element = wait.until(elementToBeClickable(
+                By.cssSelector(String.format("li.nav-item-sidebar input[value=\"%s\"]", label))));
+        element.click();
+    }
+
+    /**
+     * Gets the current table rows of a pagination (without headers).
+     *
+     * @param driver The web driver.
+     * @return The table rows.
+     */
+    public static List<List<String>> getCurrentTableRows(WebDriver driver) {
+        List<List<String>> result = new ArrayList<>();
+        WebElement table = driver.findElement(By.className("table-bordered"));
+        List<WebElement> rows = table.findElements(By.tagName("tr"));
+        for (WebElement row : rows) {
+            List<WebElement> cells = row.findElements(By.tagName("td"));
+            List<String> rowContent = new ArrayList<>();
+            for (WebElement cell : cells) {
+                List<WebElement> selectElements = cell.findElements(By.tagName("select"));
+                if (!selectElements.isEmpty()) {
+                    WebElement selectedOption = selectElements.get(0).findElement(By.cssSelector("option:checked"));
+                    rowContent.add(selectedOption.getText());
+                } else {
+                    rowContent.add(cell.getText());
+                }
+            }
+            result.add(rowContent);
+        }
+        // First element is always empty
+        result.remove(0);
+        return result;
+    }
+
 
 }

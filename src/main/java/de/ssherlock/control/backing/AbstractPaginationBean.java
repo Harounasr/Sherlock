@@ -81,7 +81,7 @@ public abstract class AbstractPaginationBean implements Serializable {
      * Navigates to the first page.
      */
     public void firstPage() {
-        pagination.setCurrentIndex(1);
+        pagination.setCurrentIndex(0);
         loadData();
     }
 
