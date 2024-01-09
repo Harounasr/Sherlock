@@ -59,6 +59,7 @@ public abstract class AbstractSeleniumUITest {
         }
         driver = new ChromeDriver(options);
         driver.manage().window().setSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
+        driver.manage().window().maximize();
         wait = new WebDriverWait(driver, Duration.ofSeconds(TIMEOUT));
     }
 
