@@ -128,7 +128,7 @@ public class AllTestatesPaginationBean extends AbstractPaginationBean implements
     /**
      * Sets testates.
      *
-     * @param testates the testates
+     * @param testates the testates.
      */
     public void setTestates(List<Testate> testates) {
         this.testates = testates;
