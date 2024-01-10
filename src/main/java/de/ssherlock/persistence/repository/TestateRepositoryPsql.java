@@ -4,9 +4,7 @@ import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.Submission;
-import de.ssherlock.global.transport.SubmissionFile;
 import de.ssherlock.global.transport.Testate;
-import de.ssherlock.global.transport.TestateComment;
 import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.exception.PersistenceNonExistentTestateException;
 

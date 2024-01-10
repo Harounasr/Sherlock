@@ -145,5 +145,4 @@ public class AllTestatesPaginationBean extends AbstractPaginationBean implements
             testateService.getAssignedTestates(getPagination(), exercise, user);
         }
     }
-
 }

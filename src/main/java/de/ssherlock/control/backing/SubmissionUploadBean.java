@@ -122,7 +122,7 @@ public class SubmissionUploadBean implements Serializable {
             for (SubmissionFile file : submissionFiles) {
                 logger.log(Level.INFO, file.getName());
             }
-            if(!checkers.isEmpty()) {
+            if (!checkers.isEmpty()) {
             CheckerUtils.runCheckers(
                     checkers, submissionFiles, appSession.getUser(), this::updateResults);
             }
