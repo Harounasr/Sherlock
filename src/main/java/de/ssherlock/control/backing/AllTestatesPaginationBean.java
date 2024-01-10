@@ -119,7 +119,7 @@ public class AllTestatesPaginationBean extends AbstractPaginationBean implements
     /**
      * Gets testates.
      *
-     * @return the testates
+     * @return the testates.
      */
     public List<Testate> getTestates() {
         return testates;
