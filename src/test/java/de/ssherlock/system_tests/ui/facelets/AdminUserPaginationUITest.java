@@ -26,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.fail;
  *
  * @author Victor Vollmann
  */
+@SuppressWarnings("checkstyle:MagicNumber")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class AdminUserPaginationUITest extends AbstractSeleniumUITest {
 
@@ -103,7 +104,7 @@ public class AdminUserPaginationUITest extends AbstractSeleniumUITest {
         Select dropdown = new Select(selectElement);
         dropdown.selectByValue("REGISTERED");
         // until the database is updated
-        getWait().wait(1000);
+        Thread.sleep(1000);
         String query = """
                        SELECT user_role
                        FROM "user"
