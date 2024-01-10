@@ -27,8 +27,8 @@
                 <h:column>
                     <f:facet name="header">Details</f:facet>
                     <h:form>
-                        <h:commandButton styleClass="pagination-content-button" value="to testate" action="#{allTestatesPaginationBean.selectTestate(testate)}"
-                                         />
+                        <h:commandButton styleClass="pagination-content-button" value="to testate"
+                                         action="#{allTestatesPaginationBean.selectTestate(testate)}"/>
                     </h:form>
                 </h:column>
             </h:dataTable>
@@ -38,9 +38,11 @@
             <comp:pagination backingBean="#{allTestatesPaginationBean}"/>
         </h:form>
     </div>
+
     </h:panelGroup>
     <h:panelGroup rendered="#{empty allTestatesPaginationBean.testates}" styleClass="mt-2">
         <h3> There are no testates</h3>
     </h:panelGroup>
+
 </f:view>
 </html>
