@@ -45,6 +45,9 @@ public class AdminUserPaginationUITest extends AbstractSeleniumUITest {
             Arrays.asList("member7", "User", "Eleven", "member7", "REGISTERED")
     );
 
+    /**
+     * Navigates to the target facelet.
+     */
     @BeforeEach
     public void navigateToAdminUserPagination() {
         SeleniumUITestUtils.tryLogin(
@@ -91,7 +94,7 @@ public class AdminUserPaginationUITest extends AbstractSeleniumUITest {
      * @throws SQLException When the sql query fails.
      */
     @Test
-    void testChangeRoles() throws SQLException {
+    void testChangeRoles() throws SQLException, InterruptedException {
         WebElement searchBar = getDriver().findElement(By.cssSelector("[id^='paginationSearch:'][id$=':searchBar_searchInput']"));
         searchBar.sendKeys("teacher");
         WebElement searchButton = getDriver().findElement(By.cssSelector("[id^='paginationSearch:'][id$=':searchBar_searchButton']"));
@@ -99,6 +102,8 @@ public class AdminUserPaginationUITest extends AbstractSeleniumUITest {
         WebElement selectElement = getDriver().findElement(By.cssSelector("td select"));
         Select dropdown = new Select(selectElement);
         dropdown.selectByValue("REGISTERED");
+        // until the database is updated
+        getWait().wait(1000);
         String query = """
                        SELECT user_role
                        FROM "user"
