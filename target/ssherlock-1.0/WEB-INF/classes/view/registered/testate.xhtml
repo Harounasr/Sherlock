@@ -1,0 +1,59 @@
+<ui:composition
+        xmlns:h="jakarta.faces.html"
+        xmlns:ui="jakarta.faces.facelets"
+        xmlns:f="jakarta.faces.core"
+        xmlns="http://www.w3.org/1999/xhtml"
+        template="../../resources/templates/maintemplate.xhtml">
+
+    <h:head>
+        <ui:define name="title">Testate</ui:define>
+    </h:head>
+    <ui:define name="content">
+        <ui:repeat value="#{testateBean.files}" var="file">
+            <div class="card">
+                <h3>Class Details</h3>
+                <ui:repeat value="#{file}" var="line">
+                    <div class="line">
+                        <p>#{line[0]} #{line[1]}</p>
+                    </div>
+                </ui:repeat>
+            </div>
+        </ui:repeat>
+
+        <ui:repeat>
+
+        </ui:repeat>
+
+        <h:form>
+            <h:outputLabel for="functionalityGrade" value="Functionality Grade"/>
+            <h:selectOneMenu id="functionalityGrade" value="#{testateBean.newTestate.functionalityGrade}" styleClass="form-control" required="true">
+                <f:selectItem itemLabel="-- Select Grade --" itemValue=""/>
+                <f:selectItems value="#{testateBean.grades}" var="grade" itemLabel="#{grade}"
+                               itemValue="#{grade}"/>
+            </h:selectOneMenu>
+            <h:outputLabel for="readabilityGrade" value="Readability Grade"/>
+            <h:selectOneMenu id="readabilityGrade" value="#{testateBean.newTestate.readabilityGrade}" styleClass="form-control" required="true">
+                <f:selectItem itemLabel="-- Select Grade --" itemValue=""/>
+                <f:selectItems value="#{testateBean.grades}" var="grade" itemLabel="#{grade}"
+                               itemValue="#{grade}"/>
+            </h:selectOneMenu>
+            <h:outputLabel for="layoutGrade" value="Layout Grade"/>
+            <h:selectOneMenu id="layoutGrade" value="#{testateBean.newTestate.layoutGrade}" styleClass="form-control" required="true">
+                <f:selectItem itemLabel="-- Select Grade --" itemValue=""/>
+                <f:selectItems value="#{testateBean.grades}" var="grade" itemLabel="#{grade}"
+                               itemValue="#{grade}"/>
+            </h:selectOneMenu>
+            <h:outputLabel for="structureGrade" value="Structure Grade"/>
+            <h:selectOneMenu id="structureGrade" value="#{testateBean.newTestate.structureGrade}" styleClass="form-control" required="true">
+                <f:selectItem itemLabel="-- Select Grade --" itemValue=""/>
+                <f:selectItems value="#{testateBean.grades}" var="grade" itemLabel="#{grade}"
+                               itemValue="#{grade}"/>
+            </h:selectOneMenu>
+            <h:outputLabel for="commentInput" value="Comment this testate:" />
+            <h:inputTextarea id="commentInput" rows="5" cols="30" value="#{testateBean.newTestate.comment}" maxlength="255"/>
+                <h:commandButton id="submitTestate" value="Submit Testate" styleClass="btn btn-primary btn-block"
+                                 action="#{testateBean.submitTestate}"/>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,16 @@
+body {
+  background-color: #f4f4f4;
+}
+
+.login-container {
+  margin-top: 150px;
+}
+
+.image-container {
+  max-height: 300px;
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+}

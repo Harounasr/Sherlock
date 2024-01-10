@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
+<head>
+    <title>Admin settings</title>
+    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/css/adminSettings.css"/>
+</head>
+
+<body>
+<h:form id="settingsForm" enctype="multipart/form-data">
+    <div class="container-fluid justify-content-center align-content-center">
+
+        <!-- Select Primary Color Scheme -->
+        <div class="form-group">
+            <label for="primaryColor">Primary Color Scheme</label>
+            <h:selectOneMenu id="primaryColor" value="#{adminSettingsBean.systemSettings.primaryColorHex}" styleClass="form-control">
+                <f:selectItems value="#{adminSettingsBean.availableColors}" var="color" itemValue="#{color}"/>
+            </h:selectOneMenu>
+        </div>
+
+        <!-- Select Secondary Color Scheme -->
+        <div class="form-group mb-3">
+            <label for="secondaryColor">Secondary Color Scheme</label>
+            <h:selectOneMenu id="secondaryColor" value="#{adminSettingsBean.systemSettings.secondaryColorHex}" styleClass="form-control">
+                <!-- Populate options based on available color schemes -->
+                <f:selectItems value="#{adminSettingsBean.availableColors}" var="color" itemValue="#{color}"/>
+            </h:selectOneMenu>
+        </div>
+
+        <!-- System Name -->
+        <div class="form-group mb-3">
+            <label for="systemName">System Name</label>
+            <h:inputText id="systemName" value="#{adminSettingsBean.systemSettings.systemName}" styleClass="form-control"/>
+        </div>
+
+        <!-- Email Regex -->
+        <div class="form-group mb-3">
+            <label for="emailRegex">Email Regex</label>
+            <h:inputText id="emailRegex" value="#{adminSettingsBean.systemSettings.emailRegex}" styleClass="form-control"/>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="form-group mb-3">
+            <label for="contactInformation">Contact Information</label>
+            <h:inputText id="contactInformation" value="#{adminSettingsBean.systemSettings.contactInformation}" styleClass="form-control"/>
+        </div>
+
+        <!-- Imprint Text Area -->
+        <div class="form-group mb-3">
+            <label for="imprint">Imprint</label>
+            <h:inputTextarea id="imprint" value="#{adminSettingsBean.systemSettings.imprint}" styleClass="form-control"/>
+        </div>
+
+        <!-- Current Logo -->
+        <div class="form-group mb-3">
+            <label for="currentLogo">Current Logo</label>
+            <h:graphicImage id="currentLogo" value="data:image/png;base64,#{adminSettingsBean.logoBase64}" alt="no Logo"
+                            styleClass="img-fluid image-container"/>
+        </div>
+
+        <!-- Datei auswählen Button -->
+        <div class="form-group custom-file mb-3">
+            <label for="newLogo" class="btn btn-primary btn-file">
+                Datei auswählen
+                <!-- New Logo -->
+                <h:inputFile id="newLogo" value="#{adminSettingsBean.uploadedLogo}" class="custom-file-input" style="width: auto; display: none;"/>
+            </label>
+        </div>
+
+        <!-- Upload Logo Button -->
+        <div class="form-group mb-3">
+            <h:commandButton id="uploadLogoBtn" value="Upload Logo" action="#{adminSettingsBean.uploadLogo}" styleClass="btn primary-color-btn"/>
+        </div>
+
+        <!-- Save Button for Text Fields -->
+        <h:commandButton id="saveButton" value="Save" action="#{adminSettingsBean.submitAllChanges}" styleClass="btn primary-color-btn"/>
+    </div>
+</h:form>
+</body>
+</html>
