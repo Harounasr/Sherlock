@@ -7,7 +7,6 @@ import de.ssherlock.global.transport.Submission;
 import de.ssherlock.global.transport.Testate;
 import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.exception.PersistenceNonExistentTestateException;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
