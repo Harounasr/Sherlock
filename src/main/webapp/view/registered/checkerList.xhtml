@@ -90,8 +90,8 @@
                         <f:selectItems value="#{checkerListBean.allCheckerTypes}"/>
                     </h:selectOneListbox>
                     <h:outputLabel value="Param 1 required"/>
-                    <h:inputText  value="#{checkerListBean.newChecker.parameterOne}" required="true"/>
-                    <h:inputText  value="#{checkerListBean.newChecker.parameterOne}" required="true"/>
+                    <h:inputText value="#{checkerListBean.newChecker.parameterOne}" required="true"/>
+                    <h:inputText value="#{checkerListBean.newChecker.parameterOne}" required="true"/>
                     <div class="modal-footer">
                         <button type="button" class="btn bg-danger text-light" data-bs-dismiss="modal">Cancel</button>
                         <h:commandButton value="Add Checker" data-bs-dismiss="modal" action="#{checkerListBean.addChecker()}"
@@ -115,18 +115,23 @@
                             </h:selectOneListbox>
                             <h:panelGroup id="checkerInputElements" style="display:block">
                                 <div class="form-group mb-3">
-                                <h:panelGroup id="checkerNameInputPanel" rendered="#{checkerListBean.currentCheckerType != 'NONE'}" style="display:block">
-                                    <h:outputLabel value="Name" for="inputParamTwo"/>
-                                    <h:inputText id="inputCheckerName" value="#{checkerListBean.newChecker.name}" required="true"/>
-                                </h:panelGroup>
-                                <h:panelGroup id="paramOneInputPanel" rendered="#{checkerListBean.currentCheckerType == 'LINE_WIDTH' || checkerListBean.currentCheckerType == 'USER_DEFINED'}" style="display:block">
-                                    <h:outputLabel value="#{checkerListBean.currentCheckerType == 'LINE_WIDTH' ? 'Line Width' : 'Input'}" for="inputParamOne"/>
-                                    <h:inputText id="inputParamOne" value="#{checkerListBean.newChecker.parameterOne}" required="true"/>
-                                </h:panelGroup>
-                                <h:panelGroup id="paramTwoInputPanel" rendered="#{checkerListBean.currentCheckerType == 'USER_DEFINED'}" style="display:block">
-                                    <h:outputLabel value="Expected Output" for="inputParamTwo"/>
-                                    <h:inputText id="inputParamTwo" value="#{checkerListBean.newChecker.parameterTwo}" required="true"/>
-                                </h:panelGroup>
+                                    <h:panelGroup id="checkerNameInputPanel" rendered="#{checkerListBean.currentCheckerType != 'NONE'}"
+                                                  style="display:block">
+                                        <h:outputLabel value="Name" for="inputParamTwo"/>
+                                        <h:inputText id="inputCheckerName" value="#{checkerListBean.newChecker.name}" required="true"/>
+                                    </h:panelGroup>
+                                    <h:panelGroup id="paramOneInputPanel"
+                                                  rendered="#{checkerListBean.currentCheckerType == 'LINE_WIDTH' || checkerListBean.currentCheckerType == 'USER_DEFINED'}"
+                                                  style="display:block">
+                                        <h:outputLabel value="#{checkerListBean.currentCheckerType == 'LINE_WIDTH' ? 'Line Width' : 'Input'}"
+                                                       for="inputParamOne"/>
+                                        <h:inputText id="inputParamOne" value="#{checkerListBean.newChecker.parameterOne}" required="true"/>
+                                    </h:panelGroup>
+                                    <h:panelGroup id="paramTwoInputPanel" rendered="#{checkerListBean.currentCheckerType == 'USER_DEFINED'}"
+                                                  style="display:block">
+                                        <h:outputLabel value="Expected Output" for="inputParamTwo"/>
+                                        <h:inputText id="inputParamTwo" value="#{checkerListBean.newChecker.parameterTwo}" required="true"/>
+                                    </h:panelGroup>
                                 </div>
                             </h:panelGroup>
                             <div class="modal-footer">
