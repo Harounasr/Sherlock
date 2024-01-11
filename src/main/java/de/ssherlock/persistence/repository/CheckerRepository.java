@@ -69,5 +69,5 @@ public interface CheckerRepository {
      *
      * @return The checker results.
      */
-    public List<CheckerResult> getCheckerResultsForSubmission(Submission submission);
+    List<CheckerResult> getCheckerResultsForSubmission(Submission submission);
 }

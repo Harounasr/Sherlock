@@ -22,6 +22,7 @@ import java.util.List;
 @Named
 @Dependent
 @FacesValidator(value = "gradeValidator", managed = true)
+@SuppressWarnings("ceckstyle:FieldNamingConventions")
 public class GradeValidator implements Validator<Integer> {
 
     /**
