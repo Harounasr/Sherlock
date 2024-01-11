@@ -13,15 +13,15 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Install Microsoft Edge (Version 119.0.2151.97-1)
+# Install Microsoft Edge
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends wget=2.1.0-2 gnupg=2.4.3 && \
+    apt-get install -y --no-install-recommends wget gnupg && \
     wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/microsoft.gpg && \
     echo "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main" > /etc/apt/sources.list.d/microsoft-edge-dev.list && \
     apt-get update && \
-    apt-get install -y --no-install-recommends microsoft-edge-dev=120.0.2210.121 && \
+    apt-get install -y --no-install-recommends microsoft-edge-dev && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* \
 
 # Install locales and generate desired locales
 RUN apt-get update && \
