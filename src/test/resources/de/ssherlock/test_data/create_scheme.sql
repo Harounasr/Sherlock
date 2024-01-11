@@ -167,5 +167,5 @@ CREATE TABLE IF NOT EXISTS participates
 
     PRIMARY KEY (user_id, course_id),
     FOREIGN KEY (user_id) REFERENCES "user"(id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES course (id) ON DELETE CASCADE
+    FOREIGN KEY (course_id) REFERENCES course (id) ON DELETE CASCADE
     );

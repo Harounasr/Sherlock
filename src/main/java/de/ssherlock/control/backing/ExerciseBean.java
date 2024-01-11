@@ -3,6 +3,8 @@ package de.ssherlock.control.backing;
 import de.ssherlock.business.exception.BusinessNonExistentExerciseException;
 import de.ssherlock.business.service.ExerciseService;
 import de.ssherlock.control.exception.NoAccessException;
+import de.ssherlock.control.notification.Notification;
+import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.CourseRole;
@@ -102,7 +104,6 @@ public class ExerciseBean implements Serializable {
         Map<String, Object> flashMap = externalContext.getFlash();
         courseId = (Long) flashMap.get("courseID");
         logger.log(Level.INFO, "Param: " + exerciseId);
-        this.setTargetPage("exerciseDescription.xhtml");
         exercise = new Exercise();
         exercise.setId(exerciseId);
         try {
@@ -118,6 +119,7 @@ public class ExerciseBean implements Serializable {
         if (userCourseRole == CourseRole.NONE && user.getSystemRole() != SystemRole.ADMINISTRATOR) {
             throw new NoAccessException("Can not access exercise, as not part of this course.");
         }
+        this.setTargetPage("exerciseDescription.xhtml");
     }
 
     /**
@@ -128,10 +130,13 @@ public class ExerciseBean implements Serializable {
     public String deleteExercise() {
         try {
             exerciseService.removeExercise(exercise);
+            logger.log(Level.INFO, "Exercise Successfully deleted.");
             return "/view/registered/course.xhtml?faces-redirect=true&Id=" + courseId;
         } catch (BusinessNonExistentExerciseException e) {
-            logger.severe("The exercise with id " + exercise.getId() + " does not exist anymore.");
-            throw new RuntimeException("The requested exercise does not exist.", e);
+            Notification notification =
+                    new Notification("Exercise could not be deleted.", NotificationType.ERROR);
+            notification.generateUIMessage();
+            return null;
         }
     }
 

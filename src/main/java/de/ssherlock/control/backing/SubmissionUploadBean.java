@@ -108,16 +108,13 @@ public class SubmissionUploadBean implements Serializable {
         try {
             checkers = checkerService.getCheckersForExercise(exercise);
         } catch (BusinessNonExistentCheckerException e) {
-            logger.log(Level.INFO, "submissionUpload throws this");
+            logger.log(Level.INFO, "Failed to retrieve checkers for exercise with ID " + exercise.getId(), e);
         }
         canSubmit = false;
     }
 
     /** Uploads the submission archive and runs the checkers. */
     public void upload() {
-        if (archiveFile == null) {
-            return;
-        }
         submissionFiles = new ArrayList<>();
         try {
             submissionFiles = ZipUtils.unzipSubmissionArchive(archiveFile);
@@ -125,24 +122,29 @@ public class SubmissionUploadBean implements Serializable {
             for (SubmissionFile file : submissionFiles) {
                 logger.log(Level.INFO, file.getName());
             }
+            if (!checkers.isEmpty()) {
             CheckerUtils.runCheckers(
                     checkers, submissionFiles, appSession.getUser(), this::updateResults);
+            }
         } catch (ZIPNotReadableException e) {
             logger.log(Level.SEVERE, "Error while unzipping file: " + e.getMessage());
         }
-        setCanSubmit(true);
+        setCanSubmit(isCanSubmit());
     }
 
-    /** Saves the created submission to the database. */
-    public void submit() {
-        if (isCanSubmit()) {
+    /** Saves the created submission to the database.
+     *
+     *  @return The navigation outcome.
+     * */
+    public String submit() {
+        logger.log(Level.INFO, "try to add submission");
             newSubmission.setSubmissionFiles(submissionFiles);
             newSubmission.setUser(appSession.getUser().getUsername());
             newSubmission.setCheckerResults(checkerResults);
             newSubmission.setExerciseId(exercise.getId());
             submissionService.addSubmission(newSubmission);
             canSubmit = false;
-        }
+            return "/view/registered/exercise.xhtml?faces-redirect=true&Id=" + exerciseBean.getExerciseId();
     }
 
     /**
@@ -188,15 +190,17 @@ public class SubmissionUploadBean implements Serializable {
      */
     public boolean isCanSubmit() {
         if (checkerResults.isEmpty()) {
-            return false;
+            setCanSubmit(true);
         } else {
+            setCanSubmit(true);
             for (CheckerResult checkerResult : checkerResults) {
                 if (checkerResult.getChecker().isMandatory() && !checkerResult.isPassed()) {
-                    return false;
+                   setCanSubmit(false);
+                    break;
                 }
             }
         }
-        return true;
+        return canSubmit;
     }
 
     /**

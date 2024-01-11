@@ -1,26 +1,29 @@
 package de.ssherlock.control.validation;
 
+import de.ssherlock.global.logging.LoggerCreator;
+import de.ssherlock.global.logging.SerializableLogger;
 import jakarta.enterprise.context.Dependent;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.convert.Converter;
 import jakarta.faces.convert.FacesConverter;
-import jakarta.inject.Named;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Handles conversion of Timestamps.
  *
  * @author Victor Vollmann
  */
-@Named
 @Dependent
 @FacesConverter(value = "dateConverter", managed = true)
 public class TimestampConverter implements Converter<Timestamp> {
+
+    private final SerializableLogger logger = LoggerCreator.get(TimestampConverter.class);
 
     /**
      * Constructs a new timestamp converter.
@@ -39,8 +42,28 @@ public class TimestampConverter implements Converter<Timestamp> {
      */
     @Override
     public Timestamp getAsObject(FacesContext facesContext, UIComponent uiComponent, String s) {
-        LocalDateTime localDate = LocalDateTime.parse(s, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
-        return Timestamp.valueOf(localDate);
+        if (s == null || s.isEmpty()) {
+            return null;
+        }
+
+        List<String> dateFormats = Arrays.asList(
+                "yyyy-MM-dd'T'HH:mm",
+                "yyyy-MM-dd HH:mm",
+                "MM/dd/yyyy HH:mm",
+                "dd/MM/yyyy HH:mm"
+        );
+
+        for (String format : dateFormats) {
+            try {
+                SimpleDateFormat formatter = new SimpleDateFormat(format);
+                return new Timestamp(formatter.parse(s).getTime());
+            } catch (ParseException e) {
+                logger.warning("Failed to parse date: " + s + " with format: " + format);
+            }
+        }
+
+        logger.severe("Unable to parse date: " + s);
+        return null;
     }
 
     /**

@@ -142,24 +142,6 @@ public class CourseUserPaginationBean extends AbstractPaginationBean implements 
     }
 
     /**
-     * Sets users.
-     *
-     * @param users the users
-     */
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
-
-    /**
-     * Sets selected role.
-     *
-     * @param selectedRole the selected role
-     */
-    public void setSelectedRole(Map<String, String> selectedRole) {
-        this.selectedRole = selectedRole;
-    }
-
-    /**
      * Gets selected role.
      *
      * @return the selected role
