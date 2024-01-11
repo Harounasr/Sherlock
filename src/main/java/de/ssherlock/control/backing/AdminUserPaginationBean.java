@@ -114,11 +114,11 @@ public class AdminUserPaginationBean extends AbstractPaginationBean implements S
      * Action to redirect the admin to the selected user's profile-facelet. Handles user selection
      * navigation.
      *
-     * @param username The selected user's username.
+     * @param user The selected user's username.
      * @return The navigation outcome.
      */
-    public String selectUser(String username) {
-        return "";
+    public String selectUser(User user) {
+        return "/view/registered/profile.xhtml?faces-redirect=true&Id=" + user.getId();
     }
 
     /**

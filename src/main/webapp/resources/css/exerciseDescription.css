@@ -6,6 +6,8 @@
 
 .text-area-custom {
   border: 1px solid #ddd;
+  resize: none;
+  overflow: auto;
 }
 
 .output-text-img-component {

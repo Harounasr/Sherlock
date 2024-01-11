@@ -1,6 +1,8 @@
 package de.ssherlock.control.backing;
 
 import de.ssherlock.business.service.ExerciseService;
+import de.ssherlock.control.notification.Notification;
+import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Exercise;
@@ -131,9 +133,16 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
      * @return The navigation outcome.
      */
     public String addExercise() {
-        logger.log(Level.INFO, "add new exercise.");
+        logger.log(Level.INFO, "try to add a new exercise.");
+        if (exerciseAlreadyExists(exercise.getName())) {
+            Notification notification = new Notification("Exercise with the same name already exists.", NotificationType.ERROR);
+            notification.generateUIMessage();
+            return "";
+        }
+
         exercise.setCourseId(courseBean.getCourse().getId());
         exerciseService.addExercise(exercise);
+        logger.log(Level.INFO, "Exercise Successfully added.");
         return "/view/registered/course.xhtml?faces-redirect=true&Id=" + courseBean.getCourse().getId();
     }
 
@@ -192,5 +201,14 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
      */
     public boolean isObligatoryDeadlinePast(Exercise exercise) {
         return exercise.getObligatoryDeadline().toInstant().isBefore(Calendar.getInstance().toInstant());
+    }
+
+    private boolean exerciseAlreadyExists(String exerciseName) {
+        for (Exercise existingExercise : exercises) {
+            if (existingExercise.getName().equals(exerciseName)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

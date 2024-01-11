@@ -148,7 +148,7 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
                 + "    e.description "
                 + "FROM "
                 + "    course c "
-                + "LEFT JOIN "
+                + "JOIN "
                 + "    exercise e ON c.id = e.course_id "
                 + "WHERE "
                 + "    c.course_name = ?";
@@ -173,5 +173,4 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
         }
         return exercises;
     }
-
 }
