@@ -9,7 +9,6 @@ import de.ssherlock.global.transport.CheckerType;
 import de.ssherlock.global.transport.Exercise;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
-import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
@@ -147,6 +146,7 @@ public class CheckerListBean extends AbstractPaginationBean implements Serializa
 
     /**
      * Deletes the Checkers.
+     * @param id  the id to be deleted.
      */
     public void deleteChecker(int id) {
         Checker deletedChecker = new Checker();
@@ -200,7 +200,9 @@ public class CheckerListBean extends AbstractPaginationBean implements Serializa
         currentIndex = index;
     }
 
-
+    /**
+     * loads the data for the pagination.
+     */
     @Override
     public void loadData() {
         Exercise exercise = new Exercise();
@@ -212,6 +214,10 @@ public class CheckerListBean extends AbstractPaginationBean implements Serializa
         }
     }
 
+    /**
+     * Gets all the checker types.
+     * @return types of checkers available.
+     */
     public List<CheckerType> getAllCheckerTypes() {
         return List.of(CheckerType.values());
     }

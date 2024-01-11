@@ -158,8 +158,8 @@ public class CheckerService implements Serializable {
 
     /**
      * Retrieves a list of all available Checkers.
-     *
-     * @return List of Checkers
+     *@param pagination  pagination.
+     * @return List of Checkers.
      * @throws BusinessNonExistentCheckerException if no checkers were found.
      */
     public List<Checker> getChecker(Pagination pagination) throws BusinessNonExistentCheckerException {
