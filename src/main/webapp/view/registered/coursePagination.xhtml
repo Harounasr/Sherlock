@@ -27,6 +27,7 @@
             <h:form>
                 <comp:paginationSearch backingBean="#{coursePaginationBean}"/>
             </h:form>
+
             <h:dataTable value="#{coursePaginationBean.courses}" var="course"
                          first="#{coursePaginationBean.pagination.currentIndex}" rows="#{coursePaginationBean.pagination.pageSize}"
                          styleClass="table table-striped table-bordered w-100">

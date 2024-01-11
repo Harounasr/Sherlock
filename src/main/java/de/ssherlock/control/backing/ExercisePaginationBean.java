@@ -7,10 +7,10 @@ import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Exercise;
 import jakarta.annotation.PostConstruct;
-import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Calendar;
@@ -103,9 +103,7 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
      * @return The navigation outcome.
      */
     public String select(Exercise exercise) {
-        FacesContext.getCurrentInstance().getExternalContext().getFlash().put("courseID", courseBean.getCourse().getId());
-        logger.log(Level.INFO, "Selected Course: " + courseBean.getCourse().getId());
-        logger.info("Selected Exercise: " + exercise.getId());
+        logger.info("Selected Exercise: " + exercise.getName());
         return "/view/registered/exercise.xhtml?faces-redirect=true&Id=" + exercise.getId();
     }
 

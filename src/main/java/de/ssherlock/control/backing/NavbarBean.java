@@ -70,7 +70,6 @@ public class NavbarBean implements Serializable {
     public void initialize() {
         String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
         currentFacelet = viewId.substring(viewId.lastIndexOf('/') + 1).split("\\.", 2)[0];
-        logger.info(currentFacelet);
     }
 
     /**

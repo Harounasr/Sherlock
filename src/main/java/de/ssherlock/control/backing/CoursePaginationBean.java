@@ -1,6 +1,7 @@
 package de.ssherlock.control.backing;
 
 import de.ssherlock.business.service.CourseService;
+import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Course;
@@ -11,6 +12,7 @@ import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -56,6 +58,11 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
     private final CourseService courseService;
 
     /**
+     * Service to handle Course-related actions.
+     */
+    private final UserService userService;
+
+    /**
      * The new course that the user creates.
      */
     private Course newCourse;
@@ -71,17 +78,24 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
     private boolean getAllCoursesBool;
 
     /**
+     * Whether the pagination has loaded already.
+     */
+    private boolean paginationLoaded;
+
+    /**
      * Constructs a CoursesPaginationBean.
      *
      * @param logger        The logger used for logging within this class (Injected).
      * @param appSession    The active session (Injected).
      * @param courseService The CourseService (Injected).
+     * @param userService   The User service (Injected).
      */
     @Inject
-    public CoursePaginationBean(SerializableLogger logger, AppSession appSession, CourseService courseService) {
+    public CoursePaginationBean(SerializableLogger logger, AppSession appSession, CourseService courseService, UserService userService) {
         this.logger = logger;
         this.appSession = appSession;
         this.courseService = courseService;
+        this.userService = userService;
     }
 
     /**
@@ -90,13 +104,19 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
      */
     @PostConstruct
     public void initialize() {
-        this.newCourse = new Course();
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        newCourse = new Course();
         getPagination().setPageSize(PAGE_SIZE);
         getPagination().setSortBy("name");
-        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        getAllCoursesBool = Boolean.parseBoolean(params.get("all"));
+        if (!paginationLoaded) {
+            Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+            getAllCoursesBool = Boolean.parseBoolean(params.get("all"));
+        }
         courses = getAllCoursesBool ? courseService.getCourses(getPagination()) : courseService.getCourses(getPagination(), appSession.getUser());
         getPagination().setLastIndex(courses.size() - 1);
+        paginationLoaded = true;
     }
 
     /**
@@ -106,8 +126,11 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
      * @return The navigation outcome.
      */
     public String select(Course course) {
-        FacesContext.getCurrentInstance().getExternalContext().getFlash().put("courseName", course.getName());
-        logger.log(INFO, "Selected Course: " + course.getName());
+        CourseRole courseRole = appSession.getUser().getCourseRoles().get(course.getId());
+        if (courseRole == null || courseRole == CourseRole.NONE) {
+            userService.updateCourseRole(appSession.getUser(), course, CourseRole.MEMBER);
+        }
+        logger.info("selected course: " + course.getName() + " with id " + course.getId());
         return "/view/registered/course.xhtml?faces-redirect=true&Id=" + course.getId();
     }
 
@@ -163,7 +186,6 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
     @Override
     public void loadData() {
         courses = getAllCoursesBool ? courseService.getCourses(getPagination()) : courseService.getCourses(getPagination(), appSession.getUser());
-
     }
 
     /**

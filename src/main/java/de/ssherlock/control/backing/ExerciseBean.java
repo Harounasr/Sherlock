@@ -12,7 +12,6 @@ import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.SystemRole;
 import de.ssherlock.global.transport.User;
 import jakarta.annotation.PostConstruct;
-import jakarta.faces.context.ExternalContext;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
@@ -79,11 +78,6 @@ public class ExerciseBean implements Serializable {
     private Exercise exercise;
 
     /**
-     * The current courseId.
-     */
-    private long courseId;
-
-    /**
      * Constructs an ExerciseBean.
      *
      * @param logger          The logger used for logging within this class (Injected).
@@ -105,9 +99,6 @@ public class ExerciseBean implements Serializable {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         Map<String, String> requestParams = facesContext.getExternalContext().getRequestParameterMap();
         exerciseId = Long.parseLong(requestParams.get("Id"));
-        ExternalContext externalContext = facesContext.getExternalContext();
-        Map<String, Object> flashMap = externalContext.getFlash();
-        courseId = (Long) flashMap.get("courseID");
         logger.log(Level.INFO, "Param: " + exerciseId);
         exercise = new Exercise();
         exercise.setId(exerciseId);
@@ -118,7 +109,6 @@ public class ExerciseBean implements Serializable {
             logger.severe("The exercise with id " + exercise.getId() + " does not exist anymore.");
             throw new RuntimeException("The requested exercise does not exist.", e);
         }
-
         User user = appSession.getUser();
         userCourseRole = user.getCourseRoles().getOrDefault(exercise.getCourseId(), CourseRole.NONE);
         if (userCourseRole == CourseRole.NONE && user.getSystemRole() != SystemRole.ADMINISTRATOR) {
@@ -136,7 +126,7 @@ public class ExerciseBean implements Serializable {
         try {
             exerciseService.removeExercise(exercise);
             logger.log(Level.INFO, "Exercise Successfully deleted.");
-            return "/view/registered/course.xhtml?faces-redirect=true&Id=" + courseId;
+            return "/view/registered/course.xhtml?faces-redirect=true&Id=" + exercise.getCourseId();
         } catch (BusinessNonExistentExerciseException e) {
             Notification notification =
                     new Notification("Exercise could not be deleted.", NotificationType.ERROR);
