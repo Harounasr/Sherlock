@@ -121,7 +121,8 @@
                                         <h:inputText id="inputCheckerName" value="#{checkerListBean.newChecker.name}" required="true"/>
                                     </h:panelGroup>
                                     <h:panelGroup id="paramOneInputPanel"
-                                                  rendered="#{checkerListBean.currentCheckerType == 'LINE_WIDTH' || checkerListBean.currentCheckerType == 'USER_DEFINED'}"
+                                                  rendered="#{checkerListBean.currentCheckerType == 'LINE_WIDTH'
+                                                   || checkerListBean.currentCheckerType == 'USER_DEFINED'}"
                                                   style="display:block">
                                         <h:outputLabel value="#{checkerListBean.currentCheckerType == 'LINE_WIDTH' ? 'Line Width' : 'Input'}"
                                                        for="inputParamOne"/>
