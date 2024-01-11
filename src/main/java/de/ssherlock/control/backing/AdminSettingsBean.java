@@ -1,6 +1,8 @@
 package de.ssherlock.control.backing;
 
 import de.ssherlock.business.service.SystemService;
+import de.ssherlock.control.notification.Notification;
+import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.SystemSettings;
@@ -13,9 +15,8 @@ import jakarta.servlet.http.Part;
 import java.io.IOException;
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Base64;
-import java.util.List;
+
 
 /**
  * Backing Bean for the adminSettings.xhtml facelet.
@@ -60,7 +61,6 @@ public class AdminSettingsBean implements Serializable {
     /**
      * List of available colors.
      */
-    private List<String> availableColors;
 
     /**
      * Constructs an AdminSettingsBean.
@@ -82,15 +82,6 @@ public class AdminSettingsBean implements Serializable {
      */
     @PostConstruct
     public void initialize() {
-        availableColors = new ArrayList<>();
-        availableColors.add("#ff0000"); // Red
-        availableColors.add("#00ff00"); // Green
-        availableColors.add("#0000ff"); // Blue
-        availableColors.add("#ffff00"); // Yellow
-        availableColors.add("#800080"); // Purple
-        availableColors.add("#ffA500"); // Orange
-        availableColors.add("#ffc0cb"); // Pink
-        availableColors.add("#a52a2a"); // Brown
         systemSettings = new SystemSettings();
         systemSettings = systemService.getSystemSettings();
     }
@@ -106,6 +97,10 @@ public class AdminSettingsBean implements Serializable {
      * Uploads the logo.
      */
     public void uploadLogo() {
+        if (uploadedLogo == null) {
+            new Notification("No logo selected.", NotificationType.ERROR).generateUIMessage();
+            return;
+        }
         try {
             this.systemSettings.setLogo(uploadedLogo.getInputStream().readAllBytes());
         } catch (IOException e) {
@@ -154,9 +149,6 @@ public class AdminSettingsBean implements Serializable {
      *
      * @return List of available colors
      */
-    public List<String> getAvailableColors() {
-        return availableColors;
-    }
 
     /**
      * Gets logo base 64.

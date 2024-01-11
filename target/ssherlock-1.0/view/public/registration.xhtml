@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns="http://www.w3.org/1999/xhtml">
+<h:head>
+    <title>Register now</title>
+    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/colorScheme.css"/>
+    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/css/login.css"/>
+    <h:outputStylesheet library="webjars" name="bootstrap/5.3.2/css/bootstrap.css"/>
+    <h:outputScript library="webjars" name="bootstrap/5.3.2/js/bootstrap.min.js"/>
+</h:head>
+<body>
+<div class="container">
+    <div class="text-center my-3">
+        <h:graphicImage value="data:image/png;base64,#{registrationBean.logoBase64}" styleClass="img-fluid image-container"/>
+    </div>
+    <div class="row justify-content-center login-container">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header primary-color-background">
+                    <h3 class="text-center text-white">Registration</h3>
+                </div>
+                <div class="card-body primary-color-background">
+                    <h:form>
+                        <div class="form-group mb-3">
+                            <label for="userName" class="text-white">Username</label>
+                            <h:inputText id="userName" value="#{registrationBean.user.username}" styleClass="form-control"
+                                         placeholder="Enter your username" required="true" requiredMessage="Please fill in this field">
+                                <f:validator validatorId="usernameValidator"/>
+                            </h:inputText>
+                            <h:message for="userName" styleClass="error-message"/>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="firstName" class="text-white">First Name</label>
+                            <h:inputText id="firstName" value="#{registrationBean.user.firstName}" styleClass="form-control"
+                                         placeholder="Enter your first name" required="true" requiredMessage="Please fill in this field"/>
+                            <h:message for="firstName" styleClass="error-message"/>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="lastName" class="text-white">Last Name</label>
+                            <h:inputText id="lastName" value="#{registrationBean.user.lastName}" styleClass="form-control"
+                                         placeholder="Enter your last name" required="true" requiredMessage="Please fill in this field"/>
+                            <h:message for="lastName" styleClass="error-message"/>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="email" class="text-white">Email</label>
+                            <h:inputText id="email" value="#{registrationBean.user.email}" styleClass="form-control" placeholder="Enter your email"
+                                         required="true" requiredMessage="Please fill in this field">
+                                <f:validator validatorId="emailValidator"/>
+                            </h:inputText>
+                            <h:message for="email" styleClass="error-message"/>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="faculty" class="text-white">Faculty</label>
+                            <h:selectOneMenu id="faculty" value="#{registrationBean.user.facultyName}" styleClass="form-control" required="true">
+                                <f:selectItem itemLabel="-- Select Faculty --" itemValue=""/>
+                                <f:selectItems value="#{registrationBean.faculties}" var="faculty" itemLabel="#{faculty.name}"
+                                               itemValue="#{faculty.name}"/>
+                            </h:selectOneMenu>
+                            <h:message for="faculty" styleClass="error-message"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="passWord" class="text-white">Password</label>
+                            <h:inputSecret id="passWord" value="#{registrationBean.unhashedPassword}" styleClass="form-control"
+                                           placeholder="Enter your password" required="true" requiredMessage="Please fill in this field">
+                                <f:validator validatorId="passwordValidator"/>
+                            </h:inputSecret>
+                            <h:message for="passWord" styleClass="error-message"/>
+                        </div>
+                    </h:form>
+                </div>
+                <div class="card-footer primary-color-background">
+                    <div class="mb-3 mt-2">
+                        <h:form>
+                            <h:commandButton type="submit" id="register" value="Register" styleClass="btn secondary-color-btn btn-block w-100"
+                                             action="#{registrationBean.register}"/>
+                        </h:form>
+                    </div>
+                    <div class="mb-2">
+                        <h:form>
+                            <h:commandButton styleClass="btn secondary-color-btn btn-block w-100" value="Back to Login"
+                                             action="#{registrationBean.navigateToLogin}"/>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

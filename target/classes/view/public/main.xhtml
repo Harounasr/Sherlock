@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets">
+
+<head>
+    <link rel="stylesheet" href="#{request.contextPath}/resources/css/main.css"/>
+</head>
+
+<h:body>
+    <ui:insert name="header" id="navbar">
+        <ui:include src="../../resources/templates/navbar.xhtml"></ui:include>
+    </ui:insert>
+    <ui:insert name="content" id="content">
+        <ui:include src="login.xhtml"></ui:include>
+    </ui:insert>
+    <ui:insert name="footer" id="footer">
+        <ui:include src="../../resources/templates/Footer.xhtml"/>
+    </ui:insert>
+</h:body>
+</html>

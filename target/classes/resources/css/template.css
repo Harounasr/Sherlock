@@ -1,0 +1,49 @@
+body {
+  padding-bottom: 60px; /* Change this value to adjust the footer height */
+  margin: 0;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: var(--primary-color, #ffffff);
+  color: floralwhite;
+  padding: 20px;
+}
+
+li {
+  margin: 10px 0;
+}
+
+#profile-button {
+  color: black;
+  border-color: black;
+}
+
+.navbar {
+  background: var(--primary-color, #ffffff);
+}
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.commandButton {
+  background-color: var(--primary-color, #ffffff);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.commandButton:hover {
+  color: black;
+}
