@@ -13,7 +13,6 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.io.IOException;
 import java.time.Duration;
 
 /**
@@ -50,33 +49,33 @@ public abstract class AbstractSeleniumUITest {
 
     /**
      * Sets up the web driver and wait and the embedded database.
-     *
      */
     @BeforeAll
     public static void setUp() {
         String browser = System.getProperty("SYSTEM_TEST_BROWSER", "chrome");
         switch (browser) {
-            case "chrome" -> {
-                ChromeOptions options = new ChromeOptions();
-                if (System.getenv("GITLAB_CI") != null || System.getenv("JENKINS_NODE_COOKIE") != null) {
-                    options.addArguments("--headless");
-                }
-                driver = new ChromeDriver(options);
+        case "chrome" -> {
+            ChromeOptions options = new ChromeOptions();
+            if (System.getenv("GITLAB_CI") != null || System.getenv("JENKINS_NODE_COOKIE") != null) {
+                options.addArguments("--headless");
             }
-            case "edge" -> {
-                EdgeOptions options = new EdgeOptions();
-                if (System.getenv("GITLAB_CI") != null || System.getenv("JENKINS_NODE_COOKIE") != null) {
-                    options.addArguments("--headless");
-                }
-                driver = new EdgeDriver(options);
+            driver = new ChromeDriver(options);
+        }
+        case "edge" -> {
+            EdgeOptions options = new EdgeOptions();
+            if (System.getenv("GITLAB_CI") != null || System.getenv("JENKINS_NODE_COOKIE") != null) {
+                options.addArguments("--headless");
             }
-            case "firefox" -> {
-                FirefoxOptions options = new FirefoxOptions();
-                if (System.getenv("GITLAB_CI") != null || System.getenv("JENKINS_NODE_COOKIE") != null) {
-                    options.addArguments("--headless");
-                }
-                driver = new FirefoxDriver(options);
+            driver = new EdgeDriver(options);
+        }
+        case "firefox" -> {
+            FirefoxOptions options = new FirefoxOptions();
+            if (System.getenv("GITLAB_CI") != null || System.getenv("JENKINS_NODE_COOKIE") != null) {
+                options.addArguments("--headless");
             }
+            driver = new FirefoxDriver(options);
+        }
+        default -> throw new RuntimeException("The driver is not specified");
         }
         driver.manage().window().setSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         wait = new WebDriverWait(driver, Duration.ofSeconds(TIMEOUT));
@@ -84,7 +83,6 @@ public abstract class AbstractSeleniumUITest {
 
     /**
      * Tears down the web driver.
-     *
      */
     @AfterAll
     public static void tearDown() {

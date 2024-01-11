@@ -19,10 +19,7 @@ body {
   max-height: 20px;
   background-color: var(--primary-color, #ffffff);
   color: var(--secondary-color, #ffffff);
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  text-align: center;
+
 }
 
 .primary-color-background {

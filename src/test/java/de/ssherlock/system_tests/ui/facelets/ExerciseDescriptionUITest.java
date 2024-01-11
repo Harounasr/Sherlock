@@ -117,6 +117,7 @@ public class ExerciseDescriptionUITest extends AbstractSeleniumUITest {
             obDeadline.sendKeys(Keys.ARROW_RIGHT);
             obDeadline.sendKeys("0726PM");
         }
+        default -> throw new RuntimeException("The browser is not specified");
         }
         clickSaveButton();
         WebElement obDeadlineChanged = getWait().until(visibilityOfElementLocated(By.cssSelector("[id$='obDeadline']")));

@@ -88,7 +88,8 @@
             <div class="form-group full-width-bottom">
                 <label for="file">Choose an image:</label>
                 <h:inputFile id="file" value="#{exerciseDescriptionBean.uploadedImage}" validator="imageValidator"/>
-                <h:commandButton id="convert-button" value="Convert to &lt;img&gt; Component" action="#{exerciseDescriptionBean.uploadImage()}" class="btn btn-primary"/>
+                <h:commandButton id="convert-button" value="Convert to &lt;img&gt; Component" action="#{exerciseDescriptionBean.uploadImage()}"
+                                 class="btn btn-primary"/>
                 <h:outputText id="generated-img-component" value="#{exerciseDescriptionBean.imgComponent}" styleClass="output-text-img-component"/>
             </div>
         </h:panelGroup>
