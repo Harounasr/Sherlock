@@ -10,6 +10,10 @@ import jakarta.faces.validator.ValidatorException;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Handles testate comment validation.
  *
@@ -18,7 +22,12 @@ import jakarta.inject.Named;
 @Named
 @Dependent
 @FacesValidator(value = "gradeValidator", managed = true)
-public class GradeValidator implements Validator<String> {
+public class GradeValidator implements Validator<Integer> {
+
+    /**
+     * The possible grades.
+     */
+    private final List<Integer> GRADES = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6));
 
     /**
      * Constructs an TestateCommentValidator.
@@ -30,17 +39,14 @@ public class GradeValidator implements Validator<String> {
      * Validates the username for uniqueness and format.
      */
     @Override
-    public void validate(FacesContext facesContext, UIComponent uiComponent, String selection)
+    public void validate(FacesContext facesContext, UIComponent uiComponent, Integer selection)
             throws ValidatorException {
 
-        if (selection == null || selection.trim().isEmpty()) {
+        if (!GRADES.contains(selection)) {
             FacesMessage facesMessage =
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Please select a grade.", null);
             throw new ValidatorException(facesMessage);
         }
-        FacesMessage facesMessage =
-                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Please select a grade.", null);
-        throw new ValidatorException(facesMessage);
     }
 
 }
