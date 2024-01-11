@@ -135,12 +135,8 @@ public class ExerciseBean implements Serializable {
     public String deleteExercise() {
         try {
             exerciseService.removeExercise(exercise);
-<<<<<<< src/main/java/de/ssherlock/control/backing/ExerciseBean.java
-            return "/view/registered/course.xhtml?faces-redirect=true Id=" + courseId;
-=======
             logger.log(Level.INFO, "Exercise Successfully deleted.");
-            return "/view/registered/course.xhtml?faces-redirect=true Id=" + courseId;
->>>>>>> src/main/java/de/ssherlock/control/backing/ExerciseBean.java
+            return "/view/registered/course.xhtml?faces-redirect=true&Id=" + courseId;
         } catch (BusinessNonExistentExerciseException e) {
             Notification notification =
                     new Notification("Exercise could not be deleted.", NotificationType.ERROR);
