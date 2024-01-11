@@ -1,7 +1,7 @@
 <!-- Author Victor Vollmann -->
 <!DOCTYPE html >
 <html xmlns:h="jakarta.faces.html"
-      xmlns="http://www.w3.org/1999/xhtml">
+      xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core">
 <head>
     <link rel="stylesheet" href="#{request.contextPath}/resources/css/exerciseDescription.css"/>
 </head>
@@ -9,43 +9,52 @@
     <h:form enctype="multipart/form-data">
         <!-- EXERCISE DESCRIPTION -->
         <h:panelGroup rendered="#{!exerciseDescriptionBean.editMode}" styleClass="mt-2">
-            <h:commandButton rendered="#{exerciseDescriptionBean.userCanEdit}" value="Edit" styleClass="full-width-button btn btn-primary"
+            <h:commandButton id="editButton" rendered="#{exerciseDescriptionBean.userCanEdit}" value="Edit"
+                             styleClass="full-width-button btn btn-primary"
                              action="#{exerciseDescriptionBean.startEditMode}"/>
             <div class="container">
                 <div class="row">
                     <div class="col">
                         <label class="#{exerciseDescriptionBean.recommendedDeadlinePast ? 'past-deadline' : 'future-deadline'} deadline-label"
                                for="recDeadline">Recommended Deadline:</label>
-                        <h:outputText id="recDeadline" value="#{exerciseDescriptionBean.exercise.recommendedDeadline}" converter="dateConverter"/>
+                        <h:outputText id="recDeadline" value="#{exerciseDescriptionBean.exercise.recommendedDeadline}">
+                            <f:converter converterId="dateConverter"/>
+                        </h:outputText>
                     </div>
                     <div class="col">
                         <label class="#{exerciseDescriptionBean.obligatoryDeadlinePast ? 'past-deadline' : 'future-deadline'} deadline-label"
                                for="obDeadline">Obligatory Deadline:</label>
-                        <h:outputText id="obDeadline" value="#{exerciseDescriptionBean.exercise.obligatoryDeadline}" converter="dateConverter"/>
+                        <h:outputText id="obDeadline" value="#{exerciseDescriptionBean.exercise.obligatoryDeadline}">
+                            <f:converter converterId="dateConverter"/>
+                        </h:outputText>
                     </div>
                     <div class="col">
                         <label class="#{exerciseDescriptionBean.publishDatePast ? 'past-deadline' : 'future-deadline'} deadline-label"
                                for="pubDate">Publish Date:</label>
-                        <h:outputText id="pubDate" value="#{exerciseDescriptionBean.exercise.publishDate}" converter="dateConverter"/>
+                        <h:outputText id="pubDate" value="#{exerciseDescriptionBean.exercise.publishDate}" converter="dateConverter">
+                            <f:converter converterId="dateConverter"/>
+                        </h:outputText>
                     </div>
                 </div>
             </div>
 
             <div class="rendered-html">
-                <h:outputText escape="false" value="#{exerciseDescriptionBean.exercise.description}" styleClass="rendered-html"/>
+                <h:outputText id="renderedHtml" escape="false" value="#{exerciseDescriptionBean.exercise.description}" styleClass="rendered-html"/>
             </div>
         </h:panelGroup>
 
         <!-- EDITOR -->
         <h:panelGroup rendered="#{exerciseDescriptionBean.editMode}" styleClass="mt-2">
-            <h:commandButton value="Save" styleClass="full-width-button btn btn-success" action="#{exerciseDescriptionBean.saveAndDisableEditMode}"/>
+            <h:commandButton id="saveButton" value="Save" styleClass="full-width-button btn btn-success"
+                             action="#{exerciseDescriptionBean.saveAndDisableEditMode}"/>
             <div class="row">
                 <div class="col">
                     <h:panelGroup rendered="#{!exerciseDescriptionBean.recommendedDeadlinePast}">
                         <label for="recommendedDeadline" class="deadline-label">Recommended Deadline:</label>
                         <h:inputText id="recommendedDeadline" styleClass="form-control" type="datetime-local"
-                                     value="#{exerciseDescriptionBean.exercise.recommendedDeadline}" validator="dateValidator"
-                                     converter="dateConverter"/>
+                                     value="#{exerciseDescriptionBean.exercise.recommendedDeadline}" validator="dateValidator">
+                            <f:converter converterId="dateConverter"/>
+                        </h:inputText>
                         <h:message for="recommendedDeadline" styleClass="error-message"/>
                     </h:panelGroup>
                 </div>
@@ -54,8 +63,9 @@
                     <h:panelGroup rendered="#{!exerciseDescriptionBean.obligatoryDeadlinePast}">
                         <label for="obligatoryDeadline" class="deadline-label">Obligatory Deadline:</label>
                         <h:inputText id="obligatoryDeadline" styleClass="datetimepicker-input" type="datetime-local"
-                                     value="#{exerciseDescriptionBean.exercise.obligatoryDeadline}" validator="dateValidator"
-                                     converter="dateConverter"/>
+                                     value="#{exerciseDescriptionBean.exercise.obligatoryDeadline}" validator="dateValidator">
+                            <f:converter converterId="dateConverter"/>
+                        </h:inputText>
                         <h:message for="obligatoryDeadline" styleClass="error-message"/>
                     </h:panelGroup>
                 </div>
@@ -64,22 +74,22 @@
                     <h:panelGroup rendered="#{!exerciseDescriptionBean.publishDatePast}">
                         <label for="publishDate" class="deadline-label">Publish Date:</label>
                         <h:inputText id="publishDate" styleClass="form-control" type="datetime-local"
-                                     value="#{exerciseDescriptionBean.exercise.publishDate}" validator="dateValidator" converter="dateConverter"/>
+                                     value="#{exerciseDescriptionBean.exercise.publishDate}" validator="dateValidator">
+                            <f:converter converterId="dateConverter"/>
+                        </h:inputText>
                         <h:message for="publishDate" styleClass="error-message"/>
                     </h:panelGroup>
                 </div>
             </div>
 
-            <h:message for="htmlInput" styleClass="error-message"/>
             <h:inputTextarea id="htmlInput" validator="htmlValidator" value="#{exerciseDescriptionBean.exercise.description}"
-                             styleClass="text-area-custom" rows="30" cols="200"/>
+                             styleClass="text-area-custom" rows="20" cols="140"/>
 
             <div class="form-group full-width-bottom">
                 <label for="file">Choose an image:</label>
                 <h:inputFile id="file" value="#{exerciseDescriptionBean.uploadedImage}" validator="imageValidator"/>
-                <h:message for="file" styleClass="error-message"/>
-                <h:commandButton value="Convert to &lt;img&gt; Component" action="#{exerciseDescriptionBean.uploadImage()}" class="btn btn-primary"/>
-                <h:outputText value="#{exerciseDescriptionBean.imgComponent}" styleClass="output-text-img-component"/>
+                <h:commandButton id="convert-button" value="Convert to &lt;img&gt; Component" action="#{exerciseDescriptionBean.uploadImage()}" class="btn btn-primary"/>
+                <h:outputText id="generated-img-component" value="#{exerciseDescriptionBean.imgComponent}" styleClass="output-text-img-component"/>
             </div>
         </h:panelGroup>
     </h:form>

@@ -7,6 +7,10 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.IOException;
@@ -50,11 +54,30 @@ public abstract class AbstractSeleniumUITest {
      */
     @BeforeAll
     public static void setUp() {
-        ChromeOptions options = new ChromeOptions();
-        if (System.getenv("GITLAB_CI") != null || System.getenv("JENKINS_NODE_COOKIE") != null) {
-            options.addArguments("--headless");
+        String browser = System.getProperty("SYSTEM_TEST_BROWSER", "chrome");
+        switch (browser) {
+            case "chrome" -> {
+                ChromeOptions options = new ChromeOptions();
+                if (System.getenv("GITLAB_CI") != null || System.getenv("JENKINS_NODE_COOKIE") != null) {
+                    options.addArguments("--headless");
+                }
+                driver = new ChromeDriver(options);
+            }
+            case "edge" -> {
+                EdgeOptions options = new EdgeOptions();
+                if (System.getenv("GITLAB_CI") != null || System.getenv("JENKINS_NODE_COOKIE") != null) {
+                    options.addArguments("--headless");
+                }
+                driver = new EdgeDriver(options);
+            }
+            case "firefox" -> {
+                FirefoxOptions options = new FirefoxOptions();
+                if (System.getenv("GITLAB_CI") != null || System.getenv("JENKINS_NODE_COOKIE") != null) {
+                    options.addArguments("--headless");
+                }
+                driver = new FirefoxDriver(options);
+            }
         }
-        driver = new ChromeDriver(options);
         driver.manage().window().setSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         wait = new WebDriverWait(driver, Duration.ofSeconds(TIMEOUT));
     }
@@ -62,10 +85,9 @@ public abstract class AbstractSeleniumUITest {
     /**
      * Tears down the web driver.
      *
-     * @throws IOException When the embedded database cannot be closed.
      */
     @AfterAll
-    public static void tearDown() throws IOException {
+    public static void tearDown() {
         if (driver != null) {
             driver.quit();
         }
