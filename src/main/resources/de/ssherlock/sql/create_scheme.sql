@@ -125,14 +125,10 @@ CREATE TABLE IF NOT EXISTS testate_comment
 (
     comment_id    SERIAL  NOT NULL,
     submission_id INTEGER NOT NULL,
-    file_id       INTEGER NOT NULL,
-    is_visible    BOOLEAN NOT NULL,
-    line_number   INTEGER NOT NULL,
     comment       TEXT    NOT NULL,
 
-    PRIMARY KEY (submission_id, file_id, comment_id),
-    FOREIGN KEY (file_id) REFERENCES submission_file (id) ON DELETE CASCADE
-    );
+    PRIMARY KEY (submission_id, comment_id)
+);
 
 CREATE TABLE IF NOT EXISTS testate
 (

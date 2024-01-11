@@ -128,18 +128,23 @@ public class SubmissionPaginationBean extends AbstractPaginationBean implements 
      * Action to redirect the user to the selected submission.
      *
      * @param submissionId the id of the submission.
-     * @return The navigation outcome.
      */
     public String selectSubmission(long submissionId) {
         switch (courseRole) {
         case TUTOR:
         case TEACHER:
-            return "/view/registered/testate.xhtml?faces-redirect=true&subId=" + submissionId;
+            exerciseBean.setSubmissionId(submissionId);
+            exerciseBean.setTargetPage("testate.xhtml");
+            break;
         case MEMBER:
-            return "/view/registered/submission.xhtml?faces-redirect=true&subId=" + submissionId;
+            exerciseBean.setSubmissionId(submissionId);
+            exerciseBean.setTargetPage("submission.xhtml");
+            break;
         default:
             if (appSession.isAdmin()) {
-                return "/view/registered/testate.xhtml?faces-redirect=true&subId=" + submissionId;
+                exerciseBean.setSubmissionId(submissionId);
+                exerciseBean.setTargetPage("testate.xhtml");
+                break;
             } else {
                 throw new NoAccessException("You are not authorized to view this submission");
             }

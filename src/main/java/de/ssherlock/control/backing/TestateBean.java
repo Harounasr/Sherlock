@@ -1,5 +1,6 @@
 package de.ssherlock.control.backing;
 
+import de.ssherlock.business.exception.BusinessDBAccessException;
 import de.ssherlock.business.exception.BusinessNonExistentSubmissionException;
 import de.ssherlock.business.service.CheckerService;
 import de.ssherlock.business.service.SubmissionService;
@@ -11,7 +12,6 @@ import de.ssherlock.global.transport.Submission;
 import de.ssherlock.global.transport.SubmissionFile;
 import de.ssherlock.global.transport.Testate;
 import jakarta.annotation.PostConstruct;
-import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -23,7 +23,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 
 /**
@@ -67,6 +66,11 @@ public class TestateBean implements Serializable {
     private final TestateService testateService;
 
     /**
+     * The parent backing bean.
+     */
+    private final ExerciseBean exerciseBean;
+
+    /**
      * The testate the user creates.
      */
     private Testate newTestate;
@@ -87,6 +91,11 @@ public class TestateBean implements Serializable {
     private List<List<Object[]>> files;
 
     /**
+     * The List of checker-results.
+     */
+    private List<CheckerResult> checkerResults;
+
+    /**
      * Constructor for TestateBean.
      *
      * @param logger            The logger for this class.
@@ -94,6 +103,7 @@ public class TestateBean implements Serializable {
      * @param submissionService The service handling submission-related operations.
      * @param checkerService    The service handling checker-related operations.
      * @param testateService    The service handling testate-related operations.
+     * @param exerciseBean      The exercise bean.
      */
     @SuppressWarnings("checkstyle:MagicNumber")
 
@@ -103,12 +113,14 @@ public class TestateBean implements Serializable {
             AppSession appSession,
             SubmissionService submissionService,
             CheckerService checkerService,
-            TestateService testateService) {
+            TestateService testateService,
+            ExerciseBean exerciseBean) {
         this.logger = logger;
         this.appSession = appSession;
         this.submissionService = submissionService;
         this.checkerService = checkerService;
         this.testateService = testateService;
+        this.exerciseBean = exerciseBean;
         this.newTestate = new Testate();
         this.grades = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6));
         this.submission = new Submission();
@@ -119,12 +131,7 @@ public class TestateBean implements Serializable {
      */
     @PostConstruct
     public void initialize() {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        Map<String, String> requestParams = facesContext.getExternalContext().getRequestParameterMap();
-        for (Map.Entry<String, String> entry : requestParams.entrySet()) {
-            System.out.println(entry.getKey() + ": " + entry.getValue());
-        }
-        submission.setId(Long.parseLong(requestParams.get("?subId")));
+        submission.setId(exerciseBean.getSubmissionId());
         try {
             submission = submissionService.getSubmission(submission);
         } catch (BusinessNonExistentSubmissionException e) {
@@ -132,25 +139,21 @@ public class TestateBean implements Serializable {
             throw new RuntimeException(e);
         }
         files = convertSubmissionFileToText(submission.getSubmissionFiles());
+        checkerResults = checkerService.getCheckerResultsForSubmission(submission);
     }
 
     /**
-     * Reruns a checker for the submission.
-     *
-     * @param checkerResult Result of the checker to rerun.
-     */
-    public void rerunChecker(CheckerResult checkerResult) {}
-
-    /**
      * Submits the testate.
-     *
-     * @return The page to be redirected.
      */
-    public String submitTestate() {
+    public void submitTestate() {
         newTestate.setEvaluatorId(appSession.getUser().getId());
         newTestate.setSubmission(submission);
-        testateService.addTestate(newTestate);
-        return "/view/registered/exercise.xhtml?redirect=true";
+        try {
+            testateService.addTestate(newTestate);
+        } catch (BusinessDBAccessException e) {
+            throw new RuntimeException(e);
+        }
+        exerciseBean.setTargetPage("submissionPagination.xhtml");
     }
 
     /**
@@ -227,5 +230,23 @@ public class TestateBean implements Serializable {
      */
     public void setFiles(List<List<Object[]>> files) {
         this.files = files;
+    }
+
+    /**
+     * Gets the checker results.
+     *
+     * @return The checker results.
+     */
+    public List<CheckerResult> getCheckerResults() {
+        return checkerResults;
+    }
+
+    /**
+     * Sets the checker results.
+     *
+     * @param checkerResults The checker results.
+     */
+    public void setCheckerResults(List<CheckerResult> checkerResults) {
+        this.checkerResults = checkerResults;
     }
 }

@@ -114,6 +114,7 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
                 resultSubmission.setUser(resultSet.getString("student_username"));
                 resultSubmission.setTutor(resultSet.getString("tutor_username"));
                 resultSubmission.setId(resultSet.getLong("id"));
+                resultSubmission.setExerciseId(resultSet.getLong("exercise_id"));
             }
             return resultSubmission;
         } catch (SQLException e) {
