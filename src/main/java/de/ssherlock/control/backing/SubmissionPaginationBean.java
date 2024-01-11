@@ -127,10 +127,10 @@ public class SubmissionPaginationBean extends AbstractPaginationBean implements 
      * Action to redirect the user to the selected submission.
      *
      * @param submissionId the id of the submission.
-     * @return The navigation outcome.
      */
-    public String selectSubmission(long submissionId) {
-        return "/view/registered/testate.xhtml?faces-redirect=true?subId=" + submissionId;
+    public void selectSubmission(long submissionId) {
+        exerciseBean.setSubmissionId(submissionId);
+        exerciseBean.setTargetPage("testate.xhtml");
     }
 
     /**
