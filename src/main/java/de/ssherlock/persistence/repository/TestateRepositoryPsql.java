@@ -129,7 +129,7 @@ public class TestateRepositoryPsql extends RepositoryPsql implements TestateRepo
                 } while (resultSet.next());
             }
         } catch (SQLException e) {
-
+            logger.severe("Error retrieving Testates: " + e.getMessage());
         }
         return testateList;
     }
@@ -171,7 +171,7 @@ public class TestateRepositoryPsql extends RepositoryPsql implements TestateRepo
                 } while (resultSet.next());
             }
         } catch (SQLException e) {
-            logger.fine("......");
+            logger.severe("Error executing SQL query" + e.getMessage());
         }
         return testateList;
     }

@@ -133,7 +133,7 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
      * @return The navigation outcome.
      */
     public String addExercise() {
-        logger.log(Level.INFO, "Adding a new exercise.");
+        logger.log(Level.INFO, "try to add a new exercise.");
         if (exerciseAlreadyExists(exercise.getName())) {
             Notification notification = new Notification("Exercise with the same name already exists.", NotificationType.ERROR);
             notification.generateUIMessage();
@@ -142,6 +142,7 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
 
         exercise.setCourseId(courseBean.getCourse().getId());
         exerciseService.addExercise(exercise);
+        logger.log(Level.INFO, "Exercise Successfully added.");
         return "/view/registered/course.xhtml?faces-redirect=true&Id=" + courseBean.getCourse().getId();
     }
 

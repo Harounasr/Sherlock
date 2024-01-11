@@ -137,6 +137,7 @@ public class SubmissionUploadBean implements Serializable {
      *  @return The navigation outcome.
      * */
     public String submit() {
+        logger.log(Level.INFO, "try to add submission");
             newSubmission.setSubmissionFiles(submissionFiles);
             newSubmission.setUser(appSession.getUser().getUsername());
             newSubmission.setCheckerResults(checkerResults);
