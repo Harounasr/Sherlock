@@ -1,15 +1,16 @@
-<h:html
+<!DOCTYPE html>
+<html
         xmlns:h="jakarta.faces.html"
         xmlns:ui="jakarta.faces.facelets"
         xmlns:f="jakarta.faces.core"
         xmlns="http://www.w3.org/1999/xhtml">
 
 
-    <h:head name="headElements">
+    <head>
         <title>Testate</title>
         <link rel="stylesheet" href="#{request.contextPath}/resources/css/testate.css"/>
-    </h:head>
-
+    </head>
+<h:body>
     <div>
 
         <div class="card-container">
@@ -26,7 +27,6 @@
                 </div>
             </ui:repeat>
         </div>
-
 
         <h:dataTable class="dataTable" value="#{testateBean.checkerResults}" var="checkerResult">
             <h:column>
@@ -89,4 +89,5 @@
         </h:form>
 
     </div>
-</h:html>
+</h:body>
+</html>
