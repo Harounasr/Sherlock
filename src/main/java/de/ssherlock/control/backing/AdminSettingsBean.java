@@ -59,10 +59,6 @@ public class AdminSettingsBean implements Serializable {
     private transient Part uploadedLogo;
 
     /**
-     * List of available colors.
-     */
-
-    /**
      * Constructs an AdminSettingsBean.
      *
      * @param logger        The logger used for logging within this class (Injected).
@@ -143,12 +139,6 @@ public class AdminSettingsBean implements Serializable {
     public void setSystemSettings(SystemSettings systemSettings) {
         this.systemSettings = systemSettings;
     }
-
-    /**
-     * Gets the list of available colors.
-     *
-     * @return List of available colors
-     */
 
     /**
      * Gets logo base 64.
