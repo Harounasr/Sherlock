@@ -7,7 +7,17 @@ USER root
 # Set SHELL to bash with pipefail option
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-# Install Firefox (Version 120.0.1-1)
+# Replace with your desired locale
+ENV LANG de_DE.UTF-8
+ENV LANGUAGE de_DE:de
+
+# Install locales and generate desired locale
+RUN apt-get update && \
+    apt-get install -y locales && \
+    sed -i '/de_DE.UTF-8/s/^# //g' /etc/locale.gen && \
+    locale-gen
+
+# Install Firefox (Version 121.0)
 RUN apt-get update && \
     apt-get install -y --no-install-recommends firefox=121.0 && \
     apt-get clean && \
@@ -23,13 +33,9 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* \
 
-# Install locales and generate desired locales
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends locales && \
-    echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && \
-    echo "de_DE.UTF-8 UTF-8" >> /etc/locale.gen && \
-    locale-gen
+RUN wget -O /usr/lib/firefox/browser/extensions/langpack-de@firefox.mozilla.org.xpi "https://addons.mozilla.org/firefox/downloads/file/xxxxxx/deutsch-de-language-pack-latest.xpi"
 
+RUN echo 'pref("intl.locale.requested", "de_DE");' >> /usr/lib/firefox/defaults/pref/autoconfig.js
 
 # Create a test user
 RUN groupadd --system --gid 1000 test && \
