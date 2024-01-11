@@ -48,6 +48,9 @@ public class CheckerListBean extends AbstractPaginationBean implements Serializa
      */
     private final CheckerService checkerService;
 
+    /**
+     * Parent Bean of the exercise.
+     */
     private final ExerciseBean exerciseBean;
 
     /**
@@ -56,15 +59,13 @@ public class CheckerListBean extends AbstractPaginationBean implements Serializa
     private Checker newChecker;
 
     /**
-     * Checker Object for the update.
-     */
-    private Checker updateChecker;
-
-    /**
      * List of all checkers retrieved for the exercise.
      */
     private List<Checker> checkers;
 
+    /**
+     * Type of the checker to be added.
+     */
     private String currentCheckerType;
 
     /**
@@ -79,17 +80,12 @@ public class CheckerListBean extends AbstractPaginationBean implements Serializa
     private int currentIndex;
 
     /**
-     * ID of the checker to be deleted.
-     */
-    private int deleteCheckerID;
-
-    /**
      * Constructs a CheckerListBean.
      *
      * @param logger         The logger used for logging within this class (Injected).
      * @param appSession     The active session (Injected).
      * @param checkerService The CheckerService used for managing checkers (Injected).
-     * @param exerciseBean
+     * @param exerciseBean   the parent bean.
      */
     @Inject
     public CheckerListBean(
@@ -99,7 +95,6 @@ public class CheckerListBean extends AbstractPaginationBean implements Serializa
         this.appSession = appSession;
         this.exerciseBean = exerciseBean;
         this.newChecker = new Checker();
-        this.updateChecker = new Checker();
         System.out.println("checkerbean inittin");
     }
 
@@ -221,10 +216,19 @@ public class CheckerListBean extends AbstractPaginationBean implements Serializa
         return List.of(CheckerType.values());
     }
 
+    /***
+     * Getter for the current checker type.
+     * @return type of added checker.
+     */
     public String getCurrentCheckerType() {
         return currentCheckerType;
     }
 
+    /**
+     * Setter for the current checker type.
+     *
+     * @param currentCheckerType type to be setted.
+     */
     public void setCurrentCheckerType(String currentCheckerType) {
         this.currentCheckerType = currentCheckerType;
     }
