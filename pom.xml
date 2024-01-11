@@ -432,17 +432,6 @@
         <profile>
             <id>system-tests</id>
             <build>
-                <resources>
-                    <resource>
-                        <directory>src/main/resources</directory>
-                    </resource>
-                    <resource>
-                        <directory>src/test/resources</directory>
-                    </resource>
-                    <resource>
-                        <directory>src/main/webapp</directory>
-                    </resource>
-                </resources>
                 <plugins>
                     <plugin>
                         <!-- The failsafe plugin does similar to surefire but for system tests -->
@@ -476,7 +465,7 @@
                             <container>
                                 <containerId>tomcat10x</containerId>
                                 <zipUrlInstaller>
-                                    <url>https://downloads.apache.org/tomcat/tomcat-10/v10.1.17/bin/apache-tomcat-10.1.17.zip</url>
+                                    <url>https://downloads.apache.org/tomcat/tomcat-10/v10.1.18/bin/apache-tomcat-10.1.18.zip</url>
                                 </zipUrlInstaller>
                             </container>
                             <deployables>

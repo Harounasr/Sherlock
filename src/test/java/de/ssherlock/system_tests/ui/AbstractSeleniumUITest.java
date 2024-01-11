@@ -7,10 +7,12 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.time.Duration;
 
 /**
@@ -47,28 +49,43 @@ public abstract class AbstractSeleniumUITest {
 
     /**
      * Sets up the web driver and wait and the embedded database.
-     *
-     * @throws IOException When the database cannot be opened.
-     * @throws SQLException When the sql is invalid.
      */
     @BeforeAll
-    public static void setUp() throws IOException, SQLException {
-        ChromeOptions options = new ChromeOptions();
-        if (System.getenv("GITLAB_CI") != null || System.getenv("JENKINS_NODE_COOKIE") != null) {
-            options.addArguments("--headless");
+    public static void setUp() {
+        String browser = System.getProperty("SYSTEM_TEST_BROWSER", "chrome");
+        switch (browser) {
+        case "chrome" -> {
+            ChromeOptions options = new ChromeOptions();
+            if (System.getenv("GITLAB_CI") != null || System.getenv("JENKINS_NODE_COOKIE") != null) {
+                options.addArguments("--headless");
+            }
+            driver = new ChromeDriver(options);
         }
-        driver = new ChromeDriver(options);
+        case "edge" -> {
+            EdgeOptions options = new EdgeOptions();
+            if (System.getenv("GITLAB_CI") != null || System.getenv("JENKINS_NODE_COOKIE") != null) {
+                options.addArguments("--headless");
+            }
+            driver = new EdgeDriver(options);
+        }
+        case "firefox" -> {
+            FirefoxOptions options = new FirefoxOptions();
+            if (System.getenv("GITLAB_CI") != null || System.getenv("JENKINS_NODE_COOKIE") != null) {
+                options.addArguments("--headless");
+            }
+            driver = new FirefoxDriver(options);
+        }
+        default -> throw new RuntimeException("The driver is not specified");
+        }
         driver.manage().window().setSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         wait = new WebDriverWait(driver, Duration.ofSeconds(TIMEOUT));
     }
 
     /**
      * Tears down the web driver.
-     *
-     * @throws IOException When the embedded database cannot be closed.
      */
     @AfterAll
-    public static void tearDown() throws IOException {
+    public static void tearDown() {
         if (driver != null) {
             driver.quit();
         }

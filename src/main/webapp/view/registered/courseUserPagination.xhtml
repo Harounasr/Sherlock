@@ -9,7 +9,7 @@
     <div class="container mt-4">
         <h2 class="mb-3">Users List</h2>
         <h:messages globalOnly="true"/>
-        <h:form>
+        <h:form id="paginationSearch">
             <comp:paginationSearch backingBean="#{courseUserPaginationBean}"/>
         </h:form>
 
@@ -43,7 +43,7 @@
             </h:dataTable>
         </h:form>
 
-        <h:form>
+        <h:form id="pagination">
             <comp:pagination backingBean="#{courseUserPaginationBean}"/>
         </h:form>
     </div>
