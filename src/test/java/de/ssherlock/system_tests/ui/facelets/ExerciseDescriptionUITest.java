@@ -103,9 +103,15 @@ public class ExerciseDescriptionUITest extends AbstractSeleniumUITest {
         obDeadline.clear();
         switch (System.getProperty("SYSTEM_TEST_BROWSER", "chrome")) {
         case "firefox" -> {
-            obDeadline.sendKeys("21012026");
-            obDeadline.sendKeys(Keys.TAB);
-            obDeadline.sendKeys("1926");
+            if (System.getenv("GITLAB_CI") != null) {
+                obDeadline.sendKeys("01212026");
+                obDeadline.sendKeys(Keys.TAB);
+                obDeadline.sendKeys("0726PM");
+            } else {
+                obDeadline.sendKeys("21012026");
+                obDeadline.sendKeys(Keys.TAB);
+                obDeadline.sendKeys("1926");
+            }
         }
         case "chrome" -> {
             obDeadline.sendKeys("01212026");
