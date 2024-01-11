@@ -49,28 +49,32 @@
 
         <h:form>
             <h:outputLabel for="functionalityGrade" value="Functionality Grade"/>
-            <h:selectOneMenu class="selectOneMenu" id="functionalityGrade" value="#{testateBean.newTestate.functionalityGrade}" styleClass="form-control" required="true">
+            <h:selectOneMenu class="selectOneMenu" id="functionalityGrade" value="#{testateBean.newTestate.functionalityGrade}"
+                             styleClass="form-control" required="true">
                 <f:selectItem itemLabel="-- Select Grade --" itemValue="0"/>
                 <f:selectItems value="#{testateBean.grades}" var="grade" itemLabel="#{grade}"
                                itemValue="#{grade}"/>
                 <f:validator validatorId="gradeValidator"/>
             </h:selectOneMenu>
             <h:outputLabel for="readabilityGrade" value="Readability Grade"/>
-            <h:selectOneMenu class="selectOneMenu" id="readabilityGrade" value="#{testateBean.newTestate.readabilityGrade}" styleClass="form-control" required="true">
+            <h:selectOneMenu class="selectOneMenu" id="readabilityGrade" value="#{testateBean.newTestate.readabilityGrade}"
+                             styleClass="form-control" required="true">
                 <f:selectItem itemLabel="-- Select Grade --" itemValue="0"/>
                 <f:selectItems value="#{testateBean.grades}" var="grade" itemLabel="#{grade}"
                                itemValue="#{grade}"/>
                 <f:validator validatorId="gradeValidator"/>
             </h:selectOneMenu>
             <h:outputLabel for="layoutGrade" value="Layout Grade"/>
-            <h:selectOneMenu class="selectOneMenu" id="layoutGrade" value="#{testateBean.newTestate.layoutGrade}" styleClass="form-control" required="true">
+            <h:selectOneMenu class="selectOneMenu" id="layoutGrade" value="#{testateBean.newTestate.layoutGrade}"
+                             styleClass="form-control" required="true">
                 <f:selectItem itemLabel="-- Select Grade --" itemValue="0"/>
                 <f:selectItems value="#{testateBean.grades}" var="grade" itemLabel="#{grade}"
                                itemValue="#{grade}"/>
                 <f:validator validatorId="gradeValidator"/>
             </h:selectOneMenu>
             <h:outputLabel for="structureGrade" value="Structure Grade"/>
-            <h:selectOneMenu class="selectOneMenu" id="structureGrade" value="#{testateBean.newTestate.structureGrade}" styleClass="form-control" required="true">
+            <h:selectOneMenu class="selectOneMenu" id="structureGrade" value="#{testateBean.newTestate.structureGrade}"
+                             styleClass="form-control" required="true">
                 <f:selectItem itemLabel="-- Select Grade --" itemValue="0"/>
                 <f:selectItems value="#{testateBean.grades}" var="grade" itemLabel="#{grade}"
                                itemValue="#{grade}"/>
