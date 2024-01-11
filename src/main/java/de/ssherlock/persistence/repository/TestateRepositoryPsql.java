@@ -4,12 +4,9 @@ import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.Submission;
-import de.ssherlock.global.transport.SubmissionFile;
 import de.ssherlock.global.transport.Testate;
-import de.ssherlock.global.transport.TestateComment;
 import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.exception.PersistenceNonExistentTestateException;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -132,7 +129,7 @@ public class TestateRepositoryPsql extends RepositoryPsql implements TestateRepo
                 } while (resultSet.next());
             }
         } catch (SQLException e) {
-
+            logger.severe("Error retrieving Testates: " + e.getMessage());
         }
         return testateList;
     }
@@ -174,7 +171,7 @@ public class TestateRepositoryPsql extends RepositoryPsql implements TestateRepo
                 } while (resultSet.next());
             }
         } catch (SQLException e) {
-            logger.fine("......");
+            logger.severe("Error executing SQL query" + e.getMessage());
         }
         return testateList;
     }
