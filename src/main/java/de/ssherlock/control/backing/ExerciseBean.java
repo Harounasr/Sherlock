@@ -59,6 +59,11 @@ public class ExerciseBean implements Serializable {
     private long exerciseId;
 
     /**
+     * The ID of the current submission.
+     */
+    private long submissionId;
+
+    /**
      * The target page of the content.
      */
     private String targetPage;
@@ -201,5 +206,23 @@ public class ExerciseBean implements Serializable {
      */
     public AppSession getAppSession() {
         return appSession;
+    }
+
+    /**
+     * Gets the submission id.
+     *
+     * @return The submission id.
+     */
+    public long getSubmissionId() {
+        return submissionId;
+    }
+
+    /**
+     * Sets the submission id.
+     *
+     * @param submissionId The submission id.
+     */
+    public void setSubmissionId(long submissionId) {
+        this.submissionId = submissionId;
     }
 }

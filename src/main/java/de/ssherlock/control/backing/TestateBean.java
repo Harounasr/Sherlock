@@ -11,6 +11,7 @@ import de.ssherlock.control.util.ZipUtils;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Checker;
 import de.ssherlock.global.transport.CheckerResult;
+import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.Submission;
 import de.ssherlock.global.transport.SubmissionFile;
 import de.ssherlock.global.transport.Testate;
@@ -72,6 +73,11 @@ public class TestateBean implements Serializable {
     private final TestateService testateService;
 
     /**
+     * The parent backing bean.
+     */
+    private final ExerciseBean exerciseBean;
+
+    /**
      * The testate the user creates.
      */
     private Testate newTestate;
@@ -113,12 +119,14 @@ public class TestateBean implements Serializable {
             AppSession appSession,
             SubmissionService submissionService,
             CheckerService checkerService,
-            TestateService testateService) {
+            TestateService testateService,
+            ExerciseBean exerciseBean) {
         this.logger = logger;
         this.appSession = appSession;
         this.submissionService = submissionService;
         this.checkerService = checkerService;
         this.testateService = testateService;
+        this.exerciseBean = exerciseBean;
         this.newTestate = new Testate();
         this.grades = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6));
         this.submission = new Submission();
@@ -129,7 +137,7 @@ public class TestateBean implements Serializable {
      */
     @PostConstruct
     public void initialize() {
-        submission.setId((Long) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("subId"));
+        submission.setId(exerciseBean.getSubmissionId());
         try {
             submission = submissionService.getSubmission(submission);
         } catch (BusinessNonExistentSubmissionException e) {
@@ -145,7 +153,7 @@ public class TestateBean implements Serializable {
      *
      * @return The page to be redirected.
      */
-    public String submitTestate() {
+    public void submitTestate() {
         newTestate.setEvaluatorId(appSession.getUser().getId());
         newTestate.setSubmission(submission);
         try {
@@ -153,7 +161,7 @@ public class TestateBean implements Serializable {
         } catch (BusinessDBAccessException e) {
             throw new RuntimeException(e);
         }
-        return "/view/registered/exercise.xhtml?faces-redirect=true";
+        exerciseBean.setTargetPage("submissionPagination.xhtml");
     }
 
     /**
