@@ -37,14 +37,6 @@
                                          action="#{navbarBean.navigateToAdminSettings()}"/>
                     </h:form>
                 </li>
-                <li class="nav-item">
-                    <h:form rendered="#{navbarBean.appSession.user.systemRole.toString() == 'ADMINISTRATOR'}">
-                        <h:commandButton value="Checkers"
-                                         styleClass="btn nav-link "
-                                         action="#{navbarBean.navigateToCheckers()}"/>
-                    </h:form>
-                </li>
-
             </ul>
         </div>
         <div class="navbar-links">

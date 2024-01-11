@@ -35,8 +35,13 @@
                                                  action="#{exerciseBean.setTargetPage('testatePagination.xhtml')}"
                                                  styleClass="btn w-100"/>
                             </li>
-                            <li  class="nav-item-sidebar">
+                            <li class="nav-item-sidebar">
                                 <h:commandButton value="Delete" action="#{exerciseBean.deleteExercise}" styleClass="btn w-100"/>
+                            </li>
+                            <li class="#{exerciseBean.targetPage == 'checkerList.xhtml' ? 'nav-item-sidebar-selected' : 'nav-item-sidebar'}">
+                                <h:commandButton value="Checkers" rendered="#{ exerciseBean.userCourseRole.toString() == 'TEACHER'
+                                                 || exerciseBean.appSession.admin}" action="#{exerciseBean.setTargetPage('checkerList.xhtml')}"
+                                                 styleClass="btn w-100"/>
                             </li>
                         </ul>
                     </h:form>
