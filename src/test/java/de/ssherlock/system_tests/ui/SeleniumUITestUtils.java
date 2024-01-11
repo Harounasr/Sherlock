@@ -12,6 +12,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
 /**
  * Utility class for selenium ui tests.
@@ -77,12 +78,12 @@ public final class SeleniumUITestUtils {
     /**
      * Checks the current screen for a certain Notification.
      *
-     * @param webDriver    The web driver.
+     * @param wait    The web driver.
      * @param notification The expected notification.
      */
-    public static void checkNotification(WebDriver webDriver, Notification notification) {
+    public static void checkNotification(WebDriverWait wait, Notification notification) {
         String typeClassName = notification.type() == NotificationType.ERROR ? ".notification-error" : ".notification-success";
-        WebElement element = webDriver.findElement(By.cssSelector(".popup-notifications, " + typeClassName + " > td"));
+        WebElement element = wait.until(visibilityOfElementLocated((By.cssSelector(".popup-notifications, " + typeClassName + " > td"))));
         assertTrue(element.isDisplayed());
         assertTrue(element.getText().contains(notification.text()));
     }

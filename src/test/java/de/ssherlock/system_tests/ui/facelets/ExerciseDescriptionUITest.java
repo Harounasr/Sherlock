@@ -158,7 +158,7 @@ public class ExerciseDescriptionUITest extends AbstractSeleniumUITest {
         clickSaveButton();
         Notification expectedNotification = new Notification("BODY tag detected. There should be no outer html, only the contents of the body.",
                                                              NotificationType.ERROR);
-        SeleniumUITestUtils.checkNotification(getDriver(), expectedNotification);
+        SeleniumUITestUtils.checkNotification(getWait(), expectedNotification);
     }
 
     /**
@@ -205,7 +205,7 @@ public class ExerciseDescriptionUITest extends AbstractSeleniumUITest {
         convertButton.click();
         Notification expectedNotification = new Notification("File is not a valid image.",
                                                              NotificationType.ERROR);
-        SeleniumUITestUtils.checkNotification(getDriver(), expectedNotification);    }
+        SeleniumUITestUtils.checkNotification(getWait(), expectedNotification);    }
 
     /**
      * Clicks the edit button.
