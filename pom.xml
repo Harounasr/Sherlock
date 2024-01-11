@@ -432,17 +432,7 @@
         <profile>
             <id>system-tests</id>
             <build>
-                <resources>
-                    <resource>
-                        <directory>src/main/resources</directory>
-                    </resource>
-                    <resource>
-                        <directory>src/test/resources</directory>
-                    </resource>
-                    <resource>
-                        <directory>src/main/webapp</directory>
-                    </resource>
-                </resources>
+
                 <plugins>
                     <plugin>
                         <!-- The failsafe plugin does similar to surefire but for system tests -->
@@ -533,7 +523,7 @@
                             <warName>${project.artifactId}-system_test</warName>
                             <webResources>
                                 <resource>
-                                    <directory>${project.basedir}/src/test/resources/WEB-INF</directory>
+                                    <directory>${project.basedir}/src/test/resources/de/ssherlock/test_data/WEB-INF</directory>
                                     <targetPath>/WEB-INF/</targetPath>
                                 </resource>
                             </webResources>
