@@ -161,6 +161,7 @@ public class TestateService implements Serializable {
      * Updates the information of an existing testate.
      *
      * @param testate The testate to be updated.
+     * @throws BusinessDBAccessException When there was a problem with the DB connection.
      */
     public void addTestate(Testate testate) throws BusinessDBAccessException {
         Transaction transaction;
