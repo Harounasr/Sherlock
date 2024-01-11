@@ -129,7 +129,7 @@ public class SubmissionPaginationBean extends AbstractPaginationBean implements 
      *
      * @param submissionId the id of the submission.
      */
-    public String selectSubmission(long submissionId) {
+    public void selectSubmission(long submissionId) {
         switch (courseRole) {
         case TUTOR:
         case TEACHER:
