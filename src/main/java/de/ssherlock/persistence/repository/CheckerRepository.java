@@ -67,6 +67,7 @@ public interface CheckerRepository {
     /**
      * Gets a list of checker results based on a submission.
      *
+     * @param submission The submission.
      * @return The checker results.
      */
     List<CheckerResult> getCheckerResultsForSubmission(Submission submission);

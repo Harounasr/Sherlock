@@ -266,7 +266,7 @@ public class CheckerRepositoryPsql extends RepositoryPsql implements CheckerRepo
                     checkerResult.setPassed(resultSet.getBoolean("has_passed"));
                     checkerResult.setChecker(checker);
                     checkerResults.add(checkerResult);
-                } while(resultSet.next());
+                } while (resultSet.next());
             }
         } catch (SQLException e) {
             logger.log(Level.INFO, "Could not load checkerresults.");

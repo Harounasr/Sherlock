@@ -103,6 +103,7 @@ public class TestateBean implements Serializable {
      * @param submissionService The service handling submission-related operations.
      * @param checkerService    The service handling checker-related operations.
      * @param testateService    The service handling testate-related operations.
+     * @param exerciseBean      The exercise bean.
      */
     @SuppressWarnings("checkstyle:MagicNumber")
 
@@ -143,8 +144,6 @@ public class TestateBean implements Serializable {
 
     /**
      * Submits the testate.
-     *
-     * @return The page to be redirected.
      */
     public void submitTestate() {
         newTestate.setEvaluatorId(appSession.getUser().getId());

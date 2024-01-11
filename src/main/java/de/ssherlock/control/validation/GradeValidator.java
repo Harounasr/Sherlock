@@ -22,13 +22,12 @@ import java.util.List;
 @Named
 @Dependent
 @FacesValidator(value = "gradeValidator", managed = true)
-@SuppressWarnings("ceckstyle:FieldNamingConventions")
 public class GradeValidator implements Validator<Integer> {
 
     /**
      * The possible grades.
      */
-    private final List<Integer> GRADES = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6));
+    private final List<Integer> grades = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6));
 
     /**
      * Constructs an TestateCommentValidator.
@@ -43,7 +42,7 @@ public class GradeValidator implements Validator<Integer> {
     public void validate(FacesContext facesContext, UIComponent uiComponent, Integer selection)
             throws ValidatorException {
 
-        if (!GRADES.contains(selection)) {
+        if (!grades.contains(selection)) {
             FacesMessage facesMessage =
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Please select a grade.", null);
             throw new ValidatorException(facesMessage);
