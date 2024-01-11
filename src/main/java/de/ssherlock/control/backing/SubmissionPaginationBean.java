@@ -5,6 +5,7 @@ import de.ssherlock.business.exception.BusinessNonExistentCourseException;
 import de.ssherlock.business.exception.BusinessNonExistentExerciseException;
 import de.ssherlock.business.service.ExerciseService;
 import de.ssherlock.business.service.SubmissionService;
+import de.ssherlock.control.exception.NoAccessException;
 import de.ssherlock.control.notification.Notification;
 import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.control.session.AppSession;
@@ -130,7 +131,19 @@ public class SubmissionPaginationBean extends AbstractPaginationBean implements 
      * @return The navigation outcome.
      */
     public String selectSubmission(long submissionId) {
-        return "/view/registered/testate.xhtml?faces-redirect=true?subId=" + submissionId;
+        switch (courseRole) {
+        case TUTOR:
+        case TEACHER:
+            return "/view/registered/testate.xhtml?faces-redirect=true&subId=" + submissionId;
+        case MEMBER:
+            return "/view/registered/submission.xhtml?faces-redirect=true&subId=" + submissionId;
+        default:
+            if (appSession.isAdmin()) {
+                return "/view/registered/testate.xhtml?faces-redirect=true&subId=" + submissionId;
+            } else {
+                throw new NoAccessException("You are not authorized to view this submission");
+            }
+        }
     }
 
     /**
@@ -174,6 +187,7 @@ public class SubmissionPaginationBean extends AbstractPaginationBean implements 
 
     /**
      * Whether user is member.
+     *
      * @return is member
      */
     public boolean isMember() {
@@ -182,6 +196,7 @@ public class SubmissionPaginationBean extends AbstractPaginationBean implements 
 
     /**
      * Whether user is teacher.
+     *
      * @return is teacher.
      */
     public boolean isTeacher() {
@@ -190,6 +205,7 @@ public class SubmissionPaginationBean extends AbstractPaginationBean implements 
 
     /**
      * Whether the user is admin.
+     *
      * @return is admin.
      */
     public boolean isAdmin() {
