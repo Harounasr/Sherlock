@@ -1,11 +1,13 @@
 package de.ssherlock.control.backing;
 
 import de.ssherlock.business.exception.BusinessNonExistentUserException;
+import de.ssherlock.business.service.FacultyService;
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.control.notification.Notification;
 import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
+import de.ssherlock.global.transport.Faculty;
 import de.ssherlock.global.transport.SystemRole;
 import de.ssherlock.global.transport.User;
 import jakarta.annotation.PostConstruct;
@@ -56,6 +58,11 @@ public class AdminUserPaginationBean extends AbstractPaginationBean implements S
     private final UserService userService;
 
     /**
+     * Service that provides faculty-based actions.
+     */
+    private final FacultyService facultyService;
+
+    /**
      * List of all users.
      */
     private List<User> users;
@@ -66,17 +73,24 @@ public class AdminUserPaginationBean extends AbstractPaginationBean implements S
     private Map<String, String> selectedRole;
 
     /**
+     * The selected faculties.
+     */
+    private Map<String, String> selectedFaculty;
+
+    /**
      * Constructs an AdminUserPaginationBean.
      *
-     * @param logger      The logger used for logging within this class (Injected).
-     * @param appSession  The active session (Injected).
-     * @param userService The UserService used for user-related actions (Injected).
+     * @param logger         The logger used for logging within this class (Injected).
+     * @param appSession     The active session (Injected).
+     * @param userService    The UserService used for user-related actions (Injected).
+     * @param facultyService The FacultyService used for faculty-related actions (Injected).
      */
     @Inject
-    public AdminUserPaginationBean(SerializableLogger logger, AppSession appSession, UserService userService) {
+    public AdminUserPaginationBean(SerializableLogger logger, AppSession appSession, UserService userService, FacultyService facultyService) {
         this.logger = logger;
         this.appSession = appSession;
         this.userService = userService;
+        this.facultyService = facultyService;
     }
 
     /**
@@ -90,8 +104,10 @@ public class AdminUserPaginationBean extends AbstractPaginationBean implements S
         users = userService.getUsers(getPagination());
         getPagination().setLastIndex(users.size() - 1);
         selectedRole = new HashMap<>();
+        selectedFaculty = new HashMap<>();
         for (User user : users) {
             selectedRole.put(user.getUsername(), user.getSystemRole().toString());
+            selectedFaculty.put(user.getUsername(), user.getFacultyName());
         }
     }
 
@@ -102,6 +118,21 @@ public class AdminUserPaginationBean extends AbstractPaginationBean implements S
      */
     public void changeUserRole(User user) {
         user.setSystemRole(SystemRole.valueOf(selectedRole.get(user.getUsername())));
+        try {
+            userService.updateUser(user);
+        } catch (BusinessNonExistentUserException e) {
+            Notification notification = new Notification("Update failed", NotificationType.ERROR);
+            notification.generateUIMessage();
+        }
+    }
+
+    /**
+     * Changes the faculty of a selected user in the UI.
+     *
+     * @param user The user.
+     */
+    public void changeUserFaculty(User user) {
+        user.setFacultyName(selectedFaculty.get(user.getUsername()));
         try {
             userService.updateUser(user);
         } catch (BusinessNonExistentUserException e) {
@@ -167,11 +198,38 @@ public class AdminUserPaginationBean extends AbstractPaginationBean implements S
     }
 
     /**
+     * Gets selected faculty.
+     *
+     * @return the selected faculty
+     */
+    public Map<String, String> getSelectedFaculty() {
+        return selectedFaculty;
+    }
+
+    /**
+     * Sets selected faculty.
+     *
+     * @param selectedFaculty the selected faculty
+     */
+    public void setSelectedFaculty(Map<String, String> selectedFaculty) {
+        this.selectedFaculty = selectedFaculty;
+    }
+
+    /**
      * Gets available roles.
      *
      * @return the available roles
      */
     public List<SystemRole> getAvailableRoles() {
         return Arrays.asList(SystemRole.values());
+    }
+
+    /**
+     * Gets available faculties.
+     *
+     * @return The available faculties.
+     */
+    public List<Faculty> getAvailableFaculties() {
+        return facultyService.getFaculties();
     }
 }

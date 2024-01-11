@@ -33,8 +33,16 @@
                     <h:outputText value="#{user.email}" />
                 </h:column>
                 <h:column>
+                    <f:facet name="header">Faculty</f:facet>
+                    <h:selectOneListbox id="selectFaculty"
+                            value="#{adminUserPaginationBean.selectedFaculty[user.username]}" size="1" styleClass="form-control">
+                        <f:selectItems value="#{adminUserPaginationBean.availableFaculties}"/>
+                        <f:ajax listener="#{adminUserPaginationBean.changeUserFaculty(user)}" render="@form"/>
+                    </h:selectOneListbox>
+                </h:column>
+                <h:column>
                     <f:facet name="header">Role</f:facet>
-                    <h:selectOneListbox
+                    <h:selectOneListbox id="selectRole"
                             value="#{adminUserPaginationBean.selectedRole[user.username]}" size="1" styleClass="form-control">
                         <f:selectItems value="#{adminUserPaginationBean.availableRoles}"/>
                         <f:ajax listener="#{adminUserPaginationBean.changeUserRole(user)}" render="@form"/>
