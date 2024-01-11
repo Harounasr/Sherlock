@@ -236,7 +236,6 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
 
                 submissionFileStatement.addBatch();
             }
-
             submissionFileStatement.executeBatch();
         }
     }
@@ -259,8 +258,6 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
 
                     checkerResultStatement.addBatch();
                 }
-
-                // Execute batch insert for checker results
                 checkerResultStatement.executeBatch();
             }
         }

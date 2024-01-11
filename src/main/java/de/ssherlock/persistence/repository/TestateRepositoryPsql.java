@@ -4,12 +4,9 @@ import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.Submission;
-import de.ssherlock.global.transport.SubmissionFile;
 import de.ssherlock.global.transport.Testate;
-import de.ssherlock.global.transport.TestateComment;
 import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.exception.PersistenceNonExistentTestateException;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -110,17 +107,29 @@ public class TestateRepositoryPsql extends RepositoryPsql implements TestateRepo
                           WHERE exercise_id = ?
                       ) s
                       JOIN testate t ON s.id = t.submission_id
-                      JOIN submission_file sf ON s.id = sf.submission_id
-                      LEFT JOIN testate_comment tc ON sf.id = tc.file_id;
                 """;
 
         try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
             statement.setLong(1, exercise.getId());
             ResultSet resultSet = statement.executeQuery();
-            testateList = processSubmissionResultSet(resultSet);
-            boolean x = true;
+            if (resultSet.next()) {
+                do {
+                    Testate testate = new Testate();
+                    Submission submission = new Submission();
+                    testate.setLayoutGrade(resultSet.getInt("layout_grade"));
+                    testate.setStructureGrade(resultSet.getInt("structure_grade"));
+                    testate.setFunctionalityGrade(resultSet.getInt("functionality_grade"));
+                    testate.setReadabilityGrade(resultSet.getInt("readability_grade"));
+                    testate.setEvaluatorId(resultSet.getLong("tutor_id"));
+                    submission.setId(resultSet.getLong("submission_id"));
+                    submission.setTutor(resultSet.getString("tutor_username"));
+                    submission.setUser(resultSet.getString("student_username"));
+                    testate.setSubmission(submission);
+                    testateList.add(testate);
+                } while (resultSet.next());
+            }
         } catch (SQLException e) {
-
+            logger.severe("Error retrieving Testates: " + e.getMessage());
         }
         return testateList;
     }
@@ -140,18 +149,29 @@ public class TestateRepositoryPsql extends RepositoryPsql implements TestateRepo
                           WHERE s.exercise_id = ? AND s.tutor_username = ?;
                       ) s
                       JOIN testate t ON s.id = t.submission_id
-                      JOIN submission_file sf ON s.id = sf.submission_id
-                      LEFT JOIN testate_comment tc ON sf.id = tc.file_id;
                 """;
         try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
             statement.setLong(1, exercise.getId());
             statement.setString(2, tutor.getUsername());
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                testateList = processSubmissionResultSet(resultSet);
+                do {
+                    Testate testate = new Testate();
+                    Submission submission = new Submission();
+                    testate.setLayoutGrade(resultSet.getInt("layout_grade"));
+                    testate.setStructureGrade(resultSet.getInt("structure_grade"));
+                    testate.setFunctionalityGrade(resultSet.getInt("functionality_grade"));
+                    testate.setReadabilityGrade(resultSet.getInt("readability_grade"));
+                    testate.setEvaluatorId(resultSet.getLong("tutor_id"));
+                    submission.setId(resultSet.getLong("submission_id"));
+                    submission.setTutor(resultSet.getString("tutor_username"));
+                    submission.setUser(resultSet.getString("student_username"));
+                    testate.setSubmission(submission);
+                    testateList.add(testate);
+                } while (resultSet.next());
             }
         } catch (SQLException e) {
-            logger.fine("......");
+            logger.severe("Error executing SQL query" + e.getMessage());
         }
         return testateList;
     }

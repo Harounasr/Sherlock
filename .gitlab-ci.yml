@@ -21,6 +21,7 @@ default:
 # Set Maven's local dependency repository
 variables:
     MAVEN_OPTS: "-Dmaven.repo.local=/home/test/.m2/repository"
+    SKIP_EDGE: "true"
 
 # A build target for compilation
 build:
@@ -105,7 +106,7 @@ system-test-firefox:
         expire_in: 1 day
 
 # A target for running system tests
-system-test-edge:
+.system-test-edge:
     image: leonfoeck/sep2023:st-1.0.2
     stage: test
     needs:

@@ -49,6 +49,8 @@
         <popperjs.version>1.12.9-1</popperjs.version>
         <fontawesome.version>6.5.1</fontawesome.version>
         <cargo-maven3-plugin.version>1.10.10</cargo-maven3-plugin.version>
+        <exec-maven.version>3.1.1</exec-maven.version>
+        <commons-io.version>2.15.1</commons-io.version>
     </properties>
 
     <dependencies>
@@ -193,6 +195,13 @@
             <artifactId>font-awesome</artifactId>
             <version>${fontawesome.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io.version}</version>
+        </dependency>
+
     </dependencies>
 
     <dependencyManagement>
@@ -210,6 +219,25 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>${exec-maven.version}</version>
+                <executions>
+                    <execution>
+                        <id>start-embedded-db</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>de.ssherlock.StartEmbeddedDatabase</mainClass>
+                            <classpathScope>test</classpathScope>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
@@ -316,20 +344,10 @@
                     </execution>
                 </executions>
             </plugin>
-
         </plugins>
     </build>
 
     <profiles>
-        <!--
-        A profile for integration tests.
-
-        Integration tests shall be stored in src/it/java and their respective resources in
-        src/it/resources.  Furthermore, we require integration tests to be suffixed with `IT`, e.g., `FooIT`.
-
-        The profile is activated by default, i.e., when running `mvn verify` the integration tests will
-        also be executed.
-        -->
         <profile>
             <id>integration-tests</id>
             <activation>
@@ -416,6 +434,30 @@
             <build>
                 <plugins>
                     <plugin>
+                        <!-- The failsafe plugin does similar to surefire but for system tests -->
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>${maven-failsafe-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>system-tests</id>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                                <configuration>
+                                    <includes>
+                                        <include>**/*UITest.java</include>
+                                    </includes>
+
+                                    <skipTests>${skipSystemTests}</skipTests>
+                                    <!--suppress UnresolvedMavenProperty -->
+                                    <argLine>${failsafeSystemTestArgLine}</argLine>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
                         <groupId>org.codehaus.cargo</groupId>
                         <artifactId>cargo-maven3-plugin</artifactId>
                         <version>${cargo-maven3-plugin.version}</version>
@@ -423,17 +465,23 @@
                             <container>
                                 <containerId>tomcat10x</containerId>
                                 <zipUrlInstaller>
-                                    <url>https://downloads.apache.org/tomcat/tomcat-10/v10.1.17/bin/apache-tomcat-10.1.17.zip</url>
+                                    <url>https://downloads.apache.org/tomcat/tomcat-10/v10.1.18/bin/apache-tomcat-10.1.18.zip</url>
                                 </zipUrlInstaller>
                             </container>
+                            <deployables>
+                                <deployable>
+                                    <location>${project.build.directory}/ssherlock-system_test.war</location>
+                                    <type>war</type>
+                                </deployable>
+                            </deployables>
                             <configuration>
                                 <properties>
                                     <cargo.jvmargs>
                                         -javaagent:${settings.localRepository}/org/jacoco/org.jacoco.agent/${jacoco.version}/org.jacoco.agent-${jacoco.version}-runtime.jar=destfile=${project.build.directory}/coverage-reports/jacoco-st.exec,append=true
                                     </cargo.jvmargs>
                                 </properties>
-                                <type>standalone</type>
                                 <home>${project.build.directory}/tomcat</home>
+                                <type>standalone</type>
                             </configuration>
                         </configuration>
                         <executions>
@@ -481,38 +529,7 @@
                         </configuration>
                     </plugin>
 
-                    <plugin>
-                        <!-- The failsafe plugin does similar to surefire but for system tests -->
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>${maven-failsafe-plugin.version}</version>
-                        <configuration>
-                            <environmentVariables>
-                                <!--suppress UnresolvedMavenProperty -->
-                                <SYSTEM_TEST_BROWSER>${SYSTEM_TEST_BROWSER}</SYSTEM_TEST_BROWSER>
-                                <MAVEN_REPO_LOCAL>${settings.localRepository}</MAVEN_REPO_LOCAL>
-                                <JACOCO_VERSION>${jacoco.version}</JACOCO_VERSION>
-                            </environmentVariables>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>system-tests</id>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
-                                </goals>
-                                <configuration>
-                                    <includes>
-                                        <include>**/*UITest.java</include>
-                                    </includes>
 
-                                    <skipTests>${skipSystemTests}</skipTests>
-                                    <!--suppress UnresolvedMavenProperty -->
-                                    <argLine>${failsafeSystemTestArgLine}</argLine>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
 
                     <plugin>
                         <!-- Measure coverage for system tests -->
