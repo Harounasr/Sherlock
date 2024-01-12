@@ -5,10 +5,6 @@
                 xmlns:comp="jakarta.faces.composite/components"
                 xmlns:a="jakarta.faces.passthrough">
 
-    <h:head>
-        <ui:define name="title">Checkers</ui:define>
-        <h:outputStylesheet library="css" name="checkerList.css"/>
-    </h:head>
     <h:body>
         <h:form>
             <h:dataTable value="#{checkerListBean.checkers}" var="checker"

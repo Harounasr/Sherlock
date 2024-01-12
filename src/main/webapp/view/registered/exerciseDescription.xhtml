@@ -1,16 +1,14 @@
 <!-- Author Victor Vollmann -->
 <!DOCTYPE html >
 <html xmlns:h="jakarta.faces.html"
-      xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core">
-<head>
-    <link rel="stylesheet" href="#{request.contextPath}/resources/css/exerciseDescription.css"/>
-</head>
-<h:body>
+      xmlns:f="jakarta.faces.core"
+      xmlns="http://www.w3.org/1999/xhtml">
+<f:view>
     <h:form enctype="multipart/form-data">
         <!-- EXERCISE DESCRIPTION -->
         <h:panelGroup rendered="#{!exerciseDescriptionBean.editMode}" styleClass="mt-2">
             <h:commandButton id="editButton" rendered="#{exerciseDescriptionBean.userCanEdit}" value="Edit"
-                             styleClass="full-width-button btn btn-primary"
+                             styleClass="full-width-button btn primary-color-btn"
                              action="#{exerciseDescriptionBean.startEditMode}"/>
             <div class="container">
                 <div class="row">
@@ -45,7 +43,7 @@
 
         <!-- EDITOR -->
         <h:panelGroup rendered="#{exerciseDescriptionBean.editMode}" styleClass="mt-2">
-            <h:commandButton id="saveButton" value="Save" styleClass="full-width-button btn btn-success"
+            <h:commandButton id="saveButton" value="Save" styleClass="full-width-button btn primary-color-btn"
                              action="#{exerciseDescriptionBean.saveAndDisableEditMode}"/>
             <div class="row">
                 <div class="col">
@@ -89,12 +87,12 @@
                 <label for="file">Choose an image:</label>
                 <h:inputFile id="file" value="#{exerciseDescriptionBean.uploadedImage}" validator="imageValidator"/>
                 <h:commandButton id="convert-button" value="Convert to &lt;img&gt; Component" action="#{exerciseDescriptionBean.uploadImage()}"
-                                 class="btn btn-primary"/>
+                                 class="btn secondary-color-btn"/>
                 <h:outputText id="generated-img-component" value="#{exerciseDescriptionBean.imgComponent}" styleClass="output-text-img-component"/>
             </div>
         </h:panelGroup>
     </h:form>
-</h:body>
+</f:view>
 
 
 </html>

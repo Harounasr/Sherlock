@@ -1,70 +1,68 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html"
-      xmlns:f="jakarta.faces.core">
-<head>
-    <title>Admin settings</title>
-    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/css/adminSettings.css"/>
-</head>
+      xmlns:f="jakarta.faces.core"
+>
+<f:view>
+    <h:form id="settingsForm" enctype="multipart/form-data">
+        <div class="container-fluid justify-content-center align-content-center">
 
-<body>
-<h:form id="settingsForm" enctype="multipart/form-data">
-    <div class="container-fluid justify-content-center align-content-center">
+            <!-- Select primary Color Scheme -->
+            <div class="form-group color-input-container">
+                <label class="color-label" for="primaryColor">Primary Color Scheme:</label>
+                <h:inputText id="primaryColor" value="##{adminSettingsBean.systemSettings.primaryColorHex}" type="color" class="form-control"
+                             style="width: 100px;"/>
+            </div>
 
-        <!-- Select primary Color Scheme -->
-        <div class="form-group color-input-container">
-            <label class="color-label" for="primaryColor">Primary Color Scheme:</label>
-            <h:inputText id="primaryColor" value="#{adminSettingsBean.systemSettings.primaryColorHex}" type="color" class="form-control" style="width: 100px;" />
+            <!-- Select Secondary Color Scheme -->
+            <div class="form-group color-input-container">
+                <label class="color-label" for="secondaryColor">Secondary Color Scheme:</label>
+                <h:inputText id="secondaryColor" value="##{adminSettingsBean.systemSettings.secondaryColorHex}" type="color" class="form-control"
+                             style="width: 100px;"/>
+            </div>
+
+            <!-- System Name -->
+            <div class="form-group mb-3">
+                <label for="systemName">System Name</label>
+                <h:inputText id="systemName" value="#{adminSettingsBean.systemSettings.systemName}" styleClass="form-control"/>
+            </div>
+
+            <!-- Email Regex -->
+            <div class="form-group mb-3">
+                <label for="emailRegex">Email Regex</label>
+                <h:inputText id="emailRegex" value="#{adminSettingsBean.systemSettings.emailRegex}" styleClass="form-control"/>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="form-group mb-3">
+                <label for="contactInformation">Contact Information</label>
+                <h:inputText id="contactInformation" value="#{adminSettingsBean.systemSettings.contactInformation}" styleClass="form-control"/>
+            </div>
+
+            <!-- Imprint Text Area -->
+            <div class="form-group mb-3">
+                <label for="imprint">Imprint</label>
+                <h:inputTextarea id="imprint" value="#{adminSettingsBean.systemSettings.imprint}" styleClass="form-control"/>
+            </div>
+
+            <!-- Current Logo -->
+            <div class="form-group mb-3">
+                <label for="currentLogo">Current Logo</label>
+                <h:graphicImage id="currentLogo" value="data:image/png;base64,#{adminSettingsBean.logoBase64}" alt="no Logo"
+                                styleClass="img-fluid image-container"/>
+            </div>
+
+            <!-- Datei auswählen Button -->
+            <div class="form-group mb-3">
+                <h:inputFile id="file" value="#{adminSettingsBean.uploadedLogo}" class="form-control-file"/>
+            </div>
+
+            <!-- Upload Logo und Save all changesButtons-->
+            <div class="form-group mb-3">
+                <h:commandButton id="uploadLogoBtn" value="Upload Logo" action="#{adminSettingsBean.uploadLogo}" styleClass="btn primary-color-btn"/>
+                <h:commandButton id="saveButton" value="Save all" action="#{adminSettingsBean.submitAllChanges}" styleClass="btn primary-color-btn"/>
+            </div>
         </div>
-
-        <!-- Select Secondary Color Scheme -->
-        <div class="form-group color-input-container">
-            <label class="color-label" for="secondaryColor">Secondary Color Scheme:</label>
-            <h:inputText id="secondaryColor" value="#{adminSettingsBean.systemSettings.secondaryColorHex}" type="color" class="form-control" style="width: 100px;" />
-        </div>
-
-        <!-- System Name -->
-        <div class="form-group mb-3">
-            <label for="systemName">System Name</label>
-            <h:inputText id="systemName" value="#{adminSettingsBean.systemSettings.systemName}" styleClass="form-control"/>
-        </div>
-
-        <!-- Email Regex -->
-        <div class="form-group mb-3">
-            <label for="emailRegex">Email Regex</label>
-            <h:inputText id="emailRegex" value="#{adminSettingsBean.systemSettings.emailRegex}" styleClass="form-control"/>
-        </div>
-
-        <!-- Contact Information -->
-        <div class="form-group mb-3">
-            <label for="contactInformation">Contact Information</label>
-            <h:inputText id="contactInformation" value="#{adminSettingsBean.systemSettings.contactInformation}" styleClass="form-control"/>
-        </div>
-
-        <!-- Imprint Text Area -->
-        <div class="form-group mb-3">
-            <label for="imprint">Imprint</label>
-            <h:inputTextarea id="imprint" value="#{adminSettingsBean.systemSettings.imprint}" styleClass="form-control"/>
-        </div>
-
-        <!-- Current Logo -->
-        <div class="form-group mb-3">
-            <label for="currentLogo">Current Logo</label>
-            <h:graphicImage id="currentLogo" value="data:image/png;base64,#{adminSettingsBean.logoBase64}" alt="no Logo"
-                            styleClass="img-fluid image-container"/>
-        </div>
-
-        <!-- Datei auswählen Button -->
-        <div class="form-group mb-3">
-            <h:inputFile id="file"  value="#{adminSettingsBean.uploadedLogo}" class="form-control-file"/>
-        </div>
-
-        <!-- Upload Logo und Save all changesButtons-->
-        <div class="form-group mb-3">
-            <h:commandButton id="uploadLogoBtn" value="Upload Logo" action="#{adminSettingsBean.uploadLogo}" styleClass="btn primary-color-btn"/>
-            <h:commandButton id="saveButton" value="Save all" action="#{adminSettingsBean.submitAllChanges}" styleClass="btn primary-color-btn"/>
-        </div>
-    </div>
-</h:form>
-</body>
+    </h:form>
+</f:view>
 </html>

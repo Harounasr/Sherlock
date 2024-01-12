@@ -6,6 +6,7 @@
     <ui:define name="headElements">
         <link rel="stylesheet" href="#{request.contextPath}/resources/css/sidebar.css"/>
         <link rel="stylesheet" href="#{request.contextPath}/resources/css/exerciseDescription.css"/>
+        <link rel="stylesheet" href="#{request.contextPath}/resources/css/checkerList.css"/>
     </ui:define>
     <ui:define name="content">
         <div class="container-fluid h-100">
@@ -36,14 +37,15 @@
                                                  action="#{exerciseBean.setTargetPage('testatePagination.xhtml')}"
                                                  styleClass="btn w-100"/>
                             </li>
-                            <li class="nav-item-sidebar">
-                                <h:commandButton value="Delete" onclick="showDeleteDialog();" styleClass="btn w-100" type="button"/>
-                            </li>
                             <li class="#{exerciseBean.targetPage == 'checkerList.xhtml' ? 'nav-item-sidebar-selected' : 'nav-item-sidebar'}">
                                 <h:commandButton value="Checkers" rendered="#{ exerciseBean.userCourseRole.toString() == 'TEACHER'
                                                  || exerciseBean.appSession.admin}" action="#{exerciseBean.setTargetPage('checkerList.xhtml')}"
                                                  styleClass="btn w-100"/>
                             </li>
+                            <li class="nav-item-sidebar">
+                                <h:commandButton value="Delete" onclick="showDeleteDialog();" styleClass="btn w-100" type="button"/>
+                            </li>
+
                         </ul>
                         <div id="delete-dlg" class="dialog" style="display: none;">
                             <div class="text-center">
@@ -51,7 +53,7 @@
                             </div>
                             <br/>
                             <div class="text-center">
-                                <h:commandButton styleClass="btn btn-primary"
+                                <h:commandButton styleClass="btn btn-danger"
                                                  value="Yes, delete"
                                                  action="#{exerciseBean.deleteExercise}"
                                                  onclick="hideDeleteDialog();"/>
@@ -63,7 +65,7 @@
                     </h:form>
                 </div>
                 <!-- Main Content -->
-                <div class="col-10 mt-3">
+                <div class="col-10 mt-3 sidebar-content-container">
                     <ui:include src="#{exerciseBean.targetPage}"/>
                 </div>
             </div>

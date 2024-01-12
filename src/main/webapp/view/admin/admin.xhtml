@@ -6,6 +6,7 @@
 
     <ui:define name="headElements">
         <link rel="stylesheet" href="#{request.contextPath}/resources/css/sidebar.css"/>
+        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/css/adminSettings.css"/>
     </ui:define>
     <ui:define name="content">
         <div class="container-fluid h-100">
@@ -29,7 +30,7 @@
                 </div>
 
                 <!-- Main Content -->
-                <div class="col-10">
+                <div class="col-10 sidebar-content-container">
                     <ui:include src="#{adminBean.targetPage}"/>
                 </div>
             </div>
