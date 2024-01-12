@@ -27,9 +27,24 @@ public final class SeleniumUITestUtils {
     public static final String ADMIN_USERNAME = "admin";
 
     /**
+     * Username of a course member in the system.
+     */
+    public static final String MEMBER_USERNAME = "member";
+
+    /**
+     * Username of a course tutor in the system.
+     */
+    public static final String TUTOR_USERNAME = "tutor";
+
+    /**
+     * Username of a course member in the system.
+     */
+    public static final String TEACHER_USERNAME = "teacher";
+
+    /**
      * Password of the administrator of the system.
      */
-    public static final String ADMIN_PASSWORD = "lennyistdoof";
+    public static final String GLOBAL_PASSWORD = "lennyistdoof";
 
     /**
      * This systems' base location.

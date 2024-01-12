@@ -25,13 +25,15 @@
                     <f:facet name="header">Submitted On</f:facet>
                     <h:outputText converter="dateConverter" value="#{sub.timestamp}" />
                 </h:column>
-                <h:column rendered="#{submissionPaginationBean.isTeacher() || submissionPaginationBean.isAdmin()}">
-                    <f:facet name="header">Status</f:facet>
-                    <h:outputText rendered="#{submissionPaginationBean.isMember()}" value="#{sub.passedCheckers ? 'Passed' : 'Failed'}">
-
-                    </h:outputText>
+                <h:column rendered="#{submissionPaginationBean.teacher || submissionPaginationBean.admin || submissionPaginationBean.tutor}">
+                    <f:facet name="header">Testate</f:facet>
                     <h:commandButton styleClass="pagination-content-button" rendered="#{!submissionPaginationBean.isMember()}"
                                      value="#{sub.testateCreated ? 'To testate' : 'Create testate'}"
+                                     action="#{submissionPaginationBean.selectSubmission(sub.id)}"/>
+                </h:column>
+                <h:column rendered="#{submissionPaginationBean.member}">
+                    <h:commandButton styleClass="pagination-content-button"
+                                     value="#{sub.testateCreated ? 'To Testate' : 'To Submission'}"
                                      action="#{submissionPaginationBean.selectSubmission(sub.id)}"/>
                 </h:column>
             </h:dataTable>

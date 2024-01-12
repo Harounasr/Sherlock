@@ -200,6 +200,15 @@ public class SubmissionPaginationBean extends AbstractPaginationBean implements 
     }
 
     /**
+     * Whether user is tutor.
+     *
+     * @return is member
+     */
+    public boolean isTutor() {
+        return courseRole == CourseRole.TUTOR;
+    }
+
+    /**
      * Whether user is teacher.
      *
      * @return is teacher.
