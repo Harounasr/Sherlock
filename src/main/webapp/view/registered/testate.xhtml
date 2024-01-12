@@ -4,13 +4,7 @@
         xmlns:ui="jakarta.faces.facelets"
         xmlns:f="jakarta.faces.core"
         xmlns="http://www.w3.org/1999/xhtml">
-
-
-    <head>
-        <title>Testate</title>
-        <link rel="stylesheet" href="#{request.contextPath}/resources/css/testate.css"/>
-    </head>
-<h:body>
+<f:view>
     <div>
 
         <div class="card-container">
@@ -47,7 +41,7 @@
             </h:column>
         </h:dataTable>
 
-        <h:form>
+        <h:form styleClass="grading-form">
             <h:outputLabel for="functionalityGrade" value="Functionality Grade"/>
             <h:selectOneMenu class="selectOneMenu" id="functionalityGrade" value="#{testateBean.newTestate.functionalityGrade}"
                              styleClass="form-control" required="true">
@@ -84,10 +78,10 @@
             <h:inputTextarea id="commentInput" rows="5" cols="30" value="#{testateBean.newTestate.comment}" maxlength="255">
                 <f:validator validatorId="testateCommentValidator"/>
             </h:inputTextarea>
-            <h:commandButton id="submitTestate" value="Submit Testate" styleClass="btn btn-primary btn-block"
+            <h:commandButton id="submitTestate" value="Submit Testate" styleClass="btn primary-color-btn btn-block"
                              action="#{testateBean.submitTestate}"/>
         </h:form>
 
     </div>
-</h:body>
+</f:view>
 </html>

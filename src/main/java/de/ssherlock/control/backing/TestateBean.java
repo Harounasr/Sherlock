@@ -28,7 +28,7 @@ import java.util.logging.Level;
 /**
  * Backing bean for testate.xhtml facelet.
  *
- * @author Victor Vollmann
+ * @author Leon Höfling
  */
 @Named
 @ViewScoped
@@ -162,7 +162,7 @@ public class TestateBean implements Serializable {
      * @param submissionFiles The files.
      * @return The Text.
      */
-    public List<List<Object[]>> convertSubmissionFileToText(List<SubmissionFile> submissionFiles) {
+    public static List<List<Object[]>> convertSubmissionFileToText(List<SubmissionFile> submissionFiles) {
         List<List<Object[]>> resultFiles = new ArrayList<>();
         for (SubmissionFile file : submissionFiles) {
             String bytesToString = new String(file.getBytes(), StandardCharsets.UTF_8);
