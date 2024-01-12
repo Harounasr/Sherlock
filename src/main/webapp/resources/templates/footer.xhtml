@@ -3,15 +3,11 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="jakarta.faces.html">
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
 
-<body>
-
-<div id="footer">
-    <h:outputText value="#{footerBean.imprint}"/>
-</div>
-
-
-</body>
+<f:view>
+    <h:outputText styleClass="text-center" value="#{footerBean.imprint}"/>
+</f:view>
 
 </html>

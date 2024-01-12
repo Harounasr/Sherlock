@@ -46,3 +46,8 @@ html, body, .container-fluid, .row {
   color: var(--secondary-color, #ffffff);
   filter: brightness(75%);
 }
+
+.sidebar-content-container {
+  max-height: 85vh;
+  overflow: auto;
+}

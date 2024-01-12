@@ -1,5 +1,5 @@
 body {
-  padding-bottom: 60px; /* Change this value to adjust the footer height */
+  padding-bottom: 60px;
   margin: 0;
   height: 100vh;
 }
@@ -15,7 +15,7 @@ body {
   text-align: center;
   font-weight: bold;
   font-size: 1.5em;
-  color: black; /* Adjust the color specifically for the upload section */
+  color: black;
 }
 
 a {
@@ -32,7 +32,7 @@ a {
 
 .upload-label {
   font-weight: bold;
-  color: black; /* Adjust the color for the label */
+  color: black;
 }
 
 #upload-button {
@@ -40,7 +40,7 @@ a {
   font-size: 1rem;
   line-height: 1.5;
   border-radius: .25rem;
-  color: black; /* Adjust the color for the button text */
+  color: black;
 }
 
 input[type="file"] {
@@ -49,7 +49,7 @@ input[type="file"] {
   padding: .375rem .75rem;
   font-size: 1rem;
   line-height: 1.5;
-  color: black; /* Adjust the color for the file input text */
+  color: black;
   background-color: #fff;
   background-clip: padding-box;
   border: 1px solid #ced4da;
@@ -63,15 +63,14 @@ section {
 }
 
 #nav1 {
-  flex: 0 0 10%; /* Set the width of nav1 */
+  flex: 0 0 10%;
   padding: 20px;
   background: var(--primary-color, #ffffff);
   height: 100%;
 }
 
 #content {
-  flex: 1; /* Let content take the remaining space */
-  /*padding: 20px;*/
-  background-color: white; /* Set the background color of content */
+  flex: 1;
+  background-color: white;
   height: 100%;
 }
