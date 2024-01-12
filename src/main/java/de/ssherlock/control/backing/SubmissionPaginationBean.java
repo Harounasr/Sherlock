@@ -115,6 +115,7 @@ public class SubmissionPaginationBean extends AbstractPaginationBean implements 
         exercise = new Exercise();
         exercise.setId(exerciseBean.getExerciseId());
         courseRole = exerciseBean.getUserCourseRole();
+        logger.info("Courserole is " + courseRole);
         try {
             exercise = exerciseService.getExercise(exercise);
         } catch (BusinessNonExistentExerciseException e) {

@@ -2,13 +2,26 @@ package de.ssherlock.system_tests.ui;
 
 import de.ssherlock.control.notification.Notification;
 import de.ssherlock.control.notification.NotificationType;
+import de.ssherlock.global.transport.SubmissionFile;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.sql.BatchUpdateException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
@@ -45,6 +58,12 @@ public final class SeleniumUITestUtils {
      * Password of the administrator of the system.
      */
     public static final String GLOBAL_PASSWORD = "lennyistdoof";
+
+    /**
+     * Path to the test data for a valid submission.
+     */
+    private static final String VALID_SUBMISSION_TEST_DATA =
+            "de/ssherlock/test_data/checker_test_data/valid_submission";
 
     /**
      * This systems' base location.
@@ -93,7 +112,7 @@ public final class SeleniumUITestUtils {
     /**
      * Checks the current screen for a certain Notification.
      *
-     * @param wait    The web driver.
+     * @param wait         The web driver.
      * @param notification The expected notification.
      */
     public static void checkNotification(WebDriverWait wait, Notification notification) {
@@ -117,7 +136,7 @@ public final class SeleniumUITestUtils {
     /**
      * Clicks on a menu item in the sidebar based on its label.
      *
-     * @param wait The web driver wait.
+     * @param wait  The web driver wait.
      * @param label The label.
      */
     public static void clickOnSidebarItem(WebDriverWait wait, String label) {
@@ -152,6 +171,88 @@ public final class SeleniumUITestUtils {
         }
         // First element is always empty
         result.remove(0);
+        return result;
+    }
+
+    /**
+     * Inserts a submission with id 1 and exercise id 1 into the embedded database.
+     *
+     * @throws IOException        When the files cannot be parsed.
+     * @throws URISyntaxException When the directory is not specified properly.
+     */
+    public static void insertSubmissionIntoDatabase() throws IOException, URISyntaxException {
+        List<SubmissionFile> javaFiles = getJavaFiles();
+        String insertSubmissionSql =
+                """
+                INSERT INTO submission (id, timestamp_submission, student_username, tutor_username, exercise_id)
+                VALUES (1, (TO_TIMESTAMP(1705069256.596195)), 'member', 'tutor', 1);
+                """;
+        String insertFilesSql =
+                """
+                INSERT INTO submission_file (submission_id, file_name, file)
+                VALUES (1, ?, ?);
+                """;
+        try (Connection connection = DriverManager.getConnection(SeleniumUITestUtils.DATABASE_URL)) {
+            connection.setAutoCommit(false);
+            try (PreparedStatement statement = connection.prepareStatement(insertSubmissionSql)) {
+                statement.executeUpdate();
+            }
+            try (PreparedStatement fileStatement = connection.prepareStatement(insertFilesSql)) {
+                for (SubmissionFile file : javaFiles) {
+                    fileStatement.setString(1, file.getName());
+                    fileStatement.setBytes(2, file.getBytes());
+                    fileStatement.addBatch();
+                }
+                fileStatement.executeBatch();
+            }
+            connection.commit();
+        } catch (BatchUpdateException bue) {
+            throw new RuntimeException("Batch update failed: " + bue.getMessage());
+        } catch (SQLException e) {
+            throw new RuntimeException("SQL error: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Inserts a testate with id 1 for submission 1 and tutor id 1.
+     */
+    public static void insertTestateIntoDatabase() {
+        String insertTestateSql =
+                """
+                INSERT INTO testate (id, submission_id, tutor_id, layout_grade, structure_grade, readability_grade, functionality_grade)
+                VALUES (1, 1, 4, ('1'::grade), ('1'::grade), ('1'::grade), ('1'::grade));
+                """;
+        try (Connection connection = DriverManager.getConnection(SeleniumUITestUtils.DATABASE_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(insertTestateSql)) {
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Gets the java classes as SubmissionFiles at the given location.
+     *
+     * @return The java files as SubmissionFiles.
+     * @throws IOException        When the files cannot be parsed.
+     * @throws URISyntaxException When the directory is not specified properly.
+     */
+    private static List<SubmissionFile> getJavaFiles() throws URISyntaxException, IOException {
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        URL directoryUrl = classLoader.getResource(VALID_SUBMISSION_TEST_DATA);
+        assert directoryUrl != null;
+        List<SubmissionFile> result = new ArrayList<>();
+        try (Stream<Path> paths = Files.walk(Paths.get(directoryUrl.toURI()))) {
+            paths.filter(Files::isRegularFile).forEach(filePath -> {
+                try {
+                    SubmissionFile submissionFile = new SubmissionFile();
+                    submissionFile.setName(String.valueOf(filePath.getFileName()));
+                    submissionFile.setBytes(Files.readAllBytes(filePath));
+                    result.add(submissionFile);
+                } catch (IOException ignored) {
+                }
+            });
+        }
         return result;
     }
 }

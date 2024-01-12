@@ -4,7 +4,6 @@ import de.ssherlock.control.notification.Notification;
 import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.system_tests.ui.AbstractSeleniumUITest;
 import de.ssherlock.system_tests.ui.SeleniumUITestUtils;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
@@ -15,7 +14,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  *
  * @author Victor Vollmann
  */
-@Disabled
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class LoginUITest extends AbstractSeleniumUITest {
 
