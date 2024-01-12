@@ -44,9 +44,7 @@ public class CourseRepositoryPsql extends RepositoryPsql implements CourseReposi
         String sqlQuery =
                 """
                   INSERT INTO course
-                   (course_name) VALUES (?)
-
-
+                   (course_name) VALUES (?);
                 """;
         try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
             statement.setString(1, course.getName());
