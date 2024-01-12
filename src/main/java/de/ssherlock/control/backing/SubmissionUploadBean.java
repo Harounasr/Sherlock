@@ -4,6 +4,8 @@ import de.ssherlock.business.exception.BusinessNonExistentCheckerException;
 import de.ssherlock.business.service.CheckerService;
 import de.ssherlock.business.service.SubmissionService;
 import de.ssherlock.control.exception.ZIPNotReadableException;
+import de.ssherlock.control.notification.Notification;
+import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.control.util.CheckerUtils;
 import de.ssherlock.control.util.ZipUtils;
@@ -115,6 +117,10 @@ public class SubmissionUploadBean implements Serializable {
 
     /** Uploads the submission archive and runs the checkers. */
     public void upload() {
+        if (archiveFile == null) {
+            new Notification("File is required for submission.", NotificationType.ERROR).generateUIMessage();
+            return;
+        }
         submissionFiles = new ArrayList<>();
         try {
             submissionFiles = ZipUtils.unzipSubmissionArchive(archiveFile);

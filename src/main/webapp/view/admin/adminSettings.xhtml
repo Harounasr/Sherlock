@@ -11,21 +11,16 @@
 <h:form id="settingsForm" enctype="multipart/form-data">
     <div class="container-fluid justify-content-center align-content-center">
 
-        <!-- Select Primary Color Scheme -->
-        <div class="form-group">
-            <label for="primaryColor">Primary Color Scheme</label>
-            <h:selectOneMenu id="primaryColor" value="#{adminSettingsBean.systemSettings.primaryColorHex}" styleClass="form-control">
-                <f:selectItems value="#{adminSettingsBean.availableColors}" var="color" itemValue="#{color}"/>
-            </h:selectOneMenu>
+        <!-- Select primary Color Scheme -->
+        <div class="form-group color-input-container">
+            <label class="color-label" for="primaryColor">Primary Color Scheme:</label>
+            <h:inputText id="primaryColor" value="#{adminSettingsBean.systemSettings.primaryColorHex}" type="color" class="form-control" style="width: 100px;" />
         </div>
 
         <!-- Select Secondary Color Scheme -->
-        <div class="form-group mb-3">
-            <label for="secondaryColor">Secondary Color Scheme</label>
-            <h:selectOneMenu id="secondaryColor" value="#{adminSettingsBean.systemSettings.secondaryColorHex}" styleClass="form-control">
-                <!-- Populate options based on available color schemes -->
-                <f:selectItems value="#{adminSettingsBean.availableColors}" var="color" itemValue="#{color}"/>
-            </h:selectOneMenu>
+        <div class="form-group color-input-container">
+            <label class="color-label" for="secondaryColor">Secondary Color Scheme:</label>
+            <h:inputText id="secondaryColor" value="#{adminSettingsBean.systemSettings.secondaryColorHex}" type="color" class="form-control" style="width: 100px;" />
         </div>
 
         <!-- System Name -->
@@ -60,21 +55,15 @@
         </div>
 
         <!-- Datei auswählen Button -->
-        <div class="form-group custom-file mb-3">
-            <label for="newLogo" class="btn btn-primary btn-file">
-                Datei auswählen
-                <!-- New Logo -->
-                <h:inputFile id="newLogo" value="#{adminSettingsBean.uploadedLogo}" class="custom-file-input" style="width: auto; display: none;"/>
-            </label>
+        <div class="form-group mb-3">
+            <h:inputFile id="file"  value="#{adminSettingsBean.uploadedLogo}" class="form-control-file"/>
         </div>
 
-        <!-- Upload Logo Button -->
+        <!-- Upload Logo und Save all changesButtons-->
         <div class="form-group mb-3">
             <h:commandButton id="uploadLogoBtn" value="Upload Logo" action="#{adminSettingsBean.uploadLogo}" styleClass="btn primary-color-btn"/>
+            <h:commandButton id="saveButton" value="Save all" action="#{adminSettingsBean.submitAllChanges}" styleClass="btn primary-color-btn"/>
         </div>
-
-        <!-- Save Button for Text Fields -->
-        <h:commandButton id="saveButton" value="Save" action="#{adminSettingsBean.submitAllChanges}" styleClass="btn primary-color-btn"/>
     </div>
 </h:form>
 </body>
