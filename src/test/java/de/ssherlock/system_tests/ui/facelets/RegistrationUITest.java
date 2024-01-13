@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class RegistrationUITest extends AbstractSeleniumUITest {
 
     /**
+<<<<<<< HEAD
      * Custom Timeout for waiting until email has been sent.
      */
     private static final int TIMEOUT = 60;
