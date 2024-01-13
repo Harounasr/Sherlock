@@ -213,14 +213,14 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
                     submission.setTutor(user.getUsername());
                     submission.setExerciseId(exercise.getId());
                     submission.setId(result.getLong("id"));
-                    submission.setTutor(result.getString("tutor_username"));
+                    submission.setUser(result.getString("student_username"));
                     submission.setTimestamp(result.getTimestamp("timestamp_submission"));
                     submission.setTestateCreated(result.getBoolean("testate_created"));
                     submissions.add(submission);
                 }
             }
         } catch (SQLException e) {
-            return Collections.emptyList();
+            throw new RuntimeException(e);
         }
         return submissions;
     }

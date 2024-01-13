@@ -115,6 +115,7 @@ public class SubmissionPaginationBean extends AbstractPaginationBean implements 
         exercise = new Exercise();
         exercise.setId(exerciseBean.getExerciseId());
         courseRole = exerciseBean.getUserCourseRole();
+        logger.info("Courserole is " + courseRole);
         try {
             exercise = exerciseService.getExercise(exercise);
         } catch (BusinessNonExistentExerciseException e) {
@@ -197,6 +198,15 @@ public class SubmissionPaginationBean extends AbstractPaginationBean implements 
      */
     public boolean isMember() {
         return courseRole == CourseRole.MEMBER;
+    }
+
+    /**
+     * Whether user is tutor.
+     *
+     * @return is member
+     */
+    public boolean isTutor() {
+        return courseRole == CourseRole.TUTOR;
     }
 
     /**

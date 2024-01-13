@@ -111,6 +111,7 @@ public class SubmissionBean implements Serializable {
             Notification notification = new Notification("The selected submission does not exist.", NotificationType.ERROR);
             notification.generateUIMessage();
         }
+        logger.info("Submission File count" + submission.getSubmissionFiles().size());
         files = TestateBean.convertSubmissionFileToText(submission.getSubmissionFiles());
         checkerResults = checkerService.getCheckerResultsForSubmission(submission);
     }

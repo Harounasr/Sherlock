@@ -72,7 +72,7 @@ public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
     @BeforeEach
     public void navigateToCourseUserPagination() {
         SeleniumUITestUtils.tryLogin(
-                getDriver(), getWait(), SeleniumUITestUtils.ADMIN_USERNAME, SeleniumUITestUtils.ADMIN_PASSWORD);
+                getDriver(), getWait(), SeleniumUITestUtils.ADMIN_USERNAME, SeleniumUITestUtils.GLOBAL_PASSWORD);
         SeleniumUITestUtils.navigateTo(getDriver(), "view/registered/course.xhtml?Id=1");
         SeleniumUITestUtils.clickOnSidebarItem(getWait(), "Users");
     }

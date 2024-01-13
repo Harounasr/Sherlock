@@ -69,7 +69,7 @@ public class ExerciseDescriptionUITest extends AbstractSeleniumUITest {
     @BeforeEach
     public void navigateToExerciseDescription() {
         SeleniumUITestUtils.tryLogin(
-                getDriver(), getWait(), SeleniumUITestUtils.ADMIN_USERNAME, SeleniumUITestUtils.ADMIN_PASSWORD);
+                getDriver(), getWait(), SeleniumUITestUtils.ADMIN_USERNAME, SeleniumUITestUtils.GLOBAL_PASSWORD);
         SeleniumUITestUtils.navigateTo(getDriver(), "view/registered/course.xhtml?Id=1");
         WebElement exerciseButton = getWait().until(elementToBeClickable(By.cssSelector("input[value='To Exercise']")));
         exerciseButton.click();

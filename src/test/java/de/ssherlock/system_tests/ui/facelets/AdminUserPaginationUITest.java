@@ -40,14 +40,14 @@ public class AdminUserPaginationUITest extends AbstractSeleniumUITest {
     private static final List<List<String>> FIRST_PAGE_ELEMENTS = Arrays.asList(
             Arrays.asList("admin", "User", "One", "admin", "Mathematik", "ADMINISTRATOR"),
             Arrays.asList("member", "User", "Three", "member", "Mathematik", "REGISTERED"),
-            Arrays.asList("tutor", "User", "Four", "tutor", "Mathematik", "REGISTERED"),
             Arrays.asList("member1", "User", "Five", "member1", "Mathematik", "REGISTERED"),
             Arrays.asList("member2", "User", "Six", "member2", "Mathematik", "REGISTERED"),
             Arrays.asList("member3", "User", "Seven", "member3", "Mathematik", "REGISTERED"),
             Arrays.asList("member4", "User", "Eight", "member4", "Mathematik", "REGISTERED"),
             Arrays.asList("member5", "User", "Nine", "member5", "Mathematik", "REGISTERED"),
             Arrays.asList("member6", "User", "Ten", "member6", "Mathematik", "REGISTERED"),
-            Arrays.asList("member7", "User", "Eleven", "member7", "Mathematik", "REGISTERED")
+            Arrays.asList("member7", "User", "Eleven", "member7", "Mathematik", "REGISTERED"),
+            Arrays.asList("teacher", "User", "Two", "teacher", "Mathematik", "TEACHER")
     );
 
     /**
@@ -56,7 +56,7 @@ public class AdminUserPaginationUITest extends AbstractSeleniumUITest {
     @BeforeEach
     public void navigateToAdminUserPagination() {
         SeleniumUITestUtils.tryLogin(
-                getDriver(), getWait(), SeleniumUITestUtils.ADMIN_USERNAME, SeleniumUITestUtils.ADMIN_PASSWORD);
+                getDriver(), getWait(), SeleniumUITestUtils.ADMIN_USERNAME, SeleniumUITestUtils.GLOBAL_PASSWORD);
         SeleniumUITestUtils.navigateTo(getDriver(), "view/admin/admin.xhtml");
         SeleniumUITestUtils.clickOnSidebarItem(getWait(), "Users");
     }

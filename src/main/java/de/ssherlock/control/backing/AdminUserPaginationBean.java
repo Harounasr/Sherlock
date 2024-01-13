@@ -100,7 +100,7 @@ public class AdminUserPaginationBean extends AbstractPaginationBean implements S
     @PostConstruct
     public void initialize() {
         getPagination().setPageSize(PAGE_SIZE);
-        getPagination().setSortBy("systemrole");
+        getPagination().setSortBy("username");
         users = userService.getUsers(getPagination());
         getPagination().setLastIndex(users.size() - 1);
         selectedRole = new HashMap<>();
