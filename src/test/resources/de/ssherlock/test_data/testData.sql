@@ -57,6 +57,9 @@ INSERT INTO "user" (id, username, email, firstname, lastname, faculty, password_
 INSERT INTO "user" (id, username, email, firstname, lastname, faculty, password_hash, password_salt, user_role, failed_login_attempts, token, expiry_date) VALUES (10, 'member6', 'member6', 'User', 'Ten', 'Mathematik', 'QWIbZACnFJmEF0R0DBrVkhXoOeUb2qF0ioqrcLLMogl1bM0fuzlvrF4/u2xYeqGqBNFgJkUBzuYW3ezdm/qZ+g==', 'cF94pcrvA83ZBcJ6tQc4PA==', 'REGISTERED', 1, '67f417691e0a37322d9ece6fcfe6dfe240a8f91aa458eda7e520f8c4caa8f771', '2025-12-01 01:00:00+01');
 INSERT INTO "user" (id, username, email, firstname, lastname, faculty, password_hash, password_salt, user_role, failed_login_attempts, token, expiry_date) VALUES (11, 'member7', 'member7', 'User', 'Eleven', 'Mathematik', 'QWIbZACnFJmEF0R0DBrVkhXoOeUb2qF0ioqrcLLMogl1bM0fuzlvrF4/u2xYeqGqBNFgJkUBzuYW3ezdm/qZ+g==', 'cF94pcrvA83ZBcJ6tQc4PA==', 'REGISTERED', 1, '67f417691e0a37322d9ece6fcfe6dfe240a8f91aa458eda7e520f8c4caa8f771', '2025-12-01 01:00:00+01');
 
+INSERT INTO "user" (id, username, email, firstname, lastname, faculty, password_hash, password_salt, user_role, failed_login_attempts, token, expiry_date) VALUES (12, 'verificationUser', 'verificationUser', 'User', 'Twelve', 'Mathematik',
+'QWIbZACnFJmEF0R0DBrVkhXoOeUb2qF0ioqrcLLMogl1bM0fuzlvrF4/u2xYeqGqBNFgJkUBzuYW3ezdm/qZ+g==', 'cF94pcrvA83ZBcJ6tQc4PA==',
+'NOT_REGISTERED', 1, '12345', '2025-12-01 01:00:00+01');
 
 INSERT INTO participates (user_id, course_id, user_role) VALUES (2, 1, 'TEACHER');
 INSERT INTO participates (user_id, course_id, user_role) VALUES (3, 1, 'MEMBER');
