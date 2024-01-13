@@ -21,8 +21,9 @@ public interface UserRepository {
      * Inserts a User entity into the database.
      *
      * @param user The User entity to be inserted.
+     * @return If the insertion was successfully.
      */
-    void insertUser(User user);
+    boolean insertUser(User user);
 
     /**
      * Updates a User entity in the database.

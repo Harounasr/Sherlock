@@ -164,9 +164,10 @@ public class UserService implements Serializable {
      * Registers a new user and sends a verification email.
      *
      * @param user The user to be registered.
+     * @return If the registration was successfully.
      */
     @SuppressWarnings("checkstyle:MagicNumber")
-    public void registerUser(User user) {
+    public boolean registerUser(User user) {
         user.setSystemRole(SystemRole.NOT_VERIFIED);
         String verificationToken = generateEmailVerificationToken();
         user.setVerificationToken(verificationToken);
@@ -177,12 +178,11 @@ public class UserService implements Serializable {
             Connection connection = connectionPool.getConnection();
             UserRepository userRepository =
                     RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
-            userRepository.insertUser(user);
+            boolean success = userRepository.insertUser(user);
             connectionPool.releaseConnection(connection);
+            return success;
         } else {
-            Notification notification =
-                    new Notification("Email could not be send. Please try again.", NotificationType.ERROR);
-            notification.generateUIMessage();
+            return false;
         }
     }
 

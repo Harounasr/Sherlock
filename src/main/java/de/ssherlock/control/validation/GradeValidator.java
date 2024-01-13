@@ -36,7 +36,7 @@ public class GradeValidator implements Validator<Integer> {
     public GradeValidator() {}
 
     /**
-     * Validates the username for uniqueness and format.
+     * Validates the grade selection.
      */
     @Override
     public void validate(FacesContext facesContext, UIComponent uiComponent, Integer selection)

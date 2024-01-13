@@ -4,11 +4,15 @@ import de.ssherlock.business.service.FacultyService;
 import de.ssherlock.business.service.SystemService;
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.business.util.PasswordHashing;
+import de.ssherlock.control.notification.Notification;
+import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Faculty;
 import de.ssherlock.global.transport.Password;
 import de.ssherlock.global.transport.User;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.FacesException;
+import jakarta.faces.application.FacesMessage;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
@@ -88,7 +92,14 @@ public class RegistrationBean {
     public void register() {
         Password password = PasswordHashing.hashPassword(unhashedPassword);
         user.setPassword(password);
-        userService.registerUser(user);
+        if (userService.registerUser(user)) {
+            Notification notification = new Notification("A registration email was sent to: " + user.getEmail()
+                                                         + ". Please verify your email.", NotificationType.SUCCESS);
+            notification.generateUIMessage();
+        } else {
+            Notification notification = new Notification("Email could not be sent. Please try again.", NotificationType.ERROR);
+            notification.generateUIMessage();
+        }
     }
 
     /**

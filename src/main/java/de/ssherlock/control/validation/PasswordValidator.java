@@ -1,6 +1,5 @@
 package de.ssherlock.control.validation;
 
-import de.ssherlock.global.logging.SerializableLogger;
 import jakarta.enterprise.context.Dependent;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.UIComponent;
@@ -21,20 +20,17 @@ import jakarta.inject.Named;
 @FacesValidator(value = "passwordValidator", managed = true)
 public class PasswordValidator implements Validator<String> {
 
-  /** The logger instance for this class. */
-  private final SerializableLogger logger;
-
   /** The minimum length for a password. */
   private static final int MINPASSWORDLENGTH = 8;
 
+    /** The maximum length for a password. */
+    private static final int MAXPASSWORDLENGTH = 50;
+
   /**
    * Constructs a new PasswordValidator.
-   *
-   * @param logger The logger instance for this class.
    */
   @Inject
-  public PasswordValidator(SerializableLogger logger) {
-    this.logger = logger;
+  public PasswordValidator() {
   }
 
   /**
@@ -48,20 +44,14 @@ public class PasswordValidator implements Validator<String> {
   @Override
   public void validate(FacesContext facesContext, UIComponent uiComponent, String password)
       throws ValidatorException {
-    if (password == null || password.length() < MINPASSWORDLENGTH) {
-      FacesMessage facesMessage =
-          new FacesMessage(
-              FacesMessage.SEVERITY_ERROR, "Password has to be at least 8 long.", null);
-      throw new ValidatorException(facesMessage);
+    if (password == null || password.length() < MINPASSWORDLENGTH || password.length() > MAXPASSWORDLENGTH) {
+        FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Password has to be between 8 and 50 long.", null);
+        throw new ValidatorException(facesMessage);
     }
-    // Check complexity (at least one uppercase, one lowercase, one digit, one special character)
     if (!password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]+$")) {
-      FacesMessage message =
-          new FacesMessage(
-              FacesMessage.SEVERITY_ERROR,
-              "Password must include at least one uppercase letter, one lowercase letter, one digit, and one special character.",
-              null);
-      throw new ValidatorException(message);
+        FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Password must include at least one uppercase letter, "
+                                                                        + "one lowercase letter, one digit, and one special character.", null);
+        throw new ValidatorException(facesMessage);
     }
   }
 }
