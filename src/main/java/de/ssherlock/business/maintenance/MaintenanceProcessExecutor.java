@@ -36,6 +36,11 @@ public class MaintenanceProcessExecutor extends ScheduledThreadPoolExecutor {
     private static final int DESTROY_TIMEOUT = 70;
 
     /**
+     * The delay after which events should be fired for the first time.
+     */
+    private static final int START_DELAY = 10;
+
+    /**
      * Constructs a new MaintenanceProcessExecutor.
      */
     public MaintenanceProcessExecutor() {
@@ -59,19 +64,19 @@ public class MaintenanceProcessExecutor extends ScheduledThreadPoolExecutor {
         LOGGER.info("Loaded maintenance configuration.");
 
         this.scheduleAtFixedRate(new SendEmailNotificationEvent(),
-                                 10, Long.parseLong(properties.getProperty("sendEmailNotification.delay")), TimeUnit.SECONDS);
+                                 START_DELAY, Long.parseLong(properties.getProperty("sendEmailNotification.delay")), TimeUnit.SECONDS);
         LOGGER.info("Scheduled SendEmailNotificationEvent at rate " + properties.getProperty("sendEmailNotification.delay") + " (seconds).");
 
         this.scheduleWithFixedDelay(this::executeCleanUnverifiedUsers,
-                                    10,  Long.parseLong(properties.getProperty("unverifiedUsersClean.delay")), TimeUnit.SECONDS);
+                                    START_DELAY,  Long.parseLong(properties.getProperty("unverifiedUsersClean.delay")), TimeUnit.SECONDS);
         LOGGER.info("Scheduled UnverifiedUsersCleanEvent at rate " + properties.getProperty("unverifiedUsersClean.delay") + " (seconds).");
 
         this.scheduleWithFixedDelay(this::executeCleanUnusedImages,
-                                    10, Long.parseLong(properties.getProperty("unusedImagesClean.delay")), TimeUnit.SECONDS);
+                                    START_DELAY, Long.parseLong(properties.getProperty("unusedImagesClean.delay")), TimeUnit.SECONDS);
         LOGGER.info("Scheduled UnusedImagesCleanEvent at rate " + properties.getProperty("unusedImagesClean.delay") + " (seconds).");
 
         this.scheduleWithFixedDelay(this::resetPasswordAttempts,
-                                    10, Long.parseLong(properties.getProperty("resetPasswordAttempts.delay")), TimeUnit.SECONDS);
+                                    START_DELAY, Long.parseLong(properties.getProperty("resetPasswordAttempts.delay")), TimeUnit.SECONDS);
         LOGGER.info("Scheduled ResetPasswordAttempts at rate " + properties.getProperty("resetPasswordAttempts.delay") + " (seconds).");
 
     }
@@ -87,14 +92,6 @@ public class MaintenanceProcessExecutor extends ScheduledThreadPoolExecutor {
             LOGGER.log(Level.INFO, "Error while destroying MaintenanceProcessExecutor" + e);
             Thread.currentThread().interrupt();
         }
-    }
-
-    /**
-     * Executes send email notification task.
-     */
-    private void executeEmailNotifications() {
-        SendEmailNotificationEvent sendEmailNotificationEvent = new SendEmailNotificationEvent();
-        sendEmailNotificationEvent.sendEmailNotifications();
     }
 
     /**
