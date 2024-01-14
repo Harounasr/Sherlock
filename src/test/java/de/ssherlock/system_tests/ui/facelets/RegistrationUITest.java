@@ -27,6 +27,7 @@ public class RegistrationUITest extends AbstractSeleniumUITest {
      */
     private static final int TIMEOUT = 60;
 
+    @SuppressWarnings("checkstyle:InvalidJavadocPosition")
     /**
      * Test for entering valid credentials to the registration form and clicking register.
      */
