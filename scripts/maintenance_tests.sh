@@ -1,4 +1,7 @@
-# Author Victor Vollmann
+#!/usr/bin/env bash
+
+# Author: Victor Vollmann
+
 set -e
 
 mvn --no-transfer-progress -DskipUnitTests -DskipSystemTests -DskipIntegerationTests -Pmaintenance-tests clean compile verify
