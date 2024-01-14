@@ -30,7 +30,7 @@ public class VerificationUITest extends AbstractSeleniumUITest {
     @Test
     void testNavigateToLogin() {
         SeleniumUITestUtils.navigateTo(getDriver(), "view/public/verification.xhtml?token=someToken");
-        SeleniumUITestUtils.clickOnElementWithId(getWait(), "verificationForm:backToLogin");
+        SeleniumUITestUtils.enterOnElementWithId(getWait(), "verificationForm:backToLogin");
         assertEquals(SeleniumUITestUtils.BASE_URL + "view/public/login.xhtml", getDriver().getCurrentUrl());
     }
 

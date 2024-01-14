@@ -5,6 +5,7 @@ import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.global.transport.SubmissionFile;
 import jakarta.faces.application.FacesMessage;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -130,7 +131,7 @@ public final class SeleniumUITestUtils {
      * @param facesMessage The expected faces message.
      */
     public static void checkFacesMessage(WebDriverWait wait, FacesMessage facesMessage) {
-        WebElement element = wait.until(visibilityOfElementLocated(By.cssSelector(".popup-notifications, ERROR 2 > td")));
+        WebElement element = wait.until(visibilityOfElementLocated(By.cssSelector(".popup-notifications .notification-error > td")));
         assertTrue(element.isDisplayed());
         assertTrue(element.getText().contains(facesMessage.getDetail()));
     }
@@ -144,6 +145,17 @@ public final class SeleniumUITestUtils {
     public static void clickOnElementWithId(WebDriverWait wait, String id) {
         WebElement element = wait.until(elementToBeClickable(By.id(id)));
         element.click();
+    }
+
+    /**
+     * Sends the enter key to an element with the specified id.
+     *
+     * @param wait The web driver wait.
+     * @param id   The css id.
+     */
+    public static void enterOnElementWithId(WebDriverWait wait, String id) {
+        WebElement element = wait.until(elementToBeClickable(By.id(id)));
+        element.sendKeys(Keys.RETURN);
     }
 
     /**

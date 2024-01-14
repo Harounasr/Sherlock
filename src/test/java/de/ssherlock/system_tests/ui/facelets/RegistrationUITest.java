@@ -8,10 +8,8 @@ import jakarta.faces.application.FacesMessage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
 
 /**
  * UI Test for {@code registration.xhtml}.
@@ -21,6 +19,7 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClick
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class RegistrationUITest extends AbstractSeleniumUITest {
 
+    //TODO: Set wait accordingly to email send time / send failure time.
     /**
      * Test for entering valid credentials to the registration form and clicking register.
      */
@@ -33,8 +32,9 @@ public class RegistrationUITest extends AbstractSeleniumUITest {
         getDriver().findElement(By.id("registrationForm:email")).sendKeys("hoefli11@ads.uni-passau.de");
         getDriver().findElement(By.id("registrationForm:faculty")).sendKeys("Informatik");
         getDriver().findElement(By.id("registrationForm:passWord")).sendKeys("N3wPa22w-rd!");
-        WebElement element = getWait().until(elementToBeClickable(By.id("registrationForm:register")));
-        element.click();
+
+        SeleniumUITestUtils.enterOnElementWithId(getWait(), "registrationForm:register");
+
         Notification notification = new Notification("A registration email was sent to: hoefli11@ads.uni-passau.de. Please verify your email.",
                                                      NotificationType.SUCCESS);
         SeleniumUITestUtils.checkNotification(getWait(), notification);
@@ -52,14 +52,15 @@ public class RegistrationUITest extends AbstractSeleniumUITest {
         getDriver().findElement(By.id("registrationForm:email")).sendKeys("some.kindOf@email.com");
         getDriver().findElement(By.id("registrationForm:faculty")).sendKeys("Informatik");
         getDriver().findElement(By.id("registrationForm:passWord")).sendKeys("N3wPa22w-rd!");
-        WebElement element = getWait().until(elementToBeClickable(By.id("registrationForm:register")));
-        element.click();
+
+        SeleniumUITestUtils.enterOnElementWithId(getWait(), "registrationForm:register");
+
         Notification notification = new Notification("Email could not be sent. Please try again." , NotificationType.ERROR);
         SeleniumUITestUtils.checkNotification(getWait(), notification);
     }
 
     /**
-     * Test for entering invalid credentials ti the registration form.
+     * Test for entering invalid credentials to the registration form.
      */
     @Test
     void testRegistrationValidators() {
@@ -69,8 +70,9 @@ public class RegistrationUITest extends AbstractSeleniumUITest {
         getDriver().findElement(By.id("registrationForm:lastName")).sendKeys("abcd");
         getDriver().findElement(By.id("registrationForm:email")).sendKeys("NewEmail");
         getDriver().findElement(By.id("registrationForm:passWord")).sendKeys("password");
-        WebElement element = getWait().until(elementToBeClickable(By.id("registrationForm:register")));
-        element.click();
+
+        SeleniumUITestUtils.enterOnElementWithId(getWait(), "registrationForm:register");
+
         SeleniumUITestUtils.checkFacesMessage(getWait(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Username musst be between 5 and 50 long.", null));
         SeleniumUITestUtils.checkFacesMessage(getWait(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Name musst be between 5 and 50 long.", null));
         SeleniumUITestUtils.checkFacesMessage(getWait(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Name musst be between 5 and 50 long.", null));
@@ -85,7 +87,7 @@ public class RegistrationUITest extends AbstractSeleniumUITest {
     @Test
     void testBackToLoginClicked() {
         SeleniumUITestUtils.navigateTo(getDriver(), "view/public/registration.xhtml");
-        SeleniumUITestUtils.clickOnElementWithId(getWait(), "registrationLogin:backToLogin");
+        SeleniumUITestUtils.enterOnElementWithId(getWait(), "registrationLogin:backToLogin");
         assertEquals(SeleniumUITestUtils.BASE_URL + "view/public/login.xhtml", getDriver().getCurrentUrl());
     }
 }
