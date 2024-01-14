@@ -48,7 +48,7 @@ public class PasswordValidator implements Validator<String> {
         FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Password has to be between 8 and 50 long.", null);
         throw new ValidatorException(facesMessage);
     }
-    if (!password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&-])[A-Za-z\\d@$!%*?&]+$")) {
+    if (!password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&-])[A-Za-z\\d@$!%*?&-]+$")) {
         FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Password must include at least one uppercase letter, "
                                                                         + "one lowercase letter, one digit, and one special character.", null);
         throw new ValidatorException(facesMessage);
