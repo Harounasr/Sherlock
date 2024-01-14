@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 /**
  * Implementation of ExerciseRepository for PostgreSQL database.
@@ -172,5 +173,23 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
             logger.severe("Error retrieving exercises: " + e.getMessage());
         }
         return exercises;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateReminderMailSent(Exercise exercise) {
+        String sqlQuery = """
+                          UPDATE exercise
+                          SET reminder_mail_sent = true
+                          WHERE id = ?;
+                          """;
+        try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
+            statement.setLong(1, exercise.getId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.log(Level.INFO, "Could not update column.");
+        }
     }
 }

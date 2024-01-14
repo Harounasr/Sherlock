@@ -55,4 +55,11 @@ public interface ExerciseRepository {
    * @return The list of Exercise entities.
    */
   List<Exercise> getExercises(Course course);
+
+    /**
+     * Sets the reminder_mail_sent to true in the given exercise.
+     *
+     * @param exercise The exercise.
+     */
+  void updateReminderMailSent(Exercise exercise);
 }

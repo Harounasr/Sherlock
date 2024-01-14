@@ -16,6 +16,7 @@ import de.ssherlock.global.transport.SystemRole;
 import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.connection.ConnectionPool;
 import de.ssherlock.persistence.exception.PersistenceNonExistentUserException;
+import de.ssherlock.persistence.repository.ExerciseRepository;
 import de.ssherlock.persistence.repository.RepositoryFactory;
 import de.ssherlock.persistence.repository.RepositoryType;
 import de.ssherlock.persistence.repository.UserRepository;
@@ -213,14 +214,22 @@ public class UserService implements Serializable {
     }
 
     /**
-     * Sends reminder Emails to a List of users.
+     * Sends reminder Emails to a List of users and update the exercise.
      */
     public void sendReminderEmail() {
         Connection connection = connectionPool.getConnection();
         UserRepository userRepository = RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
         HashMap<Exercise, List<User>> data = userRepository.getDataForReminderMail();
+        connectionPool.releaseConnection(connection);
         for (Map.Entry<Exercise, List<User>> entry : data.entrySet()) {
-            mail.sendReminderMail(entry.getValue(), MailContentBuilder.buildReminderMail(entry.getKey()));
+            if (mail.sendReminderMail(entry.getValue(), MailContentBuilder.buildReminderMail(entry.getKey()))) {
+                Connection connection1 = connectionPool.getConnection();
+                ExerciseRepository exerciseRepository = RepositoryFactory.getExerciseRepository(RepositoryType.POSTGRESQL, connection1);
+                exerciseRepository.updateReminderMailSent(entry.getKey());
+                connectionPool.releaseConnection(connection1);
+            } else {
+                logger.log(Level.INFO, "Reminder email could not be send.");
+            }
         }
     }
 
