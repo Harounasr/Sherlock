@@ -8,7 +8,7 @@ import org.junit.jupiter.api.TestInstance;
 
 /**
  * UI Test for {@code course.xhtml}.
- * As usage of exercisePagination and courseUserPagination buttons are tested in
+ * As usage of exercisePagination and courseUserPagination are tested in
  * ExercisePaginationUITest and CourseUserPaginationUITest, only deleteCourse is being tested here.
  *
  * @author Leon Höfling
