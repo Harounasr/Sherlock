@@ -35,7 +35,7 @@ public class SendEmailNotificationEvent implements Runnable {
     /**
      * Sends email notifications.
      */
-    @SuppressWarnings("pmd:AvoidCatchingenericException")
+    @SuppressWarnings("PMD.AvoidCatchingenericException")
     @Override
     public void run() {
         try {
