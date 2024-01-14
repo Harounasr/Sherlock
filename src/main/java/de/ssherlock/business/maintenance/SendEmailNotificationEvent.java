@@ -4,7 +4,6 @@ import de.ssherlock.business.service.UserService;
 import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
 import jakarta.enterprise.inject.spi.CDI;
-import jakarta.inject.Inject;
 
 import java.util.logging.Level;
 
@@ -36,11 +35,6 @@ public class SendEmailNotificationEvent implements Runnable {
     /**
      * Sends email notifications.
      */
-    public void sendEmailNotifications() {
-        LOGGER.info("sending emails");
-        userService.sendReminderEmail();
-    }
-
     @Override
     public void run() {
         try {
