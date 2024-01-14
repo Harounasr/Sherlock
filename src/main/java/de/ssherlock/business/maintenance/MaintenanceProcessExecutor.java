@@ -1,17 +1,21 @@
 package de.ssherlock.business.maintenance;
 
+import de.ssherlock.business.exception.MaintenanceConfigNotReadableException;
 import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
+import jakarta.servlet.ServletContextEvent;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
-
 /**
  * Class for executing Events.
  *
- * @author Victor Vollmann
+ * @author Haroun Alswedany
  */
 public class MaintenanceProcessExecutor extends ScheduledThreadPoolExecutor {
 
@@ -31,18 +35,6 @@ public class MaintenanceProcessExecutor extends ScheduledThreadPoolExecutor {
      */
     private static final int DESTROY_TIMEOUT = 70;
 
-
-    /**
-     * The rate at which the maintenance process is executed.
-     */
-    private static final int MAINTENANCE_RATE = 60 * 60; // Execute every hour
-
-
-    /**
-     * The interval at which the clean task is executed.
-     */
-    private static final int CLEAN_INTERVAL = 60 * 60 * 24; // Execute every 24 hours
-
     /**
      * Constructs a new MaintenanceProcessExecutor.
      */
@@ -53,15 +45,35 @@ public class MaintenanceProcessExecutor extends ScheduledThreadPoolExecutor {
     /**
      * Initializes a thread.
      */
-    public void init() {
-        this.scheduleAtFixedRate(this::executeEmailNotifications,
-                                 0, MAINTENANCE_RATE, TimeUnit.SECONDS);
+    public void init(ServletContextEvent sce) {
+        Properties properties = new Properties();
+        try (InputStream is = sce.getServletContext().getResourceAsStream("/WEB-INF/config/maintenance-config.properties")) {
+            if (is != null) {
+                properties.load(is);
+            } else {
+                throw new MaintenanceConfigNotReadableException("The configuration for the maintenance properties is not readable.");
+            }
+        } catch (IOException e) {
+            throw new MaintenanceConfigNotReadableException("The configuration for the maintenance properties is not readable.", e);
+        }
+        LOGGER.info("Loaded maintenance configuration.");
+
+        this.scheduleAtFixedRate(new SendEmailNotificationEvent(),
+                                 10, Long.parseLong(properties.getProperty("sendEmailNotification.delay")), TimeUnit.SECONDS);
+        LOGGER.info("Scheduled SendEmailNotificationEvent at rate " + properties.getProperty("sendEmailNotification.delay") + " (seconds).");
+
         this.scheduleWithFixedDelay(this::executeCleanUnverifiedUsers,
-                                    0, CLEAN_INTERVAL, TimeUnit.SECONDS);
+                                    10,  Long.parseLong(properties.getProperty("unverifiedUsersClean.delay")), TimeUnit.SECONDS);
+        LOGGER.info("Scheduled UnverifiedUsersCleanEvent at rate " + properties.getProperty("unverifiedUsersClean.delay") + " (seconds).");
+
         this.scheduleWithFixedDelay(this::executeCleanUnusedImages,
-                                    0, CLEAN_INTERVAL, TimeUnit.SECONDS);
+                                    10, Long.parseLong(properties.getProperty("unusedImagesClean.delay")), TimeUnit.SECONDS);
+        LOGGER.info("Scheduled UnusedImagesCleanEvent at rate " + properties.getProperty("unusedImagesClean.delay") + " (seconds).");
+
         this.scheduleWithFixedDelay(this::resetPasswordAttempts,
-                                    0, MAINTENANCE_RATE, TimeUnit.SECONDS);
+                                    10, Long.parseLong(properties.getProperty("resetPasswordAttempts.delay")), TimeUnit.SECONDS);
+        LOGGER.info("Scheduled ResetPasswordAttempts at rate " + properties.getProperty("resetPasswordAttempts.delay") + " (seconds).");
+
     }
 
     /**

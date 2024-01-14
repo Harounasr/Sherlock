@@ -18,6 +18,7 @@
         <skipUnitTests>false</skipUnitTests>
         <skipIntegrationTests>false</skipIntegrationTests>
         <skipSystemTests>false</skipSystemTests>
+        <skipMaintenanceTests>false</skipMaintenanceTests>
 
         <!-- Dependency versions -->
         <junit.version>5.10.1</junit.version>
@@ -473,7 +474,8 @@
                                 </goals>
                                 <configuration>
                                     <includes>
-                                        <include>**/*UITest.java</include>
+                                        <!--<include>**/*UITest.java</include>-->
+                                        <include>**/*ST.java</include>
                                     </includes>
 
                                     <skipTests>${skipSystemTests}</skipTests>
@@ -494,6 +496,7 @@
                                     <url>https://downloads.apache.org/tomcat/tomcat-10/v10.1.18/bin/apache-tomcat-10.1.18.zip</url>
                                 </zipUrlInstaller>
                             </container>
+
                             <deployables>
                                 <deployable>
                                     <location>${project.build.directory}/ssherlock-system_test.war</location>
@@ -554,8 +557,6 @@
                             </webResources>
                         </configuration>
                     </plugin>
-
-
 
                     <plugin>
                         <!-- Measure coverage for system tests -->
