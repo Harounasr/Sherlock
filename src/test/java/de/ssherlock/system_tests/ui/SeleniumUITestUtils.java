@@ -131,7 +131,7 @@ public final class SeleniumUITestUtils {
      * @param facesMessage The expected faces message.
      */
     public static void checkFacesMessage(WebDriverWait wait, FacesMessage facesMessage) {
-        WebElement element = wait.until(visibilityOfElementLocated(By.cssSelector(".popup-notifications .notification-success > td")));
+        WebElement element = wait.until(visibilityOfElementLocated(By.cssSelector(".popup-notifications .notification-success")));
         assertTrue(element.isDisplayed());
         assertTrue(element.getText().contains(facesMessage.getDetail()));
     }
