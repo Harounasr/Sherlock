@@ -80,9 +80,10 @@ public class RegistrationUITest extends AbstractSeleniumUITest {
         SeleniumUITestUtils.checkFacesMessage(getWait(), new FacesMessage(FacesMessage.SEVERITY_ERROR,
                                                                           "Name musst be between 5 and 50 long.", null));
         SeleniumUITestUtils.checkFacesMessage(getWait(), new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                                                                          "Email musst be between 5 and 50 long.", null));
+                                                                          "Email does not correspond to the email pattern.", null));
         SeleniumUITestUtils.checkFacesMessage(getWait(), new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                                                                          "Password has to be between 8 and 50 long.", null));
+                                                                          "Password must include at least one uppercase letter,"
+                                                                     + " one lowercase letter, one digit, and one special character.", null));
     }
 
     /**
