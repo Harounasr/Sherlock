@@ -5,6 +5,7 @@ import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestClassOrder;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import java.sql.Connection;
@@ -24,8 +25,7 @@ import static org.junit.jupiter.api.Assertions.fail;
  *
  * @author Victor Vollmann
  */
-@TestClassOrder(ClassOrderer.OrderAnnotation.class)
-@Order(1)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class SendEmailNotificationEventST {
 
     /**
