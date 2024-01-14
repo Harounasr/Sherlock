@@ -474,7 +474,7 @@
                                 </goals>
                                 <configuration>
                                     <includes>
-                                        <!--<include>**/*UITest.java</include>-->
+                                        <include>**/*UITest.java</include>
                                         <include>**/*ST.java</include>
                                     </includes>
 
