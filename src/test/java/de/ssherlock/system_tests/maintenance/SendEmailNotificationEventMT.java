@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.fail;
  */
 @SuppressWarnings("checkstyle:MagicNumber")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class SendEmailNotificationEventST {
+public class SendEmailNotificationEventMT {
 
     /**
      * Tests whether the emails are sent.
