@@ -8,6 +8,9 @@ import jakarta.faces.application.FacesMessage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -20,6 +23,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class RegistrationUITest extends AbstractSeleniumUITest {
 
     //To do: Set wait accordingly to email send time / send failure time.
+
+    /**
+     * Custom Timeout for waiting until email has been send.
+     */
+    private final int TIMEOUT = 60;
+
     /**
      * Test for entering valid credentials to the registration form and clicking register.
      */
@@ -37,7 +46,8 @@ public class RegistrationUITest extends AbstractSeleniumUITest {
 
         Notification notification = new Notification("A registration email was sent to: hoefli11@ads.uni-passau.de. Please verify your email.",
                                                      NotificationType.SUCCESS);
-        SeleniumUITestUtils.checkNotification(getWait(), notification);
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(TIMEOUT));
+        SeleniumUITestUtils.checkNotification(wait, notification);
     }
 
     /**
@@ -56,7 +66,8 @@ public class RegistrationUITest extends AbstractSeleniumUITest {
         SeleniumUITestUtils.enterOnElementWithId(getWait(), "registrationForm:register");
 
         Notification notification = new Notification("Email could not be sent. Please try again.", NotificationType.ERROR);
-        SeleniumUITestUtils.checkNotification(getWait(), notification);
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(TIMEOUT));
+        SeleniumUITestUtils.checkNotification(wait, notification);
     }
 
     /**
