@@ -25,9 +25,9 @@ public class RegistrationUITest extends AbstractSeleniumUITest {
     //To do: Set wait accordingly to email send time / send failure time.
 
     /**
-     * Custom Timeout for waiting until email has been send.
+     * Custom Timeout for waiting until email has been sent.
      */
-    private final int TIMEOUT = 60;
+    private static final int TIMEOUT = 60;
 
     /**
      * Test for entering valid credentials to the registration form and clicking register.
