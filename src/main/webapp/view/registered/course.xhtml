@@ -27,7 +27,7 @@
                                                  styleClass="btn w-100"/>
                             </li>
                             <li class="nav-item-sidebar" >
-                                <h:commandButton rendered="#{courseBean.isTeacherRights}" value="Delete" onclick="showDeleteDialog();" styleClass="btn w-100" type="button"/>
+                                <h:commandButton rendered="#{courseBean.teacherRights}" value="Delete" onclick="showDeleteDialog();" styleClass="btn w-100" type="button"/>
                             </li>
                         </ul>
                         <div id="delete-dlg" class="dialog" style="display: none;">
@@ -35,7 +35,7 @@
                                 <h:outputText value="Are you sure you want to delete this course?"/>
                             </div>
                             <br/>
-                            <div class="text-center">
+                            <div class="nav-item-sidebar">
                                 <h:commandButton styleClass="btn btn-danger"
                                                  value="Yes, delete"
                                                  action="#{courseBean.deleteCourse}"
