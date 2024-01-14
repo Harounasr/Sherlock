@@ -37,6 +37,7 @@ public class VerificationUITest extends AbstractSeleniumUITest {
     /**
      * Test for verifying user 'verificationUser', which has the token '12345' and id 12.
      */
+    @SuppressWarnings("checkstyle:MagicNumber")
     @Test
     void testVerification() throws InterruptedException, SQLException {
         SeleniumUITestUtils.navigateTo(getDriver(), "view/public/verification.xhtml?token=12345");
