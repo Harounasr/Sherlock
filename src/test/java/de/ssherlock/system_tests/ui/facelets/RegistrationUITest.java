@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class RegistrationUITest extends AbstractSeleniumUITest {
 
-    //TODO: Set wait accordingly to email send time / send failure time.
+    //To do: Set wait accordingly to email send time / send failure time.
     /**
      * Test for entering valid credentials to the registration form and clicking register.
      */
@@ -55,7 +55,7 @@ public class RegistrationUITest extends AbstractSeleniumUITest {
 
         SeleniumUITestUtils.enterOnElementWithId(getWait(), "registrationForm:register");
 
-        Notification notification = new Notification("Email could not be sent. Please try again." , NotificationType.ERROR);
+        Notification notification = new Notification("Email could not be sent. Please try again.", NotificationType.ERROR);
         SeleniumUITestUtils.checkNotification(getWait(), notification);
     }
 
