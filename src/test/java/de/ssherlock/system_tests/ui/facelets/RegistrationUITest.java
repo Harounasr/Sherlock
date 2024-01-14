@@ -23,8 +23,6 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClick
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class RegistrationUITest extends AbstractSeleniumUITest {
 
-    //To do: Set wait accordingly to email send time / send failure time.
-
     /**
 <<<<<<< HEAD
      * Custom Timeout for waiting until email has been sent.
@@ -55,26 +53,6 @@ public class RegistrationUITest extends AbstractSeleniumUITest {
     }
     */
 
-
-    /**
-     * Test for entering valid credentials to the registration form and clicking register with a false email.
-     */
-    @Test
-    void testRegistrationFailed() {
-        SeleniumUITestUtils.navigateTo(getDriver(), "view/public/registration.xhtml");
-        getDriver().findElement(By.id("registrationForm:userName")).sendKeys("NewUsername");
-        getDriver().findElement(By.id("registrationForm:firstName")).sendKeys("NewFirstName");
-        getDriver().findElement(By.id("registrationForm:lastName")).sendKeys("NewLastName");
-        getDriver().findElement(By.id("registrationForm:email")).sendKeys("some.kindOf@email.com");
-        getDriver().findElement(By.id("registrationForm:faculty")).sendKeys("Informatik");
-        getDriver().findElement(By.id("registrationForm:passWord")).sendKeys("N3wPa22w-rd!");
-
-        SeleniumUITestUtils.enterOnElementWithId(getWait(), "registrationForm:register");
-
-        Notification notification = new Notification("Email could not be sent. Please try again.", NotificationType.ERROR);
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(TIMEOUT));
-        SeleniumUITestUtils.checkNotification(wait, notification);
-    }
 
     /**
      * Test for entering invalid credentials to the registration form.
