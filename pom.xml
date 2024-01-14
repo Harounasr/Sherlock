@@ -204,6 +204,12 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io.version}</version>
+        </dependency>
+
     </dependencies>
 
     <dependencyManagement>
@@ -221,24 +227,6 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>${exec-maven.version}</version>
-                <executions>
-                    <execution>
-                        <id>start-embedded-db</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>java</goal>
-                        </goals>
-                        <configuration>
-                            <mainClass>de.ssherlock.StartEmbeddedDatabase</mainClass>
-                            <classpathScope>test</classpathScope>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -371,6 +359,24 @@
 
                 <plugins>
                     <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>${exec-maven.version}</version>
+                        <executions>
+                            <execution>
+                                <id>start-embedded-db</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>java</goal>
+                                </goals>
+                                <configuration>
+                                    <mainClass>de.ssherlock.StartEmbeddedDatabase</mainClass>
+                                    <classpathScope>test</classpathScope>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
                         <!-- The failsafe plugin does similar to surefire but for integration tests -->
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
@@ -435,6 +441,24 @@
             <id>system-tests</id>
             <build>
                 <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>${exec-maven.version}</version>
+                        <executions>
+                            <execution>
+                                <id>start-embedded-db</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>java</goal>
+                                </goals>
+                                <configuration>
+                                    <mainClass>de.ssherlock.StartEmbeddedDatabase</mainClass>
+                                    <classpathScope>test</classpathScope>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
                     <plugin>
                         <!-- The failsafe plugin does similar to surefire but for system tests -->
                         <groupId>org.apache.maven.plugins</groupId>
@@ -557,24 +581,61 @@
         </profile>
 
         <profile>
-            <!--
-            A profile for load tests.
-            -->
             <id>load-tests</id>
 
             <build>
-                <directory>${BUILD_DIRECTORY}</directory>
-
                 <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>${exec-maven.version}</version>
+                        <executions>
+                            <execution>
+                                <id>start-embedded-db</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>java</goal>
+                                </goals>
+                                <configuration>
+                                    <mainClass>de.ssherlock.StartEmbeddedDatabase</mainClass>
+                                    <classpathScope>test</classpathScope>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.codehaus.cargo</groupId>
+                        <artifactId>cargo-maven3-plugin</artifactId>
+                        <version>${cargo-maven3-plugin.version}</version>
+                        <configuration>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>start-tomcat</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>start</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>stop-tomcat</id>
+                                <phase>post-integration-test</phase>
+                                <goals>
+                                    <goal>stop</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-war-plugin</artifactId>
                         <version>${maven-war-plugin.version}</version>
                         <configuration>
-                            <warName>${project.artifactId}-${project.version}-load_test</warName>
+                            <warName>ssherlock-load_test</warName>
                             <webResources>
                                 <resource>
-                                    <directory>${project.basedir}/src/test/resources/load_tests/WEB-INF</directory>
+                                    <directory>${project.basedir}/src/test/resources/WEB-INF</directory>
                                     <targetPath>/WEB-INF/</targetPath>
                                 </resource>
                             </webResources>
@@ -582,7 +643,6 @@
                     </plugin>
 
                     <plugin>
-                        <!-- The failsafe plugin does similar to surefire but for system tests -->
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
                         <version>${maven-failsafe-plugin.version}</version>
@@ -590,10 +650,6 @@
                             <environmentVariables>
                                 <!--suppress UnresolvedMavenProperty -->
                                 <SYSTEM_TEST_BROWSER>${SYSTEM_TEST_BROWSER}</SYSTEM_TEST_BROWSER>
-                                <!--suppress UnresolvedMavenProperty -->
-                                <PROCESS_ID>${PROCESS_ID}</PROCESS_ID>
-                                <!--suppress UnresolvedMavenProperty -->
-                                <SERVER_URL>${SERVER_URL}</SERVER_URL>
                             </environmentVariables>
                         </configuration>
                         <executions>
@@ -606,6 +662,7 @@
                                 <configuration>
                                     <includes>
                                         <include>**/*LoadTest.java</include>
+                                        <include>**/MainLoadTest.java</include>
                                     </includes>
 
                                     <skipTests>${skipSystemTests}</skipTests>
