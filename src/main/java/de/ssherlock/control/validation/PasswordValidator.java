@@ -1,6 +1,5 @@
 package de.ssherlock.control.validation;
 
-import de.ssherlock.global.logging.SerializableLogger;
 import jakarta.enterprise.context.Dependent;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.UIComponent;
