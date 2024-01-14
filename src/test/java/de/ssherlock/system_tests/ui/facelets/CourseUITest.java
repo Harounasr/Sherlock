@@ -8,7 +8,7 @@ import org.junit.jupiter.api.TestInstance;
 
 /**
  * UI Test for {@code course.xhtml}.
- * As usage of exercisePagination and courseUserPagination are tested in
+ * As usage of exercisePagination and courseUserPagination buttons are tested in
  * ExercisePaginationUITest and CourseUserPaginationUITest, only deleteCourse is being tested here.
  *
  * @author Leon Höfling
@@ -25,7 +25,7 @@ public class CourseUITest extends AbstractSeleniumUITest {
                 getDriver(), getWait(), SeleniumUITestUtils.ADMIN_USERNAME, SeleniumUITestUtils.GLOBAL_PASSWORD);
         SeleniumUITestUtils.navigateTo(getDriver(), "view/registered/course.xhtml?Id=1");
         SeleniumUITestUtils.clickOnSidebarItem(getWait(), "Delete");
-        SeleniumUITestUtils.enterOnElementWithId(getWait(), "courseDeleteButton");
+        SeleniumUITestUtils.clickOnElementWithId(getWait(), "courseDeleteButton");
     }
 
     /**
@@ -34,10 +34,10 @@ public class CourseUITest extends AbstractSeleniumUITest {
     @Test
     void testDeleteCourseTeacher() {
         SeleniumUITestUtils.tryLogin(
-                getDriver(), getWait(), "teacher", "lennyistdoof");
+                getDriver(), getWait(), SeleniumUITestUtils.TEACHER_USERNAME, SeleniumUITestUtils.GLOBAL_PASSWORD);
         SeleniumUITestUtils.navigateTo(getDriver(), "view/registered/course.xhtml?Id=2");
         SeleniumUITestUtils.clickOnSidebarItem(getWait(), "Delete");
-        SeleniumUITestUtils.enterOnElementWithId(getWait(), "courseDeleteButton");
+        SeleniumUITestUtils.clickOnElementWithId(getWait(), "courseDeleteButton");
     }
 
 
