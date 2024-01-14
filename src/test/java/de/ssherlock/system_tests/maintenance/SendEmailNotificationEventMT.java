@@ -34,7 +34,7 @@ public class SendEmailNotificationEventMT {
     void testSendEmailNotifications() throws InterruptedException {
         setDeadlinesToEndSoon();
         // wait for event to fire.
-        Thread.sleep(23000);
+        Thread.sleep(230_00);
         checkReminderEmailSent();
     }
 

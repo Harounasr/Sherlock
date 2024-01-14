@@ -49,6 +49,8 @@ public class MaintenanceProcessExecutor extends ScheduledThreadPoolExecutor {
 
     /**
      * Initializes a thread.
+     *
+     * @param sce The Servlet context event of the StartStop instance.
      */
     public void init(ServletContextEvent sce) {
         Properties properties = new Properties();
