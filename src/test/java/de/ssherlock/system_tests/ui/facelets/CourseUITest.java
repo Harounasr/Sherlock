@@ -25,19 +25,19 @@ public class CourseUITest extends AbstractSeleniumUITest {
                 getDriver(), getWait(), SeleniumUITestUtils.ADMIN_USERNAME, SeleniumUITestUtils.GLOBAL_PASSWORD);
         SeleniumUITestUtils.navigateTo(getDriver(), "view/registered/course.xhtml?Id=1");
         SeleniumUITestUtils.clickOnSidebarItem(getWait(), "Delete");
-        SeleniumUITestUtils.clickOnSidebarItem(getWait(), "Yes, delete");
+        SeleniumUITestUtils.clickOnElementWithId(getWait(), "courseDeleteButton");
     }
 
     /**
      * Test for deleting a course while being teacher in this course.
      */
     @Test
-    void testDeleteCourseTeacher () {
+    void testDeleteCourseTeacher() {
         SeleniumUITestUtils.tryLogin(
                 getDriver(), getWait(), "teacher", "lennyistdoof");
         SeleniumUITestUtils.navigateTo(getDriver(), "view/registered/course.xhtml?Id=2");
         SeleniumUITestUtils.clickOnSidebarItem(getWait(), "Delete");
-        SeleniumUITestUtils.clickOnSidebarItem(getWait(), "Yes, delete");
+        SeleniumUITestUtils.clickOnElementWithId(getWait(), "courseDeleteButton");
     }
 
 
