@@ -75,7 +75,7 @@ public class Mail implements Serializable {
       logger.log(Level.INFO, "Reminder mails successfully sent.");
       return true;
     } catch (MessagingException e) {
-      logger.log(Level.INFO, "There was a problem with sending the reminder Mails.");
+      logger.log(Level.INFO, "There was a problem with sending the reminder Mails.", e);
       return false;
     }
   }
