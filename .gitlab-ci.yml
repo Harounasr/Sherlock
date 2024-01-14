@@ -105,6 +105,24 @@ system-test-firefox:
                 - target/failsafe-reports/TEST-*.xml
         expire_in: 1 day
 
+# A target for running maintenance tests
+maintenance-tests:
+    image: leonfoeck/sep2023:st-1.0.2
+    stage: test
+    needs:
+        - build
+    coverage: "/Total.*?([0-9]{1,3})%/"
+    script:
+        - scripts/maintenance_tests.sh
+    artifacts:
+        when: always
+        paths:
+            - target/tomcat.log
+        reports:
+            junit:
+                - target/failsafe-reports/TEST-*.xml
+        expire_in: 1 day
+
 # A target for running system tests
 .system-test-edge:
     image: leonfoeck/sep2023:st-1.0.2
