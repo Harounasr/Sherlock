@@ -11,8 +11,6 @@ import de.ssherlock.global.transport.Faculty;
 import de.ssherlock.global.transport.Password;
 import de.ssherlock.global.transport.User;
 import jakarta.enterprise.context.RequestScoped;
-import jakarta.faces.FacesException;
-import jakarta.faces.application.FacesMessage;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
@@ -109,7 +107,7 @@ public class RegistrationBean {
      */
     public String navigateToLogin() {
         logger.log(Level.INFO, "Login");
-        return "/view/public/login.xhtml";
+        return "/view/public/login.xhtml?faces-redirect=true";
     }
 
     /**

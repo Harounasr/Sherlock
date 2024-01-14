@@ -73,11 +73,16 @@ public class RegistrationUITest extends AbstractSeleniumUITest {
 
         SeleniumUITestUtils.enterOnElementWithId(getWait(), "registrationForm:register");
 
-        SeleniumUITestUtils.checkFacesMessage(getWait(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Username musst be between 5 and 50 long.", null));
-        SeleniumUITestUtils.checkFacesMessage(getWait(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Name musst be between 5 and 50 long.", null));
-        SeleniumUITestUtils.checkFacesMessage(getWait(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Name musst be between 5 and 50 long.", null));
-        SeleniumUITestUtils.checkFacesMessage(getWait(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Email musst be between 5 and 50 long.", null));
-        SeleniumUITestUtils.checkFacesMessage(getWait(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Password has to be between 8 and 50 long.", null));
+        SeleniumUITestUtils.checkFacesMessage(getWait(), new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                                                          "Username musst be between 5 and 50 long.", null));
+        SeleniumUITestUtils.checkFacesMessage(getWait(), new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                                                          "Name musst be between 5 and 50 long.", null));
+        SeleniumUITestUtils.checkFacesMessage(getWait(), new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                                                          "Name musst be between 5 and 50 long.", null));
+        SeleniumUITestUtils.checkFacesMessage(getWait(), new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                                                          "Email musst be between 5 and 50 long.", null));
+        SeleniumUITestUtils.checkFacesMessage(getWait(), new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                                                          "Password has to be between 8 and 50 long.", null));
     }
 
     /**
