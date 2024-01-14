@@ -23,6 +23,8 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClick
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class RegistrationUITest extends AbstractSeleniumUITest {
 
+    //To do: Set wait accordingly to email send time / send failure time.
+
     /**
 <<<<<<< HEAD
      * Custom Timeout for waiting until email has been sent.
