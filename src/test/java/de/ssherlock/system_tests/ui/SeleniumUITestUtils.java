@@ -134,7 +134,6 @@ public final class SeleniumUITestUtils {
         WebElement element = wait.until(visibilityOfElementLocated(By.id("j_idt33:notification")));
         assertTrue(element.isDisplayed());
         assertTrue(element.getText().contains(facesMessage.getDetail()));
-        System.out.println("TÖTÖTÖ: " + element.getText());
     }
 
     /**
