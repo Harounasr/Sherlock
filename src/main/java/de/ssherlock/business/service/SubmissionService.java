@@ -98,7 +98,7 @@ public class SubmissionService implements Serializable {
             throws BusinessDBAccessException, BusinessNonExistentCourseException {
         Transaction transaction;
         try {
-            transaction = new TransactionPsql(connectionPool.getConnection());
+            transaction = new TransactionPsql(connectionPool.getConnection(), connectionPool);
         } catch (PersistenceDBAccessException e) {
             throw new BusinessDBAccessException();
         }
