@@ -49,7 +49,7 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
      */
     @SuppressWarnings("checkstyle:MagicNumber")
     @Override
-    public void insertUser(User user) {
+    public boolean insertUser(User user) {
         String sqlQuery =
                 """
                 INSERT INTO "user" (username, email, firstname, lastname, faculty, password_hash, password_salt, user_role, token, expiry_date)
@@ -67,8 +67,10 @@ public class UserRepositoryPsql extends RepositoryPsql implements UserRepository
             statement.setString(8, user.getVerificationToken());
             statement.setTimestamp(9, user.getExpiryDate());
             statement.executeUpdate();
+            return true;
         } catch (SQLException e) {
             logger.log(Level.INFO, "Could not insert user." + e);
+            return false;
         }
     }
 

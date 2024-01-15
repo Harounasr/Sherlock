@@ -4,6 +4,8 @@ import de.ssherlock.business.service.FacultyService;
 import de.ssherlock.business.service.SystemService;
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.business.util.PasswordHashing;
+import de.ssherlock.control.notification.Notification;
+import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Faculty;
 import de.ssherlock.global.transport.Password;
@@ -88,7 +90,14 @@ public class RegistrationBean {
     public void register() {
         Password password = PasswordHashing.hashPassword(unhashedPassword);
         user.setPassword(password);
-        userService.registerUser(user);
+        if (userService.registerUser(user)) {
+            Notification notification = new Notification("A registration email was sent to: " + user.getEmail()
+                                                         + ". Please verify your email.", NotificationType.SUCCESS);
+            notification.generateUIMessage();
+        } else {
+            Notification notification = new Notification("Email could not be sent. Please try again.", NotificationType.ERROR);
+            notification.generateUIMessage();
+        }
     }
 
     /**
@@ -98,7 +107,7 @@ public class RegistrationBean {
      */
     public String navigateToLogin() {
         logger.log(Level.INFO, "Login");
-        return "/view/public/login.xhtml";
+        return "/view/public/login.xhtml?faces-redirect=true";
     }
 
     /**

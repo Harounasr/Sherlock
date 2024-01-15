@@ -10,13 +10,12 @@
     <h:outputStylesheet library="webjars" name="bootstrap/5.3.2/css/bootstrap.css"/>
 </h:head>
 
-
 <h:body>
     <h2>
         <h:outputLabel value="#{verificationBean.verificationText}"/>
     </h2>
-    <h:form>
-        <h:commandButton styleClass="btn btn-primary btn-block" value="Back to Login" action="#{verificationBean.navigateToLogin}"/>
+    <h:form id="verificationForm">
+        <h:commandButton id="backToLogin" styleClass="btn btn-primary btn-block" value="Back to Login" action="#{verificationBean.navigateToLogin}"/>
     </h:form>
 </h:body>
 

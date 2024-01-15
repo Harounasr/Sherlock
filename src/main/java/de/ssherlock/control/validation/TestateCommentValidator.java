@@ -1,7 +1,8 @@
 package de.ssherlock.control.validation;
 
+import de.ssherlock.control.notification.Notification;
+import de.ssherlock.control.notification.NotificationType;
 import jakarta.enterprise.context.Dependent;
-import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.validator.FacesValidator;
@@ -37,9 +38,8 @@ public class TestateCommentValidator implements Validator<String> {
             throws ValidatorException {
 
         if (comment.length() > MAXCOMMENTLENGTH) {
-            FacesMessage facesMessage =
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Comment may not be longer than 500 characters.", null);
-            throw new ValidatorException(facesMessage);
+            Notification notification = new Notification("Comment may not be longer than 500 characters.", NotificationType.ERROR);
+            notification.generateUIMessage();
         }
     }
 
