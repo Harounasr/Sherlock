@@ -31,7 +31,8 @@ RUN apt-get update && \
     apt-get update && \
     apt-get install -y microsoft-edge-dev && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    chmod +x /usr/local/bin/microsoft-edge-dev
 
  RUN wget -O msedgedriver.zip https://msedgedriver.azureedge.net/120.0.2210.133/edgedriver_linux64.zip && \
      unzip msedgedriver.zip -d /usr/local/bin/ && \

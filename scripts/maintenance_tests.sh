@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Author: VICTOR VOLLMANN
+# Author: Victor Vollmann
 
 set -e
 
