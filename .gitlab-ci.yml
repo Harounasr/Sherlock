@@ -128,7 +128,7 @@ maintenance-tests:
 
 
 # A target for running system tests
-system-test-edge:
+.system-test-edge:
     image: vollmannv/sep2023:st
     stage: test
     needs:
