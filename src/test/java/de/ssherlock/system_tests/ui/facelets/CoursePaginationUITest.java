@@ -45,14 +45,14 @@ public class CoursePaginationUITest extends AbstractSeleniumUITest {
     /**
      * Empty pagination.
      */
-    private static final List<List<String>> EmptyPagination = Arrays.asList(
+    private static final List<List<String>> EMPTY_PAGINATION = Arrays.asList(
             Arrays.asList("", "")
     );
 
     /**
      * List of all Courses of the admin user.
      */
-    private static final List<List<String>> AdminCourses = Arrays.asList(
+    private static final List<List<String>> ADMIN_COURSES = Arrays.asList(
             Arrays.asList("Informatik", "")
     );
 
@@ -86,7 +86,7 @@ public class CoursePaginationUITest extends AbstractSeleniumUITest {
         SeleniumUITestUtils.tryLogin(
                 getDriver(), getWait(), SeleniumUITestUtils.ADMIN_USERNAME, SeleniumUITestUtils.GLOBAL_PASSWORD);
         SeleniumUITestUtils.navigateTo(getDriver(), "/view/registered/coursePagination.xhtml?faces-redirect=true&all=false");
-        assertEquals(AdminCourses, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
+        assertEquals(ADMIN_COURSES, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
     }
 
     /**
@@ -116,6 +116,6 @@ public class CoursePaginationUITest extends AbstractSeleniumUITest {
         searchBar.sendKeys("Stricken");
         WebElement searchButton = getDriver().findElement(By.cssSelector("[id$=':searchBar_searchButton']"));
         searchButton.click();
-        assertEquals(EmptyPagination, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
+        assertEquals(EMPTY_PAGINATION, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
     }
 }
