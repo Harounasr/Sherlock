@@ -23,7 +23,7 @@ public class CourseUITest extends AbstractSeleniumUITest {
     void testDeleteCourseAdmin() {
         SeleniumUITestUtils.tryLogin(
                 getDriver(), getWait(), SeleniumUITestUtils.ADMIN_USERNAME, SeleniumUITestUtils.GLOBAL_PASSWORD);
-        SeleniumUITestUtils.navigateTo(getDriver(), "view/registered/course.xhtml?Id=1");
+        SeleniumUITestUtils.navigateTo(getDriver(), "view/registered/course.xhtml?Id=5");
         SeleniumUITestUtils.clickOnSidebarItem(getWait(), "Delete");
         SeleniumUITestUtils.clickOnElementWithId(getWait(), "j_idt40:courseDeleteButton");
     }
