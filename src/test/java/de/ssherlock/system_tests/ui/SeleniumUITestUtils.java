@@ -280,4 +280,17 @@ public final class SeleniumUITestUtils {
         }
         return result;
     }
+
+    /**
+     * Searches for a given String in the current pagination.
+     *
+     * @param driver       The web driver.
+     * @param searchString The String to search for.
+     */
+    public static void searchFor(WebDriver driver, String searchString) {
+        WebElement searchBar = driver.findElement(By.cssSelector("[id$=':searchBar_searchInput']"));
+        searchBar.sendKeys(searchString);
+        WebElement searchButton = driver.findElement(By.cssSelector("[id$=':searchBar_searchButton']"));
+        searchButton.click();
+    }
 }
