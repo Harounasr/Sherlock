@@ -44,9 +44,6 @@ public class PasswordForgottenUITest extends AbstractSeleniumUITest {
      */
     @Test
     void testSendResetEmail() {
-        /**
-         * The wait for this class.
-         */
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(TIMEOUT));
         SeleniumUITestUtils.navigateTo(getDriver(), "view/public/passwordForgotten.xhtml");
         getDriver().findElement(By.id("passwordForgottenForm:username")).sendKeys("passwordResetUser");
