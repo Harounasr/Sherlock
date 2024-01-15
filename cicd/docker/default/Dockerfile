@@ -3,7 +3,7 @@
 FROM maven:3.9.5-eclipse-temurin-21
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends zip=3.0-13 && \
+    apt-get install -y zip && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 

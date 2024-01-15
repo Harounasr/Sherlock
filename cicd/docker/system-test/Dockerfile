@@ -19,23 +19,19 @@ RUN apt-get update && \
 
 # Install Firefox (Version 121.0)
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends firefox=121.0 && \
+    apt-get install -y firefox && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # Install Microsoft Edge
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends wget gnupg && \
+    apt-get install -y  wget gnupg && \
     wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/microsoft.gpg && \
     echo "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main" > /etc/apt/sources.list.d/microsoft-edge-dev.list && \
     apt-get update && \
-    apt-get install -y --no-install-recommends microsoft-edge-dev && \
+    apt-get install -y microsoft-edge-dev && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/* \
-
-RUN wget -O /usr/lib/firefox/browser/extensions/langpack-de@firefox.mozilla.org.xpi "https://addons.mozilla.org/firefox/downloads/file/xxxxxx/deutsch-de-language-pack-latest.xpi"
-
-RUN echo 'pref("intl.locale.requested", "de_DE");' >> /usr/lib/firefox/defaults/pref/autoconfig.js
+    rm -rf /var/lib/apt/lists/*
 
 # Create a test user
 RUN groupadd --system --gid 1000 test && \
