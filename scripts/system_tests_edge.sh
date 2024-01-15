@@ -4,6 +4,8 @@
 
 set -e
 
+msedgedriver --version
+
 mvn --no-transfer-progress -DSYSTEM_TEST_BROWSER=edge -DskipUnitTests -DskipIntegerationTests -Psystem-tests clean compile verify
 exit_code=$?
 
