@@ -73,7 +73,7 @@ integration-test:
 
 # A target for running system tests with chrome
 system-test-chrome:
-    image: vollmannv/sep2023
+    image: vollmannv/sep2023:st
     stage: test
     needs:
         - build
@@ -90,7 +90,7 @@ system-test-chrome:
 
 # A target for running system tests
 system-test-firefox:
-    image: vollmannv/sep2023
+    image: vollmannv/sep2023:st
     stage: test
     needs:
         - build
