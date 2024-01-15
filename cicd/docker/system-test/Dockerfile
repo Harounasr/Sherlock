@@ -31,13 +31,13 @@ RUN apt-get update && \
     apt-get update && \
     apt-get install -y microsoft-edge-dev && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/* && \
-    chmod +x /usr/local/bin/microsoft-edge-dev
+    rm -rf /var/lib/apt/lists/*
 
- RUN wget -O msedgedriver.zip https://msedgedriver.azureedge.net/120.0.2210.133/edgedriver_linux64.zip && \
+RUN wget -O msedgedriver.zip https://msedgedriver.azureedge.net/120.0.2210.133/edgedriver_linux64.zip && \
      unzip msedgedriver.zip -d /usr/local/bin/ && \
      rm msedgedriver.zip && \
-     chmod +x /usr/local/bin/msedgedriver
+     chmod +x /usr/local/bin/msedgedriver \
+
 
 # Create a test user
 RUN groupadd --system --gid 1000 test && \
