@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  *
  * @author Victor Vollmann
  */
+@SuppressWarnings("checkstyle:MagicNumber")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class LoginUITest extends AbstractSeleniumUITest {
 

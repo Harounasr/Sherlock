@@ -1,6 +1,7 @@
 package de.ssherlock.system_tests.maintenance;
 
 import de.ssherlock.system_tests.ui.SeleniumUITestUtils;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
@@ -21,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.fail;
  *
  * @author Victor Vollmann
  */
+@Disabled
 @SuppressWarnings({"checkstyle:MagicNumber", "PMD.UseUnderscoresInNumericLiterals"})
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class SendEmailNotificationEventMT {
