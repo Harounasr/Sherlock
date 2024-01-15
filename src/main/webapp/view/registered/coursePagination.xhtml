@@ -35,10 +35,10 @@
                     <f:facet name="header">ID</f:facet>
                     #{course.name}
                 </h:column>
-                <h:column>
+                <h:column id="joinCol">
                     <f:facet name="header">Join / To Course</f:facet>
                     <h:form>
-                        <h:commandButton value="#{coursePaginationBean.isInCourse(course) ? 'To Course' : 'Join Course'}"
+                        <h:commandButton id="joinCourseButton" value="#{coursePaginationBean.isInCourse(course) ? 'To Course' : 'Join Course'}"
                                          action="#{coursePaginationBean.select(course)}" styleClass="btn pagination-content-button"/>
                     </h:form>
                 </h:column>
