@@ -8,6 +8,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,29 +24,29 @@ public class CoursePaginationUITest extends AbstractSeleniumUITest {
     /**
      * List of all Courses on the first page for the admin user.
      */
-    private static final List<List<String>> first_page_Elements= Arrays.asList(
+    private static final List<List<String>> FIRST_PAGE_ELEMENTS = Arrays.asList(
             Arrays.asList("Algorithm", ""),
             Arrays.asList("English", ""),
             Arrays.asList("German", ""),
-            Arrays.asList("Informatik",""),
-            Arrays.asList("Mathematik","")
+            Arrays.asList("Informatik", ""),
+            Arrays.asList("Mathematik", "")
     );
     /**
      * List of all Courses on the first page for the member user.
      */
-    private static final List<List<String>> member_first_page_Elements= Arrays.asList(
+    private static final List<List<String>> MEMBER_FIRST_PAGE_ELEMENTS = Arrays.asList(
             Arrays.asList("Algorithm", ""),
             Arrays.asList("English", ""),
             Arrays.asList("German", ""),
-            Arrays.asList("Informatik",""),
-            Arrays.asList("Mathematik","")
+            Arrays.asList("Informatik", ""),
+            Arrays.asList("Mathematik", "")
     );
 
     /**
      * Empty pagination.
      */
     private static final List<List<String>> emptyPagination = Arrays.asList(
-            Arrays.asList("","")
+            Arrays.asList("", "")
     );
 
     /**
@@ -56,7 +57,6 @@ public class CoursePaginationUITest extends AbstractSeleniumUITest {
     );
 
 
-
     /**
      * Test for the correct content being displayed on load.
      */
@@ -64,7 +64,7 @@ public class CoursePaginationUITest extends AbstractSeleniumUITest {
     void testAllCoursesContent() {
         SeleniumUITestUtils.tryLogin(
                 getDriver(), getWait(), SeleniumUITestUtils.ADMIN_USERNAME, SeleniumUITestUtils.GLOBAL_PASSWORD);
-        assertEquals(first_page_Elements, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
+        assertEquals(FIRST_PAGE_ELEMENTS, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
     }
 
     /**
@@ -74,8 +74,8 @@ public class CoursePaginationUITest extends AbstractSeleniumUITest {
     void testMemberMyCoursesContent() {
         SeleniumUITestUtils.tryLogin(
                 getDriver(), getWait(), SeleniumUITestUtils.MEMBER_USERNAME, SeleniumUITestUtils.GLOBAL_PASSWORD);
-        SeleniumUITestUtils.navigateTo(getDriver(),"/view/registered/coursePagination.xhtml?faces-redirect=true&all=false");
-        assertEquals(member_first_page_Elements, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
+        SeleniumUITestUtils.navigateTo(getDriver(), "/view/registered/coursePagination.xhtml?faces-redirect=true&all=false");
+        assertEquals(MEMBER_FIRST_PAGE_ELEMENTS, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
     }
 
     /**
@@ -85,7 +85,7 @@ public class CoursePaginationUITest extends AbstractSeleniumUITest {
     void testAdminMyCoursesContent() {
         SeleniumUITestUtils.tryLogin(
                 getDriver(), getWait(), SeleniumUITestUtils.ADMIN_USERNAME, SeleniumUITestUtils.GLOBAL_PASSWORD);
-        SeleniumUITestUtils.navigateTo(getDriver(),"/view/registered/coursePagination.xhtml?faces-redirect=true&all=false");
+        SeleniumUITestUtils.navigateTo(getDriver(), "/view/registered/coursePagination.xhtml?faces-redirect=true&all=false");
         assertEquals(adminCourses, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
     }
 
