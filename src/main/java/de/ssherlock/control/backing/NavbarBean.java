@@ -78,7 +78,8 @@ public class NavbarBean implements Serializable {
      * @return String to Login Page
      */
     public String logout() {
-        return appSession.logout();
+        appSession.logout();
+        return "/view/public/login.xhtml?faces-redirect=true";
     }
 
     /**
@@ -99,14 +100,6 @@ public class NavbarBean implements Serializable {
         return "/view/registered/coursePagination.xhtml?faces-redirect=true&all=false";
     }
 
-    /**
-     * navigation String to Checker List.
-     *
-     * @return String.
-     */
-    public String navigateToCheckers() {
-        return "/view/registered/checkerList.xhtml?faces-redirect=true";
-    }
 
     /**
      * Navigates to the user's profile page.
@@ -123,7 +116,7 @@ public class NavbarBean implements Serializable {
      * @return The destination view for admin settings.
      */
     public String navigateToAdminSettings() {
-        return "/view/admin/admin.xhtmlfaces-redirect=true";
+        return "/view/admin/admin.xhtml?faces-redirect=true";
     }
 
     /**
