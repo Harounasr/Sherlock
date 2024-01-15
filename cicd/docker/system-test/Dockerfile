@@ -33,6 +33,11 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+ RUN wget -O msedgedriver.zip https://msedgedriver.azureedge.net/120.0.2210.133/edgedriver_linux64.zip && \
+     unzip msedgedriver.zip -d /usr/local/bin/ && \
+     rm msedgedriver.zip && \
+     chmod +x /usr/local/bin/msedgedriver
+
 # Create a test user
 RUN groupadd --system --gid 1000 test && \
     useradd --system --gid test --uid 1000 --shell /bin/bash --create-home test && \
