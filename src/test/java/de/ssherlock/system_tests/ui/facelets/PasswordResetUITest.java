@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  *
  * @author Leon Höfling
  */
+@SuppressWarnings("checkstyle:MagicNumber")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class PasswordResetUITest extends AbstractSeleniumUITest {
 
