@@ -87,7 +87,7 @@ system-test-chrome:
                 - target/failsafe-reports/TEST-*.xml
         expire_in: 1 day
     rules:
-        -   allow_failure: true
+        - allow_failure: true
 
 # A target for running system tests
 system-test-firefox:
@@ -107,7 +107,7 @@ system-test-firefox:
                 - target/failsafe-reports/TEST-*.xml
         expire_in: 1 day
     rules:
-        -   allow_failure: true
+        - allow_failure: true
 
 # A target for running maintenance tests
 maintenance-tests:
@@ -127,7 +127,7 @@ maintenance-tests:
                 - target/failsafe-reports/TEST-*.xml
         expire_in: 1 day
     rules:
-        -   allow_failure: true
+        - allow_failure: true
 
 # A target for running system tests
 system-test-edge:
