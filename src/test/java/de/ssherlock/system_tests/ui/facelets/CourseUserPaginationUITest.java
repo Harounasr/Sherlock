@@ -63,7 +63,7 @@ public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
      * The elements visible on the last page of the pagination.
      */
     private static final List<List<String>> LAST_PAGE_ELEMENTS = Arrays.asList(
-            Arrays.asList("tutor", "User", "Four", "tutor", "TUTOR")
+            Arrays.asList("victor", "UserFor", "SendNotificationTest", "sep23g05@outlook.com", "NONE")
     );
 
     /**
@@ -129,7 +129,6 @@ public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
      * Test for the pagination's next button.
      */
     @Test
-    @Disabled
     @Order(3)
     void testNextButton() {
         WebElement nextPage = getDriver().findElement(By.cssSelector("[id$=':pagination_nextButton']"));
@@ -141,7 +140,6 @@ public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
      * Test for the pagination's last button.
      */
     @Test
-    @Disabled
     @Order(4)
     void testLastButton() {
         WebElement lastPage = getDriver().findElement(By.cssSelector("[id$=':pagination_lastButton']"));
@@ -153,7 +151,6 @@ public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
      * Test for the pagination's prev button.
      */
     @Test
-    @Disabled
     @Order(5)
     void testPrevButton() {
         WebElement nextPage = getDriver().findElement(By.cssSelector("[id$=':pagination_nextButton']"));
@@ -167,7 +164,6 @@ public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
      * Test for the pagination's first button.
      */
     @Test
-    @Disabled
     @Order(6)
     void testFirstButton() {
         WebElement nextPage = getDriver().findElement(By.cssSelector("[id$=':pagination_nextButton']"));
