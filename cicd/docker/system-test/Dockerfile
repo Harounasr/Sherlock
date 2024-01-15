@@ -24,12 +24,14 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Install Edge
-RUN apt-get update && apt-get install -y wget gnupg libatomic1 alien \
-    && wget -nv https://packages.microsoft.com/yumrepos/edge/Packages/m/microsoft-edge-stable-120.0.2210.91-1.x86_64.rpm \
-    && alien -i microsoft-edge-stable-120.0.2210.91-1.x86_64.rpm \
-    && rm -f microsoft-edge-stable-120.0.2210.91-1.x86_64.rpm \
-    && apt-get clean
-
+RUN apt-get update && \
+    apt-get install -y wget gnupg && \
+    wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg && \
+    mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg && \
+    echo "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main" > /etc/apt/sources.list.d/microsoft-edge-dev.list && \
+    apt-get update && \
+    apt-get install -y microsoft-edge-dev && \
+    apt-get clean
 
 
 # Create a test user
