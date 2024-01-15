@@ -63,9 +63,11 @@ public class PasswordForgottenBean {
     public void requestPasswordReset() {
         try {
             userService.sendPasswordForgottenEmail(user);
+            Notification notification = new Notification("Reset email sent for " + user.getUsername(), NotificationType.SUCCESS);
+            notification.generateUIMessage();
         } catch (BusinessNonExistentUserException e) {
             Notification notification =
-                    new Notification("The current User doesnt exist", NotificationType.ERROR);
+                    new Notification("Could not send email for " + user.getUsername(), NotificationType.ERROR);
             notification.generateUIMessage();
         }
     }
@@ -76,7 +78,7 @@ public class PasswordForgottenBean {
      * @return The destination view for the login page.
      */
     public String navigateToLogin() {
-        return "/view/public/login.xhtml";
+        return "/view/public/login.xhtml?faces-redirect=true";
     }
 
     /**
