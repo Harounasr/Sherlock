@@ -13,10 +13,16 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Test class for the coursePagination.xhtml facelet.
+ */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CoursePaginationUITest extends AbstractSeleniumUITest {
 
+    /**
+     * List of all Courses on the first page for the admin user.
+     */
     private static final List<List<String>> first_page_Elements= Arrays.asList(
             Arrays.asList("Algorithm", ""),
             Arrays.asList("English", ""),
@@ -24,7 +30,9 @@ public class CoursePaginationUITest extends AbstractSeleniumUITest {
             Arrays.asList("Informatik",""),
             Arrays.asList("Mathematik","")
     );
-
+    /**
+     * List of all Courses on the first page for the member user.
+     */
     private static final List<List<String>> member_first_page_Elements= Arrays.asList(
             Arrays.asList("Algorithm", ""),
             Arrays.asList("English", ""),
@@ -33,10 +41,16 @@ public class CoursePaginationUITest extends AbstractSeleniumUITest {
             Arrays.asList("Mathematik","")
     );
 
+    /**
+     * Empty pagination.
+     */
     private static final List<List<String>> emptyPagination = Arrays.asList(
             Arrays.asList("","")
     );
 
+    /**
+     * List of all Courses of the admin user.
+     */
     private static final List<List<String>> adminCourses = Arrays.asList(
             Arrays.asList("Informatik", "")
     );
@@ -53,6 +67,9 @@ public class CoursePaginationUITest extends AbstractSeleniumUITest {
         assertEquals(first_page_Elements, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
     }
 
+    /**
+     * Test for the member's courses.
+     */
     @Test
     void testMemberMyCoursesContent() {
         SeleniumUITestUtils.tryLogin(
@@ -61,6 +78,9 @@ public class CoursePaginationUITest extends AbstractSeleniumUITest {
         assertEquals(member_first_page_Elements, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
     }
 
+    /**
+     * Test for the admin's courses.
+     */
     @Test
     void testAdminMyCoursesContent() {
         SeleniumUITestUtils.tryLogin(
@@ -69,6 +89,9 @@ public class CoursePaginationUITest extends AbstractSeleniumUITest {
         assertEquals(adminCourses, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
     }
 
+    /**
+     * Test to join Courses.
+     */
     @Test
     void testJoinCourse() {
         SeleniumUITestUtils.tryLogin(
@@ -82,6 +105,9 @@ public class CoursePaginationUITest extends AbstractSeleniumUITest {
         assertEquals("http://localhost:8080/ssherlock/view/registered/course.xhtml?Id=1", getDriver().getCurrentUrl());
     }
 
+    /**
+     * Test to search for a nonexistent course.
+     */
     @Test
     void testEmptyPagination() {
         SeleniumUITestUtils.tryLogin(
