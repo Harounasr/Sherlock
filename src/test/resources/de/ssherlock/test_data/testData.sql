@@ -20,6 +20,7 @@ INSERT INTO exercise (id, name, publish_date, recommended_deadline, obligatory_d
 
 INSERT INTO checker (id, exercise_id, is_visible, is_required, parameter_1, parameter_2, type) VALUES (1, 1, true, true, NULL, NULL, 'IDENTITY');
 INSERT INTO checker (id, exercise_id, is_visible, is_required, parameter_1, parameter_2, type) VALUES (2, 1, true, true, NULL, NULL, 'COMPILATION');
+INSERT INTO checker (id, exercise_id, is_visible, is_required, parameter_1, parameter_2, type) VALUES (13, 1, true, true, 'one', 'two', 'USER_DEFINED');
 INSERT INTO checker (id, exercise_id, is_visible, is_required, parameter_1, parameter_2, type) VALUES (3, 2, true, true, NULL, NULL, 'IDENTITY');
 INSERT INTO checker (id, exercise_id, is_visible, is_required, parameter_1, parameter_2, type) VALUES (4, 2, true, true, NULL, NULL, 'COMPILATION');
 INSERT INTO checker (id, exercise_id, is_visible, is_required, parameter_1, parameter_2, type) VALUES (5, 3, true, true, NULL, NULL, 'IDENTITY');

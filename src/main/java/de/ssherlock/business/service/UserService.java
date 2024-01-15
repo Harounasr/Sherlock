@@ -129,7 +129,7 @@ public class UserService implements Serializable {
             throw new LoginFailedException();
         }
 
-        if (user.getSystemRole() == SystemRole.NOT_VERIFIED) {
+        if (user.getSystemRole() == SystemRole.REGISTERED) {
             throw new LoginFailedException();
         }
         if (Objects.equals(
@@ -167,7 +167,7 @@ public class UserService implements Serializable {
      */
     @SuppressWarnings("checkstyle:MagicNumber")
     public boolean registerUser(User user) {
-        user.setSystemRole(SystemRole.NOT_VERIFIED);
+        user.setSystemRole(SystemRole.NOT_REGISTERED);
         String verificationToken = generateEmailVerificationToken();
         user.setVerificationToken(verificationToken);
         Instant now = Instant.now();
