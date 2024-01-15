@@ -22,11 +22,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class PasswordForgottenUITest extends AbstractSeleniumUITest {
 
     /**
-     * The wait for this class.
-     */
-    WebDriverWait wait;
-
-    /**
      * Custom Timeout for waiting until email has been sent.
      */
     private static final int TIMEOUT = 60;
@@ -47,7 +42,10 @@ public class PasswordForgottenUITest extends AbstractSeleniumUITest {
      */
     @Test
     void testSendResetEmail() {
-        wait = new WebDriverWait(getDriver(), Duration.ofSeconds(TIMEOUT));
+        /**
+         * The wait for this class.
+         */
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(TIMEOUT));
         SeleniumUITestUtils.navigateTo(getDriver(), "view/public/passwordForgotten.xhtml");
         getDriver().findElement(By.id("passwordForgottenForm:username")).sendKeys("passwordResetUser");
         SeleniumUITestUtils.enterOnElementWithId(getWait(), "passwordForgottenForm:passwordForgotten");
