@@ -86,8 +86,7 @@ system-test-chrome:
             junit:
                 - target/failsafe-reports/TEST-*.xml
         expire_in: 1 day
-    rules:
-        - allow_failure: true
+    allow_failure: true
 
 # A target for running system tests
 system-test-firefox:
@@ -106,8 +105,7 @@ system-test-firefox:
             junit:
                 - target/failsafe-reports/TEST-*.xml
         expire_in: 1 day
-    rules:
-        - allow_failure: true
+    allow_failure: true
 
 # A target for running maintenance tests
 maintenance-tests:
@@ -126,8 +124,8 @@ maintenance-tests:
             junit:
                 - target/failsafe-reports/TEST-*.xml
         expire_in: 1 day
-    rules:
-        - allow_failure: true
+    allow_failure: true
+
 
 # A target for running system tests
 system-test-edge:
@@ -146,6 +144,7 @@ system-test-edge:
             junit:
                 - target/failsafe-reports/TEST-*.xml
         expire_in: 1 day
+    allow_failure: true
 
 
 # A target for building the WAR archive
