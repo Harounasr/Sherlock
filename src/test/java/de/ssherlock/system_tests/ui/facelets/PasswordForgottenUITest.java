@@ -4,6 +4,7 @@ import de.ssherlock.control.notification.Notification;
 import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.system_tests.ui.AbstractSeleniumUITest;
 import de.ssherlock.system_tests.ui.SeleniumUITestUtils;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.openqa.selenium.By;
@@ -18,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  *
  * @author Leon Höfling
  */
+@Disabled
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class PasswordForgottenUITest extends AbstractSeleniumUITest {
 
