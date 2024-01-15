@@ -186,7 +186,7 @@ public class ConnectionPoolIT {
    * @throws Exception can be ignored.
    */
   @Test
-  void testReleaseConnectionNotInvalidConnection() throws Exception {
+  void testReleaseConnectionInvalidConnection() throws Exception {
     connectionPool.init();
     Set<Connection> borrowedConnections = getBorrowedConnectionsFromPool(connectionPool);
     borrowedConnections.add(invalidConnection);

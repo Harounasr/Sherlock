@@ -92,10 +92,7 @@ public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
     @Test
     @Order(2)
     void testCheckSearch() {
-        WebElement searchBar = getDriver().findElement(By.cssSelector("[id^='paginationSearch:'][id$=':searchBar_searchInput']"));
-        searchBar.sendKeys("admin");
-        WebElement searchButton = getDriver().findElement(By.cssSelector("[id^='paginationSearch:'][id$=':searchBar_searchButton']"));
-        searchButton.click();
+        SeleniumUITestUtils.searchFor(getDriver(), "admin");
         List<List<String>> expectedTableData = Arrays.asList(Arrays.asList("admin", "User", "One", "admin", "NONE"));
         assertEquals(expectedTableData, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
     }
@@ -135,7 +132,7 @@ public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
     @Disabled
     @Order(3)
     void testNextButton() {
-        WebElement nextPage = getDriver().findElement(By.cssSelector("[id^='pagination:'][id$=':pagination_nextButton']"));
+        WebElement nextPage = getDriver().findElement(By.cssSelector("[id$=':pagination_nextButton']"));
         nextPage.click();
         assertEquals(SECOND_PAGE_ELEMENTS, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
     }
@@ -147,7 +144,7 @@ public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
     @Disabled
     @Order(4)
     void testLastButton() {
-        WebElement lastPage = getDriver().findElement(By.cssSelector("[id^='pagination:'][id$=':pagination_lastButton']"));
+        WebElement lastPage = getDriver().findElement(By.cssSelector("[id$=':pagination_lastButton']"));
         lastPage.click();
         assertEquals(LAST_PAGE_ELEMENTS, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
     }
@@ -159,9 +156,9 @@ public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
     @Disabled
     @Order(5)
     void testPrevButton() {
-        WebElement nextPage = getDriver().findElement(By.cssSelector("[id^='pagination:'][id$=':pagination_nextButton']"));
+        WebElement nextPage = getDriver().findElement(By.cssSelector("[id$=':pagination_nextButton']"));
         nextPage.click();
-        WebElement prevPage = getDriver().findElement(By.cssSelector("[id^='pagination:'][id$=':pagination_prevButton']"));
+        WebElement prevPage = getDriver().findElement(By.cssSelector("[id$=':pagination_prevButton']"));
         prevPage.click();
         assertEquals(FIRST_PAGE_ELEMENTS, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
     }
@@ -173,9 +170,9 @@ public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
     @Disabled
     @Order(6)
     void testFirstButton() {
-        WebElement nextPage = getDriver().findElement(By.cssSelector("[id^='pagination:'][id$=':pagination_nextButton']"));
+        WebElement nextPage = getDriver().findElement(By.cssSelector("[id$=':pagination_nextButton']"));
         nextPage.click();
-        WebElement firstPage = getDriver().findElement(By.cssSelector("[id^='pagination:'][id$=':pagination_firstButton']"));
+        WebElement firstPage = getDriver().findElement(By.cssSelector("[id$=':pagination_firstButton']"));
         firstPage.click();
         assertEquals(FIRST_PAGE_ELEMENTS, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
     }
