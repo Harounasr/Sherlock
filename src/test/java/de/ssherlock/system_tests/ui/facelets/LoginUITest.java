@@ -49,6 +49,21 @@ public class LoginUITest extends AbstractSeleniumUITest {
     }
 
     /**
+     * Test for entering the wrong password five times in a row.
+     * The user should not be able to login afterwards.
+     */
+    @Test
+    void testFiveTimesWrongPassword() {
+        for (int i = 0; i < 5; i++) {
+            SeleniumUITestUtils.tryLogin(getDriver(), getWait(), "member7", "wrongpassword");
+        }
+        SeleniumUITestUtils.tryLogin(getDriver(), getWait(), "member7", SeleniumUITestUtils.GLOBAL_PASSWORD);
+        assertEquals(SeleniumUITestUtils.BASE_URL + "view/public/login.xhtml", getDriver().getCurrentUrl());
+        Notification expectedNotification = new Notification("Login Failed, Username and password do not match.", NotificationType.ERROR);
+        SeleniumUITestUtils.checkNotification(getWait(), expectedNotification);
+    }
+
+    /**
      * Test for clicking on the password forgotten button.
      * User should be redirected to the passwordForgotten Facelet.
      */
