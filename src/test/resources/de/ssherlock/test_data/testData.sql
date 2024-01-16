@@ -67,14 +67,16 @@ INSERT INTO "user" (id, username, email, firstname, lastname, faculty, password_
 'QWIbZACnFJmEF0R0DBrVkhXoOeUb2qF0ioqrcLLMogl1bM0fuzlvrF4/u2xYeqGqBNFgJkUBzuYW3ezdm/qZ+g==', 'cF94pcrvA83ZBcJ6tQc4PA==',
 'NOT_REGISTERED', 1, '12345', '2025-12-01 01:00:00+01');
 
+INSERT INTO "user" (id, username, email, firstname, lastname, faculty, password_hash, password_salt, user_role, failed_login_attempts, token, expiry_date) VALUES (13, 'victor', 'sep23g05@outlook.com', 'UserFor', 'SendNotificationTest', 'Mathematik', 'QWIbZACnFJmEF0R0DBrVkhXoOeUb2qF0ioqrcLLMogl1bM0fuzlvrF4/u2xYeqGqBNFgJkUBzuYW3ezdm/qZ+g==', 'cF94pcrvA83ZBcJ6tQc4PA==', 'REGISTERED', 1, '67f417691e0a37322d9ece6fcfe6dfe240a8f91aa458eda7e520f8c4caa8f771', '2025-12-01 01:00:00+01');
+
 INSERT INTO "user" (id, username, email, firstname, lastname, faculty, password_hash, password_salt, user_role, failed_login_attempts, token,
                     expiry_date)
-VALUES (13, 'passwordResetUser', 'hoefli11@ads.uni-passau.de', 'User', 'Twelve', 'Mathematik',
+VALUES (14, 'passwordResetUser', 'hoefli11@ads.uni-passau.de', 'User', 'Twelve', 'Mathematik',
         'QWIbZACnFJmEF0R0DBrVkhXoOeUb2qF0ioqrcLLMogl1bM0fuzlvrF4/u2xYeqGqBNFgJkUBzuYW3ezdm/qZ+g==', 'cF94pcrvA83ZBcJ6tQc4PA==', 'REGISTERED', 1,
         '12345', '2025-12-01 01:00:00+01');
 INSERT INTO "user" (id, username, email, firstname, lastname, faculty, password_hash, password_salt, user_role, failed_login_attempts, token,
                     expiry_date)
-VALUES (14, 'passwordReset', 'passwordReset', 'User', 'Twelve', 'Mathematik',
+VALUES (15, 'passwordReset', 'passwordReset', 'User', 'Twelve', 'Mathematik',
         'QWIbZACnFJmEF0R0DBrVkhXoOeUb2qF0ioqrcLLMogl1bM0fuzlvrF4/u2xYeqGqBNFgJkUBzuYW3ezdm/qZ+g==', 'cF94pcrvA83ZBcJ6tQc4PA==', 'REGISTERED', 1,
         '12345', '2025-12-01 01:00:00+01');
 
@@ -134,6 +136,7 @@ INSERT INTO participates (user_id, course_id, user_role)
 VALUES (10, 1, 'MEMBER');
 INSERT INTO participates (user_id, course_id, user_role)
 VALUES (11, 1, 'MEMBER');
+INSERT INTO participates (user_id, course_id, user_role) VALUES (13, 7, 'MEMBER');
 INSERT INTO participates (user_id, course_id, user_role)
 VALUES (14, 1, 'MEMBER');
 INSERT INTO participates (user_id, course_id, user_role)
