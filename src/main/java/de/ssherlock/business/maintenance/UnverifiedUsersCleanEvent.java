@@ -9,17 +9,18 @@ import de.ssherlock.persistence.repository.UserRepository;
 import jakarta.inject.Inject;
 
 import java.sql.Connection;
+import java.util.logging.Level;
 
 /**
  * Checks if there are Users, which have not been verified for a certain time and deletes those.
  *
  * @author Victor Vollmann
  */
-public class UnverifiedUsersCleanEvent {
+public class UnverifiedUsersCleanEvent implements Runnable {
 
-  /** Logger instance for logging messages related to CourseService. */
-  private static final SerializableLogger LOGGER =
-      LoggerCreator.get(UnverifiedUsersCleanEvent.class);
+    /** Logger instance for logging messages related to CourseService. */
+    private static final SerializableLogger LOGGER =
+        LoggerCreator.get(UnverifiedUsersCleanEvent.class);
 
     /**
      * The Connection pool for this class.
@@ -27,26 +28,33 @@ public class UnverifiedUsersCleanEvent {
     @Inject
     private ConnectionPool connectionPool;
 
-  /** Constructs a new UnverifiedUsersCleanEvent. */
-  public UnverifiedUsersCleanEvent() {}
+    /** Constructs a new UnverifiedUsersCleanEvent. */
+    public UnverifiedUsersCleanEvent() {}
 
-  /** Deletes unverified users. */
-  public void cleanUnverifiedUsers() {
-      Connection connection = connectionPool.getConnection();
-      UserRepository userRepository = RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
-      userRepository.deleteUnverifiedUsers();
-      connectionPool.releaseConnection(connection);
-  }
+    /**
+     * Executes the cleaning of unverified users.
+     */
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
+    @Override
+    public void run() {
+        try {
+            LOGGER.info("Cleaning unverified users");
+            cleanUnverifiedUsers();
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error cleaning unverified users", e);
+        }
+    }
 
-  /**
-   * Checks if UnverifiedUsersCleanEvent is currently running.
-   *
-   * @return true/false according to the state of UnverifiedUsersCleanEvent.
-   */
-  public boolean isRunning() {
-    return false;
-  }
-
-  /** Shuts down the UnverifiedUsersCleanEvent. */
-  public void shutdown() {}
+    /**
+     *  Cleans unverified users.
+     */
+    private void cleanUnverifiedUsers() {
+        Connection connection = connectionPool.getConnection();
+        try {
+            UserRepository userRepository = RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
+            userRepository.deleteUnverifiedUsers();
+        } finally {
+            connectionPool.releaseConnection(connection);
+        }
+    }
 }

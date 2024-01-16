@@ -69,15 +69,15 @@ public class MaintenanceProcessExecutor extends ScheduledThreadPoolExecutor {
                                  START_DELAY, Long.parseLong(properties.getProperty("sendEmailNotification.delay")), TimeUnit.SECONDS);
         LOGGER.info("Scheduled SendEmailNotificationEvent at rate " + properties.getProperty("sendEmailNotification.delay") + " (seconds).");
 
-        this.scheduleWithFixedDelay(this::executeCleanUnverifiedUsers,
+        this.scheduleWithFixedDelay(new UnverifiedUsersCleanEvent(),
                                     START_DELAY,  Long.parseLong(properties.getProperty("unverifiedUsersClean.delay")), TimeUnit.SECONDS);
         LOGGER.info("Scheduled UnverifiedUsersCleanEvent at rate " + properties.getProperty("unverifiedUsersClean.delay") + " (seconds).");
 
-        this.scheduleWithFixedDelay(this::executeCleanUnusedImages,
+        this.scheduleWithFixedDelay(new UnusedImagesCleanEvent(),
                                     START_DELAY, Long.parseLong(properties.getProperty("unusedImagesClean.delay")), TimeUnit.SECONDS);
         LOGGER.info("Scheduled UnusedImagesCleanEvent at rate " + properties.getProperty("unusedImagesClean.delay") + " (seconds).");
 
-        this.scheduleWithFixedDelay(this::resetPasswordAttempts,
+        this.scheduleWithFixedDelay(new ResetPasswordAttemptsEvent(),
                                     START_DELAY, Long.parseLong(properties.getProperty("resetPasswordAttempts.delay")), TimeUnit.SECONDS);
         LOGGER.info("Scheduled ResetPasswordAttempts at rate " + properties.getProperty("resetPasswordAttempts.delay") + " (seconds).");
 
@@ -94,29 +94,5 @@ public class MaintenanceProcessExecutor extends ScheduledThreadPoolExecutor {
             LOGGER.log(Level.INFO, "Error while destroying MaintenanceProcessExecutor" + e);
             Thread.currentThread().interrupt();
         }
-    }
-
-    /**
-     * Executes clean unverified users task.
-     */
-    private void executeCleanUnverifiedUsers() {
-        UnverifiedUsersCleanEvent unverifiedUsersCleanEvent = new UnverifiedUsersCleanEvent();
-        unverifiedUsersCleanEvent.cleanUnverifiedUsers();
-    }
-
-    /**
-     * Executes clean unused images task.
-     */
-    private void executeCleanUnusedImages() {
-        UnusedImagesCleanEvent unusedImagesCleanEvent = new UnusedImagesCleanEvent();
-        unusedImagesCleanEvent.cleanUnusedImages();
-    }
-
-    /**
-     * Executes Reset Password Attempts.
-     */
-    private void resetPasswordAttempts() {
-        ResetPasswordAttemptsEvent resetPasswordAttemptsEvent = new ResetPasswordAttemptsEvent();
-        resetPasswordAttemptsEvent.resetPasswordAttempts();
     }
 }
