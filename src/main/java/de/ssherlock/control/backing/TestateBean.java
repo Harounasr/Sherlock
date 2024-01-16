@@ -5,6 +5,8 @@ import de.ssherlock.business.exception.BusinessNonExistentSubmissionException;
 import de.ssherlock.business.service.CheckerService;
 import de.ssherlock.business.service.SubmissionService;
 import de.ssherlock.business.service.TestateService;
+import de.ssherlock.control.notification.Notification;
+import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.CheckerResult;
@@ -12,10 +14,14 @@ import de.ssherlock.global.transport.Submission;
 import de.ssherlock.global.transport.SubmissionFile;
 import de.ssherlock.global.transport.Testate;
 import jakarta.annotation.PostConstruct;
+import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.Serial;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
@@ -24,6 +30,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * Backing bean for testate.xhtml facelet.
@@ -168,6 +176,7 @@ public class TestateBean implements Serializable {
             String bytesToString = new String(file.getBytes(), StandardCharsets.UTF_8);
             String[] fileContent = bytesToString.split("\n");
             List<Object[]> objects = new ArrayList<>();
+            objects.add(new Object[]{0, file.getName()});
             int counter = 0;
             for (String s : fileContent) {
                 objects.add(new Object[]{counter, s});
@@ -176,6 +185,73 @@ public class TestateBean implements Serializable {
             resultFiles.add(objects);
         }
         return resultFiles;
+    }
+
+    /**
+     * Creates a zip archive and downloads it.
+     */
+    public void downloadCode() {
+        try {
+            String[] fileNames = new String[submission.getSubmissionFiles().size()];
+            byte[][] fileContents = new byte[submission.getSubmissionFiles().size()][];
+            String zipFileName = "CodeFiles.zip";
+            for (int i = 0; i < submission.getSubmissionFiles().size(); i++) {
+                SubmissionFile file = submission.getSubmissionFiles().get(i);
+                fileNames[i] = file.getName();
+                fileContents[i] = file.getBytes();
+            }
+
+            byte[] zipContent = createZipFile(fileNames, fileContents);
+            downloadFile(zipFileName, zipContent);
+        } catch (IOException e) {
+            Notification notification = new Notification("Could not download code files.", NotificationType.ERROR);
+            notification.generateUIMessage();
+        }
+    }
+
+    /**
+     * Creates the zip archive from the submission files.
+     *
+     * @param fileNames The name of each file.
+     * @param filesContent The content of each file.
+     * @return The zip archive.
+     * @throws IOException In case the compression did not work.
+     */
+    private byte[] createZipFile(String[] fileNames, byte[][] filesContent) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        try (ZipOutputStream zipOut = new ZipOutputStream(baos)) {
+
+            for (int i = 0; i < fileNames.length; i++) {
+                ZipEntry zipEntry = new ZipEntry(fileNames[i]);
+                zipOut.putNextEntry(zipEntry);
+
+                zipOut.write(filesContent[i]);
+
+                zipOut.closeEntry();
+            }
+        }
+        return baos.toByteArray();
+    }
+
+    /**
+     * Downloads the zip archive.
+     *
+     * @param fileName The name of the archive.
+     * @param content The files of the archive.
+     * @throws IOException In case the download did not work.
+     */
+    private void downloadFile(String fileName, byte[] content) throws IOException {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        facesContext.getExternalContext().responseReset();
+        facesContext.getExternalContext().setResponseContentType("application/zip");
+        facesContext.getExternalContext().setResponseContentLength(content.length);
+        facesContext.getExternalContext().setResponseHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+
+        try (OutputStream outputStream = facesContext.getExternalContext().getResponseOutputStream()) {
+            outputStream.write(content);
+        }
+
+        facesContext.responseComplete();
     }
 
     /**

@@ -9,17 +9,24 @@
         <div class="card-container">
             <ui:repeat value="#{testateBean.files}" var="file">
                 <div class="card">
-                    <h3>Class Details</h3>
+                    <h3>#{file[0][1]}</h3>
                     <div class="details">
-                        <ui:repeat value="#{file}" var="line">
-                            <div class="line">
-                                <p>#{line[0]} #{line[1]}</p>
-                            </div>
+                        <ui:repeat value="#{file}" var="line" varStatus="loop">
+                            <ui:fragment rendered="#{loop.index ne 0}">
+                                <div class="line">
+                                    <p>#{line[0]} #{line[1]}</p>
+                                </div>
+                            </ui:fragment>
                         </ui:repeat>
                     </div>
                 </div>
             </ui:repeat>
         </div>
+
+        <h:form>
+            <h:commandButton id="downloadCode" value="Download Code" styleClass="btn primary-color-btn btn-block"
+                             action="#{testateBean.downloadCode}"/>
+        </h:form>
 
         <h:dataTable class="dataTable" value="#{testateBean.checkerResults}" var="checkerResult">
             <h:column>
