@@ -10,6 +10,7 @@ INSERT INTO course (id, course_name)
 VALUES (5, 'Prog I');
 INSERT INTO course (id, course_name)
 VALUES (6, 'English');
+INSERT INTO course (id, course_name) VALUES (7, 'TEST-VICTOR');
 
 INSERT INTO exercise (id, name, publish_date, recommended_deadline, obligatory_deadline, description, course_id, reminder_mail_sent) VALUES (1, 'Exercise 1', '2024-01-07 19:26:32.356897+01', '2024-01-14 19:26:32.356897+01', '2025-01-21 19:26:32.356897+01', '<h1>Exercise 1 Description</h2>', 1, false);
 INSERT INTO exercise (id, name, publish_date, recommended_deadline, obligatory_deadline, description, course_id, reminder_mail_sent) VALUES (2, 'Exercise 2', '2024-01-05 12:59:59.181153+01', '2024-01-12 12:59:32.356897+01', '2024-01-19 12:59:32.356897+01', '<h1>Exercise 2 Description</h2>', 1, false);
