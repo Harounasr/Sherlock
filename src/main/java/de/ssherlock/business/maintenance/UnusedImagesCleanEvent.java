@@ -35,6 +35,7 @@ public class UnusedImagesCleanEvent implements Runnable {
     /**
      * Executes the cleaning of unused images.
      */
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     @Override
     public void run() {
         try {

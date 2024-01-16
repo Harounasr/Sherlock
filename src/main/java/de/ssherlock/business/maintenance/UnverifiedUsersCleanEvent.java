@@ -34,6 +34,7 @@ public class UnverifiedUsersCleanEvent implements Runnable {
     /**
      * Executes the cleaning of unverified users.
      */
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     @Override
     public void run() {
         try {

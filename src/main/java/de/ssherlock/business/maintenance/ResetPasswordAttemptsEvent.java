@@ -33,6 +33,7 @@ public class ResetPasswordAttemptsEvent implements Runnable {
     /**
      * Executes the resetting of password attempts.
      */
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     @Override
     public void run() {
         try {
