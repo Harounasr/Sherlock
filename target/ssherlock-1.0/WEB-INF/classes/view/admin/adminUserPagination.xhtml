@@ -1,0 +1,59 @@
+<!-- Author Victor Vollmann -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:comp="jakarta.faces.composite/components">
+<f:view>
+    <div class="container mt-4">
+        <h2 class="mb-3">Users List</h2>
+        <h:messages globalOnly="true"/>
+        <h:form id="paginationSearch">
+            <comp:paginationSearch backingBean="#{adminUserPaginationBean}"/>
+        </h:form>
+
+        <h:form>
+            <h:dataTable first="#{adminUserPaginationBean.pagination.currentIndex}" rows="#{adminUserPaginationBean.pagination.pageSize}"
+                         value="#{adminUserPaginationBean.users}" var="user" styleClass="table table-striped table-bordered">
+                <h:column>
+                    <f:facet name="header">Username</f:facet>
+                    <h:commandLink action="#{adminUserPaginationBean.selectUser(user)}" value="#{user.username}" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header">First Name</f:facet>
+                    <h:outputText value="#{user.firstName}" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Last Name</f:facet>
+                    <h:outputText value="#{user.lastName}" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Email</f:facet>
+                    <h:outputText value="#{user.email}" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Faculty</f:facet>
+                    <h:selectOneListbox id="selectFaculty"
+                            value="#{adminUserPaginationBean.selectedFaculty[user.username]}" size="1" styleClass="form-control">
+                        <f:selectItems value="#{adminUserPaginationBean.availableFaculties}"/>
+                        <f:ajax listener="#{adminUserPaginationBean.changeUserFaculty(user)}" render="@form"/>
+                    </h:selectOneListbox>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Role</f:facet>
+                    <h:selectOneListbox id="selectRole"
+                            value="#{adminUserPaginationBean.selectedRole[user.username]}" size="1" styleClass="form-control">
+                        <f:selectItems value="#{adminUserPaginationBean.availableRoles}"/>
+                        <f:ajax listener="#{adminUserPaginationBean.changeUserRole(user)}" render="@form"/>
+                    </h:selectOneListbox>
+                </h:column>
+            </h:dataTable>
+        </h:form>
+
+        <h:form id="pagination">
+            <comp:pagination backingBean="#{adminUserPaginationBean}"/>
+        </h:form>
+    </div>
+</f:view>
+</html>

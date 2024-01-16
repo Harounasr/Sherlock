@@ -1,5 +1,7 @@
 package de.ssherlock.business.maintenance;
 
+import de.ssherlock.global.logging.SerializableLogger;
+import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.persistence.connection.ConnectionPool;
 import de.ssherlock.persistence.repository.RepositoryFactory;
 import de.ssherlock.persistence.repository.RepositoryType;
@@ -7,16 +9,19 @@ import de.ssherlock.persistence.repository.UserRepository;
 import jakarta.inject.Inject;
 
 import java.sql.Connection;
+import java.util.logging.Level;
 
 /**
  * Resets the Password Attempts for every user every hour.
  *
  * @author Lennart Hohls
  */
-public class ResetPasswordAttemptsEvent {
+public class ResetPasswordAttemptsEvent implements Runnable {
     /**
      * The Connection pool for this class.
      */
+
+    private static final SerializableLogger LOGGER = LoggerCreator.get(ResetPasswordAttemptsEvent.class);
     @Inject
     private ConnectionPool connectionPool;
 
@@ -26,27 +31,29 @@ public class ResetPasswordAttemptsEvent {
     public ResetPasswordAttemptsEvent() {}
 
     /**
-     * Resets the numbers of failed logins to zero.
+     * Executes the resetting of password attempts.
      */
-    public void resetPasswordAttempts() {
+    @Override
+    public void run() {
+        try {
+            LOGGER.info("Resetting password attempts");
+            resetPasswordAttempts();
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE,"Error resetting password attempts", e);
+        }
+    }
+
+    /**
+     * Resets password attempts.
+     */
+    private void resetPasswordAttempts() {
         Connection connection = connectionPool.getConnection();
-        UserRepository userRepository = RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
-        userRepository.resetPasswordAttempts();
-        connectionPool.releaseConnection(connection);
+        try {
+            UserRepository userRepository = RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
+            userRepository.resetPasswordAttempts();
+        } finally {
+            connectionPool.releaseConnection(connection);
+        }
     }
-
-    /**
-     * Checks if ResetPasswordAttemptsEvent is currently running.
-     *
-     * @return true/false according to the state of ResetPasswordAttemptsEvent.
-     */
-    public boolean isRunning() {
-        return false;
-    }
-
-    /**
-     * Shuts down the ResetPasswordAttemptsEvent.
-     */
-    public void shutdown() {}
 }
 

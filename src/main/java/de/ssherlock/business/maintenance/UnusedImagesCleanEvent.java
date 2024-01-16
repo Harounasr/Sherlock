@@ -9,13 +9,14 @@ import de.ssherlock.persistence.repository.RepositoryType;
 import jakarta.inject.Inject;
 
 import java.sql.Connection;
+import java.util.logging.Level;
 
 /**
  * Checks if there are Images, which are not used a certain time and deletes those.
  *
  * @author Leon Höfling
  */
-public class UnusedImagesCleanEvent {
+public class UnusedImagesCleanEvent implements Runnable {
 
     /** Logger instance for logging messages related to CourseService. */
     private static final SerializableLogger LOGGER =
@@ -31,23 +32,30 @@ public class UnusedImagesCleanEvent {
     public UnusedImagesCleanEvent() {
     }
 
-    /** Deletes unused images. */
-    public void cleanUnusedImages() {
-        Connection connection = connectionPool.getConnection();
-        ExerciseDescriptionImageRepository exerciseDescriptionImageRepository =
-                RepositoryFactory.getExerciseDescriptionImageRepository(RepositoryType.POSTGRESQL, connection);
-        exerciseDescriptionImageRepository.cleanUnusedImages();
+    /**
+     * Executes the cleaning of unused images.
+     */
+    @Override
+    public void run() {
+        try {
+            LOGGER.info("Cleaning unused images");
+            cleanUnusedImages();
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE,"Error cleaning unused images", e);
+        }
     }
 
     /**
-     * Checks if UnusedImagesCleanEvent is currently running.
-     *
-     * @return true/false according to the state of UnusedImagesCleanEvent.
+     * Cleans unused images.
      */
-    public boolean isRunning() {
-        return false;
+    private void cleanUnusedImages() {
+        Connection connection = connectionPool.getConnection();
+        try {
+            ExerciseDescriptionImageRepository exerciseDescriptionImageRepository =
+                    RepositoryFactory.getExerciseDescriptionImageRepository(RepositoryType.POSTGRESQL, connection);
+            exerciseDescriptionImageRepository.cleanUnusedImages();
+        } finally {
+            connectionPool.releaseConnection(connection);
+        }
     }
-
-    /** Shuts down the UnusedImagesCleanEvent. */
-    public void shutdown() {}
 }
