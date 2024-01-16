@@ -40,7 +40,7 @@ public class ResetPasswordAttemptsEvent implements Runnable {
             LOGGER.info("Resetting password attempts");
             resetPasswordAttempts();
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE,"Error resetting password attempts", e);
+            LOGGER.log(Level.SEVERE, "Error resetting password attempts", e);
         }
     }
 
