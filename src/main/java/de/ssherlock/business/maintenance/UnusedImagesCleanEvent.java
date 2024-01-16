@@ -41,7 +41,7 @@ public class UnusedImagesCleanEvent implements Runnable {
             LOGGER.info("Cleaning unused images");
             cleanUnusedImages();
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE,"Error cleaning unused images", e);
+            LOGGER.log(Level.SEVERE, "Error cleaning unused images", e);
         }
     }
 

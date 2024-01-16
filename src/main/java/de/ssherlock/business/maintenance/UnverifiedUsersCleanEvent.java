@@ -40,7 +40,7 @@ public class UnverifiedUsersCleanEvent implements Runnable {
             LOGGER.info("Cleaning unverified users");
             cleanUnverifiedUsers();
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE,"Error cleaning unverified users", e);
+            LOGGER.log(Level.SEVERE, "Error cleaning unverified users", e);
         }
     }
 
