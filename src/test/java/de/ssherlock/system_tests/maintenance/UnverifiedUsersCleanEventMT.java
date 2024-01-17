@@ -22,6 +22,11 @@ import static org.junit.jupiter.api.Assertions.fail;
 public class UnverifiedUsersCleanEventMT {
 
     /**
+     * The id of the user that is not registered and not expired.
+     */
+    private static final int NOT_REGISTERED_NOT_EXPIRED_ID = 12;
+
+    /**
      * There is one unverified user in the testdata that has expired
      * and one that has not.
      */
@@ -37,7 +42,7 @@ public class UnverifiedUsersCleanEventMT {
              PreparedStatement preparedStatement = connection.prepareStatement(getUnverifiedUsersSql)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                assertEquals(12, resultSet.getInt("id"));
+                assertEquals(NOT_REGISTERED_NOT_EXPIRED_ID, resultSet.getInt("id"));
                 if (resultSet.next()) {
                     fail("No user has been deleted");
                 }

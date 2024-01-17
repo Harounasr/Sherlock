@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 public class UnusedImagesCleanEventMT {
 
     /**
-     * The UUID of the image that is not used in a description
+     * The UUID of the image that is not used in a description.
      */
     private static final String UNUSED_IMAGE_UUID = "4f7c5231-d22c-4d68-9b7a-1a926a37d9c3";
 
