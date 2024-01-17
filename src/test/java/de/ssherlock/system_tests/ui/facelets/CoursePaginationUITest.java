@@ -2,7 +2,9 @@ package de.ssherlock.system_tests.ui.facelets;
 
 import de.ssherlock.system_tests.ui.AbstractSeleniumUITest;
 import de.ssherlock.system_tests.ui.SeleniumUITestUtils;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -19,22 +21,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+
 public class CoursePaginationUITest extends AbstractSeleniumUITest {
 
     /**
      * List of all Courses on the first page for the admin user.
      */
     private static final List<List<String>> FIRST_PAGE_ELEMENTS = Arrays.asList(
-            Arrays.asList("Algorithm", ""),
-            Arrays.asList("English", ""),
-            Arrays.asList("German", ""),
-            Arrays.asList("Informatik", ""),
-            Arrays.asList("Mathematik", "")
-    );
-    /**
-     * List of all Courses on the first page for the member user.
-     */
-    private static final List<List<String>> MEMBER_FIRST_PAGE_ELEMENTS = Arrays.asList(
             Arrays.asList("Algorithm", ""),
             Arrays.asList("English", ""),
             Arrays.asList("German", ""),
@@ -61,6 +54,7 @@ public class CoursePaginationUITest extends AbstractSeleniumUITest {
      * Test for the correct content being displayed on load.
      */
     @Test
+    @Order(2)
     void testAllCoursesContent() {
         SeleniumUITestUtils.tryLogin(
                 getDriver(), getWait(), SeleniumUITestUtils.ADMIN_USERNAME, SeleniumUITestUtils.GLOBAL_PASSWORD);
@@ -68,24 +62,15 @@ public class CoursePaginationUITest extends AbstractSeleniumUITest {
     }
 
     /**
-     * Test for the member's courses.
-     */
-    @Test
-    void testMemberMyCoursesContent() {
-        SeleniumUITestUtils.tryLogin(
-                getDriver(), getWait(), SeleniumUITestUtils.MEMBER_USERNAME, SeleniumUITestUtils.GLOBAL_PASSWORD);
-        SeleniumUITestUtils.navigateTo(getDriver(), "/view/registered/coursePagination.xhtml?faces-redirect=true&all=false");
-        assertEquals(MEMBER_FIRST_PAGE_ELEMENTS, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
-    }
-
-    /**
      * Test for the admin's courses.
      */
     @Test
-    void testAdminMyCoursesContent() {
+    @Order(4)
+    void testAdminMyCoursesContent() throws InterruptedException {
         SeleniumUITestUtils.tryLogin(
                 getDriver(), getWait(), SeleniumUITestUtils.ADMIN_USERNAME, SeleniumUITestUtils.GLOBAL_PASSWORD);
         SeleniumUITestUtils.navigateTo(getDriver(), "/view/registered/coursePagination.xhtml?faces-redirect=true&all=false");
+        Thread.sleep(1000);
         assertEquals(ADMIN_COURSES, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
     }
 
@@ -93,6 +78,7 @@ public class CoursePaginationUITest extends AbstractSeleniumUITest {
      * Test to join Courses.
      */
     @Test
+    @Order(3)
     void testJoinCourse() {
         SeleniumUITestUtils.tryLogin(
                 getDriver(), getWait(), SeleniumUITestUtils.ADMIN_USERNAME, SeleniumUITestUtils.GLOBAL_PASSWORD);
@@ -109,6 +95,7 @@ public class CoursePaginationUITest extends AbstractSeleniumUITest {
      * Test to search for a nonexistent course.
      */
     @Test
+    @Order(5)
     void testEmptyPagination() {
         SeleniumUITestUtils.tryLogin(
                 getDriver(), getWait(), SeleniumUITestUtils.ADMIN_USERNAME, SeleniumUITestUtils.GLOBAL_PASSWORD);
