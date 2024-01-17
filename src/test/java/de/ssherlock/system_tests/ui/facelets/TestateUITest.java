@@ -1,7 +1,5 @@
 package de.ssherlock.system_tests.ui.facelets;
 
-import de.ssherlock.global.transport.SystemRole;
-import de.ssherlock.global.transport.Testate;
 import de.ssherlock.system_tests.ui.AbstractSeleniumUITest;
 import de.ssherlock.system_tests.ui.SeleniumUITestUtils;
 import jakarta.faces.application.FacesMessage;
@@ -11,13 +9,6 @@ import org.junit.jupiter.api.TestInstance;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
 
 /**
