@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.fail;
  *
  * @author Victor Vollmann
  */
+@SuppressWarnings("checkstyle:MagicNumber")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ResetPasswordAttemptsEventMT {
 

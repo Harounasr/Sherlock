@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.fail;
  * @author Victor Vollmann
  */
 @Disabled
-@SuppressWarnings({"checkstyle:MagicNumber", "PMD.UseUnderscoresInNumericLiterals"})
+@SuppressWarnings({"checkstyle:MagicNumber", "checkstyle:TypeName", "PMD.UseUnderscoresInNumericLiterals"})
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class A_SendEmailNotificationEventMT {
 
