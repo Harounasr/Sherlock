@@ -199,28 +199,6 @@ public final class SeleniumUITestUtils {
         return result;
     }
 
-    public static List<List<String>> getCurrentTableRowsChecker(WebDriver driver) {
-        List<List<String>> result = new ArrayList<>();
-        WebElement table = driver.findElement(By.className("table-bordered"));
-        List<WebElement> rows = table.findElements(By.tagName("tr"));
-        for (WebElement row : rows) {
-            List<WebElement> cells = row.findElements(By.tagName("td"));
-            List<String> rowContent = new ArrayList<>();
-            for (WebElement cell : cells) {
-                List<WebElement> selectElements = cell.findElements(By.tagName("select"));
-                if (!selectElements.isEmpty()) {
-                    WebElement selectedOption = selectElements.get(0).findElement(By.cssSelector("option:checked"));
-                    rowContent.add(selectedOption.getAccessibleName());
-                } else {
-                    rowContent.add(cell.getAccessibleName());
-                }
-            }
-            result.add(rowContent);
-        }
-        // First element is always empty
-        result.remove(0);
-        return result;
-    }
 
     /**
      * Inserts a submission with id 1 and exercise id 1 into the embedded database.
