@@ -30,19 +30,19 @@ public class ProfileUITest extends AbstractSeleniumUITest {
     /**
      * the admins username.
      */
-    private final String USERNAME_ADMIN = "admin";
+    private final String usernameAdmin = "admin";
     /**
      * The first name of the admin user.
      */
-    private final String FIRSTNAME_ADMIN = "User";
+    private final String firstnameAdmin = "User";
     /**
      * The last name of the admin user.
      */
-    private final String LASTNAME_ADMIN = "One";
+    private final String lastnameAdmin = "One";
     /**
      * The faculty of the admin user.
      */
-    private final String FACULTY_ADMIN = "Mathematik";
+    private final String facultyAdmin = "Mathematik";
 
     /**
      * Checks if the correct content is displayed in the table.
@@ -62,11 +62,11 @@ public class ProfileUITest extends AbstractSeleniumUITest {
         String lastName = lastNameBox.getText();
         WebElement selectBox = getDriver().findElement(By.cssSelector("[id$='facultyDropdown']"));
         Select dropDown = new Select(selectBox);
-        String Faculty = dropDown.getFirstSelectedOption().getText();
-        assertEquals(USERNAME_ADMIN, userName);
-        assertEquals(FIRSTNAME_ADMIN, firstName);
-        assertEquals(LASTNAME_ADMIN, lastName);
-        assertEquals(FACULTY_ADMIN, Faculty);
+        String faculty = dropDown.getFirstSelectedOption().getText();
+        assertEquals(usernameAdmin, userName);
+        assertEquals(firstnameAdmin, firstName);
+        assertEquals(lastnameAdmin, lastName);
+        assertEquals(facultyAdmin, faculty);
     }
 
     /**

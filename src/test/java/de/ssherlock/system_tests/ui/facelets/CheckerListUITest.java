@@ -29,6 +29,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 /**
  * Test class for the Checkerlist.xhtml facelet.
  */
+@SuppressWarnings("checkstyle:MagicNumber")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CheckerListUITest extends AbstractSeleniumUITest {
@@ -36,7 +37,7 @@ public class CheckerListUITest extends AbstractSeleniumUITest {
     /**
      * the expected elements on the first page.
      */
-    private final List<List<String>> FIRST_PAGE_ELEMENTS = Arrays.asList(
+    private final List<List<String>> firstPageElements = Arrays.asList(
             Arrays.asList("true", "true", "", "", "IDENTITY", "Delete"),
             Arrays.asList("true", "true", "", "", "COMPILATION", "Delete"),
             Arrays.asList("true", "true", "one", "two", "USER_DEFINED", "Delete")
@@ -45,7 +46,7 @@ public class CheckerListUITest extends AbstractSeleniumUITest {
     /**
      * The expected elements on the first page, after a checker was deleted.
      */
-    private final List<List<String>> FIRST_PAGE_ELEMENTS_DELETE = Arrays.asList(
+    private final List<List<String>> firstPageElementsDelete = Arrays.asList(
             Arrays.asList("true", "true", "", "", "COMPILATION", "Delete"),
             Arrays.asList("true", "true", "one", "two", "USER_DEFINED", "Delete")
     );
@@ -53,7 +54,7 @@ public class CheckerListUITest extends AbstractSeleniumUITest {
     /**
      * The expected elements on the first page, after a new checker was added.
      */
-    private final List<List<String>> FIRST_PAGE_ELEMENTS_ADD = Arrays.asList(
+    private final List<List<String>> firstPageElementsAdd = Arrays.asList(
             Arrays.asList("true", "true", "", "", "COMPILATION", "Delete"),
             Arrays.asList("true", "true", "one", "two", "USER_DEFINED", "Delete"),
             Arrays.asList("false", "false", "one", "three", "USER_DEFINED", "Delete")
@@ -69,7 +70,7 @@ public class CheckerListUITest extends AbstractSeleniumUITest {
                 getDriver(), getWait(), SeleniumUITestUtils.ADMIN_USERNAME, SeleniumUITestUtils.GLOBAL_PASSWORD);
         SeleniumUITestUtils.navigateTo(getDriver(), "/view/registered/exercise.xhtml?Id=1");
         SeleniumUITestUtils.clickOnSidebarItem(getWait(), "Checkers");
-        assertEquals(FIRST_PAGE_ELEMENTS, SeleniumUITestUtils.getCurrentTableRowsChecker(getDriver()));
+        assertEquals(firstPageElements, SeleniumUITestUtils.getCurrentTableRowsChecker(getDriver()));
     }
 
     /**
@@ -85,7 +86,7 @@ public class CheckerListUITest extends AbstractSeleniumUITest {
         WebElement element = getDriver().findElement(By.cssSelector("[id$='deleteButton']"));
         getWait().until(ExpectedConditions.elementToBeClickable(element));
         element.click();
-        assertEquals(FIRST_PAGE_ELEMENTS_DELETE, SeleniumUITestUtils.getCurrentTableRowsChecker(getDriver()));
+        assertEquals(firstPageElementsDelete, SeleniumUITestUtils.getCurrentTableRowsChecker(getDriver()));
     }
 
     /**
@@ -137,14 +138,13 @@ public class CheckerListUITest extends AbstractSeleniumUITest {
         SeleniumUITestUtils.clickOnSidebarItem(getWait(), "Checkers");
         SeleniumUITestUtils.clickOnElementWithId(getWait(), "addCheckerButton");
         Thread.sleep(1000);
-        WebElement Input = getDriver().findElement(By.cssSelector("[id$='inputParamOne']"));
-        Input.sendKeys("one");
-        WebElement Output = getDriver().findElement(By.cssSelector("[id$='inputParamTwo']"));
-        Output.sendKeys("three");
-        //  SeleniumUITestUtils.clickOnElementWithId(getWait(),"submitNewChecker");
+        WebElement input = getDriver().findElement(By.cssSelector("[id$='inputParamOne']"));
+        input.sendKeys("one");
+        WebElement output = getDriver().findElement(By.cssSelector("[id$='inputParamTwo']"));
+        output.sendKeys("three");
         WebElement submit = getDriver().findElement(By.cssSelector("[id$='submitNewChecker']"));
         submit.click();
         Thread.sleep(2000);
-        assertEquals(FIRST_PAGE_ELEMENTS_ADD, SeleniumUITestUtils.getCurrentTableRowsChecker(getDriver()));
+        assertEquals(firstPageElementsAdd, SeleniumUITestUtils.getCurrentTableRowsChecker(getDriver()));
     }
 }
