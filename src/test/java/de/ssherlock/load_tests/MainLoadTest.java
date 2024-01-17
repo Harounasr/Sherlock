@@ -11,10 +11,18 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+/**
+ * Main Class for load testing.
+ *
+ * @author Victor Vollmann
+ */
 @LoadWith("load_tests/load-config.properties")
 @ExtendWith(ParallelLoadExtension.class)
 public class MainLoadTest {
 
+    /**
+     * The load test.
+     */
     @Test
     @DisplayName("Main Load Test")
     @TestMappings({
