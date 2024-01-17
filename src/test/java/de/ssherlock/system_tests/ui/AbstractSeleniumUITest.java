@@ -35,12 +35,12 @@ public abstract class AbstractSeleniumUITest {
     /**
      * Location of the clear database script.
      */
-    private static final String CLEAR_TABLES_LOCATION = "de/ssherlock/clear_tables.sql";
+    private static final String CLEAR_TABLES_LOCATION = "de/ssherlock/test_data/clear_tables.sql";
 
     /**
      * Location of the test data script.
      */
-    private static final String TEST_DATA_LOCATION = "de/ssherlock/testData.sql";
+    private static final String TEST_DATA_LOCATION = "de/ssherlock/test_data/testData.sql";
 
     /**
      * The current WebDriver.
