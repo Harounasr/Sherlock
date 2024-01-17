@@ -35,7 +35,7 @@ public class TestateUITest extends AbstractSeleniumUITest {
         SeleniumUITestUtils.clickOnSidebarItem(getWait(), "Submissions");
         WebElement testateButton = getWait().until(elementToBeClickable(By.cssSelector("input[value='Create Testate']")));
         testateButton.click();
-        subContainer = getDriver().findElement(By.id("submission-container"));
+        //subContainer = getDriver().findElement(By.id("testate-container"));
     }
 
     /**
