@@ -25,24 +25,25 @@ import static org.junit.jupiter.api.Assertions.fail;
  */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@SuppressWarnings("checkstyle:MagicNumber")
 public class ProfileUITest extends AbstractSeleniumUITest {
 
     /**
      * the admins username.
      */
-    private final String usernameAdmin = "admin";
+    private final static String usernameAdmin = "admin";
     /**
      * The first name of the admin user.
      */
-    private final String firstnameAdmin = "User";
+    private final static String firstnameAdmin = "User";
     /**
      * The last name of the admin user.
      */
-    private final String lastnameAdmin = "One";
+    private final static String lastnameAdmin = "One";
     /**
      * The faculty of the admin user.
      */
-    private final String facultyAdmin = "Mathematik";
+    private final static String facultyAdmin = "Mathematik";
 
     /**
      * Checks if the correct content is displayed in the table.
