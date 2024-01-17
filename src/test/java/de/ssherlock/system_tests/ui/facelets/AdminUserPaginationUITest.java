@@ -76,10 +76,7 @@ public class AdminUserPaginationUITest extends AbstractSeleniumUITest {
     @Test
     @Order(2)
     void testCheckSearch() {
-        WebElement searchBar = getDriver().findElement(By.cssSelector("[id^='paginationSearch:'][id$=':searchBar_searchInput']"));
-        searchBar.sendKeys("admin");
-        WebElement searchButton = getDriver().findElement(By.cssSelector("[id^='paginationSearch:'][id$=':searchBar_searchButton']"));
-        searchButton.click();
+        SeleniumUITestUtils.searchFor(getDriver(), "admin");
         List<List<String>> expectedTableData = Arrays.asList(Arrays.asList("admin", "User", "One", "admin", "Mathematik", "ADMINISTRATOR"));
         assertEquals(expectedTableData, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
     }
@@ -87,10 +84,7 @@ public class AdminUserPaginationUITest extends AbstractSeleniumUITest {
     @Test
     @Order(3)
     void testSelectUser() {
-        WebElement searchBar = getDriver().findElement(By.cssSelector("[id^='paginationSearch:'][id$=':searchBar_searchInput']"));
-        searchBar.sendKeys("teacher");
-        WebElement searchButton = getDriver().findElement(By.cssSelector("[id^='paginationSearch:'][id$=':searchBar_searchButton']"));
-        searchButton.click();
+        SeleniumUITestUtils.searchFor(getDriver(), "teacher");
         WebElement userLink = getDriver().findElement(By.linkText("teacher"));
         userLink.click();
         assertEquals(SeleniumUITestUtils.BASE_URL + "view/registered/profile.xhtml?Id=2", getDriver().getCurrentUrl());
@@ -104,10 +98,7 @@ public class AdminUserPaginationUITest extends AbstractSeleniumUITest {
     @Test
     @Order(4)
     void testChangeRoles() throws SQLException, InterruptedException {
-        WebElement searchBar = getDriver().findElement(By.cssSelector("[id^='paginationSearch:'][id$=':searchBar_searchInput']"));
-        searchBar.sendKeys("teacher");
-        WebElement searchButton = getDriver().findElement(By.cssSelector("[id^='paginationSearch:'][id$=':searchBar_searchButton']"));
-        searchButton.click();
+        SeleniumUITestUtils.searchFor(getDriver(), "teacher");
         WebElement selectElement = getDriver().findElement(By.cssSelector("[id$='selectRole']"));
         Select dropdown = new Select(selectElement);
         dropdown.selectByValue("REGISTERED");
@@ -133,10 +124,7 @@ public class AdminUserPaginationUITest extends AbstractSeleniumUITest {
     @Test
     @Order(5)
     void testChangeFaculty() throws SQLException, InterruptedException {
-        WebElement searchBar = getDriver().findElement(By.cssSelector("[id^='paginationSearch:'][id$=':searchBar_searchInput']"));
-        searchBar.sendKeys("teacher");
-        WebElement searchButton = getDriver().findElement(By.cssSelector("[id^='paginationSearch:'][id$=':searchBar_searchButton']"));
-        searchButton.click();
+        SeleniumUITestUtils.searchFor(getDriver(), "teacher");
         WebElement selectElement = getDriver().findElement(By.cssSelector("[id$='selectFaculty']"));
         Select dropdown = new Select(selectElement);
         dropdown.selectByValue("Informatik");

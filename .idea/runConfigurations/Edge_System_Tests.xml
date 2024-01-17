@@ -14,6 +14,7 @@
               <option value="--no-transfer-progress" />
               <option value="-DSYSTEM_TEST_BROWSER=edge" />
               <option value="-DskipUnitTests" />
+              <option value="-DskipMaintenanceTests" />
               <option value="-DskipIntegerationTests" />
               <option value="-Psystem-tests" />
               <option value="clean" />

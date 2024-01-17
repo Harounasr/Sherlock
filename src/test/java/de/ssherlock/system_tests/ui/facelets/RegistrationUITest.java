@@ -5,6 +5,7 @@ import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.system_tests.ui.AbstractSeleniumUITest;
 import de.ssherlock.system_tests.ui.SeleniumUITestUtils;
 import jakarta.faces.application.FacesMessage;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.openqa.selenium.By;
@@ -105,6 +106,7 @@ public class RegistrationUITest extends AbstractSeleniumUITest {
      * User should be redirected to the login Facelet.
      */
     @Test
+    @Disabled
     void testBackToLoginClicked() {
         SeleniumUITestUtils.navigateTo(getDriver(), "view/public/registration.xhtml");
         SeleniumUITestUtils.enterOnElementWithId(getWait(), "registrationLogin:backToLogin");

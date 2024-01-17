@@ -5,7 +5,6 @@ import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.persistence.connection.ConnectionPool;
 import de.ssherlock.persistence.exception.PersistenceDBAccessException;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import jakarta.enterprise.inject.spi.CDI;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -25,6 +24,11 @@ public class TransactionPsql implements Transaction {
     private final Connection connection;
 
     /**
+     * The connection pool.
+     */
+    private final ConnectionPool connectionPool;
+
+    /**
      * Logger instance for logging messages related to the TransactionPsql class.
      */
     private final SerializableLogger logger = LoggerCreator.get(TransactionPsql.class);
@@ -42,11 +46,13 @@ public class TransactionPsql implements Transaction {
     /**
      * Default constructor.
      *
-     * @param connection The connection.
+     * @param connection     The connection.
+     * @param connectionPool The connection pool.
      * @throws PersistenceDBAccessException When the access is denied.
      */
-    public TransactionPsql(Connection connection) throws PersistenceDBAccessException {
+    public TransactionPsql(Connection connection, ConnectionPool connectionPool) throws PersistenceDBAccessException {
         this.connection = connection;
+        this.connectionPool = connectionPool;
         isInitiated = false;
         isTerminated = false;
         initConnection();
@@ -66,7 +72,7 @@ public class TransactionPsql implements Transaction {
                 logger.log(Level.WARNING, "transaction could not be committed");
                 throw new PersistenceDBAccessException("Error while committing transaction.", e);
             } finally {
-                CDI.current().select(ConnectionPool.class).get().releaseConnection(connection);
+                connectionPool.releaseConnection(connection);
                 logger.fine("connection released to pool");
             }
             terminate();
@@ -87,7 +93,7 @@ public class TransactionPsql implements Transaction {
                 logger.log(Level.WARNING, "transaction could not be aborted. Error during rollback");
                 // Database is probably not available since otherwise there would be no SqlException.
             } finally {
-                CDI.current().select(ConnectionPool.class).get().releaseConnection(connection);
+                connectionPool.releaseConnection(connection);
                 logger.fine("connection released to pool");
             }
             terminate();
@@ -104,6 +110,7 @@ public class TransactionPsql implements Transaction {
 
     /**
      * Retrieves the database connection associated with the transaction.
+     *
      * @throws PersistenceDBAccessException if the connection could not be retrieved
      */
     public void initConnection() throws PersistenceDBAccessException {
