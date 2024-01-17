@@ -88,8 +88,6 @@ VALUES (15, 'passwordReset', 'passwordReset', 'User', 'Twelve', 'Mathematik',
 INSERT INTO "user" (id, username, email, firstname, lastname, faculty, password_hash, password_salt, user_role, failed_login_attempts, token, expiry_date) VALUES (16, 'unverifiedClean1', 'unverifiedClean1', 'User', 'Sixteen', 'Mathematik',                                       'QWIbZACnFJmEF0R0DBrVkhXoOeUb2qF0ioqrcLLMogl1bM0fuzlvrF4/u2xYeqGqBNFgJkUBzuYW3ezdm/qZ+g==', 'cF94pcrvA83ZBcJ6tQc4PA==','NOT_REGISTERED', 1, '12345', '2023-12-01 01:00:00+01');
 
 INSERT INTO participates (user_id, course_id, user_role)
-VALUES (1, 1, 'MEMBER');
-INSERT INTO participates (user_id, course_id, user_role)
 VALUES (2, 1, 'TEACHER');
 INSERT INTO participates (user_id, course_id, user_role)
 VALUES (3, 1, 'MEMBER');

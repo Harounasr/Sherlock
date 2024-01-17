@@ -40,7 +40,7 @@ public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
      * The elements visible on the first page of the pagination.
      */
     private static final List<List<String>> FIRST_PAGE_ELEMENTS = Arrays.asList(
-            Arrays.asList("admin", "User", "One", "admin", "MEMBER"),
+            Arrays.asList("admin", "User", "One", "admin", "NONE"),
             Arrays.asList("member", "User", "Three", "member", "MEMBER"),
             Arrays.asList("member1", "User", "Five", "member1", "MEMBER"),
             Arrays.asList("member2", "User", "Six", "member2", "MEMBER"),
@@ -92,7 +92,7 @@ public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
     @Order(2)
     void testCheckSearch() {
         SeleniumUITestUtils.searchFor(getDriver(), "admin");
-        List<List<String>> expectedTableData = Arrays.asList(Arrays.asList("admin", "User", "One", "admin", "MEMBER"));
+        List<List<String>> expectedTableData = Arrays.asList(Arrays.asList("admin", "User", "One", "admin", "NONE"));
         assertEquals(expectedTableData, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
     }
 

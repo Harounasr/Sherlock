@@ -13,7 +13,17 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.Duration;
+import java.util.stream.Collectors;
 
 /**
  * Abstract class defining setup and teardown methods for Selenium UI Tests.
@@ -21,6 +31,16 @@ import java.time.Duration;
  * @author Victor Vollmann
  */
 public abstract class AbstractSeleniumUITest {
+
+    /**
+     * Location of the clear database script.
+     */
+    private static final String CLEAR_TABLES_LOCATION = "de/ssherlock/clear_tables.sql";
+
+    /**
+     * Location of the test data script.
+     */
+    private static final String TEST_DATA_LOCATION = "de/ssherlock/testData.sql";
 
     /**
      * The current WebDriver.
@@ -83,12 +103,16 @@ public abstract class AbstractSeleniumUITest {
 
     /**
      * Tears down the web driver.
+     *
+     * @throws SQLException When the database cannot be started.
+     * @throws IOException When the scripts cannot be found.
      */
     @AfterAll
-    public static void tearDown() {
+    public static void tearDown() throws SQLException, IOException {
         if (driver != null) {
             driver.quit();
         }
+        resetDatabase();
     }
 
     /**
@@ -108,6 +132,32 @@ public abstract class AbstractSeleniumUITest {
      */
     public static WebDriverWait getWait() {
         return wait;
+    }
+
+    /**
+     * Resets the database.
+     *
+     * @throws SQLException When the database cannot be started.
+     * @throws IOException When the scripts cannot be found.
+     */
+    private static void resetDatabase() throws SQLException, IOException {
+        try (Connection connection = DriverManager.getConnection(SeleniumUITestUtils.DATABASE_URL);
+             Statement clearDB = connection.createStatement();
+             Statement fillDB = connection.createStatement()) {
+            InputStream clearInput = Thread.currentThread().getContextClassLoader().getResourceAsStream(CLEAR_TABLES_LOCATION);
+            InputStream fillInput = Thread.currentThread().getContextClassLoader().getResourceAsStream(TEST_DATA_LOCATION);
+            if (clearInput == null || fillInput == null) {
+                throw new IllegalArgumentException("SQL script file not found.");
+            }
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(clearInput, StandardCharsets.UTF_8))) {
+                String sql = reader.lines().collect(Collectors.joining("\n"));
+                clearDB.execute(sql);
+            }
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(fillInput, StandardCharsets.UTF_8))) {
+                String sql = reader.lines().collect(Collectors.joining("\n"));
+                fillDB.execute(sql);
+            }
+        }
     }
 
 }
