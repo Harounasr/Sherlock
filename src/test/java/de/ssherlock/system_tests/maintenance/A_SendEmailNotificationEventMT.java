@@ -23,7 +23,12 @@ import static org.junit.jupiter.api.Assertions.fail;
  * @author Victor Vollmann
  */
 @Disabled
-@SuppressWarnings({"checkstyle:MagicNumber", "checkstyle:TypeName", "PMD.UseUnderscoresInNumericLiterals"})
+@SuppressWarnings({
+        "checkstyle:MagicNumber",
+        "checkstyle:TypeName",
+        "PMD.UseUnderscoresInNumericLiterals",
+        "PMD.ClassNamingConventions"
+})
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class A_SendEmailNotificationEventMT {
 
@@ -44,15 +49,14 @@ public class A_SendEmailNotificationEventMT {
      * Sets the deadlines in exercise 7 to end tomorrow.
      */
     private static void setDeadlinesToEndSoon() {
-        String updateDeadlinesSql =
-                """
-                UPDATE exercise
-                SET reminder_mail_sent = false,
-                    recommended_deadline = ?,
-                    obligatory_deadline = ?,
-                    publish_date = ?
-                WHERE id = 11;
-                """;
+        String updateDeadlinesSql = """
+                                    UPDATE exercise
+                                    SET reminder_mail_sent = false,
+                                        recommended_deadline = ?,
+                                        obligatory_deadline = ?,
+                                        publish_date = ?
+                                    WHERE id = 11;
+                                    """;
         try (Connection connection = DriverManager.getConnection(SeleniumUITestUtils.DATABASE_URL);
              PreparedStatement statement = connection.prepareStatement(updateDeadlinesSql)) {
             Calendar calendar = Calendar.getInstance();
@@ -71,12 +75,11 @@ public class A_SendEmailNotificationEventMT {
      * Checks whether the emails have been sent for exercise 11.
      */
     private static void checkReminderEmailSent() {
-        String checkEmailSent =
-                """
-                SELECT reminder_mail_sent
-                FROM exercise
-                WHERE id = 11;
-                """;
+        String checkEmailSent = """
+                                SELECT reminder_mail_sent
+                                FROM exercise
+                                WHERE id = 11;
+                                """;
         try (Connection connection = DriverManager.getConnection(SeleniumUITestUtils.DATABASE_URL);
              PreparedStatement statement = connection.prepareStatement(checkEmailSent)) {
             ResultSet resultSet = statement.executeQuery();
