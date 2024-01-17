@@ -3,14 +3,16 @@ package de.ssherlock.business.maintenance;
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
-import jakarta.inject.Inject;
+import jakarta.enterprise.inject.spi.CDI;
+
+import java.util.logging.Level;
 
 /**
  * Automatically sends an E-Mail to a user.
  *
  * @author Leon Höfling
  */
-public class SendEmailNotificationEvent {
+public class SendEmailNotificationEvent implements Runnable {
 
     /**
      * Logger instance for logging messages related to CourseService.
@@ -21,32 +23,26 @@ public class SendEmailNotificationEvent {
     /**
      * The User-service for this class.
      */
-    @Inject
-    private UserService userService;
+    private final UserService userService;
 
     /**
      * Constructs a new SendEmailNotificationEvent.
      */
-    public SendEmailNotificationEvent() {}
+    public SendEmailNotificationEvent() {
+        userService = CDI.current().select(UserService.class).get();
+    }
 
     /**
      * Sends email notifications.
      */
-    public void sendEmailNotifications() {
-        userService.sendReminderEmail();
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
+    @Override
+    public void run() {
+        try {
+            LOGGER.info("sending emails");
+            userService.sendReminderEmail();
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "sending emails encountered an exception.", e);
+        }
     }
-
-    /**
-     * Checks if SendEmailNotificationEvent is currently running.
-     *
-     * @return true/false according to the state of SendEmailNotificationEvent.
-     */
-    public boolean isRunning() {
-        return false;
-    }
-
-    /**
-     * Shuts down the SendEmailNotificationEvent.
-     */
-    public void shutdown() {}
 }

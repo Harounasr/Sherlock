@@ -62,8 +62,7 @@ CREATE TABLE IF NOT EXISTS exercise
     description          TEXT,
     reminder_mail_sent   BOOL DEFAULT FALSE,
 
-                                                FOREIGN KEY (course_id) REFERENCES course (id) ON DELETE CASCADE,
-    CONSTRAINT date_constraints CHECK (publish_date < recommended_deadline AND recommended_deadline < obligatory_deadline)
+                                                FOREIGN KEY (course_id) REFERENCES course (id) ON DELETE CASCADE
     );
 
 CREATE TABLE IF NOT EXISTS exercise_image

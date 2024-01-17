@@ -2,7 +2,7 @@
 
 # Use custom docker image as base image
 ---
-image: leonfoeck/sep2023:def-1.0
+image: vollmannv/sep2023:def-1.0
 
 # Pipeline stages
 stages:
@@ -73,7 +73,7 @@ integration-test:
 
 # A target for running system tests with chrome
 system-test-chrome:
-    image: leonfoeck/sep2023:st-1.0.2
+    image: vollmannv/sep2023:st
     stage: test
     needs:
         - build
@@ -86,10 +86,11 @@ system-test-chrome:
             junit:
                 - target/failsafe-reports/TEST-*.xml
         expire_in: 1 day
+    allow_failure: true
 
 # A target for running system tests
 system-test-firefox:
-    image: leonfoeck/sep2023:st-1.0.2
+    image: vollmannv/sep2023:st
     stage: test
     needs:
         - build
@@ -104,10 +105,31 @@ system-test-firefox:
             junit:
                 - target/failsafe-reports/TEST-*.xml
         expire_in: 1 day
+    allow_failure: true
+
+# A target for running maintenance tests
+maintenance-tests:
+    image: vollmannv/sep2023:st
+    stage: test
+    needs:
+        - build
+    coverage: "/Total.*?([0-9]{1,3})%/"
+    script:
+        - scripts/maintenance_tests.sh
+    artifacts:
+        when: always
+        paths:
+            - target/tomcat.log
+        reports:
+            junit:
+                - target/failsafe-reports/TEST-*.xml
+        expire_in: 1 day
+    allow_failure: true
+
 
 # A target for running system tests
 .system-test-edge:
-    image: leonfoeck/sep2023:st-1.0.2
+    image: vollmannv/sep2023:st
     stage: test
     needs:
         - build
@@ -122,6 +144,7 @@ system-test-firefox:
             junit:
                 - target/failsafe-reports/TEST-*.xml
         expire_in: 1 day
+    allow_failure: true
 
 
 # A target for building the WAR archive

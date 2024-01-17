@@ -129,7 +129,7 @@ public class UserService implements Serializable {
             throw new LoginFailedException();
         }
 
-        if (user.getSystemRole() == SystemRole.REGISTERED) {
+        if (user.getSystemRole() == SystemRole.NOT_REGISTERED) {
             throw new LoginFailedException();
         }
         if (Objects.equals(

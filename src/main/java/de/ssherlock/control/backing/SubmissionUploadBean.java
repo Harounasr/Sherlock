@@ -226,6 +226,7 @@ public class SubmissionUploadBean implements Serializable {
     private void updateResults(CheckerResult result) {
         synchronized (checkerResults) {
             checkerResults.add(result);
+            logger.info("Updated checker results.");
         }
     }
 

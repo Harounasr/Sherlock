@@ -1,17 +1,21 @@
 package de.ssherlock.business.maintenance;
 
+import de.ssherlock.business.exception.MaintenanceConfigNotReadableException;
 import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
+import jakarta.servlet.ServletContextEvent;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
-
 /**
  * Class for executing Events.
  *
- * @author Victor Vollmann
+ * @author Haroun Alswedany
  */
 public class MaintenanceProcessExecutor extends ScheduledThreadPoolExecutor {
 
@@ -31,17 +35,10 @@ public class MaintenanceProcessExecutor extends ScheduledThreadPoolExecutor {
      */
     private static final int DESTROY_TIMEOUT = 70;
 
-
     /**
-     * The rate at which the maintenance process is executed.
+     * The delay after which events should be fired for the first time.
      */
-    private static final int MAINTENANCE_RATE = 60 * 60; // Execute every hour
-
-
-    /**
-     * The interval at which the clean task is executed.
-     */
-    private static final int CLEAN_INTERVAL = 60 * 60 * 24; // Execute every 24 hours
+    private static final int START_DELAY = 10;
 
     /**
      * Constructs a new MaintenanceProcessExecutor.
@@ -52,16 +49,38 @@ public class MaintenanceProcessExecutor extends ScheduledThreadPoolExecutor {
 
     /**
      * Initializes a thread.
+     *
+     * @param sce The Servlet context event of the StartStop instance.
      */
-    public void init() {
-        this.scheduleAtFixedRate(this::executeEmailNotifications,
-                                 0, MAINTENANCE_RATE, TimeUnit.SECONDS);
-        this.scheduleWithFixedDelay(this::executeCleanUnverifiedUsers,
-                                    0, CLEAN_INTERVAL, TimeUnit.SECONDS);
-        this.scheduleWithFixedDelay(this::executeCleanUnusedImages,
-                                    0, CLEAN_INTERVAL, TimeUnit.SECONDS);
-        this.scheduleWithFixedDelay(this::resetPasswordAttempts,
-                                    0, MAINTENANCE_RATE, TimeUnit.SECONDS);
+    public void init(ServletContextEvent sce) {
+        Properties properties = new Properties();
+        try (InputStream is = sce.getServletContext().getResourceAsStream("/WEB-INF/config/maintenance-config.properties")) {
+            if (is != null) {
+                properties.load(is);
+            } else {
+                throw new MaintenanceConfigNotReadableException("The configuration for the maintenance properties is not readable.");
+            }
+        } catch (IOException e) {
+            throw new MaintenanceConfigNotReadableException("The configuration for the maintenance properties is not readable.", e);
+        }
+        LOGGER.info("Loaded maintenance configuration.");
+
+        this.scheduleAtFixedRate(new SendEmailNotificationEvent(),
+                                 START_DELAY, Long.parseLong(properties.getProperty("sendEmailNotification.delay")), TimeUnit.SECONDS);
+        LOGGER.info("Scheduled SendEmailNotificationEvent at rate " + properties.getProperty("sendEmailNotification.delay") + " (seconds).");
+
+        this.scheduleWithFixedDelay(new UnverifiedUsersCleanEvent(),
+                                    START_DELAY,  Long.parseLong(properties.getProperty("unverifiedUsersClean.delay")), TimeUnit.SECONDS);
+        LOGGER.info("Scheduled UnverifiedUsersCleanEvent at rate " + properties.getProperty("unverifiedUsersClean.delay") + " (seconds).");
+
+        this.scheduleWithFixedDelay(new UnusedImagesCleanEvent(),
+                                    START_DELAY, Long.parseLong(properties.getProperty("unusedImagesClean.delay")), TimeUnit.SECONDS);
+        LOGGER.info("Scheduled UnusedImagesCleanEvent at rate " + properties.getProperty("unusedImagesClean.delay") + " (seconds).");
+
+        this.scheduleWithFixedDelay(new ResetPasswordAttemptsEvent(),
+                                    START_DELAY, Long.parseLong(properties.getProperty("resetPasswordAttempts.delay")), TimeUnit.SECONDS);
+        LOGGER.info("Scheduled ResetPasswordAttempts at rate " + properties.getProperty("resetPasswordAttempts.delay") + " (seconds).");
+
     }
 
     /**
@@ -75,37 +94,5 @@ public class MaintenanceProcessExecutor extends ScheduledThreadPoolExecutor {
             LOGGER.log(Level.INFO, "Error while destroying MaintenanceProcessExecutor" + e);
             Thread.currentThread().interrupt();
         }
-    }
-
-    /**
-     * Executes send email notification task.
-     */
-    private void executeEmailNotifications() {
-        SendEmailNotificationEvent sendEmailNotificationEvent = new SendEmailNotificationEvent();
-        sendEmailNotificationEvent.sendEmailNotifications();
-    }
-
-    /**
-     * Executes clean unverified users task.
-     */
-    private void executeCleanUnverifiedUsers() {
-        UnverifiedUsersCleanEvent unverifiedUsersCleanEvent = new UnverifiedUsersCleanEvent();
-        unverifiedUsersCleanEvent.cleanUnverifiedUsers();
-    }
-
-    /**
-     * Executes clean unused images task.
-     */
-    private void executeCleanUnusedImages() {
-        UnusedImagesCleanEvent unusedImagesCleanEvent = new UnusedImagesCleanEvent();
-        unusedImagesCleanEvent.cleanUnusedImages();
-    }
-
-    /**
-     * Executes Reset Password Attempts.
-     */
-    private void resetPasswordAttempts() {
-        ResetPasswordAttemptsEvent resetPasswordAttemptsEvent = new ResetPasswordAttemptsEvent();
-        resetPasswordAttemptsEvent.resetPasswordAttempts();
     }
 }

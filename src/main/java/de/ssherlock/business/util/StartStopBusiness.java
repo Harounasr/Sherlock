@@ -57,7 +57,7 @@ public class StartStopBusiness implements Serializable {
      */
     public void init(ServletContextEvent sce) {
         executor = new MaintenanceProcessExecutor();
-        executor.init();
+        executor.init(sce);
         logger.info("Business Layer initialized.");
         startStopPersistence.init(sce);
     }

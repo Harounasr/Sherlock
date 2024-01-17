@@ -166,7 +166,7 @@ public class TestateService implements Serializable {
     public void addTestate(Testate testate) throws BusinessDBAccessException {
         Transaction transaction;
         try {
-            transaction = new TransactionPsql(connectionPool.getConnection());
+            transaction = new TransactionPsql(connectionPool.getConnection(), connectionPool);
         } catch (PersistenceDBAccessException e) {
             throw new BusinessDBAccessException();
         }
