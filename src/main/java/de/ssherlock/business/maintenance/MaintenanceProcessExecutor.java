@@ -38,7 +38,7 @@ public class MaintenanceProcessExecutor extends ScheduledThreadPoolExecutor {
     /**
      * The delay after which events should be fired for the first time.
      */
-    private static final int START_DELAY = 10;
+    private static final int START_DELAY = 5;
 
     /**
      * Constructs a new MaintenanceProcessExecutor.

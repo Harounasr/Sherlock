@@ -1,12 +1,12 @@
 package de.ssherlock.business.maintenance;
 
-import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.logging.LoggerCreator;
+import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.persistence.connection.ConnectionPool;
 import de.ssherlock.persistence.repository.RepositoryFactory;
 import de.ssherlock.persistence.repository.RepositoryType;
 import de.ssherlock.persistence.repository.UserRepository;
-import jakarta.inject.Inject;
+import jakarta.enterprise.inject.spi.CDI;
 
 import java.sql.Connection;
 import java.util.logging.Level;
@@ -17,18 +17,23 @@ import java.util.logging.Level;
  * @author Lennart Hohls
  */
 public class ResetPasswordAttemptsEvent implements Runnable {
+
     /**
      * The Connection pool for this class.
      */
-
     private static final SerializableLogger LOGGER = LoggerCreator.get(ResetPasswordAttemptsEvent.class);
-    @Inject
-    private ConnectionPool connectionPool;
+
+    /**
+     * The Connection Pool.
+     */
+    private final ConnectionPool connectionPool;
 
     /**
      * Constructs a new ResetPasswordAttemptsEvent.
      */
-    public ResetPasswordAttemptsEvent() {}
+    public ResetPasswordAttemptsEvent() {
+        connectionPool = CDI.current().select(ConnectionPool.class).get();
+    }
 
     /**
      * Executes the resetting of password attempts.
