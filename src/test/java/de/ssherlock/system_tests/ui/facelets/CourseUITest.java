@@ -25,7 +25,7 @@ public class CourseUITest extends AbstractSeleniumUITest {
                 getDriver(), getWait(), SeleniumUITestUtils.ADMIN_USERNAME, SeleniumUITestUtils.GLOBAL_PASSWORD);
         SeleniumUITestUtils.navigateTo(getDriver(), "view/registered/course.xhtml?Id=5");
         SeleniumUITestUtils.clickOnSidebarItem(getWait(), "Delete");
-        SeleniumUITestUtils.clickOnElementWithId(getWait(), "j_idt40:courseDeleteButton");
+        SeleniumUITestUtils.clickOnElementWithClass(getWait(), "reallydeletebutton");
     }
 
     /**
@@ -37,7 +37,7 @@ public class CourseUITest extends AbstractSeleniumUITest {
                 getDriver(), getWait(), SeleniumUITestUtils.TEACHER_USERNAME, SeleniumUITestUtils.GLOBAL_PASSWORD);
         SeleniumUITestUtils.navigateTo(getDriver(), "view/registered/course.xhtml?Id=2");
         SeleniumUITestUtils.clickOnSidebarItem(getWait(), "Delete");
-        SeleniumUITestUtils.clickOnElementWithId(getWait(), "j_idt40:courseDeleteButton");
+        SeleniumUITestUtils.clickOnElementWithClass(getWait(), "reallydeletebutton");
     }
 
 

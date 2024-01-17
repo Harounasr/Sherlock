@@ -20,11 +20,6 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClick
 public class TestateUITest extends AbstractSeleniumUITest {
 
     /**
-     * The container which stores the submission in the testate facelet.
-     */
-    private WebElement subContainer;
-
-    /**
      * Navigates to the testate facelet.
      */
     @BeforeEach
@@ -35,7 +30,6 @@ public class TestateUITest extends AbstractSeleniumUITest {
         SeleniumUITestUtils.clickOnSidebarItem(getWait(), "Submissions");
         WebElement testateButton = getWait().until(elementToBeClickable(By.cssSelector("input[value='Create Testate']")));
         testateButton.click();
-        //subContainer = getDriver().findElement(By.id("testate-container"));
     }
 
     /**

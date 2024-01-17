@@ -159,6 +159,16 @@ public final class SeleniumUITestUtils {
     }
 
     /**
+     * Clicks on the element with the specified class name.
+     * @param wait The web driver wait.
+     * @param classname The class name.
+     */
+    public static void clickOnElementWithClass(WebDriverWait wait, String classname) {
+        WebElement element = wait.until(elementToBeClickable(By.className(classname)));
+        element.click();
+    }
+
+    /**
      * Clicks on a menu item in the sidebar based on its label.
      *
      * @param wait  The web driver wait.
