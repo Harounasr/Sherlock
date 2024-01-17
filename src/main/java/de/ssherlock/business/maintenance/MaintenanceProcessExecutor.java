@@ -65,7 +65,7 @@ public class MaintenanceProcessExecutor extends ScheduledThreadPoolExecutor {
         }
         LOGGER.info("Loaded maintenance configuration.");
 
-        this.scheduleAtFixedRate(new SendEmailNotificationEvent(),
+        this.scheduleWithFixedDelay(new SendEmailNotificationEvent(),
                                  START_DELAY, Long.parseLong(properties.getProperty("sendEmailNotification.delay")), TimeUnit.SECONDS);
         LOGGER.info("Scheduled SendEmailNotificationEvent at rate " + properties.getProperty("sendEmailNotification.delay") + " (seconds).");
 
