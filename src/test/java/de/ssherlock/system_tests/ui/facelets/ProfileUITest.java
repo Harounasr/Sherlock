@@ -31,19 +31,19 @@ public class ProfileUITest extends AbstractSeleniumUITest {
     /**
      * the admins username.
      */
-    private final static String USERNAME_ADMIN = "admin";
+    private static final String USERNAME_ADMIN = "admin";
     /**
      * The first name of the admin user.
      */
-    private final static String FIRSTNAME_ADMIN = "User";
+    private static final String FIRSTNAME_ADMIN = "User";
     /**
      * The last name of the admin user.
      */
-    private final static String LASTNAME_ADMIN = "One";
+    private static final String LASTNAME_ADMIN = "One";
     /**
      * The faculty of the admin user.
      */
-    private final static String FACULTY_ADMIN = "Mathematik";
+    private static final String FACULTY_ADMIN = "Mathematik";
 
     /**
      * Checks if the correct content is displayed in the table.
