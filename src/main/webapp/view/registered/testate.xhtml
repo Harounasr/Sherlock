@@ -3,7 +3,8 @@
         xmlns:h="jakarta.faces.html"
         xmlns:ui="jakarta.faces.facelets"
         xmlns:f="jakarta.faces.core"
-        xmlns="http://www.w3.org/1999/xhtml">
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:comp="jakarta.faces.composite/components">
 <f:view>
     <div id="testate-container">
         <div class="card-container">
@@ -87,7 +88,7 @@
             <h:commandButton id="submitTestate" value="Submit Testate" styleClass="btn primary-color-btn btn-block"
                              action="#{testateBean.submitTestate}"/>
         </h:form>
-
+        <comp:notifications />
     </div>
 </f:view>
 </html>
