@@ -1,7 +1,5 @@
 package de.ssherlock.system_tests.ui.facelets;
 
-import de.ssherlock.global.transport.Faculty;
-import de.ssherlock.global.transport.SystemRole;
 import de.ssherlock.system_tests.ui.AbstractSeleniumUITest;
 import de.ssherlock.system_tests.ui.SeleniumUITestUtils;
 import org.junit.jupiter.api.MethodOrderer;
@@ -20,18 +18,37 @@ import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+/**
+ * Test class for the profile.xhtml facelet.
+ */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ProfileUITest extends AbstractSeleniumUITest {
 
+    /**
+     * the admins username.
+     */
     private final String USERNAME_ADMIN = "admin";
+    /**
+     * The first name of the admin user.
+     */
     private final String FIRSTNAME_ADMIN = "User";
+    /**
+     * The last name of the admin user.
+     */
     private final String LASTNAME_ADMIN = "One";
+    /**
+     * The faculty of the admin user.
+     */
     private final String FACULTY_ADMIN = "Mathematik";
 
+    /**
+     * Checks if the correct content is displayed in the table.
+     *
+     * @throws InterruptedException thrown by thread.sleep.
+     */
     @Test
     public void testCorrectContent() throws InterruptedException {
         SeleniumUITestUtils.tryLogin(getDriver(), getWait(), SeleniumUITestUtils.ADMIN_USERNAME, SeleniumUITestUtils.GLOBAL_PASSWORD);
@@ -52,6 +69,12 @@ public class ProfileUITest extends AbstractSeleniumUITest {
         assertEquals(FACULTY_ADMIN, Faculty);
     }
 
+    /**
+     * Tests the change of faculty.
+     *
+     * @throws InterruptedException thrown by thread.sleep.
+     * @throws SQLException         if no faculty could be found in the database for the user.
+     */
     @Test
     public void testChangeFaculty() throws InterruptedException, SQLException {
         SeleniumUITestUtils.tryLogin(getDriver(), getWait(), SeleniumUITestUtils.ADMIN_USERNAME, SeleniumUITestUtils.GLOBAL_PASSWORD);
@@ -77,6 +100,13 @@ public class ProfileUITest extends AbstractSeleniumUITest {
             }
         }
     }
+
+    /**
+     * Tests the delete process of an account.
+     *
+     * @throws InterruptedException thrown by thread.sleep.
+     * @throws SQLException         would be thrown by the DB, but the resultset is expected to be empty.
+     */
     @Test
     public void testDeleteAccount() throws InterruptedException, SQLException {
         SeleniumUITestUtils.tryLogin(getDriver(), getWait(), SeleniumUITestUtils.ADMIN_USERNAME, SeleniumUITestUtils.GLOBAL_PASSWORD);
