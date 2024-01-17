@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS testate
     functionality_grade GRADE   NOT NULL,
 
     FOREIGN KEY (submission_id) REFERENCES submission (id) ON DELETE CASCADE,
-    FOREIGN KEY (tutor_id) REFERENCES "user" (id) ON DELETE SET NULL
+    FOREIGN KEY (tutor_id) REFERENCES "user" (id) ON DELETE CASCADE
     );
 
 CREATE TABLE IF NOT EXISTS system_settings
