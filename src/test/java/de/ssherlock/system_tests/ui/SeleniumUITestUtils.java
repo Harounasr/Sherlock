@@ -131,7 +131,7 @@ public final class SeleniumUITestUtils {
      * @param facesMessage The expected faces message.
      */
     public static void checkFacesMessage(WebDriverWait wait, FacesMessage facesMessage) {
-        WebElement element = wait.until(visibilityOfElementLocated(By.id("j_idt33:notification")));
+        WebElement element = wait.until(visibilityOfElementLocated(By.className("popup-notifications")));
         assertTrue(element.isDisplayed());
         assertTrue(element.getText().contains(facesMessage.getDetail()));
     }
@@ -156,6 +156,16 @@ public final class SeleniumUITestUtils {
     public static void enterOnElementWithId(WebDriverWait wait, String id) {
         WebElement element = wait.until(elementToBeClickable(By.id(id)));
         element.sendKeys(Keys.RETURN);
+    }
+
+    /**
+     * Clicks on the element with the specified class name.
+     * @param wait The web driver wait.
+     * @param classname The class name.
+     */
+    public static void clickOnElementWithClass(WebDriverWait wait, String classname) {
+        WebElement element = wait.until(elementToBeClickable(By.className(classname)));
+        element.click();
     }
 
     /**

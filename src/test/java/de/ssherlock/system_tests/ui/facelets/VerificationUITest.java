@@ -3,7 +3,6 @@ package de.ssherlock.system_tests.ui.facelets;
 import de.ssherlock.global.transport.SystemRole;
 import de.ssherlock.system_tests.ui.AbstractSeleniumUITest;
 import de.ssherlock.system_tests.ui.SeleniumUITestUtils;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
@@ -29,7 +28,6 @@ public class VerificationUITest extends AbstractSeleniumUITest {
      * User should be redirected to the login Facelet.
      */
     @Test
-    @Disabled
     void testNavigateToLogin() {
         SeleniumUITestUtils.navigateTo(getDriver(), "view/public/verification.xhtml?token=someToken");
         SeleniumUITestUtils.enterOnElementWithId(getWait(), "verificationForm:backToLogin");

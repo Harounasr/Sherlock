@@ -3,7 +3,8 @@
         xmlns:h="jakarta.faces.html"
         xmlns:ui="jakarta.faces.facelets"
         xmlns:f="jakarta.faces.core"
-        xmlns="http://www.w3.org/1999/xhtml">
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:comp="jakarta.faces.composite/components">
 <f:view>
     <div id="testate-container">
         <div class="card-container">
@@ -23,7 +24,7 @@
             </ui:repeat>
         </div>
 
-        <h:form>
+        <h:form id="downloadForm">
             <h:commandButton id="downloadCode" value="Download Code" styleClass="btn primary-color-btn btn-block"
                              action="#{testateBean.downloadCode}"/>
         </h:form>
@@ -47,7 +48,7 @@
             </h:column>
         </h:dataTable>
 
-        <h:form styleClass="grading-form">
+        <h:form styleClass="grading-form" id="testateForm">
             <h:outputLabel for="functionalityGrade" value="Functionality Grade"/>
             <h:selectOneMenu class="selectOneMenu" id="functionalityGrade" value="#{testateBean.newTestate.functionalityGrade}"
                              styleClass="form-control" required="true">
@@ -86,8 +87,8 @@
             </h:inputTextarea>
             <h:commandButton id="submitTestate" value="Submit Testate" styleClass="btn primary-color-btn btn-block"
                              action="#{testateBean.submitTestate}"/>
+            <comp:notifications />
         </h:form>
-
     </div>
 </f:view>
 </html>
