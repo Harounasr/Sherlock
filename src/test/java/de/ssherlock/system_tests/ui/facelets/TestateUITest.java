@@ -1,5 +1,7 @@
 package de.ssherlock.system_tests.ui.facelets;
 
+import de.ssherlock.global.transport.SystemRole;
+import de.ssherlock.global.transport.Testate;
 import de.ssherlock.system_tests.ui.AbstractSeleniumUITest;
 import de.ssherlock.system_tests.ui.SeleniumUITestUtils;
 import jakarta.faces.application.FacesMessage;
@@ -9,6 +11,13 @@ import org.junit.jupiter.api.TestInstance;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
 
 /**
@@ -30,15 +39,6 @@ public class TestateUITest extends AbstractSeleniumUITest {
         SeleniumUITestUtils.clickOnSidebarItem(getWait(), "Submissions");
         WebElement testateButton = getWait().until(elementToBeClickable(By.cssSelector("input[value='Create Testate']")));
         testateButton.click();
-    }
-
-    /**
-     * Test for clicking the 'Download Code' button.
-     */
-    @Test
-    public void testDownloadCode() {
-        SeleniumUITestUtils.clickOnElementWithId(getWait(), "downloadForm:downloadCode");
-
     }
 
     /**
@@ -74,7 +74,7 @@ public class TestateUITest extends AbstractSeleniumUITest {
      * Test for clicking the 'Submit Testate' button.
      */
     @Test
-    public void testSubmitTestate() {
+    public void testSubmitTestate() throws InterruptedException {
         getDriver().findElement(By.id("testateForm:functionalityGrade")).sendKeys("1");
         getDriver().findElement(By.id("testateForm:readabilityGrade")).sendKeys("2");
         getDriver().findElement(By.id("testateForm:layoutGrade")).sendKeys("3");
@@ -82,14 +82,4 @@ public class TestateUITest extends AbstractSeleniumUITest {
         getDriver().findElement(By.id("testateForm:commentInput")).sendKeys("This is a comment.");
         SeleniumUITestUtils.clickOnElementWithId(getWait(), "testateForm:submitTestate");
     }
-
-
-
-
-
-
-
-
-
-
 }

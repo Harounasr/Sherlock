@@ -29,7 +29,6 @@ public class VerificationUITest extends AbstractSeleniumUITest {
      * User should be redirected to the login Facelet.
      */
     @Test
-    @Disabled
     void testNavigateToLogin() {
         SeleniumUITestUtils.navigateTo(getDriver(), "view/public/verification.xhtml?token=someToken");
         SeleniumUITestUtils.enterOnElementWithId(getWait(), "verificationForm:backToLogin");
