@@ -23,7 +23,7 @@
             </ui:repeat>
         </div>
 
-        <h:form>
+        <h:form id="downloadForm">
             <h:commandButton id="downloadCode" value="Download Code" styleClass="btn primary-color-btn btn-block"
                              action="#{testateBean.downloadCode}"/>
         </h:form>
@@ -47,7 +47,7 @@
             </h:column>
         </h:dataTable>
 
-        <h:form styleClass="grading-form">
+        <h:form styleClass="grading-form" id="testateForm">
             <h:outputLabel for="functionalityGrade" value="Functionality Grade"/>
             <h:selectOneMenu class="selectOneMenu" id="functionalityGrade" value="#{testateBean.newTestate.functionalityGrade}"
                              styleClass="form-control" required="true">

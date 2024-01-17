@@ -149,10 +149,10 @@ VALUES ('^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$', '2D8F4E', 'D3D3D3', 'Software Sherl
         'Hallo Straße 11 85646 Baldham', 'none');
 
 INSERT INTO submission (id, timestamp_submission, student_username, tutor_username, exercise_id)
-VALUES (1, '2024-01-05 00:00:00.000000 +00:00', 'member1', 'tutor', 1);
+VALUES (2, '2024-01-05 00:00:00.000000 +00:00', 'member1', 'tutor', 1);
 
 INSERT INTO submission_file (id, submission_id, file_name, file)
-VALUES (1, 1, 'CourseService.java', 'package de.ssherlock.business.service;
+VALUES(1, 2, 'CourseService.java', 'package de.ssherlock.business.service;
 
 import de.ssherlock.business.exception.BusinessNonExistentCourseException;
 import de.ssherlock.global.logging.SerializableLogger;
@@ -387,7 +387,7 @@ public class CourseService implements Serializable {
 }
 ');
 INSERT INTO submission_file (id, submission_id, file_name, file)
-VALUES (2, 1, 'PasswordHashing.java', 'package de.ssherlock.business.util;
+VALUES (2, 2, 'PasswordHashing.java', 'package de.ssherlock.business.util;
 
 import de.ssherlock.global.transport.Password;
 import java.nio.charset.StandardCharsets;
@@ -516,7 +516,7 @@ public final class PasswordHashing {
 }
 ');
 INSERT INTO submission_file (id, submission_id, file_name, file)
-VALUES (3, 1, 'StartStopBusiness.java', 'package de.ssherlock.business.util;
+VALUES (3, 2, 'StartStopBusiness.java', 'package de.ssherlock.business.util;
 
 import de.ssherlock.business.maintenance.MaintenanceProcessExecutor;
 import de.ssherlock.global.logging.SerializableLogger;
@@ -590,7 +590,7 @@ public class StartStopBusiness implements Serializable {
 }
 ');
 INSERT INTO submission_file (id, submission_id, file_name, file)
-VALUES (4, 1, 'SimpleCalculator.java', 'public class SimpleCalculator {
+VALUES (4, 2, 'SimpleCalculator.java', 'public class SimpleCalculator {
 
     public static int add(int a, int b) {
         return a + b;
@@ -604,3 +604,9 @@ VALUES (4, 1, 'SimpleCalculator.java', 'public class SimpleCalculator {
         System.out.println("Die Summe von " + num1 + " und " + num2 + " ist: " + result);
     }
 }');
+
+INSERT INTO checker_result (exercise_id, checker_id, submission_id, has_passed, result_description)
+VALUES (1, 1, 2, TRUE, 'This is a description for checker 1.');
+
+INSERT INTO checker_result (exercise_id, checker_id, submission_id, has_passed, result_description)
+VALUES (1, 2, 2, FALSE, 'This is a description for checker 2.');
