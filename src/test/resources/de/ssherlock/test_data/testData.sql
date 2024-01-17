@@ -24,8 +24,9 @@ INSERT INTO exercise (id, name, publish_date, recommended_deadline, obligatory_d
 INSERT INTO exercise (id, name, publish_date, recommended_deadline, obligatory_deadline, description, course_id, reminder_mail_sent) VALUES (10, 'Exercise 10', '2024-01-05 12:59:36.358768+01', '2024-01-12 12:59:36.358768+01', '2024-01-19 12:59:36.358768+01', '<h1>Exercise 10 Description</h2>', 6, false);
 INSERT INTO exercise (id, name, publish_date, recommended_deadline, obligatory_deadline, description, course_id, reminder_mail_sent) VALUES (11, 'Exercise 11', '2024-01-05 12:59:36.358768+01', '2024-01-12 12:59:36.358768+01', '2024-01-19 12:59:36.358768+01', '<h1>Exercise 11 Description</h2>', 7, false);
 
-INSERT INTO checker (id, exercise_id, is_visible, is_required, parameter_1, parameter_2, type) VALUES (1, 1, true, true, NULL, NULL, 'IDENTITY');
+INSERT INTO checker (id, exercise_id, is_visible, is_required, parameter_1, parameter_2, type) VALUES (3, 1, true, true, NULL, NULL, 'IDENTITY');
 INSERT INTO checker (id, exercise_id, is_visible, is_required, parameter_1, parameter_2, type) VALUES (2, 1, true, true, NULL, NULL, 'COMPILATION');
+INSERT INTO checker (id, exercise_id, is_visible, is_required, parameter_1, parameter_2, type) VALUES (13, 1, true, true, 'one', 'two', 'USER_DEFINED');
 INSERT INTO checker (id, exercise_id, is_visible, is_required, parameter_1, parameter_2, type) VALUES (3, 2, true, true, NULL, NULL, 'IDENTITY');
 INSERT INTO checker (id, exercise_id, is_visible, is_required, parameter_1, parameter_2, type) VALUES (4, 2, true, true, NULL, NULL, 'COMPILATION');
 INSERT INTO checker (id, exercise_id, is_visible, is_required, parameter_1, parameter_2, type) VALUES (5, 3, true, true, NULL, NULL, 'IDENTITY');

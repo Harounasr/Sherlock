@@ -31,18 +31,13 @@
                         <h:outputLabel class="profileoutput" id="lastName" type="text" value="#{profileBean.user.lastName}"/>
                     </div>
 
-                    <h:outputLabel styleClass="form-group" value="#{profileBean.user.facultyName}"/>
-
-
-
-
                     <h:form>
                         <div class="form-group">
                             <label for="facultyDropdown">Select Faculty:</label>
-                            <h:selectOneMenu id="facultyDropdown" value="#{profileBean.changedUser.facultyName}">
-                                <f:selectItem itemLabel="-- Select Faculty --" itemValue="" />
+                            <h:selectOneListbox id="facultyDropdown" value="#{profileBean.changedUser.facultyName}" size="1" styleClass="form-control">
                                 <f:selectItems value="#{profileBean.facultyService.faculties}" />
-                            </h:selectOneMenu>
+                                <f:ajax listener="#{profileBean.submitFacultyChange()}" render="@form"/>
+                            </h:selectOneListbox>
                         </div>
 
                         <h:commandButton value="Submit" action="#{profileBean.submitFacultyChange()}" />
@@ -75,7 +70,7 @@
 
 
                         <h:commandButton  value="Change Password" action="#{profileBean.submitPasswordChange()}"/>
-                        <h:commandButton class="commandButton" value="Delete Account" action="#{profileBean.deleteAccount}"/>
+                        <h:commandButton id="deleteAccountButton" class="commandButton" value="Delete Account" action="#{profileBean.deleteAccount}"/>
             </h:form>
 
                 </div>
