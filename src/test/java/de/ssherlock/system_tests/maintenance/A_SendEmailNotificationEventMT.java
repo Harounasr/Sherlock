@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 @Disabled
 @SuppressWarnings({"checkstyle:MagicNumber", "PMD.UseUnderscoresInNumericLiterals"})
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class SendEmailNotificationEventMT {
+public class A_SendEmailNotificationEventMT {
 
     /**
      * Tests whether the emails are sent.

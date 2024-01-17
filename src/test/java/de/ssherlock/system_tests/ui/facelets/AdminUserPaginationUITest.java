@@ -47,7 +47,7 @@ public class AdminUserPaginationUITest extends AbstractSeleniumUITest {
             Arrays.asList("member5", "User", "Nine", "member5", "Mathematik", "REGISTERED"),
             Arrays.asList("member6", "User", "Ten", "member6", "Mathematik", "REGISTERED"),
             Arrays.asList("member7", "User", "Eleven", "member7", "Mathematik", "REGISTERED"),
-            Arrays.asList("teacher", "User", "Two", "teacher", "Mathematik", "TEACHER")
+            Arrays.asList("passwordReset", "User", "Twelve", "passwordReset", "Mathematik", "REGISTERED")
     );
 
     /**

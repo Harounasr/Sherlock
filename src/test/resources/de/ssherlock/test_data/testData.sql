@@ -22,7 +22,11 @@ INSERT INTO exercise (id, name, publish_date, recommended_deadline, obligatory_d
 INSERT INTO exercise (id, name, publish_date, recommended_deadline, obligatory_deadline, description, course_id, reminder_mail_sent) VALUES (8, 'Exercise 8', '2024-01-05 12:59:36.358768+01', '2024-01-12 12:59:36.358768+01', '2024-01-19 12:59:36.358768+01', '<h1>Exercise 8 Description</h2>', 4, false);
 INSERT INTO exercise (id, name, publish_date, recommended_deadline, obligatory_deadline, description, course_id, reminder_mail_sent) VALUES (9, 'Exercise 9', '2024-01-05 12:59:36.358768+01', '2024-01-12 12:59:36.358768+01', '2024-01-19 12:59:36.358768+01', '<h1>Exercise 9 Description</h2>', 5, false);
 INSERT INTO exercise (id, name, publish_date, recommended_deadline, obligatory_deadline, description, course_id, reminder_mail_sent) VALUES (10, 'Exercise 10', '2024-01-05 12:59:36.358768+01', '2024-01-12 12:59:36.358768+01', '2024-01-19 12:59:36.358768+01', '<h1>Exercise 10 Description</h2>', 6, false);
-INSERT INTO exercise (id, name, publish_date, recommended_deadline, obligatory_deadline, description, course_id, reminder_mail_sent) VALUES (11, 'Exercise 11', '2024-01-05 12:59:36.358768+01', '2024-01-12 12:59:36.358768+01', '2024-01-19 12:59:36.358768+01', '<h1>Exercise 11 Description</h2>', 7, false);
+INSERT INTO exercise (id, name, publish_date, recommended_deadline, obligatory_deadline, description, course_id, reminder_mail_sent) VALUES (11, 'Exercise 11', '2024-01-05 12:59:36.358768+01', '2024-01-12 12:59:36.358768+01', '2024-01-19 12:59:36.358768+01', '<h1>Exercise 11 Description</h2><img src="http://localhost:8080/ssherlock/image?Id=4f7c5231-d22c-4d68-9b7a-1a926a37d9c3"', 7, false);
+
+
+INSERT INTO exercise_image (uuid, exercise_id, exercise_image) VALUES (('4f7c5231-d22c-4d68-9b7a-1a926a37d9c3'::uuid), 11, E'\\x0123456789ABCDEF');
+INSERT INTO exercise_image (uuid, exercise_id, exercise_image) VALUES (('a11b9f3e-6f3a-4a2c-8cb2-5a81e7e74d65'::uuid), 11, E'\\x0123456789ABCDEF');
 
 INSERT INTO checker (id, exercise_id, is_visible, is_required, parameter_1, parameter_2, type) VALUES (1, 1, true, true, NULL, NULL, 'IDENTITY');
 INSERT INTO checker (id, exercise_id, is_visible, is_required, parameter_1, parameter_2, type) VALUES (2, 1, true, true, NULL, NULL, 'COMPILATION');
@@ -79,6 +83,9 @@ INSERT INTO "user" (id, username, email, firstname, lastname, faculty, password_
 VALUES (15, 'passwordReset', 'passwordReset', 'User', 'Twelve', 'Mathematik',
         'QWIbZACnFJmEF0R0DBrVkhXoOeUb2qF0ioqrcLLMogl1bM0fuzlvrF4/u2xYeqGqBNFgJkUBzuYW3ezdm/qZ+g==', 'cF94pcrvA83ZBcJ6tQc4PA==', 'REGISTERED', 1,
         '12345', '2025-12-01 01:00:00+01');
+
+INSERT INTO "user" (id, username, email, firstname, lastname, faculty, password_hash, password_salt, user_role, failed_login_attempts, token, expiry_date) VALUES (16, 'unverifiedClean1', 'unverifiedClean1', 'User', 'Sixteen', 'Mathematik',                                       'QWIbZACnFJmEF0R0DBrVkhXoOeUb2qF0ioqrcLLMogl1bM0fuzlvrF4/u2xYeqGqBNFgJkUBzuYW3ezdm/qZ+g==', 'cF94pcrvA83ZBcJ6tQc4PA==','NOT_REGISTERED', 1, '12345', '2023-12-01 01:00:00+01');
+
 
 INSERT INTO participates (user_id, course_id, user_role)
 VALUES (2, 1, 'TEACHER');

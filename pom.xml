@@ -715,6 +715,7 @@
                                     <includes>
                                         <include>**/*MT.java</include>
                                     </includes>
+                                    <runOrder>alphabetical</runOrder>
 
                                     <skipTests>${skipMaintenanceTests}</skipTests>
                                     <!--suppress UnresolvedMavenProperty -->

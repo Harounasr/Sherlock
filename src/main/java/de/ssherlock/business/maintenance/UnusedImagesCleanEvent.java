@@ -6,7 +6,7 @@ import de.ssherlock.persistence.connection.ConnectionPool;
 import de.ssherlock.persistence.repository.ExerciseDescriptionImageRepository;
 import de.ssherlock.persistence.repository.RepositoryFactory;
 import de.ssherlock.persistence.repository.RepositoryType;
-import jakarta.inject.Inject;
+import jakarta.enterprise.inject.spi.CDI;
 
 import java.sql.Connection;
 import java.util.logging.Level;
@@ -25,11 +25,11 @@ public class UnusedImagesCleanEvent implements Runnable {
     /**
      * The Connection pool for this class.
      */
-    @Inject
-    private ConnectionPool connectionPool;
+    private final ConnectionPool connectionPool;
 
     /** Constructs a new UnusedImagesCleanEvent. */
     public UnusedImagesCleanEvent() {
+        connectionPool = CDI.current().select(ConnectionPool.class).get();
     }
 
     /**
