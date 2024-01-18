@@ -13,6 +13,7 @@ import de.ssherlock.global.transport.Pagination;
 import de.ssherlock.global.transport.SystemRole;
 import de.ssherlock.global.transport.User;
 import de.ssherlock.persistence.connection.ConnectionPool;
+import de.ssherlock.persistence.exception.MailUnavailableException;
 import de.ssherlock.persistence.exception.PersistenceNonExistentUserException;
 import de.ssherlock.persistence.repository.ExerciseRepository;
 import de.ssherlock.persistence.repository.RepositoryFactory;
@@ -226,7 +227,8 @@ public class UserService implements Serializable {
                 exerciseRepository.updateReminderMailSent(entry.getKey());
                 connectionPool.releaseConnection(connection1);
             } else {
-                logger.log(Level.INFO, "Reminder email could not be send.");
+                logger.warning("Reminder email could not be send.");
+                throw new MailUnavailableException("Mail server is currently unavailable.");
             }
         }
     }

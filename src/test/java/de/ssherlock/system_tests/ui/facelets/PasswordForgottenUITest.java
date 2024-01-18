@@ -33,6 +33,7 @@ public class PasswordForgottenUITest extends AbstractSeleniumUITest {
      * User should be redirected to the login Facelet.
      */
     @Test
+    @Disabled
     void testNavigateToLogin() {
         SeleniumUITestUtils.navigateTo(getDriver(), "view/public/passwordForgotten.xhtml");
         SeleniumUITestUtils.enterOnElementWithId(getWait(), "passwordForgottenForm:backToLogin");

@@ -1,0 +1,13 @@
+DELETE FROM system_settings;
+DELETE FROM participates;
+DELETE FROM "user";
+DELETE FROM faculty;
+DELETE FROM exercise_image;
+DELETE FROM exercise;
+DELETE FROM checker_result;
+DELETE FROM checker;
+DELETE FROM submission_file;
+DELETE FROM submission;
+DELETE FROM testate_comment;
+DELETE FROM testate;
+DELETE FROM course;

@@ -88,7 +88,8 @@ public class ExerciseDescriptionImageRepositoryPsql extends RepositoryPsql
                           WHERE NOT EXISTS (
                               SELECT 1
                               FROM exercise
-                              WHERE description ILIKE '%' || exercise_image.uuid || '%'
+                              WHERE id = exercise_image.exercise_id
+                              AND description ILIKE '%' || exercise_image.uuid::text || '%'
                           );
                           """;
         try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {

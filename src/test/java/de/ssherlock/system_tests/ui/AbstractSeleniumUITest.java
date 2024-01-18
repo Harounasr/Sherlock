@@ -2,7 +2,8 @@ package de.ssherlock.system_tests.ui;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -13,24 +14,45 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.Duration;
+import java.util.stream.Collectors;
 
 /**
  * Abstract class defining setup and teardown methods for Selenium UI Tests.
  *
  * @author Victor Vollmann
  */
+@SuppressWarnings("PMD.DesignForExtension")
 public abstract class AbstractSeleniumUITest {
+
+    /**
+     * Location of the clear database script.
+     */
+    private static final String CLEAR_TABLES_LOCATION = "de/ssherlock/test_data/clear_tables.sql";
+
+    /**
+     * Location of the test data script.
+     */
+    private static final String TEST_DATA_LOCATION = "de/ssherlock/test_data/testData.sql";
 
     /**
      * The current WebDriver.
      */
-    private static WebDriver driver;
+    private WebDriver driver;
 
     /**
      * The current WebDriverWait.
      */
-    private static WebDriverWait wait;
+    private WebDriverWait wait;
 
     /**
      * The timeout for elements to be found.
@@ -50,8 +72,8 @@ public abstract class AbstractSeleniumUITest {
     /**
      * Sets up the web driver and wait and the embedded database.
      */
-    @BeforeAll
-    public static void setUp() {
+    @BeforeEach
+    public void setUp() {
         String browser = System.getProperty("SYSTEM_TEST_BROWSER", "chrome");
         switch (browser) {
         case "chrome" -> {
@@ -59,6 +81,7 @@ public abstract class AbstractSeleniumUITest {
             if (System.getenv("GITLAB_CI") != null || System.getenv("JENKINS_NODE_COOKIE") != null) {
                 options.addArguments("--headless");
             }
+            options.addArguments("--headless");
             driver = new ChromeDriver(options);
         }
         case "edge" -> {
@@ -82,13 +105,24 @@ public abstract class AbstractSeleniumUITest {
     }
 
     /**
-     * Tears down the web driver.
+     * Resets the web driver after each test.
      */
-    @AfterAll
-    public static void tearDown() {
+    @AfterEach
+    public void resetDriver() {
         if (driver != null) {
             driver.quit();
         }
+    }
+
+    /**
+     * Tears down the web driver.
+     *
+     * @throws SQLException When the database cannot be started.
+     * @throws IOException  When the scripts cannot be found.
+     */
+    @AfterAll
+    public static void tearDown() throws SQLException, IOException {
+        resetDatabase();
     }
 
     /**
@@ -97,7 +131,7 @@ public abstract class AbstractSeleniumUITest {
      * @return the driver
      */
     @SuppressFBWarnings("MS_EXPOSE_REP")
-    public static WebDriver getDriver() {
+    public WebDriver getDriver() {
         return driver;
     }
 
@@ -106,8 +140,34 @@ public abstract class AbstractSeleniumUITest {
      *
      * @return the wait
      */
-    public static WebDriverWait getWait() {
+    public WebDriverWait getWait() {
         return wait;
+    }
+
+    /**
+     * Resets the database.
+     *
+     * @throws SQLException When the database cannot be started.
+     * @throws IOException  When the scripts cannot be found.
+     */
+    private static void resetDatabase() throws SQLException, IOException {
+        try (Connection connection = DriverManager.getConnection(SeleniumUITestUtils.DATABASE_URL);
+             Statement clearDB = connection.createStatement();
+             Statement fillDB = connection.createStatement()) {
+            InputStream clearInput = Thread.currentThread().getContextClassLoader().getResourceAsStream(CLEAR_TABLES_LOCATION);
+            InputStream fillInput = Thread.currentThread().getContextClassLoader().getResourceAsStream(TEST_DATA_LOCATION);
+            if (clearInput == null || fillInput == null) {
+                throw new IllegalArgumentException("SQL script file not found.");
+            }
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(clearInput, StandardCharsets.UTF_8))) {
+                String sql = reader.lines().collect(Collectors.joining("\n"));
+                clearDB.execute(sql);
+            }
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(fillInput, StandardCharsets.UTF_8))) {
+                String sql = reader.lines().collect(Collectors.joining("\n"));
+                fillDB.execute(sql);
+            }
+        }
     }
 
 }

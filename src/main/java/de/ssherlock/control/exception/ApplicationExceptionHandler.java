@@ -77,7 +77,6 @@ public class ApplicationExceptionHandler extends ExceptionHandlerWrapper {
         } else {
             return;
         }
-        unhandledExceptions.remove();
         while (unhandledExceptions.hasNext()) {
             unhandledExceptions.next();
             unhandledExceptions.remove();

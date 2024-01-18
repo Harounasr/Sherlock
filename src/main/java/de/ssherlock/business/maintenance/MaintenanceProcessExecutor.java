@@ -38,7 +38,7 @@ public class MaintenanceProcessExecutor extends ScheduledThreadPoolExecutor {
     /**
      * The delay after which events should be fired for the first time.
      */
-    private static final int START_DELAY = 10;
+    private static final int START_DELAY = 5;
 
     /**
      * Constructs a new MaintenanceProcessExecutor.
@@ -65,7 +65,7 @@ public class MaintenanceProcessExecutor extends ScheduledThreadPoolExecutor {
         }
         LOGGER.info("Loaded maintenance configuration.");
 
-        this.scheduleAtFixedRate(new SendEmailNotificationEvent(),
+        this.scheduleWithFixedDelay(new SendEmailNotificationEvent(),
                                  START_DELAY, Long.parseLong(properties.getProperty("sendEmailNotification.delay")), TimeUnit.SECONDS);
         LOGGER.info("Scheduled SendEmailNotificationEvent at rate " + properties.getProperty("sendEmailNotification.delay") + " (seconds).");
 

@@ -80,7 +80,7 @@ public class SubmissionPaginationUITest extends AbstractSeleniumUITest {
      *
      * @param username The username.
      */
-    private static void loginAndNavigateAsUser(String username) {
+    private void loginAndNavigateAsUser(String username) {
         SeleniumUITestUtils.tryLogin(getDriver(), getWait(), username, SeleniumUITestUtils.GLOBAL_PASSWORD);
         SeleniumUITestUtils.navigateTo(getDriver(), "view/registered/course.xhtml?Id=1");
         WebElement exerciseButton = getWait().until(elementToBeClickable(By.cssSelector("input[value='To Exercise']")));

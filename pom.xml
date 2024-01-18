@@ -78,6 +78,21 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JUnit 5 Engine dependency -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+
         <!-- JUnit test suite -->
         <dependency>
             <groupId>org.junit.platform</groupId>
@@ -200,7 +215,7 @@
 
         <dependency>
             <groupId>org.jsmart</groupId>
-            <artifactId>zerocode-tdd</artifactId>
+            <artifactId>zerocode-tdd-jupiter</artifactId>
             <version>${zerocode.version}</version>
             <scope>test</scope>
         </dependency>
@@ -210,6 +225,8 @@
             <artifactId>commons-io</artifactId>
             <version>${commons-io.version}</version>
         </dependency>
+
+
 
     </dependencies>
 
@@ -240,6 +257,13 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.maven.surefire</groupId>
+                        <artifactId>surefire-junit-platform</artifactId>
+                        <version>${maven-surefire-plugin.version}</version>
+                    </dependency>
+                </dependencies>
                 <executions>
                     <execution>
                         <id>default-test</id>
@@ -382,6 +406,13 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
                         <version>${maven-failsafe-plugin.version}</version>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.apache.maven.surefire</groupId>
+                                <artifactId>surefire-junit-platform</artifactId>
+                                <version>${maven-surefire-plugin.version}</version>
+                            </dependency>
+                        </dependencies>
                         <executions>
                             <execution>
                                 <id>integration-tests</id>
@@ -465,6 +496,13 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
                         <version>${maven-failsafe-plugin.version}</version>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.apache.maven.surefire</groupId>
+                                <artifactId>surefire-junit-platform</artifactId>
+                                <version>${maven-surefire-plugin.version}</version>
+                            </dependency>
+                        </dependencies>
                         <executions>
                             <execution>
                                 <id>system-tests</id>
@@ -474,10 +512,10 @@
                                 </goals>
                                 <configuration>
                                     <includes>
-                                        <include>**/*ST.java</include>
+                                        <include>**/*MT.java</include>
                                         <include>**/*UITest.java</include>
                                     </includes>
-
+                                    <runOrder>alphabetical</runOrder>
                                     <skipTests>${skipSystemTests}</skipTests>
                                     <!--suppress UnresolvedMavenProperty -->
                                     <argLine>${failsafeSystemTestArgLine}</argLine>
@@ -610,6 +648,28 @@
                         <artifactId>cargo-maven3-plugin</artifactId>
                         <version>${cargo-maven3-plugin.version}</version>
                         <configuration>
+                            <container>
+                                <containerId>tomcat10x</containerId>
+                                <zipUrlInstaller>
+                                    <url>https://downloads.apache.org/tomcat/tomcat-10/v10.1.18/bin/apache-tomcat-10.1.18.zip</url>
+                                </zipUrlInstaller>
+                            </container>
+
+                            <deployables>
+                                <deployable>
+                                    <location>${project.build.directory}/ssherlock-load_test.war</location>
+                                    <type>war</type>
+                                </deployable>
+                            </deployables>
+                            <configuration>
+                                <properties>
+                                    <cargo.jvmargs>
+                                        -javaagent:${settings.localRepository}/org/jacoco/org.jacoco.agent/${jacoco.version}/org.jacoco.agent-${jacoco.version}-runtime.jar=destfile=${project.build.directory}/coverage-reports/jacoco-st.exec,append=true
+                                    </cargo.jvmargs>
+                                </properties>
+                                <home>${project.build.directory}/tomcat</home>
+                                <type>standalone</type>
+                            </configuration>
                         </configuration>
                         <executions>
                             <execution>
@@ -642,175 +702,32 @@
                             </webResources>
                         </configuration>
                     </plugin>
-
                     <plugin>
+                        <!-- Runs and builds the test reports of the unit tests -->
                         <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>${maven-failsafe-plugin.version}</version>
-                        <configuration>
-                            <environmentVariables>
-                                <!--suppress UnresolvedMavenProperty -->
-                                <SYSTEM_TEST_BROWSER>${SYSTEM_TEST_BROWSER}</SYSTEM_TEST_BROWSER>
-                            </environmentVariables>
-                        </configuration>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>${maven-surefire-plugin.version}</version>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.apache.maven.surefire</groupId>
+                                <artifactId>surefire-junit-platform</artifactId>
+                                <version>${maven-surefire-plugin.version}</version>
+                            </dependency>
+                        </dependencies>
                         <executions>
                             <execution>
                                 <id>load-tests</id>
+                                <phase>integration-test</phase>
                                 <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
+                                    <goal>test</goal>
                                 </goals>
                                 <configuration>
                                     <includes>
-                                        <include>**/*LoadTest.java</include>
-                                        <include>**/MainLoadTest.java</include>
+                                        <include>de.ssherlock.load_tests.MainLoadTest</include>
                                     </includes>
-
                                     <skipTests>${skipSystemTests}</skipTests>
                                     <!--suppress UnresolvedMavenProperty -->
-                                    <argLine>${failsafeSystemTestArgLine}</argLine>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <id>maintenance-tests</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <version>${exec-maven.version}</version>
-                        <executions>
-                            <execution>
-                                <id>start-embedded-db</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>java</goal>
-                                </goals>
-                                <configuration>
-                                    <mainClass>de.ssherlock.StartEmbeddedDatabase</mainClass>
-                                    <classpathScope>test</classpathScope>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <!-- The failsafe plugin does similar to surefire but for system tests -->
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>${maven-failsafe-plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <id>maintenance-tests</id>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
-                                </goals>
-                                <configuration>
-                                    <includes>
-                                        <include>**/*MT.java</include>
-                                    </includes>
-
-                                    <skipTests>${skipMaintenanceTests}</skipTests>
-                                    <!--suppress UnresolvedMavenProperty -->
-                                    <argLine>${failsafeSystemTestArgLine}</argLine>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.codehaus.cargo</groupId>
-                        <artifactId>cargo-maven3-plugin</artifactId>
-                        <version>${cargo-maven3-plugin.version}</version>
-                        <configuration>
-                            <container>
-                                <containerId>tomcat10x</containerId>
-                                <zipUrlInstaller>
-                                    <url>https://downloads.apache.org/tomcat/tomcat-10/v10.1.18/bin/apache-tomcat-10.1.18.zip</url>
-                                </zipUrlInstaller>
-                            </container>
-
-                            <deployables>
-                                <deployable>
-                                    <location>${project.build.directory}/ssherlock-maintenance_test.war</location>
-                                    <type>war</type>
-                                </deployable>
-                            </deployables>
-                            <configuration>
-                                <properties>
-                                    <cargo.jvmargs>
-                                        -javaagent:${settings.localRepository}/org/jacoco/org.jacoco.agent/${jacoco.version}/org.jacoco.agent-${jacoco.version}-runtime.jar=destfile=${project.build.directory}/coverage-reports/jacoco-mt.exec,append=true
-                                    </cargo.jvmargs>
-                                </properties>
-                                <home>${project.build.directory}/tomcat</home>
-                                <type>standalone</type>
-                            </configuration>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>start-tomcat</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>start</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>stop-tomcat</id>
-                                <phase>post-integration-test</phase>
-                                <goals>
-                                    <goal>stop</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-compiler-plugin</artifactId>
-                        <version>${maven-compiler-plugin.version}</version>
-                        <configuration>
-                            <source>${maven.compiler.source}</source>
-                            <target>${maven.compiler.target}</target>
-                            <debug>true</debug>
-                            <debuglevel>lines,vars,source</debuglevel>
-                        </configuration>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <version>${maven-war-plugin.version}</version>
-                        <configuration>
-                            <warName>${project.artifactId}-maintenance_test</warName>
-                            <webResources>
-                                <resource>
-                                    <directory>${project.basedir}/src/test/resources-mt/WEB-INF</directory>
-                                    <targetPath>/WEB-INF/</targetPath>
-                                </resource>
-                            </webResources>
-                        </configuration>
-                    </plugin>
-
-                    <plugin>
-                        <!-- Measure coverage for system tests -->
-                        <groupId>org.jacoco</groupId>
-                        <artifactId>jacoco-maven-plugin</artifactId>
-                        <version>${jacoco.version}</version>
-                        <executions>
-                            <execution>
-                                <id>post-system-test</id>
-                                <phase>post-integration-test</phase>
-                                <goals>
-                                    <goal>report</goal>
-                                </goals>
-                                <configuration>
-                                    <dataFile>${project.build.directory}/coverage-reports/jacoco-mt.exec</dataFile>
-                                    <outputDirectory>${project.reporting.outputDirectory}/jacoco-mt</outputDirectory>
+                                    <argLine>${surefireArgLine}</argLine>
                                 </configuration>
                             </execution>
                         </executions>

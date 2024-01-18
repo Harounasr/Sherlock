@@ -214,7 +214,7 @@ public class ExerciseDescriptionUITest extends AbstractSeleniumUITest {
     /**
      * Clicks the edit button.
      */
-    private static void clickEditButton() {
+    private void clickEditButton() {
         WebElement editButton = getWait().until(elementToBeClickable(By.cssSelector("[id$='editButton']")));
         editButton.click();
     }
@@ -222,7 +222,7 @@ public class ExerciseDescriptionUITest extends AbstractSeleniumUITest {
     /**
      * Clicks the save button.
      */
-    private static void clickSaveButton() {
+    private void clickSaveButton() {
         WebElement saveButton = getWait().until(elementToBeClickable(By.cssSelector("[id$='saveButton']")));
         saveButton.click();
     }

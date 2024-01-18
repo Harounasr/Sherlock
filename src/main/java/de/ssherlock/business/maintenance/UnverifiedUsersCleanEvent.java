@@ -6,7 +6,7 @@ import de.ssherlock.persistence.connection.ConnectionPool;
 import de.ssherlock.persistence.repository.RepositoryFactory;
 import de.ssherlock.persistence.repository.RepositoryType;
 import de.ssherlock.persistence.repository.UserRepository;
-import jakarta.inject.Inject;
+import jakarta.enterprise.inject.spi.CDI;
 
 import java.sql.Connection;
 import java.util.logging.Level;
@@ -25,11 +25,12 @@ public class UnverifiedUsersCleanEvent implements Runnable {
     /**
      * The Connection pool for this class.
      */
-    @Inject
-    private ConnectionPool connectionPool;
+    private final ConnectionPool connectionPool;
 
     /** Constructs a new UnverifiedUsersCleanEvent. */
-    public UnverifiedUsersCleanEvent() {}
+    public UnverifiedUsersCleanEvent() {
+        connectionPool = CDI.current().select(ConnectionPool.class).get();
+    }
 
     /**
      * Executes the cleaning of unverified users.
