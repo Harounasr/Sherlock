@@ -512,10 +512,10 @@
                                 </goals>
                                 <configuration>
                                     <includes>
-                                        <include>**/*ST.java</include>
+                                        <include>**/*MT.java</include>
                                         <include>**/*UITest.java</include>
                                     </includes>
-
+                                    <runOrder>alphabetical</runOrder>
                                     <skipTests>${skipSystemTests}</skipTests>
                                     <!--suppress UnresolvedMavenProperty -->
                                     <argLine>${failsafeSystemTestArgLine}</argLine>
@@ -728,149 +728,6 @@
                                     <skipTests>${skipSystemTests}</skipTests>
                                     <!--suppress UnresolvedMavenProperty -->
                                     <argLine>${surefireArgLine}</argLine>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <id>maintenance-tests</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <version>${exec-maven.version}</version>
-                        <executions>
-                            <execution>
-                                <id>start-embedded-db</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>java</goal>
-                                </goals>
-                                <configuration>
-                                    <mainClass>de.ssherlock.StartEmbeddedDatabase</mainClass>
-                                    <classpathScope>test</classpathScope>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <!-- The failsafe plugin does similar to surefire but for system tests -->
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>${maven-failsafe-plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <id>maintenance-tests</id>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
-                                </goals>
-                                <configuration>
-                                    <includes>
-                                        <include>**/*MT.java</include>
-                                    </includes>
-                                    <runOrder>alphabetical</runOrder>
-
-                                    <skipTests>${skipMaintenanceTests}</skipTests>
-                                    <!--suppress UnresolvedMavenProperty -->
-                                    <argLine>${failsafeSystemTestArgLine}</argLine>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.codehaus.cargo</groupId>
-                        <artifactId>cargo-maven3-plugin</artifactId>
-                        <version>${cargo-maven3-plugin.version}</version>
-                        <configuration>
-                            <container>
-                                <containerId>tomcat10x</containerId>
-                                <zipUrlInstaller>
-                                    <url>https://downloads.apache.org/tomcat/tomcat-10/v10.1.18/bin/apache-tomcat-10.1.18.zip</url>
-                                </zipUrlInstaller>
-                            </container>
-
-                            <deployables>
-                                <deployable>
-                                    <location>${project.build.directory}/ssherlock-maintenance_test.war</location>
-                                    <type>war</type>
-                                </deployable>
-                            </deployables>
-                            <configuration>
-                                <properties>
-                                    <cargo.jvmargs>
-                                        -javaagent:${settings.localRepository}/org/jacoco/org.jacoco.agent/${jacoco.version}/org.jacoco.agent-${jacoco.version}-runtime.jar=destfile=${project.build.directory}/coverage-reports/jacoco-mt.exec,append=true
-                                    </cargo.jvmargs>
-                                </properties>
-                                <home>${project.build.directory}/tomcat</home>
-                                <type>standalone</type>
-                            </configuration>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>start-tomcat</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>start</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>stop-tomcat</id>
-                                <phase>post-integration-test</phase>
-                                <goals>
-                                    <goal>stop</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-compiler-plugin</artifactId>
-                        <version>${maven-compiler-plugin.version}</version>
-                        <configuration>
-                            <source>${maven.compiler.source}</source>
-                            <target>${maven.compiler.target}</target>
-                            <debug>true</debug>
-                            <debuglevel>lines,vars,source</debuglevel>
-                        </configuration>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <version>${maven-war-plugin.version}</version>
-                        <configuration>
-                            <warName>${project.artifactId}-maintenance_test</warName>
-                            <webResources>
-                                <resource>
-                                    <directory>${project.basedir}/src/test/resources-mt/WEB-INF</directory>
-                                    <targetPath>/WEB-INF/</targetPath>
-                                </resource>
-                            </webResources>
-                        </configuration>
-                    </plugin>
-
-                    <plugin>
-                        <!-- Measure coverage for system tests -->
-                        <groupId>org.jacoco</groupId>
-                        <artifactId>jacoco-maven-plugin</artifactId>
-                        <version>${jacoco.version}</version>
-                        <executions>
-                            <execution>
-                                <id>post-system-test</id>
-                                <phase>post-integration-test</phase>
-                                <goals>
-                                    <goal>report</goal>
-                                </goals>
-                                <configuration>
-                                    <dataFile>${project.build.directory}/coverage-reports/jacoco-mt.exec</dataFile>
-                                    <outputDirectory>${project.reporting.outputDirectory}/jacoco-mt</outputDirectory>
                                 </configuration>
                             </execution>
                         </executions>
