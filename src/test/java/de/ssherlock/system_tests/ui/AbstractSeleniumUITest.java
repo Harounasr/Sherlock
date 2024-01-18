@@ -2,7 +2,8 @@ package de.ssherlock.system_tests.ui;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -45,12 +46,12 @@ public abstract class AbstractSeleniumUITest {
     /**
      * The current WebDriver.
      */
-    private static WebDriver driver;
+    private WebDriver driver;
 
     /**
      * The current WebDriverWait.
      */
-    private static WebDriverWait wait;
+    private WebDriverWait wait;
 
     /**
      * The timeout for elements to be found.
@@ -70,8 +71,8 @@ public abstract class AbstractSeleniumUITest {
     /**
      * Sets up the web driver and wait and the embedded database.
      */
-    @BeforeAll
-    public static void setUp() {
+    @BeforeEach
+    public void setUp() {
         String browser = System.getProperty("SYSTEM_TEST_BROWSER", "chrome");
         switch (browser) {
         case "chrome" -> {
@@ -101,17 +102,21 @@ public abstract class AbstractSeleniumUITest {
         wait = new WebDriverWait(driver, Duration.ofSeconds(TIMEOUT));
     }
 
+    @AfterEach
+    public void resetDriver() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+
     /**
      * Tears down the web driver.
      *
      * @throws SQLException When the database cannot be started.
-     * @throws IOException When the scripts cannot be found.
+     * @throws IOException  When the scripts cannot be found.
      */
     @AfterAll
     public static void tearDown() throws SQLException, IOException {
-        if (driver != null) {
-            driver.quit();
-        }
         resetDatabase();
     }
 
@@ -121,7 +126,7 @@ public abstract class AbstractSeleniumUITest {
      * @return the driver
      */
     @SuppressFBWarnings("MS_EXPOSE_REP")
-    public static WebDriver getDriver() {
+    public WebDriver getDriver() {
         return driver;
     }
 
@@ -130,7 +135,7 @@ public abstract class AbstractSeleniumUITest {
      *
      * @return the wait
      */
-    public static WebDriverWait getWait() {
+    public WebDriverWait getWait() {
         return wait;
     }
 
@@ -138,7 +143,7 @@ public abstract class AbstractSeleniumUITest {
      * Resets the database.
      *
      * @throws SQLException When the database cannot be started.
-     * @throws IOException When the scripts cannot be found.
+     * @throws IOException  When the scripts cannot be found.
      */
     private static void resetDatabase() throws SQLException, IOException {
         try (Connection connection = DriverManager.getConnection(SeleniumUITestUtils.DATABASE_URL);
