@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS "user"
     firstname     VARCHAR(50)             NOT NULL,
     lastname      VARCHAR(50)             NOT NULL,
     faculty       VARCHAR(50)             DEFAULT 'NONE',
-    password_hash VARCHAR(100)             NOT NULL,
+    password_hash VARCHAR(100)            NOT NULL,
     password_salt VARCHAR(50)             NOT NULL,
     user_role     SYSTEM_ROLE             NOT NULL,
     failed_login_attempts INTEGER         DEFAULT 0,

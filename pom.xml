@@ -512,8 +512,8 @@
                                 </goals>
                                 <configuration>
                                     <includes>
-                                        <include>**/*MT.java</include>
                                         <include>**/*UITest.java</include>
+                                        <include>**/*MT.java</include>
                                     </includes>
                                     <runOrder>alphabetical</runOrder>
                                     <skipTests>${skipSystemTests}</skipTests>

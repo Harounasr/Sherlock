@@ -117,9 +117,15 @@ public class ExerciseDescriptionUITest extends AbstractSeleniumUITest {
             }
         }
         case "chrome" -> {
-            obDeadline.sendKeys("21012026");
-            obDeadline.sendKeys(Keys.TAB);
-            obDeadline.sendKeys("1926");
+            if (System.getenv("GITLAB_CI") != null) {
+                obDeadline.sendKeys("21012026");
+                obDeadline.sendKeys(Keys.TAB);
+                obDeadline.sendKeys("1926");
+            } else {
+                obDeadline.sendKeys("01212026");
+                obDeadline.sendKeys(Keys.TAB);
+                obDeadline.sendKeys("1926");
+            }
         }
         case "edge" -> {
             obDeadline.sendKeys("01212026");
