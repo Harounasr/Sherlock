@@ -10,6 +10,9 @@ import de.ssherlock.global.transport.User;
  */
 public final class MailContentBuilder {
 
+    /**
+     * The base URL for the verification links.
+     */
   private static final String URL = "http://localhost:8016/ssherlock_war_exploded/view/public/";
 
   /** Default constructor. */
