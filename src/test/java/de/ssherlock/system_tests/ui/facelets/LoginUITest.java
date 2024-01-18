@@ -25,7 +25,7 @@ public class LoginUITest extends AbstractSeleniumUITest {
     @Test
     void testLoginSuccess() {
         SeleniumUITestUtils.tryLogin(getDriver(), getWait(), SeleniumUITestUtils.ADMIN_USERNAME, SeleniumUITestUtils.GLOBAL_PASSWORD);
-        assertTrue(getDriver().getCurrentUrl().contains(SeleniumUITestUtils.BASE_URL + "view/registered/coursePagination.xhtml?all=true"));
+        assertEquals(SeleniumUITestUtils.BASE_URL + "view/registered/coursePagination.xhtml?all=true", getDriver().getCurrentUrl());
     }
 
     /**
@@ -34,7 +34,7 @@ public class LoginUITest extends AbstractSeleniumUITest {
     @Test
     void testLoginFailed() {
         SeleniumUITestUtils.tryLogin(getDriver(), getWait(), SeleniumUITestUtils.ADMIN_USERNAME, "wrongPassword");
-        assertEquals(SeleniumUITestUtils.BASE_URL + "view/public/login.xhtml", getDriver().getCurrentUrl());
+        assertTrue(getDriver().getCurrentUrl().contains(SeleniumUITestUtils.BASE_URL + "view/public/login.xhtml"));
         Notification expectedNotification = new Notification("Login Failed, Username and password do not match.", NotificationType.ERROR);
         SeleniumUITestUtils.checkNotification(getWait(), expectedNotification);
     }
