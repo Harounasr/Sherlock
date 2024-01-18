@@ -65,7 +65,7 @@ public class ExerciseRepositoryPsqlIT {
         ExerciseRepository exerciseRepository =
                 RepositoryFactory.getExerciseRepository(RepositoryType.POSTGRESQL, connection);
 
-        Exercise updatedExercise = new Exercise();
+        Exercise updatedExercise;
         try {
             exerciseRepository.updateExercise(exercise);
             updatedExercise = exerciseRepository.getExercise(exercise);
