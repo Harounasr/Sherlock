@@ -77,7 +77,7 @@ public class TestatePaginationUITest extends AbstractSeleniumUITest {
      */
     @Test
     @Order(4)
-    void NoTestateForTutor() throws InterruptedException {
+    void noTestateForTutor() throws InterruptedException {
         loginAndNavigateToExercisePage(SeleniumUITestUtils.TUTOR2_USERNAME);
         WebElement noTestatesMessage = getDriver().findElement(By.xpath("//h3[contains(text(), 'There are no testates')]"));
         assertEquals("There are no testates", noTestatesMessage.getText());

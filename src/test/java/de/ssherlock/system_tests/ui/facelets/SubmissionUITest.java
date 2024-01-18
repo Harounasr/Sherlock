@@ -1,3 +1,5 @@
+package de.ssherlock.system_tests.ui.facelets;
+
 import de.ssherlock.system_tests.ui.AbstractSeleniumUITest;
 import de.ssherlock.system_tests.ui.SeleniumUITestUtils;
 import org.junit.jupiter.api.Disabled;
@@ -36,8 +38,8 @@ public class SubmissionUITest extends AbstractSeleniumUITest {
         WebElement inputFile = getDriver().findElement(By.cssSelector("[id$='file']"));
         URL fileUrl = Thread.currentThread().getContextClassLoader().getResource(FILE_PATH);
         inputFile.sendKeys(Paths.get(fileUrl.toURI()).toFile().getAbsolutePath());
-        WebElement UploadElement = getDriver().findElement(By.cssSelector("[id$='upload-button']"));
-        UploadElement.click();
+        WebElement uploadElement = getDriver().findElement(By.cssSelector("[id$='upload-button']"));
+        uploadElement.click();
 
         getDriver().findElement(By.cssSelector("[id$='submit-button']")).click();
         assertEquals(SeleniumUITestUtils.BASE_URL + "view/registered/exercise.xhtml?Id=1", getDriver().getCurrentUrl());
@@ -49,6 +51,8 @@ public class SubmissionUITest extends AbstractSeleniumUITest {
 
     /**
      * Log in and navigate to the submit page for a given user.
+     *
+     * @param username The username.
      */
     private void loginAndNavigateToSubmitPage(String username) {
         SeleniumUITestUtils.tryLogin(getDriver(), getWait(), username, SeleniumUITestUtils.GLOBAL_PASSWORD);
