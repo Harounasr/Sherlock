@@ -55,6 +55,8 @@ public class ExerciseUITest extends AbstractSeleniumUITest {
 
     /**
      * Navigate to the first exercise for a given user.
+     *
+     * @param username The username.
      */
     private void navigateToFirstExercise(String username) throws InterruptedException {
         SeleniumUITestUtils.tryLogin(getDriver(), getWait(), username, SeleniumUITestUtils.GLOBAL_PASSWORD);

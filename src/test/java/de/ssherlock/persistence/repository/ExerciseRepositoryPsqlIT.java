@@ -1,7 +1,6 @@
 package de.ssherlock.persistence.repository;
 
 import de.ssherlock.global.transport.Exercise;
-import de.ssherlock.persistence.connection.ConnectionPool;
 import de.ssherlock.persistence.exception.PersistenceNonExistentExerciseException;
 import de.ssherlock.system_tests.ui.SeleniumUITestUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +18,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * Test class for {@link ExerciseRepositoryPsql}.
  */
 @SuppressWarnings("checkstyle:MagicNumber")
-
 public class ExerciseRepositoryPsqlIT {
     private Exercise exercise;
 
@@ -44,6 +42,10 @@ public class ExerciseRepositoryPsqlIT {
 
     /**
      * Checks if two exercises are equal.
+     * @param exercise1 The first exercise for comparison.
+     * @param exercise2 The second exercise for comparison.
+     *
+     * @return true if the exercises are equal, false otherwise.
      */
     boolean areExercisesEqual(Exercise exercise1, Exercise exercise2) {
         return exercise1.getName().equals(exercise2.getName())
