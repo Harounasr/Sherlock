@@ -46,10 +46,17 @@ public final class SeleniumUITestUtils {
      */
     public static final String MEMBER_USERNAME = "member";
 
+    public static final String MEMBER2_USERNAME = "member2";
+
+
+
+
     /**
      * Username of a course tutor in the system.
      */
     public static final String TUTOR_USERNAME = "tutor";
+
+    public static final String TUTOR2_USERNAME = "member2";
 
     /**
      * Username of a course member in the system.
