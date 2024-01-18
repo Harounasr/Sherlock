@@ -5,7 +5,6 @@ import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.persistence.exception.MailUnavailableException;
 import jakarta.enterprise.inject.spi.CDI;
-import jakarta.mail.AuthenticationFailedException;
 
 import java.util.logging.Level;
 

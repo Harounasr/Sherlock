@@ -31,6 +31,7 @@ import java.util.stream.Collectors;
  *
  * @author Victor Vollmann
  */
+@SuppressWarnings("PMD.DesignForExtension")
 public abstract class AbstractSeleniumUITest {
 
     /**
@@ -102,6 +103,9 @@ public abstract class AbstractSeleniumUITest {
         wait = new WebDriverWait(driver, Duration.ofSeconds(TIMEOUT));
     }
 
+    /**
+     * Resets the web driver after each test.
+     */
     @AfterEach
     public void resetDriver() {
         if (driver != null) {
