@@ -25,7 +25,7 @@ public class ExerciseRepositoryPsqlIT {
      * Initializes the exercise before each test.
      */
     @BeforeEach
-    public void init () throws SQLException {
+    public void init() throws SQLException {
         exercise = new Exercise();
         exercise.setId(10);
         exercise.setName("newExercise");
