@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test class for {@link MailContentBuilder}.
+ * The test fails locally if you do not replace all "\n" with "\n".
  *
  * @author Leon Höfling
  */

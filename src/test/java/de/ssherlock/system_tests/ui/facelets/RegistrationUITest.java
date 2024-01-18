@@ -32,7 +32,6 @@ public class RegistrationUITest extends AbstractSeleniumUITest {
      * Test for entering valid credentials to the registration form and clicking register.
      */
     @Test
-    @Disabled
     void testRegistrationSuccess() {
         SeleniumUITestUtils.navigateTo(getDriver(), "view/public/registration.xhtml");
         getDriver().findElement(By.id("registrationForm:userName")).sendKeys("NewUsername");

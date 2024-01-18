@@ -62,7 +62,7 @@ public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
      * The elements visible on the last page of the pagination.
      */
     private static final List<List<String>> LAST_PAGE_ELEMENTS = Arrays.asList(
-            Arrays.asList("victor", "UserFor", "SendNotificationTest", "sep23g05@outlook.com", "NONE")
+            Arrays.asList("victor", "UserFor", "SendNotificationTest", "vollmannv@gmail.com", "NONE")
     );
 
     /**
