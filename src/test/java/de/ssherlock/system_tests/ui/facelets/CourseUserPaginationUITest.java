@@ -103,10 +103,12 @@ public class CourseUserPaginationUITest extends AbstractSeleniumUITest {
      */
     @Test
     @Order(7)
-    void testChangeRoles() throws SQLException {
+    void testChangeRoles() throws SQLException, InterruptedException {
         WebElement selectElement = getDriver().findElement(By.cssSelector("td select"));
         Select dropdown = new Select(selectElement);
         dropdown.selectByValue("TEACHER");
+        // Wait until db has been updated.
+        Thread.sleep(1000);
         String query = """
                        SELECT user_role
                        FROM participates
