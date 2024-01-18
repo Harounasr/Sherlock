@@ -3,7 +3,9 @@ package de.ssherlock.business.maintenance;
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.global.logging.LoggerCreator;
 import de.ssherlock.global.logging.SerializableLogger;
+import de.ssherlock.persistence.exception.MailUnavailableException;
 import jakarta.enterprise.inject.spi.CDI;
+import jakarta.mail.AuthenticationFailedException;
 
 import java.util.logging.Level;
 
@@ -35,13 +37,12 @@ public class SendEmailNotificationEvent implements Runnable {
     /**
      * Sends email notifications.
      */
-    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     @Override
     public void run() {
         try {
             LOGGER.info("sending emails");
             userService.sendReminderEmail();
-        } catch (Exception e) {
+        } catch (MailUnavailableException e) {
             LOGGER.log(Level.SEVERE, "sending emails encountered an exception.", e);
         }
     }
