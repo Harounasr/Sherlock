@@ -18,6 +18,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * Test class for {@link ExerciseRepositoryPsql}.
  */
+@SuppressWarnings("checkstyle:MagicNumber")
+
 public class ExerciseRepositoryPsqlIT {
     private Exercise exercise;
 

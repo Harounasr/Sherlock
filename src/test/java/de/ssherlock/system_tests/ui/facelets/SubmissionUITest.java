@@ -19,6 +19,7 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClick
  * UI Test for the {@code submit.xhtml} facelet.
  */
 @Disabled
+@SuppressWarnings("checkstyle:MagicNumber")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class SubmissionUITest extends AbstractSeleniumUITest {
