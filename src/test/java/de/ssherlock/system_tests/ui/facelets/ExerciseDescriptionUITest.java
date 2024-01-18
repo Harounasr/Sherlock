@@ -13,7 +13,6 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
