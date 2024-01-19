@@ -32,9 +32,6 @@
                             </li>
                             <li class="#{exerciseBean.targetPage == 'testatePagination.xhtml' ? 'nav-item-sidebar-selected' : 'nav-item-sidebar'}">
                                 <h:commandButton value="Testates"
-                                                 rendered="#{exerciseBean.userCourseRole.toString() == 'TUTOR'
-                                                 || exerciseBean.userCourseRole.toString() == 'TEACHER'
-                                                 || exerciseBean.appSession.admin}"
                                                  action="#{exerciseBean.setTargetPage('testatePagination.xhtml')}"
                                                  styleClass="btn w-100"/>
                             </li>
@@ -44,7 +41,7 @@
                                                  styleClass="btn w-100"/>
                             </li>
                             <li class="nav-item-sidebar">
-                                <h:commandButton value="Delete" onclick="showDeleteDialog();" styleClass="btn w-100" type="button"/>
+                                <h:commandButton id="delete-button" value="Delete" onclick="showDeleteDialog();" styleClass="btn w-100" type="button"/>
                             </li>
 
                         </ul>
@@ -54,11 +51,13 @@
                             </div>
                             <br/>
                             <div class="text-center">
-                                <h:commandButton styleClass="btn btn-danger"
+                                <h:commandButton id="confirm-delete-button"
+                                        styleClass="btn btn-danger"
                                                  value="Yes, delete"
                                                  action="#{exerciseBean.deleteExercise}"
                                                  onclick="hideDeleteDialog();"/>
-                                <h:commandButton styleClass="btn btn-secondary"
+                                <h:commandButton id="cancel-delete-button"
+                                        styleClass="btn btn-secondary"
                                                  value="Cancel"
                                                  onclick="hideDeleteDialog(); return false;"/>
                             </div>

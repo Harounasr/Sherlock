@@ -48,7 +48,7 @@ INSERT INTO checker (id, exercise_id, is_visible, is_required, parameter_1, para
 INSERT INTO checker (id, exercise_id, is_visible, is_required, parameter_1, parameter_2, type) VALUES (18, 9, true, true, NULL, NULL, 'COMPILATION');
 INSERT INTO checker (id, exercise_id, is_visible, is_required, parameter_1, parameter_2, type) VALUES (19, 10, true, true, NULL, NULL, 'IDENTITY');
 INSERT INTO checker (id, exercise_id, is_visible, is_required, parameter_1, parameter_2, type) VALUES (20, 10, true, true, NULL, NULL, 'COMPILATION');
-INSERT INTO checker (id, exercise_id, is_visible, is_required, parameter_1, parameter_2, type) VALUES (21, 1, true, true, 'one', 'two', 'USER_DEFINED');
+INSERT INTO checker (id, exercise_id, is_visible, is_required, parameter_1, parameter_2, type) VALUES (21, 1, true, false, 'java Main.java', '12', 'USER_DEFINED');
 
 INSERT INTO faculty (id, name) VALUES (1, 'NONE');
 INSERT INTO faculty (id, name) VALUES (2, 'Mathematik');

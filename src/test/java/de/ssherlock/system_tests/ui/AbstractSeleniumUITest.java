@@ -81,7 +81,7 @@ public abstract class AbstractSeleniumUITest {
             if (System.getenv("GITLAB_CI") != null || System.getenv("JENKINS_NODE_COOKIE") != null) {
                 options.addArguments("--headless");
             }
-            options.addArguments("--headless");
+            //options.addArguments("--headless");
             driver = new ChromeDriver(options);
         }
         case "edge" -> {
