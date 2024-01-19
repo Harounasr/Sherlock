@@ -60,26 +60,4 @@ public class SubmissionFile implements Serializable {
   public void setBytes(byte[] bytes) {
     this.bytes = bytes;
   }
-
-  /** {@inheritDoc} */
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    SubmissionFile that = (SubmissionFile) o;
-    return Objects.equals(name, that.name) && Arrays.equals(bytes, that.bytes);
-  }
-
-  /** {@inheritDoc} */
-  @SuppressWarnings("checkstyle:MagicNumber")
-  @Override
-  public int hashCode() {
-    int result = Objects.hash(name);
-    result = 31 * result + Arrays.hashCode(bytes);
-    return result;
-  }
 }

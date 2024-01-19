@@ -299,33 +299,4 @@ public class User implements Serializable {
     public void setExpiryDate(Timestamp expiryDate) {
         this.expiryDate = expiryDate;
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        User user = (User) o;
-        return Objects.equals(username, user.username)
-               && Objects.equals(email, user.email)
-               && Objects.equals(firstName, user.firstName)
-               && Objects.equals(lastName, user.lastName)
-               && systemRole == user.systemRole
-               && Objects.equals(password, user.password)
-               && Objects.equals(facultyName, user.facultyName);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int hashCode() {
-        return Objects.hash(username, email, firstName, lastName, systemRole, password, facultyName);
-    }
 }

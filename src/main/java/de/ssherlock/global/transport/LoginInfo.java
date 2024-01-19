@@ -58,24 +58,4 @@ public class LoginInfo implements Serializable {
   public void setUnhashedPassword(String unhashedPassword) {
     this.unhashedPassword = unhashedPassword;
   }
-
-  /** {@inheritDoc} */
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    LoginInfo loginInfo = (LoginInfo) o;
-    return Objects.equals(username, loginInfo.username)
-        && Objects.equals(unhashedPassword, loginInfo.unhashedPassword);
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public int hashCode() {
-    return Objects.hash(username, unhashedPassword);
-  }
 }

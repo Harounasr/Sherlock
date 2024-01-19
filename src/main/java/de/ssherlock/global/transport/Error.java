@@ -69,28 +69,4 @@ public class Error implements Serializable {
     public void setException(Exception exception) {
         this.exception = exception;
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Error error = (Error) o;
-        return Objects.equals(exception, error.exception)
-               && Objects.equals(message, error.message);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int hashCode() {
-        return Objects.hash(exception, message);
-    }
 }

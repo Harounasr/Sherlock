@@ -79,25 +79,4 @@ public class TestateComment implements Serializable {
   public void setComment(String comment) {
     this.comment = comment;
   }
-
-  /** {@inheritDoc} */
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    TestateComment that = (TestateComment) o;
-    return fileId == that.fileId
-        && lineNumber == that.lineNumber
-        && Objects.equals(comment, that.comment);
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public int hashCode() {
-    return Objects.hash(fileId, lineNumber, comment);
-  }
 }

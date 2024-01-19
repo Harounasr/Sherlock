@@ -196,33 +196,6 @@ public class Submission implements Serializable {
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Submission that = (Submission) o;
-        return exerciseId == that.exerciseId
-               && Objects.equals(user, that.user)
-               && Objects.equals(checkerResults, that.checkerResults)
-               && Objects.equals(submissionFiles, that.submissionFiles)
-               && Objects.equals(timestamp, that.timestamp);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int hashCode() {
-        return Objects.hash(exerciseId, user, checkerResults, submissionFiles, timestamp);
-    }
-
-    /**
      * Is passed checkers boolean.
      *
      * @return the boolean

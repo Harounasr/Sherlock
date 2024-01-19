@@ -178,33 +178,5 @@ public class SystemSettings implements Serializable {
     public void setFaculties(List<String> faculties) {
         this.faculties = faculties;
     }
-
-    /** {@inheritDoc} */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        SystemSettings that = (SystemSettings) o;
-        return Objects.equals(emailRegex, that.emailRegex)
-               && Objects.equals(primaryColorHex, that.primaryColorHex)
-               && Objects.equals(secondaryColorHex, that.secondaryColorHex)
-               && Objects.equals(systemName, that.systemName)
-               && Arrays.equals(logo, that.logo)
-               && Objects.equals(faculties, that.faculties);
-    }
-
-    /** {@inheritDoc} */
-    @SuppressWarnings("checkstyle:MagicNumber")
-    @Override
-    public int hashCode() {
-        int result =
-                Objects.hash(emailRegex, primaryColorHex, secondaryColorHex, systemName, faculties);
-        result = 31 * result + Arrays.hashCode(logo);
-        return result;
-    }
 }
 

@@ -190,28 +190,4 @@ public class Checker implements Serializable {
   public void setExerciseId(long exerciseId) {
     this.exerciseId = exerciseId;
   }
-
-  /** {@inheritDoc} */
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Checker checker = (Checker) o;
-    return mandatory == checker.mandatory
-        && visible == checker.visible
-        && id == checker.id
-        && Objects.equals(name, checker.name)
-        && Objects.equals(parameterOne, checker.parameterOne)
-        && Objects.equals(parameterTwo, checker.parameterTwo);
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public int hashCode() {
-    return Objects.hash(name, parameterOne, parameterTwo, mandatory, visible, id);
-  }
 }

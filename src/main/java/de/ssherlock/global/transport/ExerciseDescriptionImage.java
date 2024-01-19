@@ -110,30 +110,4 @@ public class ExerciseDescriptionImage implements Serializable {
     public void setExerciseId(long exerciseId) {
         this.exerciseId = exerciseId;
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        ExerciseDescriptionImage that = (ExerciseDescriptionImage) o;
-        return Objects.equals(uuid, that.uuid) && Arrays.equals(image, that.image);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @SuppressWarnings("checkstyle:MagicNumber")
-    @Override
-    public int hashCode() {
-        int result = Objects.hash(uuid);
-        result = 31 * result + Arrays.hashCode(image);
-        return result;
-    }
 }

@@ -228,34 +228,4 @@ public class Testate implements Serializable {
     public void setStructureGrade(int structureGrade) {
         this.structureGrade = structureGrade;
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Testate testate = (Testate) o;
-        return functionalityGrade == testate.functionalityGrade
-               && readabilityGrade == testate.readabilityGrade
-               && Objects.equals(evaluatorId, testate.evaluatorId)
-               && Objects.equals(student, testate.student)
-               && Objects.equals(comments, testate.comments)
-               && Objects.equals(comment, testate.comment)
-               && Objects.equals(submission, testate.submission);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int hashCode() {
-        return Objects.hash(
-                evaluatorId, student, functionalityGrade, readabilityGrade, comments, comment, submission);
-    }
 }
