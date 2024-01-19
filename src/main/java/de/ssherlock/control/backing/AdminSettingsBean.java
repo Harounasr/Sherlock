@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Base64;
-import java.util.logging.Level;
 
 
 /**
