@@ -22,7 +22,7 @@ import java.util.logging.Level;
 /**
  * Backing Bean for the adminSettings.xhtml facelet.
  *
- * @author Leon Höfling
+ * @author Leon Höfling.
  */
 @Named
 @ViewScoped
