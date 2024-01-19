@@ -20,6 +20,7 @@ import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.Part;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -37,40 +38,65 @@ import java.util.logging.Level;
 @SuppressWarnings("PMD.ImmutableField")
 public class SubmissionUploadBean implements Serializable {
 
-    /** Serial Version UID. */
-    @Serial private static final long serialVersionUID = 1L;
+    /**
+     * Serial Version UID.
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
 
-    /** Logger for this class. */
+    /**
+     * Logger for this class.
+     */
     private final SerializableLogger logger;
 
-    /** The active session. */
+    /**
+     * The active session.
+     */
     private final AppSession appSession;
 
-    /** The service handling submission-related operations. */
+    /**
+     * The service handling submission-related operations.
+     */
     private final SubmissionService submissionService;
 
-    /** The service handling checker-related operations. */
+    /**
+     * The service handling checker-related operations.
+     */
     private final CheckerService checkerService;
 
-    /** The current submission being processed. */
-    private Submission newSubmission;
+    /**
+     * The current submission being processed.
+     */
+    private final Submission newSubmission;
 
-    /** List of checkers for this exercise. */
+    /**
+     * List of checkers for this exercise.
+     */
     private List<Checker> checkers;
 
-    /** The archive file (Part) for submitting. */
+    /**
+     * The archive file (Part) for submitting.
+     */
     private transient Part archiveFile;
 
-    /** List of submitted files. */
+    /**
+     * List of submitted files.
+     */
     private List<SubmissionFile> submissionFiles;
 
-    /** Whether the user can save the submission to the database. */
+    /**
+     * Whether the user can save the submission to the database.
+     */
     private boolean canSubmit;
 
-    /** The checker results. */
+    /**
+     * The checker results.
+     */
     private final List<CheckerResult> checkerResults;
 
-    /** The current exercise. */
+    /**
+     * The current exercise.
+     */
     private Exercise exercise;
 
     /**
@@ -81,11 +107,11 @@ public class SubmissionUploadBean implements Serializable {
     /**
      * Constructor for SubmissionUploadBean.
      *
-     * @param logger The logger for this class (Injected).
-     * @param appSession The active session (Injected).
+     * @param logger            The logger for this class (Injected).
+     * @param appSession        The active session (Injected).
      * @param submissionService The service handling submission-related operations (Injected).
-     * @param checkerService The service handling checker-related operations (Injected).
-     * @param exerciseBean   The parent Exercise bean (Injected).
+     * @param checkerService    The service handling checker-related operations (Injected).
+     * @param exerciseBean      The parent Exercise bean (Injected).
      */
     @Inject
     public SubmissionUploadBean(
@@ -102,7 +128,9 @@ public class SubmissionUploadBean implements Serializable {
         this.exerciseBean = exerciseBean;
     }
 
-    /** Initializes the bean after construction. */
+    /**
+     * Initializes the bean after construction.
+     */
     @PostConstruct
     public void initialize() {
         exercise = new Exercise();
@@ -115,7 +143,9 @@ public class SubmissionUploadBean implements Serializable {
         canSubmit = false;
     }
 
-    /** Uploads the submission archive and runs the checkers. */
+    /**
+     * Uploads the submission archive and runs the checkers.
+     */
     public void upload() {
         if (archiveFile == null) {
             new Notification("File is required for submission.", NotificationType.ERROR).generateUIMessage();
@@ -129,8 +159,8 @@ public class SubmissionUploadBean implements Serializable {
                 logger.log(Level.INFO, file.getName());
             }
             if (!checkers.isEmpty()) {
-            CheckerUtils.runCheckers(
-                    checkers, submissionFiles, appSession.getUser(), this::updateResults);
+                CheckerUtils.runCheckers(
+                        checkers, submissionFiles, appSession.getUser(), this::updateResults);
             }
         } catch (ZIPNotReadableException e) {
             logger.log(Level.SEVERE, "Error while unzipping file: " + e.getMessage());
@@ -138,19 +168,20 @@ public class SubmissionUploadBean implements Serializable {
         setCanSubmit(isCanSubmit());
     }
 
-    /** Saves the created submission to the database.
+    /**
+     * Saves the created submission to the database.
      *
-     *  @return The navigation outcome.
-     * */
+     * @return The navigation outcome.
+     */
     public String submit() {
         logger.log(Level.INFO, "try to add submission");
-            newSubmission.setSubmissionFiles(submissionFiles);
-            newSubmission.setUser(appSession.getUser().getUsername());
-            newSubmission.setCheckerResults(checkerResults);
-            newSubmission.setExerciseId(exercise.getId());
-            submissionService.addSubmission(newSubmission);
-            canSubmit = false;
-            return "/view/registered/exercise.xhtml?faces-redirect=true&Id=" + exerciseBean.getExerciseId();
+        newSubmission.setSubmissionFiles(submissionFiles);
+        newSubmission.setUser(appSession.getUser().getUsername());
+        newSubmission.setCheckerResults(checkerResults);
+        newSubmission.setExerciseId(exercise.getId());
+        submissionService.addSubmission(newSubmission);
+        canSubmit = false;
+        return "/view/registered/exercise.xhtml?faces-redirect=true&Id=" + exerciseBean.getExerciseId();
     }
 
     /**
@@ -201,7 +232,7 @@ public class SubmissionUploadBean implements Serializable {
             setCanSubmit(true);
             for (CheckerResult checkerResult : checkerResults) {
                 if (checkerResult.getChecker().isMandatory() && !checkerResult.isPassed()) {
-                   setCanSubmit(false);
+                    setCanSubmit(false);
                     break;
                 }
             }

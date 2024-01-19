@@ -256,7 +256,6 @@ public final class CheckerUtils {
      */
     private static CheckerResult runUserDefinedChecker(
             Checker checker, List<SubmissionFile> submissionFiles) throws CheckerExecutionException {
-        LOGGER.finer("Start user-defined checker " + checker.getName() + ".");
         CheckerResult result = new CheckerResult();
         result.setChecker(checker);
 

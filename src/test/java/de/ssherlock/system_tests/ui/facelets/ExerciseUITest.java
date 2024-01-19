@@ -2,7 +2,6 @@ package de.ssherlock.system_tests.ui.facelets;
 
 import de.ssherlock.system_tests.ui.AbstractSeleniumUITest;
 import de.ssherlock.system_tests.ui.SeleniumUITestUtils;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -16,8 +15,9 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClick
 
 /**
  * UI Test for the {@code exercisePagination.xhtml} facelet.
+ *
+ * @author Haroun Alswedany
  */
-@Disabled
 @SuppressWarnings("checkstyle:MagicNumber")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -30,12 +30,9 @@ public class ExerciseUITest extends AbstractSeleniumUITest {
     @Order(1)
     void deleteExerciseCancel() throws InterruptedException {
         navigateToFirstExercise(SeleniumUITestUtils.MEMBER_USERNAME);
-        WebElement cancelButton = getWait().until(elementToBeClickable(By.cssSelector(".btn.btn-secondary")));
+        WebElement cancelButton = getWait().until(elementToBeClickable(By.cssSelector("[id$=cancel-delete-button]")));
         cancelButton.click();
-        Thread.sleep(1000);
         assertEquals(SeleniumUITestUtils.BASE_URL + "view/registered/exercise.xhtml?Id=1", getDriver().getCurrentUrl());
-        Thread.sleep(1000);
-        Thread.sleep(1000);
     }
 
     /**
@@ -45,12 +42,9 @@ public class ExerciseUITest extends AbstractSeleniumUITest {
     @Order(2)
     void deleteExerciseSuccess() throws InterruptedException {
         navigateToFirstExercise(SeleniumUITestUtils.MEMBER_USERNAME);
-        WebElement deleteButton = getWait().until(elementToBeClickable(By.cssSelector(".btn.btn-danger")));
-        Thread.sleep(1000);
-        deleteButton.click();
-        Thread.sleep(1000);
+        WebElement confirmButton = getWait().until(elementToBeClickable(By.cssSelector("[id$=confirm-delete-button]")));
+        confirmButton.click();
         assertEquals(SeleniumUITestUtils.BASE_URL + "view/registered/course.xhtml?Id=1", getDriver().getCurrentUrl());
-        Thread.sleep(1000);
     }
 
     /**
@@ -58,17 +52,12 @@ public class ExerciseUITest extends AbstractSeleniumUITest {
      *
      * @param username The username.
      */
-    private void navigateToFirstExercise(String username) throws InterruptedException {
+    private void navigateToFirstExercise(String username) {
         SeleniumUITestUtils.tryLogin(getDriver(), getWait(), username, SeleniumUITestUtils.GLOBAL_PASSWORD);
-        Thread.sleep(1000);
         SeleniumUITestUtils.navigateTo(getDriver(), "view/registered/course.xhtml?Id=1");
-        Thread.sleep(1000);
         WebElement exerciseButton = getWait().until(elementToBeClickable(By.cssSelector("input[value='To Exercise']")));
-        Thread.sleep(1000);
         exerciseButton.click();
         assertEquals(SeleniumUITestUtils.BASE_URL + "view/registered/exercise.xhtml?Id=1", getDriver().getCurrentUrl());
-        Thread.sleep(1000);
         SeleniumUITestUtils.clickOnSidebarItem(getWait(), "Delete");
-        Thread.sleep(1000);
     }
 }

@@ -101,7 +101,7 @@ public class AllTestatesPaginationBean extends AbstractPaginationBean implements
         if (user.getSystemRole() == SystemRole.TEACHER || appSession.isAdmin()) {
             testates = testateService.getAllTestates(exercise);
         } else {
-            testateService.getAssignedTestates(exercise, user);
+            testates = testateService.getAssignedTestates(exercise, user);
         }
         getPagination().setLastIndex(testates.size() - 1);
     }
@@ -113,7 +113,9 @@ public class AllTestatesPaginationBean extends AbstractPaginationBean implements
      * @return The navigation outcome.
      */
     public String selectTestate(Testate testate) {
-        return "/view/registered/testate.xhtml?faces-redirect=true?subId=" + testate.getSubmission().getId();
+        exerciseBean.setSubmissionId(testate.getSubmission().getId());
+        exerciseBean.setTargetPage("testate.xhtml");
+        return "";
     }
 
     /**
@@ -142,7 +144,7 @@ public class AllTestatesPaginationBean extends AbstractPaginationBean implements
         if (user.getSystemRole() == SystemRole.TEACHER || appSession.isAdmin()) {
             testates = testateService.getAllTestates(getPagination(), exercise);
         } else {
-            testateService.getAssignedTestates(getPagination(), exercise, user);
+            testates = testateService.getAssignedTestates(getPagination(), exercise, user);
         }
     }
 }

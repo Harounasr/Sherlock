@@ -20,8 +20,9 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClick
 
 /**
  * UI Test for the {@code testatePagination.xhtml} facelet.
+ *
+ * @author Haroun Alswedany
  */
-@Disabled
 @SuppressWarnings("checkstyle:MagicNumber")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -41,12 +42,12 @@ public class TestatePaginationUITest extends AbstractSeleniumUITest {
      */
     @Test
     @Order(1)
-    void testExistTestateForUserAsMember() throws InterruptedException {
+    @Disabled
+    void testExistTestateForUserAsMember() {
         loginAndNavigateToExercisePage(SeleniumUITestUtils.MEMBER_USERNAME);
         WebElement submissionButton = getWait().until(elementToBeClickable(By.cssSelector("input[value='to testate']")));
         submissionButton.click();
         getDriver().findElement(By.id("testate-container"));
-
     }
 
     /**
@@ -54,9 +55,9 @@ public class TestatePaginationUITest extends AbstractSeleniumUITest {
      */
     @Test
     @Order(2)
-    void testNoExistTestateForUserAsMember() throws InterruptedException {
+    void testNoExistTestateForUserAsMember() {
         loginAndNavigateToExercisePage(SeleniumUITestUtils.MEMBER2_USERNAME);
-        WebElement noTestatesMessage = getDriver().findElement(By.xpath("//h3[contains(text(), 'There are no testates')]"));
+        WebElement noTestatesMessage = getDriver().findElement(By.cssSelector("[id$='empty-message']"));
         assertEquals("There are no testates", noTestatesMessage.getText());
     }
 
@@ -65,11 +66,11 @@ public class TestatePaginationUITest extends AbstractSeleniumUITest {
      */
     @Test
     @Order(2)
-    void correctTestateForTutor() throws InterruptedException {
+    void correctTestateForTutor() {
         loginAndNavigateToExercisePage(SeleniumUITestUtils.TUTOR_USERNAME);
         WebElement submissionButton = getWait().until(elementToBeClickable(By.cssSelector("input[value='to testate']")));
         submissionButton.click();
-        getDriver().findElement(By.id("testate-container"));
+        getDriver().findElement(By.cssSelector("[id$='testate-container']"));
     }
 
     /**
@@ -77,22 +78,17 @@ public class TestatePaginationUITest extends AbstractSeleniumUITest {
      */
     @Test
     @Order(4)
-    void noTestateForTutor() throws InterruptedException {
+    void noTestateForTutor() {
         loginAndNavigateToExercisePage(SeleniumUITestUtils.TUTOR2_USERNAME);
-        WebElement noTestatesMessage = getDriver().findElement(By.xpath("//h3[contains(text(), 'There are no testates')]"));
+        WebElement noTestatesMessage = getDriver().findElement(By.cssSelector("[id$='empty-message']"));
         assertEquals("There are no testates", noTestatesMessage.getText());
-
     }
 
-    private  void loginAndNavigateToExercisePage(String username) throws InterruptedException {
+    private void loginAndNavigateToExercisePage(String username) {
         SeleniumUITestUtils.tryLogin(
-                getDriver(), getWait(), SeleniumUITestUtils.ADMIN_USERNAME, SeleniumUITestUtils.GLOBAL_PASSWORD);
-        Thread.sleep(1000);
+                getDriver(), getWait(), username, SeleniumUITestUtils.GLOBAL_PASSWORD);
         SeleniumUITestUtils.navigateTo(getDriver(), "/view/registered/exercise.xhtml?Id=1");
-        Thread.sleep(1000);
         SeleniumUITestUtils.clickOnSidebarItem(getWait(), "Testates");
-        Thread.sleep(1000);
-
     }
 }
 

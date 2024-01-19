@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -103,7 +104,7 @@ public class TestateRepositoryPsql extends RepositoryPsql implements TestateRepo
                       SELECT *
                       FROM (
                           SELECT *
-                          FROM submission
+                          FROM submission s
                           WHERE exercise_id = ?
                       ) s
                       JOIN testate t ON s.id = t.submission_id
@@ -130,6 +131,7 @@ public class TestateRepositoryPsql extends RepositoryPsql implements TestateRepo
             }
         } catch (SQLException e) {
             logger.severe("Error retrieving Testates: " + e.getMessage());
+            return Collections.emptyList();
         }
         return testateList;
     }
@@ -145,8 +147,8 @@ public class TestateRepositoryPsql extends RepositoryPsql implements TestateRepo
                     SELECT *
                       FROM (
                           SELECT *
-                          FROM submission
-                          WHERE s.exercise_id = ? AND s.tutor_username = ?;
+                          FROM submission s
+                          WHERE s.exercise_id = ? AND s.tutor_username = ?
                       ) s
                       JOIN testate t ON s.id = t.submission_id
                 """;
@@ -172,6 +174,7 @@ public class TestateRepositoryPsql extends RepositoryPsql implements TestateRepo
             }
         } catch (SQLException e) {
             logger.severe("Error executing SQL query" + e.getMessage());
+            return Collections.emptyList();
         }
         return testateList;
     }
