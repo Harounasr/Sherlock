@@ -56,8 +56,8 @@ public class CheckerListUITest extends AbstractSeleniumUITest {
      */
     private final List<List<String>> firstPageElementsAdd = Arrays.asList(
             Arrays.asList("true", "true", "", "", "COMPILATION", "Delete"),
-            Arrays.asList("false", "false", "java Main.java", "12", "USER_DEFINED", "Delete"),
-            Arrays.asList("true", "true", "one", "three", "USER_DEFINED", "Delete")
+            Arrays.asList("false", "true", "java Main.java", "12", "USER_DEFINED", "Delete"),
+            Arrays.asList("false", "false", "one", "three", "USER_DEFINED", "Delete")
     );
 
     /**
