@@ -2,9 +2,7 @@ package de.ssherlock.global.transport;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Represents a SystemSettings DTO.

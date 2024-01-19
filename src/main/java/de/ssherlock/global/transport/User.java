@@ -4,7 +4,6 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Represents a User DTO.

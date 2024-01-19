@@ -3,7 +3,6 @@ package de.ssherlock.global.transport;
 import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Objects;
 
 /**
  * Represents an Exercise DTO.
