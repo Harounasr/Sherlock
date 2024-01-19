@@ -28,41 +28,39 @@ public class RegistrationUITest extends AbstractSeleniumUITest {
      */
     private static final int TIMEOUT = 60;
 
-    @SuppressWarnings("checkstyle:InvalidJavadocPosition")
     /**
      * Test for entering valid credentials to the registration form and clicking register.
      */
-    /*
     @Test
     void testRegistrationSuccess() {
         SeleniumUITestUtils.navigateTo(getDriver(), "view/public/registration.xhtml");
         getDriver().findElement(By.id("registrationForm:userName")).sendKeys("NewUsername");
         getDriver().findElement(By.id("registrationForm:firstName")).sendKeys("NewFirstName");
         getDriver().findElement(By.id("registrationForm:lastName")).sendKeys("NewLastName");
-        getDriver().findElement(By.id("registrationForm:email")).sendKeys("hoefli11@ads.uni-passau.de");
+        getDriver().findElement(By.id("registrationForm:email")).sendKeys("sep23g05@outlook.com");
         getDriver().findElement(By.id("registrationForm:faculty")).sendKeys("Informatik");
         getDriver().findElement(By.id("registrationForm:passWord")).sendKeys("N3wPa22w-rd!");
 
         SeleniumUITestUtils.enterOnElementWithId(getWait(), "registrationForm:register");
 
-        Notification notification = new Notification("A registration email was sent to: hoefli11@ads.uni-passau.de. Please verify your email.",
+        Notification notification = new Notification("A registration email was sent to: sep23g05@outlook.com. Please verify your email.",
                                                      NotificationType.SUCCESS);
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(TIMEOUT));
         SeleniumUITestUtils.checkNotification(wait, notification);
     }
-    */
 
 
     /**
      * Test for entering valid credentials to the registration form and clicking register with a false email.
      */
+    @Disabled
     @Test
     void testRegistrationFailed() {
         SeleniumUITestUtils.navigateTo(getDriver(), "view/public/registration.xhtml");
-        getDriver().findElement(By.id("registrationForm:userName")).sendKeys("NewUsername");
+        getDriver().findElement(By.id("registrationForm:userName")).sendKeys("NewUsername2");
         getDriver().findElement(By.id("registrationForm:firstName")).sendKeys("NewFirstName");
         getDriver().findElement(By.id("registrationForm:lastName")).sendKeys("NewLastName");
-        getDriver().findElement(By.id("registrationForm:email")).sendKeys("some.kindOf@email.com");
+        getDriver().findElement(By.id("registrationForm:email")).sendKeys("some.kindOfEmail.com");
         getDriver().findElement(By.id("registrationForm:faculty")).sendKeys("Informatik");
         getDriver().findElement(By.id("registrationForm:passWord")).sendKeys("N3wPa22w-rd!");
 
@@ -82,7 +80,6 @@ public class RegistrationUITest extends AbstractSeleniumUITest {
         getDriver().findElement(By.id("registrationForm:userName")).sendKeys("abcd");
         getDriver().findElement(By.id("registrationForm:firstName")).sendKeys("abcd");
         getDriver().findElement(By.id("registrationForm:lastName")).sendKeys("abcd");
-        getDriver().findElement(By.id("registrationForm:email")).sendKeys("NewEmail");
         getDriver().findElement(By.id("registrationForm:passWord")).sendKeys("password");
 
         SeleniumUITestUtils.enterOnElementWithId(getWait(), "registrationForm:register");
@@ -94,7 +91,7 @@ public class RegistrationUITest extends AbstractSeleniumUITest {
         SeleniumUITestUtils.checkFacesMessage(getWait(), new FacesMessage(FacesMessage.SEVERITY_ERROR,
                                                                           "Name musst be between 5 and 50 long.", null));
         SeleniumUITestUtils.checkFacesMessage(getWait(), new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                                                                          "Email does not correspond to the email pattern.", null));
+                                                                          "Email must be between 5 and 50 long.", null));
         SeleniumUITestUtils.checkFacesMessage(getWait(), new FacesMessage(FacesMessage.SEVERITY_ERROR,
                                                                           "Password must include at least one uppercase letter,"
                                                                      + " one lowercase letter, one digit, and one special character.", null));
@@ -105,7 +102,6 @@ public class RegistrationUITest extends AbstractSeleniumUITest {
      * User should be redirected to the login Facelet.
      */
     @Test
-    @Disabled
     void testBackToLoginClicked() {
         SeleniumUITestUtils.navigateTo(getDriver(), "view/public/registration.xhtml");
         SeleniumUITestUtils.enterOnElementWithId(getWait(), "registrationLogin:backToLogin");

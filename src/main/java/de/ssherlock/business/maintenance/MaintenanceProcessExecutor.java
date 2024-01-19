@@ -36,11 +36,6 @@ public class MaintenanceProcessExecutor extends ScheduledThreadPoolExecutor {
     private static final int DESTROY_TIMEOUT = 70;
 
     /**
-     * The delay after which events should be fired for the first time.
-     */
-    private static final int START_DELAY = 5;
-
-    /**
      * Constructs a new MaintenanceProcessExecutor.
      */
     public MaintenanceProcessExecutor() {
@@ -64,21 +59,23 @@ public class MaintenanceProcessExecutor extends ScheduledThreadPoolExecutor {
             throw new MaintenanceConfigNotReadableException("The configuration for the maintenance properties is not readable.", e);
         }
         LOGGER.info("Loaded maintenance configuration.");
+        long startDelay = Long.parseLong(properties.getProperty("start.delay"));
 
-        this.scheduleWithFixedDelay(new SendEmailNotificationEvent(),
-                                 START_DELAY, Long.parseLong(properties.getProperty("sendEmailNotification.delay")), TimeUnit.SECONDS);
-        LOGGER.info("Scheduled SendEmailNotificationEvent at rate " + properties.getProperty("sendEmailNotification.delay") + " (seconds).");
 
-        this.scheduleWithFixedDelay(new UnverifiedUsersCleanEvent(),
-                                    START_DELAY,  Long.parseLong(properties.getProperty("unverifiedUsersClean.delay")), TimeUnit.SECONDS);
+        scheduleWithFixedDelay(new UnverifiedUsersCleanEvent(),
+                                    startDelay,  Long.parseLong(properties.getProperty("unverifiedUsersClean.delay")), TimeUnit.SECONDS);
         LOGGER.info("Scheduled UnverifiedUsersCleanEvent at rate " + properties.getProperty("unverifiedUsersClean.delay") + " (seconds).");
 
-        this.scheduleWithFixedDelay(new UnusedImagesCleanEvent(),
-                                    START_DELAY, Long.parseLong(properties.getProperty("unusedImagesClean.delay")), TimeUnit.SECONDS);
+        scheduleWithFixedDelay(new SendEmailNotificationEvent(),
+                                 startDelay, Long.parseLong(properties.getProperty("sendEmailNotification.delay")), TimeUnit.SECONDS);
+        LOGGER.info("Scheduled SendEmailNotificationEvent at rate " + properties.getProperty("sendEmailNotification.delay") + " (seconds).");
+
+        scheduleWithFixedDelay(new UnusedImagesCleanEvent(),
+                                    startDelay, Long.parseLong(properties.getProperty("unusedImagesClean.delay")), TimeUnit.SECONDS);
         LOGGER.info("Scheduled UnusedImagesCleanEvent at rate " + properties.getProperty("unusedImagesClean.delay") + " (seconds).");
 
-        this.scheduleWithFixedDelay(new ResetPasswordAttemptsEvent(),
-                                    START_DELAY, Long.parseLong(properties.getProperty("resetPasswordAttempts.delay")), TimeUnit.SECONDS);
+        scheduleWithFixedDelay(new ResetPasswordAttemptsEvent(),
+                                    startDelay, Long.parseLong(properties.getProperty("resetPasswordAttempts.delay")), TimeUnit.SECONDS);
         LOGGER.info("Scheduled ResetPasswordAttempts at rate " + properties.getProperty("resetPasswordAttempts.delay") + " (seconds).");
 
     }

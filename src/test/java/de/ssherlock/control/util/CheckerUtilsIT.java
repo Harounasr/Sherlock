@@ -7,7 +7,6 @@ import de.ssherlock.global.transport.SubmissionFile;
 import de.ssherlock.global.transport.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -36,7 +35,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author Victor Vollmann
  */
 @ExtendWith(MockitoExtension.class)
-@Disabled
 @SuppressWarnings("checkstyle:FileTabCharacter")
 public class CheckerUtilsIT {
 

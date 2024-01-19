@@ -86,7 +86,7 @@ public class TestateBean implements Serializable {
     /**
      * The possible grades.
      */
-    private List<Integer> grades;
+    private final List<Integer> grades;
 
     /**
      * The submission.
@@ -282,30 +282,12 @@ public class TestateBean implements Serializable {
     }
 
     /**
-     * Sets the possible grades.
-     *
-     * @param grades The grades.
-     */
-    public void setGrades(List<Integer> grades) {
-        this.grades = grades;
-    }
-
-    /**
      * Gets the files.
      *
      * @return The files.
      */
     public List<List<Object[]>> getFiles() {
         return files;
-    }
-
-    /**
-     * Sets the files.
-     *
-     * @param files The files.
-     */
-    public void setFiles(List<List<Object[]>> files) {
-        this.files = files;
     }
 
     /**
@@ -317,12 +299,4 @@ public class TestateBean implements Serializable {
         return checkerResults;
     }
 
-    /**
-     * Sets the checker results.
-     *
-     * @param checkerResults The checker results.
-     */
-    public void setCheckerResults(List<CheckerResult> checkerResults) {
-        this.checkerResults = checkerResults;
-    }
 }

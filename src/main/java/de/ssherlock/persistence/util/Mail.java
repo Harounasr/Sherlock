@@ -60,6 +60,9 @@ public class Mail implements Serializable {
    * @return Status of sending the mail.
    */
   public boolean sendReminderMail(List<User> recipients, String content) {
+      if (recipients.isEmpty())  {
+          return true;
+      }
     Session session = getSession();
     logger.log(Level.INFO, "Mail config loaded.");
     try {
@@ -102,7 +105,7 @@ public class Mail implements Serializable {
       logger.log(Level.INFO, "Mail successfully sent to " + recipient.getEmail());
       return true;
     } catch (MessagingException e) {
-      logger.log(Level.INFO, "There was a problem with sending the Mail.");
+      logger.log(Level.INFO, "There was a problem with sending the Mail.", e);
       return false;
     }
   }

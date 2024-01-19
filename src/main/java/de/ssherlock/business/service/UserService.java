@@ -219,6 +219,7 @@ public class UserService implements Serializable {
         Connection connection = connectionPool.getConnection();
         UserRepository userRepository = RepositoryFactory.getUserRepository(RepositoryType.POSTGRESQL, connection);
         HashMap<Exercise, List<User>> data = userRepository.getDataForReminderMail();
+        logger.severe(String.valueOf(data.size()));
         connectionPool.releaseConnection(connection);
         for (Map.Entry<Exercise, List<User>> entry : data.entrySet()) {
             if (mail.sendReminderMail(entry.getValue(), MailContentBuilder.buildReminderMail(entry.getKey()))) {

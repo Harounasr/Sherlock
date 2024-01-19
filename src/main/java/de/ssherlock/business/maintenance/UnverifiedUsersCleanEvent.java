@@ -14,7 +14,7 @@ import java.util.logging.Level;
 /**
  * Checks if there are Users, which have not been verified for a certain time and deletes those.
  *
- * @author Victor Vollmann
+ * @author Leon Höfling
  */
 public class UnverifiedUsersCleanEvent implements Runnable {
 

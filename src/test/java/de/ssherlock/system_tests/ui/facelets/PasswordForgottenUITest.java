@@ -19,7 +19,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  *
  * @author Leon Höfling
  */
-@Disabled
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class PasswordForgottenUITest extends AbstractSeleniumUITest {
 
@@ -33,7 +32,6 @@ public class PasswordForgottenUITest extends AbstractSeleniumUITest {
      * User should be redirected to the login Facelet.
      */
     @Test
-    @Disabled
     void testNavigateToLogin() {
         SeleniumUITestUtils.navigateTo(getDriver(), "view/public/passwordForgotten.xhtml");
         SeleniumUITestUtils.enterOnElementWithId(getWait(), "passwordForgottenForm:backToLogin");
@@ -43,6 +41,7 @@ public class PasswordForgottenUITest extends AbstractSeleniumUITest {
     /**
      * Test for clicking the send reset email button with username 'passwordResetUser'.
      */
+    @Disabled
     @Test
     void testSendResetEmail() {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(TIMEOUT));

@@ -166,26 +166,7 @@ public final class RepositoryFactory {
     }
   }
 
-  /**
-   * Returns a NotVerifiedUserRepository based on the RepositoryType and connection.
-   *
-   * @param type The RepositoryType to determine the repository type.
-   * @param connection The database connection.
-   * @return A NotVerifiedUserRepository based on the RepositoryType.
-   */
-  public static NotVerifiedUserRepository getNotVerifiedUserRepository(
-      RepositoryType type, Connection connection) {
-    switch (type) {
-      case POSTGRESQL -> {
-        return new NotVerifiedUserRepositoryPsql(connection);
-      }
-      default -> {
-        return null;
-      }
-    }
-  }
-
-  /**
+    /**
    * Returns a FacultyRepository based on the RepositoryType and connection.
    *
    * @param type The RepositoryType to determine the repository type.

@@ -55,9 +55,9 @@ public class CheckerListUITest extends AbstractSeleniumUITest {
      * The expected elements on the first page, after a new checker was added.
      */
     private final List<List<String>> firstPageElementsAdd = Arrays.asList(
-            Arrays.asList("false", "false", "one", "three", "USER_DEFINED", "Delete"),
             Arrays.asList("true", "true", "", "", "COMPILATION", "Delete"),
-            Arrays.asList("true", "true", "one", "two", "USER_DEFINED", "Delete")
+            Arrays.asList("true", "true", "one", "two", "USER_DEFINED", "Delete"),
+            Arrays.asList("false", "false", "one", "three", "USER_DEFINED", "Delete")
     );
 
     /**
