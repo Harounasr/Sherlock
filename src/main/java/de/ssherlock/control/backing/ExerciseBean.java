@@ -126,6 +126,9 @@ public class ExerciseBean implements Serializable {
         try {
             exerciseService.removeExercise(exercise);
             logger.log(Level.INFO, "Exercise Successfully deleted.");
+            Notification notification =
+                    new Notification("Exercise deleted.", NotificationType.SUCCESS);
+            notification.generateUIMessage();
             return "/view/registered/course.xhtml?faces-redirect=true&Id=" + exercise.getCourseId();
         } catch (BusinessNonExistentExerciseException e) {
             Notification notification =

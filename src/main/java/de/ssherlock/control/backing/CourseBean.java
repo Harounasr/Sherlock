@@ -93,20 +93,38 @@ public class CourseBean implements Serializable {
         response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         response.setDateHeader("Expires", 0);
         Map<String, String> requestParams = facesContext.getExternalContext().getRequestParameterMap();
-        course = new Course();
-        course.setId(Long.parseLong(requestParams.get("Id")));
+        String courseIdParam = requestParams.get("Id");
+
+        if (courseIdParam != null) {
+            course = new Course();
+            course.setId(Long.parseLong(courseIdParam));
+        } else {
+            Map<String, Object> sessionMap = facesContext.getExternalContext().getSessionMap();
+            course = (Course) sessionMap.get("currentCourse");
+
+            if (course == null) {
+                throw new NoAccessException("Course ID not found.");
+            }
+        }
+
         try {
             course = courseService.getCourseById(course);
         } catch (BusinessNonExistentCourseException e) {
             throw new NoAccessException("The course does not exist anymore.");
         }
+
         User user = appSession.getUser();
         CourseRole userCourseRole = user.getCourseRoles().getOrDefault(course.getId(), CourseRole.NONE);
         if (userCourseRole == CourseRole.NONE && user.getSystemRole() != SystemRole.ADMINISTRATOR) {
             throw new NoAccessException("Can not access, as user is not part of this course.");
         }
+
         teacherRights = userCourseRole == CourseRole.TEACHER || user.getSystemRole() == SystemRole.ADMINISTRATOR;
         setTargetPage("exercisePagination.xhtml");
+
+        //facesContext = FacesContext.getCurrentInstance();
+        Map<String, Object> sessionMap = facesContext.getExternalContext().getSessionMap();
+        sessionMap.put("currentCourse", course);
     }
 
     /**

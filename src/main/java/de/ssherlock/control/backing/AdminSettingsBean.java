@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Base64;
+import java.util.logging.Level;
 
 
 /**
@@ -86,7 +87,23 @@ public class AdminSettingsBean implements Serializable {
      * Action for submitting all current changes.
      */
     public void submitAllChanges() {
+        systemSettings.setPrimaryColorHex(convertToValidHex(systemSettings.getPrimaryColorHex()));
+        systemSettings.setSecondaryColorHex(convertToValidHex(systemSettings.getSecondaryColorHex()));
         systemService.updateSystemSettings(systemSettings);
+    }
+
+    /**
+     * Method for converting the hex value to the correct format.
+     * If the hex value starts with "#", remove it.
+     *
+     * @param hex The hex value to be converted.
+     * @return The hex value in the correct format.
+     */
+    private String convertToValidHex(String hex) {
+        if (hex.startsWith("#")) {
+            return hex.substring(1);
+        }
+        return hex;
     }
 
     /**
