@@ -86,7 +86,7 @@ public class TestateBean implements Serializable {
     /**
      * The possible grades.
      */
-    private List<Integer> grades;
+    private final List<Integer> grades;
 
     /**
      * The submission.
