@@ -21,6 +21,7 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClick
  */
 
 @Disabled
+@SuppressWarnings("checkstyle:MagicNumber")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ExercisePaginationUITest extends AbstractSeleniumUITest {
@@ -77,6 +78,8 @@ public class ExercisePaginationUITest extends AbstractSeleniumUITest {
 
     /**
      * Log in and navigate to a course.
+     *
+     * @param username The username.
      */
     private void loginAndNavigateToCourse(String username) throws InterruptedException {
         SeleniumUITestUtils.tryLogin(getDriver(), getWait(), username, SeleniumUITestUtils.GLOBAL_PASSWORD);
