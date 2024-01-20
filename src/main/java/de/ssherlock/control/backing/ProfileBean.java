@@ -89,13 +89,12 @@ public class ProfileBean implements Serializable {
       Password password = PasswordHashing.hashPassword(newPasswordTwo);
       changedUser.setPassword(password);
     } else {
-      System.out.println("fucking return");
       return;
     }
     try {
       userService.updateUser(changedUser);
     } catch (BusinessNonExistentUserException e) {
-      logger.log(INFO, "bean coulnd not find user");
+      logger.log(INFO, "bean could not find user");
     }
   }
 
