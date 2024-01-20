@@ -3,11 +3,14 @@ package de.ssherlock.system_tests.ui.facelets;
 import de.ssherlock.system_tests.ui.AbstractSeleniumUITest;
 import de.ssherlock.system_tests.ui.SeleniumUITestUtils;
 import jakarta.faces.application.FacesMessage;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+
+import java.io.File;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
 
@@ -72,5 +75,30 @@ public class TestateUITest extends AbstractSeleniumUITest {
         getDriver().findElement(By.id("testateForm:structureGrade")).sendKeys("4");
         getDriver().findElement(By.id("testateForm:commentInput")).sendKeys("This is a comment.");
         SeleniumUITestUtils.clickOnElementWithId(getWait(), "testateForm:submitTestate");
+    }
+
+    /**
+     * Test for clicking the 'Download code' button and check if file was downloaded.
+     */
+    @Test
+    public void testDownloadCode() throws InterruptedException {
+        SeleniumUITestUtils.clickOnElementWithId(getWait(), "downloadForm:downloadCode");
+        Thread.sleep(15000);
+        File folder = new File(System.getProperty("user.dir"));
+        File[] listOfFiles = folder.listFiles();
+        boolean found = false;
+        File f = null;
+        for (File listOfFile : listOfFiles) {
+            if (listOfFile.isFile()) {
+                String fileName = listOfFile.getName();
+                System.out.println("File " + listOfFile.getName());
+                if (fileName.matches("CodeFiles.zip")) {
+                    f = new File(fileName);
+                    found = true;
+                }
+            }
+        }
+        Assertions.assertTrue(found);
+        f.deleteOnExit();
     }
 }
