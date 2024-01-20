@@ -2,7 +2,9 @@ package de.ssherlock.control.validation;
 
 import de.ssherlock.business.service.CourseService;
 import de.ssherlock.global.logging.SerializableLogger;
+import de.ssherlock.global.transport.Course;
 import jakarta.enterprise.context.Dependent;
+import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.validator.FacesValidator;
@@ -11,10 +13,12 @@ import jakarta.faces.validator.ValidatorException;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+import java.util.List;
+
 /**
  * Handles validation of course names.
  *
- * @author Leon Höfling
+ * @author Victor Vollmann
  */
 @Named
 @Dependent
@@ -49,5 +53,11 @@ public class CourseNameValidator implements Validator<String> {
    */
   @Override
   public void validate(FacesContext facesContext, UIComponent uiComponent, String courseName)
-      throws ValidatorException {}
+      throws ValidatorException {
+      List<String> courses = courseService.getCourses().stream().map(Course::getName).toList();
+      if (courses.contains(courseName)) {
+          FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Course name already exists.", null);
+          throw new ValidatorException(message);
+      }
+  }
 }

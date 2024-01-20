@@ -2,6 +2,8 @@ package de.ssherlock.control.backing;
 
 import de.ssherlock.business.service.CourseService;
 import de.ssherlock.business.service.UserService;
+import de.ssherlock.control.notification.Notification;
+import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Course;
@@ -140,6 +142,8 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
     public void addCourse() {
         logger.log(INFO, "trying to add");
         courseService.addCourse(newCourse);
+        Notification notification = new Notification("Success! The course " + newCourse.getName() + " was created.", NotificationType.SUCCESS);
+        notification.generateUIMessage();
         String message = "Added course" + newCourse.getName();
         logger.info(message);
     }

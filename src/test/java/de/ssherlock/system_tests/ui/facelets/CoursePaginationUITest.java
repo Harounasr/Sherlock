@@ -1,5 +1,7 @@
 package de.ssherlock.system_tests.ui.facelets;
 
+import de.ssherlock.control.notification.Notification;
+import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.system_tests.ui.AbstractSeleniumUITest;
 import de.ssherlock.system_tests.ui.SeleniumUITestUtils;
 import org.junit.jupiter.api.MethodOrderer;
@@ -14,6 +16,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
 /**
  * Test class for the coursePagination.xhtml facelet.
@@ -104,5 +108,43 @@ public class CoursePaginationUITest extends AbstractSeleniumUITest {
         WebElement searchButton = getDriver().findElement(By.cssSelector("[id$=':searchBar_searchButton']"));
         searchButton.click();
         assertEquals(EMPTY_PAGINATION, SeleniumUITestUtils.getCurrentTableRows(getDriver()));
+    }
+
+    /**
+     * Tests adding a course.
+     */
+    @Test
+    @Order(6)
+    void testAddCourseSuccess() {
+        createCourse();
+        Notification notification = new Notification("Success! The course New Course Name was created.", NotificationType.SUCCESS);
+        SeleniumUITestUtils.checkNotification(getWait(), notification);
+    }
+
+    /**
+     * Tests adding a course with an existing name.
+     */
+    @Test
+    @Order(7)
+    void testAddCourseFailure() {
+        createCourse();
+        Notification notification = new Notification("Course name already exists.", NotificationType.ERROR);
+        SeleniumUITestUtils.checkNotification(getWait(), notification);
+    }
+
+    /**
+     * Creates a course with the name "New Course Name".
+     *
+     * @author Victor Vollmann
+     */
+    private void createCourse() {
+        SeleniumUITestUtils.tryLogin(
+                getDriver(), getWait(), SeleniumUITestUtils.ADMIN_USERNAME, SeleniumUITestUtils.GLOBAL_PASSWORD);
+        WebElement openModalButton = getWait().until(elementToBeClickable(By.cssSelector("[id$='open-course-modal']")));
+        openModalButton.click();
+        WebElement newCourseName = getWait().until(visibilityOfElementLocated(By.cssSelector("[id$='newCourseName']")));
+        newCourseName.sendKeys("New Course Name");
+        WebElement createCourseButton = getWait().until(elementToBeClickable(By.cssSelector("[id$='create-course-button']")));
+        createCourseButton.click();
     }
 }

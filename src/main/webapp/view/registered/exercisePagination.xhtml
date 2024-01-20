@@ -11,7 +11,7 @@
             <div class="col-auto">
                 <h:form rendered="#{navbarBean.appSession.user.systemRole.toString() == 'ADMINISTRATOR'
                         || navbarBean.appSession.user.systemRole.toString() == 'TEACHER'}">
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#createExerciseModal"
+                    <button id="open-exercise-modal" type="button" data-bs-toggle="modal" data-bs-target="#createExerciseModal"
                             class="btn bg-success text-light">Create New Exercise
                     </button>
                 </h:form>
@@ -74,7 +74,7 @@
                     <div class="modal-footer">
 
                         <button type="button" class="btn bg-danger text-light" data-bs-dismiss="modal">Cancel</button>
-                        <h:commandButton value="Create Exercise" data-bs-dismiss="modal" action="#{exercisePaginationBean.addExercise}"
+                        <h:commandButton id="create-exercise-button" value="Create Exercise" data-bs-dismiss="modal" action="#{exercisePaginationBean.addExercise}"
                                          class="btn bg-success text-light"/>
                     </div>
                 </div>
