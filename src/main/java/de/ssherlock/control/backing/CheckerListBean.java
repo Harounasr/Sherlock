@@ -94,7 +94,6 @@ public class CheckerListBean extends AbstractPaginationBean implements Serializa
         this.appSession = appSession;
         this.exerciseBean = exerciseBean;
         this.newChecker = new Checker();
-        System.out.println("checkerbean inittin");
     }
 
     /**
@@ -106,9 +105,6 @@ public class CheckerListBean extends AbstractPaginationBean implements Serializa
         getPagination().setPageSize(PAGE_SIZE);
         loadData();
         getPagination().setLastIndex(checkers.size() - 1);
-        for (Checker c : checkers) {
-            System.out.println(c.getId());
-        }
         currentCheckerType = String.valueOf(CheckerType.USER_DEFINED);
     }
 
