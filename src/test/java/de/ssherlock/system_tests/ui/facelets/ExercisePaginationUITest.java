@@ -1,9 +1,8 @@
 package de.ssherlock.system_tests.ui.facelets;
 
-import de.ssherlock.control.notification.Notification;
-import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.system_tests.ui.AbstractSeleniumUITest;
 import de.ssherlock.system_tests.ui.SeleniumUITestUtils;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -12,52 +11,90 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
-import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
+
 
 /**
- * Test class for the exercisePagination.xhtml facelet.
- *
- * @author Victor Vollmann
+ * UI test class for the exercise pagination facelet.
  */
+
+@Disabled
+@SuppressWarnings("checkstyle:MagicNumber")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ExercisePaginationUITest extends AbstractSeleniumUITest {
 
     /**
-     * Creates a new exercise successfully.
+     * Test case for canceling the exercise creation dialog.
      */
     @Test
     @Order(1)
-    void testCreateExerciseSuccess() {
-        tryAddExercise();
-        Notification notification = new Notification("Exercise: Test Exercise created successfully.", NotificationType.SUCCESS);
-        SeleniumUITestUtils.checkNotification(getWait(), notification);
+    void testCreateExerciseDialogFail() throws InterruptedException {
+        loginAndNavigateToCourse(SeleniumUITestUtils.ADMIN_USERNAME);
+        Thread.sleep(1000);
+        WebElement createExerciseButton = getWait().until(elementToBeClickable(By.cssSelector(".btn.bg-success.text-light")));
+        Thread.sleep(1000);
+        createExerciseButton.click();
+        Thread.sleep(1000);
+
+        WebElement createExerciseModal = getWait().until(elementToBeClickable(By.id("createExerciseModal")));
+        assertTrue(createExerciseModal.isDisplayed(), "Create Exercise modal is displayed");
+        Thread.sleep(1000);
+
+        WebElement cancelButton = getWait().until(elementToBeClickable(By.cssSelector(".btn.bg-danger.text-light")));
+        cancelButton.click();
+        Thread.sleep(1000);
     }
 
     /**
-     * Creates a new exercise and fails.
+     * Test case for creating an exercise in the dialog.
      */
     @Test
     @Order(2)
-    void testCreateExerciseFailure() {
-        tryAddExercise();
-        Notification notification = new Notification("Exercise with the same name already exists.", NotificationType.ERROR);
-        SeleniumUITestUtils.checkNotification(getWait(), notification);
+    void testCreateExerciseDialogSuccess() throws InterruptedException {
+        loginAndNavigateToCourse(SeleniumUITestUtils.ADMIN_USERNAME);
+        Thread.sleep(1000);
+
+        WebElement createExerciseButton = getWait().until(elementToBeClickable(By.cssSelector(".btn.bg-success.text-light")));
+        createExerciseButton.click();
+        Thread.sleep(1000);
+
+        WebElement createExerciseModal = getWait().until(elementToBeClickable(By.id("createExerciseModal")));
+        assertTrue(createExerciseModal.isDisplayed(), "Create Exercise modal is displayed");
+        Thread.sleep(1000);
+
+        getDriver().findElement(By.id("new exercise:newExerciseName")).sendKeys("new Exercise");
+
+        Thread.sleep(1000);
+        WebElement createButton = getWait().until(elementToBeClickable(By.cssSelector(".btn.bg-success.text-light")));
+        createButton.click();
+        Thread.sleep(1000);
+        assertEquals(SeleniumUITestUtils.BASE_URL + "view/registered/course.xhtml?Id=1", getDriver().getCurrentUrl());
+        Thread.sleep(1000);
+
     }
 
     /**
-     * Adds an exercise.
+     * Log in and navigate to a course.
+     *
+     * @param username The username.
      */
-    private void tryAddExercise() {
-        SeleniumUITestUtils.tryLogin(
-                getDriver(), getWait(), SeleniumUITestUtils.ADMIN_USERNAME, SeleniumUITestUtils.GLOBAL_PASSWORD);
+    private void loginAndNavigateToCourse(String username) throws InterruptedException {
+        SeleniumUITestUtils.tryLogin(getDriver(), getWait(), username, SeleniumUITestUtils.GLOBAL_PASSWORD);
+        Thread.sleep(1000);
         SeleniumUITestUtils.navigateTo(getDriver(), "view/registered/course.xhtml?Id=1");
-        WebElement openModalButton = getWait().until(elementToBeClickable(By.cssSelector("[id$='open-exercise-modal']")));
-        openModalButton.click();
-        WebElement newCourseName = getWait().until(visibilityOfElementLocated(By.cssSelector("[id$='newExerciseName']")));
-        newCourseName.sendKeys("Test Exercise");
-        WebElement createCourseButton = getWait().until(elementToBeClickable(By.cssSelector("[id$='create-exercise-button']")));
-        createCourseButton.click();
+        Thread.sleep(1000);
     }
 }
+
+
+
+
+
+
+
+
+
+

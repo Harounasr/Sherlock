@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html"
-      xmlns:f="jakarta.faces.core"
->
+      xmlns:f="jakarta.faces.core">
+
 <f:view>
     <h:form id="settingsForm" enctype="multipart/form-data">
         <div class="container-fluid justify-content-center align-content-center">
@@ -10,14 +10,14 @@
             <!-- Select primary Color Scheme -->
             <div class="form-group color-input-container">
                 <label class="color-label" for="primaryColor">Primary Color Scheme:</label>
-                <h:inputText id="primaryColor" value="##{adminSettingsBean.systemSettings.primaryColorHex}" type="color" class="form-control"
+                <h:inputText id="primaryColor" value="#{adminSettingsBean.systemSettings.primaryColorHex}" type="color" class="form-control"
                              style="width: 100px;"/>
             </div>
 
             <!-- Select Secondary Color Scheme -->
             <div class="form-group color-input-container">
                 <label class="color-label" for="secondaryColor">Secondary Color Scheme:</label>
-                <h:inputText id="secondaryColor" value="##{adminSettingsBean.systemSettings.secondaryColorHex}" type="color" class="form-control"
+                <h:inputText id="secondaryColor" value="#{adminSettingsBean.systemSettings.secondaryColorHex}" type="color" class="form-control"
                              style="width: 100px;"/>
             </div>
 

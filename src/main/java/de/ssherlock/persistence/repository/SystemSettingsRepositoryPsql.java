@@ -33,20 +33,21 @@ public class SystemSettingsRepositoryPsql extends RepositoryPsql
   @Override
   public void updateSystemSettings(SystemSettings systemSettings) {
     String query =
-        "UPDATE SystemSettings SET emailRegex=?, primaryColorHex=?, "
-            + "secondaryColor=?, systemName=?, logo=? WHERE id=?";
+        "UPDATE system_settings SET email_regex=?, primary_color_hex=?, "
+            + "secondary_color_hex=?, system_name=?, system_logo=?, imprint=?, contact_information=?";
     try (PreparedStatement preparedStatement = getConnection().prepareStatement(query)) {
       preparedStatement.setString(1, systemSettings.getEmailRegex());
       preparedStatement.setString(2, systemSettings.getPrimaryColorHex());
       preparedStatement.setString(3, systemSettings.getSecondaryColorHex());
       preparedStatement.setString(4, systemSettings.getSystemName());
       preparedStatement.setBytes(5, systemSettings.getLogo());
-      preparedStatement.setInt(6, 1);
+      preparedStatement.setString(6, systemSettings.getImprint());
+      preparedStatement.setString(7, systemSettings.getContactInformation());
 
       preparedStatement.executeUpdate();
       logger.log(Level.INFO, "Successfully updated System Settings");
     } catch (SQLException e) {
-      logger.log(Level.INFO, "Did not update System Settings");
+      logger.log(Level.INFO, "Did not update System Settings"  + e);
     }
   }
 
