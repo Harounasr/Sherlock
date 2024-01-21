@@ -1,28 +1,29 @@
-INSERT INTO course (id, course_name)
-VALUES (1, 'Informatik');
-INSERT INTO course (id, course_name)
-VALUES (2, 'Mathematik');
-INSERT INTO course (id, course_name)
-VALUES (3, 'Algorithm');
-INSERT INTO course (id, course_name)
-VALUES (4, 'German');
-INSERT INTO course (id, course_name)
-VALUES (5, 'Prog I');
-INSERT INTO course (id, course_name)
-VALUES (6, 'English');
-INSERT INTO course (id, course_name) VALUES (7, 'TEST-VICTOR');
+INSERT INTO course (course_name)
+VALUES ('Informatik');
+INSERT INTO course (course_name)
+VALUES ('Mathematik');
+INSERT INTO course (course_name)
+VALUES ('Algorithm');
+INSERT INTO course (course_name)
+VALUES ('German');
+INSERT INTO course (course_name)
+VALUES ('Prog I');
+INSERT INTO course (course_name)
+VALUES ('English');
+INSERT INTO course (course_name)
+VALUES ('TEST-VICTOR');
 
-INSERT INTO exercise (id, name, publish_date, recommended_deadline, obligatory_deadline, description, course_id, reminder_mail_sent) VALUES (1, 'Exercise 1', '2024-01-07 19:26:32.356897+01', '2024-01-14 19:26:32.356897+01', '2025-01-21 19:26:32.356897+01', '<h1>Exercise 1 Description</h2>', 1, true);
-INSERT INTO exercise (id, name, publish_date, recommended_deadline, obligatory_deadline, description, course_id, reminder_mail_sent) VALUES (2, 'Exercise 2', '2024-01-05 12:59:59.181153+01', '2024-01-12 12:59:32.356897+01', '2024-01-19 12:59:32.356897+01', '<h1>Exercise 2 Description</h2>', 1, true);
-INSERT INTO exercise (id, name, publish_date, recommended_deadline, obligatory_deadline, description, course_id, reminder_mail_sent) VALUES (3, 'Exercise 3', '2024-01-05 12:59:36.358768+01', '2024-01-12 12:59:36.358768+01', '2024-01-19 12:59:36.358768+01', '<h1>Exercise 3 Description</h2>', 2, true);
-INSERT INTO exercise (id, name, publish_date, recommended_deadline, obligatory_deadline, description, course_id, reminder_mail_sent) VALUES (4, 'Exercise 4', '2024-01-05 12:59:36.358768+01', '2024-01-12 12:59:36.358768+01', '2024-01-19 12:59:36.358768+01', '<h1>Exercise 4 Description</h2>', 2, true);
-INSERT INTO exercise (id, name, publish_date, recommended_deadline, obligatory_deadline, description, course_id, reminder_mail_sent) VALUES (5, 'Exercise 5', '2024-01-05 12:59:36.358768+01', '2024-01-12 12:59:36.358768+01', '2024-01-19 12:59:36.358768+01', '<h1>Exercise 5 Description</h2>', 3, true);
-INSERT INTO exercise (id, name, publish_date, recommended_deadline, obligatory_deadline, description, course_id, reminder_mail_sent) VALUES (6, 'Exercise 6', '2024-01-05 12:59:36.358768+01', '2024-01-12 12:59:36.358768+01', '2024-01-19 12:59:36.358768+01', '<h1>Exercise 6 Description</h2>', 3, true);
-INSERT INTO exercise (id, name, publish_date, recommended_deadline, obligatory_deadline, description, course_id, reminder_mail_sent) VALUES (7, 'Exercise 7', '2024-01-05 12:59:36.358768+01', '2024-01-12 12:59:36.358768+01', '2024-01-19 12:59:36.358768+01', '<h1>Exercise 7 Description</h2>', 4, true);
-INSERT INTO exercise (id, name, publish_date, recommended_deadline, obligatory_deadline, description, course_id, reminder_mail_sent) VALUES (8, 'Exercise 8', '2024-01-05 12:59:36.358768+01', '2024-01-12 12:59:36.358768+01', '2024-01-19 12:59:36.358768+01', '<h1>Exercise 8 Description</h2>', 4, true);
-INSERT INTO exercise (id, name, publish_date, recommended_deadline, obligatory_deadline, description, course_id, reminder_mail_sent) VALUES (9, 'Exercise 9', '2024-01-05 12:59:36.358768+01', '2024-01-12 12:59:36.358768+01', '2024-01-19 12:59:36.358768+01', '<h1>Exercise 9 Description</h2>', 5, true);
-INSERT INTO exercise (id, name, publish_date, recommended_deadline, obligatory_deadline, description, course_id, reminder_mail_sent) VALUES (10, 'Exercise 10', '2024-01-05 12:59:36.358768+01', '2024-01-12 12:59:36.358768+01', '2024-01-19 12:59:36.358768+01', '<h1>Exercise 10 Description</h2>', 6, true);
-INSERT INTO exercise (id, name, publish_date, recommended_deadline, obligatory_deadline, description, course_id, reminder_mail_sent) VALUES (11, 'Exercise 11', '2024-01-05 12:59:36.358768+01', '2024-01-12 12:59:36.358768+01', '2024-01-19 12:59:36.358768+01', '<h1>Exercise 11 Description</h2><img src="http://localhost:8080/ssherlock/image?Id=4f7c5231-d22c-4d68-9b7a-1a926a37d9c3"', 7, true);
+INSERT INTO exercise (name, publish_date, recommended_deadline, obligatory_deadline, description, course_id, reminder_mail_sent) VALUES ('Exercise 1', '2024-01-07 19:26:32.356897+01', '2024-01-14 19:26:32.356897+01', '2025-01-21 19:26:32.356897+01', '<h1>Exercise 1 Description</h2>', 1, true);
+INSERT INTO exercise (name, publish_date, recommended_deadline, obligatory_deadline, description, course_id, reminder_mail_sent) VALUES ('Exercise 2', '2024-01-05 12:59:59.181153+01', '2024-01-12 12:59:32.356897+01', '2024-01-19 12:59:32.356897+01', '<h1>Exercise 2 Description</h2>', 1, true);
+INSERT INTO exercise (name, publish_date, recommended_deadline, obligatory_deadline, description, course_id, reminder_mail_sent) VALUES ('Exercise 3', '2024-01-05 12:59:36.358768+01', '2024-01-12 12:59:36.358768+01', '2024-01-19 12:59:36.358768+01', '<h1>Exercise 3 Description</h2>', 2, true);
+INSERT INTO exercise (name, publish_date, recommended_deadline, obligatory_deadline, description, course_id, reminder_mail_sent) VALUES ('Exercise 4', '2024-01-05 12:59:36.358768+01', '2024-01-12 12:59:36.358768+01', '2024-01-19 12:59:36.358768+01', '<h1>Exercise 4 Description</h2>', 2, true);
+INSERT INTO exercise (name, publish_date, recommended_deadline, obligatory_deadline, description, course_id, reminder_mail_sent) VALUES ('Exercise 5', '2024-01-05 12:59:36.358768+01', '2024-01-12 12:59:36.358768+01', '2024-01-19 12:59:36.358768+01', '<h1>Exercise 5 Description</h2>', 3, true);
+INSERT INTO exercise (name, publish_date, recommended_deadline, obligatory_deadline, description, course_id, reminder_mail_sent) VALUES ('Exercise 6', '2024-01-05 12:59:36.358768+01', '2024-01-12 12:59:36.358768+01', '2024-01-19 12:59:36.358768+01', '<h1>Exercise 6 Description</h2>', 3, true);
+INSERT INTO exercise (name, publish_date, recommended_deadline, obligatory_deadline, description, course_id, reminder_mail_sent) VALUES ('Exercise 7', '2024-01-05 12:59:36.358768+01', '2024-01-12 12:59:36.358768+01', '2024-01-19 12:59:36.358768+01', '<h1>Exercise 7 Description</h2>', 4, true);
+INSERT INTO exercise (name, publish_date, recommended_deadline, obligatory_deadline, description, course_id, reminder_mail_sent) VALUES ('Exercise 8', '2024-01-05 12:59:36.358768+01', '2024-01-12 12:59:36.358768+01', '2024-01-19 12:59:36.358768+01', '<h1>Exercise 8 Description</h2>', 4, true);
+INSERT INTO exercise (name, publish_date, recommended_deadline, obligatory_deadline, description, course_id, reminder_mail_sent) VALUES ('Exercise 9', '2024-01-05 12:59:36.358768+01', '2024-01-12 12:59:36.358768+01', '2024-01-19 12:59:36.358768+01', '<h1>Exercise 9 Description</h2>', 5, true);
+INSERT INTO exercise (name, publish_date, recommended_deadline, obligatory_deadline, description, course_id, reminder_mail_sent) VALUES ('Exercise 10', '2024-01-05 12:59:36.358768+01', '2024-01-12 12:59:36.358768+01', '2024-01-19 12:59:36.358768+01', '<h1>Exercise 10 Description</h2>', 6, true);
+INSERT INTO exercise (name, publish_date, recommended_deadline, obligatory_deadline, description, course_id, reminder_mail_sent) VALUES ('Exercise 11', '2024-01-05 12:59:36.358768+01', '2024-01-12 12:59:36.358768+01', '2024-01-19 12:59:36.358768+01', '<h1>Exercise 11 Description</h2><img src="http://localhost:8080/ssherlock/image?Id=4f7c5231-d22c-4d68-9b7a-1a926a37d9c3"', 7, true);
 
 
 INSERT INTO exercise_image (uuid, exercise_id, exercise_image) VALUES (('4f7c5231-d22c-4d68-9b7a-1a926a37d9c3'::uuid), 11, E'\\x0123456789ABCDEF');
