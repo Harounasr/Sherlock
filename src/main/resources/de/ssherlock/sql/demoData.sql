@@ -95,3 +95,466 @@ VALUES
   ('Building a Distributed Application', '2024-03-15', '2024-03-22', '2024-03-29', 'Hands-on exercise to design and implement a distributed application.', 10, 0),
   ('Load Balancing Techniques', '2024-03-01', '2024-03-08', '2024-03-15', 'Examine various load balancing techniques in the context of distributed systems.', 10, 0);
 
+
+INSERT INTO submission (timestamp_submission, student_username, tutor_username, exercise_id)
+VALUES ('2024-01-05 00:00:00.000000 +00:00', 'member1', 'tutor', 13);
+
+INSERT INTO submission_file (submission_id, file_name, file)
+VALUES(1, 'CourseService.java', 'package de.ssherlock.business.service;
+
+import de.ssherlock.business.exception.BusinessNonExistentCourseException;
+import de.ssherlock.global.logging.SerializableLogger;
+import de.ssherlock.global.transport.Course;
+import de.ssherlock.global.transport.Pagination;
+import de.ssherlock.global.transport.User;
+import de.ssherlock.persistence.connection.ConnectionPool;
+import de.ssherlock.persistence.exception.PersistenceNonExistentCourseException;
+import de.ssherlock.persistence.repository.CourseRepository;
+import de.ssherlock.persistence.repository.RepositoryFactory;
+import de.ssherlock.persistence.repository.RepositoryType;
+import jakarta.enterprise.context.Dependent;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.sql.Connection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+/**
+ * The CourseService class provides functionality for managing courses and related operations.
+ *
+ * @author Victor Vollmann
+ */
+@Named
+@Dependent
+public class CourseService implements Serializable {
+
+    /**
+     * Serial Version UID.
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * Logger instance for logging messages related to CourseService.
+     */
+    private final SerializableLogger logger;
+
+    /**
+     * ConnectionPoolPsql instance for getting a database connection.
+     */
+    private final ConnectionPool connectionPool;
+
+    /**
+     * Constructs a CourseService with the specified logger.
+     *
+     * @param logger         The logger to be used for logging messages related to CourseService.
+     * @param connectionPool The connection pool.
+     */
+    @Inject
+    public CourseService(SerializableLogger logger, ConnectionPool connectionPool) {
+        this.logger = logger;
+        this.connectionPool = connectionPool;
+    }
+
+    /**
+     * Retrieves a list of all courses.
+     *
+     * @return A list of all courses.
+     */
+    public List<Course> getCourses() {
+        Connection connection = connectionPool.getConnection();
+        CourseRepository courseRepository =
+                RepositoryFactory.getCourseRepository(RepositoryType.POSTGRESQL, connection);
+        List<Course> courses = courseRepository.getCourses();
+        connectionPool.releaseConnection(connection);
+        return courses;
+    }
+
+    /**
+     * Retrieves a list of all courses.
+     *
+     * @param pagination The pagination.
+     * @return A list of all courses.
+     */
+    public List<Course> getCourses(Pagination pagination) {
+        Connection connection = connectionPool.getConnection();
+        CourseRepository courseRepository =
+                RepositoryFactory.getCourseRepository(RepositoryType.POSTGRESQL, connection);
+        List<Course> courses = courseRepository.getCourses();
+        connectionPool.releaseConnection(connection);
+        return sortAndFilterCourses(courses, pagination);
+    }
+
+
+    /**
+     * Retrieves a list of courses associated with the specified user.
+     *
+     * @param user The user for whom to retrieve courses.
+     * @return A list of courses associated with the user.
+     */
+    public List<Course> getCourses(User user) {
+        Connection connection = connectionPool.getConnection();
+        CourseRepository courseRepository =
+                RepositoryFactory.getCourseRepository(RepositoryType.POSTGRESQL, connection);
+        logger.log(Level.INFO, "getting courses");
+        try {
+            List<Course> test;
+            test = courseRepository.getCourses(user);
+            logger.log(Level.INFO, test.toString());
+            return test;
+        } catch (PersistenceNonExistentCourseException e) {
+            logger.log(Level.INFO, "service found no courses.");
+        }
+        connectionPool.releaseConnection(connection);
+        return Collections.emptyList();
+    }
+
+    /**
+     * Retrieves a list of courses associated with the specified user.
+     *
+     * @param pagination The pagination.
+     * @param user The user for whom to retrieve courses.
+     * @return A list of courses associated with the user.
+     */
+    public List<Course> getCourses(Pagination pagination, User user) {
+        Connection connection = connectionPool.getConnection();
+        CourseRepository courseRepository =
+                RepositoryFactory.getCourseRepository(RepositoryType.POSTGRESQL, connection);
+        logger.log(Level.INFO, "getting courses");
+        try {
+            List<Course> test;
+            test = courseRepository.getCourses(user);
+            logger.log(Level.INFO, test.toString());
+            return sortAndFilterCourses(test, pagination);
+        } catch (PersistenceNonExistentCourseException e) {
+            logger.log(Level.INFO, "service found no courses.");
+        } finally {
+            connectionPool.releaseConnection(connection);
+        }
+        return Collections.emptyList();
+    }
+
+
+    /**
+     * Adds a new course.
+     *
+     * @param course The course to add.
+     */
+    public void addCourse(Course course) {
+        Connection connection = connectionPool.getConnection();
+        CourseRepository courseRepository =
+                RepositoryFactory.getCourseRepository(RepositoryType.POSTGRESQL, connection);
+        logger.log(Level.INFO, "adding course");
+        courseRepository.insertCourse(course);
+        connectionPool.releaseConnection(connection);
+    }
+
+    /**
+     * Checks whether a course already exists in the database.
+     *
+     * @param course The course name.
+     * @return true if the course exists.
+     */
+    public boolean courseExists(Course course) {
+        return false;
+    }
+
+    /**
+     * Removes an existing course.
+     *
+     * @param course The course to remove.
+     * @throws BusinessNonExistentCourseException when the course does not exist in the database.
+     */
+    public void removeCourse(Course course) throws BusinessNonExistentCourseException {
+        Connection connection = connectionPool.getConnection();
+        CourseRepository courseRepository =
+                RepositoryFactory.getCourseRepository(RepositoryType.POSTGRESQL, connection);
+        try {
+            courseRepository.deleteCourse(course);
+        } catch (PersistenceNonExistentCourseException e) {
+            throw new BusinessNonExistentCourseException();
+        }
+        connectionPool.releaseConnection(connection);
+    }
+
+    /**
+     * Gets the course associated with the id.
+     *
+     * @param course The course.
+     * @return The course.
+     *
+     * @throws BusinessNonExistentCourseException when the course does not exist.
+     */
+    public Course getCourseById(Course course) throws BusinessNonExistentCourseException {
+        Connection connection = connectionPool.getConnection();
+        CourseRepository courseRepository =
+                RepositoryFactory.getCourseRepository(RepositoryType.POSTGRESQL, connection);
+        try {
+            course = courseRepository.getCourseById(course);
+        } catch (PersistenceNonExistentCourseException e) {
+            throw new BusinessNonExistentCourseException();
+        } finally {
+            connectionPool.releaseConnection(connection);
+        }
+        return course;
+    }
+
+    /**
+     * Sorts and filters a list of courses.
+     *
+     * @param courses    The courses.
+     * @param pagination The pagination.
+     * @return The sorted and filtered list.
+     */
+    private List<Course> sortAndFilterCourses(List<Course> courses, Pagination pagination) {
+        Stream<Course> courseStream = courses.stream();
+
+        if (!pagination.getSearchString().isEmpty()) {
+            courseStream = courseStream.filter(course -> course.getName().contains(pagination.getSearchString()));
+        }
+
+        String sortBy = pagination.getSortBy();
+        if (!sortBy.isEmpty()) {
+            Comparator<Course> comparator = switch (sortBy) {
+                case "name" -> Comparator.comparing(Course::getName);
+                case "id" -> Comparator.comparing(Course::getId);
+                default -> (course1, course2) -> 0;
+            };
+            courseStream = pagination.isSortAscending() ? courseStream.sorted(comparator) : courseStream.sorted(comparator.reversed());
+        }
+
+        return courseStream.collect(Collectors.toList());
+    }
+}
+');
+INSERT INTO submission_file (submission_id, file_name, file)
+VALUES (1, 'PasswordHashing.java', 'package de.ssherlock.business.util;
+
+import de.ssherlock.global.transport.Password;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.Base64;
+
+/**
+ * Utility class for password hashing using a secure hash algorithm and salt.
+ *
+ * @author Leon Höfling
+ */
+public final class PasswordHashing {
+
+  /** The algorithm to use for hashing. */
+  private static final String ALGORITHM = "SHA-512";
+
+  /** The size of the salt. */
+  private static final int SALT_SIZE = 16;
+
+  /** For random byte generation. */
+  private static final SecureRandom SECURE_RANDOM = new SecureRandom();
+
+  /** Default constructor. */
+  private PasswordHashing() {}
+
+  /**
+   * Hashes the provided password.
+   *
+   * @param password The password to be hashed.
+   * @return The hashed password.
+   */
+  public static Password hashPassword(String password) {
+    try {
+      byte[] salt = generateSalt();
+      // Combine the password and salt
+      byte[] saltedPassword =
+          combinePasswordAndSalt(password.getBytes(StandardCharsets.UTF_8), salt);
+
+      // Create a MessageDigest object for SHA-512
+      MessageDigest md = MessageDigest.getInstance(ALGORITHM);
+
+      // Update the digest with the salted password
+      md.update(saltedPassword);
+
+      // Get the hash bytes
+      byte[] hashedBytes = md.digest();
+
+      // Convert the salt and hash to a base64-encoded string
+      String saltBase64 = Base64.getEncoder().encodeToString(salt);
+      String hashedPasswordBase64 = Base64.getEncoder().encodeToString(hashedBytes);
+
+      // Combine the salt and hash for storage
+      Password p = new Password();
+      p.setHash(hashedPasswordBase64);
+      p.setSalt(saltBase64);
+      return p;
+    } catch (NoSuchAlgorithmException e) {
+      return null;
+    }
+  }
+
+  /**
+   * Hashes the provided password using the specified salt.
+   *
+   * @param password The password to be hashed.
+   * @param passwordSalt The password will be hashed with this salt.
+   * @return The hashed password.
+   */
+  public static Password hashPassword(String password, String passwordSalt) {
+    try {
+      byte[] salt = Base64.getDecoder().decode(passwordSalt);
+
+      // Combine the password and salt
+      byte[] saltedPassword =
+          combinePasswordAndSalt(password.getBytes(StandardCharsets.UTF_8), salt);
+
+      // Create a MessageDigest object for SHA-512
+      MessageDigest md = MessageDigest.getInstance(ALGORITHM);
+
+      // Update the digest with the salted password
+      md.update(saltedPassword);
+
+      // Get the hash bytes
+      byte[] hashedBytes = md.digest();
+
+      // Convert the salt and hash to a base64-encoded string
+      String saltBase64 = Base64.getEncoder().encodeToString(salt);
+      String hashedPasswordBase64 = Base64.getEncoder().encodeToString(hashedBytes);
+
+      // Combine the salt and hash for storage
+      Password p = new Password();
+      p.setHash(hashedPasswordBase64);
+      p.setSalt(saltBase64);
+      return p;
+    } catch (NoSuchAlgorithmException e) {
+      return null;
+    }
+  }
+
+  /**
+   * Generates random salt.
+   *
+   * @return the generated salt.
+   */
+  private static byte[] generateSalt() {
+    byte[] salt = new byte[SALT_SIZE];
+    SECURE_RANDOM.nextBytes(salt);
+    return salt;
+  }
+
+  /**
+   * Combines password and salt.
+   *
+   * @param password The password.
+   * @param salt The salt.
+   * @return The combined password and salt.
+   */
+  private static byte[] combinePasswordAndSalt(byte[] password, byte[] salt) {
+    byte[] combined = new byte[password.length + salt.length];
+    System.arraycopy(password, 0, combined, 0, password.length);
+    System.arraycopy(salt, 0, combined, password.length, salt.length);
+    return combined;
+  }
+}
+');
+INSERT INTO submission_file (submission_id, file_name, file)
+VALUES (1, 'StartStopBusiness.java', 'package de.ssherlock.business.util;
+
+import de.ssherlock.business.maintenance.MaintenanceProcessExecutor;
+import de.ssherlock.global.logging.SerializableLogger;
+import de.ssherlock.persistence.util.StartStopPersistence;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.servlet.ServletContextEvent;
+
+import java.io.Serial;
+import java.io.Serializable;
+
+/**
+ * Handles start and stop functionalities for the business layer.
+ *
+ * @author Victor Vollmann
+ */
+@ApplicationScoped
+public class StartStopBusiness implements Serializable {
+
+    /**
+     * Serial Version UID.
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * Logger for this class.
+     */
+    @Inject
+    private SerializableLogger logger;
+
+    /**
+     * The StartStop instance of the persistence layer.
+     */
+    @Inject
+    private StartStopPersistence startStopPersistence;
+
+
+    /**
+     * The MaintenanceProcessExecutor instance.
+     */
+    private transient MaintenanceProcessExecutor executor;
+
+    /**
+     * Default constructor.
+     */
+    public StartStopBusiness() {
+
+    }
+
+    /**
+     * Initializes the business layer.
+     *
+     * @param sce The Servlet Context Event.
+     */
+    public void init(ServletContextEvent sce) {
+        executor = new MaintenanceProcessExecutor();
+        executor.init();
+        logger.info("Business Layer initialized.");
+        startStopPersistence.init(sce);
+    }
+
+    /**
+     * Destroys the business layer.
+     */
+    public void destroy() {
+        executor.destroy();
+        logger.info("Business Layer destroyed.");
+        startStopPersistence.destroy();
+    }
+}
+');
+INSERT INTO submission_file (submission_id, file_name, file)
+VALUES (1, 'SimpleCalculator.java', 'public class SimpleCalculator {
+
+    public static int add(int a, int b) {
+        return a + b;
+    }
+
+    public static void main(String[] args) {
+        int num1 = 5;
+        int num2 = 7;
+        int result = add(num1, num2);
+
+        System.out.println("Die Summe von " + num1 + " und " + num2 + " ist: " + result);
+    }
+}');
+
+INSERT INTO checker_result (exercise_id, checker_id, submission_id, has_passed, result_description)
+VALUES (1, 1, 200, TRUE, 'This is a description for checker 1.');
+
+INSERT INTO checker_result (exercise_id, checker_id, submission_id, has_passed, result_description)
+VALUES (1, 2, 200, FALSE, 'This is a description for checker 2.');
