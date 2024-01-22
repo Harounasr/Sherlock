@@ -6,16 +6,22 @@ import de.ssherlock.business.exception.BusinessNonExistentUserException;
 import de.ssherlock.business.service.FacultyService;
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.business.util.PasswordHashing;
+import de.ssherlock.control.notification.Notification;
+import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Password;
+import de.ssherlock.global.transport.SystemRole;
 import de.ssherlock.global.transport.User;
 import jakarta.annotation.PostConstruct;
+import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import java.io.Serial;
 import java.io.Serializable;
+import java.sql.Connection;
+import java.util.Map;
 
 /**
  * Backing bean for the profile.xhtml facelet.
@@ -77,8 +83,19 @@ public class ProfileBean implements Serializable {
   /** Initializes the bean after construction. */
   @PostConstruct
   public void initialize() {
-    logger.log(INFO, appSession.getUser().getUsername());
-    user = appSession.getUser();
+      FacesContext facesContext = FacesContext.getCurrentInstance();
+      Map<String, String> requestParams = facesContext.getExternalContext().getRequestParameterMap();
+      if (requestParams.containsKey("Id") && appSession.getUser().getSystemRole() == SystemRole.ADMINISTRATOR) {
+          user.setUsername(requestParams.get("Id"));
+          try {
+              userService.getUser(user);
+          } catch (BusinessNonExistentUserException e) {
+              Notification notification = new Notification("User could noz be selected", NotificationType.ERROR);
+              notification.generateUIMessage();
+          }
+      } else {
+          user = appSession.getUser();
+      }
     changedUser = new User();
     changedUser.setUsername(user.getUsername());
   }

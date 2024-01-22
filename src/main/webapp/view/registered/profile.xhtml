@@ -3,11 +3,12 @@
                 xmlns:f="jakarta.faces.core"
                 xmlns="http://www.w3.org/1999/xhtml"
                 template="../../resources/templates/mainTemplate.xhtml">
-
-    <h:head>
-    <ui:define name="title">My Profile</ui:define>
-        <h:outputStylesheet library="css" name="profile.css"/>
-    </h:head>
+    <ui:define name="headElements">
+        <link rel="stylesheet" href="#{request.contextPath}/resources/css/sidebar.css"/>
+        <link rel="stylesheet" href="#{request.contextPath}/resources/css/exerciseDescription.css"/>
+        <!-- <link rel="stylesheet" href="#{request.contextPath}/resources/css/exerciseDescription.css"/> -->
+        <title>Profile</title>
+    </ui:define>
 
     <ui:define name="content">
         <h:messages globalOnly="true"/>
@@ -42,13 +43,6 @@
 
                         <h:commandButton value="Submit" action="#{profileBean.submitFacultyChange()}" />
                     </h:form>
-
-
-
-
-
-
-
                     <h5>Change Password</h5>
                         <label for="newPassword">New Password</label>
                         <h:inputSecret class="profileinput" id="newPassword" value="#{profileBean.newPasswordOne}"
@@ -56,23 +50,16 @@
                          <!--   <f:validator validatorId="passwordValidator"/>
                             <h:message for="newPassword"/> -->
                         </h:inputSecret>
-
-
-
-            <h:form>
+                    <h:form>
                         <label for="repeatPassword">Repeat Password</label>
                         <h:inputSecret class="profileinput" id="repeatPassword" value="#{profileBean.newPasswordTwo}" >
                          <!--   <f:validator validatorId="passwordsEqualValidator"/>
                             <f:attribute name="confirmPassword" value="#{profileBean.newPasswordTwo}"/> -->
                         </h:inputSecret>
                         <h:message for="repeatPassword"/>
-
-
-
                         <h:commandButton  value="Change Password" action="#{profileBean.submitPasswordChange()}"/>
                         <h:commandButton id="deleteAccountButton" class="commandButton" value="Delete Account" action="#{profileBean.deleteAccount}"/>
-            </h:form>
-
+                    </h:form>
                 </div>
             </div>
         </div>

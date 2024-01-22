@@ -149,7 +149,7 @@ public class AdminUserPaginationBean extends AbstractPaginationBean implements S
      * @return The navigation outcome.
      */
     public String selectUser(User user) {
-        return "/view/registered/profile.xhtml?faces-redirect=true&Id=" + user.getId();
+        return "/view/registered/profile.xhtml?faces-redirect=true&Id=" + user.getUsername();
     }
 
     /**
