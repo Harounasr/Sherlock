@@ -105,9 +105,9 @@ public class TestateBean implements Serializable {
     private List<CheckerResult> checkerResults;
 
     /**
-     * Boolean if the current user is a registered user.
+     * Boolean if the testate can be editable.
      */
-    private boolean isUser;
+    private boolean readOnly;
 
     /**
      * Constructor for TestateBean.
@@ -154,7 +154,7 @@ public class TestateBean implements Serializable {
         }
         files = convertSubmissionFileToText(submission.getSubmissionFiles());
         checkerResults = checkerService.getCheckerResultsForSubmission(submission);
-        isUser = appSession.getUser().getSystemRole() == SystemRole.REGISTERED;
+        readOnly = submission.isTestateCreated();
     }
 
     /**
@@ -311,17 +311,17 @@ public class TestateBean implements Serializable {
      *
      * @return The user-role.
      */
-    public boolean isIsUser() {
-        return isUser;
+    public boolean isReadOnly() {
+        return readOnly;
     }
 
     /**
      * Sets the current user-role.
      *
-     * @param isUser The user-role.
+     * @param readOnly The user-role.
      */
-    public void setIsUser(boolean isUser) {
-        this.isUser = isUser;
+    public void setReadOnly(boolean readOnly) {
+        this.readOnly = readOnly;
     }
 }
 
