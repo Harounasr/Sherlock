@@ -31,8 +31,12 @@
 
         <h:dataTable class="dataTable" value="#{testateBean.checkerResults}" var="checkerResult">
             <h:column>
-                <f:facet name="header">Checker</f:facet>
-                #{checkerResult.passed}
+                <f:facet name="header">Status</f:facet>
+                <h:outputText styleClass="text-success" value="#{checkerResult.passed ? 'Passed' : 'Failed'}" />
+            </h:column>
+            <h:column>
+                <f:facet name="header">Stacktrace</f:facet>
+                <h:outputText styleClass="text-dark" value="#{checkerResult.stackTrace}"/>
             </h:column>
             <h:column>
                 <f:facet name="header">Parameter 1</f:facet>

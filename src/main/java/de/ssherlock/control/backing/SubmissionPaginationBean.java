@@ -176,12 +176,16 @@ public class SubmissionPaginationBean extends AbstractPaginationBean implements 
     @Override
     public void loadData() {
         try {
-            submissions = switch (courseRole) {
-                case TEACHER -> submissionService.getSubmissions(getPagination(), exercise);
-                case TUTOR -> submissionService.getSubmissionsForTutor(getPagination(), appSession.getUser(), exercise);
-                case MEMBER -> submissionService.getSubmissionsForStudent(getPagination(), appSession.getUser(), exercise);
-                default -> Collections.emptyList();
-            };
+            if (appSession.isAdmin()) {
+                submissions = submissionService.getSubmissions(getPagination(), exercise);
+            } else {
+                submissions = switch (courseRole) {
+                    case TEACHER -> submissionService.getSubmissions(getPagination(), exercise);
+                    case TUTOR -> submissionService.getSubmissionsForTutor(getPagination(), appSession.getUser(), exercise);
+                    case MEMBER -> submissionService.getSubmissionsForStudent(getPagination(), appSession.getUser(), exercise);
+                    default -> Collections.emptyList();
+                };
+            }
         } catch (BusinessDBAccessException | BusinessNonExistentCourseException e) {
             submissions = Collections.emptyList();
             Notification notification = new Notification("The submissions could not be loaded", NotificationType.ERROR);

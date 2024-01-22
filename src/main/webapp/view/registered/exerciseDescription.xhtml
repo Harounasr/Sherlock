@@ -85,7 +85,7 @@
 
             <div class="form-group full-width-bottom">
                 <label for="file">Choose an image:</label>
-                <h:inputFile required="true" styleClass="m-2" id="file" value="#{exerciseDescriptionBean.uploadedImage}" validator="imageValidator"/>
+                <h:inputFile styleClass="m-2" id="file" value="#{exerciseDescriptionBean.uploadedImage}" validator="imageValidator"/>
                 <h:commandButton id="convert-button" value="Convert to &lt;img&gt; Component" action="#{exerciseDescriptionBean.uploadImage()}"
                                  class="btn secondary-color-btn m-2"/>
                 <h:commandLink rendered="#{exerciseDescriptionBean.imgComponent != null}" styleClass="btn secondary-color-btn" onclick="copyToClipboard('generated-img-component'); return false;">

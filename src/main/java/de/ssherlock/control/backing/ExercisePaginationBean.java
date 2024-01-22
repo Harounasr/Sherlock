@@ -13,6 +13,7 @@ import jakarta.inject.Named;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
@@ -92,7 +93,7 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
         exercise = new Exercise();
         getPagination().setPageSize(PAGE_SIZE);
         getPagination().setSortBy("obligatoryDeadline");
-        exercises = exerciseService.getExercises(getPagination(), courseBean.getCourse());
+        loadData();
         getPagination().setLastIndex(exercises.size() - 1);
     }
 
@@ -151,6 +152,11 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
     @Override
     public void loadData() {
         exercises = exerciseService.getExercises(getPagination(), courseBean.getCourse());
+        if (!(appSession.isAdmin() || courseBean.isTeacherRights())) {
+            Calendar calendar = Calendar.getInstance();
+            Timestamp timestamp = new Timestamp(calendar.getTime().getTime());
+            exercises = exercises.stream().filter(e -> e.getPublishDate().before(timestamp)).toList();
+        }
     }
 
     /**

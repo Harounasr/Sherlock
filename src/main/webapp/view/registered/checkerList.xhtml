@@ -53,14 +53,14 @@
             <h:form>
                 <comp:pagination backingBean="#{checkerListBean}"/>
             </h:form>
-            <h:commandButton value="Update Checker" class="btn bg-success text-light" action="#{checkerListBean.submitChanges()}"/>
+            <h:commandButton value="Update Checker" class="btn primary-color-btn text-light m-2" action="#{checkerListBean.submitChanges()}"/>
         </h:form>
 
         <div class="col-auto">
             <h:form rendered="#{navbarBean.appSession.user.systemRole.toString() == 'ADMINISTRATOR'
                         || navbarBean.appSession.user.systemRole.toString() == 'TEACHER'}">
                 <button id="addCheckerButton" type="button" data-bs-toggle="modal" data-bs-target="#createCheckerModal"
-                        class="btn bg-success text-light">
+                        class="btn btn primary-color-btn text-light m-2">
                     Add Checker
                 </button>
             </h:form>

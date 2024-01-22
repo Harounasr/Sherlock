@@ -80,6 +80,8 @@ public class AdminSettingsBean implements Serializable {
     public void initialize() {
         systemSettings = new SystemSettings();
         systemSettings = systemService.getSystemSettings();
+        systemSettings.setPrimaryColorHex("#" + systemSettings.getPrimaryColorHex());
+        systemSettings.setSecondaryColorHex("#" + systemSettings.getSecondaryColorHex());
     }
 
     /**
@@ -89,6 +91,8 @@ public class AdminSettingsBean implements Serializable {
         systemSettings.setPrimaryColorHex(convertToValidHex(systemSettings.getPrimaryColorHex()));
         systemSettings.setSecondaryColorHex(convertToValidHex(systemSettings.getSecondaryColorHex()));
         systemService.updateSystemSettings(systemSettings);
+        systemSettings.setPrimaryColorHex("#" + systemSettings.getPrimaryColorHex());
+        systemSettings.setSecondaryColorHex("#" + systemSettings.getSecondaryColorHex());
     }
 
     /**

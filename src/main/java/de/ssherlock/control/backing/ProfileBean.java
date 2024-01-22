@@ -52,8 +52,6 @@ public class ProfileBean implements Serializable {
   /** The userdata to be changed.*/
   private User changedUser;
 
-
-
   /** The first new password for change. */
   private String newPasswordOne;
 
@@ -85,12 +83,13 @@ public class ProfileBean implements Serializable {
   public void initialize() {
       FacesContext facesContext = FacesContext.getCurrentInstance();
       Map<String, String> requestParams = facesContext.getExternalContext().getRequestParameterMap();
+      user = new User();
       if (requestParams.containsKey("Id") && appSession.getUser().getSystemRole() == SystemRole.ADMINISTRATOR) {
           user.setUsername(requestParams.get("Id"));
           try {
               userService.getUser(user);
           } catch (BusinessNonExistentUserException e) {
-              Notification notification = new Notification("User could noz be selected", NotificationType.ERROR);
+              Notification notification = new Notification("User could not be selected", NotificationType.ERROR);
               notification.generateUIMessage();
           }
       } else {

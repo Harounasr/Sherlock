@@ -11,6 +11,7 @@ import de.ssherlock.global.transport.CourseRole;
 import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.ExerciseDescriptionImage;
 import jakarta.annotation.PostConstruct;
+import jakarta.faces.application.FacesMessage;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -192,6 +193,11 @@ public class ExerciseDescriptionBean implements Serializable {
      */
     @SuppressWarnings("checkstyle:MagicNumber")
     public void uploadImage() {
+        if (uploadedImage == null) {
+            Notification notification = new Notification("You must select an image first.", NotificationType.ERROR);
+            notification.generateUIMessage();
+            return;
+        }
         InputStream inputStream;
         ExerciseDescriptionImage exerciseDescriptionImage = new ExerciseDescriptionImage();
         try {

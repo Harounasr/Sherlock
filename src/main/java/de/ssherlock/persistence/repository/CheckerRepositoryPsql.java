@@ -180,6 +180,7 @@ public class CheckerRepositoryPsql extends RepositoryPsql implements CheckerRepo
         List<CheckerResult> checkerResults = new ArrayList<>();
         String sqlQuery = """
                           SELECT cr.has_passed,
+                                cr.result_description,
                                  chk.parameter_1,
                                  chk.parameter_2,
                                  chk.type
@@ -197,6 +198,7 @@ public class CheckerRepositoryPsql extends RepositoryPsql implements CheckerRepo
                     checker.setParameterTwo(resultSet.getString("parameter_2"));
                     checker.setCheckerType(CheckerType.valueOf(resultSet.getString("type")));
                     CheckerResult checkerResult = new CheckerResult();
+                    checkerResult.setStackTrace(resultSet.getString("result_description"));
                     checkerResult.setPassed(resultSet.getBoolean("has_passed"));
                     checkerResult.setChecker(checker);
                     checkerResults.add(checkerResult);
