@@ -12,6 +12,7 @@ import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.CheckerResult;
 import de.ssherlock.global.transport.Submission;
 import de.ssherlock.global.transport.SubmissionFile;
+import de.ssherlock.global.transport.SystemRole;
 import de.ssherlock.global.transport.Testate;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.context.FacesContext;
@@ -104,6 +105,11 @@ public class TestateBean implements Serializable {
     private List<CheckerResult> checkerResults;
 
     /**
+     * Boolean if the current user is a registered user.
+     */
+    private boolean isUser;
+
+    /**
      * Constructor for TestateBean.
      *
      * @param logger            The logger for this class.
@@ -148,6 +154,7 @@ public class TestateBean implements Serializable {
         }
         files = convertSubmissionFileToText(submission.getSubmissionFiles());
         checkerResults = checkerService.getCheckerResultsForSubmission(submission);
+        isUser = appSession.getUser().getSystemRole() == SystemRole.REGISTERED;
     }
 
     /**
@@ -299,4 +306,22 @@ public class TestateBean implements Serializable {
         return checkerResults;
     }
 
+    /**
+     * Gets the current user-role.
+     *
+     * @return The user-role.
+     */
+    public boolean isIsUser() {
+        return isUser;
+    }
+
+    /**
+     * Sets the current user-role.
+     *
+     * @param isUser The user-role.
+     */
+    public void setIsUser(boolean isUser) {
+        this.isUser = isUser;
+    }
 }
+
