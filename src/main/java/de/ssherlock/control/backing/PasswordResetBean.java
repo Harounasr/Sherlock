@@ -2,9 +2,12 @@ package de.ssherlock.control.backing;
 
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.business.util.PasswordHashing;
+import de.ssherlock.control.notification.Notification;
+import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.User;
 import jakarta.annotation.PostConstruct;
+import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
@@ -91,6 +94,11 @@ public class PasswordResetBean implements Serializable {
      * @return The destination view.
      */
     public String resetPassword() {
+        if (!Objects.equals(passwordOne, passwordTwo)) {
+            Notification notification = new Notification("Passwords do not match.", NotificationType.ERROR);
+            notification.generateUIMessage();
+            return "";
+        }
         user.setVerificationToken(token);
         logger.log(Level.INFO, "Token: " + token);
         user.setPassword(PasswordHashing.hashPassword(passwordOne));

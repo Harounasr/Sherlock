@@ -140,8 +140,6 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
 
         exercise.setCourseId(courseBean.getCourse().getId());
         exerciseService.addExercise(exercise);
-        Notification notification = new Notification("Exercise added.", NotificationType.SUCCESS);
-        notification.generateUIMessage();
         logger.log(Level.INFO, "Exercise Successfully added.");
         Notification notification = new Notification("Exercise: " + exercise.getName() + " created successfully.", NotificationType.SUCCESS);
         notification.generateUIMessage();
