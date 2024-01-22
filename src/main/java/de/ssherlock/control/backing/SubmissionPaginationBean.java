@@ -184,11 +184,10 @@ public class SubmissionPaginationBean extends AbstractPaginationBean implements 
             };
         } catch (BusinessDBAccessException | BusinessNonExistentCourseException e) {
             submissions = Collections.emptyList();
-            logger.log(Level.SEVERE, "LOL", e);
             Notification notification = new Notification("The submissions could not be loaded", NotificationType.ERROR);
             notification.generateUIMessage();
         }
-        logger.log(Level.INFO, String.valueOf(submissions.size()));
+        logger.info("Loaded submissions");
     }
 
     /**

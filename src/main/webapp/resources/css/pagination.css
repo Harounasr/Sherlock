@@ -20,7 +20,7 @@ input.pagination-button:disabled {
 input.pagination-content-button {
   background-color: var(--primary-color, #ffffff);
   color: #f4f4f4;
-  width: 100px;
+  width: fit-content;;
   border: none;
   float: right;
 }

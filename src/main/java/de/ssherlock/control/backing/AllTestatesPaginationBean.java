@@ -1,8 +1,10 @@
 package de.ssherlock.control.backing;
 
+import de.ssherlock.business.exception.BusinessNonExistentTestateException;
 import de.ssherlock.business.service.TestateService;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
+import de.ssherlock.global.transport.CourseRole;
 import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.SystemRole;
 import de.ssherlock.global.transport.Testate;
@@ -14,6 +16,7 @@ import jakarta.inject.Named;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -98,10 +101,17 @@ public class AllTestatesPaginationBean extends AbstractPaginationBean implements
         exercise.setId(exerciseBean.getExerciseId());
         user = appSession.getUser();
 
-        if (user.getSystemRole() == SystemRole.TEACHER || appSession.isAdmin()) {
+        if (exerciseBean.getUserCourseRole() == CourseRole.TEACHER || appSession.isAdmin()) {
             testates = testateService.getAllTestates(exercise);
-        } else {
+        } else if (exerciseBean.getUserCourseRole() == CourseRole.TUTOR) {
             testates = testateService.getAssignedTestates(exercise, user);
+        } else {
+            testates = new ArrayList<>();
+            try {
+                testates.add(testateService.getTestate(exercise, user));
+            } catch (BusinessNonExistentTestateException e) {
+                logger.info("No testate found");
+            }
         }
         getPagination().setLastIndex(testates.size() - 1);
     }
@@ -112,10 +122,9 @@ public class AllTestatesPaginationBean extends AbstractPaginationBean implements
      * @param testate The testate.
      * @return The navigation outcome.
      */
-    public String selectTestate(Testate testate) {
+    public void selectTestate(Testate testate) {
         exerciseBean.setSubmissionId(testate.getSubmission().getId());
         exerciseBean.setTargetPage("testate.xhtml");
-        return "";
     }
 
     /**
@@ -146,5 +155,9 @@ public class AllTestatesPaginationBean extends AbstractPaginationBean implements
         } else {
             testates = testateService.getAssignedTestates(getPagination(), exercise, user);
         }
+    }
+
+    public boolean isMember() {
+        return exerciseBean.getUserCourseRole() == CourseRole.MEMBER;
     }
 }

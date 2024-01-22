@@ -2,6 +2,7 @@ package de.ssherlock.control.backing;
 
 import de.ssherlock.business.exception.BusinessDBAccessException;
 import de.ssherlock.business.exception.BusinessNonExistentSubmissionException;
+import de.ssherlock.business.exception.BusinessNonExistentTestateException;
 import de.ssherlock.business.service.CheckerService;
 import de.ssherlock.business.service.SubmissionService;
 import de.ssherlock.business.service.TestateService;
@@ -10,10 +11,12 @@ import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.CheckerResult;
+import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.Submission;
 import de.ssherlock.global.transport.SubmissionFile;
 import de.ssherlock.global.transport.SystemRole;
 import de.ssherlock.global.transport.Testate;
+import de.ssherlock.global.transport.User;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
@@ -155,6 +158,17 @@ public class TestateBean implements Serializable {
         files = convertSubmissionFileToText(submission.getSubmissionFiles());
         checkerResults = checkerService.getCheckerResultsForSubmission(submission);
         readOnly = submission.isTestateCreated();
+        if (submission.isTestateCreated()) {
+            User user = new User();
+            user.setUsername(submission.getUser());
+            Exercise exercise = new Exercise();
+            exercise.setId(exerciseBean.getExerciseId());
+            try {
+                newTestate = testateService.getTestate(exercise, user);
+            } catch (BusinessNonExistentTestateException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     /**

@@ -164,15 +164,14 @@ public class TestateService implements Serializable {
      * @throws BusinessDBAccessException When there was a problem with the DB connection.
      */
     public void addTestate(Testate testate) throws BusinessDBAccessException {
-        Transaction transaction;
-        try {
-            transaction = new TransactionPsql(connectionPool.getConnection(), connectionPool);
+        try (Transaction transaction = new TransactionPsql(connectionPool.getConnection(), connectionPool)) {
+            TestateRepository testateRepository = RepositoryFactory.getEvaluationRepository(RepositoryType.POSTGRESQL, transaction.getConnection());
+            testateRepository.insertTestate(testate);
+            testateRepository.insertTestateComment(testate);
+            transaction.commit();
         } catch (PersistenceDBAccessException e) {
             throw new BusinessDBAccessException();
         }
-        TestateRepository testateRepository = RepositoryFactory.getEvaluationRepository(RepositoryType.POSTGRESQL, transaction.getConnection());
-        testateRepository.insertTestate(testate);
-        testateRepository.insertTestateComment(testate);
     }
 
     /**

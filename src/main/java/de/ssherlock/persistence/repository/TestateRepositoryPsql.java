@@ -72,7 +72,7 @@ public class TestateRepositoryPsql extends RepositoryPsql implements TestateRepo
         String sqlQuery = """
                           SELECT * FROM testate
                           WHERE submission_id IN (
-                          SELECT * FROM submission s
+                          SELECT s.id FROM submission s
                           WHERE s.student_username = ? AND s.exercise_id = ?
                           );
                           """;
@@ -81,13 +81,17 @@ public class TestateRepositoryPsql extends RepositoryPsql implements TestateRepo
             statement.setString(1, student.getUsername());
             statement.setLong(2, exercise.getId());
             ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            Submission submission = new Submission();
+            submission.setId(resultSet.getLong("submission_id"));
+            testate.setSubmission(submission);
             testate.setLayoutGrade(resultSet.getInt("layout_grade"));
             testate.setStructureGrade(resultSet.getInt("structure_grade"));
             testate.setFunctionalityGrade(resultSet.getInt("functionality_grade"));
             testate.setReadabilityGrade(resultSet.getInt("readability_grade"));
             testate.setEvaluatorId(resultSet.getLong("tutor_id"));
         } catch (SQLException e) {
-            logger.log(Level.INFO, "Testate not available.");
+            logger.log(Level.INFO, "Testate not available.", e);
             throw new PersistenceNonExistentTestateException();
         }
         return testate;
@@ -193,7 +197,7 @@ public class TestateRepositoryPsql extends RepositoryPsql implements TestateRepo
             statement.executeUpdate();
         } catch (SQLException e) {
             logger.log(Level.INFO, "Could not insert comment for testate.");
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
 }

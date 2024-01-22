@@ -102,7 +102,12 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
         }
 
         String sqlQuery = """
-                          SELECT * FROM submission
+                          SELECT *, EXISTS (
+                                  SELECT 1
+                                  FROM testate t
+                                  WHERE t.submission_id = s.id
+                              ) AS testate_created
+                            FROM submission s
                           WHERE id = ?;
                           """;
         try (PreparedStatement statement = getConnection().prepareStatement(sqlQuery)) {
@@ -115,6 +120,7 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
                 resultSubmission.setTutor(resultSet.getString("tutor_username"));
                 resultSubmission.setId(resultSet.getLong("id"));
                 resultSubmission.setExerciseId(resultSet.getLong("exercise_id"));
+                resultSubmission.setTestateCreated(resultSet.getBoolean("testate_created"));
             }
             return resultSubmission;
         } catch (SQLException e) {

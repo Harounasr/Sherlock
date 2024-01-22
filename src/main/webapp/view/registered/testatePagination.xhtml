@@ -15,19 +15,35 @@
             <h:dataTable value="#{allTestatesPaginationBean.testates}" var="testate"
                          first="#{allTestatesPaginationBean.pagination.currentIndex}" rows="#{allTestatesPaginationBean.pagination.pageSize}"
                          styleClass="table table-striped table-bordered w-100">
-                <h:column>
-                    <f:facet name="header">ID</f:facet>
-                    #{testate.submission.user}
+                <h:column rendered="#{!allTestatesPaginationBean.member}">
+                    <f:facet name="header">User</f:facet>
+                    <h:outputText value="#{testate.submission.user}" />
+                </h:column>
+                <h:column rendered="#{!allTestatesPaginationBean.member}">
+                    <f:facet name="header">Tutor</f:facet>
+                    <h:outputText value="#{testate.submission.tutor}" />
                 </h:column>
                 <h:column>
-                    <f:facet name="header">corrected by</f:facet>
-                    #{testate.submission.tutor}
+                    <f:facet name="header">Functionality Grade</f:facet>
+                    <h:outputText value="#{testate.functionalityGrade}" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Layout Grade</f:facet>
+                    <h:outputText value="#{testate.layoutGrade}" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Readability Grade</f:facet>
+                    <h:outputText value="#{testate.readabilityGrade}" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Structure Grade</f:facet>
+                    <h:outputText value="#{testate.structureGrade}" />
                 </h:column>
 
                 <h:column>
                     <f:facet name="header">Details</f:facet>
                     <h:form>
-                        <h:commandButton styleClass="pagination-content-button" value="to testate"
+                        <h:commandButton styleClass="btn pagination-content-button" value="To Testate"
                                          action="#{allTestatesPaginationBean.selectTestate(testate)}"/>
                     </h:form>
                 </h:column>
