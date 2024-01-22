@@ -2,8 +2,7 @@
                 xmlns:h="jakarta.faces.html"
                 xmlns:f="jakarta.faces.core"
                 xmlns:ui="jakarta.faces.facelets"
-                xmlns:comp="jakarta.faces.composite/components"
-                xmlns:a="jakarta.faces.passthrough">
+                xmlns:comp="jakarta.faces.composite/components">
 
     <h:body>
         <h:form>
@@ -13,22 +12,30 @@
 
                 <h:column>
                     <f:facet name="header">isMandatory</f:facet>
-                    <h:inputText id="mandatoryField" value="#{checker.mandatory}" a:placeholder="#{checker.mandatory}"/>
+                    <h:selectBooleanCheckbox id="mandatoryField" value="#{checker.mandatory}"/>
                 </h:column>
 
                 <h:column>
                     <f:facet name="header">isVisible</f:facet>
-                    <h:inputText id="visibleField" value="#{checker.visible}" a:placeholder="#{checker.visible}"/>
+                    <h:selectBooleanCheckbox id="visibleField" value="#{checker.visible}"/>
                 </h:column>
 
                 <h:column>
                     <f:facet name="header">Parameter One</f:facet>
-                    <h:inputText id="parOneField" value="#{checker.parameterOne}" a:placeholder="#{checker.parameterOne}"/>
+                    <h:panelGroup rendered="#{checker.checkerType == 'LINE_WIDTH' || checker.checkerType == 'USER_DEFINED'}">
+                        <h:inputText id="parOneField" value="#{checker.parameterOne}" required="true" requiredMessage="Parameter has to be set and can't be longer than 255.">
+                            <f:validator validatorId="checkerListParameterValidator"/>
+                        </h:inputText>
+                    </h:panelGroup>
                 </h:column>
 
                 <h:column>
                     <f:facet name="header">Parameter Two</f:facet>
-                    <h:inputText id="parTwoField" value="#{checker.parameterTwo}" a:placeholder="#{checker.parameterTwo}"/>
+                    <h:panelGroup rendered="#{checker.checkerType == 'USER_DEFINED'}">
+                        <h:inputText id="parTwoField" value="#{checker.parameterTwo}" required="true" requiredMessage="Parameter has to be set and can't be longer than 255.">
+                            <f:validator validatorId="checkerListParameterValidator"/>
+                        </h:inputText>
+                    </h:panelGroup>
                 </h:column>
 
                 <h:column>
@@ -82,8 +89,8 @@
                         <f:selectItems value="#{checkerListBean.allCheckerTypes}"/>
                     </h:selectOneListbox>
                     <h:outputLabel value="Param 1 required"/>
-                    <h:inputText value="#{checkerListBean.newChecker.parameterOne}" required="true"/>
-                    <h:inputText value="#{checkerListBean.newChecker.parameterOne}" required="true"/>
+                    <h:inputText value="#{checkerListBean.newChecker.parameterOne}" required="true" requiredMessage="Parameter has to be set and can't be longer than 255."/>
+                    <h:inputText value="#{checkerListBean.newChecker.parameterOne}" required="true" requiredMessage="Parameter has to be set and can't be longer than 255."/>
                     <div class="modal-footer">
                         <button type="button" class="btn bg-danger text-light" data-bs-dismiss="modal">Cancel</button>
                         <h:commandButton value="Add Checker" data-bs-dismiss="modal" action="#{checkerListBean.addChecker()}"
@@ -109,17 +116,20 @@
                                 <div class="form-group mb-3">
                                     <h:panelGroup id="paramOneInputPanel"
                                                   rendered="#{checkerListBean.currentCheckerType == 'LINE_WIDTH'
-                                                   || checkerListBean.currentCheckerType == 'USER_DEFINED'
-                                                   || checkerListBean.currentCheckerType == 'IDENTITY'}"
+                                                   || checkerListBean.currentCheckerType == 'USER_DEFINED'}"
                                                   style="display:block">
                                         <h:outputLabel value="#{checkerListBean.currentCheckerType == 'LINE_WIDTH' ? 'Line Width' : 'Input'}"
                                                        for="inputParamOne"/>
-                                        <h:inputText id="inputParamOne" value="#{checkerListBean.newChecker.parameterOne}" required="true"/>
+                                        <h:inputText id="inputParamOne" value="#{checkerListBean.newChecker.parameterOne}" required="true" requiredMessage="Parameter has to be set and can't be longer than 255.">
+                                            <f:validator validatorId="checkerListParameterValidator"/>
+                                        </h:inputText>
                                     </h:panelGroup>
                                     <h:panelGroup id="paramTwoInputPanel" rendered="#{checkerListBean.currentCheckerType == 'USER_DEFINED'}"
                                                   style="display:block">
                                         <h:outputLabel value="Expected Output" for="inputParamTwo"/>
-                                        <h:inputText id="inputParamTwo" value="#{checkerListBean.newChecker.parameterTwo}" required="true"/>
+                                        <h:inputText id="inputParamTwo" value="#{checkerListBean.newChecker.parameterTwo}" required="true" requiredMessage="Parameter has to be set and can't be longer than 255.">
+                                            <f:validator validatorId="checkerListParameterValidator"/>
+                                        </h:inputText>
                                     </h:panelGroup>
                                 </div>
                             </h:panelGroup>
@@ -130,7 +140,6 @@
                             </div>
                         </h:form>
                     </div>
-
                 </div>
             </div>
         </div>
