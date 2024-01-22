@@ -50,10 +50,10 @@
                     <h:commandButton id="deleteButton" value="Delete" action="#{checkerListBean.deleteChecker(checker.id)}" styleClass="btn pagination-content-button"/>
                 </h:column>
             </h:dataTable>
-            <h:commandButton value="Update Checker" class="btn bg-success text-light" action="#{checkerListBean.submitChanges()}"/>
             <h:form>
                 <comp:pagination backingBean="#{checkerListBean}"/>
             </h:form>
+            <h:commandButton value="Update Checker" class="btn bg-success text-light" action="#{checkerListBean.submitChanges()}"/>
         </h:form>
 
         <div class="col-auto">
