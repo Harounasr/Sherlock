@@ -24,11 +24,7 @@
                             <div class="form-group">
                                 <label for="file">Choose Folder: </label>
                                 <h:inputFile id="file" value="#{submissionUploadBean.archiveFile}"
-                                             class="form-control-file"/>
-                            </div>
-                            <div class="form-group">
-                                <h:commandButton id="upload-button" value="Upload" styleClass="btn primary-color-btn"
-                                                 action="#{submissionUploadBean.upload}"/>
+                                             styleClass="form-control-file"/>
                             </div>
                         </h:panelGroup>
 
@@ -39,22 +35,34 @@
                                 <ui:repeat value="#{submissionUploadBean.checkerResults}" var="result">
                                     <ui:fragment rendered="#{result.checker.visible}">
                                         <div class="col">
-                                            <div class="card">
+                                            <div class="card mb-1 mt-1">
                                                 <div class="card-body">
-                                                    <span class="checker-name">#{result.checker.name}</span>
-                                                    <span class="checker-result">#{result.passed ? 'Passed' : 'Failed'}</span>
+                                                    <span class="checker-result">#{result.passed ? 'Passed' : 'Failed'}: </span>
+                                                    <h:outputText styleClass="#{result.passed ? 'text-success' : 'text-danger'}" value="#{result.stackTrace}" />
                                                 </div>
                                             </div>
                                         </div>
                                     </ui:fragment>
                                 </ui:repeat>
-
-                                <div class="form-group">
-                                    <h:commandButton rendered="#{submissionUploadBean.submissionFiles != null}" id="submit-button"
-                                                     value="Submit" class="btn btn-primary"
-                                                     action="#{submissionUploadBean.submit}"
-                                                     disabled="#{not submissionUploadBean.canSubmit}"/>
-                                </div>
+                            </div>
+                        </h:panelGroup>
+                    </div>
+                    <div class="card-footer">
+                        <h:panelGroup rendered="#{submissionUploadBean.submissionFiles != null}">
+                            <div class="form-group">
+                                <h:commandButton rendered="#{submissionUploadBean.submissionFiles != null}" id="submit-button"
+                                                 value="Submit" styleClass="btn primary-color-btn m-2"
+                                                 action="#{submissionUploadBean.submit}"
+                                                 disabled="#{not submissionUploadBean.canSubmit}"/>
+                                <h:commandButton rendered="#{submissionUploadBean.submissionFiles != null}"
+                                                 value="Try again" styleClass="btn secondary-color-btn m-2"
+                                                 action="#{submissionUploadBean.tryAgain}"/>
+                            </div>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{submissionUploadBean.submissionFiles == null}">
+                            <div class="form-group">
+                                <h:commandButton id="upload-button" value="Upload" styleClass="btn primary-color-btn m-2"
+                                                 action="#{submissionUploadBean.upload}"/>
                             </div>
                         </h:panelGroup>
                     </div>

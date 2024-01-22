@@ -1,13 +1,15 @@
 .rendered-html {
   border: 1px solid #ddd;
   overflow-y: scroll;
-  max-height: 400px;
+  height: 75vh;
 }
 
 .text-area-custom {
   border: 1px solid #ddd;
   resize: none;
   overflow: auto;
+  height:60vh;
+  width: 100%;
 }
 
 .output-text-img-component {

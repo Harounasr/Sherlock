@@ -7,6 +7,7 @@ import de.ssherlock.persistence.exception.DBUnavailableException;
 import jakarta.el.ELException;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.faces.FacesException;
+import jakarta.faces.application.NavigationHandler;
 import jakarta.faces.context.ExceptionHandler;
 import jakarta.faces.context.ExceptionHandlerFactory;
 import jakarta.faces.context.ExceptionHandlerWrapper;
@@ -26,7 +27,7 @@ public class ApplicationExceptionHandler extends ExceptionHandlerWrapper {
     /**
      * Base path to all error pages.
      */
-    private static final String BASE_PATH = "/WEB-INF/errorpages/";
+    private static final String BASE_PATH = "/view/errorpages/";
 
     /**
      * Constructs a new ApplicationExceptionHandler with the specified wrapped ExceptionHandler.
@@ -71,12 +72,14 @@ public class ApplicationExceptionHandler extends ExceptionHandlerWrapper {
         } else if (exception instanceof ConfigNotReadableException) {
             showErrorPage(context, exception, "Configuration file not readable.");
         } else if (exception instanceof FacesException) {
+            showErrorPage(context, exception, "An unexpected error occurred.");
             return;
         } else if (exception instanceof RuntimeException) {
-            showErrorPage(context, exception, "An unexpected error occurred.");
+            show404Page(context, exception);
         } else {
             return;
         }
+        unhandledExceptions.remove();
         while (unhandledExceptions.hasNext()) {
             unhandledExceptions.next();
             unhandledExceptions.remove();
@@ -104,10 +107,8 @@ public class ApplicationExceptionHandler extends ExceptionHandlerWrapper {
      * @param page    The page to show.
      */
     private void showPage(FacesContext context, String page) {
-        context.setViewRoot(
-                context.getApplication().getViewHandler().createView(context, BASE_PATH + page));
-        context.getPartialViewContext().setRenderAll(true);
-        context.getApplication().getViewHandler();
+        NavigationHandler navigationHandler = context.getApplication().getNavigationHandler();
+        navigationHandler.handleNavigation(context, null, BASE_PATH + page + "?faces-redirect=true");
         context.renderResponse();
     }
 

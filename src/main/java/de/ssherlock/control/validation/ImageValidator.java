@@ -47,13 +47,13 @@ public class ImageValidator implements Validator<Part> {
   public void validate(FacesContext facesContext, UIComponent uiComponent, Part part) throws ValidatorException {
       if (part == null) {
           logger.info("Part is valid image as it is null.");
-          return;
+          throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Please upload an image first.", null));
       }
 
       String mimeType = part.getContentType();
       if (!isImage(mimeType)) {
           logger.warning("The Part is not an image.");
-          throw new ValidatorException(new FacesMessage("File is not a valid image."));
+          throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "File is not a valid image.", null));
       }
 
       logger.info("Part is valid image.");

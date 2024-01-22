@@ -84,7 +84,7 @@ public class LoginBean {
             User user = userService.login(loginInfo);
             logger.log(Level.INFO, "Login for user " + loginInfo.getUsername() + " was successful.");
             appSession.setUser(user);
-            return "/view/registered/coursePagination.xhtml?faces-redirect=true&all=true";
+            return "/view/registered/coursePagination.xhtml?faces-redirect=true&all=false";
         } catch (LoginFailedException | BusinessNonExistentUserException e) {
             logger.log(Level.INFO, "Incorrect password for user " + loginInfo.getUsername());
             Notification notification = new Notification(Notification.WRONG_PASSWORD_MSG, NotificationType.ERROR);

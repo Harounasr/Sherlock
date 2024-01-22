@@ -23,8 +23,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -129,10 +133,10 @@ public final class CheckerUtils {
         List<String> filePaths = saveJavaClasses(checker, submissionFiles);
         DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
 
-        if (compileClasses(filePaths, diagnostics)) {
+        if (compileClasses(filePaths, diagnostics, getClasspath(checker))) {
             checkerResult.setPassed(true);
             checkerResult.setStackTrace("All files compiled successfully.");
-            LOGGER.finer("Compilation checker " + checker.getName() + " ran successfully.");
+            LOGGER.finer("Compilation checker ran successfully.");
         } else {
             StringBuilder sb = new StringBuilder();
             for (Diagnostic<? extends JavaFileObject> diagnostic : diagnostics.getDiagnostics()) {
@@ -144,7 +148,7 @@ public final class CheckerUtils {
             }
             checkerResult.setPassed(false);
             checkerResult.setStackTrace(sb.toString());
-            LOGGER.finer("Compilation checker " + checker.getName() + " failed.");
+            LOGGER.finer("Compilation checker failed.");
         }
         return checkerResult;
     }
@@ -189,11 +193,10 @@ public final class CheckerUtils {
         if (sb.isEmpty()) {
             sb.append("No identity content found in files.\nThe checker ran successfully.\n");
             result.setPassed(true);
-            LOGGER.finer("Identity checker " + checker.getName() + " ran successfully.");
+            LOGGER.finer("Identity checker ran successfully.");
         } else {
             result.setPassed(false);
-            LOGGER.finer("Identity checker " + checker.getName() + " failed.");
-
+            LOGGER.finer("Identity checker failed.");
         }
         result.setStackTrace(sb.toString());
         return result;
@@ -233,9 +236,7 @@ public final class CheckerUtils {
         if (sb.isEmpty()) {
             sb.append("All lines adhere to the maximum line width of ")
               .append(maxLineWidth)
-              .append(" characters.\nThe Checker ")
-              .append(checker.getName())
-              .append(" ran successfully.\n");
+              .append(" characters.\nThe Checker ran successfully.\n");
             result.setPassed(true);
             LOGGER.finer("Line Width checker " + checker.getName() + " ran successfully.");
         } else {
@@ -262,7 +263,7 @@ public final class CheckerUtils {
         List<String> filePaths = saveJavaClasses(checker, submissionFiles);
 
         StringBuilder sb = new StringBuilder();
-        if (!compileClasses(filePaths, null)) {
+        if (!compileClasses(filePaths, null, getClasspath(checker))) {
             sb.append("The Checker: ")
               .append(checker.getName())
               .append(" was not executed due to a compilation error.");
@@ -272,22 +273,21 @@ public final class CheckerUtils {
         }
 
         String input = checker.getParameterOne();
-        String actualOutput = runWithInput(filePaths, input, checker);
+        String actualOutput = runWithInput(filePaths, input, checker, getClasspath(checker));
 
         String expectedOutput = checker.getParameterTwo();
         if (expectedOutput.equals(actualOutput)) {
             result.setPassed(true);
-            sb.append("Checker ").append(checker.getName()).append(" ran successfully.");
-            LOGGER.finer("User defined checker " + checker.getName() + " ran successfully.");
+            sb.append("User Defined Checker ran successfully.");
+            LOGGER.finer("User defined checker ran successfully.");
         } else {
             result.setPassed(false);
             sb.append("Checker ")
-              .append(checker.getName())
-              .append(" did not run successfully.\nExpected:\n")
+              .append("did not run successfully.\nExpected:\n")
               .append(expectedOutput)
               .append("\nActual:\n")
               .append(actualOutput);
-            LOGGER.finer("User defined checker " + checker.getName() + " failed.");
+            LOGGER.finer("User defined checker failed.");
         }
 
         result.setChecker(checker);
@@ -306,7 +306,8 @@ public final class CheckerUtils {
         int lastSlashIndex = fileName.lastIndexOf('/');
         int lastBackslashIndex = fileName.lastIndexOf('\\');
         int firstDotIndex = fileName.indexOf('.', lastSlashIndex);
-        if (lastBackslashIndex > lastSlashIndex && firstDotIndex >= 0) {
+        if (lastBackslashIndex > lastSlashIndex && firstDotIndex >= 0 && lastBackslashIndex > firstDotIndex) {
+            LOGGER.info(fileName);
             return fileName.substring(lastBackslashIndex + 1, firstDotIndex);
         }
         if (firstDotIndex >= 0) {
@@ -332,7 +333,7 @@ public final class CheckerUtils {
             try {
                 Path parentPath = Paths.get(file.getName()).getParent();
                 String suffix = parentPath != null ? String.valueOf(parentPath) : "";
-                String tempDirectory = getTempDirectory(checker) + suffix;
+                String tempDirectory = getTempDirectory(checker) + "/" + suffix;
 
                 File tempDir = new File(tempDirectory);
                 if (!tempDir.exists()) {
@@ -375,17 +376,18 @@ public final class CheckerUtils {
      * @throws CheckerExecutionException When there is an error during execution.
      */
     private static boolean compileClasses(
-            List<String> filePaths, DiagnosticCollector<JavaFileObject> diagnostics) throws CheckerExecutionException {
+            List<String> filePaths, DiagnosticCollector<JavaFileObject> diagnostics, String classpath) throws CheckerExecutionException {
         LOGGER.finest("Start compiling classes " + filePaths + ".");
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         try (StandardJavaFileManager fileManager =
                      compiler.getStandardFileManager(diagnostics, null, null)) {
+            List<String> optionList = new ArrayList<>(Arrays.asList("-classpath", classpath));
             JavaCompiler.CompilationTask task =
                     compiler.getTask(
                             null,
                             fileManager,
                             diagnostics,
-                            null,
+                            optionList,
                             null,
                             fileManager.getJavaFileObjectsFromStrings(filePaths));
             if (task.call()) {
@@ -408,7 +410,7 @@ public final class CheckerUtils {
      * @return The execution output.
      * @throws CheckerExecutionException When there is an error during execution.
      */
-    private static String runWithInput(List<String> filePaths, String input, Checker checker) throws CheckerExecutionException {
+    private static String runWithInput(List<String> filePaths, String input, Checker checker, String classpath) throws CheckerExecutionException {
         LOGGER.finest("Start running files " + filePaths + " for checker " + checker.getName());
         try {
             String[] commandParts = input.split("\\s+");
@@ -419,6 +421,7 @@ public final class CheckerUtils {
                 }
             }
             ProcessBuilder processBuilder = new ProcessBuilder(commandParts);
+            processBuilder.environment().put("CLASSPATH", classpath);
             processBuilder.directory(new File(getTempDirectory(checker)));
             Process process = processBuilder.start();
 
@@ -432,8 +435,15 @@ public final class CheckerUtils {
             while ((line = outputReader.readLine()) != null) {
                 output.append(line).append("\n");
             }
+            if (!output.isEmpty()) {
+                output.deleteCharAt(output.length() - 1);
+            }
+
             while ((line = errorReader.readLine()) != null) {
                 errorOutput.append(line.replace("\t", "    ")).append("\n");
+            }
+            if (!errorOutput.isEmpty()) {
+                errorOutput.deleteCharAt(output.length() - 1);
             }
 
             outputReader.close();
@@ -443,11 +453,36 @@ public final class CheckerUtils {
             if (exitCode != 0) {
                 return output.append(errorOutput).toString();
             }
-            LOGGER.finest("Running classes for checker " + checker.getName() + " was successful.");
+            LOGGER.finest("Running classes for checker was successful.");
             return output.toString();
         } catch (IOException | InterruptedException e) {
             LOGGER.finest("Running classes for checker " + checker.getName() + " failed.\n" + e.getMessage());
             throw new CheckerExecutionException("Running classes encountered an exception.", e);
+        }
+    }
+
+    public static String getClasspath(Checker checker) {
+        String baseDir = getTempDirectory(checker);
+        Set<String> directoriesWithJavaFiles = new HashSet<>();
+        findDirectoriesWithJavaFiles(new File(baseDir), directoriesWithJavaFiles, baseDir);
+        return String.join(File.pathSeparator, directoriesWithJavaFiles);
+    }
+
+    private static void findDirectoriesWithJavaFiles(File dir, Set<String> directoriesWithJavaFiles, String baseDir) {
+        File[] files = dir.listFiles();
+        if (files != null) {
+            boolean javaFileFound = false;
+            for (File file : files) {
+                if (file.isDirectory()) {
+                    findDirectoriesWithJavaFiles(file, directoriesWithJavaFiles, baseDir);
+                } else if (file.getName().endsWith(".java")) {
+                    javaFileFound = true;
+                }
+            }
+            if (javaFileFound) {
+                directoriesWithJavaFiles.add(dir.getAbsolutePath());
+                directoriesWithJavaFiles.add(dir.getAbsolutePath());
+            }
         }
     }
 }

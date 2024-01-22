@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="#{request.contextPath}/resources/css/exerciseDescription.css"/>
         <link rel="stylesheet" href="#{request.contextPath}/resources/css/checkerList.css"/>
         <link rel="stylesheet" href="#{request.contextPath}/resources/css/testate.css"/>
+        <script src="#{request.contextPath}/resources/js/copy.js"> </script>
     </ui:define>
     <ui:define name="content">
         <div class="container-fluid h-100">
@@ -41,7 +42,8 @@
                                                  styleClass="btn w-100"/>
                             </li>
                             <li class="nav-item-sidebar">
-                                <h:commandButton id="delete-button" value="Delete" onclick="showDeleteDialog();" styleClass="btn w-100" type="button"/>
+                                <h:commandButton rendered="#{ exerciseBean.userCourseRole.toString() == 'TEACHER'
+                                                 || exerciseBean.appSession.admin}" id="delete-button" value="Delete" onclick="showDeleteDialog();" styleClass="btn w-100" type="button"/>
                             </li>
 
                         </ul>

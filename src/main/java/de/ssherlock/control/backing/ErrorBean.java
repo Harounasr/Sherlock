@@ -1,6 +1,9 @@
 package de.ssherlock.control.backing;
 
+import de.ssherlock.global.logging.LoggerCreator;
+import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Error;
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
 
@@ -18,11 +21,18 @@ public class ErrorBean {
      */
     private Error error;
 
+    private SerializableLogger logger = LoggerCreator.get(ErrorBean.class);
+
     /**
      * Constructs an ErrorBean.
      */
     public ErrorBean() {
 
+    }
+
+    @PostConstruct
+    public void init() {
+        logger.info("initialized");
     }
 
     /**

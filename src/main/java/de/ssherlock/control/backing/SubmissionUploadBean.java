@@ -92,7 +92,7 @@ public class SubmissionUploadBean implements Serializable {
     /**
      * The checker results.
      */
-    private final List<CheckerResult> checkerResults;
+    private List<CheckerResult> checkerResults;
 
     /**
      * The current exercise.
@@ -182,6 +182,12 @@ public class SubmissionUploadBean implements Serializable {
         submissionService.addSubmission(newSubmission);
         canSubmit = false;
         return "/view/registered/exercise.xhtml?faces-redirect=true&Id=" + exerciseBean.getExerciseId();
+    }
+
+    public String tryAgain() {
+        this.submissionFiles = null;
+        this.checkerResults = new ArrayList<>();
+        return "";
     }
 
     /**
