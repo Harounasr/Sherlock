@@ -99,6 +99,10 @@ public class ExerciseBean implements Serializable {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         Map<String, String> requestParams = facesContext.getExternalContext().getRequestParameterMap();
         exerciseId = Long.parseLong(requestParams.get("Id"));
+        Notification flashNotification = (Notification) facesContext.getExternalContext().getFlash().get("flashNotification");
+        if (flashNotification != null) {
+            flashNotification.generateUIMessage();
+        }
         logger.log(Level.INFO, "Param: " + exerciseId);
         exercise = new Exercise();
         exercise.setId(exerciseId);
@@ -126,9 +130,7 @@ public class ExerciseBean implements Serializable {
         try {
             exerciseService.removeExercise(exercise);
             logger.log(Level.INFO, "Exercise Successfully deleted.");
-            Notification notification =
-                    new Notification("Exercise deleted.", NotificationType.SUCCESS);
-            notification.generateUIMessage();
+            addFlashNotification(exercise.getName() + " " + "Successfully deleted.", NotificationType.SUCCESS);
             return "/view/registered/course.xhtml?faces-redirect=true&Id=" + exercise.getCourseId();
         } catch (BusinessNonExistentExerciseException e) {
             Notification notification =
@@ -218,4 +220,10 @@ public class ExerciseBean implements Serializable {
     public void setSubmissionId(long submissionId) {
         this.submissionId = submissionId;
     }
+
+    private void addFlashNotification(String message, NotificationType type) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        facesContext.getExternalContext().getFlash().put("flashNotification", new Notification(message, type));
+    }
+
 }

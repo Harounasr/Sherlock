@@ -7,6 +7,7 @@ import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Exercise;
 import jakarta.annotation.PostConstruct;
+import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -131,18 +132,23 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
      *
      * @return The navigation outcome.
      */
-    public String addExercise() {
+    public void addExercise() {
         logger.log(Level.INFO, "try to add a new exercise.");
         if (exerciseAlreadyExists(exercise.getName())) {
             Notification notification = new Notification("Exercise with the same name already exists.", NotificationType.ERROR);
             notification.generateUIMessage();
-            return "";
+        } else {
+            exercise.setCourseId(courseBean.getCourse().getId());
+            exerciseService.addExercise(exercise);
+            logger.log(Level.INFO, "Exercise Successfully added.");
+            Notification notification = new Notification("Exercise Successfully added.", NotificationType.SUCCESS);
+            notification.generateUIMessage();
+            FacesContext context = FacesContext.getCurrentInstance();
+            String viewId = context.getViewRoot().getViewId();
+            context.setViewRoot(context.getApplication().getViewHandler().createView(context, viewId));
+            context.getPartialViewContext().setRenderAll(true);
+            context.renderResponse();
         }
-
-        exercise.setCourseId(courseBean.getCourse().getId());
-        exerciseService.addExercise(exercise);
-        logger.log(Level.INFO, "Exercise Successfully added.");
-        return "";
     }
 
 
