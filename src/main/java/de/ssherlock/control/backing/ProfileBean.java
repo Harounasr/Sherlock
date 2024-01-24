@@ -6,6 +6,7 @@ import de.ssherlock.business.exception.BusinessNonExistentUserException;
 import de.ssherlock.business.service.FacultyService;
 import de.ssherlock.business.service.UserService;
 import de.ssherlock.business.util.PasswordHashing;
+import de.ssherlock.control.exception.NoAccessException;
 import de.ssherlock.control.notification.Notification;
 import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.control.session.AppSession;
@@ -91,6 +92,7 @@ public class ProfileBean implements Serializable {
           } catch (BusinessNonExistentUserException e) {
               Notification notification = new Notification("User could not be selected", NotificationType.ERROR);
               notification.generateUIMessage();
+              throw new NoAccessException("You can't access this page", e);
           }
       } else {
           user = appSession.getUser();

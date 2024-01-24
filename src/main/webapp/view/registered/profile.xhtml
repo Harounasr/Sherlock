@@ -11,54 +11,43 @@
     </ui:define>
 
     <ui:define name="content">
-        <h:messages globalOnly="true"/>
-        <div id="profilebody">
-            <div class="profilecontainer">
-                <div id="profileContent">
-                    <h2>Welcome, #{profileBean.user.username}!</h2>
+        <div class="container mt-3">
 
+            <div class="card">
+                <div class="card-header primary-color-background">
+                    <h2 class="card-title text-light">Welcome, #{profileBean.user.username}!</h2>
+
+                </div>
+                <div class="card-body">
                     <div class="form-group">
                         <label for="username">Username:</label>
-                        <h:outputLabel id="username" class="profileoutput" value="#{profileBean.user.username}"/>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="firstName">First Name:</label>
-                        <h:outputLabel class="profileoutput" id="firstName" type="text" value="#{profileBean.user.firstName}"/>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="lastName">Last Name:</label>
-                        <h:outputLabel class="profileoutput" id="lastName" type="text" value="#{profileBean.user.lastName}"/>
+                        <h:outputLabel id="username" styleClass="form-control" value="#{profileBean.user.username}"/>
                     </div>
 
                     <h:form>
                         <div class="form-group">
-                            <label for="facultyDropdown">Select Faculty:</label>
-                            <h:selectOneListbox id="facultyDropdown" value="#{profileBean.changedUser.facultyName}" size="1" styleClass="form-control">
-                                <f:selectItems value="#{profileBean.facultyService.faculties}" />
-                                <f:ajax listener="#{profileBean.submitFacultyChange()}" render="@form"/>
-                            </h:selectOneListbox>
+                            <label for="newPassword">New Password:</label>
+                            <h:inputSecret id="newPassword" styleClass="form-control" value="#{profileBean.newPasswordOne}" placeholder="Enter your new password" required="true"/>
                         </div>
 
-                        <h:commandButton value="Submit" action="#{profileBean.submitFacultyChange()}" />
+                        <h:form>
+                            <div class="form-group">
+                                <label for="repeatPassword">Repeat Password</label>
+                                <h:inputSecret styleClass="form-control" id="repeatPassword" value="#{profileBean.newPasswordTwo}" >
+                                    <!--   <f:validator validatorId="passwordsEqualValidator"/>
+                                       <f:attribute name="confirmPassword" value="#{profileBean.newPasswordTwo}"/> -->
+                                </h:inputSecret>
+                            </div>
+                        </h:form>
+
                     </h:form>
-                    <h5>Change Password</h5>
-                        <label for="newPassword">New Password</label>
-                        <h:inputSecret class="profileinput" id="newPassword" value="#{profileBean.newPasswordOne}"
-                                       placeholder="Enter your new password" required="true">
-                         <!--   <f:validator validatorId="passwordValidator"/>
-                            <h:message for="newPassword"/> -->
-                        </h:inputSecret>
+                </div>
+                <div class="card-footer">
                     <h:form>
-                        <label for="repeatPassword">Repeat Password</label>
-                        <h:inputSecret class="profileinput" id="repeatPassword" value="#{profileBean.newPasswordTwo}" >
-                         <!--   <f:validator validatorId="passwordsEqualValidator"/>
-                            <f:attribute name="confirmPassword" value="#{profileBean.newPasswordTwo}"/> -->
-                        </h:inputSecret>
-                        <h:message for="repeatPassword"/>
-                        <h:commandButton  value="Change Password" action="#{profileBean.submitPasswordChange()}"/>
-                        <h:commandButton id="deleteAccountButton" class="commandButton" value="Delete Account" action="#{profileBean.deleteAccount}"/>
+                        <div class="form-group">
+                            <h:commandButton value="Change Password" styleClass="btn primary-color-btn" action="#{profileBean.submitPasswordChange()}"/>
+                            <h:commandButton id="deleteAccountButton" value="Delete Account" styleClass="btn btn-danger" action="#{profileBean.deleteAccount}"/>
+                        </div>
                     </h:form>
                 </div>
             </div>

@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serial;
 import java.io.Serializable;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -366,5 +368,10 @@ public class ExerciseDescriptionBean implements Serializable {
      */
     public void setUserCanEdit(boolean userCanEdit) {
         this.userCanEdit = userCanEdit;
+    }
+
+    public String getCurrentDateTime() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+        return simpleDateFormat.format(Date.from(Calendar.getInstance().toInstant()));
     }
 }

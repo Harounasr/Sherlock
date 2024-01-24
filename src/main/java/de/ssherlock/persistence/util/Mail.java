@@ -94,6 +94,7 @@ public class Mail implements Serializable {
   public boolean sendVerificationMail(User recipient, String content) {
     Session session = getSession();
     logger.log(Level.INFO, "Mail config loaded.");
+    logger.log(Level.INFO, content);
     try {
       logger.log(Level.INFO, "Trying to send Mail to " + recipient.getEmail());
       Message message = new MimeMessage(session);

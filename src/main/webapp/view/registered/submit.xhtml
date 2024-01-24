@@ -24,7 +24,7 @@
                             <div class="form-group">
                                 <label for="file">Choose Folder: </label>
                                 <h:inputFile id="file" value="#{submissionUploadBean.archiveFile}"
-                                             styleClass="form-control-file"/>
+                                             styleClass="form-control-file m-2"/>
                             </div>
                         </h:panelGroup>
 
@@ -37,7 +37,7 @@
                                         <div class="col">
                                             <div class="card mb-1 mt-1">
                                                 <div class="card-body">
-                                                    <span class="checker-result">#{result.passed ? 'Passed' : 'Failed'}: </span>
+                                                    <span class="checker-result">#{result.checker.checkerType} (#{result.passed ? 'Passed' : 'Failed'}): </span>
                                                     <h:outputText styleClass="#{result.passed ? 'text-success' : 'text-danger'}" value="#{result.stackTrace}" />
                                                 </div>
                                             </div>

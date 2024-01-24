@@ -49,7 +49,8 @@
                 <div class="col">
                     <h:panelGroup rendered="#{!exerciseDescriptionBean.recommendedDeadlinePast}">
                         <label for="recommendedDeadline" class="deadline-label">Recommended Deadline:</label>
-                        <h:inputText id="recommendedDeadline" styleClass="datetimepicker-input" type="datetime-local"
+                        <h:inputText onfocus="this.min = new Date().toISOString().slice(0, 16);" id="recommendedDeadline"
+                                     styleClass="datetimepicker-input" type="datetime-local"
                                      value="#{exerciseDescriptionBean.exercise.recommendedDeadline}" validator="dateValidator">
                             <f:converter converterId="dateConverter"/>
                         </h:inputText>
@@ -60,7 +61,8 @@
                 <div class="col">
                     <h:panelGroup rendered="#{!exerciseDescriptionBean.obligatoryDeadlinePast}">
                         <label for="obligatoryDeadline" class="deadline-label">Obligatory Deadline:</label>
-                        <h:inputText id="obligatoryDeadline" styleClass="datetimepicker-input" type="datetime-local"
+                        <h:inputText onfocus="this.min = new Date().toISOString().slice(0, 16);" id="obligatoryDeadline"
+                                     styleClass="datetimepicker-input" type="datetime-local"
                                      value="#{exerciseDescriptionBean.exercise.obligatoryDeadline}" validator="dateValidator">
                             <f:converter converterId="dateConverter"/>
                         </h:inputText>
@@ -71,7 +73,8 @@
                 <div class="col">
                     <h:panelGroup rendered="#{!exerciseDescriptionBean.publishDatePast}">
                         <label for="publishDate" class="deadline-label">Publish Date:</label>
-                        <h:inputText id="publishDate" styleClass="datetimepicker-input" type="datetime-local"
+                        <h:inputText onfocus="this.min = new Date().toISOString().slice(0, 16);" id="publishDate" styleClass="datetimepicker-input"
+                                     type="datetime-local"
                                      value="#{exerciseDescriptionBean.exercise.publishDate}" validator="dateValidator">
                             <f:converter converterId="dateConverter"/>
                         </h:inputText>
@@ -88,10 +91,12 @@
                 <h:inputFile styleClass="m-2" id="file" value="#{exerciseDescriptionBean.uploadedImage}" validator="imageValidator"/>
                 <h:commandButton id="convert-button" value="Convert to &lt;img&gt; Component" action="#{exerciseDescriptionBean.uploadImage()}"
                                  class="btn secondary-color-btn m-2"/>
-                <h:commandLink rendered="#{exerciseDescriptionBean.imgComponent != null}" styleClass="btn secondary-color-btn" onclick="copyToClipboard('generated-img-component'); return false;">
+                <h:commandLink rendered="#{exerciseDescriptionBean.imgComponent != null}" styleClass="btn secondary-color-btn"
+                               onclick="copyToClipboard('generated-img-component'); return false;">
                     <i class="fa-regular fa-copy"> </i>
                 </h:commandLink>
-                <h:outputText id="generated-img-component" value="#{exerciseDescriptionBean.imgComponent}" styleClass="output-text-img-component m-2"/>
+                <h:outputText id="generated-img-component" value="#{exerciseDescriptionBean.imgComponent}"
+                              styleClass="output-text-img-component m-2"/>
             </div>
         </h:panelGroup>
     </h:form>
