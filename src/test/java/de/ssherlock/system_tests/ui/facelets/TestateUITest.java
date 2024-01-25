@@ -85,7 +85,7 @@ public class TestateUITest extends AbstractSeleniumUITest {
      * Test for clicking the 'Download code' button and check if file was downloaded.
      */
     @SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
-    @SuppressWarnings("checkstyle:MagicNumber")
+    @SuppressWarnings("checkstyle:MagicNumber, PMD.UseUnderscoresInNumericLiterals")
     @Test
     public void testDownloadCode() throws InterruptedException {
         SeleniumUITestUtils.clickOnElementWithId(getWait(), "downloadForm:downloadCode");
