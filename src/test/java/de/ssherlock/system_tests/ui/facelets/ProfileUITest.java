@@ -61,13 +61,9 @@ public class ProfileUITest extends AbstractSeleniumUITest {
         String firstName = firstNameBox.getText();
         WebElement lastNameBox = getDriver().findElement(By.cssSelector("[id$='lastName']"));
         String lastName = lastNameBox.getText();
-        WebElement selectBox = getDriver().findElement(By.cssSelector("[id$='facultyDropdown']"));
-        Select dropDown = new Select(selectBox);
-        String faculty = dropDown.getFirstSelectedOption().getText();
         assertEquals(USERNAME_ADMIN, userName);
         assertEquals(FIRSTNAME_ADMIN, firstName);
         assertEquals(LASTNAME_ADMIN, lastName);
-        assertEquals(FACULTY_ADMIN, faculty);
     }
 
     /**

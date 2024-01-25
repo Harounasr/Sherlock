@@ -63,17 +63,19 @@ public class ArchiveValidator implements Validator<Part> {
     @Override
     public void validate(FacesContext facesContext, UIComponent uiComponent, Part part) throws ValidatorException {
         if (part == null || part.getSize() <= 0) {
-            FacesMessage facesMessage = new FacesMessage("Uploaded file is empty.");
+            FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Uploaded file is empty.", null);
+
             throw new ValidatorException(facesMessage);
         }
 
         if (!part.getSubmittedFileName().toLowerCase().endsWith(".zip")) {
-            FacesMessage facesMessage = new FacesMessage("Invalid file format. Please upload a ZIP file.");
+            FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid file format. Please upload a ZIP file.", null);
             throw new ValidatorException(facesMessage);
         }
 
         if (part.getSize() > MAX_FILE_SIZE) {
-            FacesMessage facesMessage = new FacesMessage("File size exceeds the maximum allowed limit of 10 MB.");
+            FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                           "File size exceeds the maximum allowed limit of 10 MB.", null);
             throw new ValidatorException(facesMessage);
         }
 
@@ -85,13 +87,14 @@ public class ArchiveValidator implements Validator<Part> {
             }
 
             if (fileCount > MAX_FILE_COUNT) {
-                FacesMessage facesMessage = new FacesMessage("Exceeded the maximum allowed number of files in the ZIP archive (100 files).");
+                FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                                "Exceeded the maximum allowed number of files in the ZIP archive (100 files).", null);
                 throw new ValidatorException(facesMessage);
             }
             logger.info("Validated ZIP file successfully. Files: ");
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Error validating archive file" + e.getMessage());
-            FacesMessage facesMessage = new FacesMessage("Error validating archive file. Please try again.");
+            FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error validating archive file. Please try again.", null);
             throw new ValidatorException(facesMessage);
         }
     }

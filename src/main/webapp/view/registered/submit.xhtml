@@ -24,21 +24,23 @@
                             <div class="form-group">
                                 <label for="file">Choose Folder: </label>
                                 <h:inputFile id="file" value="#{submissionUploadBean.archiveFile}"
-                                             styleClass="form-control-file m-2"/>
+                                             styleClass="form-control-file m-2" validator="archiveValidator"/>
                             </div>
                         </h:panelGroup>
 
                         <h:panelGroup rendered="#{submissionUploadBean.submissionFiles != null}">
                             <!-- Section for successful upload -->
                             <div class="form-group">
-                                <h2>Upload was successful. Here are the Checker Results:</h2>
+                                <h:outputText value="#{submissionUploadBean.hasVisibleCheckers() ? 'Upload was successful. Here are the Checker Results:'
+                                 : 'Upload was successful:'}" styleClass="bold-text"/>
                                 <ui:repeat value="#{submissionUploadBean.checkerResults}" var="result">
                                     <ui:fragment rendered="#{result.checker.visible}">
                                         <div class="col">
                                             <div class="card mb-1 mt-1">
                                                 <div class="card-body">
-                                                    <span class="checker-result">#{result.checker.checkerType} (#{result.passed ? 'Passed' : 'Failed'}): </span>
+                                                    <h:outputText value="#{result.checker.checkerType}" styleClass="checker-type" />
                                                     <h:outputText styleClass="#{result.passed ? 'text-success' : 'text-danger'}" value="#{result.stackTrace}" />
+                                                    <h:outputText value="#{result.passed ? '✔' : '✘'}" style="font-size: 20px; margin-left: 5px; color: #{result.passed ? 'green' : 'red'}"/>
                                                 </div>
                                             </div>
                                         </div>

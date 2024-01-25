@@ -53,6 +53,7 @@ public class ExerciseRepositoryPsql extends RepositoryPsql implements ExerciseRe
             statement.executeUpdate();
         } catch (SQLException e) {
             logger.severe("Error occurred while adding exercise: " + e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 

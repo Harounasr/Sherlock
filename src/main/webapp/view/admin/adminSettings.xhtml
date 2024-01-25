@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html"
-      xmlns:f="jakarta.faces.core">
+      xmlns:f="jakarta.faces.core"
+      xmlns:comp="jakarta.faces.composite/components">
 
 <f:view>
     <h:form id="settingsForm" enctype="multipart/form-data">
@@ -61,6 +62,8 @@
             <div class="form-group mb-3">
                 <h:commandButton id="uploadLogoBtn" value="Upload Logo" action="#{adminSettingsBean.uploadLogo}" styleClass="btn primary-color-btn"/>
                 <h:commandButton id="saveButton" value="Save all" action="#{adminSettingsBean.submitAllChanges}" styleClass="btn primary-color-btn"/>
+                <h:button id="abort-cbtn" value="cancel" action="#{adminSettingsBean.abort}" styleClass="btn primary-color-btn"/>
+                <comp:notifications />
             </div>
         </div>
     </h:form>

@@ -202,9 +202,13 @@ public final class SeleniumUITestUtils {
             List<String> rowContent = new ArrayList<>();
             for (WebElement cell : cells) {
                 List<WebElement> selectElements = cell.findElements(By.tagName("select"));
+                List<WebElement> checkBoxes = cell.findElements(By.cssSelector("input[type='checkbox']"));
                 if (!selectElements.isEmpty()) {
                     WebElement selectedOption = selectElements.get(0).findElement(By.cssSelector("option:checked"));
                     rowContent.add(selectedOption.getText());
+                } else if (!checkBoxes.isEmpty()) {
+                    WebElement checkbox = checkBoxes.get(0);
+                    rowContent.add(checkbox.isSelected() ? "true" : "false");
                 } else {
                     rowContent.add(cell.getText());
                 }
