@@ -49,22 +49,18 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header">Delete</f:facet>
-                    <h:form>
                         <h:commandButton id="deleteButton" value="Delete" action="#{checkerListBean.deleteChecker(checker.id)}" styleClass="btn pagination-content-button"/>
-                    </h:form>
                 </h:column>
             </h:dataTable>
-            <h:form>
                 <comp:pagination backingBean="#{checkerListBean}"/>
-                <h:commandButton value="Update Checker" class="btn primary-color-btn text-light m-2" action="#{checkerListBean.submitChanges()}"/>
-            </h:form>
+                <h:commandButton value="Update Checker" class="btn primary-color-btn m-2" action="#{checkerListBean.submitChanges()}"/>
         </h:form>
 
         <div class="col-auto">
             <h:form rendered="#{navbarBean.appSession.user.systemRole.toString() == 'ADMINISTRATOR'
                         || navbarBean.appSession.user.systemRole.toString() == 'TEACHER'}">
                 <button id="addCheckerButton" type="button" data-bs-toggle="modal" data-bs-target="#createCheckerModal"
-                        class="btn btn primary-color-btn text-light m-2">
+                        class="btn primary-color-btn text-bg-primary m-2">
                     Add Checker
                 </button>
             </h:form>
@@ -84,24 +80,6 @@
                 </div>
             </div>
 
-        </div>
-
-        <div class="modal fade" id="CreateLineChecker" role="dialog" aria-hidden="true" tabindex="-1">
-            <div class="modal-dialog" role="document">
-                <h:form styleClass="form-container" rendered="#{navbarBean.appSession.user.systemRole.toString() == 'ADMINISTRATOR'}">
-                    <h:selectOneListbox value="Select Checker type">
-                        <f:selectItems value="#{checkerListBean.allCheckerTypes}"/>
-                    </h:selectOneListbox>
-                    <h:outputLabel value="Param 1 required"/>
-                    <h:inputText value="#{checkerListBean.newChecker.parameterOne}" required="true" requiredMessage="Parameter has to be set and can't be longer than 255."/>
-                    <h:inputText value="#{checkerListBean.newChecker.parameterOne}" required="true" requiredMessage="Parameter has to be set and can't be longer than 255."/>
-                    <div class="modal-footer">
-                        <button type="button" class="btn bg-danger text-light" data-bs-dismiss="modal">Cancel</button>
-                        <h:commandButton value="Add Checker" data-bs-dismiss="modal" action="#{checkerListBean.addChecker()}"
-                                         class="btn bg-success text-light"/>
-                    </div>
-                </h:form>
-            </div>
         </div>
 
         <div class="modal fade" id="createCheckerModal" tabindex="-1" role="dialog" aria-labelledby="createCheckerModalLabel" aria-hidden="true">
