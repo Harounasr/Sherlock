@@ -236,7 +236,7 @@ public class SubmissionUploadBean implements Serializable {
     /**
      * Is can submit boolean.
      *
-     * @return the boolean
+     * @return the boolean.
      */
     public boolean isCanSubmit() {
         if (checkerResults.isEmpty()) {
