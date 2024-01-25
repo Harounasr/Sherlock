@@ -87,7 +87,7 @@ public class AdminUserPaginationUITest extends AbstractSeleniumUITest {
         SeleniumUITestUtils.searchFor(getDriver(), "teacher");
         WebElement userLink = getDriver().findElement(By.linkText("teacher"));
         userLink.click();
-        assertEquals(SeleniumUITestUtils.BASE_URL + "view/registered/profile.xhtml?Id=2", getDriver().getCurrentUrl());
+        assertEquals(SeleniumUITestUtils.BASE_URL + "view/registered/profile.xhtml?Id=teacher", getDriver().getCurrentUrl());
     }
 
     /**

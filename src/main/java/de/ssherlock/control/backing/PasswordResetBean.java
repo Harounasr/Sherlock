@@ -102,7 +102,7 @@ public class PasswordResetBean implements Serializable {
         logger.log(Level.INFO, "Token: " + token);
         user.setPassword(PasswordHashing.hashPassword(passwordOne));
         if (userService.resetPassword(user)) {
-            return "/view/public/login?faces-redirect=true";
+            return "/view/public/login.xhtml?faces-redirect=true";
         } else {
             return "";
         }
