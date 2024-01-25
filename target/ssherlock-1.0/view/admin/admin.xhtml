@@ -1,0 +1,39 @@
+<ui:composition
+        xmlns:h="jakarta.faces.html"
+        xmlns:ui="jakarta.faces.facelets"
+        xmlns="http://www.w3.org/1999/xhtml"
+        template="../../resources/templates/mainTemplate.xhtml">
+
+    <ui:define name="headElements">
+        <link rel="stylesheet" href="#{request.contextPath}/resources/css/sidebar.css"/>
+        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/css/adminSettings.css"/>
+    </ui:define>
+    <ui:define name="content">
+        <div class="container-fluid h-100">
+            <div class="row h-100">
+
+                <!-- Sidebar -->
+                <div class="col-2 sidebar">
+                    <h:form>
+                        <h3>Administration</h3>
+                        <ul class="sidebar-menu">
+                            <li class="#{adminBean.targetPage == 'adminSettings.xhtml' ? 'nav-item-sidebar-selected' : 'nav-item-sidebar'}">
+                                <h:commandButton value="Settings" action="#{adminBean.setTargetPage('adminSettings.xhtml')}"
+                                                 styleClass="btn w-100"/>
+                            </li>
+                            <li class="#{adminBean.targetPage == 'adminUserPagination.xhtml' ? 'nav-item-sidebar-selected' : 'nav-item-sidebar'}">
+                                <h:commandButton value="Users" action="#{adminBean.setTargetPage('adminUserPagination.xhtml')}"
+                                                 styleClass="btn w-100"/>
+                            </li>
+                        </ul>
+                    </h:form>
+                </div>
+
+                <!-- Main Content -->
+                <div class="col-10 sidebar-content-container">
+                    <ui:include src="#{adminBean.targetPage}"/>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,13 @@
+-------------------------------------------------------------------------------
+Test set: de.ssherlock.load_tests.MainLoadTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 3.577 s <<< FAILURE! -- in de.ssherlock.load_tests.MainLoadTest
+de.ssherlock.load_tests.MainLoadTest.load -- Time elapsed: 3.558 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: class de.ssherlock.load_tests.MainLoadTest#public void de.ssherlock.load_tests.MainLoadTest.load()
+	at org.jsmart.zerocode.jupiter.extension.ParallelLoadExtension.failTest(ParallelLoadExtension.java:85)
+	at org.jsmart.zerocode.jupiter.extension.ParallelLoadExtension.beforeEach(ParallelLoadExtension.java:70)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+Caused by: java.lang.RuntimeException: de.ssherlock.load_tests.MainLoadTest with load/stress test(s): public void de.ssherlock.load_tests.MainLoadTest.load() have Failed
+	... 4 more
+

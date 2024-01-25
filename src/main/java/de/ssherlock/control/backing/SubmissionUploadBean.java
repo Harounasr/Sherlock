@@ -32,7 +32,7 @@ import java.util.logging.Level;
 /**
  * Backing bean for the submissionUpload.xhtml facelet. Handles the submission upload process.
  *
- * @author Leon Höfling
+ * @author Haroun Alswedany
  */
 @Named
 @ViewScoped

@@ -21,7 +21,7 @@ import java.util.Base64;
 /**
  * Backing Bean for the adminSettings.xhtml facelet.
  *
- * @author Leon Höfling.
+ * @author Haroun Alswedany
  */
 @Named
 @ViewScoped

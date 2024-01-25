@@ -19,7 +19,7 @@ import java.util.zip.ZipInputStream;
 /**
  * Handles validation of uploaded archive files.
  *
- * @author Victor Vollmann
+ * @author Haroun Alswedany
  */
 @Named
 @Dependent

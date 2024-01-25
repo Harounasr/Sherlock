@@ -133,6 +133,7 @@ public class CourseBean implements Serializable {
         try {
             courseService.removeCourse(course);
             logger.log(Level.INFO, "Course was deleted.");
+            addFlashNotification(course.getName() + " " + "Successfully deleted.", NotificationType.SUCCESS);
             return "/view/registered/coursePagination.xhtml?faces-redirect=true";
         } catch (BusinessNonExistentCourseException e) {
             logger.log(Level.INFO, "Course could not be deleted.");
@@ -186,5 +187,10 @@ public class CourseBean implements Serializable {
      */
     public void setTeacherRights(boolean teacherRights) {
         this.teacherRights = teacherRights;
+    }
+
+    private void addFlashNotification(String message, NotificationType type) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        facesContext.getExternalContext().getFlash().put("flashNotification", new Notification(message, type));
     }
 }

@@ -1,0 +1,67 @@
+<ui:composition
+        xmlns:h="jakarta.faces.html"
+        xmlns:ui="jakarta.faces.facelets"
+        xmlns="http://www.w3.org/1999/xhtml"
+        template="../../resources/templates/mainTemplate.xhtml">
+    <ui:define name="headElements">
+        <link rel="stylesheet" href="#{request.contextPath}/resources/css/sidebar.css"/>
+        <link rel="stylesheet" href="#{request.contextPath}/resources/css/exerciseDescription.css"/>
+        <title>#{courseBean.course.name}</title>
+    </ui:define>
+    <ui:define name="content">
+        <div class="container-fluid h-100">
+            <div class="row h-100">
+
+                <!-- Sidebar -->
+                <div class="col-2 sidebar">
+                    <h:form>
+                        <h3>#{courseBean.course.name}</h3>
+                        <ul class="sidebar-menu">
+                            <li class="#{courseBean.targetPage == 'exercisePagination.xhtml' ? 'nav-item-sidebar-selected' : 'nav-item-sidebar'}">
+                                <h:commandButton value="Exercises" action="#{courseBean.setTargetPage('exercisePagination.xhtml')}"
+                                                 styleClass="btn w-100"/>
+                            </li>
+                            <li class="#{courseBean.targetPage == 'courseUserPagination.xhtml' ? 'nav-item-sidebar-selected' : 'nav-item-sidebar'}">
+                                <h:commandButton rendered="#{courseBean.teacherRights}" value="Users"
+                                                 action="#{courseBean.setTargetPage('courseUserPagination.xhtml')}"
+                                                 styleClass="btn w-100"/>
+                            </li>
+                            <li class="nav-item-sidebar" >
+                                <h:commandButton rendered="#{courseBean.teacherRights}" value="Delete" onclick="showDeleteDialog();" styleClass="btn w-100" type="button"/>
+                            </li>
+                        </ul>
+                        <div id="delete-dlg" class="dialog" style="display: none;">
+                            <div class="text-center">
+                                <h:outputText value="Are you sure you want to delete this course?"/>
+                            </div>
+                            <br/>
+                            <div class="text-center">
+                                <h:commandButton id="courseDeleteButton" styleClass="btn btn-danger reallydeletebutton"
+                                                 value="Yes, delete"
+                                                 action="#{courseBean.deleteCourse}"
+                                                 onclick="hideDeleteDialog();"/>
+                                <h:commandButton styleClass="btn btn-secondary"
+                                                 value="Cancel"
+                                                 onclick="hideDeleteDialog(); return false;"/>
+                            </div>
+                        </div>
+                    </h:form>
+                </div>
+
+                <!-- Main Content -->
+                <div class="col-10 sidebar-content-container">
+                    <ui:include src="#{courseBean.targetPage}"/>
+                </div>
+            </div>
+        </div>
+        <script>
+            function showDeleteDialog() {
+                document.getElementById('delete-dlg').style.display = 'block';
+            }
+
+            function hideDeleteDialog() {
+                document.getElementById('delete-dlg').style.display = 'none';
+            }
+        </script>
+    </ui:define>
+</ui:composition>
