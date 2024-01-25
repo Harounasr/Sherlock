@@ -1,4 +1,4 @@
-function copyToClipboard(elementId) {
+function copyToClipboard (elementId) {
   const textElement = document.querySelector("[id$='" + elementId + "']");
   if (textElement) {
     const text = textElement.innerText;
