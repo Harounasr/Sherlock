@@ -14,7 +14,6 @@ import de.ssherlock.global.transport.CheckerResult;
 import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.Submission;
 import de.ssherlock.global.transport.SubmissionFile;
-import de.ssherlock.global.transport.SystemRole;
 import de.ssherlock.global.transport.Testate;
 import de.ssherlock.global.transport.User;
 import jakarta.annotation.PostConstruct;
@@ -29,7 +28,6 @@ import java.io.OutputStream;
 import java.io.Serial;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

@@ -15,6 +15,11 @@ import jakarta.inject.Named;
 public class CheckerListParameterValidator implements Validator<String> {
 
     /**
+     * The maximum length the parameter can have.
+     */
+    private static final int MAXIMUM_PARAMETER_LENGTH = 255;
+
+    /**
      * Initializes the checkerList validator.
      */
     public CheckerListParameterValidator() {}
@@ -29,8 +34,9 @@ public class CheckerListParameterValidator implements Validator<String> {
      */
     @Override
     public void validate(FacesContext facesContext, UIComponent uiComponent, String input) throws ValidatorException {
-        if (input.length() > 255 || input.isEmpty()) {
-            FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Parameters have to be set and can't be longer than 255.", null);
+        if (input.length() > MAXIMUM_PARAMETER_LENGTH || input.isEmpty()) {
+            FacesMessage facesMessage =
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Parameters have to be set and can't be longer than 255.", null);
             throw new ValidatorException(facesMessage);
         }
     }

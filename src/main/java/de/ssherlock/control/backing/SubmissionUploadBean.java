@@ -184,6 +184,11 @@ public class SubmissionUploadBean implements Serializable {
         return "/view/registered/exercise.xhtml?faces-redirect=true&Id=" + exerciseBean.getExerciseId();
     }
 
+    /**
+     * Starts a new upload session.
+     *
+     * @return The navigation outcome.
+     */
     public String tryAgain() {
         this.submissionFiles = null;
         this.checkerResults = new ArrayList<>();

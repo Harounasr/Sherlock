@@ -120,7 +120,6 @@ public class AllTestatesPaginationBean extends AbstractPaginationBean implements
      * Action that redirects the user to the selected testate.
      *
      * @param testate The testate.
-     * @return The navigation outcome.
      */
     public void selectTestate(Testate testate) {
         exerciseBean.setSubmissionId(testate.getSubmission().getId());
@@ -157,6 +156,11 @@ public class AllTestatesPaginationBean extends AbstractPaginationBean implements
         }
     }
 
+    /**
+     * Assesses whether the user is member in the course.
+     *
+     * @return Whether the user is a member.
+     */
     public boolean isMember() {
         return exerciseBean.getUserCourseRole() == CourseRole.MEMBER;
     }
