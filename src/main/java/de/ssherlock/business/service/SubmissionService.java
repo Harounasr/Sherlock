@@ -92,7 +92,7 @@ public class SubmissionService implements Serializable {
      * @param pagination The pagination
      * @param exercise   The exercise for which to retrieve submissions.
      * @return A list of submissions associated with the exercise.
-     * @throws BusinessDBAccessException When the access is denied.
+     * @throws BusinessDBAccessException          When the access is denied.
      * @throws BusinessNonExistentCourseException When the course does not exist.
      */
     public List<Submission> getSubmissions(Pagination pagination, Exercise exercise)
@@ -187,7 +187,6 @@ public class SubmissionService implements Serializable {
      * @param submissions The list to sort and filter
      * @param pagination  The pagination
      * @return The sorted and filtered list.
-     *
      * @author Victor Vollmann
      */
     private List<Submission> sortAndFilterSubmissions(List<Submission> submissions, Pagination pagination) {
@@ -196,17 +195,17 @@ public class SubmissionService implements Serializable {
         if (!pagination.getSearchString().isEmpty()) {
             submissionStream = submissionStream.filter(submission -> submission.getUser().contains(pagination.getSearchString()));
         }
-
         String sortBy = pagination.getSortBy();
         if (!sortBy.isEmpty()) {
             Comparator<Submission> comparator = switch (sortBy) {
                 case "username" -> Comparator.comparing(Submission::getUser);
-                case "tutor" -> Comparator.comparing(Submission::getTutor);
+                case "tutor" -> Comparator.comparing(Submission::getTutor, Comparator.nullsLast(Comparator.naturalOrder()));
                 case "timestamp" -> Comparator.comparing(Submission::getTimestamp);
                 default -> (submission1, submission2) -> 0;
             };
             try {
-                submissionStream = pagination.isSortAscending() ? submissionStream.sorted(comparator) : submissionStream.sorted(comparator.reversed());
+                submissionStream = pagination.isSortAscending() ? submissionStream.sorted(comparator)
+                        : submissionStream.sorted(comparator.reversed());
             } catch (NullPointerException e) {
                 logger.log(Level.WARNING, "Couldn't sort values because one of the fields is null.", e);
             }
