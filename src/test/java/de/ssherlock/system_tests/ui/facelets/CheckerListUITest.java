@@ -38,26 +38,27 @@ public class CheckerListUITest extends AbstractSeleniumUITest {
      * the expected elements on the first page.
      */
     private final List<List<String>> firstPageElements = Arrays.asList(
-            Arrays.asList("true", "true", "", "", "IDENTITY", "Delete"),
-            Arrays.asList("true", "true", "", "", "COMPILATION", "Delete"),
-            Arrays.asList("false", "true", "java Main.java", "12", "USER_DEFINED", "Delete")
+            Arrays.asList("", "", "", "", "IDENTITY", "Delete"),
+            Arrays.asList("", "", "", "", "COMPILATION", "Delete"),
+            Arrays.asList("", "", "java Main.java", "12", "USER_DEFINED", "Delete")
     );
 
     /**
      * The expected elements on the first page, after a checker was deleted.
      */
     private final List<List<String>> firstPageElementsDelete = Arrays.asList(
-            Arrays.asList("true", "true", "", "", "COMPILATION", "Delete"),
-            Arrays.asList("false", "true", "java Main.java", "12", "USER_DEFINED", "Delete")
+            Arrays.asList("", "", "", "", "USER_DEFINED", "Delete"),
+            Arrays.asList("", "", "", "", "COMPILATION", "Delete"),
+            Arrays.asList("", "", "java Main.java", "12", "USER_DEFINED", "Delete")
     );
 
     /**
      * The expected elements on the first page, after a new checker was added.
      */
     private final List<List<String>> firstPageElementsAdd = Arrays.asList(
-            Arrays.asList("true", "true", "", "", "COMPILATION", "Delete"),
-            Arrays.asList("false", "true", "java Main.java", "12", "USER_DEFINED", "Delete"),
-            Arrays.asList("false", "false", "one", "three", "USER_DEFINED", "Delete")
+            Arrays.asList("", "", "", "", "USER_DEFINED", "Delete"),
+            Arrays.asList("", "", "", "", "COMPILATION", "Delete"),
+            Arrays.asList("", "", "java Main.java", "12", "USER_DEFINED", "Delete")
     );
 
     /**
