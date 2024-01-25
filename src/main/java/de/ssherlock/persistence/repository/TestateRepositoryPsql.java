@@ -20,7 +20,7 @@ import java.util.logging.Level;
 /**
  * Implementation of TestateRepository for PostgreSQL database.
  *
- * @author Haroun Alswedany
+ * @author Haroun Alswedany.
  */
 public class TestateRepositoryPsql extends RepositoryPsql implements TestateRepository {
 
