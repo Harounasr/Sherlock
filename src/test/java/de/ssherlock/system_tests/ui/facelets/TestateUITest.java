@@ -19,7 +19,7 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClick
  *
  * @author Leon Höfling
  */
-@SuppressWarnings({"checkstyle:MagicNumber", "checkstyle:UseUnderscoresInNumericLiterals"})
+@SuppressWarnings({"checkstyle:UseUnderscoresInNumericLiterals", "checkstyle:MagicNumber"})
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TestateUITest extends AbstractSeleniumUITest {
 
