@@ -210,6 +210,8 @@ public class CourseService implements Serializable {
      * @param courses    The courses.
      * @param pagination The pagination.
      * @return The sorted and filtered list.
+     *
+     * @author Victor Vollmann
      */
     private List<Course> sortAndFilterCourses(List<Course> courses, Pagination pagination) {
         Stream<Course> courseStream = courses.stream();
@@ -221,7 +223,7 @@ public class CourseService implements Serializable {
         String sortBy = pagination.getSortBy();
         if (!sortBy.isEmpty()) {
             Comparator<Course> comparator = switch (sortBy) {
-                case "name" -> Comparator.comparing(Course::getName);
+                case "name" -> Comparator.comparing(course -> course.getName().toLowerCase());
                 case "id" -> Comparator.comparing(Course::getId);
                 default -> (course1, course2) -> 0;
             };

@@ -81,6 +81,8 @@ public class ExerciseService implements Serializable {
      * @param pagination The pagination.
      * @param course The course for which to retrieve exercises.
      * @return A list of exercises associated with the course.
+     *
+     * @author Victor Vollmann
      */
     public List<Exercise> getExercises(Pagination pagination, Course course) {
         Connection connection = connectionPool.getConnection();
@@ -97,7 +99,7 @@ public class ExerciseService implements Serializable {
         String sortBy = pagination.getSortBy();
         if (!sortBy.isEmpty()) {
             Comparator<Exercise> comparator = switch (sortBy) {
-                case "name" -> Comparator.comparing(Exercise::getName);
+                case "name" -> Comparator.comparing(exercise -> exercise.getName().toLowerCase());
                 case "id" -> Comparator.comparing(Exercise::getId);
                 case "obligatoryDeadline" -> Comparator.comparing(Exercise::getObligatoryDeadline).reversed();
                 case "recommendedDeadline" -> Comparator.comparing(Exercise::getRecommendedDeadline).reversed();

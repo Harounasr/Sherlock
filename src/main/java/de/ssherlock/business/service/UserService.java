@@ -308,6 +308,8 @@ public class UserService implements Serializable {
      *
      * @param pagination The pagination.
      * @return A list of all users.
+     *
+     * @author Victor Vollmann
      */
     public List<User> getUsers(Pagination pagination) {
         Connection connection = connectionPool.getConnection();
@@ -324,7 +326,11 @@ public class UserService implements Serializable {
         String sortBy = pagination.getSortBy();
         if (!sortBy.isEmpty()) {
             Comparator<User> comparator = switch (sortBy) {
-                case "username" -> Comparator.comparing(User::getUsername);
+                case "username" -> Comparator.comparing(user -> user.getUsername().toLowerCase());
+                case "faculty" -> Comparator.comparing(user -> user.getFacultyName().toLowerCase());
+                case "email" -> Comparator.comparing(user -> user.getEmail().toLowerCase());
+                case "firstName" -> Comparator.comparing(user -> user.getFirstName().toLowerCase());
+                case "lastName" -> Comparator.comparing(user -> user.getLastName().toLowerCase());
                 case "systemrole" -> Comparator.comparing(user -> user.getSystemRole().toString());
                 default -> (user1, user2) -> 0;
             };
