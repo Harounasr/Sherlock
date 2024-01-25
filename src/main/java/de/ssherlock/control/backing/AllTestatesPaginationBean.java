@@ -156,10 +156,11 @@ public class AllTestatesPaginationBean extends AbstractPaginationBean implements
         }
     }
 
+
     /**
-     * Assesses whether the user is member in the course.
+     * Checks if the user has the "Member" role.
      *
-     * @return Whether the user is a member.
+     * @return true if the user has the "Member" role; false otherwise.
      */
     public boolean isMember() {
         return exerciseBean.getUserCourseRole() == CourseRole.MEMBER;

@@ -63,11 +63,12 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
                     insertCheckerResults(getConnection(), submission);
                 }
             } catch (SQLException e) {
-
+                logger.severe("Error occurred while adding checker results: " + e.getMessage());
+                throw new RuntimeException(e);
             }
-
         } catch (SQLException e) {
-
+            logger.severe("Error occurred while adding checker results: " + e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
@@ -239,15 +240,16 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
                 submissionFileStatement.setLong(1, submission.getId());
                 submissionFileStatement.setString(2, submissionFile.getName());
                 submissionFileStatement.setBytes(3, submissionFile.getBytes());
-
                 submissionFileStatement.addBatch();
             }
             submissionFileStatement.executeBatch();
+        } catch (SQLException e) {
+            logger.severe("Error occurred while adding submission files : " + e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
     private void insertCheckerResults(Connection connection, Submission submission) throws SQLException {
-
         if (submission.getCheckerResults() != null) {
             String insertCheckerResultQuery
                     = "INSERT INTO checker_result (exercise_id, checker_id, submission_id, has_passed, result_description) VALUES (?, ?, ?, ?, ?)";
@@ -261,10 +263,12 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
                     checkerResultStatement.setLong(3, submission.getId());
                     checkerResultStatement.setBoolean(4, checkerResult.isPassed());
                     checkerResultStatement.setString(5, checkerResult.getStackTrace());
-
                     checkerResultStatement.addBatch();
                 }
                 checkerResultStatement.executeBatch();
+            } catch (SQLException e) {
+                logger.severe("Error occurred while adding checker results: " + e.getMessage());
+                throw new RuntimeException(e);
             }
         }
     }

@@ -11,6 +11,7 @@ import jakarta.inject.Named;
 
 @Named
 @Dependent
+@SuppressWarnings("checkstyle:MagicNumber")
 @FacesValidator(value = "checkerListParameterValidator", managed = true)
 public class CheckerListParameterValidator implements Validator<String> {
 
