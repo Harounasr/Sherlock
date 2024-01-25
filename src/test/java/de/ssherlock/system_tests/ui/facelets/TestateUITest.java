@@ -5,7 +5,6 @@ import de.ssherlock.system_tests.ui.SeleniumUITestUtils;
 import jakarta.faces.application.FacesMessage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.openqa.selenium.By;
@@ -20,8 +19,7 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClick
  *
  * @author Leon Höfling
  */
-@Disabled
-@SuppressWarnings({"checkstyle:UseUnderscoresInNumericLiterals", "checkstyle:MagicNumber"})
+@SuppressWarnings("checkstyle:UseUnderscoresInNumericLiterals")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TestateUITest extends AbstractSeleniumUITest {
 
