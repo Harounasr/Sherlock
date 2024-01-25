@@ -25,7 +25,7 @@ import java.util.logging.Level;
 /**
  * Backing bean for the exercise.xhtml facelet.
  *
- * @author Victor Vollmann
+ * @author Victor Vollmann.
  */
 @Named
 @ViewScoped
