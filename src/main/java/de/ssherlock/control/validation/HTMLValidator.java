@@ -54,15 +54,18 @@ public class HTMLValidator implements Validator<String> {
         }
         if (s.toLowerCase().contains("<html")) {
             logger.warning("The String is not valid HTML body.");
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "HTML tag detected. There should be no outer html, only the contents of the body.", null);
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                      "HTML tag detected. There should be no outer html, only the contents of the body.", null);
             throw new ValidatorException(message);
         } else if (s.toLowerCase().contains("<head>")) {
             logger.warning("The String is not valid HTML body.");
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "HEAD tag detected. There should be no outer html, only the contents of the body.", null);
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                     "HEAD tag detected. There should be no outer html, only the contents of the body.", null);
             throw new ValidatorException(message);
         } else if (s.toLowerCase().contains("<body")) {
             logger.warning("The String is not valid HTML body.");
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "BODY tag detected. There should be no outer html, only the contents of the body.", null);
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                       "BODY tag detected. There should be no outer html, only the contents of the body.", null);
             throw new ValidatorException(message);
         }
         try {

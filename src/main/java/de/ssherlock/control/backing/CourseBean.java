@@ -94,6 +94,10 @@ public class CourseBean implements Serializable {
         response.setDateHeader("Expires", 0);
         Map<String, String> requestParams = facesContext.getExternalContext().getRequestParameterMap();
         String courseIdParam = requestParams.get("Id");
+        Notification flashNotification = (Notification) facesContext.getExternalContext().getFlash().get("flashNotification");
+        if (flashNotification != null) {
+            flashNotification.generateUIMessage();
+        }
         if (courseIdParam != null) {
             course = new Course();
             course.setId(Long.parseLong(courseIdParam));
@@ -116,7 +120,6 @@ public class CourseBean implements Serializable {
         }
         teacherRights = userCourseRole == CourseRole.TEACHER || user.getSystemRole() == SystemRole.ADMINISTRATOR;
         setTargetPage("exercisePagination.xhtml");
-        //facesContext = FacesContext.getCurrentInstance();
         Map<String, Object> sessionMap = facesContext.getExternalContext().getSessionMap();
         sessionMap.put("currentCourse", course);
     }

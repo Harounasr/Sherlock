@@ -235,7 +235,4 @@ public class CheckerListBean extends AbstractPaginationBean implements Serializa
         this.currentCheckerType = currentCheckerType;
     }
 
-    public void setVisible(boolean visible) {
-
-    }
 }

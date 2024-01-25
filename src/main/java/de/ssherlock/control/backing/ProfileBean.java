@@ -21,7 +21,6 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import java.io.Serial;
 import java.io.Serializable;
-import java.sql.Connection;
 import java.util.Map;
 
 /**

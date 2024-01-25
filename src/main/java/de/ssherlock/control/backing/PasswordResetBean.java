@@ -7,7 +7,6 @@ import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.User;
 import jakarta.annotation.PostConstruct;
-import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;

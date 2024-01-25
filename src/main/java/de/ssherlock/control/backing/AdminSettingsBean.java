@@ -86,13 +86,18 @@ public class AdminSettingsBean implements Serializable {
 
     /**
      * Action for submitting all current changes.
+     *
+     * @return Navigation outcome
      */
-    public void submitAllChanges() {
+    public String submitAllChanges() {
         systemSettings.setPrimaryColorHex(convertToValidHex(systemSettings.getPrimaryColorHex()));
         systemSettings.setSecondaryColorHex(convertToValidHex(systemSettings.getSecondaryColorHex()));
         systemService.updateSystemSettings(systemSettings);
         systemSettings.setPrimaryColorHex("#" + systemSettings.getPrimaryColorHex());
         systemSettings.setSecondaryColorHex("#" + systemSettings.getSecondaryColorHex());
+        Notification notification = new Notification("System settings successfully updated.", NotificationType.SUCCESS);
+        notification.generateUIMessage();
+        return "/view/admin/admin.xhtml";
     }
 
     /**
@@ -167,5 +172,14 @@ public class AdminSettingsBean implements Serializable {
      */
     public String getLogoBase64() {
         return Base64.getEncoder().encodeToString(systemSettings.getLogo());
+    }
+
+    /**
+     * Aborts the settings update.
+     *
+     * @return Navigation outcome.
+     */
+    public String abort() {
+        return "";
     }
 }

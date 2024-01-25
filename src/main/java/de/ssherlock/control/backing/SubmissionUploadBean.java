@@ -16,6 +16,7 @@ import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.Submission;
 import de.ssherlock.global.transport.SubmissionFile;
 import jakarta.annotation.PostConstruct;
+import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -181,9 +182,15 @@ public class SubmissionUploadBean implements Serializable {
         newSubmission.setExerciseId(exercise.getId());
         submissionService.addSubmission(newSubmission);
         canSubmit = false;
+        addFlashNotification("Your assignment has been successfully submitted. Thank you!", NotificationType.SUCCESS);
         return "/view/registered/exercise.xhtml?faces-redirect=true&Id=" + exerciseBean.getExerciseId();
     }
 
+    /**
+     * Resets the submission files and checker results, allowing the user to try the submission again.
+     *
+     * @return An empty string, as this method is used for navigation outcomes.
+     */
     public String tryAgain() {
         this.submissionFiles = null;
         this.checkerResults = new ArrayList<>();
@@ -229,7 +236,7 @@ public class SubmissionUploadBean implements Serializable {
     /**
      * Is can submit boolean.
      *
-     * @return the boolean
+     * @return the boolean.
      */
     public boolean isCanSubmit() {
         if (checkerResults.isEmpty()) {
@@ -274,5 +281,30 @@ public class SubmissionUploadBean implements Serializable {
      */
     public List<CheckerResult> getCheckerResults() {
         return checkerResults;
+    }
+
+    /**
+     * Adds a flash notification to the FacesContext for display after a redirect.
+     *
+     * @param message The notification message.
+     * @param type    The type of notification (e.g., SUCCESS, ERROR).
+     */
+    private void addFlashNotification(String message, NotificationType type) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        facesContext.getExternalContext().getFlash().put("flashNotification", new Notification(message, type));
+    }
+
+    /**
+     * Checks if there are visible checkers among the checker results.
+     *
+     * @return True if there are visible checkers, false otherwise.
+     */
+    public boolean hasVisibleCheckers() {
+        for (CheckerResult result : checkerResults) {
+            if (result.getChecker().isVisible()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

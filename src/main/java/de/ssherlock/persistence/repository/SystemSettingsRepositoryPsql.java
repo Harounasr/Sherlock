@@ -65,7 +65,8 @@ public class SystemSettingsRepositoryPsql extends RepositoryPsql
         systemSettings.setSystemName(resultSet.getString("system_name"));
         systemSettings.setLogo(resultSet.getBytes("system_logo"));
         systemSettings.setImprint(resultSet.getString("imprint"));
-        return systemSettings;
+        systemSettings.setContactInformation(resultSet.getString("contact_information"));
+          return systemSettings;
       }
     } catch (SQLException e) {
       throw new RuntimeException(e);

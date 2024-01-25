@@ -11,6 +11,7 @@ import jakarta.inject.Named;
 
 @Named
 @Dependent
+@SuppressWarnings("checkstyle:MagicNumber")
 @FacesValidator(value = "checkerListParameterValidator", managed = true)
 public class CheckerListParameterValidator implements Validator<String> {
 
@@ -30,7 +31,8 @@ public class CheckerListParameterValidator implements Validator<String> {
     @Override
     public void validate(FacesContext facesContext, UIComponent uiComponent, String input) throws ValidatorException {
         if (input.length() > 255 || input.isEmpty()) {
-            FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Parameters have to be set and can't be longer than 255.", null);
+            FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                           "Parameters have to be set and can't be longer than 255.", null);
             throw new ValidatorException(facesMessage);
         }
     }
