@@ -21,7 +21,10 @@ public class ErrorBean {
      */
     private Error error;
 
-    private SerializableLogger logger = LoggerCreator.get(ErrorBean.class);
+    /**
+     * Logger for logging within this class.
+     */
+    private final SerializableLogger logger = LoggerCreator.get(ErrorBean.class);
 
     /**
      * Constructs an ErrorBean.
