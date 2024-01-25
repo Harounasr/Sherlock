@@ -86,6 +86,4 @@ public class AdminBean implements Serializable {
         Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
         sessionMap.put("selectedPage", targetPage);
     }
-
-
 }
