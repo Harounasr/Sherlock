@@ -14,15 +14,28 @@
             <comp:paginationSearch backingBean="#{submissionPaginationBean}"/>
         </h:form>
 
-        <h:form>
-            <h:dataTable first="#{submissionPaginationBean.pagination.currentIndex}" rows="#{submissionPaginationBean.pagination.pageSize}"
+            <h:dataTable id="submission-pagination" first="#{submissionPaginationBean.pagination.currentIndex}" rows="#{submissionPaginationBean.pagination.pageSize}"
                          value="#{submissionPaginationBean.submissions}" var="sub" styleClass="table table-striped table-bordered">
                 <h:column rendered="#{submissionPaginationBean.isTeacher() || submissionPaginationBean.isAdmin()}">
-                    <f:facet name="header">Assigned Tutor</f:facet>
+                    <f:facet name="header">
+                        <div class="d-flex">
+                            <div>Assigned Tutor</div>
+                            <comp:paginationSortButton paginationId="submission-pagination"
+                                                       backingBean="#{submissionPaginationBean}"
+                                                       sortBy="tutor"/>
+                        </div>
+                    </f:facet>
                     <h:outputText value="#{sub.tutor}" />
                 </h:column>
                 <h:column>
-                    <f:facet name="header">Submitted On</f:facet>
+                    <f:facet name="header">
+                        <div class="d-flex">
+                            <div>Submitted On</div>
+                            <comp:paginationSortButton paginationId="submission-pagination"
+                                                       backingBean="#{submissionPaginationBean}"
+                                                       sortBy="timestamp"/>
+                        </div>
+                    </f:facet>
                     <h:outputText converter="dateConverter" value="#{sub.timestamp}" />
                 </h:column>
                 <h:column rendered="#{submissionPaginationBean.teacher || submissionPaginationBean.admin || submissionPaginationBean.tutor}">
@@ -32,13 +45,13 @@
                                      action="#{submissionPaginationBean.selectSubmission(sub.id)}"/>
                 </h:column>
                 <h:column rendered="#{submissionPaginationBean.member}">
-                    <h:commandButton styleClass="btn pagination-content-button"
-                                     value="#{sub.testateCreated ? 'To Testate' : 'To Submission'}"
-                                     action="#{submissionPaginationBean.selectSubmission(sub.id)}"/>
+                    <h:form>
+                        <h:commandButton styleClass="btn pagination-content-button"
+                                         value="#{sub.testateCreated ? 'To Testate' : 'To Submission'}"
+                                         action="#{submissionPaginationBean.selectSubmission(sub.id)}"/>
+                    </h:form>
                 </h:column>
             </h:dataTable>
-        </h:form>
-
         <h:form>
             <comp:pagination backingBean="#{submissionPaginationBean}"/>
         </h:form>

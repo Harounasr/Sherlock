@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 /**
  * Backing bean for the adminUserPagination.xhtml facelet.
@@ -109,6 +110,7 @@ public class AdminUserPaginationBean extends AbstractPaginationBean implements S
             selectedRole.put(user.getUsername(), user.getSystemRole().toString());
             selectedFaculty.put(user.getUsername(), user.getFacultyName());
         }
+        logger.finest("Initialized AdminUserPaginationBean.");
     }
 
     /**
@@ -120,9 +122,13 @@ public class AdminUserPaginationBean extends AbstractPaginationBean implements S
         user.setSystemRole(SystemRole.valueOf(selectedRole.get(user.getUsername())));
         try {
             userService.updateUser(user);
+            Notification notification = new Notification("Updated system role for user " + user.getUsername(), NotificationType.SUCCESS);
+            notification.generateUIMessage();
+            logger.finer("Updated system role for user " + user.getUsername() + " (" + user.getSystemRole() + ").");
         } catch (BusinessNonExistentUserException e) {
             Notification notification = new Notification("Update failed", NotificationType.ERROR);
             notification.generateUIMessage();
+            logger.log(Level.WARNING, "Updating user " + user.getUsername() + "failed.", e);
         }
     }
 
@@ -135,9 +141,13 @@ public class AdminUserPaginationBean extends AbstractPaginationBean implements S
         user.setFacultyName(selectedFaculty.get(user.getUsername()));
         try {
             userService.updateUser(user);
+            Notification notification = new Notification("Updated faculty for user " + user.getUsername(), NotificationType.SUCCESS);
+            notification.generateUIMessage();
+            logger.finer("Updated faculty for user " + user.getUsername() + " (" + user.getFacultyName() + ").");
         } catch (BusinessNonExistentUserException e) {
             Notification notification = new Notification("Update failed", NotificationType.ERROR);
             notification.generateUIMessage();
+            logger.log(Level.WARNING, "Updating user " + user.getUsername() + "failed.", e);
         }
     }
 
@@ -149,6 +159,7 @@ public class AdminUserPaginationBean extends AbstractPaginationBean implements S
      * @return The navigation outcome.
      */
     public String selectUser(User user) {
+        logger.finest("Selected user " + user.getUsername() + ", redirecting to profile page.");
         return "/view/registered/profile.xhtml?faces-redirect=true&Id=" + user.getUsername();
     }
 

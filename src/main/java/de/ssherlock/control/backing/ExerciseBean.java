@@ -16,6 +16,7 @@ import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -97,6 +98,9 @@ public class ExerciseBean implements Serializable {
     @PostConstruct
     public void initialize() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setDateHeader("Expires", 0);
         Map<String, String> requestParams = facesContext.getExternalContext().getRequestParameterMap();
         exerciseId = Long.parseLong(requestParams.get("Id"));
         Notification flashNotification = (Notification) facesContext.getExternalContext().getFlash().get("flashNotification");

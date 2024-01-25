@@ -8,40 +8,78 @@
 <f:view>
     <div class="container mt-4">
         <h2 class="mb-3">Users List</h2>
-        <h:messages globalOnly="true"/>
         <h:form id="paginationSearch">
             <comp:paginationSearch backingBean="#{courseUserPaginationBean}"/>
         </h:form>
 
-        <h:form>
-            <h:dataTable first="#{courseUserPaginationBean.pagination.currentIndex}" rows="#{courseUserPaginationBean.pagination.pageSize}"
-                         value="#{courseUserPaginationBean.users}" var="user" styleClass="table table-striped table-bordered">
-                <h:column>
-                    <f:facet name="header">Username</f:facet>
-                    #{user.username}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">First Name</f:facet>
-                    #{user.firstName}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Last Name</f:facet>
-                    #{user.lastName}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Email</f:facet>
-                    #{user.email}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Role</f:facet>
-                    <h:selectOneListbox
-                            value="#{courseUserPaginationBean.selectedRole[user.username]}" size="1" styleClass="form-control">
+
+        <h:dataTable id="user-pagination" first="#{courseUserPaginationBean.pagination.currentIndex}"
+                     rows="#{courseUserPaginationBean.pagination.pageSize}"
+                     value="#{courseUserPaginationBean.users}" var="user" styleClass="table table-striped table-bordered">
+            <h:column>
+                <f:facet name="header">
+                    <div class="d-flex">
+                        <div>Username</div>
+                        <comp:paginationSortButton paginationId="user-pagination"
+                                                   backingBean="#{courseUserPaginationBean}"
+                                                   sortBy="username"/>
+                    </div>
+                </f:facet>
+                <h:form>
+                    <h:outputText value="#{user.username}"/>
+                </h:form>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <div class="d-flex">
+                        <div>First Name</div>
+                        <comp:paginationSortButton paginationId="user-pagination"
+                                                   backingBean="#{courseUserPaginationBean}"
+                                                   sortBy="firstName"/>
+                    </div>
+                </f:facet>
+                <h:outputText value="#{user.firstName}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <div class="d-flex">
+                        <div>Last Name</div>
+                        <comp:paginationSortButton paginationId="user-pagination"
+                                                   backingBean="#{courseUserPaginationBean}"
+                                                   sortBy="lastName"/>
+                    </div>
+                </f:facet>
+                <h:outputText value="#{user.lastName}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <div class="d-flex">
+                        <div>Email</div>
+                        <comp:paginationSortButton paginationId="user-pagination"
+                                                   backingBean="#{courseUserPaginationBean}"
+                                                   sortBy="email"/>
+                    </div>
+                </f:facet>
+                <h:outputText value="#{user.email}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <div class="d-flex">
+                        <div>Role</div>
+                        <comp:paginationSortButton paginationId="user-pagination"
+                                                   backingBean="#{courseUserPaginationBean}"
+                                                   sortBy="courserole"/>
+                    </div>
+                </f:facet>
+                <h:form>
+                    <h:selectOneListbox id="selectRole"
+                                        value="#{courseUserPaginationBean.selectedRole[user.username]}" size="1" styleClass="form-control">
                         <f:selectItems value="#{courseUserPaginationBean.availableRoles}"/>
                         <f:ajax listener="#{courseUserPaginationBean.changeUserRole(user)}" render="@form"/>
                     </h:selectOneListbox>
-                </h:column>
-            </h:dataTable>
-        </h:form>
+                </h:form>
+            </h:column>
+        </h:dataTable>
 
         <h:form id="pagination">
             <comp:pagination backingBean="#{courseUserPaginationBean}"/>

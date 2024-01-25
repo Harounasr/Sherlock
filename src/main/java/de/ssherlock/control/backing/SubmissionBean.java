@@ -107,13 +107,14 @@ public class SubmissionBean implements Serializable {
         try {
             submission = submissionService.getSubmission(submission);
         } catch (BusinessNonExistentSubmissionException e) {
-            logger.log(Level.INFO, "Submission not existent.");
             Notification notification = new Notification("The selected submission does not exist.", NotificationType.ERROR);
             notification.generateUIMessage();
+            logger.log(Level.WARNING, "Submission does not exist.", e);
         }
         logger.info("Submission File count" + submission.getSubmissionFiles().size());
         files = TestateBean.convertSubmissionFileToText(submission.getSubmissionFiles());
         checkerResults = checkerService.getCheckerResultsForSubmission(submission);
+        logger.finest("Initialized SubmissionBean.");
     }
 
     /**
