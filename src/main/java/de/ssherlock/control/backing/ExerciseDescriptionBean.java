@@ -11,7 +11,6 @@ import de.ssherlock.global.transport.CourseRole;
 import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.ExerciseDescriptionImage;
 import jakarta.annotation.PostConstruct;
-import jakarta.faces.application.FacesMessage;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -370,6 +369,11 @@ public class ExerciseDescriptionBean implements Serializable {
         this.userCanEdit = userCanEdit;
     }
 
+    /**
+     * Gets the current date and time as a formatted string.
+     *
+     * @return the current date and time as a formatted string.
+     */
     public String getCurrentDateTime() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
         return simpleDateFormat.format(Date.from(Calendar.getInstance().toInstant()));

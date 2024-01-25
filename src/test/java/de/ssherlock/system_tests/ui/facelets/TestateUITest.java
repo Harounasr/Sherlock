@@ -20,6 +20,7 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClick
  * @author Leon Höfling
  */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@SuppressWarnings("checkstyle:MagicNumber")
 public class TestateUITest extends AbstractSeleniumUITest {
 
     /**

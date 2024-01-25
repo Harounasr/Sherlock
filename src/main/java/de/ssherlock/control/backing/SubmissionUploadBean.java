@@ -182,10 +182,15 @@ public class SubmissionUploadBean implements Serializable {
         newSubmission.setExerciseId(exercise.getId());
         submissionService.addSubmission(newSubmission);
         canSubmit = false;
-        addFlashNotification( "Your assignment has been successfully submitted. Thank you!", NotificationType.SUCCESS);
+        addFlashNotification("Your assignment has been successfully submitted. Thank you!", NotificationType.SUCCESS);
         return "/view/registered/exercise.xhtml?faces-redirect=true&Id=" + exerciseBean.getExerciseId();
     }
 
+    /**
+     * Resets the submission files and checker results, allowing the user to try the submission again.
+     *
+     * @return An empty string, as this method is used for navigation outcomes.
+     */
     public String tryAgain() {
         this.submissionFiles = null;
         this.checkerResults = new ArrayList<>();

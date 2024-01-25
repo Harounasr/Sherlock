@@ -27,7 +27,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -372,6 +371,7 @@ public final class CheckerUtils {
      *
      * @param filePaths   The classes to compile.
      * @param diagnostics The diagnostics collector.
+     * @param classpath   The classpath to be used during compilation.
      * @return Whether the files compiled successfully.
      * @throws CheckerExecutionException When there is an error during execution.
      */
@@ -407,6 +407,7 @@ public final class CheckerUtils {
      * @param filePaths The files to execute.
      * @param input     The input command.
      * @param checker   The associated checker.
+     * @param classpath The classpath to be used during execution.
      * @return The execution output.
      * @throws CheckerExecutionException When there is an error during execution.
      */

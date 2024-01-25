@@ -69,12 +69,13 @@ public class ArchiveValidator implements Validator<Part> {
         }
 
         if (!part.getSubmittedFileName().toLowerCase().endsWith(".zip")) {
-            FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Invalid file format. Please upload a ZIP file.", null);
+            FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid file format. Please upload a ZIP file.", null);
             throw new ValidatorException(facesMessage);
         }
 
         if (part.getSize() > MAX_FILE_SIZE) {
-            FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "File size exceeds the maximum allowed limit of 10 MB.", null);
+            FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                           "File size exceeds the maximum allowed limit of 10 MB.", null);
             throw new ValidatorException(facesMessage);
         }
 
@@ -86,13 +87,13 @@ public class ArchiveValidator implements Validator<Part> {
             }
 
             if (fileCount > MAX_FILE_COUNT) {
-                FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Exceeded the maximum allowed number of files in the ZIP archive (100 files).",null);
+                FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Exceeded the maximum allowed number of files in the ZIP archive (100 files).", null);
                 throw new ValidatorException(facesMessage);
             }
             logger.info("Validated ZIP file successfully. Files: ");
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Error validating archive file" + e.getMessage());
-            FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error validating archive file. Please try again.", null);
+            FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error validating archive file. Please try again.", null);
             throw new ValidatorException(facesMessage);
         }
     }
