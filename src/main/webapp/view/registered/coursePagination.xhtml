@@ -28,11 +28,19 @@
                 <comp:paginationSearch backingBean="#{coursePaginationBean}"/>
             </h:form>
 
-            <h:dataTable value="#{coursePaginationBean.courses}" var="course"
+            <h:dataTable id="course-pagination" value="#{coursePaginationBean.courses}" var="course"
                          first="#{coursePaginationBean.pagination.currentIndex}" rows="#{coursePaginationBean.pagination.pageSize}"
                          styleClass="table table-striped table-bordered w-100">
                 <h:column>
-                    <f:facet name="header">ID</f:facet>
+                    <f:facet name="header">
+                        <div class="d-flex">
+                            <div>Name</div>
+                            <comp:paginationSortButton paginationId="course-pagination"
+                                                       backingBean="#{coursePaginationBean}"
+                                                       sortBy="name"/>
+                        </div>
+                    </f:facet>
+
                     #{course.name}
                 </h:column>
                 <h:column id="joinCol">
@@ -63,7 +71,8 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn bg-danger text-light" data-bs-dismiss="modal">Cancel</button>
-                            <h:commandButton id="create-course-button" value="Create Course" data-bs-dismiss="modal" action="#{coursePaginationBean.addCourse}"
+                            <h:commandButton id="create-course-button" value="Create Course" data-bs-dismiss="modal"
+                                             action="#{coursePaginationBean.addCourse}"
                                              class="btn bg-success text-light"/>
                         </div>
                     </h:form>

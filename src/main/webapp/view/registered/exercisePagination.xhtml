@@ -21,36 +21,64 @@
             <comp:paginationSearch backingBean="#{exercisePaginationBean}"/>
         </h:form>
 
-        <h:form>
-            <h:dataTable value="#{exercisePaginationBean.exercises}" var="exercise"
+            <h:dataTable id="exercise-pagination" value="#{exercisePaginationBean.exercises}" var="exercise"
                          first="#{exercisePaginationBean.pagination.currentIndex}" rows="#{exercisePaginationBean.pagination.pageSize}"
                          styleClass="table table-striped table-bordered w-100">
                 <h:column>
-                    <f:facet name="header">ID</f:facet>
+                    <f:facet name="header">
+                        <div class="d-flex">
+                            <div>Name</div>
+                            <comp:paginationSortButton paginationId="exercise-pagination"
+                                                       backingBean="#{exercisePaginationBean}"
+                                                       sortBy="name"/>
+                        </div>
+                    </f:facet>
                     <h:outputText value="#{exercise.name}"/>
                 </h:column>
                 <h:column>
-                    <f:facet name="header">Publish Date</f:facet>
+                    <f:facet name="header">
+                        <div class="d-flex">
+                            <div>Publish Date</div>
+                            <comp:paginationSortButton paginationId="exercise-pagination"
+                                                       backingBean="#{exercisePaginationBean}"
+                                                       sortBy="publishDate"/>
+                        </div>
+                    </f:facet>
                     <h:outputText styleClass="#{exercisePaginationBean.isPublishDatePast(exercise) ? 'past-deadline' : 'future-deadline'}"
                                   value="#{exercise.publishDate}" converter="dateConverter"/>
                 </h:column>
                 <h:column>
-                    <f:facet name="header">Recommended Deadline</f:facet>
+                    <f:facet name="header">
+                        <div class="d-flex">
+                            <div>Recommended Deadline</div>
+                            <comp:paginationSortButton paginationId="exercise-pagination"
+                                                       backingBean="#{exercisePaginationBean}"
+                                                       sortBy="recommendedDeadline"/>
+                        </div>
+                    </f:facet>
                     <h:outputText styleClass="#{exercisePaginationBean.isRecommendedDeadlinePast(exercise) ? 'past-deadline' : 'future-deadline'}"
                                   value="#{exercise.recommendedDeadline}" converter="dateConverter"/>
                 </h:column>
                 <h:column>
-                    <f:facet name="header">Obligatory Deadline</f:facet>
+                    <f:facet name="header">
+                        <div class="d-flex">
+                            <div>Obligatory Deadline</div>
+                            <comp:paginationSortButton paginationId="exercise-pagination"
+                                                       backingBean="#{exercisePaginationBean}"
+                                                       sortBy="obligatoryDeadline"/>
+                        </div>
+                    </f:facet>
                     <h:outputText styleClass="#{exercisePaginationBean.isObligatoryDeadlinePast(exercise) ? 'past-deadline' : 'future-deadline'}"
                                   value="#{exercise.obligatoryDeadline}" converter="dateConverter"/>
                 </h:column>
 
                 <h:column>
-                    <h:commandButton value="To Exercise" action="#{exercisePaginationBean.select(exercise)}"
-                                     styleClass="btn pagination-content-button"/>
+                    <h:form>
+                        <h:commandButton value="To Exercise" action="#{exercisePaginationBean.select(exercise)}"
+                                         styleClass="btn pagination-content-button"/>
+                    </h:form>
                 </h:column>
             </h:dataTable>
-        </h:form>
 
         <h:form>
             <comp:pagination backingBean="#{exercisePaginationBean}"/>
@@ -73,7 +101,8 @@
                     <div class="modal-footer">
 
                         <button type="button" class="btn bg-danger text-light" data-bs-dismiss="modal">Cancel</button>
-                        <h:commandButton id="create-exercise-button" value="Create Exercise" data-bs-dismiss="modal" action="#{exercisePaginationBean.addExercise}"
+                        <h:commandButton id="create-exercise-button" value="Create Exercise" data-bs-dismiss="modal"
+                                         action="#{exercisePaginationBean.addExercise}"
                                          class="btn bg-success text-light"/>
                     </div>
                 </div>

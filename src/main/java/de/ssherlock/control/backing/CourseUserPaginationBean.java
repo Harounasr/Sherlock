@@ -1,6 +1,8 @@
 package de.ssherlock.control.backing;
 
 import de.ssherlock.business.service.UserService;
+import de.ssherlock.control.notification.Notification;
+import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.CourseRole;
@@ -13,14 +15,18 @@ import jakarta.inject.Named;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Backing bean for courseUserPagination.xhtml facelet.
  *
- * @author Leon Höfling
+ * @author Victor Vollmann
  */
 @Named
 @ViewScoped
@@ -90,7 +96,7 @@ public class CourseUserPaginationBean extends AbstractPaginationBean implements 
      */
     @PostConstruct
     public void initialize() {
-        getPagination().setSortBy("username");
+        getPagination().setSortBy("courserole");
         getPagination().setPageSize(PAGE_SIZE);
         users = userService.getUsers(getPagination());
         getPagination().setLastIndex(users.size() - 1);
@@ -98,6 +104,7 @@ public class CourseUserPaginationBean extends AbstractPaginationBean implements 
         for (User user : users) {
             selectedRole.put(user.getUsername(), getCourseRoleForUser(user).toString());
         }
+        logger.finest("Initialized CourseUserPaginationBean.");
     }
 
     /**
@@ -108,6 +115,9 @@ public class CourseUserPaginationBean extends AbstractPaginationBean implements 
     public void changeUserRole(User user) {
         CourseRole courseRole = CourseRole.valueOf(selectedRole.get(user.getUsername()));
         userService.updateCourseRole(user, courseBean.getCourse(), courseRole);
+        Notification notification = new Notification("Changed Course role for user " + user.getUsername(), NotificationType.SUCCESS);
+        notification.generateUIMessage();
+        logger.finer("Updated system role for user " + user.getUsername() + " (" + courseRole + ").");
     }
 
     /**
@@ -118,6 +128,12 @@ public class CourseUserPaginationBean extends AbstractPaginationBean implements 
         users = userService.getUsers(getPagination());
         for (User user : users) {
             selectedRole.put(user.getUsername(), getCourseRoleForUser(user).toString());
+        }
+        if (Objects.equals(getPagination().getSortBy(), "courserole")) {
+            Comparator<User> comparator = Comparator.comparing(user -> selectedRole.get(user.getUsername()).toLowerCase());
+            Stream<User> userStream = users.stream();
+            userStream = getPagination().isSortAscending() ? userStream.sorted(comparator) : userStream.sorted(comparator.reversed());
+            users = userStream.collect(Collectors.toList());
         }
     }
 

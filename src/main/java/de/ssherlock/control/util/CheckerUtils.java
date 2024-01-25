@@ -371,7 +371,7 @@ public final class CheckerUtils {
      *
      * @param filePaths   The classes to compile.
      * @param diagnostics The diagnostics collector.
-     * @param classpath    The classpath for compilation.
+     * @param classpath  The classpath.
      * @return Whether the files compiled successfully.
      * @throws CheckerExecutionException When there is an error during execution.
      */
@@ -407,7 +407,7 @@ public final class CheckerUtils {
      * @param filePaths The files to execute.
      * @param input     The input command.
      * @param checker   The associated checker.
-     * @param classpath The classpath for execution.
+     * @param classpath The classpath.
      * @return The execution output.
      * @throws CheckerExecutionException When there is an error during execution.
      */
@@ -463,18 +463,25 @@ public final class CheckerUtils {
     }
 
     /**
-     * Retrieves the classpath based on the provided checker.
+     * Gets the classpath.
      *
-     * @param checker The associated checker.
-     * @return The classpath as a string.
+     * @param checker The checker.
+     * @return The classpath.
      */
-    public static String getClasspath(Checker checker) {
+    private static String getClasspath(Checker checker) {
         String baseDir = getTempDirectory(checker);
         Set<String> directoriesWithJavaFiles = new HashSet<>();
         findDirectoriesWithJavaFiles(new File(baseDir), directoriesWithJavaFiles, baseDir);
         return String.join(File.pathSeparator, directoriesWithJavaFiles);
     }
 
+    /**
+     * Finds all subdirectories that contain java files.
+     *
+     * @param dir All directories.
+     * @param directoriesWithJavaFiles The found subdirectories.
+     * @param baseDir The base directory.
+     */
     private static void findDirectoriesWithJavaFiles(File dir, Set<String> directoriesWithJavaFiles, String baseDir) {
         File[] files = dir.listFiles();
         if (files != null) {

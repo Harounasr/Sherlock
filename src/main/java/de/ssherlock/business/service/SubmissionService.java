@@ -186,6 +186,8 @@ public class SubmissionService implements Serializable {
      * @param submissions The list to sort and filter
      * @param pagination  The pagination
      * @return The sorted and filtered list.
+     *
+     * @author Victor Vollmann
      */
     private List<Submission> sortAndFilterSubmissions(List<Submission> submissions, Pagination pagination) {
         Stream<Submission> submissionStream = submissions.stream();

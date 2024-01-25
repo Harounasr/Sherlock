@@ -3,6 +3,7 @@ package de.ssherlock.control.backing;
 import de.ssherlock.business.exception.BusinessNonExistentExerciseException;
 import de.ssherlock.business.service.ExerciseDescriptionImageService;
 import de.ssherlock.business.service.ExerciseService;
+import de.ssherlock.control.exception.NoAccessException;
 import de.ssherlock.control.notification.Notification;
 import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.control.session.AppSession;
@@ -11,9 +12,12 @@ import de.ssherlock.global.transport.CourseRole;
 import de.ssherlock.global.transport.Exercise;
 import de.ssherlock.global.transport.ExerciseDescriptionImage;
 import jakarta.annotation.PostConstruct;
+import jakarta.faces.context.ExternalContext;
+import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.Part;
 
 import java.io.ByteArrayOutputStream;
@@ -21,12 +25,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serial;
 import java.io.Serializable;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
 
 /**
  * Backing bean for the exerciseDescription.xhtml.
@@ -150,19 +153,21 @@ public class ExerciseDescriptionBean implements Serializable {
             logger.info("Successfully fetched exercise with id " + exercise.getId());
         } catch (BusinessNonExistentExerciseException e) {
             logger.severe("The exercise with id " + exercise.getId() + " does not exist anymore.");
-            throw new RuntimeException("The exercise does not exist anymore.", e);
+            throw new NoAccessException("The exercise does not exist anymore.", e);
         }
         userCanEdit = exerciseBean.getUserCourseRole() == CourseRole.TEACHER || appSession.isAdmin();
         Calendar calendar = Calendar.getInstance();
         setRecommendedDeadlinePast(exercise.getRecommendedDeadline().toInstant().isBefore(calendar.toInstant()));
         setObligatoryDeadlinePast(exercise.getObligatoryDeadline().toInstant().isBefore(calendar.toInstant()));
         setPublishDatePast(exercise.getPublishDate().toInstant().isBefore(calendar.toInstant()));
+        logger.finest("Initialized ExerciseDescriptionBean.");
     }
 
     /**
      * Switches to edit mode for the exercise details.
      */
     public void startEditMode() {
+        logger.finest("Started edit mode.");
         this.editMode = true;
     }
 
@@ -176,15 +181,19 @@ public class ExerciseDescriptionBean implements Serializable {
             if (description.contains(image.getUUID())) {
                 exerciseDescriptionImageService.insertImage(image);
             } else {
-                logger.info("Discarded image with id " + image.getUUID() + " because it was not used.");
+                logger.finer("Discarded image with id " + image.getUUID() + " because it was not used.");
             }
         }
         try {
             exerciseService.updateExercise(exercise);
+            Notification notification = new Notification("Successfully saved changes to the exercise.", NotificationType.SUCCESS);
+            notification.generateUIMessage();
+            logger.finer("Successfully updated exercise " + exercise.getName());
         } catch (BusinessNonExistentExerciseException e) {
             Notification notification = new Notification(
                     "The exercise could not be updated. Please try again.", NotificationType.ERROR);
             notification.generateUIMessage();
+            logger.log(Level.WARNING, "Updating exercise " + exercise.getName() + " encountered an exception.", e);
         }
         logger.info("Exercise with id " + exercise.getId() + " was updated.");
     }
@@ -218,11 +227,17 @@ public class ExerciseDescriptionBean implements Serializable {
         } catch (IOException e) {
             Notification notification = new Notification("The image could not be uploaded.", NotificationType.ERROR);
             notification.generateUIMessage();
+            logger.log(Level.WARNING, "Exercise Description Image could not be uploaded.", e);
         }
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
         imgComponent = String.format(
-                "<img src='http://localhost:8080/ssherlock_war_exploded/image?id=%s'/>",
+                "<img src='http://%s:%s%s/image?id=%s'/>",
+                externalContext.getRequestServerName(),
+                externalContext.getRequestServerPort(),
+                request.getContextPath(),
                 exerciseDescriptionImage.getUUID());
-        logger.info("Created img component: " + imgComponent);
+        logger.finer("Created img component: " + imgComponent);
     }
 
     /**
@@ -369,13 +384,4 @@ public class ExerciseDescriptionBean implements Serializable {
         this.userCanEdit = userCanEdit;
     }
 
-    /**
-     * Gets the current date and time as a formatted string.
-     *
-     * @return the current date and time as a formatted string.
-     */
-    public String getCurrentDateTime() {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-        return simpleDateFormat.format(Date.from(Calendar.getInstance().toInstant()));
-    }
 }

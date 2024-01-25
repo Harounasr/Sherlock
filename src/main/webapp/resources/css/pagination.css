@@ -32,3 +32,21 @@ input.pagination-content-button:hover {
   background-color: var(--primary-color, #ffffff);
   filter: brightness(75%);
 }
+
+.sort-button-active {
+  color: #565656;
+}
+
+.sort-button-inactive {
+  color: darkgray;
+}
+
+.sort-button-active:hover, .sort-button-inactive:hover {
+  transition: 0.1s ease-in-out;
+  transform: scale(1.1);
+}
+
+.sort-button-active, .sort-button-inactive {
+  text-decoration: none;
+  margin-left: 5px
+}

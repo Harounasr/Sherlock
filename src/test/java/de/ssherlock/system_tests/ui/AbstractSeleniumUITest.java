@@ -82,7 +82,7 @@ public abstract class AbstractSeleniumUITest {
             if (System.getenv("GITLAB_CI") != null || System.getenv("JENKINS_NODE_COOKIE") != null) {
                 options.addArguments("--headless");
             }
-            HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
+            HashMap<String, Object> chromePrefs = new HashMap<>();
             chromePrefs.put("profile.default_content_settings.popups", 0);
             chromePrefs.put("download.default_directory", System.getProperty("user.dir"));
             options.setExperimentalOption("prefs", chromePrefs);

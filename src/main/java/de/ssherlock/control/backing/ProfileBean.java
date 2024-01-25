@@ -1,7 +1,5 @@
 package de.ssherlock.control.backing;
 
-import static java.util.logging.Level.INFO;
-
 import de.ssherlock.business.exception.BusinessNonExistentUserException;
 import de.ssherlock.business.service.FacultyService;
 import de.ssherlock.business.service.UserService;
@@ -19,9 +17,12 @@ import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Map;
+
+import static java.util.logging.Level.INFO;
 
 /**
  * Backing bean for the profile.xhtml facelet.
