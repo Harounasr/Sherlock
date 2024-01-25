@@ -21,9 +21,6 @@ public class ErrorBean {
      */
     private Error error;
 
-    /**
-     * Logger for logging within this class.
-     */
     private SerializableLogger logger = LoggerCreator.get(ErrorBean.class);
 
     /**
@@ -33,9 +30,6 @@ public class ErrorBean {
 
     }
 
-    /**
-     * Constructs an ErrorBean.
-     */
     @PostConstruct
     public void init() {
         logger.info("initialized");
