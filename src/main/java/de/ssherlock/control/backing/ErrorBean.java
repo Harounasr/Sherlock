@@ -30,6 +30,9 @@ public class ErrorBean {
 
     }
 
+    /**
+     * Initializes the bean.
+     */
     @PostConstruct
     public void init() {
         logger.info("initialized");
