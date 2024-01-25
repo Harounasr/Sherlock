@@ -40,12 +40,10 @@
 
                 <h:column>
                     <f:facet name="header">Type</f:facet>
-                    <h:form>
                         <h:selectOneListbox id="typeDropDown" value="#{checker.checkerType}" size="1" styleClass="form-control">
                             <f:selectItems value="#{checkerService.checkerTypes}"/>
                             <f:ajax listener="#{checkerListBean.submitChanges()}" render="@form"/>
                         </h:selectOneListbox>
-                    </h:form>
                 </h:column>
                 <h:column>
                     <f:facet name="header">Delete</f:facet>
