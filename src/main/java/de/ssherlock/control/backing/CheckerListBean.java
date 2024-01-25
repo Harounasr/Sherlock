@@ -2,6 +2,8 @@ package de.ssherlock.control.backing;
 
 import de.ssherlock.business.exception.BusinessNonExistentCheckerException;
 import de.ssherlock.business.service.CheckerService;
+import de.ssherlock.control.notification.Notification;
+import de.ssherlock.control.notification.NotificationType;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import de.ssherlock.global.transport.Checker;
@@ -126,8 +128,12 @@ public class CheckerListBean extends AbstractPaginationBean implements Serializa
             checkerService.updateCheckers(checkers);
         } catch (BusinessNonExistentCheckerException e) {
             logger.log(Level.INFO, "threw this in checkerUpdate");
+            Notification notification = new Notification("Updating checkers failed.", NotificationType.ERROR);
+            notification.generateUIMessage();
             return;
         }
+        Notification notification = new Notification("Checkers updated.", NotificationType.SUCCESS);
+        notification.generateUIMessage();
         logger.log(Level.INFO, "updated Checker");
     }
 

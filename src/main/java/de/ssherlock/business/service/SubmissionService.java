@@ -30,6 +30,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -204,7 +205,11 @@ public class SubmissionService implements Serializable {
                 case "timestamp" -> Comparator.comparing(Submission::getTimestamp);
                 default -> (submission1, submission2) -> 0;
             };
-            submissionStream = pagination.isSortAscending() ? submissionStream.sorted(comparator) : submissionStream.sorted(comparator.reversed());
+            try {
+                submissionStream = pagination.isSortAscending() ? submissionStream.sorted(comparator) : submissionStream.sorted(comparator.reversed());
+            } catch (NullPointerException e) {
+                logger.log(Level.WARNING, "Couldn't sort values because one of the fields is null.", e);
+            }
         }
 
         return submissionStream.collect(Collectors.toList());
