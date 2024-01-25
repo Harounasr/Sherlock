@@ -86,6 +86,8 @@ public class AdminSettingsBean implements Serializable {
 
     /**
      * Action for submitting all current changes.
+     *
+     * @return Navigation outcome
      */
     public String submitAllChanges() {
         systemSettings.setPrimaryColorHex(convertToValidHex(systemSettings.getPrimaryColorHex()));

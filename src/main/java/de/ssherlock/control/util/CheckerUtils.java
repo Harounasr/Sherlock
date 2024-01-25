@@ -462,6 +462,12 @@ public final class CheckerUtils {
         }
     }
 
+    /**
+     * Gets the classpath for a given checker.
+     *
+     * @param checker The associated checker.
+     * @return The classpath as a string.
+     */
     public static String getClasspath(Checker checker) {
         String baseDir = getTempDirectory(checker);
         Set<String> directoriesWithJavaFiles = new HashSet<>();
