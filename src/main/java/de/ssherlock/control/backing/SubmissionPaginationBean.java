@@ -115,14 +115,14 @@ public class SubmissionPaginationBean extends AbstractPaginationBean implements 
         exercise = new Exercise();
         exercise.setId(exerciseBean.getExerciseId());
         courseRole = exerciseBean.getUserCourseRole();
-        logger.info("Courserole is " + courseRole);
         try {
             exercise = exerciseService.getExercise(exercise);
         } catch (BusinessNonExistentExerciseException e) {
-            throw new RuntimeException("The exercise does not exist anymore.", e);
+            throw new NoAccessException("The exercise does not exist anymore.", e);
         }
         loadData();
         getPagination().setLastIndex(submissions.size() - 1);
+        logger.finest("Initialized SubmissionPaginationBean.");
     }
 
     /**
@@ -190,8 +190,9 @@ public class SubmissionPaginationBean extends AbstractPaginationBean implements 
             submissions = Collections.emptyList();
             Notification notification = new Notification("The submissions could not be loaded", NotificationType.ERROR);
             notification.generateUIMessage();
+            logger.log(Level.WARNING, "There was a problem loading the submissions.", e);
         }
-        logger.info("Loaded submissions");
+        logger.finest("Loaded submissions");
     }
 
     /**
