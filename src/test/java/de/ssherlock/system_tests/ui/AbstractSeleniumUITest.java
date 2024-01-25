@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
  *
  * @author Victor Vollmann
  */
-@SuppressWarnings("PMD.DesignForExtension")
+@SuppressWarnings({"PMD.DesignForExtension", "checkstyle:UseDiamondOperator"})
 public abstract class AbstractSeleniumUITest {
 
     /**
