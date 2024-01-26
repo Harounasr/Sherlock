@@ -179,6 +179,8 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
                 }
             }
         } catch (SQLException e) {
+            logger.log(Level.SEVERE, "An exception was thrown when trying to get submissions for user " + user
+                    .getUsername() + ".", e);
             return Collections.emptyList();
         }
         return submissions;
@@ -227,7 +229,9 @@ public class SubmissionRepositoryPsql extends RepositoryPsql implements Submissi
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            logger.log(Level.SEVERE, "An exception was thrown when trying to get submissions for user " + user
+                    .getUsername() + ".", e);
+            return Collections.emptyList();
         }
         return submissions;
     }

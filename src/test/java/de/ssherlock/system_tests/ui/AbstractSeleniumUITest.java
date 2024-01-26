@@ -86,7 +86,7 @@ public abstract class AbstractSeleniumUITest {
             chromePrefs.put("profile.default_content_settings.popups", 0);
             chromePrefs.put("download.default_directory", System.getProperty("user.dir"));
             options.setExperimentalOption("prefs", chromePrefs);
-            options.addArguments("--headless");
+            //options.addArguments("--headless");
             driver = new ChromeDriver(options);
         }
         case "edge" -> {

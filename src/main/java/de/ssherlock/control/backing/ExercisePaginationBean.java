@@ -93,7 +93,7 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
     public void initialize() {
         exercise = new Exercise();
         getPagination().setPageSize(PAGE_SIZE);
-        getPagination().setSortBy("obligatoryDeadline");
+        getPagination().setSortBy("name");
         loadData();
         getPagination().setLastIndex(exercises.size() - 1);
     }

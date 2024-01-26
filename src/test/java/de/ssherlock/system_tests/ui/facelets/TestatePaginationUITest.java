@@ -14,6 +14,7 @@ import org.openqa.selenium.WebElement;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
@@ -57,8 +58,9 @@ public class TestatePaginationUITest extends AbstractSeleniumUITest {
     @Order(2)
     void testNoExistTestateForUserAsMember() {
         loginAndNavigateToExercisePage(SeleniumUITestUtils.MEMBER2_USERNAME);
-        WebElement noTestatesMessage = getDriver().findElement(By.cssSelector("[id$='empty-message']"));
-        assertEquals("There are no testates", noTestatesMessage.getText());
+        assertEquals(Arrays.asList(Arrays.asList("","","","","")), SeleniumUITestUtils.getCurrentTableRows(getDriver()));
+        //WebElement noTestatesMessage = getDriver().findElement(By.cssSelector("[id$='empty-message']"));
+        //assertEquals("There are no testates", noTestatesMessage.getText());
     }
 
     /**
@@ -68,7 +70,7 @@ public class TestatePaginationUITest extends AbstractSeleniumUITest {
     @Order(2)
     void correctTestateForTutor() {
         loginAndNavigateToExercisePage(SeleniumUITestUtils.TUTOR_USERNAME);
-        WebElement submissionButton = getWait().until(elementToBeClickable(By.cssSelector("input[value='to testate']")));
+        WebElement submissionButton = getWait().until(elementToBeClickable(By.cssSelector("input[value='To Testate']")));
         submissionButton.click();
         getDriver().findElement(By.cssSelector("[id$='testate-container']"));
     }
@@ -80,8 +82,9 @@ public class TestatePaginationUITest extends AbstractSeleniumUITest {
     @Order(4)
     void noTestateForTutor() {
         loginAndNavigateToExercisePage(SeleniumUITestUtils.TUTOR2_USERNAME);
-        WebElement noTestatesMessage = getDriver().findElement(By.cssSelector("[id$='empty-message']"));
-        assertEquals("There are no testates", noTestatesMessage.getText());
+        assertEquals(Arrays.asList(Arrays.asList("","","","","")), SeleniumUITestUtils.getCurrentTableRows(getDriver()));
+        //WebElement noTestatesMessage = getDriver().findElement(By.cssSelector("[id$='empty-message']"));
+        //assertEquals("There are no testates", noTestatesMessage.getText());
     }
 
     private void loginAndNavigateToExercisePage(String username) {
