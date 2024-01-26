@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test class for {@link MailContentBuilder}.
- * The test fails locally if you do not replace all "\n" with "\n".
+ * The test fails locally if you do not replace all "\n" with "\r\n".
  *
  * @author Leon Höfling
  */
@@ -20,7 +20,7 @@ public class MailContentBuilderIT {
     /**
      * The Base url for the verification link.
      */
-    private static final String URL = "http://localhost:8016/ssherlock_war_exploded/view/public/";
+    private static final String URL = "http://localhost:8080/ssherlock_war_exploded/view/public/";
 
     /**
      * The user for testing.

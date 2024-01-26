@@ -178,8 +178,9 @@ public class CourseService implements Serializable {
             courseRepository.deleteCourse(course);
         } catch (PersistenceNonExistentCourseException e) {
             throw new BusinessNonExistentCourseException();
+        } finally {
+            connectionPool.releaseConnection(connection);
         }
-        connectionPool.releaseConnection(connection);
     }
 
     /**

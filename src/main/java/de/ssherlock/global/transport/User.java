@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Represents a User DTO.
  *
- * @author Victor Vollmann
+ * @author Leon Höfling
  */
 public class User implements Serializable {
 

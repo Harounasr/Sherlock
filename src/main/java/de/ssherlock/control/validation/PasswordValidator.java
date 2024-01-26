@@ -13,7 +13,7 @@ import jakarta.inject.Named;
 /**
  * Handles password validation.
  *
- * @author Victor Vollmann
+ * @author Leon Höfling
  */
 @Named
 @Dependent

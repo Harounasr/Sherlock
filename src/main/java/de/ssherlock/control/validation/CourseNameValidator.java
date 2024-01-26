@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Handles validation of course names.
  *
- * @author Victor Vollmann
+ * @author Leon Höfling
  */
 @Named
 @Dependent
