@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="jakarta.faces.core"
       xmlns="http://www.w3.org/1999/xhtml">
 
 <h:head>
@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="#{request.contextPath}/resources/css/submit.css"/>
 </h:head>
 
-<h:body>
+<f:view>
     <h:form enctype="multipart/form-data">
         <div id="con" class="container mt-5">
             <div class="row justify-content-center">
@@ -72,5 +72,5 @@
             </div>
         </div>
     </h:form>
-</h:body>
+</f:view>
 </html>

@@ -109,6 +109,10 @@ public class CoursePaginationBean extends AbstractPaginationBean implements Seri
         FacesContext facesContext = FacesContext.getCurrentInstance();
         HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
         response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        Notification flashNotification = (Notification) facesContext.getExternalContext().getFlash().get("flashNotification");
+        if (flashNotification != null) {
+            flashNotification.generateUIMessage();
+        }
         newCourse = new Course();
         getPagination().setPageSize(PAGE_SIZE);
         getPagination().setSortBy("name");

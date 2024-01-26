@@ -3,12 +3,14 @@ package de.ssherlock.control.backing;
 import de.ssherlock.control.session.AppSession;
 import de.ssherlock.global.logging.SerializableLogger;
 import jakarta.annotation.PostConstruct;
+import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * Backing Bean for the admin.xhtml facelet.
@@ -57,7 +59,12 @@ public class AdminBean implements Serializable {
      */
     @PostConstruct
     public void initialize() {
-        targetPage = "adminSettings.xhtml";
+        Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        if (sessionMap.containsKey("selectedPage")) {
+            targetPage = (String) sessionMap.get("selectedPage");
+        } else {
+            targetPage = "adminSettings.xhtml";
+        }
     }
 
     /**
@@ -76,5 +83,7 @@ public class AdminBean implements Serializable {
      */
     public void setTargetPage(String targetPage) {
         this.targetPage = targetPage;
+        Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        sessionMap.put("selectedPage", targetPage);
     }
 }

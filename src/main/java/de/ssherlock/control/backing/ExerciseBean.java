@@ -225,9 +225,14 @@ public class ExerciseBean implements Serializable {
         this.submissionId = submissionId;
     }
 
+    /**
+     * Adds a Flash Notification with the given message and type.
+     *
+     * @param message The message of the notification.
+     * @param type The type of the notification (e.g., SUCCESS, ERROR).
+     */
     private void addFlashNotification(String message, NotificationType type) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         facesContext.getExternalContext().getFlash().put("flashNotification", new Notification(message, type));
     }
-
 }

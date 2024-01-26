@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="jakarta.faces.core">
 
 <head>
     <title>Checker Results</title>
 </head>
 
-<body>
-
+<f:view>
 <div class="container mt-4 mx-auto">
     <h:panelGroup rendered="#{not empty submissionUploadBean.checkerResults}">
         <div class="row flex-column">
@@ -26,7 +26,7 @@
     </h:panelGroup>
 </div>
 
-</body>
+</f:view>
 
 </html>
 

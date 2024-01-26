@@ -7,7 +7,6 @@ import de.ssherlock.global.transport.Checker;
 import de.ssherlock.global.transport.CheckerResult;
 import de.ssherlock.global.transport.SubmissionFile;
 import de.ssherlock.global.transport.User;
-
 import javax.tools.Diagnostic;
 import javax.tools.DiagnosticCollector;
 import javax.tools.JavaCompiler;
