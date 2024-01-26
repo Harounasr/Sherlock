@@ -51,8 +51,8 @@ public class MailContentBuilderIT {
     @Test
     public void testBuildVerificationMail() {
         String msg = MailContentBuilder.buildVerificationMail(testUser);
-        String expectedMsg = "Hi " + testUser.getUsername() + ".\nThank you for registration.\nPlease follow the link below in order to verify "
-                             + "your account:\n" + URL + "verification.xhtml?token=" + testUser.getVerificationToken();
+        String expectedMsg = "Hi " + testUser.getUsername() + ".\r\nThank you for registration.\r\nPlease follow the link below in order to verify "
+                             + "your account:\r\n" + URL + "verification.xhtml?token=" + testUser.getVerificationToken();
         assertEquals(expectedMsg, msg);
     }
 
@@ -62,9 +62,9 @@ public class MailContentBuilderIT {
     @Test
     public void testBuildPasswordResetMail() {
         String msg = MailContentBuilder.buildPasswordResetMail(testUser);
-        String expectedMsg = "Hi " + testUser.getUsername() + ".\nThis email was sent to you because you requested a password reset.\nPlease "
-                             + "follow this link in order to change your password: \n" + URL + "passwordReset.xhtml?token="
-                             + testUser.getVerificationToken() + "\nIf that was not you, please just ignore this email.";
+        String expectedMsg = "Hi " + testUser.getUsername() + ".\r\nThis email was sent to you because you requested a password reset.\r\nPlease "
+                             + "follow this link in order to change your password: \r\n" + URL + "passwordReset.xhtml?token="
+                             + testUser.getVerificationToken() + "\r\nIf that was not you, please just ignore this email.";
         assertEquals(expectedMsg, msg);
     }
 
@@ -74,8 +74,8 @@ public class MailContentBuilderIT {
     @Test
     public void testBuildReminderMail() {
         String msg = MailContentBuilder.buildReminderMail(testExercise);
-        String expectedMsg = "Hi.\nThis is a reminder that you have an upcoming deadline for this exercise: " + testExercise.getName()
-                             + ".\nObligatory deadline: " + testExercise.getObligatoryDeadline();
+        String expectedMsg = "Hi.\r\nThis is a reminder that you have an upcoming deadline for this exercise: " + testExercise.getName()
+                             + ".\r\nObligatory deadline: " + testExercise.getObligatoryDeadline();
         assertEquals(expectedMsg, msg);
     }
 
