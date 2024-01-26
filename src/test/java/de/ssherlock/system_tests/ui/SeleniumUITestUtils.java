@@ -112,10 +112,26 @@ public final class SeleniumUITestUtils {
      * @param password  The password.
      */
     public static void tryLogin(WebDriver webDriver, WebDriverWait wait, String username, String password) {
+        tryLogin(webDriver, wait, username, password, true);
+    }
+
+    /**
+     * Attempts to log in with the given credentials.
+     *
+     * @param webDriver The web driver.
+     * @param wait      The web driver wait.
+     * @param username  The username.
+     * @param password  The password.
+     * @param navigateToAllCourses Navigate to all courses.
+     */
+    public static void tryLogin(WebDriver webDriver, WebDriverWait wait, String username, String password, boolean navigateToAllCourses) {
         navigateTo(webDriver, "view/public/login.xhtml");
         webDriver.findElement(By.id("loginForm:username")).sendKeys(username);
         webDriver.findElement(By.id("loginForm:password")).sendKeys(password);
         clickOnElementWithId(wait, "loginForm:login");
+        if (navigateToAllCourses) {
+            navigateTo(webDriver, "view/registered/coursePagination.xhtml?all=true");
+        }
     }
 
     /**

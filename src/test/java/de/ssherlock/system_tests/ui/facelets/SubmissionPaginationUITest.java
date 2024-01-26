@@ -59,7 +59,7 @@ public class SubmissionPaginationUITest extends AbstractSeleniumUITest {
         loginAndNavigateAsUser(SeleniumUITestUtils.TUTOR_USERNAME);
         WebElement testateButton = getWait().until(elementToBeClickable(By.cssSelector("input[value='Create Testate']")));
         testateButton.click();
-        getDriver().findElement(By.id("testate-container"));
+        getDriver().findElement(By.cssSelector("[id$='testate-container']"));
     }
 
     /**
@@ -72,7 +72,7 @@ public class SubmissionPaginationUITest extends AbstractSeleniumUITest {
         loginAndNavigateAsUser(SeleniumUITestUtils.TUTOR_USERNAME);
         WebElement testateButton = getWait().until(elementToBeClickable(By.cssSelector("input[value='To Testate']")));
         testateButton.click();
-        getDriver().findElement(By.id("testate-container"));
+        getDriver().findElement(By.cssSelector("[id$='testate-container']"));
     }
 
     /**

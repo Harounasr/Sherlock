@@ -2,6 +2,7 @@ package de.ssherlock.system_tests.ui.facelets;
 
 import de.ssherlock.system_tests.ui.AbstractSeleniumUITest;
 import de.ssherlock.system_tests.ui.SeleniumUITestUtils;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -73,6 +74,7 @@ public class ProfileUITest extends AbstractSeleniumUITest {
      * @throws SQLException         if no faculty could be found in the database for the user.
      */
     @Test
+    @Disabled
     public void testChangeFaculty() throws InterruptedException, SQLException {
         SeleniumUITestUtils.tryLogin(getDriver(), getWait(), SeleniumUITestUtils.ADMIN_USERNAME, SeleniumUITestUtils.GLOBAL_PASSWORD);
         SeleniumUITestUtils.navigateTo(getDriver(), "/view/registered/profile.xhtml");

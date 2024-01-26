@@ -28,8 +28,8 @@ public class ExerciseUITest extends AbstractSeleniumUITest {
      */
     @Test
     @Order(1)
-    void deleteExerciseCancel() throws InterruptedException {
-        navigateToFirstExercise(SeleniumUITestUtils.MEMBER_USERNAME);
+    void deleteExerciseCancel() {
+        navigateToFirstExercise(SeleniumUITestUtils.ADMIN_USERNAME);
         WebElement cancelButton = getWait().until(elementToBeClickable(By.cssSelector("[id$=cancel-delete-button]")));
         cancelButton.click();
         assertEquals(SeleniumUITestUtils.BASE_URL + "view/registered/exercise.xhtml?Id=1", getDriver().getCurrentUrl());
@@ -40,8 +40,8 @@ public class ExerciseUITest extends AbstractSeleniumUITest {
      */
     @Test
     @Order(2)
-    void deleteExerciseSuccess() throws InterruptedException {
-        navigateToFirstExercise(SeleniumUITestUtils.MEMBER_USERNAME);
+    void deleteExerciseSuccess() {
+        navigateToFirstExercise(SeleniumUITestUtils.ADMIN_USERNAME);
         WebElement confirmButton = getWait().until(elementToBeClickable(By.cssSelector("[id$=confirm-delete-button]")));
         confirmButton.click();
         assertEquals(SeleniumUITestUtils.BASE_URL + "view/registered/course.xhtml?Id=1", getDriver().getCurrentUrl());

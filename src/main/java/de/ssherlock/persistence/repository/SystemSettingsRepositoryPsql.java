@@ -69,7 +69,7 @@ public class SystemSettingsRepositoryPsql extends RepositoryPsql
           return systemSettings;
       }
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new RuntimeException("A SQLException was thrown when fetching the system settings.", e);
     }
     return null;
   }

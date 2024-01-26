@@ -40,6 +40,6 @@ public class PasswordResetUITest extends AbstractSeleniumUITest {
         Thread.sleep(3000);
         SeleniumUITestUtils.navigateTo(getDriver(), "view/public/login.xhtml");
         SeleniumUITestUtils.tryLogin(getDriver(), getWait(), "passwordReset", "N3wPa22w-rd!");
-        assertEquals(SeleniumUITestUtils.BASE_URL + "view/registered/coursePagination.xhtml?all=false", getDriver().getCurrentUrl());
+        assertEquals(SeleniumUITestUtils.BASE_URL + "view/registered/coursePagination.xhtml?all=true", getDriver().getCurrentUrl());
     }
 }

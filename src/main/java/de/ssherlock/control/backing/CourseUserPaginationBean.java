@@ -96,7 +96,7 @@ public class CourseUserPaginationBean extends AbstractPaginationBean implements 
      */
     @PostConstruct
     public void initialize() {
-        getPagination().setSortBy("courserole");
+        getPagination().setSortBy("username");
         getPagination().setPageSize(PAGE_SIZE);
         users = userService.getUsers(getPagination());
         getPagination().setLastIndex(users.size() - 1);
