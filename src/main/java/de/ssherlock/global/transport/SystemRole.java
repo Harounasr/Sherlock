@@ -3,7 +3,7 @@ package de.ssherlock.global.transport;
 /**
  * Describes the possible roles a user can have in the context of the system.
  *
- * @author Victor Vollmann
+ * @author Leon Höfling
  */
 public enum SystemRole {
 

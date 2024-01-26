@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * Backing Bean for the admin.xhtml facelet.
  *
- * @author Victor Vollmann
+ * @author Leon Höfling
  */
 @Named
 @ViewScoped

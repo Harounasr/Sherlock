@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Represents a Testate DTO.
  *
- * @author Victor Vollmann
+ * @author Leon Höfling
  */
 public class Testate implements Serializable {
 

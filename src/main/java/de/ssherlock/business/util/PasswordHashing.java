@@ -58,7 +58,7 @@ public final class PasswordHashing {
       p.setSalt(saltBase64);
       return p;
     } catch (NoSuchAlgorithmException e) {
-      return null;
+      throw new RuntimeException("Hashing of password produced an error.");
     }
   }
 
@@ -96,7 +96,7 @@ public final class PasswordHashing {
       p.setSalt(saltBase64);
       return p;
     } catch (NoSuchAlgorithmException e) {
-      return null;
+      throw new RuntimeException("Hashing of password produced an error.");
     }
   }
 

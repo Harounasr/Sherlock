@@ -16,7 +16,7 @@ import jakarta.inject.Named;
 /**
  * Handles validation of email addresses.
  *
- * @author Victor Vollmann
+ * @author Leon Höfling
  */
 @Named
 @Dependent

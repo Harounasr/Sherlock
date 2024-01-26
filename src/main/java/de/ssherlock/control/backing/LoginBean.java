@@ -21,7 +21,7 @@ import java.util.logging.Level;
 /**
  * Backing bean for the login.xhtml facelet.
  *
- * @author Victor Vollmann
+ * @author Leon Höfling
  */
 @Named
 @RequestScoped

@@ -248,8 +248,9 @@ public class UserService implements Serializable {
             userRepository.deleteUser(user);
         } catch (PersistenceNonExistentUserException e) {
             throw new BusinessNonExistentUserException();
+        } finally {
+            connectionPool.releaseConnection(connection);
         }
-        connectionPool.releaseConnection(connection);
     }
 
 
@@ -267,8 +268,9 @@ public class UserService implements Serializable {
             userRepository.updateUser(user);
         } catch (PersistenceNonExistentUserException e) {
             throw new BusinessNonExistentUserException();
+        } finally {
+            connectionPool.releaseConnection(connection);
         }
-        connectionPool.releaseConnection(connection);
     }
 
     /**

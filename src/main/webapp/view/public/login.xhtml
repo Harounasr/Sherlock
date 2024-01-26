@@ -25,13 +25,13 @@
                     <div class="card-body primary-color-background">
 
                         <div class="form-group mb-3">
-                            <label for="username" class="text-white">Username</label>
+                            <h:outputLabel for="username" class="text-white" value="Username"/>
                             <h:inputText id="username" value="#{loginBean.loginInfo.username}" styleClass="form-control w-100"
                                          placeholder="Enter your username"/>
                         </div>
 
                         <div class="form-group">
-                            <label for="password" class="text-white">Password</label>
+                            <h:outputLabel for="password" class="text-white" value="Password"/>
                             <h:inputSecret id="password" value="#{loginBean.loginInfo.unhashedPassword}" styleClass="form-control w-100"
                                            placeholder="Enter your password"/>
                             <h:message for="password" id="loginError" errorStyle="text-emphasis-color: darkred"/>
