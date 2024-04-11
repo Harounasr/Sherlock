@@ -1,0 +1,73 @@
+<!DOCTYPE html >
+<html xmlns:h="jakarta.faces.html"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:comp="jakarta.faces.composite/components"
+      xmlns:f="jakarta.faces.core">
+<f:view>
+    <h:panelGroup styleClass="mt-2">
+        <div class="container mt-3">
+            <h:messages globalOnly="true"/>
+            <h2 class="mb-3">Testates List</h2>
+            <h:form>
+                <comp:paginationSearch backingBean="#{allTestatesPaginationBean}"/>
+            </h:form>
+            <h:dataTable id="testate-pagination" value="#{allTestatesPaginationBean.testates}" var="testate"
+                         first="#{allTestatesPaginationBean.pagination.currentIndex}" rows="#{allTestatesPaginationBean.pagination.pageSize}"
+                         styleClass="table table-striped table-bordered w-100">
+                <h:column rendered="#{!allTestatesPaginationBean.member}">
+                    <f:facet name="header">
+                        <div class="d-flex">
+                            <div>User</div>
+                            <comp:paginationSortButton paginationId="testate-pagination"
+                                                       backingBean="#{allTestatesPaginationBean}"
+                                                       sortBy="student"/>
+                        </div>
+                    </f:facet>
+                    <h:outputText value="#{testate.submission.user}"/>
+                </h:column>
+                <h:column rendered="#{!allTestatesPaginationBean.member}">
+                    <f:facet name="header">
+                        <div class="d-flex">
+                            <div>Tutor</div>
+                            <comp:paginationSortButton paginationId="testate-pagination"
+                                                       backingBean="#{allTestatesPaginationBean}"
+                                                       sortBy="tutor"/>
+                        </div>
+                    </f:facet>
+                    <h:outputText value="#{testate.submission.tutor}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Functionality Grade</f:facet>
+                    <h:outputText value="#{testate.functionalityGrade}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Layout Grade</f:facet>
+                    <h:outputText value="#{testate.layoutGrade}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Readability Grade</f:facet>
+                    <h:outputText value="#{testate.readabilityGrade}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Structure Grade</f:facet>
+                    <h:outputText value="#{testate.structureGrade}"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Details</f:facet>
+                    <h:form>
+                        <h:commandButton styleClass="btn pagination-content-button" value="To Testate"
+                                         action="#{allTestatesPaginationBean.selectTestate(testate)}"/>
+                    </h:form>
+                </h:column>
+            </h:dataTable>
+
+            <h:form>
+                <comp:pagination backingBean="#{allTestatesPaginationBean}"/>
+            </h:form>
+        </div>
+
+    </h:panelGroup>
+
+</f:view>
+</html>

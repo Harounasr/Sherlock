@@ -1,0 +1,15 @@
+<ui:composition xmlns:h="jakarta.faces.html"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                template="../../resources/templates/mainTemplate.xhtml">
+
+    <h:head>
+        <ui:define name="title">Help</ui:define>
+    </h:head>
+
+    <ui:define name="content">
+        <pre>
+        <h:outputLabel value="#{helpBean.helpMessage}" style="white-space: pre-line;"/>
+        </pre>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:h="jakarta.faces.html"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:comp="jakarta.faces.composite/components">
+<h:head>
+    <title>Login Page</title>
+    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/colorScheme.css"/>
+    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/css/login.css"/>
+    <h:outputStylesheet library="webjars" name="bootstrap/5.3.2/css/bootstrap.css"/>
+    <h:outputScript library="webjars" name="bootstrap/5.3.2/js/bootstrap.min.js"/>
+</h:head>
+<body>
+<h:form id="loginForm">
+    <div class="container">
+        <div class="text-center my-3">
+            <h:graphicImage value="data:image/png;base64,#{loginBean.logoBase64}" styleClass="img-fluid image-container"/>
+        </div>
+        <div class="row justify-content-center login-container">
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header primary-color-background text-white">
+                        <h3 class="text-center">Login</h3>
+                    </div>
+                    <div class="card-body primary-color-background">
+
+                        <div class="form-group mb-3">
+                            <h:outputLabel for="username" class="text-white" value="Username"/>
+                            <h:inputText id="username" value="#{loginBean.loginInfo.username}" styleClass="form-control w-100"
+                                         placeholder="Enter your username"/>
+                        </div>
+
+                        <div class="form-group">
+                            <h:outputLabel for="password" class="text-white" value="Password"/>
+                            <h:inputSecret id="password" value="#{loginBean.loginInfo.unhashedPassword}" styleClass="form-control w-100"
+                                           placeholder="Enter your password"/>
+                            <h:message for="password" id="loginError" errorStyle="text-emphasis-color: darkred"/>
+                        </div>
+                    </div>
+                    <div class="card-footer primary-color-background">
+                        <div class="mt-2 mb-3">
+                            <h:commandButton id="login" value="Login" styleClass="btn text-black btn-block secondary-color-btn w-100"
+                                             action="#{loginBean.login}"/>
+                        </div>
+                        <div class="mb-3">
+                            <h:commandButton id="register" value="Register" styleClass="btn text-black btn-block secondary-color-btn w-100"
+                                             action="#{loginBean.registerClicked}"/>
+                        </div>
+                        <div class="mb-2">
+                            <h:commandButton id="passwordForgotten" value="Forgot password"
+                                             styleClass="btn text-black btn-block secondary-color-btn w-100"
+                                             action="#{loginBean.passwordForgottenClicked}"/>
+                        </div>
+                        <comp:notifications />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</h:form>
+</body>
+</html>

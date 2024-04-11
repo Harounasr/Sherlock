@@ -1,0 +1,15 @@
+.checker-name {
+  order: 1;
+}
+
+.checker-result {
+  order: 2;
+}
+
+.bold-text {
+  font-weight: bold;
+}
+
+.checker-type {
+  margin-right: 10px;
+}

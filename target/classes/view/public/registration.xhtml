@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:comp="jakarta.faces.composite/components">
+<h:head>
+    <title>Register now</title>
+    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/colorScheme.css"/>
+    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/css/login.css"/>
+    <h:outputStylesheet library="webjars" name="bootstrap/5.3.2/css/bootstrap.css"/>
+    <h:outputScript library="webjars" name="bootstrap/5.3.2/js/bootstrap.min.js"/>
+</h:head>
+<body>
+<div class="container">
+    <div class="text-center my-3">
+        <h:graphicImage value="data:image/png;base64,#{registrationBean.logoBase64}" styleClass="img-fluid image-container"/>
+    </div>
+    <div class="row justify-content-center login-container">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header primary-color-background">
+                    <h3 class="text-center text-white">Registration</h3>
+                </div>
+                <div class="card-body primary-color-background">
+                    <h:form id="registrationForm">
+                        <div class="form-group mb-3">
+                            <h:outputLabel for="userName" class="text-white">Username</h:outputLabel>
+                            <h:inputText id="userName" value="#{registrationBean.user.username}" styleClass="form-control"
+                                         placeholder="Enter your username" required="true" requiredMessage="Username musst be between 5 and 50 long.">
+                                <f:validator validatorId="usernameValidator"/>
+                            </h:inputText>
+                        </div>
+                        <div class="form-group mb-3">
+                            <h:outputLabel for="firstName" class="text-white">First Name</h:outputLabel>
+                            <h:inputText id="firstName" value="#{registrationBean.user.firstName}" styleClass="form-control"
+                                         placeholder="Enter your first name" required="true" requiredMessage="Name musst be between 5 and 50 long.">
+                                <f:validator validatorId="nameValidator"/>
+                            </h:inputText>
+                        </div>
+                        <div class="form-group mb-3">
+                            <h:outputLabel for="lastName" class="text-white">Last Name</h:outputLabel>
+                            <h:inputText id="lastName" value="#{registrationBean.user.lastName}" styleClass="form-control"
+                                         placeholder="Enter your last name" required="true" requiredMessage="Name musst be between 5 and 50 long.">
+                                <f:validator validatorId="nameValidator"/>
+                            </h:inputText>
+                        </div>
+                        <div class="form-group mb-3">
+                            <h:outputLabel for="email" class="text-white">Email</h:outputLabel>
+                            <h:inputText id="email" value="#{registrationBean.user.email}" styleClass="form-control" placeholder="Enter your email"
+                                         required="true" requiredMessage="Email must be between 5 and 50 long.">
+                                <f:validator validatorId="emailValidator"/>
+                            </h:inputText>
+                        </div>
+                        <div class="form-group mb-3">
+                            <h:outputLabel for="faculty" class="text-white">Faculty</h:outputLabel>
+                            <h:selectOneMenu id="faculty" value="#{registrationBean.user.facultyName}" styleClass="form-control" required="true"
+                                             requiredMessage="Please select a faculty.">
+                                <f:selectItem itemLabel="-- Select Faculty --" itemValue=""/>
+                                <f:selectItems value="#{registrationBean.faculties}" var="faculty" itemLabel="#{faculty.name}"
+                                               itemValue="#{faculty.name}"/>
+                                <f:validator validatorId="facultyValidator"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group">
+                            <h:outputLabel for="passWord" class="text-white">Password</h:outputLabel>
+                            <h:inputSecret id="passWord" value="#{registrationBean.unhashedPassword}" styleClass="form-control"
+                                           placeholder="Enter your password" required="true"
+                                           requiredMessage="Password has to be between 8 and 50 long.">
+                                <f:validator validatorId="passwordValidator"/>
+                            </h:inputSecret>
+                        </div>
+
+                    <div class="card-footer primary-color-background">
+                        <div class="mb-3 mt-2">
+
+                            <h:commandButton type="submit" id="register" value="Register" styleClass="btn secondary-color-btn btn-block w-100"
+                                             action="#{registrationBean.register}"/>
+                        </div>
+                    </div>
+                    </h:form>
+                </div>
+                    <div class="mb-2">
+                        <h:form id="registrationLogin">
+                            <h:commandButton styleClass="btn secondary-color-btn btn-block w-100" id="backToLogin" value="Back to Login"
+                                             action="#{registrationBean.navigateToLogin}"/>
+                        </h:form>
+                    </div>
+                    <comp:notifications />
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
