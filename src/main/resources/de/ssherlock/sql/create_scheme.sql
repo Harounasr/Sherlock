@@ -1,3 +1,4 @@
+-- Haroun Alswedany
 DO $$
 BEGIN
         -- Check if course_role enum type exists

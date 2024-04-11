@@ -149,7 +149,6 @@ public class ExercisePaginationBean extends AbstractPaginationBean implements Se
         }
     }
 
-
     /**
      * {@inheritDoc}
      */
